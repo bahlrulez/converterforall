@@ -45,16 +45,16 @@ export function Hero() {
         <div className="mx-auto mt-20 max-w-5xl">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { icon: FileType, label: "Documents", color: "text-blue-500", bg: "bg-blue-500/10" },
-              { icon: ImageIcon, label: "Images", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-              { icon: Video, label: "Video", color: "text-rose-500", bg: "bg-rose-500/10" },
-              { icon: Music, label: "Audio", color: "text-purple-500", bg: "bg-purple-500/10" },
-              { icon: Archive, label: "Archives", color: "text-amber-500", bg: "bg-amber-500/10" },
-              { icon: Zap, label: "More Tools", color: "text-primary", bg: "bg-primary/10" },
+              { icon: FileType, label: "Documents", color: "text-blue-500", bg: "bg-blue-500/10", href: "/category/document" },
+              { icon: ImageIcon, label: "Images", color: "text-emerald-500", bg: "bg-emerald-500/10", href: "#featured-tools" },
+              { icon: Video, label: "Video", color: "text-rose-500", bg: "bg-rose-500/10", href: "#featured-tools" },
+              { icon: Music, label: "Audio", color: "text-purple-500", bg: "bg-purple-500/10", href: "#featured-tools" },
+              { icon: Archive, label: "Archives", color: "text-amber-500", bg: "bg-amber-500/10", href: "#featured-tools" },
+              { icon: Zap, label: "More Tools", color: "text-primary", bg: "bg-primary/10", href: "#featured-tools" },
             ].map((category, i) => (
               <Link 
                 key={i} 
-                href="#featured-tools"
+                href={category.href}
                 className="group flex flex-col items-center justify-center gap-3 rounded-2xl border bg-card p-6 transition-all hover:shadow-md hover:border-primary/50"
               >
                 <div className={`rounded-xl p-3 ${category.bg}`}>

@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
 
     const convertedBuffer = await sharpInstance.toBuffer();
 
-    return new NextResponse(convertedBuffer, {
+    return new Response(convertedBuffer, {
       status: 200,
       headers: {
         "Content-Type": `image/${targetFormat.toLowerCase()}`,
