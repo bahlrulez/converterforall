@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Option B: Return pure binary stream with explicit Content-Length
-    return new Response(convertedBuffer, {
+    return new Response(new Uint8Array(convertedBuffer), {
       status: 200,
       headers: {
         "Content-Type": `image/${targetFormat.toLowerCase()}`,
