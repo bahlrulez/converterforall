@@ -12,9 +12,10 @@ interface FileUploaderProps {
   onProcessFile: (file: File) => Promise<{ blob: Blob, filename: string }>;
   acceptedTypes?: Record<string, string[]>;
   actionLabel?: string;
+  optionsRenderer?: (disabled: boolean) => React.ReactNode;
 }
 
-export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File" }: FileUploaderProps) {
+export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File", optionsRenderer }: FileUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "converting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -122,6 +123,12 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
           {status === "error" && (
             <div className="mt-4 rounded-lg bg-destructive/10 p-3 text-sm text-destructive border border-destructive/20">
               {errorMsg}
+            </div>
+          )}
+
+          {optionsRenderer && status === "idle" && (
+            <div className="mt-6 border-t pt-4">
+              {optionsRenderer(status !== "idle")}
             </div>
           )}
 

@@ -1,17 +1,22 @@
-import { PDFDocument } from "pdf-lib";
+import { compress } from "@quicktoolsone/pdf-compress";
 
-export async function compressPdf(file: File): Promise<Blob> {
+export type CompressionPreset = "lossless" | "balanced" | "max";
+
+export async function compressPdf(
+  file: File, 
+  preset: CompressionPreset = "balanced",
+  onProgress?: (progress: number, message?: string) => void
+): Promise<Blob> {
   const arrayBuffer = await file.arrayBuffer();
   
-  // Load the PDF document
-  const pdfDoc = await PDFDocument.load(arrayBuffer, {
-    ignoreEncryption: true,
+  const result = await compress(arrayBuffer, {
+    preset,
+    onProgress: (event) => {
+      if (onProgress) {
+        onProgress(event.progress, event.message);
+      }
+    }
   });
 
-  // Save the PDF without object streams to slightly reduce overhead and rebuild structure
-  // Note: True image downsampling requires a server-side engine (Ghostscript).
-  // This client-side approach strips unused metadata and re-serializes the document.
-  const pdfBytes = await pdfDoc.save({ useObjectStreams: false });
-  
-  return new Blob([pdfBytes as any], { type: "application/pdf" });
+  return new Blob([result.pdf], { type: "application/pdf" });
 }
