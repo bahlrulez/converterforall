@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FileUploader } from "./file-uploader";
 import { processImage } from "@/lib/converters/image";
-import { compressPdf, CompressionPreset } from "@/lib/converters/pdf";
+import { compressPdf, imageToPdf, CompressionPreset } from "@/lib/converters/pdf";
 
 interface ToolEngineProps {
   category: string;
@@ -23,6 +23,8 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       blob = await processImage(file, targetFormat);
     } else if (category === "document" && toolSlug === "compress-pdf") {
       blob = await compressPdf(file, compressionPreset);
+    } else if (category === "document" && (toolSlug === "jpg-to-pdf" || toolSlug === "scan-to-pdf")) {
+      blob = await imageToPdf(file);
     } else {
       throw new Error("This tool is not yet fully implemented for client-side processing.");
     }
