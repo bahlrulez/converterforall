@@ -14,7 +14,7 @@ export default async function ToolPage(props: { params: Promise<{ category: stri
   }
 
   const toolStr = params.slug as keyof typeof category;
-  const tool = category[toolStr];
+  const tool = category[toolStr] as any;
 
   if (!tool) {
     notFound();
