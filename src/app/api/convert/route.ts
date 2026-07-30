@@ -39,12 +39,12 @@ export async function POST(req: NextRequest) {
 
     const convertedBuffer = await sharpInstance.toBuffer();
 
-    return new Response(convertedBuffer, {
-      status: 200,
-      headers: {
-        "Content-Type": `image/${targetFormat.toLowerCase()}`,
-        "Content-Disposition": `attachment; filename="converted.${targetFormat.toLowerCase()}"`,
-      },
+    const base64Data = convertedBuffer.toString("base64");
+
+    return NextResponse.json({
+      success: true,
+      format: targetFormat.toLowerCase(),
+      data: base64Data,
     });
   } catch (error: any) {
     console.error("Conversion error:", error);

@@ -54,7 +54,16 @@ export function FileUploader({ onUploadSuccess, acceptedTypes, targetFormat }: F
         throw new Error(err.error || "Conversion failed");
       }
 
-      const blob = await res.blob();
+      const json = await res.json();
+      
+      // Convert base64 to Blob to bypass Vercel binary stream corruption
+      const byteCharacters = atob(json.data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: `image/${json.format}` });
       
       setStatus("success");
       
