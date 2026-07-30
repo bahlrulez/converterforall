@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { FileUploader } from "./file-uploader";
+import { MultiFileUploader } from "./multi-file-uploader";
 import { processImage } from "@/lib/converters/image";
-import { compressPdf, imageToPdf, CompressionPreset } from "@/lib/converters/pdf";
+import { compressPdf, imageToPdf, mergePdfs, CompressionPreset } from "@/lib/converters/pdf";
 
 interface ToolEngineProps {
   category: string;
@@ -34,6 +35,21 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     return {
       blob,
       filename: newName
+    };
+  };
+
+  const handleProcessFiles = async (files: File[]) => {
+    let blob: Blob;
+
+    if (category === "document" && toolSlug === "merge-pdf") {
+      blob = await mergePdfs(files);
+    } else {
+      throw new Error("This tool is not yet fully implemented for multi-file processing.");
+    }
+
+    return {
+      blob,
+      filename: "merged_document.pdf"
     };
   };
 
@@ -84,6 +100,16 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       </div>
     );
   };
+
+  if (toolSlug === "merge-pdf") {
+    return (
+      <MultiFileUploader 
+        acceptedTypes={acceptedTypes}
+        actionLabel={actionLabel || "Merge PDFs"}
+        onProcessFiles={handleProcessFiles}
+      />
+    );
+  }
 
   return (
     <FileUploader 

@@ -1,0 +1,207 @@
+"use client";
+
+import { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, ArrowUp, ArrowDown, Plus } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+interface MultiFileUploaderProps {
+  onProcessFiles: (files: File[]) => Promise<{ blob: Blob, filename: string }>;
+  acceptedTypes?: Record<string, string[]>;
+  actionLabel?: string;
+  optionsRenderer?: (disabled: boolean) => React.ReactNode;
+}
+
+export function MultiFileUploader({ onProcessFiles, acceptedTypes, actionLabel = "Process Files", optionsRenderer }: MultiFileUploaderProps) {
+  const [files, setFiles] = useState<File[]>([]);
+  const [status, setStatus] = useState<"idle" | "uploading" | "converting" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadName, setDownloadName] = useState<string>("");
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    if (acceptedFiles.length > 0) {
+      setFiles((prev) => [...prev, ...acceptedFiles]);
+      setStatus("idle");
+      setErrorMsg("");
+    }
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: acceptedTypes,
+  });
+
+  const handleConvert = async () => {
+    if (files.length === 0) return;
+    
+    setStatus("uploading");
+    
+    try {
+      setStatus("converting");
+      
+      const { blob, filename } = await onProcessFiles(files);
+
+      setStatus("success");
+      
+      const url = URL.createObjectURL(blob);
+      setDownloadUrl(url);
+      setDownloadName(filename);
+      
+    } catch (err: any) {
+      setStatus("error");
+      setErrorMsg(err.message || "An unexpected error occurred.");
+    }
+  };
+
+  const reset = () => {
+    if (downloadUrl) {
+      URL.revokeObjectURL(downloadUrl);
+    }
+    setFiles([]);
+    setStatus("idle");
+    setErrorMsg("");
+    setDownloadUrl(null);
+    setDownloadName("");
+  };
+
+  const moveUp = (index: number) => {
+    if (index === 0) return;
+    const newFiles = [...files];
+    const temp = newFiles[index - 1];
+    newFiles[index - 1] = newFiles[index];
+    newFiles[index] = temp;
+    setFiles(newFiles);
+  };
+
+  const moveDown = (index: number) => {
+    if (index === files.length - 1) return;
+    const newFiles = [...files];
+    const temp = newFiles[index + 1];
+    newFiles[index + 1] = newFiles[index];
+    newFiles[index] = temp;
+    setFiles(newFiles);
+  };
+
+  const removeFile = (index: number) => {
+    const newFiles = [...files];
+    newFiles.splice(index, 1);
+    setFiles(newFiles);
+  };
+
+  return (
+    <div className="w-full max-w-2xl mx-auto mt-8">
+      {files.length === 0 ? (
+        <div
+          {...getRootProps()}
+          className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-12 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-4 ${
+            isDragActive 
+              ? "border-primary bg-primary/5" 
+              : "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50"
+          }`}
+        >
+          <input {...getInputProps()} />
+          <div className="rounded-full bg-primary/10 p-4 text-primary">
+            <UploadCloud className="h-8 w-8" />
+          </div>
+          <div>
+            <p className="text-lg font-semibold">
+              {isDragActive ? "Drop your files here" : "Drag & drop your files here"}
+            </p>
+            <p className="text-sm text-muted-foreground mt-1">
+              or click to browse from your computer
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+          <div className="flex flex-col gap-3 mb-6 max-h-[40vh] overflow-y-auto pr-2">
+            {files.map((file, index) => (
+              <div key={`${file.name}-${index}`} className="flex items-center justify-between border rounded-lg p-3 bg-muted/30">
+                <div className="flex items-center gap-3 overflow-hidden">
+                  <div className="rounded-md bg-primary/10 p-2 text-primary flex-shrink-0">
+                    <FileIcon className="h-5 w-5" />
+                  </div>
+                  <div className="overflow-hidden">
+                    <p className="font-medium truncate max-w-[150px] sm:max-w-[300px] text-sm">{file.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {(file.size / 1024 / 1024).toFixed(2)} MB
+                    </p>
+                  </div>
+                </div>
+                
+                {status === "idle" && (
+                  <div className="flex items-center gap-1">
+                    <Button variant="ghost" size="icon" onClick={() => moveUp(index)} disabled={index === 0} className="h-8 w-8 text-muted-foreground">
+                      <ArrowUp className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => moveDown(index)} disabled={index === files.length - 1} className="h-8 w-8 text-muted-foreground">
+                      <ArrowDown className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => removeFile(index)} className="h-8 w-8 text-muted-foreground hover:text-destructive">
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ))}
+            
+            {status === "idle" && (
+              <div {...getRootProps()} className="border-2 border-dashed rounded-lg p-4 mt-2 cursor-pointer flex items-center justify-center text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-all">
+                <input {...getInputProps()} />
+                <Plus className="h-5 w-5 mr-2" />
+                <span className="font-medium text-sm">Add more files</span>
+              </div>
+            )}
+          </div>
+
+          {status === "error" && (
+            <div className="mt-4 rounded-lg bg-destructive/10 p-3 text-sm text-destructive border border-destructive/20">
+              {errorMsg}
+            </div>
+          )}
+
+          {optionsRenderer && status === "idle" && (
+            <div className="mt-6 border-t pt-4">
+              {optionsRenderer(status !== "idle")}
+            </div>
+          )}
+
+          <div className="mt-6 flex gap-3 justify-end border-t pt-4">
+            {status !== "success" && status !== "converting" && status !== "uploading" && (
+              <Button onClick={handleConvert} className="w-full sm:w-auto" disabled={files.length < 2 && actionLabel.includes("Merge")}>
+                {actionLabel}
+              </Button>
+            )}
+            
+            {(status === "uploading" || status === "converting") && (
+              <Button disabled className="w-full sm:w-auto">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {status === "uploading" ? "Processing..." : "Converting..."}
+              </Button>
+            )}
+            
+            {status === "success" && (
+              <>
+                <Button onClick={reset} variant="outline" className="w-full sm:w-auto">
+                  Start Over
+                </Button>
+                {downloadUrl && (
+                  <a 
+                    href={downloadUrl} 
+                    download={downloadName}
+                    className={cn(buttonVariants({ variant: "default" }), "w-full sm:w-auto")}
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Download File
+                  </a>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
