@@ -38,15 +38,28 @@ export function FileUploader({ onUploadSuccess, acceptedTypes, targetFormat }: F
     
     setStatus("uploading");
     
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("targetFormat", targetFormat);
-
     try {
+      // Convert file to base64 to avoid Vercel FormData corruption
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      
+      await new Promise<void>((resolve, reject) => {
+        reader.onload = () => resolve();
+        reader.onerror = (error) => reject(error);
+      });
+
+      const base64String = (reader.result as string).split(",")[1]; // Remove data URL prefix
+
       setStatus("converting");
       const res = await fetch("/api/convert", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fileBase64: base64String,
+          targetFormat: targetFormat,
+        }),
       });
 
       if (!res.ok) {

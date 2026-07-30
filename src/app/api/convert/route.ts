@@ -3,12 +3,11 @@ import sharp from "sharp";
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
-    const file = formData.get("file") as File | null;
-    const targetFormat = formData.get("targetFormat") as string | null;
+    const body = await req.json();
+    const { fileBase64, targetFormat } = body;
 
-    if (!file || !targetFormat) {
-      return NextResponse.json({ error: "File and target format are required." }, { status: 400 });
+    if (!fileBase64 || !targetFormat) {
+      return NextResponse.json({ error: "File data and target format are required." }, { status: 400 });
     }
 
     const validFormats = ["png", "jpeg", "jpg", "webp", "avif"];
@@ -16,8 +15,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unsupported target format for images." }, { status: 400 });
     }
 
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const buffer = Buffer.from(fileBase64, "base64");
 
     let sharpInstance = sharp(buffer);
 
