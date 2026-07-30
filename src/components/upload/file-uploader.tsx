@@ -69,14 +69,14 @@ export function FileUploader({ onUploadSuccess, acceptedTypes, targetFormat }: F
 
       const json = await res.json();
       
-      // Convert base64 to Blob to bypass Vercel binary stream corruption
-      const byteCharacters = atob(json.data);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      if (!json.data) {
+        throw new Error("Server returned empty data.");
       }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: `image/${json.format}` });
+
+      // Safely convert base64 to Blob using native browser fetch
+      const dataUri = `data:image/${json.format};base64,${json.data}`;
+      const blobRes = await fetch(dataUri);
+      const blob = await blobRes.blob();
       
       setStatus("success");
       

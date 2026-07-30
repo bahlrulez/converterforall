@@ -36,7 +36,11 @@ export async function POST(req: NextRequest) {
     }
 
     const convertedBuffer = await sharpInstance.toBuffer();
-
+    
+    if (!convertedBuffer || convertedBuffer.length === 0) {
+      throw new Error("Conversion engine produced an empty file. The native binary might be missing.");
+    }
+    
     const base64Data = convertedBuffer.toString("base64");
 
     return NextResponse.json({
