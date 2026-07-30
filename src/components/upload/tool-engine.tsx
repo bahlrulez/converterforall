@@ -5,6 +5,7 @@ import { FileUploader } from "./file-uploader";
 import { MultiFileUploader } from "./multi-file-uploader";
 import { processImage, removeImageBackground, BgRemovalQuality } from "@/lib/converters/image";
 import { compressPdf, imageToPdf, mergePdfs, CompressionPreset } from "@/lib/converters/pdf";
+import { convertWordToPdf } from "@/lib/converters/word";
 
 interface ToolEngineProps {
   category: string;
@@ -29,6 +30,8 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       blob = await compressPdf(file, compressionPreset);
     } else if (category === "document" && (toolSlug === "jpg-to-pdf" || toolSlug === "scan-to-pdf")) {
       blob = await imageToPdf(file);
+    } else if (category === "document" && toolSlug === "word-to-pdf") {
+      blob = await convertWordToPdf(file);
     } else {
       throw new Error("This tool is not yet fully implemented for client-side processing.");
     }
