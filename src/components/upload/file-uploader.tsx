@@ -39,52 +39,57 @@ export function FileUploader({ onUploadSuccess, acceptedTypes, targetFormat }: F
     setStatus("uploading");
     
     try {
-      // Convert file to base64 to avoid Vercel FormData corruption
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
+      setStatus("converting");
+      
+      // Perform 100% Client-Side Conversion using HTML5 Canvas!
+      const img = new Image();
+      const objectUrl = URL.createObjectURL(file);
       
       await new Promise<void>((resolve, reject) => {
-        reader.onload = () => resolve();
-        reader.onerror = (error) => reject(error);
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error("Failed to load image into canvas."));
+        img.src = objectUrl;
       });
 
-      const base64String = (reader.result as string).split(",")[1]; // Remove data URL prefix
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        throw new Error("Canvas 2D context is not supported in this browser.");
+      }
 
-      setStatus("converting");
-      const res = await fetch("/api/convert", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fileBase64: base64String,
-          targetFormat: targetFormat,
-        }),
+      // Draw the image onto the canvas
+      ctx.drawImage(img, 0, 0);
+
+      // Map target formats to proper MIME types
+      let mimeType = `image/${targetFormat.toLowerCase()}`;
+      if (targetFormat.toLowerCase() === "jpg") mimeType = "image/jpeg";
+
+      // Convert the canvas to the new format
+      const blob = await new Promise<Blob | null>((resolve) => {
+        // High quality output
+        canvas.toBlob(
+          (b) => resolve(b),
+          mimeType,
+          1.0 
+        );
       });
 
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Conversion failed");
+      URL.revokeObjectURL(objectUrl);
+
+      if (!blob) {
+        throw new Error(`Browser failed to encode the image to ${targetFormat.toUpperCase()}.`);
       }
 
-      const json = await res.json();
-      
-      if (!json.data) {
-        throw new Error("Server returned empty data.");
-      }
-
-      // Safely convert base64 to Blob using native browser fetch
-      const dataUri = `data:image/${json.format};base64,${json.data}`;
-      const blobRes = await fetch(dataUri);
-      const blob = await blobRes.blob();
-      
       setStatus("success");
       
       const newName = file.name.substring(0, file.name.lastIndexOf(".")) + "." + targetFormat;
       const url = URL.createObjectURL(blob);
       setDownloadUrl(url);
       setDownloadName(newName);
-
+      
       if (onUploadSuccess) {
         onUploadSuccess(blob, newName);
       }
