@@ -55,12 +55,15 @@ export function Hero() {
               <Link 
                 key={i} 
                 href={category.href}
-                className="group flex flex-col items-center justify-center gap-3 rounded-2xl border bg-card p-6 transition-all hover:shadow-md hover:border-primary/50"
+                className="group relative flex flex-col items-center justify-center gap-3 rounded-2xl border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50/80 dark:hover:bg-blue-950/50 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 overflow-hidden"
               >
-                <div className={`rounded-xl p-3 ${category.bg}`}>
-                  <category.icon className={`h-6 w-6 ${category.color}`} />
+                {/* Subtle Liquid Glow Effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-400/20 via-transparent to-transparent pointer-events-none" />
+                
+                <div className={`relative z-10 rounded-xl p-3 ${category.bg} transition-colors group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50`}>
+                  <category.icon className={`h-6 w-6 ${category.color} transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400`} />
                 </div>
-                <span className="text-sm font-medium">{category.label}</span>
+                <span className="relative z-10 text-sm font-medium transition-colors group-hover:text-blue-700 dark:group-hover:text-blue-300">{category.label}</span>
               </Link>
             ))}
           </div>
