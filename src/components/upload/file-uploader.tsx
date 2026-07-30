@@ -9,12 +9,12 @@ import { cn } from "@/lib/utils";
 import heic2any from "heic2any";
 
 interface FileUploaderProps {
-  onUploadSuccess?: (blob: Blob, filename: string) => void;
+  onProcessFile: (file: File) => Promise<{ blob: Blob, filename: string }>;
   acceptedTypes?: Record<string, string[]>;
-  targetFormat: string;
+  actionLabel?: string;
 }
 
-export function FileUploader({ onUploadSuccess, acceptedTypes, targetFormat }: FileUploaderProps) {
+export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File" }: FileUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "converting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -43,71 +43,15 @@ export function FileUploader({ onUploadSuccess, acceptedTypes, targetFormat }: F
     try {
       setStatus("converting");
       
-      // Map target formats to proper MIME types
-      let mimeType = `image/${targetFormat.toLowerCase()}`;
-      if (targetFormat.toLowerCase() === "jpg") mimeType = "image/jpeg";
-
-      let blob: Blob | null = null;
-
-      if (file.name.toLowerCase().endsWith(".heic")) {
-        // Handle HEIC completely client-side using heic2any WASM decoder
-        const converted = await heic2any({
-          blob: file,
-          toType: mimeType,
-          quality: 1
-        });
-        
-        blob = Array.isArray(converted) ? converted[0] : converted;
-      } else {
-        // Perform 100% Client-Side Conversion using HTML5 Canvas for standard formats
-        const img = new Image();
-        const objectUrl = URL.createObjectURL(file);
-        
-        await new Promise<void>((resolve, reject) => {
-          img.onload = () => resolve();
-          img.onerror = () => reject(new Error("Failed to load image into canvas."));
-          img.src = objectUrl;
-        });
-
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-          throw new Error("Canvas 2D context is not supported in this browser.");
-        }
-
-        // Draw the image onto the canvas
-        ctx.drawImage(img, 0, 0);
-
-        // Convert the canvas to the new format
-        blob = await new Promise<Blob | null>((resolve) => {
-          // High quality output
-          canvas.toBlob(
-            (b) => resolve(b),
-            mimeType,
-            1.0 
-          );
-        });
-
-        URL.revokeObjectURL(objectUrl);
-      }
-
-      if (!blob) {
-        throw new Error(`Browser failed to encode the image to ${targetFormat.toUpperCase()}.`);
-      }
+      // Delegate processing to the specialized engine
+      const { blob, filename } = await onProcessFile(file);
 
       setStatus("success");
       
-      const newName = file.name.substring(0, file.name.lastIndexOf(".")) + "." + targetFormat;
       const url = URL.createObjectURL(blob);
       setDownloadUrl(url);
-      setDownloadName(newName);
+      setDownloadName(filename);
       
-      if (onUploadSuccess) {
-        onUploadSuccess(blob, newName);
-      }
     } catch (err: any) {
       setStatus("error");
       setErrorMsg(err.message || "An unexpected error occurred.");
@@ -184,7 +128,7 @@ export function FileUploader({ onUploadSuccess, acceptedTypes, targetFormat }: F
           <div className="mt-6 flex gap-3 justify-end">
             {status !== "success" && status !== "converting" && status !== "uploading" && (
               <Button onClick={handleConvert} className="w-full sm:w-auto">
-                Convert to {targetFormat.toUpperCase()}
+                {actionLabel}
               </Button>
             )}
             
@@ -207,7 +151,7 @@ export function FileUploader({ onUploadSuccess, acceptedTypes, targetFormat }: F
                     className={cn(buttonVariants({ variant: "default" }), "w-full sm:w-auto")}
                   >
                     <Download className="mr-2 h-4 w-4" />
-                    Download {targetFormat.toUpperCase()}
+                    Download File
                   </a>
                 )}
               </>

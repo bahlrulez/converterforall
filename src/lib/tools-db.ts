@@ -101,6 +101,7 @@ export const toolsDatabase = {
       subCategory: "Optimize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
+      actionName: "Compress PDF",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "repair-pdf": {

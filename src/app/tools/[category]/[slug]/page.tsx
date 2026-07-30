@@ -1,4 +1,4 @@
-import { FileUploader } from "@/components/upload/file-uploader";
+import { ToolEngine } from "@/components/upload/tool-engine";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -36,9 +36,12 @@ export default async function ToolPage(props: { params: Promise<{ category: stri
       </div>
 
       <div className="bg-muted/30 rounded-3xl p-6 sm:p-12 border border-border shadow-sm">
-        <FileUploader 
+        <ToolEngine 
+          category={categoryStr}
+          toolSlug={toolStr}
           acceptedTypes={tool.acceptedTypes}
           targetFormat={tool.outputFormat}
+          actionLabel={tool.actionName}
         />
       </div>
 
