@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FileUploader } from "./file-uploader";
 import { MultiFileUploader } from "./multi-file-uploader";
-import { processImage, removeImageBackground } from "@/lib/converters/image";
+import { processImage, removeImageBackground, BgRemovalQuality } from "@/lib/converters/image";
 import { compressPdf, imageToPdf, mergePdfs, CompressionPreset } from "@/lib/converters/pdf";
 
 interface ToolEngineProps {
@@ -16,12 +16,13 @@ interface ToolEngineProps {
 
 export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, actionLabel }: ToolEngineProps) {
   const [compressionPreset, setCompressionPreset] = useState<CompressionPreset>("balanced");
+  const [bgQuality, setBgQuality] = useState<BgRemovalQuality>("isnet_fp16");
   
   const handleProcessFile = async (file: File) => {
     let blob: Blob;
 
     if (category === "image" && toolSlug === "remove-background") {
-      blob = await removeImageBackground(file);
+      blob = await removeImageBackground(file, bgQuality);
     } else if (category === "image") {
       blob = await processImage(file, targetFormat);
     } else if (category === "document" && toolSlug === "compress-pdf") {
@@ -103,6 +104,54 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     );
   };
 
+  const renderBgRemovalOptions = (disabled: boolean) => {
+    return (
+      <div className="space-y-4">
+        <h3 className="text-sm font-medium">AI Model Quality</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <button
+            disabled={disabled}
+            onClick={() => setBgQuality("isnet_quint8")}
+            className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 text-center transition-all ${
+              bgQuality === "isnet_quint8" 
+                ? "border-primary bg-primary/5 text-primary" 
+                : "border-border hover:border-primary/50 text-muted-foreground"
+            }`}
+          >
+            <span className="font-semibold text-sm">Fast</span>
+            <span className="text-xs mt-1">Quickest, minor artifacts</span>
+          </button>
+          
+          <button
+            disabled={disabled}
+            onClick={() => setBgQuality("isnet_fp16")}
+            className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 text-center transition-all ${
+              bgQuality === "isnet_fp16" 
+                ? "border-primary bg-primary/5 text-primary" 
+                : "border-border hover:border-primary/50 text-muted-foreground"
+            }`}
+          >
+            <span className="font-semibold text-sm">Balanced</span>
+            <span className="text-xs mt-1">Good speed and quality</span>
+          </button>
+
+          <button
+            disabled={disabled}
+            onClick={() => setBgQuality("isnet")}
+            className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 text-center transition-all ${
+              bgQuality === "isnet" 
+                ? "border-primary bg-primary/5 text-primary" 
+                : "border-border hover:border-primary/50 text-muted-foreground"
+            }`}
+          >
+            <span className="font-semibold text-sm">Maximum Quality</span>
+            <span className="text-xs mt-1">Slower, but highest accuracy</span>
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   if (toolSlug === "merge-pdf") {
     return (
       <MultiFileUploader 
@@ -113,12 +162,18 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     );
   }
 
+  const isCompressPdf = category === "document" && toolSlug === "compress-pdf";
+  const isRemoveBg = category === "image" && toolSlug === "remove-background";
+
   return (
     <FileUploader 
       acceptedTypes={acceptedTypes}
-      actionLabel={actionLabel || `Convert to ${targetFormat.toUpperCase()}`}
+      actionLabel={actionLabel || (isRemoveBg ? "Remove Background" : `Convert to ${targetFormat.toUpperCase()}`)}
       onProcessFile={handleProcessFile}
-      optionsRenderer={category === "document" && toolSlug === "compress-pdf" ? renderPdfCompressionOptions : undefined}
+      optionsRenderer={
+        isCompressPdf ? renderPdfCompressionOptions : 
+        isRemoveBg ? renderBgRemovalOptions : undefined
+      }
     />
   );
 }
