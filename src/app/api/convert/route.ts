@@ -1,21 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import sharp from "sharp";
+
+// Force Node.js runtime for Sharp compatibility on Vercel
+export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { fileBase64, targetFormat } = body;
+    const formData = await req.formData();
+    const file = formData.get("file") as File | null;
+    const targetFormat = formData.get("targetFormat") as string | null;
 
-    if (!fileBase64 || !targetFormat) {
-      return NextResponse.json({ error: "File data and target format are required." }, { status: 400 });
+    if (!file || !targetFormat) {
+      return new Response(JSON.stringify({ error: "File and target format are required." }), { status: 400 });
     }
 
     const validFormats = ["png", "jpeg", "jpg", "webp", "avif"];
     if (!validFormats.includes(targetFormat.toLowerCase())) {
-      return NextResponse.json({ error: "Unsupported target format for images." }, { status: 400 });
+      return new Response(JSON.stringify({ error: "Unsupported target format for images." }), { status: 400 });
     }
 
-    const buffer = Buffer.from(fileBase64, "base64");
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
     let sharpInstance = sharp(buffer);
 
@@ -38,18 +43,23 @@ export async function POST(req: NextRequest) {
     const convertedBuffer = await sharpInstance.toBuffer();
     
     if (!convertedBuffer || convertedBuffer.length === 0) {
-      throw new Error("Conversion engine produced an empty file. The native binary might be missing.");
+      return new Response(JSON.stringify({ error: "Conversion produced an empty file." }), { status: 500 });
     }
-    
-    const base64Data = convertedBuffer.toString("base64");
 
-    return NextResponse.json({
-      success: true,
-      format: targetFormat.toLowerCase(),
-      data: base64Data,
+    // Option B: Return pure binary stream with explicit Content-Length
+    return new Response(convertedBuffer, {
+      status: 200,
+      headers: {
+        "Content-Type": `image/${targetFormat.toLowerCase()}`,
+        "Content-Disposition": `attachment; filename="converted.${targetFormat.toLowerCase()}"`,
+        "Content-Length": convertedBuffer.length.toString(),
+      },
     });
   } catch (error: any) {
     console.error("Conversion error:", error);
-    return NextResponse.json({ error: error.message || "Conversion failed." }, { status: 500 });
+    return new Response(JSON.stringify({ error: error.message || "Conversion failed." }), { 
+      status: 500,
+      headers: { "Content-Type": "application/json" }
+    });
   }
 }
