@@ -1,4 +1,10 @@
 import heic2any from "heic2any";
+import { removeBackground } from "@imgly/background-removal";
+
+export async function removeImageBackground(file: File): Promise<Blob> {
+  const blob = await removeBackground(file);
+  return blob;
+}
 
 export async function processImage(file: File, targetFormat: string): Promise<Blob> {
   // Map target formats to proper MIME types

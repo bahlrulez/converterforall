@@ -1,5 +1,17 @@
 export const toolsDatabase = {
   "image": {
+    "remove-background": {
+      title: "Remove Background",
+      description: "Instantly remove the background from any image using advanced on-device AI.",
+      inputFormat: "image",
+      outputFormat: "png",
+      actionName: "Remove Background",
+      acceptedTypes: { 
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"],
+        "image/webp": [".webp"]
+      }
+    },
     "webp-to-png": {
       title: "Convert WEBP to PNG",
       description: "Fast, secure, and high-quality WEBP to PNG image conversion.",

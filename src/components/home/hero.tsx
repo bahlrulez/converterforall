@@ -1,5 +1,5 @@
 import { Button, buttonVariants } from "@/components/ui/button";
-import { ArrowRight, FileType, Image as ImageIcon, Video, Music, Archive, Zap } from "lucide-react";
+import { ArrowRight, FileType, Image as ImageIcon, Video, Music, Eraser, Zap } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -49,7 +49,7 @@ export function Hero() {
               { icon: ImageIcon, label: "Images", color: "text-emerald-500", bg: "bg-emerald-500/10", href: "#featured-tools" },
               { icon: Video, label: "Video", color: "text-rose-500", bg: "bg-rose-500/10", href: "#featured-tools" },
               { icon: Music, label: "Audio", color: "text-purple-500", bg: "bg-purple-500/10", href: "#featured-tools" },
-              { icon: Archive, label: "Archives", color: "text-amber-500", bg: "bg-amber-500/10", href: "#featured-tools" },
+              { icon: Eraser, label: "Remove Background", color: "text-amber-500", bg: "bg-amber-500/10", href: "/tools/image/remove-background" },
               { icon: Zap, label: "More Tools", color: "text-primary", bg: "bg-primary/10", href: "#featured-tools" },
             ].map((category, i) => (
               <Link 

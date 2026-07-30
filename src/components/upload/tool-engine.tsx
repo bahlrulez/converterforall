@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FileUploader } from "./file-uploader";
 import { MultiFileUploader } from "./multi-file-uploader";
-import { processImage } from "@/lib/converters/image";
+import { processImage, removeImageBackground } from "@/lib/converters/image";
 import { compressPdf, imageToPdf, mergePdfs, CompressionPreset } from "@/lib/converters/pdf";
 
 interface ToolEngineProps {
@@ -20,7 +20,9 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   const handleProcessFile = async (file: File) => {
     let blob: Blob;
 
-    if (category === "image") {
+    if (category === "image" && toolSlug === "remove-background") {
+      blob = await removeImageBackground(file);
+    } else if (category === "image") {
       blob = await processImage(file, targetFormat);
     } else if (category === "document" && toolSlug === "compress-pdf") {
       blob = await compressPdf(file, compressionPreset);
