@@ -45,11 +45,11 @@ export function Hero() {
         <div className="mx-auto mt-20 max-w-5xl">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { icon: FileText, label: "PDF", color: "text-blue-500", bg: "bg-blue-500/10", href: "/category/document" },
+              { icon: FileText, label: "PDF", color: "text-blue-500", bg: "bg-blue-500/10", href: "#featured-tools" },
               { icon: ImageIcon, label: "Images", color: "text-emerald-500", bg: "bg-emerald-500/10", href: "#featured-tools" },
               { icon: Video, label: "Video", color: "text-rose-500", bg: "bg-rose-500/10", href: "#featured-tools" },
               { icon: Music, label: "Audio", color: "text-purple-500", bg: "bg-purple-500/10", href: "#featured-tools" },
-              { icon: Eraser, label: "Remove Background", color: "text-amber-500", bg: "bg-amber-500/10", href: "/tools/image/remove-background" },
+              { icon: Eraser, label: "Remove Background", color: "text-amber-500", bg: "bg-amber-500/10", href: "/remove-background" },
               { icon: Zap, label: "More Tools", color: "text-primary", bg: "bg-primary/10", href: "#featured-tools" },
             ].map((category, i) => (
               <Link 

@@ -176,3 +176,24 @@ export const toolsDatabase = {
     }
   }
 };
+
+export function getToolBySlug(slug: string) {
+  for (const [categorySlug, categoryTools] of Object.entries(toolsDatabase)) {
+    if (slug in categoryTools) {
+      return {
+        categorySlug,
+        toolSlug: slug,
+        tool: (categoryTools as any)[slug]
+      };
+    }
+  }
+  return null;
+}
+
+export function getAllToolSlugs() {
+  const slugs: string[] = [];
+  for (const categoryTools of Object.values(toolsDatabase)) {
+    slugs.push(...Object.keys(categoryTools));
+  }
+  return slugs;
+}

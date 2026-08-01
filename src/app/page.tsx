@@ -17,7 +17,7 @@ export default function Home() {
               <h2 className="text-3xl font-bold tracking-tight mb-2">Featured Converters</h2>
               <p className="text-muted-foreground">Try our most popular conversion tools, working instantly in your browser.</p>
             </div>
-            <Link href="/tools" className="hidden sm:flex items-center text-sm font-medium text-primary hover:underline">
+            <Link href="/" className="hidden sm:flex items-center text-sm font-medium text-primary hover:underline">
               View all <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
@@ -26,7 +26,7 @@ export default function Home() {
             {imageTools.map(([slug, tool]) => (
               <Link 
                 key={slug}
-                href={`/tools/image/${slug}`}
+                href={`/${slug}`}
                 className="group rounded-2xl border bg-card p-6 hover:shadow-md transition-all hover:border-primary/50 flex flex-col"
               >
                 <div className="flex items-center gap-4 mb-4">

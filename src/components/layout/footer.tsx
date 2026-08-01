@@ -25,12 +25,12 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-medium mb-4">Resources</h3>
+            <h3 className="font-medium mb-4">Company</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
+              <li><Link href="/about" className="hover:text-foreground transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-foreground transition-colors">Contact</Link></li>
               <li><Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link></li>
-              <li><Link href="/docs" className="hover:text-foreground transition-colors">Documentation</Link></li>
-              <li><Link href="/help" className="hover:text-foreground transition-colors">Help Center</Link></li>
-              <li><Link href="/status" className="hover:text-foreground transition-colors">Status</Link></li>
+              <li><Link href="/sitemap.xml" className="hover:text-foreground transition-colors">Sitemap</Link></li>
             </ul>
           </div>
 
@@ -39,7 +39,10 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li><Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link></li>
-              <li><Link href="/cookie" className="hover:text-foreground transition-colors">Cookie Policy</Link></li>
+              <li><Link href="/cookie-policy" className="hover:text-foreground transition-colors">Cookie Policy</Link></li>
+              <li><Link href="/disclaimer" className="hover:text-foreground transition-colors">Disclaimer</Link></li>
+              <li><Link href="/editorial-policy" className="hover:text-foreground transition-colors">Editorial Policy</Link></li>
+              <li><Link href="/accessibility" className="hover:text-foreground transition-colors">Accessibility</Link></li>
             </ul>
           </div>
         </div>
