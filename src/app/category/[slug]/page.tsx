@@ -81,7 +81,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
               {groupedTools[groupName].map((tool) => (
                 <li key={tool.slug}>
                   <Link 
-                    href={`/tools/${categorySlug}/${tool.slug}`}
+                    href={`/${tool.slug}`}
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors group"
                   >
                     <div className="flex-shrink-0">
