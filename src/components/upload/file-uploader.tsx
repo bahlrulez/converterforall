@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { useDropzone } from "react-dropzone";
-import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download } from "lucide-react";
+import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, Camera } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -13,14 +13,24 @@ interface FileUploaderProps {
   acceptedTypes?: Record<string, string[]>;
   actionLabel?: string;
   optionsRenderer?: (disabled: boolean) => React.ReactNode;
+  allowCamera?: boolean;
 }
 
-export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File", optionsRenderer }: FileUploaderProps) {
+export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File", optionsRenderer, allowCamera = false }: FileUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "converting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadName, setDownloadName] = useState<string>("");
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  const handleCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+      setStatus("idle");
+      setErrorMsg("");
+    }
+  };
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -73,26 +83,49 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
   return (
     <div className="w-full max-w-2xl mx-auto mt-8">
       {!file ? (
-        <div
-          {...getRootProps()}
-          className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-12 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-4 ${
-            isDragActive 
-              ? "border-primary bg-primary/5" 
-              : "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50"
-          }`}
-        >
-          <input {...getInputProps()} />
-          <div className="rounded-full bg-primary/10 p-4 text-primary">
-            <UploadCloud className="h-8 w-8" />
+        <div className="flex flex-col gap-4">
+          <div
+            {...getRootProps()}
+            className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-12 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-4 ${
+              isDragActive 
+                ? "border-primary bg-primary/5" 
+                : "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50"
+            }`}
+          >
+            <input {...getInputProps()} />
+            <div className="rounded-full bg-primary/10 p-4 text-primary">
+              <UploadCloud className="h-8 w-8" />
+            </div>
+            <div>
+              <p className="text-lg font-semibold">
+                {isDragActive ? "Drop your file here" : "Drag & drop your file here"}
+              </p>
+              <p className="text-sm text-muted-foreground mt-1">
+                or click to browse from your computer
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="text-lg font-semibold">
-              {isDragActive ? "Drop your file here" : "Drag & drop your file here"}
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">
-              or click to browse from your computer
-            </p>
-          </div>
+          
+          {allowCamera && (
+            <div className="flex justify-center mt-2">
+              <input 
+                type="file" 
+                accept="image/*" 
+                capture="environment" 
+                className="hidden" 
+                ref={cameraInputRef} 
+                onChange={handleCameraCapture} 
+              />
+              <Button 
+                variant="outline" 
+                className="w-full sm:w-auto border-dashed border-2 hover:bg-muted/50"
+                onClick={() => cameraInputRef.current?.click()}
+              >
+                <Camera className="mr-2 h-5 w-5" />
+                Take Photo
+              </Button>
+            </div>
+          )}
         </div>
       ) : (
         <div className="rounded-2xl border bg-card p-6 shadow-sm">

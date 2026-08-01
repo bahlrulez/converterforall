@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FileUploader } from "./file-uploader";
 import { MultiFileUploader } from "./multi-file-uploader";
 import { processImage, removeImageBackground, BgRemovalQuality } from "@/lib/converters/image";
-import { compressPdf, imageToPdf, mergePdfs, CompressionPreset } from "@/lib/converters/pdf";
+import { compressPdf, imageToPdf, mergePdfs, removePages, extractPages, organizePdf, splitPdf, CompressionPreset } from "@/lib/converters/pdf";
 import { convertWordToPdf } from "@/lib/converters/word";
 
 interface ToolEngineProps {
@@ -18,9 +18,11 @@ interface ToolEngineProps {
 export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, actionLabel }: ToolEngineProps) {
   const [compressionPreset, setCompressionPreset] = useState<CompressionPreset>("balanced");
   const [bgQuality, setBgQuality] = useState<BgRemovalQuality>("isnet_fp16");
+  const [pageSelection, setPageSelection] = useState<string>("");
   
   const handleProcessFile = async (file: File) => {
     let blob: Blob;
+    let finalFormat = targetFormat;
 
     if (category === "image" && toolSlug === "remove-background") {
       blob = await removeImageBackground(file, bgQuality);
@@ -32,11 +34,20 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       blob = await imageToPdf(file);
     } else if (category === "document" && toolSlug === "word-to-pdf") {
       blob = await convertWordToPdf(file);
+    } else if (category === "document" && toolSlug === "remove-pages") {
+      blob = await removePages(file, pageSelection);
+    } else if (category === "document" && toolSlug === "extract-pages") {
+      blob = await extractPages(file, pageSelection);
+    } else if (category === "document" && toolSlug === "organize-pdf") {
+      blob = await organizePdf(file, pageSelection);
+    } else if (category === "document" && toolSlug === "split-pdf") {
+      blob = await splitPdf(file);
+      finalFormat = "zip";
     } else {
       throw new Error("This tool is not yet fully implemented for client-side processing.");
     }
 
-    const newName = file.name.substring(0, file.name.lastIndexOf(".")) + "." + targetFormat;
+    const newName = file.name.substring(0, file.name.lastIndexOf(".")) + "." + finalFormat;
     
     return {
       blob,
@@ -155,6 +166,32 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     );
   };
 
+  const isPageSelector = ["remove-pages", "extract-pages", "organize-pdf"].includes(toolSlug);
+  
+  const renderPageSelectionOptions = (disabled: boolean) => {
+    let helperText = "Enter page numbers (e.g. 1, 3, 5-8)";
+    if (toolSlug === "organize-pdf") {
+      helperText = "Enter new page order (e.g. 3, 1, 2, 4-6)";
+    }
+
+    return (
+      <div className="space-y-4">
+        <h3 className="text-sm font-medium">
+          {toolSlug === "organize-pdf" ? "Page Order" : "Pages to Select"}
+        </h3>
+        <input 
+          type="text" 
+          value={pageSelection}
+          onChange={(e) => setPageSelection(e.target.value)}
+          placeholder="e.g. 1, 3, 5-8"
+          disabled={disabled}
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        />
+        <p className="text-xs text-muted-foreground">{helperText}</p>
+      </div>
+    );
+  };
+
   if (toolSlug === "merge-pdf") {
     return (
       <MultiFileUploader 
@@ -173,9 +210,11 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       acceptedTypes={acceptedTypes}
       actionLabel={actionLabel || (isRemoveBg ? "Remove Background" : `Convert to ${targetFormat.toUpperCase()}`)}
       onProcessFile={handleProcessFile}
+      allowCamera={toolSlug === "scan-to-pdf"}
       optionsRenderer={
         isCompressPdf ? renderPdfCompressionOptions : 
-        isRemoveBg ? renderBgRemovalOptions : undefined
+        isRemoveBg ? renderBgRemovalOptions : 
+        isPageSelector ? renderPageSelectionOptions : undefined
       }
     />
   );
