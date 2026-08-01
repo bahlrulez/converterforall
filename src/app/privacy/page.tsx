@@ -7,11 +7,24 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-4xl">
-      <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">Privacy Policy</h1>
-      
-      <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
-        <p><strong>Last Updated: August 1, 2026</strong></p>
+    <div className="min-h-screen bg-background pb-20">
+      {/* Premium Header Section */}
+      <div className="relative overflow-hidden py-16 md:py-24 bg-muted/30 border-b">
+        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25 dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]" />
+        
+        <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 capitalize bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+            Privacy Policy
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Learn how ConverterForAll collects, uses, and protects your personal information.
+          </p>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-16 max-w-3xl">
+        <div className="prose prose-slate dark:prose-invert max-w-none prose-lg prose-headings:font-bold prose-a:text-primary">
+          <p><strong>Last Updated: August 1, 2026</strong></p>
         
         <h2>1. Introduction</h2>
         <p>
@@ -182,6 +195,7 @@ export default function PrivacyPolicyPage() {
           <em>This Privacy Policy was written to provide clear, actionable information about your data privacy rights while using ConverterForAll.</em>
         </p>
       </div>
+    </div>
     </div>
   );
 }
