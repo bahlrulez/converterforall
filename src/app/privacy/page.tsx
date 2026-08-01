@@ -28,51 +28,90 @@ export default function PrivacyPolicyPage() {
         
         <h2>1. Introduction</h2>
         <p>
-          Welcome to ConverterForAll. We understand that your privacy is critically important. This Privacy Policy outlines the types of information we collect, how we use it, how we protect it, and the choices you have regarding your data when you visit and use our website.
+          Welcome to ConverterForAll.
         </p>
         <p>
-          ConverterForAll was built by Kuldeep Bahl, a Professional Software Engineer with over 14 years of experience, to provide reliable, fast, and free online calculators, file converters, measurement tools, and educational resources. Because many of our tools are designed to handle files—which may contain sensitive personal or business information—we have designed our architecture to minimize data collection. Whenever possible, our tools utilize client-side processing, meaning the conversion happens directly within your web browser and your files are never transmitted to our servers.
+          Your privacy is important to us, and we are committed to protecting your personal information. This Privacy Policy explains what information we collect, how we use it, and the steps we take to keep it safe whenever you visit or use our website.
         </p>
         <p>
-          By accessing or using ConverterForAll, you agree to the terms of this Privacy Policy. If you do not agree with our practices, please do not use our website.
+          ConverterForAll was created by Kuldeep Bahl, a Professional Software Engineer with more than 14 years of experience in the technology industry. Our goal is to provide free, fast, and reliable online tools, including file converters, calculators, unit converters, and other useful utilities that anyone can use without creating an account.
+        </p>
+        <p>
+          We believe that privacy should come first. That is why many of our tools work directly inside your web browser. In most cases, your files stay on your device and are never uploaded to our servers.
+        </p>
+        <p>
+          By using ConverterForAll, you agree to this Privacy Policy. If you do not agree with any part of it, please stop using our website.
         </p>
 
         <h2>2. Information We Collect</h2>
         <p>
-          We believe in data minimization. We only collect the information that is absolutely necessary to provide, maintain, and improve our services, as well as to ensure the security of our platform and display relevant advertisements that keep the site free for everyone.
+          We believe in collecting only the information that is necessary to provide our services.
+        </p>
+        <p>
+          Most of our tools can be used without signing up or sharing any personal information.
         </p>
 
-        <h3>2.1 Information You Provide to Us</h3>
+        <h3>Information You Share With Us</h3>
         <p>
-          In most cases, you can use ConverterForAll without providing any personally identifiable information. You do not need to create an account, register, or provide an email address to use our standard conversion tools.
+          You may choose to contact us through our contact form or by email.
         </p>
         <p>
-          The primary way you might directly provide information to us is by using our Contact Form. If you choose to reach out to us with a question, a feature request, or to report a bug, we will collect the information you voluntarily submit. This typically includes your name, your email address, and the contents of your message. We use this information solely to respond to your inquiry and provide customer support. We do not add your email address to marketing lists or sell it to third parties.
-        </p>
-
-        <h3>2.2 Automatically Collected Information</h3>
-        <p>
-          When you visit ConverterForAll, our servers and third-party service providers automatically collect certain technical information about your device and how you interact with our website. This information helps us understand our user base, optimize performance, and troubleshoot technical issues.
-        </p>
-        <p>
-          The automatically collected data may include:
+          If you do, we may receive information such as:
         </p>
         <ul>
-          <li><strong>Device Information:</strong> We collect data about the device you are using to access the site, including your hardware model, operating system version, and unique device identifiers.</li>
-          <li><strong>Browser Information:</strong> We log your browser type, language preference, and the date and time of your request. This helps us ensure compatibility and deliver the correct language version of the site.</li>
-          <li><strong>Log Data:</strong> Like most websites, our hosting provider (Vercel) automatically records certain log data when you interact with our services. This may include your IP address, the referring website that led you to us, the pages you view on our site, and the search queries you enter into our search functionality.</li>
-          <li><strong>Usage Data:</strong> We monitor how users interact with specific tools, such as which converters are used most frequently, how long users spend on a page, and where they click. This helps us prioritize the development of new features.</li>
+          <li>Your name</li>
+          <li>Your email address</li>
+          <li>The message you send us</li>
         </ul>
+        <p>
+          We only use this information to reply to your questions, provide support, or improve our services. We do not sell your personal information or use it for unwanted marketing emails.
+        </p>
 
-        <h2>3. How We Process Files</h2>
+        <h3>Information Collected Automatically</h3>
         <p>
-          Because we operate a file conversion platform, how we handle your uploaded files is a primary privacy concern. 
+          Like most websites, some basic technical information is collected automatically when you visit ConverterForAll.
         </p>
         <p>
-          <strong>Client-Side Processing:</strong> We have heavily invested in modern web technologies (such as WebAssembly) that allow many of our converters to run directly inside your web browser. When you use a client-side tool (such as our Word to PDF converter or background removal tool), your file is loaded into your device's memory. The conversion logic runs on your local CPU or GPU. In these instances, <strong>your file is never uploaded to our servers, never transmitted across the internet, and never seen by us.</strong> It remains entirely on your device.
+          This may include:
+        </p>
+        <ul>
+          <li>Your IP address</li>
+          <li>Browser type and version</li>
+          <li>Device type</li>
+          <li>Operating system</li>
+          <li>Pages you visit</li>
+          <li>Date and time of your visit</li>
+          <li>Website that referred you to us</li>
+        </ul>
+        <p>
+          We use this information to understand how visitors use our website, improve performance, fix technical problems, and keep our services secure.
+        </p>
+
+        <h2>3. How We Handle Your Files</h2>
+        <p>
+          Since ConverterForAll offers file conversion tools, we know that protecting your files is one of the most important parts of our service.
+        </p>
+
+        <h3>Browser-Based Processing</h3>
+        <p>
+          Many of our tools work entirely inside your web browser.
         </p>
         <p>
-          <strong>Server-Side Processing:</strong> For certain complex conversions that cannot yet be efficiently processed in a browser, your file is securely transmitted via HTTPS encryption to our processing servers. Once received, the file is temporarily held in a volatile memory environment (RAM) just long enough to perform the conversion. Immediately after the conversion is complete and you have downloaded the result, the original file and the converted file are automatically and permanently deleted from our systems. We do not maintain backups of user files, we do not inspect their contents, and we do not use them to train machine learning models.
+          When you use these tools, your files stay on your own device. They are not uploaded to our servers, and we cannot see or access them. The entire conversion happens locally on your computer or mobile device.
+        </p>
+
+        <h3>Server-Based Processing</h3>
+        <p>
+          Some advanced conversions require server processing because they cannot run efficiently inside a browser.
+        </p>
+        <p>
+          In these cases, your file is securely transferred using encrypted HTTPS connections. Your file is used only to complete the requested conversion.
+        </p>
+        <p>
+          Once the conversion is finished and you download the output file, both the original file and the converted file are automatically deleted from our servers.
+        </p>
+        <p>
+          We do not keep copies of your files, review their contents, or use them to train artificial intelligence or machine learning systems.
         </p>
 
         <h2>4. Cookies and Local Storage</h2>
