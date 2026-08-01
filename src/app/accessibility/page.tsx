@@ -101,7 +101,7 @@ export default function AccessibilityStatementPage() {
           Please reach out to us via email, and we will make all reasonable efforts to address your concerns and provide the information or service you need in an alternative format if necessary.
         </p>
         <p>
-          <strong>Email:</strong> [UPDATE BEFORE PUBLISHING]<br />
+          <strong>Email:</strong> officialdeepbahl@gmail.com
         </p>
       </div>
     </div>

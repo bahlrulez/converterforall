@@ -110,7 +110,7 @@ export default function EditorialPolicyPage() {
           For any questions regarding this Editorial Policy, or to submit feedback regarding our content, please contact the site owner directly:
         </p>
         <p>
-          <strong>Email:</strong> [UPDATE BEFORE PUBLISHING]
+          <strong>Email:</strong> officialdeepbahl@gmail.com
         </p>
         
         <div className="mt-16 pt-8 border-t">

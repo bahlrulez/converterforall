@@ -188,8 +188,7 @@ export default function PrivacyPolicyPage() {
           If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please reach out. We are dedicated to transparency and will do our best to address your inquiries promptly.
         </p>
         <p>
-          <strong>Email:</strong> [UPDATE BEFORE PUBLISHING]<br />
-          <strong>Address:</strong> [UPDATE BEFORE PUBLISHING]
+          <strong>Email:</strong> officialdeepbahl@gmail.com
         </p>
         <p>
           <em>This Privacy Policy was written to provide clear, actionable information about your data privacy rights while using ConverterForAll.</em>

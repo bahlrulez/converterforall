@@ -114,8 +114,7 @@ export default function CookiePolicyPage() {
           If you have any questions about our use of cookies or other technologies, please contact us at:
         </p>
         <p>
-          <strong>Email:</strong> [UPDATE BEFORE PUBLISHING]<br />
-          <strong>Address:</strong> [UPDATE BEFORE PUBLISHING]
+          <strong>Email:</strong> officialdeepbahl@gmail.com
         </p>
       </div>
     </div>

@@ -148,8 +148,7 @@ export default function TermsOfServicePage() {
           If you have any questions, feedback, comments, or requests for technical support regarding these Terms of Service, please contact us.
         </p>
         <p>
-          <strong>Email:</strong> [UPDATE BEFORE PUBLISHING]<br />
-          <strong>Address:</strong> [UPDATE BEFORE PUBLISHING]
+          <strong>Email:</strong> officialdeepbahl@gmail.com
         </p>
       </div>
     </div>

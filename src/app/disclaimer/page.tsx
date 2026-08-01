@@ -73,7 +73,7 @@ export default function DisclaimerPage() {
           If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email.
         </p>
         <p>
-          <strong>Email:</strong> [UPDATE BEFORE PUBLISHING]
+          <strong>Email:</strong> officialdeepbahl@gmail.com
         </p>
       </div>
     </div>
