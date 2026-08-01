@@ -1,31 +1,37 @@
 import { toolsDatabase } from "@/lib/tools-db";
-import { ArrowLeft, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText } from "lucide-react";
+import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// A simple icon mapper based on the tool slug
+// A simple icon mapper based on the tool slug, relying on parent color class
 const getIconForTool = (slug: string) => {
   switch (slug) {
-    case "merge-pdf": return <Combine className="h-5 w-5 text-red-500" />;
-    case "split-pdf": return <Scissors className="h-5 w-5 text-orange-500" />;
-    case "remove-pages": return <Trash className="h-5 w-5 text-red-400" />;
-    case "extract-pages": return <FileOutput className="h-5 w-5 text-orange-400" />;
-    case "organize-pdf": return <Layout className="h-5 w-5 text-red-400" />;
-    case "scan-to-pdf": return <Scan className="h-5 w-5 text-orange-600" />;
+    case "merge-pdf": return <Combine className="h-6 w-6" />;
+    case "split-pdf": return <Scissors className="h-6 w-6" />;
+    case "remove-pages": return <Trash className="h-6 w-6" />;
+    case "extract-pages": return <FileOutput className="h-6 w-6" />;
+    case "organize-pdf": return <Layout className="h-6 w-6" />;
+    case "scan-to-pdf": return <Scan className="h-6 w-6" />;
     
-    case "compress-pdf": return <Minimize className="h-5 w-5 text-green-500" />;
-    case "repair-pdf": return <Wrench className="h-5 w-5 text-green-600" />;
-    case "ocr-pdf": return <FileText className="h-5 w-5 text-green-400" />;
+    case "compress-pdf": return <Minimize className="h-6 w-6" />;
+    case "repair-pdf": return <Wrench className="h-6 w-6" />;
+    case "ocr-pdf": return <FileText className="h-6 w-6" />;
     
-    case "jpg-to-pdf": return <ImageIcon className="h-5 w-5 text-yellow-500" />;
-    case "word-to-pdf": return <FileText className="h-5 w-5 text-blue-500" />;
-    case "powerpoint-to-pdf": return <Layout className="h-5 w-5 text-orange-500" />;
-    case "excel-to-pdf": return <FileType className="h-5 w-5 text-green-600" />;
-    case "html-to-pdf": return <FileType className="h-5 w-5 text-yellow-600" />;
+    case "jpg-to-pdf": return <ImageIcon className="h-6 w-6" />;
+    case "word-to-pdf": return <FileText className="h-6 w-6" />;
+    case "powerpoint-to-pdf": return <Layout className="h-6 w-6" />;
+    case "excel-to-pdf": return <FileType className="h-6 w-6" />;
+    case "html-to-pdf": return <FileType className="h-6 w-6" />;
     
-    default: return <Settings className="h-5 w-5 text-primary" />;
+    default: return <Settings className="h-6 w-6" />;
   }
 };
+
+const getIconColorClass = (categorySlug: string) => {
+  if (categorySlug === 'image') return 'bg-emerald-500/10 text-emerald-500';
+  if (categorySlug === 'document') return 'bg-blue-500/10 text-blue-500';
+  return 'bg-primary/10 text-primary';
+}
 
 export default async function CategoryPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
@@ -53,49 +59,63 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
     });
   });
 
-  // Get the group names and render columns
   const groups = Object.keys(groupedTools);
+  const iconColorClass = getIconColorClass(categorySlug);
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-6xl">
-      <div className="mb-12">
-        <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to home
-        </Link>
-        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-4 capitalize">
-          {categorySlug} Tools
-        </h1>
-        <p className="text-xl text-muted-foreground">
-          Everything you need to manage your {categorySlug} files in one place.
-        </p>
+    <div className="min-h-screen bg-background pb-20">
+      {/* Premium Header Section */}
+      <div className="relative overflow-hidden py-16 md:py-24 bg-muted/30 border-b">
+        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25 dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]" />
+        
+        <div className="container mx-auto px-4 max-w-5xl relative z-10 text-center">
+          <Link href="/" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary mb-8 transition-colors bg-background/80 backdrop-blur-sm border px-4 py-2 rounded-full shadow-sm">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Home
+          </Link>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 capitalize bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+            {categorySlug} Tools
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Everything you need to manage and transform your {categorySlug} files in one secure, powerful platform.
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 lg:gap-16">
-        {groups.map((groupName) => (
-          <div key={groupName} className="flex flex-col">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
-              {groupName}
-            </h3>
-            <ul className="space-y-2">
-              {groupedTools[groupName].map((tool) => (
-                <li key={tool.slug}>
+      {/* Tools Grid Section */}
+      <div className="container mx-auto px-4 max-w-5xl mt-16">
+        <div className="space-y-20">
+          {groups.map((groupName) => (
+            <div key={groupName}>
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold tracking-tight uppercase tracking-wider text-muted-foreground">{groupName}</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {groupedTools[groupName].map((tool) => (
                   <Link 
+                    key={tool.slug}
                     href={`/${tool.slug}`}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors group"
+                    className="group rounded-2xl border bg-card p-6 hover:shadow-xl transition-all duration-300 hover:border-primary/50 hover:-translate-y-1 flex flex-col relative overflow-hidden"
                   >
-                    <div className="flex-shrink-0">
-                      {getIconForTool(tool.slug)}
+                    {/* Subtle Gradient Hover Effect */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
+
+                    <div className="flex items-center gap-4 mb-4 relative z-10">
+                      <div className={`rounded-xl p-3 transition-colors ${iconColorClass}`}>
+                        {getIconForTool(tool.slug)}
+                      </div>
+                      <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">{tool.title}</h3>
                     </div>
-                    <span className="font-medium text-sm group-hover:text-primary transition-colors">
-                      {tool.title}
-                    </span>
+                    <p className="text-sm text-muted-foreground mb-6 relative z-10 flex-grow">{tool.description}</p>
+                    <div className="mt-auto flex items-center text-sm font-medium text-primary relative z-10">
+                      Open Tool <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </div>
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
