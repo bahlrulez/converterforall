@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
+import { AuthorProfile } from "@/components/shared/author-profile";
 
 // Mock Database for Blog Posts
 const blogDatabase: Record<string, { title: string, content: string, date: string, category: string }> = {
@@ -103,6 +104,11 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
       </div>
 
       <article className="prose prose-slate dark:prose-invert max-w-none prose-lg" dangerouslySetInnerHTML={{ __html: post.content }} />
+      
+      <div className="mt-16 pt-8 border-t">
+        <h3 className="text-lg font-bold mb-4">About the Author</h3>
+        <AuthorProfile />
+      </div>
     </div>
   );
 }
