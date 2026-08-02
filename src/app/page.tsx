@@ -1,6 +1,6 @@
 import { Hero } from "@/components/home/hero";
 import Link from "next/link";
-import { ArrowRight, Image as ImageIcon, FileText, Music } from "lucide-react";
+import { ArrowRight, Image as ImageIcon, FileText, Music, Video } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
 
 export default function Home() {
@@ -73,16 +73,46 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Audio & Video Tools Section */}
-          <div>
+          {/* Video Tools Section */}
+          <div className="mb-20">
             <div className="flex items-center justify-between mb-12">
               <div>
-                <h2 className="text-3xl font-bold tracking-tight mb-2">Audio & Video Tools</h2>
-                <p className="text-muted-foreground">Convert and process media files seamlessly.</p>
+                <h2 className="text-3xl font-bold tracking-tight mb-2">Video Tools</h2>
+                <p className="text-muted-foreground">Fast, high-quality video conversion in your browser.</p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Object.entries((toolsDatabase as any).audio || {}), ...Object.entries((toolsDatabase as any).video || {})].map(([slug, tool]: any) => (
+              {Object.entries((toolsDatabase as any).video || {}).map(([slug, tool]: any) => (
+                <Link 
+                  key={slug}
+                  href={`/${slug}`}
+                  className="group rounded-2xl border bg-card p-6 hover:shadow-md transition-all hover:border-primary/50 flex flex-col"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="rounded-xl p-3 bg-red-500/10 text-red-500">
+                      <Video className="h-6 w-6" />
+                    </div>
+                    <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">{tool.title.replace('Convert ', '')}</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-6">{tool.description}</p>
+                  <div className="mt-auto flex items-center text-sm font-medium text-primary">
+                    Open Tool <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Audio Tools Section */}
+          <div>
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-3xl font-bold tracking-tight mb-2">Audio Tools</h2>
+                <p className="text-muted-foreground">Extract and convert audio files seamlessly.</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Object.entries((toolsDatabase as any).audio || {}).map(([slug, tool]: any) => (
                 <Link 
                   key={slug}
                   href={`/${slug}`}
