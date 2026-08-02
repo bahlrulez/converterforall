@@ -29,37 +29,36 @@ export const convertVideo = async (
   targetFormat: string, 
   onProgress: (progress: number) => void
 ): Promise<Blob> => {
-  const ffmpegInstance = await loadFfmpeg((p) => {
-    // p.progress goes from 0 to 1
-    let pct = Math.round(p.progress * 100);
-    // Sometimes ffmpeg emits slightly over 100 or negative depending on estimation
-    if (pct < 0) pct = 0;
-    if (pct > 100) pct = 100;
-    onProgress(pct);
-  });
+  try {
+    const ffmpegInstance = await loadFfmpeg((p) => {
+      let pct = Math.round(p.progress * 100);
+      if (pct < 0) pct = 0;
+      if (pct > 100) pct = 100;
+      onProgress(pct);
+    });
 
-  const inputExt = file.name.split('.').pop()?.toLowerCase() || 'mp4';
-  const inputName = `input.${inputExt}`;
-  const outputName = `output.${targetFormat}`;
+    const inputExt = file.name.split('.').pop()?.toLowerCase() || 'mp4';
+    const inputName = `input.${inputExt}`;
+    const outputName = `output.${targetFormat}`;
 
-  // Write the file to ffmpeg's virtual file system
-  await ffmpegInstance.writeFile(inputName, await fetchFile(file));
+    await ffmpegInstance.writeFile(inputName, await fetchFile(file));
 
-  // Determine ffmpeg command
-  if (targetFormat === 'mp3') {
-    // Extract audio with high quality
-    await ffmpegInstance.exec(['-i', inputName, '-q:a', '0', '-map', 'a', outputName]);
-  } else {
-    // Standard conversion to mp4 (e.g. from MOV)
-    await ffmpegInstance.exec(['-i', inputName, outputName]);
+    if (targetFormat === 'mp3') {
+      await ffmpegInstance.exec(['-i', inputName, '-q:a', '0', '-map', 'a', outputName]);
+    } else {
+      await ffmpegInstance.exec(['-i', inputName, outputName]);
+    }
+
+    const data = await ffmpegInstance.readFile(outputName);
+    
+    await ffmpegInstance.deleteFile(inputName);
+    await ffmpegInstance.deleteFile(outputName);
+
+    return new Blob([data as any], { type: targetFormat === 'mp3' ? 'audio/mpeg' : 'video/mp4' });
+  } catch (err: any) {
+    if (typeof SharedArrayBuffer === 'undefined') {
+      throw new Error("Your browser is blocking the video engine due to missing security headers. Please refresh the page (F5) directly on this URL to enable video conversion.");
+    }
+    throw new Error(`FFmpeg error: ${err.message || String(err)}`);
   }
-
-  // Read the result
-  const data = await ffmpegInstance.readFile(outputName);
-  
-  // Clean up virtual file system
-  await ffmpegInstance.deleteFile(inputName);
-  await ffmpegInstance.deleteFile(outputName);
-
-  return new Blob([data as any], { type: targetFormat === 'mp3' ? 'audio/mpeg' : 'video/mp4' });
 };

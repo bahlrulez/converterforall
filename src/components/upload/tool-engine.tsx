@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileUploader } from "./file-uploader";
 import { MultiFileUploader } from "./multi-file-uploader";
 import { processImage, removeImageBackground, BgRemovalQuality } from "@/lib/converters/image";
@@ -20,6 +20,13 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   const [compressionPreset, setCompressionPreset] = useState<CompressionPreset>("balanced");
   const [bgQuality, setBgQuality] = useState<BgRemovalQuality>("isnet_fp16");
   const [pageSelection, setPageSelection] = useState<string>("");
+
+  // Fix for Next.js SPA navigation wiping out COOP/COEP headers
+  useEffect(() => {
+    if (category === "video" && typeof SharedArrayBuffer === "undefined") {
+      window.location.reload();
+    }
+  }, [category]);
   
   const handleProcessFile = async (file: File, onProgress?: (p: number) => void) => {
     let blob: Blob;
