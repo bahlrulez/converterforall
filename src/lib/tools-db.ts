@@ -186,6 +186,14 @@ export const toolsDatabase = {
     }
   },
   "video": {
+    "mp4-to-mp3": {
+      title: "Convert MP4 to MP3",
+      description: "Extract high-quality audio from your MP4 videos.",
+      inputFormat: "mp4",
+      outputFormat: "mp3",
+      actionName: "Extract Audio",
+      acceptedTypes: { "video/mp4": [".mp4"] }
+    },
     "mov-to-mp4": {
       title: "Convert MOV to MP4",
       description: "Convert Apple MOV videos to standard MP4 format.",
@@ -215,5 +223,5 @@ export function getAllToolSlugs() {
   for (const categoryTools of Object.values(toolsDatabase)) {
     slugs.push(...Object.keys(categoryTools));
   }
-  return slugs;
+  return Array.from(new Set(slugs));
 }
