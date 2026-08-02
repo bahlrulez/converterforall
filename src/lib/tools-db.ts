@@ -175,7 +175,7 @@ export const toolsDatabase = {
       acceptedTypes: { "text/html": [".html"] }
     }
   },
-  "video": {
+  "audio": {
     "mp4-to-mp3": {
       title: "Convert MP4 to MP3",
       description: "Extract high-quality audio from your MP4 videos.",
@@ -183,7 +183,9 @@ export const toolsDatabase = {
       outputFormat: "mp3",
       actionName: "Extract Audio",
       acceptedTypes: { "video/mp4": [".mp4"] }
-    },
+    }
+  },
+  "video": {
     "mov-to-mp4": {
       title: "Convert MOV to MP4",
       description: "Convert Apple MOV videos to standard MP4 format.",

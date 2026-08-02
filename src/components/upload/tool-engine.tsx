@@ -23,7 +23,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
 
   // Fix for Next.js SPA navigation wiping out COOP/COEP headers
   useEffect(() => {
-    if (category === "video" && typeof SharedArrayBuffer === "undefined") {
+    if ((category === "video" || category === "audio") && typeof SharedArrayBuffer === "undefined") {
       window.location.reload();
     }
   }, [category]);
@@ -51,7 +51,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     } else if (category === "document" && toolSlug === "split-pdf") {
       blob = await splitPdf(file);
       finalFormat = "zip";
-    } else if (category === "video") {
+    } else if (category === "video" || category === "audio") {
       blob = await convertVideo(file, targetFormat, (p) => {
         if (onProgress) onProgress(p);
       });
