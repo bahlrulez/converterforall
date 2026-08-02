@@ -1,4 +1,15 @@
+import { imageToolsContent } from "./content/image-tools";
+import { pdfOrganizeContent } from "./content/pdf-organize";
+import { pdfOptimizeContent } from "./content/pdf-optimize";
+import { pdfConvertContent } from "./content/pdf-convert";
+import { videoToolsContent } from "./content/video-tools";
+
 export const toolContent: Record<string, { sections: { title: string, content: string }[] }> = {
+  ...imageToolsContent,
+  ...pdfOrganizeContent,
+  ...pdfOptimizeContent,
+  ...pdfConvertContent,
+  ...videoToolsContent,
   "remove-background": {
     sections: [
       {

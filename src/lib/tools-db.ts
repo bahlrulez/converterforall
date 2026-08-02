@@ -174,6 +174,24 @@ export const toolsDatabase = {
       outputFormat: "pdf",
       acceptedTypes: { "text/html": [".html"] }
     }
+  },
+  "video": {
+    "mp4-to-mp3": {
+      title: "Convert MP4 to MP3",
+      description: "Extract high-quality audio from your MP4 videos.",
+      inputFormat: "mp4",
+      outputFormat: "mp3",
+      actionName: "Extract Audio",
+      acceptedTypes: { "video/mp4": [".mp4"] }
+    },
+    "mov-to-mp4": {
+      title: "Convert MOV to MP4",
+      description: "Convert Apple MOV videos to standard MP4 format.",
+      inputFormat: "mov",
+      outputFormat: "mp4",
+      actionName: "Convert to MP4",
+      acceptedTypes: { "video/quicktime": [".mov"] }
+    }
   }
 };
 

@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import heic2any from "heic2any";
 
 interface FileUploaderProps {
-  onProcessFile: (file: File) => Promise<{ blob: Blob, filename: string }>;
+  onProcessFile: (file: File, onProgress?: (progress: number) => void) => Promise<{ blob: Blob, filename: string }>;
   acceptedTypes?: Record<string, string[]>;
   actionLabel?: string;
   optionsRenderer?: (disabled: boolean) => React.ReactNode;
@@ -22,6 +22,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
   const [errorMsg, setErrorMsg] = useState("");
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadName, setDownloadName] = useState<string>("");
+  const [progress, setProgress] = useState(0);
   const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const handleCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,9 +54,10 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
     
     try {
       setStatus("converting");
+      setProgress(0);
       
       // Delegate processing to the specialized engine
-      const { blob, filename } = await onProcessFile(file);
+      const { blob, filename } = await onProcessFile(file, (p) => setProgress(p));
 
       setStatus("success");
       
@@ -78,6 +80,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
     setErrorMsg("");
     setDownloadUrl(null);
     setDownloadName("");
+    setProgress(0);
   };
 
   return (
@@ -162,6 +165,21 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
           {optionsRenderer && status === "idle" && (
             <div className="mt-6 border-t pt-4">
               {optionsRenderer(status !== "idle")}
+            </div>
+          )}
+
+          {status === "converting" && progress > 0 && (
+            <div className="mt-4 space-y-2">
+              <div className="flex justify-between text-sm text-muted-foreground">
+                <span>Processing...</span>
+                <span>{progress}%</span>
+              </div>
+              <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+                <div 
+                  className="h-full bg-primary transition-all duration-300 ease-in-out" 
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
           )}
 

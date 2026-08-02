@@ -6,6 +6,7 @@ import { MultiFileUploader } from "./multi-file-uploader";
 import { processImage, removeImageBackground, BgRemovalQuality } from "@/lib/converters/image";
 import { compressPdf, imageToPdf, mergePdfs, removePages, extractPages, organizePdf, splitPdf, CompressionPreset } from "@/lib/converters/pdf";
 import { convertWordToPdf } from "@/lib/converters/word";
+import { convertVideo } from "@/lib/converters/video";
 
 interface ToolEngineProps {
   category: string;
@@ -20,7 +21,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   const [bgQuality, setBgQuality] = useState<BgRemovalQuality>("isnet_fp16");
   const [pageSelection, setPageSelection] = useState<string>("");
   
-  const handleProcessFile = async (file: File) => {
+  const handleProcessFile = async (file: File, onProgress?: (p: number) => void) => {
     let blob: Blob;
     let finalFormat = targetFormat;
 
@@ -43,6 +44,10 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     } else if (category === "document" && toolSlug === "split-pdf") {
       blob = await splitPdf(file);
       finalFormat = "zip";
+    } else if (category === "video") {
+      blob = await convertVideo(file, targetFormat, (p) => {
+        if (onProgress) onProgress(p);
+      });
     } else {
       throw new Error("This tool is not yet fully implemented for client-side processing.");
     }

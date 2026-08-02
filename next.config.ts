@@ -5,6 +5,20 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/mp4-to-mp3",
+        headers: [
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
+        ],
+      },
+      {
+        source: "/mov-to-mp4",
+        headers: [
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
+        ],
+      },
+      {
         source: "/(.*)",
         headers: [
           {
