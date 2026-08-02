@@ -24,7 +24,13 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   // Fix for Next.js SPA navigation wiping out COOP/COEP headers
   useEffect(() => {
     if ((category === "video" || category === "audio") && typeof SharedArrayBuffer === "undefined") {
-      window.location.reload();
+      const hasReloaded = sessionStorage.getItem('sab_reloaded');
+      if (!hasReloaded) {
+        sessionStorage.setItem('sab_reloaded', 'true');
+        window.location.reload();
+      }
+    } else {
+      sessionStorage.removeItem('sab_reloaded');
     }
   }, [category]);
   
