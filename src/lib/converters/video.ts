@@ -22,7 +22,8 @@ export const loadFfmpeg = async (onProgress: (p: { progress: number }) => void) 
   await ffmpeg.load({
     coreURL: "/ffmpeg/ffmpeg-core.js",
     wasmURL: "/ffmpeg/ffmpeg-core.wasm",
-    workerURL: "/ffmpeg/814.ffmpeg.js",
+    workerURL: "/ffmpeg/ffmpeg-core.worker.js",
+    classWorkerURL: "/ffmpeg/814.ffmpeg.js",
   });
   console.log("ffmpeg.load() finished");
   
