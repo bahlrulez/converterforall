@@ -21,6 +21,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
   const [status, setStatus] = useState<"idle" | "uploading" | "converting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadBlob, setDownloadBlob] = useState<Blob | null>(null);
   const [downloadName, setDownloadName] = useState<string>("");
   const [progress, setProgress] = useState(0);
   const cameraInputRef = useRef<HTMLInputElement>(null);
