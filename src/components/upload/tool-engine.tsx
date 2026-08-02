@@ -59,9 +59,15 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       throw new Error("This tool is not yet fully implemented for client-side processing.");
     }
 
-    const lastDotIndex = file.name.lastIndexOf(".");
-    const baseName = lastDotIndex !== -1 ? file.name.substring(0, lastDotIndex) : file.name;
-    const newName = `${baseName}.${finalFormat}`;
+    const lastDotIndex = file?.name?.lastIndexOf(".") ?? -1;
+    let baseName = lastDotIndex !== -1 ? file.name.substring(0, lastDotIndex) : (file?.name || "converted_file");
+    
+    // Ensure baseName is not empty or just spaces
+    if (!baseName.trim()) {
+      baseName = "converted_file";
+    }
+    
+    const newName = `${baseName.replace(/[^a-zA-Z0-9_-]/g, '_')}.${finalFormat}`;
     
     return {
       blob,
