@@ -4,23 +4,27 @@ import { fetchFile, toBlobURL } from '@ffmpeg/util';
 let ffmpeg: FFmpeg | null = null;
 
 export const loadFfmpeg = async (onProgress: (p: { progress: number }) => void) => {
+  console.log("loadFfmpeg called");
   if (ffmpeg) {
+    console.log("Returning existing ffmpeg instance");
     // If it's already loaded, just update the progress listener
     ffmpeg.off('progress', () => {}); // Remove previous listeners
     ffmpeg.on('progress', onProgress);
     return ffmpeg;
   }
 
+  console.log("Creating new FFmpeg instance");
   ffmpeg = new FFmpeg();
   ffmpeg.on('progress', onProgress);
+  ffmpeg.on('log', ({ message }) => console.log("FFMPEG LOG:", message));
   
-  // Use UMD instead of ESM, as ESM Blob URLs can hang indefinitely in some browsers
-  const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
-  
+  console.log("Calling ffmpeg.load() with local assets...");
   await ffmpeg.load({
-    coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-    wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+    coreURL: "/ffmpeg/ffmpeg-core.js",
+    wasmURL: "/ffmpeg/ffmpeg-core.wasm",
+    workerURL: "/ffmpeg/814.ffmpeg.js",
   });
+  console.log("ffmpeg.load() finished");
   
   return ffmpeg;
 };
