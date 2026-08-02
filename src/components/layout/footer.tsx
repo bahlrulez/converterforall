@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ManageCookiesButton } from "@/components/cookie-consent/manage-cookies-button";
 
 export function Footer() {
   return (
@@ -33,6 +34,7 @@ export function Footer() {
               <li><Link href="/disclaimer" className="hover:text-foreground transition-colors">Disclaimer</Link></li>
               <li><Link href="/editorial-policy" className="hover:text-foreground transition-colors">Editorial Policy</Link></li>
               <li><Link href="/accessibility" className="hover:text-foreground transition-colors">Accessibility</Link></li>
+              <li><ManageCookiesButton /></li>
             </ul>
           </div>
         </div>
