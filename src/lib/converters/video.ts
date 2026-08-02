@@ -14,7 +14,8 @@ export const loadFfmpeg = async (onProgress: (p: { progress: number }) => void) 
   ffmpeg = new FFmpeg();
   ffmpeg.on('progress', onProgress);
   
-  const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+  // Use UMD instead of ESM, as ESM Blob URLs can hang indefinitely in some browsers
+  const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
   
   await ffmpeg.load({
     coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
