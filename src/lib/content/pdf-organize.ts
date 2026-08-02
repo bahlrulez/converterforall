@@ -23,7 +23,18 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Is there a limit to how many PDFs I can merge?</strong><br>A: Because the merging happens in your browser's memory, the limit is determined by your device's available RAM. However, merging dozens of standard documents is generally instantaneous and stable.</p><p><strong>Q: Are my confidential documents safe?</strong><br>A: Yes. Your files are processed strictly on your local machine. They are never transmitted over the internet or stored on our servers.</p><p><strong>Q: Will merging PDFs reduce their quality?</strong><br>A: No. The tool performs a lossless combination, meaning the text crispness, image resolution, and formatting of the original files are preserved perfectly.</p>"
+        content: `
+          <p><strong>Q: Is there a limit to how many PDFs I can merge?</strong><br>A: Because the merging happens in your browser's memory, the limit is determined by your device's available RAM. However, merging dozens of standard documents is generally instantaneous and stable.</p>
+          <p><strong>Q: Are my confidential documents safe when merging?</strong><br>A: Yes. Your files are processed strictly on your local machine. They are never transmitted over the internet or stored on our servers.</p>
+          <p><strong>Q: Will merging PDFs reduce their visual quality?</strong><br>A: No. The tool performs a lossless combination, meaning the text crispness, image resolution, and formatting of the original files are preserved perfectly.</p>
+          <p><strong>Q: Can I rearrange the order of the PDF files before merging?</strong><br>A: Yes, you can ensure your files are in the exact sequence you want them to appear in the final merged document.</p>
+          <p><strong>Q: Does this tool work on mobile devices?</strong><br>A: Yes! You can easily combine PDF files directly on your smartphone or tablet's web browser.</p>
+          <p><strong>Q: Will merging remove my bookmarks or hyperlinks?</strong><br>A: Standard text hyperlinks are typically preserved, but complex document-level bookmarks or interactive form fields may be flattened during the merge process.</p>
+          <p><strong>Q: Can I merge password-protected PDFs?</strong><br>A: Currently, you will need to remove the password protection from your PDF files before merging them, as the client-side engine cannot read encrypted data without the password.</p>
+          <p><strong>Q: Will the final merged PDF be significantly larger?</strong><br>A: The final file size will generally be the sum of all the individual file sizes combined. No extra bloat is added.</p>
+          <p><strong>Q: Do I need Adobe Acrobat installed to use this tool?</strong><br>A: No, our browser-based tool works independently of Adobe Acrobat or any other desktop software.</p>
+          <p><strong>Q: Is the Merge PDF tool completely free to use?</strong><br>A: Yes, there are no hidden fees, subscriptions, or watermarks applied to your final merged document.</p>
+        `
       }
     ]
   },
@@ -35,7 +46,7 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "How does it work?",
-        content: "<p>When you provide a PDF to be split, our client-side tool loads the document's structure into your browser's memory. It systematically reads the metadata and content of every page. It then creates a brand-new PDF file for every single page in the original document, copying the exact visual data over. To make downloading convenient, it utilizes a local compression library (JSZip) to bundle all these newly generated, single-page PDFs into a single `.zip` archive. This entire process executes locally on your CPU, guaranteeing total privacy.</p>"
+        content: "<p>When you provide a PDF to be split, our client-side tool loads the document's structure into your browser's memory. It systematically reads the metadata and content of every page. It then creates a brand-new PDF file for every single page in the original document, copying the exact visual data over. To make downloading convenient, it utilizes a local compression library (JSZip) to bundle all these newly generated, single-page PDFs into a single \`.zip\` archive. This entire process executes locally on your CPU, guaranteeing total privacy.</p>"
       },
       {
         title: "Examples",
@@ -43,7 +54,7 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload your PDF:</strong> Drag and drop your large PDF file into the upload zone.</li><li><strong>Instant Separation:</strong> The browser immediately begins duplicating every page into its own individual PDF file and zipping them together.</li><li><strong>Download Archive:</strong> Click the download button to save the `.zip` file to your computer.</li><li><strong>Extract:</strong> Open the `.zip` file on your device to access all your newly separated PDF pages.</li></ol>"
+        content: "<ol><li><strong>Upload your PDF:</strong> Drag and drop your large PDF file into the upload zone.</li><li><strong>Instant Separation:</strong> The browser immediately begins duplicating every page into its own individual PDF file and zipping them together.</li><li><strong>Download Archive:</strong> Click the download button to save the \`.zip\` file to your computer.</li><li><strong>Extract:</strong> Open the \`.zip\` file on your device to access all your newly separated PDF pages.</li></ol>"
       },
       {
         title: "Practical uses",
@@ -51,7 +62,18 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: What format will my files download in?</strong><br>A: To ensure you receive all your split pages at once, they are packaged into a standard `.zip` archive. You will need to extract the ZIP file on your device to view the individual PDFs.</p><p><strong>Q: Will splitting the PDF affect the text quality or images?</strong><br>A: No. The split pages are exact digital clones of the pages in the original document. No compression or quality loss occurs.</p><p><strong>Q: Does this tool upload my document to the cloud?</strong><br>A: Never. The splitting and zipping happen entirely within the memory of your web browser.</p>"
+        content: `
+          <p><strong>Q: What format will my files download in?</strong><br>A: To ensure you receive all your split pages at once, they are packaged into a standard \`.zip\` archive. You will need to extract the ZIP file on your device to view the individual PDFs.</p>
+          <p><strong>Q: Will splitting the PDF affect the text quality or images?</strong><br>A: No. The split pages are exact digital clones of the pages in the original document. No compression or quality loss occurs.</p>
+          <p><strong>Q: Does this tool upload my document to the cloud?</strong><br>A: Never. The splitting and zipping happen entirely within the memory of your web browser.</p>
+          <p><strong>Q: How do I open a ZIP file?</strong><br>A: Most modern operating systems (Windows, macOS, iOS, Android) have built-in support for extracting ZIP files. Simply double-click or tap the file to access its contents.</p>
+          <p><strong>Q: Can I split the PDF by specific page ranges instead of single pages?</strong><br>A: Currently, this specific tool splits every single page into its own file. If you want to pull out a specific chunk (like pages 1-5), you should use our Extract Pages tool.</p>
+          <p><strong>Q: Is there a page limit for the PDF I can upload?</strong><br>A: The limit is purely based on your device's memory. Splitting a 500-page document might take a few moments and requires a modern computer, but it is entirely possible.</p>
+          <p><strong>Q: Will the tool rename the split files automatically?</strong><br>A: Yes, the files inside the ZIP archive will be sequentially numbered (e.g., page_1.pdf, page_2.pdf) to help you keep them organized.</p>
+          <p><strong>Q: Is it safe to split financial or medical records?</strong><br>A: Yes, because the tool works completely offline within your browser, your sensitive data is 100% secure.</p>
+          <p><strong>Q: Does it cost money to split large PDF documents?</strong><br>A: No, all the tools on our platform are completely free to use.</p>
+          <p><strong>Q: Will hyperlinks and text searchability remain intact on the split pages?</strong><br>A: Yes, any text that was searchable in the original document will remain fully searchable in the newly split single pages.</p>
+        `
       }
     ]
   },
@@ -79,7 +101,18 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Are the pages permanently deleted?</strong><br>A: They are permanently deleted from the <em>new</em> file you download. Your original file on your computer remains completely untouched and safe.</p><p><strong>Q: Can I remove multiple different ranges at once?</strong><br>A: Yes! You can type complex selections like '1, 3, 5-8, 12-15' and the tool will remove all of those specified pages simultaneously.</p><p><strong>Q: Is this secure for legal documents?</strong><br>A: Absolutely. The page removal happens locally on your device. The document is never sent to our servers, making it completely secure for HIPAA or NDA-protected materials.</p>"
+        content: `
+          <p><strong>Q: Are the pages permanently deleted from my computer?</strong><br>A: They are permanently deleted from the <em>new</em> file you download. Your original file on your computer remains completely untouched and safe.</p>
+          <p><strong>Q: Can I remove multiple different ranges at once?</strong><br>A: Yes! You can type complex selections like '1, 3, 5-8, 12-15' and the tool will remove all of those specified pages simultaneously.</p>
+          <p><strong>Q: Is this secure for legal documents?</strong><br>A: Absolutely. The page removal happens locally on your device. The document is never sent to our servers, making it completely secure for HIPAA or NDA-protected materials.</p>
+          <p><strong>Q: Can I remove the first and last page only?</strong><br>A: Yes. If your document is 10 pages long, you can just type '1, 10' to instantly remove only those two pages.</p>
+          <p><strong>Q: Will removing pages reduce the file size?</strong><br>A: Yes. If the pages you remove contain heavy images or graphics, the resulting downloaded PDF will be noticeably smaller in file size.</p>
+          <p><strong>Q: Do I need to be connected to the internet to remove pages?</strong><br>A: Once the tool loads in your browser, the processing relies on local scripts. You do not need a continuous internet connection to perform the deletion.</p>
+          <p><strong>Q: What happens if I type a page number that doesn't exist?</strong><br>A: The tool will safely ignore it. For example, if you type '50' for a 10-page document, it will just process the document normally without errors.</p>
+          <p><strong>Q: Can I use this tool to remove watermarks?</strong><br>A: No. This tool removes entire pages. It cannot edit or remove specific elements, like watermarks or logos, from within a page.</p>
+          <p><strong>Q: Will this affect the formatting of the remaining pages?</strong><br>A: Not at all. The internal layout of the remaining pages is perfectly preserved.</p>
+          <p><strong>Q: Does this tool add a watermark to my edited PDF?</strong><br>A: Never. Our tools are completely free and will never modify your documents with unwanted branding or watermarks.</p>
+        `
       }
     ]
   },
@@ -107,7 +140,18 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: What happens to the pages I don't select?</strong><br>A: They are simply ignored. The new PDF you download will only contain the pages you explicitly requested. Your original file on your computer remains unchanged.</p><p><strong>Q: Can I extract pages out of order?</strong><br>A: Currently, the tool extracts the pages and orders them sequentially based on their position in the original document.</p><p><strong>Q: Is there a file size limit?</strong><br>A: Because the extraction happens locally on your machine, there are no strict server limits. It simply depends on how much memory your current device has.</p>"
+        content: `
+          <p><strong>Q: What happens to the pages I don't select?</strong><br>A: They are simply ignored. The new PDF you download will only contain the pages you explicitly requested. Your original file on your computer remains unchanged.</p>
+          <p><strong>Q: Can I extract pages out of order?</strong><br>A: Currently, the tool extracts the pages and orders them sequentially based on their position in the original document.</p>
+          <p><strong>Q: Is there a file size limit for extraction?</strong><br>A: Because the extraction happens locally on your machine, there are no strict server limits. It simply depends on how much memory your current device has.</p>
+          <p><strong>Q: Can I extract just a single page?</strong><br>A: Yes! If you just type "12", it will create a new PDF containing only page 12 of the original document.</p>
+          <p><strong>Q: Is this process secure?</strong><br>A: Yes. All file processing happens entirely inside your browser. No files are uploaded to our servers, keeping your documents completely private.</p>
+          <p><strong>Q: Will the extracted pages lose their quality or become blurry?</strong><br>A: No, the pages are cloned exactly as they appear in the original document, preserving all vector data and image quality flawlessly.</p>
+          <p><strong>Q: Can I extract ranges and single pages at the same time?</strong><br>A: Yes, you can combine them. For example, typing "1, 3, 10-15" will extract pages 1, 3, and all pages from 10 to 15.</p>
+          <p><strong>Q: Does this tool cost money?</strong><br>A: No, all tools on ConverterForAll are completely free.</p>
+          <p><strong>Q: Can I use this tool on my smartphone?</strong><br>A: Absolutely. Our web interface is optimized for mobile browsers, allowing you to extract pages directly on your phone.</p>
+          <p><strong>Q: Will this remove password protection?</strong><br>A: No, if the original PDF is encrypted, you will need to unlock it first before our tool can read and extract the pages.</p>
+        `
       }
     ]
   },
@@ -135,7 +179,18 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Can I duplicate pages using this tool?</strong><br>A: Yes! If you type '1, 1, 1, 2, 3', the tool will copy page 1 three times before moving on to the rest of the document.</p><p><strong>Q: What happens if I leave a page number out of my sequence?</strong><br>A: If a page number is omitted from your custom order list, it will not be included in the final downloaded PDF. This means you can organize and remove pages simultaneously.</p><p><strong>Q: Does reordering pages break hyperlinks?</strong><br>A: Internal document links (like a table of contents) may become inaccurate if the destination page is moved, as standard PDFs link to a specific page index. External web links will continue to work perfectly.</p>"
+        content: `
+          <p><strong>Q: Can I duplicate pages using this tool?</strong><br>A: Yes! If you type '1, 1, 1, 2, 3', the tool will copy page 1 three times before moving on to the rest of the document.</p>
+          <p><strong>Q: What happens if I leave a page number out of my sequence?</strong><br>A: If a page number is omitted from your custom order list, it will not be included in the final downloaded PDF. This means you can organize and remove pages simultaneously.</p>
+          <p><strong>Q: Does reordering pages break hyperlinks?</strong><br>A: Internal document links (like a table of contents) may become inaccurate if the destination page is moved, as standard PDFs link to a specific page index. External web links will continue to work perfectly.</p>
+          <p><strong>Q: Is my data kept private?</strong><br>A: Yes. The restructuring occurs locally inside your web browser. We never upload or view your documents.</p>
+          <p><strong>Q: Can I reverse the order of the entire document?</strong><br>A: Yes. If your document has 20 pages, simply type "20-1" and it will instantly flip the entire document backwards.</p>
+          <p><strong>Q: Does this work on Mac and Windows?</strong><br>A: Yes, because it is web-based, it works flawlessly on macOS, Windows, Linux, and all mobile platforms.</p>
+          <p><strong>Q: Will my page numbers at the bottom of the page automatically update?</strong><br>A: No. The visual numbers printed on the pages are static text. The PDF structural page order will change, but the printed numbers will remain what they originally were.</p>
+          <p><strong>Q: Is there any limit to how many times I can reorganize a file?</strong><br>A: No limits whatsoever. You can use this tool completely free as many times as you like.</p>
+          <p><strong>Q: Can I use this tool to combine two different PDFs?</strong><br>A: No, this tool only reorganizes the pages of a single uploaded PDF. To combine two different files, use our Merge PDF tool.</p>
+          <p><strong>Q: Will organizing the pages degrade their quality?</strong><br>A: Not at all. The process is completely lossless, retaining original fonts, images, and formatting.</p>
+        `
       }
     ]
   },
@@ -163,7 +218,18 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Does this tool crop or enhance the document for me?</strong><br>A: Currently, the tool embeds the exact photograph you take. For best results, try to hold your camera parallel to the document and ensure good lighting before snapping the photo.</p><p><strong>Q: Can I use this on a desktop computer?</strong><br>A: Yes! If you are on a laptop or desktop with a webcam, clicking 'Take Photo' will activate your webcam so you can hold a document up to the lens.</p><p><strong>Q: Are my scanned documents uploaded to the internet?</strong><br>A: No. The camera capture and PDF generation happen 100% locally on your device. Your sensitive financial or legal documents are completely private.</p>"
+        content: `
+          <p><strong>Q: Does this tool crop or enhance the document for me?</strong><br>A: Currently, the tool embeds the exact photograph you take. For best results, try to hold your camera parallel to the document and ensure good lighting before snapping the photo.</p>
+          <p><strong>Q: Can I use this on a desktop computer?</strong><br>A: Yes! If you are on a laptop or desktop with a webcam, clicking 'Take Photo' will activate your webcam so you can hold a document up to the lens.</p>
+          <p><strong>Q: Are my scanned documents uploaded to the internet?</strong><br>A: No. The camera capture and PDF generation happen 100% locally on your device. Your sensitive financial or legal documents are completely private.</p>
+          <p><strong>Q: Can I scan multiple pages into one PDF?</strong><br>A: Currently, this tool focuses on quick, single-page captures. For multi-page PDFs, you can scan them individually and then use our Merge PDF tool.</p>
+          <p><strong>Q: Do I need to download an app to use this?</strong><br>A: No! That is the beauty of this tool. It runs entirely within your mobile device's web browser, saving you from downloading bulky scanner apps.</p>
+          <p><strong>Q: Is the final PDF in color or black and white?</strong><br>A: The tool preserves the full color of the photograph you take. If you want a black and white document, you can apply a filter in your camera app before taking the photo.</p>
+          <p><strong>Q: What if the photo turns out blurry?</strong><br>A: You can simply discard the generated PDF and click 'Take Photo' again to try for a clearer shot.</p>
+          <p><strong>Q: Is there a cost to use the scanner?</strong><br>A: No, our Scan to PDF tool is completely free.</p>
+          <p><strong>Q: Will it capture the background behind the document?</strong><br>A: Yes, whatever is visible in the camera viewfinder will be embedded into the PDF. We recommend placing your document on a contrasting background and filling the frame.</p>
+          <p><strong>Q: Can I extract text from the scanned PDF?</strong><br>A: The resulting file is an image-based PDF. To make the text selectable and searchable, you can run the generated file through our OCR PDF tool.</p>
+        `
       }
     ]
   }

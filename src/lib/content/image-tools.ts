@@ -23,7 +23,18 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Does converting from WEBP to PNG reduce image quality?</strong><br>A: No. PNG is a lossless format, meaning our converter preserves 100% of the pixel data, colors, and transparency from your original WEBP image without introducing any new compression artifacts.</p><p><strong>Q: Will my file size increase?</strong><br>A: Generally, yes. Because WEBP uses highly advanced compression algorithms, converting it to a standard PNG will typically result in a larger file size. The exact increase depends on the complexity of the image.</p><p><strong>Q: Is my data private?</strong><br>A: Absolutely. Our tool processes the image entirely within your local browser. Your files are never transmitted to our servers.</p>"
+        content: `
+          <p><strong>Q: Does converting from WEBP to PNG reduce image quality?</strong><br>A: No. PNG is a lossless format, meaning our converter preserves 100% of the pixel data, colors, and transparency from your original WEBP image without introducing any new compression artifacts.</p>
+          <p><strong>Q: Will my file size increase when converting WEBP to PNG?</strong><br>A: Generally, yes. Because WEBP uses highly advanced compression algorithms, converting it to a standard PNG will typically result in a larger file size. The exact increase depends on the complexity of the image.</p>
+          <p><strong>Q: Is my data private when using this WEBP converter?</strong><br>A: Absolutely. Our tool processes the image entirely within your local browser. Your files are never transmitted to our servers.</p>
+          <p><strong>Q: Can I convert animated WEBP files to animated PNGs (APNG)?</strong><br>A: Currently, this tool extracts the first frame of an animated WEBP and converts it into a static PNG file.</p>
+          <p><strong>Q: Does the converter preserve image transparency?</strong><br>A: Yes! Both WEBP and PNG formats fully support alpha channels (transparency). Your transparent backgrounds will be perfectly preserved.</p>
+          <p><strong>Q: Do I need to install any software to convert WEBP to PNG?</strong><br>A: No software installation is required. This tool runs 100% in your web browser (Chrome, Firefox, Safari, Edge).</p>
+          <p><strong>Q: Is there a file size limit for uploading WEBP images?</strong><br>A: Because the conversion happens locally on your device, the only limit is your device's available memory (RAM). There are no strict server-side upload limits.</p>
+          <p><strong>Q: Can I use this WEBP to PNG converter on my smartphone?</strong><br>A: Yes! The tool is fully responsive and works perfectly on mobile browsers for both iOS and Android devices.</p>
+          <p><strong>Q: Why do some websites use WEBP instead of PNG?</strong><br>A: WEBP provides superior compression, allowing websites to load faster and use less bandwidth while maintaining high image quality.</p>
+          <p><strong>Q: How long does it take to convert a WEBP to PNG?</strong><br>A: Because the conversion happens locally without requiring an internet upload, it is typically instantaneous—often taking less than a second.</p>
+        `
       }
     ]
   },
@@ -51,7 +62,18 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Will converting a JPG to a PNG magically add transparency?</strong><br>A: No. Converting the format simply enables the file to <em>support</em> transparency. You will still need to use a background removal tool or photo editor to actually make parts of the image transparent.</p><p><strong>Q: Why did my file size get so much bigger?</strong><br>A: JPG uses lossy compression to keep file sizes very small. PNG uses lossless compression, which retains exact pixel data. Because photographs contain millions of unique colors and details, saving them as lossless PNGs results in significantly larger files.</p><p><strong>Q: Can I batch convert multiple files?</strong><br>A: Currently, our tool processes one file at a time to ensure maximum stability and zero browser crashing on lower-end devices.</p>"
+        content: `
+          <p><strong>Q: Will converting a JPG to a PNG magically add transparency?</strong><br>A: No. Converting the format simply enables the file to <em>support</em> transparency. You will still need to use a background removal tool or photo editor to actually make parts of the image transparent.</p>
+          <p><strong>Q: Why did my file size get so much bigger after converting JPG to PNG?</strong><br>A: JPG uses lossy compression to keep file sizes very small. PNG uses lossless compression, which retains exact pixel data. Because photographs contain millions of unique colors, saving them as lossless PNGs results in significantly larger files.</p>
+          <p><strong>Q: Can I batch convert multiple JPG files to PNG?</strong><br>A: Currently, our tool processes one file at a time to ensure maximum stability and zero browser crashing on lower-end devices.</p>
+          <p><strong>Q: Does converting to PNG improve the visual quality of my JPG?</strong><br>A: No. Converting to PNG will freeze the current quality and prevent future degradation, but it cannot magically restore lost detail or remove existing JPG compression artifacts.</p>
+          <p><strong>Q: Is this JPG to PNG converter safe for private photos?</strong><br>A: 100% safe. The conversion process happens entirely within your web browser. Your photos are never uploaded or stored on external servers.</p>
+          <p><strong>Q: Can I use this tool offline?</strong><br>A: Once the web page is loaded in your browser, the conversion mechanism functions locally, which means it technically does not require an active internet connection to process the file.</p>
+          <p><strong>Q: What is the difference between JPG and JPEG?</strong><br>A: There is no difference in the image format itself. ".jpg" and ".jpeg" are simply two different file extensions for the exact same Joint Photographic Experts Group format.</p>
+          <p><strong>Q: Are PNG files better for printing than JPG files?</strong><br>A: For standard photographs, JPG is usually fine. However, if your image contains sharp lines, text, or vector graphics, the lossless nature of PNG often prints with crisper edges.</p>
+          <p><strong>Q: Do PNG files support EXIF data (camera metadata)?</strong><br>A: While PNG can technically store some metadata, standard conversion usually strips out complex EXIF data (like GPS locations) that are natively embedded in JPGs from digital cameras.</p>
+          <p><strong>Q: Is PNG supported by all web browsers?</strong><br>A: Yes, PNG is a universal image standard supported by virtually every web browser, operating system, and image viewing software in existence.</p>
+        `
       }
     ]
   },
@@ -79,7 +101,18 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: What happens to the transparent parts of my PNG?</strong><br>A: Because the JPG format mathematically cannot support transparency, any transparent areas in your PNG will be filled with a solid white background during the conversion process.</p><p><strong>Q: Will I lose image quality?</strong><br>A: JPG uses lossy compression, meaning some data is discarded to reduce file size. However, for photographs and complex images, this loss is usually imperceptible. For flat graphics with sharp text, you might notice minor artifacting around the edges.</p><p><strong>Q: Is it safe to convert private photos?</strong><br>A: Yes. 100% of the conversion process occurs locally in your browser. Your photos are completely secure and are never uploaded to the internet.</p>"
+        content: `
+          <p><strong>Q: What happens to the transparent parts of my PNG when converting to JPG?</strong><br>A: Because the JPG format mathematically cannot support transparency, any transparent areas in your PNG will automatically be filled with a solid white background during the conversion process.</p>
+          <p><strong>Q: Will I lose image quality when converting PNG to JPG?</strong><br>A: JPG uses lossy compression, meaning some data is discarded to reduce file size. However, for photographs and complex images, this loss is usually imperceptible. For flat graphics with sharp text, you might notice minor artifacting.</p>
+          <p><strong>Q: Is it safe to convert private photos?</strong><br>A: Yes. 100% of the conversion process occurs locally in your browser. Your photos are completely secure and are never uploaded to the internet.</p>
+          <p><strong>Q: How much smaller will the JPG file be compared to the PNG?</strong><br>A: The file size reduction can be massive, often between 50% and 90% depending on how complex the colors and details are in the original PNG image.</p>
+          <p><strong>Q: Can I reverse the process to restore my original PNG?</strong><br>A: Once you convert to a JPG, the compression is permanent. Converting the JPG back to a PNG will not restore the lost detail or transparency.</p>
+          <p><strong>Q: Why do screenshots save as PNG on Mac but JPG on some PCs?</strong><br>A: MacOS defaults to saving screenshots as lossless PNGs to capture crisp interface text. Windows often defaults to JPG to save space. Our tool lets you bridge that gap effortlessly.</p>
+          <p><strong>Q: Is there any cost to use this PNG to JPG converter?</strong><br>A: No, our converter is completely free to use without any hidden fees or watermarks.</p>
+          <p><strong>Q: Does this tool work on mobile devices?</strong><br>A: Absolutely. It runs flawlessly on Safari for iOS and Chrome for Android, allowing you to optimize photos on the go.</p>
+          <p><strong>Q: Are JPG and JPEG the same thing?</strong><br>A: Yes. They are exactly the same format. The three-letter '.jpg' extension exists due to character limits on older Windows operating systems.</p>
+          <p><strong>Q: Why does my text look slightly blurry in the new JPG?</strong><br>A: The JPG compression algorithm is designed for smooth gradients in photographs, not sharp contrasting lines like text. This can cause minor edge blurring, known as compression artifacts.</p>
+        `
       }
     ]
   },
@@ -107,7 +140,18 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Why would I convert from a newer format to an older one?</strong><br>A: Purely for compatibility. AVIF is vastly superior in efficiency, but if the software or platform you need to use doesn't support it yet, converting to JPEG is the only way to utilize the image.</p><p><strong>Q: Will the file size increase?</strong><br>A: Yes, it is highly likely. AVIF is significantly more efficient than JPEG. When you convert back to the older standard, the file size will expand because JPEG requires more data to represent the same visual quality.</p><p><strong>Q: Do I need to install plugins?</strong><br>A: No. As long as you are using a modern, updated web browser (like Chrome, Firefox, or Edge) that supports AVIF decoding, the tool will work natively.</p>"
+        content: `
+          <p><strong>Q: Why would I convert from AVIF to JPEG?</strong><br>A: Purely for compatibility. AVIF is vastly superior in efficiency, but if the software or platform you need to use doesn't support it yet, converting to JPEG is the only way to utilize the image.</p>
+          <p><strong>Q: Will the file size increase when converting AVIF to JPEG?</strong><br>A: Yes, it is highly likely. AVIF is significantly more efficient than JPEG. When you convert back to the older standard, the file size will expand because JPEG requires more data to represent the same visual quality.</p>
+          <p><strong>Q: Do I need to install plugins to convert AVIF files?</strong><br>A: No. As long as you are using a modern, updated web browser (like Chrome, Firefox, or Edge) that supports AVIF decoding, the tool will work natively without plugins.</p>
+          <p><strong>Q: Does AVIF support transparency, and what happens to it in JPEG?</strong><br>A: Yes, AVIF supports transparency. However, because JPEG does not, any transparent background in your AVIF will be filled with solid white during the conversion.</p>
+          <p><strong>Q: Is this AVIF converter private?</strong><br>A: Completely private. The AVIF image is decoded and encoded entirely within your browser's local memory. We do not store or transmit your photos.</p>
+          <p><strong>Q: Why did my smartphone save my photo as an AVIF?</strong><br>A: Many modern smartphones and operating systems are adopting AVIF as the default format to save massive amounts of storage space without sacrificing camera quality.</p>
+          <p><strong>Q: Can I use this tool on a Mac?</strong><br>A: Yes, this web-based converter works on macOS, Windows, Linux, and all mobile operating systems.</p>
+          <p><strong>Q: What does AVIF stand for?</strong><br>A: It stands for AV1 Image File Format, which is based on the highly efficient AV1 open-source video codec.</p>
+          <p><strong>Q: How long does the AVIF conversion take?</strong><br>A: Because the process relies on your device's local CPU, it usually takes only a fraction of a second, with no wait times for server uploading.</p>
+          <p><strong>Q: Is there any cost associated with this tool?</strong><br>A: No, our AVIF to JPEG converter is 100% free with no usage limits.</p>
+        `
       }
     ]
   },
@@ -135,7 +179,18 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Will my image lose quality during conversion?</strong><br>A: No. PNG is a lossless format. Our converter extracts the exact pixel data from the AVIF and saves it as a PNG, ensuring absolutely zero generation loss or degradation.</p><p><strong>Q: Will it preserve the transparent background?</strong><br>A: Yes! Unlike converting to a JPEG, converting an AVIF to a PNG perfectly preserves the alpha channel, meaning your transparent backgrounds will remain fully transparent.</p><p><strong>Q: Why is the new PNG file so much larger?</strong><br>A: AVIF uses incredibly advanced, modern compression. PNG is an older, lossless format. Consequently, the PNG file requires significantly more data to store the exact same image.</p>"
+        content: `
+          <p><strong>Q: Will my image lose quality during AVIF to PNG conversion?</strong><br>A: No. PNG is a lossless format. Our converter extracts the exact pixel data from the AVIF and saves it as a PNG, ensuring absolutely zero generation loss or degradation.</p>
+          <p><strong>Q: Will the converter preserve my transparent background?</strong><br>A: Yes! Unlike converting to a JPEG, converting an AVIF to a PNG perfectly preserves the alpha channel, meaning your transparent backgrounds will remain fully transparent.</p>
+          <p><strong>Q: Why is the new PNG file so much larger than the AVIF?</strong><br>A: AVIF uses incredibly advanced, modern lossy compression algorithms. PNG is an older, lossless format. Consequently, the PNG file requires significantly more data to store the exact same image detail.</p>
+          <p><strong>Q: Is it safe to process confidential designs with this tool?</strong><br>A: Completely. The conversion takes place exclusively on your local device. Your files are never uploaded to a server, guaranteeing 100% privacy.</p>
+          <p><strong>Q: Do I need a specific browser to convert AVIF files?</strong><br>A: You need a modern browser that natively supports AVIF decoding, such as recent versions of Google Chrome, Mozilla Firefox, or Microsoft Edge.</p>
+          <p><strong>Q: Can I use this AVIF converter on a mobile phone?</strong><br>A: Yes, as long as your mobile browser is up-to-date and supports AVIF decoding natively.</p>
+          <p><strong>Q: Does AVIF to PNG conversion take a long time?</strong><br>A: Not at all. Because it avoids server uploads and downloads, the local processing usually takes less than a second.</p>
+          <p><strong>Q: Will this remove HDR data from the AVIF?</strong><br>A: Yes, standard PNG formats do not support the advanced High Dynamic Range (HDR) color profiles found in some AVIF files, so the colors will be tonemapped to standard RGB space.</p>
+          <p><strong>Q: Can I convert an animated AVIF to an animated PNG?</strong><br>A: Currently, this tool will extract and convert only the first frame of an animated AVIF sequence.</p>
+          <p><strong>Q: Are there any watermarks added to the downloaded PNG?</strong><br>A: None at all. Our tool provides clean, watermark-free conversions entirely for free.</p>
+        `
       }
     ]
   },
@@ -163,7 +218,18 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Are my personal photos kept private?</strong><br>A: Yes, 100%. We use client-side technology to process the image directly on your computer or phone. Your personal photos never leave your device and are never stored on our servers.</p><p><strong>Q: Will my photos lose their Live Photo animation?</strong><br>A: Yes. The JPG format only supports static images. The conversion process extracts the primary, high-quality still frame from the HEIC container and discards the attached video data.</p><p><strong>Q: Will my photo metadata (EXIF data) be preserved?</strong><br>A: Currently, standard client-side conversion may strip some advanced EXIF data (like specific GPS tags) during the rendering process, resulting in a cleaner, standard image file.</p>"
+        content: `
+          <p><strong>Q: Are my personal photos kept private during HEIC conversion?</strong><br>A: Yes, 100%. We use client-side technology to process the image directly on your computer or phone. Your personal photos never leave your device and are never stored on our servers.</p>
+          <p><strong>Q: Will my iPhone photos lose their Live Photo animation?</strong><br>A: Yes. The JPG format only supports static images. The conversion process extracts the primary, high-quality still frame from the HEIC container and discards the attached video data.</p>
+          <p><strong>Q: Will my photo metadata (EXIF data) be preserved?</strong><br>A: Currently, standard client-side conversion may strip some advanced EXIF data (like specific GPS tags) during the rendering process, resulting in a cleaner, standard image file.</p>
+          <p><strong>Q: Why does my iPhone save photos as HEIC instead of JPG?</strong><br>A: Apple adopted HEIC because it provides superior image quality while taking up about half the storage space of a traditional JPG, allowing you to store far more photos on your device.</p>
+          <p><strong>Q: Does this tool work on Windows computers?</strong><br>A: Absolutely! This tool is entirely web-based, meaning it will run perfectly in Chrome, Edge, or Firefox on any Windows computer.</p>
+          <p><strong>Q: Can I convert HEIC to JPG on an Android phone?</strong><br>A: Yes, you can use your Android's web browser to navigate to our tool and convert HEIC files sent to you by iPhone users.</p>
+          <p><strong>Q: Will the file size change after conversion?</strong><br>A: Yes, the resulting JPG file will likely be larger than the original HEIC file because the older JPG format is less efficient at compressing image data.</p>
+          <p><strong>Q: Do I need to install any apps or software?</strong><br>A: No. Our converter utilizes WebAssembly technology to perform the conversion directly within your existing web browser.</p>
+          <p><strong>Q: Are there any watermarks placed on the new JPG image?</strong><br>A: No. We never modify the visual content of your photos or add any watermarks.</p>
+          <p><strong>Q: How long does the HEIC decoding process take?</strong><br>A: It usually takes between 1 to 3 seconds per image depending on the processing power of your specific device.</p>
+        `
       }
     ]
   }

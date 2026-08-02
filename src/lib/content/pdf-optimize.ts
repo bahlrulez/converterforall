@@ -23,7 +23,18 @@ export const pdfOptimizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Will compressing the PDF make the text blurry?</strong><br>A: No. Standard PDF text and vector graphics are mathematically infinitely scalable and are not affected by compression. Only raster images (like photos or scans) within the PDF may experience a reduction in visual quality.</p><p><strong>Q: Is it safe to compress confidential financial reports?</strong><br>A: Absolutely. Our tool processes the heavy compression algorithms entirely on your local device. Your sensitive financial data is never sent to the cloud.</p><p><strong>Q: Can I compress a PDF that is already compressed?</strong><br>A: You can try, but you will likely see diminishing returns. If a PDF has already been heavily optimized, running it through the tool again may only reduce the file size by a few kilobytes.</p>"
+        content: `
+          <p><strong>Q: Will compressing the PDF make the text blurry?</strong><br>A: No. Standard PDF text and vector graphics are mathematically infinitely scalable and are not affected by compression. Only raster images (like photos or scans) within the PDF may experience a reduction in visual quality.</p>
+          <p><strong>Q: Is it safe to compress confidential financial reports?</strong><br>A: Absolutely. Our tool processes the heavy compression algorithms entirely on your local device. Your sensitive financial data is never sent to the cloud.</p>
+          <p><strong>Q: Can I compress a PDF that is already compressed?</strong><br>A: You can try, but you will likely see diminishing returns. If a PDF has already been heavily optimized, running it through the tool again may only reduce the file size by a few kilobytes.</p>
+          <p><strong>Q: How much smaller will my PDF become?</strong><br>A: This heavily depends on the contents. A PDF filled with uncompressed high-resolution images can often be reduced by 80-90%. A text-only PDF might only shrink by 5-10%.</p>
+          <p><strong>Q: What is the difference between 'Recommended' and 'Extreme' compression?</strong><br>A: 'Recommended' finds the sweet spot between lowering file size and maintaining image quality. 'Extreme' applies aggressive compression and downsampling to images, which shrinks the file drastically but can make images appear pixelated.</p>
+          <p><strong>Q: Do I need internet access to compress files?</strong><br>A: Once you have loaded the tool in your web browser, the compression engine runs locally via WebAssembly, so you don't need a continuous internet connection to process files.</p>
+          <p><strong>Q: Will compression remove my bookmarks or hyperlinks?</strong><br>A: Standard compression levels maintain the structural integrity of your document, including internal bookmarks and hyperlinks.</p>
+          <p><strong>Q: Does compressing a PDF remove its password protection?</strong><br>A: No, if a PDF is encrypted, you must provide the password to open it before our tool can compress it.</p>
+          <p><strong>Q: Are there any hidden costs?</strong><br>A: No, our Compress PDF tool is 100% free with no hidden fees or limitations.</p>
+          <p><strong>Q: Can I use this on my mobile phone?</strong><br>A: Yes! It works perfectly on both iOS and Android browsers, allowing you to shrink large PDFs directly from your phone before emailing them.</p>
+        `
       }
     ]
   },
@@ -51,7 +62,18 @@ export const pdfOptimizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Will this guarantee a 100% perfect recovery?</strong><br>A: Unfortunately, no. If critical data streams were completely destroyed or overwritten, they cannot be magically brought back. The tool recovers whatever structural data is still readable within the file.</p><p><strong>Q: Why does the repaired file look slightly different?</strong><br>A: Because the original structural formatting may have been lost, the repair engine has to make best-guess approximations to rebuild the document. This can sometimes result in shifted layouts or missing images.</p><p><strong>Q: Does this tool upload my broken file to a server for analysis?</strong><br>A: No. The deep diagnostic scanning and recovery process happens entirely within your web browser, ensuring your data remains private.</p>"
+        content: `
+          <p><strong>Q: Will this guarantee a 100% perfect recovery?</strong><br>A: Unfortunately, no. If critical data streams were completely destroyed or overwritten, they cannot be magically brought back. The tool recovers whatever structural data is still readable within the file.</p>
+          <p><strong>Q: Why does the repaired file look slightly different?</strong><br>A: Because the original structural formatting may have been lost, the repair engine has to make best-guess approximations to rebuild the document. This can sometimes result in shifted layouts or missing images.</p>
+          <p><strong>Q: Does this tool upload my broken file to a server for analysis?</strong><br>A: No. The deep diagnostic scanning and recovery process happens entirely within your web browser, ensuring your data remains private.</p>
+          <p><strong>Q: Can it repair a zero-byte PDF file?</strong><br>A: No. A file that is exactly zero bytes contains absolutely no data to salvage. The file must contain at least some binary data.</p>
+          <p><strong>Q: Will this recover a forgotten password?</strong><br>A: No. Repairing a file focuses on fixing corrupted data structures, not cracking encryption. If a healthy file is password protected, this tool cannot bypass it.</p>
+          <p><strong>Q: Does it cost money to repair a file?</strong><br>A: No, our Repair PDF utility is completely free to use.</p>
+          <p><strong>Q: How long does the repair process take?</strong><br>A: It usually takes only a few seconds, though very large, heavily corrupted files might take up to a minute for the browser to fully scan.</p>
+          <p><strong>Q: Can I use this on a Mac or Linux machine?</strong><br>A: Yes, because it runs inside your web browser, it is fully compatible with Windows, macOS, Linux, and mobile operating systems.</p>
+          <p><strong>Q: Will repairing a PDF reduce its file size?</strong><br>A: Often, yes. By stripping out corrupted, unreadable data streams and rebuilding the cross-reference table, the resulting file is usually leaner.</p>
+          <p><strong>Q: Is it safe to try repairing the same file twice?</strong><br>A: You can try, but if the tool extracted everything it could the first time, running it again is unlikely to yield different results.</p>
+        `
       }
     ]
   },
@@ -79,7 +101,18 @@ export const pdfOptimizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Is the OCR 100% accurate?</strong><br>A: OCR accuracy depends heavily on the quality of the original scan. Crisp, well-lit scans of modern typed fonts yield near 100% accuracy. Blurry, skewed, or handwritten text will produce more errors.</p><p><strong>Q: Will the tool alter the look of my original document?</strong><br>A: No. The visible layout, signatures, and images of your document remain exactly as they were. The OCR engine simply places an invisible, selectable text layer directly on top of the image.</p><p><strong>Q: Is this safe for highly confidential medical records?</strong><br>A: Yes. The neural network analysis happens entirely on your local machine. Your sensitive documents are never transmitted over the internet.</p>"
+        content: `
+          <p><strong>Q: Is the OCR 100% accurate?</strong><br>A: OCR accuracy depends heavily on the quality of the original scan. Crisp, well-lit scans of modern typed fonts yield near 100% accuracy. Blurry, skewed, or handwritten text will produce more errors.</p>
+          <p><strong>Q: Will the tool alter the look of my original document?</strong><br>A: No. The visible layout, signatures, and images of your document remain exactly as they were. The OCR engine simply places an invisible, selectable text layer directly on top of the image.</p>
+          <p><strong>Q: Is this safe for highly confidential medical records?</strong><br>A: Yes. The neural network analysis happens entirely on your local machine. Your sensitive documents are never transmitted over the internet.</p>
+          <p><strong>Q: How long does OCR processing take?</strong><br>A: OCR is a heavy computational task. It may take several seconds per page depending on the speed of your computer's processor.</p>
+          <p><strong>Q: Does this tool recognize handwritten text?</strong><br>A: The current OCR engine is optimized for printed fonts (like books and printed documents). Handwritten text is extremely difficult to parse and will likely produce low accuracy.</p>
+          <p><strong>Q: Can I extract the text into a Word document?</strong><br>A: This tool generates a searchable PDF. You can easily highlight and copy the text from the resulting PDF and paste it into Word, or use a PDF-to-Word converter afterward.</p>
+          <p><strong>Q: Does the tool support languages other than English?</strong><br>A: Yes! Modern OCR engines support dozens of international languages and characters, including Spanish, French, German, and more.</p>
+          <p><strong>Q: Will this increase my file size?</strong><br>A: Usually, adding a hidden text layer only slightly increases the file size. However, some re-encoding of the images may occur, which could alter the size.</p>
+          <p><strong>Q: Do I need a fast internet connection for this?</strong><br>A: You only need the internet to load the webpage and the OCR language models. The actual scanning process runs offline in your browser.</p>
+          <p><strong>Q: Is the OCR tool free to use?</strong><br>A: Yes, despite being an advanced feature, our OCR tool is completely free with no usage caps.</p>
+        `
       }
     ]
   }

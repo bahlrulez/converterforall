@@ -38,7 +38,18 @@ export const toolContent: Record<string, { sections: { title: string, content: s
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Is my data safe?</strong><br>A: Absolutely. All processing happens locally in your web browser. Your images are never uploaded to our servers.</p><p><strong>Q: What is the maximum file size?</strong><br>A: Since processing is local, the file size is only limited by your device's available memory. However, we recommend images under 20MB for optimal performance.</p><p><strong>Q: Why is the output always a PNG?</strong><br>A: PNG is the standard web format that supports an alpha channel (transparency). If we outputted a JPG, the transparent areas would automatically be filled with white.</p><p><strong>Q: Does it work on mobile?</strong><br>A: Yes, our tool is fully responsive and uses optimized models that run smoothly on modern smartphones.</p>"
+        content: `
+          <p><strong>Q: Is my data safe when using this background remover?</strong><br>A: Absolutely. All processing happens locally in your web browser. Your images are never uploaded to our servers.</p>
+          <p><strong>Q: What is the maximum file size I can upload?</strong><br>A: Since processing is local, the file size is only limited by your device's available memory. However, we recommend images under 20MB for optimal performance.</p>
+          <p><strong>Q: Why is the output always a PNG?</strong><br>A: PNG is the standard web format that supports an alpha channel (transparency). If we outputted a JPG, the transparent areas would automatically be filled with white.</p>
+          <p><strong>Q: Does this tool work on mobile devices?</strong><br>A: Yes, our tool is fully responsive and uses optimized models that run smoothly on modern smartphones.</p>
+          <p><strong>Q: Will this tool work on non-human subjects like cars or pets?</strong><br>A: Yes! Our advanced AI model is trained to recognize a wide variety of foreground subjects, including animals, products, vehicles, and furniture.</p>
+          <p><strong>Q: Does it cost money to use this AI?</strong><br>A: No, our background removal tool is 100% free with no hidden fees or daily limits.</p>
+          <p><strong>Q: Do I need to manually draw lines around the subject?</strong><br>A: Not at all. The AI automatically detects the subject and creates the mask without any manual intervention.</p>
+          <p><strong>Q: What if the AI misses a spot?</strong><br>A: Our AI is highly accurate, but it can occasionally miss complex areas (like thin strands of hair against a matching background). Currently, the tool offers a fully automatic mode, so you may need a manual editor for minor touch-ups.</p>
+          <p><strong>Q: Will the tool decrease the resolution of my photo?</strong><br>A: The tool aims to preserve your original resolution. However, extremely high-resolution images (like 4K RAW photos) may be slightly downscaled internally to prevent your browser from crashing during the AI processing.</p>
+          <p><strong>Q: Can I use the generated images for commercial purposes?</strong><br>A: Yes, you retain full rights to the images you process, meaning you can freely use them for commercial e-commerce stores or client designs.</p>
+        `
       }
     ]
   },
@@ -70,10 +81,20 @@ export const toolContent: Record<string, { sections: { title: string, content: s
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Are my confidential documents secure?</strong><br>A: Yes. Because this tool utilizes client-side rendering architecture, your document is processed entirely in your device's memory. It is never transmitted across the internet to our servers.</p><p><strong>Q: Does it support older .doc files?</strong><br>A: Currently, our client-side engine is optimized for the modern .docx (Office Open XML) format. For legacy binary .doc files, you may need to open them in Word and save them as .docx first.</p><p><strong>Q: Will hyperlinks in my Word document work in the PDF?</strong><br>A: Yes, standard text hyperlinks are preserved and will be clickable in the resulting PDF document.</p>"
+        content: `
+          <p><strong>Q: Are my confidential documents secure?</strong><br>A: Yes. Because this tool utilizes client-side rendering architecture, your document is processed entirely in your device's memory. It is never transmitted across the internet to our servers.</p>
+          <p><strong>Q: Does it support older .doc files?</strong><br>A: Currently, our client-side engine is optimized for the modern .docx (Office Open XML) format. For legacy binary .doc files, you may need to open them in Word and save them as .docx first.</p>
+          <p><strong>Q: Will hyperlinks in my Word document work in the PDF?</strong><br>A: Yes, standard text hyperlinks are preserved and will be clickable in the resulting PDF document.</p>
+          <p><strong>Q: Will this convert my images embedded in the Word document?</strong><br>A: Yes, any images, charts, and logos placed within your Word document will be accurately rendered into the PDF.</p>
+          <p><strong>Q: Does this tool require Microsoft Word to be installed?</strong><br>A: No, it works entirely independently of Microsoft Office, making it perfect for Chrome OS or mobile devices.</p>
+          <p><strong>Q: Why does the PDF formatting look slightly different than my Word screen?</strong><br>A: The client-side parser rebuilds the document layout from scratch. Highly complex layouts (like nested tables or layered floating images) might shift slightly compared to Microsoft's proprietary rendering engine.</p>
+          <p><strong>Q: Is there a page limit for the Word document?</strong><br>A: There is no hard limit, but extremely large documents (500+ pages) might cause the browser to slow down or run out of memory during conversion.</p>
+          <p><strong>Q: Can I edit the PDF after it's converted?</strong><br>A: PDFs are 'flat' documents designed for viewing and printing. To edit the text again, you would need to use the original Word file or specialized PDF editing software.</p>
+          <p><strong>Q: Does this converter cost money?</strong><br>A: No, our Word to PDF tool is completely free with no daily limits or watermarks.</p>
+          <p><strong>Q: Will headers and footers be preserved?</strong><br>A: Yes, standard headers, footers, and page numbers will be carried over into the final PDF.</p>
+        `
       }
-    ]
-  }
+    }
 };
 
 // Fallback generator for tools that haven't been manually written yet

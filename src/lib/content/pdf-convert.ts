@@ -23,7 +23,18 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Can I combine multiple JPGs into one PDF?</strong><br>A: Yes! If you upload multiple JPGs simultaneously, our tool will automatically embed each image onto its own consecutive page within a single PDF document.</p><p><strong>Q: Will my photos lose quality?</strong><br>A: No. The converter embeds the exact image data into the PDF container without applying any additional lossy compression.</p><p><strong>Q: Is this safe for converting photos of my ID or passport?</strong><br>A: Absolutely. The conversion happens entirely locally on your device. Your sensitive images are never transmitted over the internet.</p>"
+        content: `
+          <p><strong>Q: Can I combine multiple JPGs into one PDF?</strong><br>A: Yes! If you upload multiple JPGs simultaneously, our tool will automatically embed each image onto its own consecutive page within a single PDF document.</p>
+          <p><strong>Q: Will my photos lose quality during conversion?</strong><br>A: No. The converter embeds the exact image data into the PDF container without applying any additional lossy compression.</p>
+          <p><strong>Q: Is this safe for converting photos of my ID or passport?</strong><br>A: Absolutely. The conversion happens entirely locally on your device. Your sensitive images are never transmitted over the internet.</p>
+          <p><strong>Q: Can I upload PNG files as well as JPGs?</strong><br>A: Yes, our tool accepts all standard web image formats, including JPG, JPEG, PNG, and WEBP.</p>
+          <p><strong>Q: How do I change the order of the images?</strong><br>A: Before clicking the convert button, make sure you upload the images in the exact sequence you want them to appear, or drag and drop them to reorganize.</p>
+          <p><strong>Q: Does this tool work on my iPhone or Android?</strong><br>A: Yes! You can easily select photos directly from your smartphone's camera roll and convert them to a PDF instantly on our website.</p>
+          <p><strong>Q: Will the PDF have white margins around my photos?</strong><br>A: Generally, the tool attempts to fit the image to standard page sizes. Depending on the aspect ratio of your photo, there may be slight margins to prevent the image from stretching.</p>
+          <p><strong>Q: Can I add text to the PDF?</strong><br>A: This tool focuses strictly on embedding images. If you need to add text, you will need a dedicated PDF editor after conversion.</p>
+          <p><strong>Q: Are there any file size limits?</strong><br>A: Since processing happens locally, the only limit is the memory capacity of your device.</p>
+          <p><strong>Q: Do I need to pay to convert multiple images?</strong><br>A: No, our service is entirely free and you can convert as many batches of images as you need.</p>
+        `
       }
     ]
   },
@@ -51,7 +62,18 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Will my slide animations and transitions work in the PDF?</strong><br>A: No. The PDF format is designed for static documents. All animations, video embeds, and slide transitions will be flattened into a static image representing the final state of each slide.</p><p><strong>Q: What happens if I used a custom font?</strong><br>A: The client-side engine will attempt to use the closest available system font to render the text if the original font cannot be directly embedded. For absolute perfection, it is recommended to embed fonts within PowerPoint before saving.</p><p><strong>Q: Is this safe for confidential company data?</strong><br>A: Yes. Your presentation is processed entirely on your local device. It is never uploaded to the cloud.</p>"
+        content: `
+          <p><strong>Q: Will my slide animations and transitions work in the PDF?</strong><br>A: No. The PDF format is designed for static documents. All animations, video embeds, and slide transitions will be flattened into a static image representing the final state of each slide.</p>
+          <p><strong>Q: What happens if I used a custom font?</strong><br>A: The client-side engine will attempt to use the closest available system font to render the text if the original font cannot be directly embedded. For absolute perfection, it is recommended to embed fonts within PowerPoint before saving.</p>
+          <p><strong>Q: Is this safe for confidential company pitch decks?</strong><br>A: Yes. Your presentation is processed entirely on your local device. It is never uploaded to the cloud, ensuring total privacy.</p>
+          <p><strong>Q: Can it convert older .ppt files?</strong><br>A: Our client-side engine is optimized for the modern .pptx (XML-based) format. For older binary .ppt files, we recommend saving them as .pptx in PowerPoint first.</p>
+          <p><strong>Q: Will my speaker notes be included in the PDF?</strong><br>A: No, standard conversion only captures the visual contents of the slides themselves, not the hidden speaker notes.</p>
+          <p><strong>Q: Does this tool work offline?</strong><br>A: Once the web page is loaded, the processing logic runs locally. You don't need a persistent connection to perform the conversion.</p>
+          <p><strong>Q: Will the PDF have the same aspect ratio as my slides?</strong><br>A: Yes, if your presentation is widescreen (16:9), the resulting PDF pages will also be perfectly formatted in 16:9.</p>
+          <p><strong>Q: Is there a file size limit for my PowerPoint?</strong><br>A: Since it relies on local processing, large presentations with hundreds of high-res images might slow down older devices, but there are no strict server caps.</p>
+          <p><strong>Q: Can I edit the PDF later?</strong><br>A: PDF is a flat document format. While text remains selectable, you cannot easily move shapes or edit the layout without specialized PDF software.</p>
+          <p><strong>Q: Do I need a Microsoft 365 subscription for this?</strong><br>A: Not at all! Our tool operates independently of Microsoft software.</p>
+        `
       }
     ]
   },
@@ -79,7 +101,18 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Will my Excel formulas still work in the PDF?</strong><br>A: No. The PDF captures the final, calculated values of your cells. It does not retain the underlying mathematical formulas or interactive pivot tables.</p><p><strong>Q: What if my spreadsheet is very wide?</strong><br>A: Extremely wide spreadsheets will be automatically scaled to fit the width of the PDF page, which may result in smaller text. For best results, define your print area in Excel before conversion.</p><p><strong>Q: Are my financial documents secure?</strong><br>A: Absolutely. Your spreadsheets are processed 100% locally on your computer. They are never sent to external servers.</p>"
+        content: `
+          <p><strong>Q: Will my Excel formulas still work in the PDF?</strong><br>A: No. The PDF captures the final, calculated values of your cells. It does not retain the underlying mathematical formulas or interactive pivot tables.</p>
+          <p><strong>Q: What if my spreadsheet is very wide?</strong><br>A: Extremely wide spreadsheets will be automatically scaled to fit the width of the PDF page, which may result in smaller text. For best results, define your print area in Excel before conversion.</p>
+          <p><strong>Q: Are my financial documents secure?</strong><br>A: Absolutely. Your spreadsheets are processed 100% locally on your computer. They are never sent to external servers.</p>
+          <p><strong>Q: Will my charts and graphs transfer over?</strong><br>A: Yes, standard charts and visual graphs embedded in your spreadsheet will be rendered accurately into the PDF document.</p>
+          <p><strong>Q: Can it handle multiple sheets (workbooks)?</strong><br>A: The tool generally attempts to render the active or first sheet. For complex multi-sheet documents, you may need to save each sheet individually first.</p>
+          <p><strong>Q: Is it compatible with older .xls files?</strong><br>A: Our primary client-side parsing engine is designed for modern .xlsx files. Older binary .xls files may need to be updated in Excel before converting.</p>
+          <p><strong>Q: Does this tool require Microsoft Excel to be installed?</strong><br>A: No, it works entirely independently of Microsoft software inside your web browser.</p>
+          <p><strong>Q: Why does the PDF look slightly different than my print preview?</strong><br>A: Since we use an independent rendering engine, slight differences in column widths or margin padding might occur compared to Microsoft's native print engine.</p>
+          <p><strong>Q: Will the text still be searchable?</strong><br>A: Yes! The data is rendered as selectable text, allowing anyone to search for specific numbers or names within the PDF.</p>
+          <p><strong>Q: Can I password-protect the generated PDF?</strong><br>A: Currently, this tool generates standard, unencrypted PDFs. You will need external software to add password protection afterward.</p>
+        `
       }
     ]
   },
@@ -107,7 +140,18 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Frequently Asked Questions",
-        content: "<p><strong>Q: Why does the PDF look slightly different than my screen?</strong><br>A: Websites are responsive, meaning their layout changes based on screen width. The converter renders the HTML based on a standardized page width (like US Letter), which may cause the website to adopt a tablet or print-specific layout.</p><p><strong>Q: Will hyperlinks still work?</strong><br>A: Generally, yes. The tool attempts to preserve standard anchor links, allowing you to click text within the PDF to navigate to the live website.</p><p><strong>Q: Is this tool secure for rendering saved banking pages?</strong><br>A: Yes. If you upload a locally saved HTML file, it is rendered entirely on your device. Your sensitive financial data is never sent to our servers.</p>"
+        content: `
+          <p><strong>Q: Why does the PDF look slightly different than my screen?</strong><br>A: Websites are responsive, meaning their layout changes based on screen width. The converter renders the HTML based on a standardized page width (like US Letter), which may cause the website to adopt a tablet or print-specific layout.</p>
+          <p><strong>Q: Will hyperlinks still work in the PDF?</strong><br>A: Generally, yes. The tool attempts to preserve standard anchor links, allowing you to click text within the PDF to navigate to the live website.</p>
+          <p><strong>Q: Is this tool secure for rendering saved banking pages?</strong><br>A: Yes. If you upload a locally saved HTML file, it is rendered entirely on your device. Your sensitive financial data is never sent to our servers.</p>
+          <p><strong>Q: Will videos play inside the PDF?</strong><br>A: No. PDFs are static documents. Any video players embedded in the HTML will simply appear as a static preview image or blank space.</p>
+          <p><strong>Q: Can it capture web fonts?</strong><br>A: If the web font is embedded or actively loaded by your browser during the conversion process, it will generally render correctly in the final PDF.</p>
+          <p><strong>Q: Why are some images missing?</strong><br>A: If the HTML file relies on external images hosted online, and you are not connected to the internet during conversion, those images will fail to load and appear blank.</p>
+          <p><strong>Q: Does it work with complex JavaScript pages?</strong><br>A: Yes, because it uses your browser's native rendering engine, it handles JavaScript-heavy single-page applications remarkably well.</p>
+          <p><strong>Q: Can I change the page size or margins?</strong><br>A: The tool automatically applies standard A4/US Letter dimensions. Advanced margin controls are generally handled by your browser's internal print settings.</p>
+          <p><strong>Q: Does this tool cost money?</strong><br>A: No, all tools on ConverterForAll are completely free of charge.</p>
+          <p><strong>Q: Is this better than just taking a screenshot?</strong><br>A: Absolutely! Unlike an image screenshot, an HTML to PDF conversion preserves vector text, meaning you can still highlight, search, and copy the text within the document.</p>
+        `
       }
     ]
   }
