@@ -5,7 +5,7 @@ let ffmpeg: FFmpeg | null = null;
 
 export const loadFfmpeg = async (onProgress: (p: { progress: number }) => void) => {
   console.log("loadFfmpeg called");
-  if (ffmpeg) {
+  if (ffmpeg && ffmpeg.loaded) {
     console.log("Returning existing ffmpeg instance");
     // If it's already loaded, just update the progress listener
     ffmpeg.off('progress', () => {}); // Remove previous listeners
@@ -18,14 +18,23 @@ export const loadFfmpeg = async (onProgress: (p: { progress: number }) => void) 
   ffmpeg.on('progress', onProgress);
   ffmpeg.on('log', ({ message }) => console.log("FFMPEG LOG:", message));
   
-  console.log("Calling ffmpeg.load() with local assets...");
-  await ffmpeg.load({
-    coreURL: "/ffmpeg/ffmpeg-core.js",
-    wasmURL: "/ffmpeg/ffmpeg-core.wasm",
-    workerURL: "/ffmpeg/ffmpeg-core.worker.js",
-    classWorkerURL: "/ffmpeg/814.ffmpeg.js",
-  });
-  console.log("ffmpeg.load() finished");
+  console.log("Calling ffmpeg.load() with blob URLs...");
+  const baseURL = window.location.origin;
+  try {
+    const coreURL = await toBlobURL("https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js", "text/javascript");
+    const wasmURL = await toBlobURL("https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm", "application/wasm");
+    const classWorkerURL = await toBlobURL(`${baseURL}/ffmpeg/814.ffmpeg.js`, "text/javascript");
+
+    await ffmpeg.load({
+      coreURL,
+      wasmURL,
+      classWorkerURL,
+    });
+    console.log("ffmpeg.load() finished");
+  } catch (err) {
+    console.error("FFmpeg load failed:", err);
+    throw err;
+  }
   
   return ffmpeg;
 };

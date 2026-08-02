@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test FFmpeg</title>
+</head>
+<body>
+  <h1>Testing FFmpeg</h1>
+  <script type="module">
+    import { FFmpeg } from "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js";
+
+    async function test() {
+      const ffmpeg = new FFmpeg();
+      ffmpeg.on("log", ({ message }) => console.log("FFMPEG LOG:", message));
+      console.log("Instantiated FFmpeg");
+      
+      try {
+        console.log("Calling load...");
+        await ffmpeg.load({
+          coreURL: "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js",
+          wasmURL: "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm",
+          classWorkerURL: "/ffmpeg/814.ffmpeg.js",
+        });
+        console.log("Load finished successfully!");
+      } catch (err) {
+        console.error("Load failed:", err);
+      }
+    }
+
+    test();
+  </script>
+</body>
+</html>
