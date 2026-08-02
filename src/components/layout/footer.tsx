@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="border-t bg-muted/40 py-12 md:py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           <div className="col-span-2 lg:col-span-2">
             <Link href="/" className="text-xl font-bold tracking-tight mb-4 inline-block">
               ConverterForAll
@@ -12,16 +12,6 @@ export function Footer() {
             <p className="text-sm text-muted-foreground max-w-xs mb-6">
               Convert Anything. Anywhere. Instantly. The ultimate file conversion toolkit for modern workflows.
             </p>
-          </div>
-          
-          <div>
-            <h3 className="font-medium mb-4">Product</h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li><Link href="/features" className="hover:text-foreground transition-colors">Features</Link></li>
-              <li><Link href="/pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
-              <li><Link href="/api" className="hover:text-foreground transition-colors">API</Link></li>
-              <li><Link href="/changelog" className="hover:text-foreground transition-colors">Changelog</Link></li>
-            </ul>
           </div>
 
           <div>

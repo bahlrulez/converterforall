@@ -27,17 +27,14 @@ export function Header() {
         </div>
 
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="/converters" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <Link href="/#featured-tools" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             Converters
           </Link>
-          <Link href="/categories" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Categories
+          <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            About Us
           </Link>
-          <Link href="/api" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            API
-          </Link>
-          <Link href="/pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Pricing
+          <Link href="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Contact
           </Link>
         </nav>
 
@@ -57,7 +54,9 @@ export function Header() {
               <span className="sr-only">Toggle theme</span>
             </Button>
           )}
-          <Button className="hidden md:inline-flex rounded-full">Get Started</Button>
+          <Button asChild className="hidden md:inline-flex rounded-full">
+            <Link href="/#featured-tools">Get Started</Link>
+          </Button>
           <Button variant="ghost" size="icon" className="md:hidden">
             <Menu className="h-6 w-6" />
           </Button>
