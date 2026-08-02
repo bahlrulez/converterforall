@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { Moon, Sun, Monitor, Menu } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export function Header() {
@@ -54,9 +55,9 @@ export function Header() {
               <span className="sr-only">Toggle theme</span>
             </Button>
           )}
-          <Button asChild className="hidden md:inline-flex rounded-full">
-            <Link href="/#featured-tools">Get Started</Link>
-          </Button>
+          <Link href="/#featured-tools" className={cn(buttonVariants({ variant: "default" }), "hidden md:inline-flex rounded-full px-4")}>
+            Get Started
+          </Link>
           <Button variant="ghost" size="icon" className="md:hidden">
             <Menu className="h-6 w-6" />
           </Button>
