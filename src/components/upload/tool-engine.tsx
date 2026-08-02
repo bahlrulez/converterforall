@@ -59,7 +59,9 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       throw new Error("This tool is not yet fully implemented for client-side processing.");
     }
 
-    const newName = file.name.substring(0, file.name.lastIndexOf(".")) + "." + finalFormat;
+    const lastDotIndex = file.name.lastIndexOf(".");
+    const baseName = lastDotIndex !== -1 ? file.name.substring(0, lastDotIndex) : file.name;
+    const newName = `${baseName}.${finalFormat}`;
     
     return {
       blob,
