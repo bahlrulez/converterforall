@@ -49,22 +49,22 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
 
   const handleConvert = async () => {
     if (!file) return;
-    
+
     setStatus("uploading");
-    
+
     try {
       setStatus("converting");
       setProgress(0);
-      
+
       // Delegate processing to the specialized engine
       const { blob, filename } = await onProcessFile(file, (p) => setProgress(p));
 
       setStatus("success");
-      
+
       const url = URL.createObjectURL(blob);
       setDownloadUrl(url);
       setDownloadName(filename);
-      
+
     } catch (err: any) {
       setStatus("error");
       setErrorMsg(err.message || "An unexpected error occurred.");
@@ -79,6 +79,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
     setStatus("idle");
     setErrorMsg("");
     setDownloadUrl(null);
+    setDownloadBlob(null);
     setDownloadName("");
     setProgress(0);
   };
@@ -89,11 +90,10 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
         <div className="flex flex-col gap-4">
           <div
             {...getRootProps()}
-            className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-12 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-4 ${
-              isDragActive 
-                ? "border-primary bg-primary/5" 
+            className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-12 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-4 ${isDragActive
+                ? "border-primary bg-primary/5"
                 : "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50"
-            }`}
+              }`}
           >
             <input {...getInputProps()} />
             <div className="rounded-full bg-primary/10 p-4 text-primary">
@@ -108,19 +108,19 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
               </p>
             </div>
           </div>
-          
+
           {allowCamera && (
             <div className="flex justify-center mt-2">
-              <input 
-                type="file" 
-                accept="image/*" 
-                capture="environment" 
-                className="hidden" 
-                ref={cameraInputRef} 
-                onChange={handleCameraCapture} 
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                ref={cameraInputRef}
+                onChange={handleCameraCapture}
               />
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="w-full sm:w-auto border-dashed border-2 hover:bg-muted/50"
                 onClick={() => cameraInputRef.current?.click()}
               >
@@ -144,13 +144,13 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
                 </p>
               </div>
             </div>
-            
+
             {status === "idle" && (
               <Button variant="ghost" size="icon" onClick={reset} className="text-muted-foreground hover:text-destructive">
                 <X className="h-5 w-5" />
               </Button>
             )}
-            
+
             {status === "success" && (
               <CheckCircle className="h-6 w-6 text-success" />
             )}
@@ -175,8 +175,8 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
                 <span>{progress}%</span>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
-                <div 
-                  className="h-full bg-primary transition-all duration-300 ease-in-out" 
+                <div
+                  className="h-full bg-primary transition-all duration-300 ease-in-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -189,14 +189,14 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
                 {actionLabel}
               </Button>
             )}
-            
+
             {(status === "uploading" || status === "converting") && (
               <Button disabled className="w-full sm:w-auto">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 {status === "uploading" ? "Uploading..." : "Converting..."}
               </Button>
             )}
-            
+
             {status === "success" && (
               <>
                 <Button onClick={reset} variant="outline" className="w-full sm:w-auto">
@@ -205,12 +205,29 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
                 {downloadUrl && (
                   <Button 
                     onClick={() => {
-                      const a = document.createElement('a');
-                      a.href = downloadUrl;
-                      a.download = downloadName || 'converted_file.mp3';
-                      document.body.appendChild(a);
-                      a.click();
-                      document.body.removeChild(a);
+                      const finalName = downloadName || 'converted_file.mp3';
+                      
+                      // For smaller files (<50MB), Data URLs are 100% immune to Chrome's Blob URL UUID bug in COEP contexts
+                      if (downloadBlob && downloadBlob.size < 50 * 1024 * 1024) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          const a = document.createElement('a');
+                          a.href = reader.result as string;
+                          a.download = finalName;
+                          document.body.appendChild(a);
+                          a.click();
+                          document.body.removeChild(a);
+                        };
+                        reader.readAsDataURL(downloadBlob);
+                      } else {
+                        // Fallback for huge files where Base64 conversion would crash the browser
+                        const a = document.createElement('a');
+                        a.href = downloadUrl!;
+                        a.download = finalName;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                      }
                     }}
                     className={cn("w-full sm:w-auto")}
                   >
