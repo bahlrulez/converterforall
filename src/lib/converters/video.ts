@@ -59,7 +59,7 @@ export const convertVideo = async (
     await ffmpegInstance.writeFile(inputName, await fetchFile(file));
 
     let exitCode = 0;
-    if (targetFormat === 'mp3') {
+    if (targetFormat === 'mp3' || targetFormat === 'wav' || targetFormat === 'ogg') {
       // Default to best audio stream instead of mapping all audio streams
       exitCode = await ffmpegInstance.exec(['-i', inputName, '-q:a', '0', outputName]);
     } else {
@@ -75,7 +75,12 @@ export const convertVideo = async (
     await ffmpegInstance.deleteFile(inputName);
     await ffmpegInstance.deleteFile(outputName);
 
-    return new Blob([data as any], { type: targetFormat === 'mp3' ? 'audio/mpeg' : 'video/mp4' });
+    let mimeType = 'video/mp4';
+    if (targetFormat === 'mp3') mimeType = 'audio/mpeg';
+    if (targetFormat === 'wav') mimeType = 'audio/wav';
+    if (targetFormat === 'ogg') mimeType = 'audio/ogg';
+
+    return new Blob([data as any], { type: mimeType });
   } catch (err: any) {
     if (typeof SharedArrayBuffer === 'undefined') {
       throw new Error("Your browser is blocking the video engine due to missing security headers. Please refresh the page (F5) directly on this URL to enable video conversion.");

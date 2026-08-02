@@ -183,6 +183,38 @@ export const toolsDatabase = {
       outputFormat: "mp3",
       actionName: "Extract Audio",
       acceptedTypes: { "video/mp4": [".mp4"] }
+    },
+    "mp3-to-wav": {
+      title: "Convert MP3 to WAV",
+      description: "Convert compressed MP3 audio to lossless WAV format.",
+      inputFormat: "mp3",
+      outputFormat: "wav",
+      actionName: "Convert to WAV",
+      acceptedTypes: { "audio/mpeg": [".mp3"] }
+    },
+    "wav-to-mp3": {
+      title: "Convert WAV to MP3",
+      description: "Compress lossless WAV audio into MP3 format.",
+      inputFormat: "wav",
+      outputFormat: "mp3",
+      actionName: "Convert to MP3",
+      acceptedTypes: { "audio/wav": [".wav", ".wave"] }
+    },
+    "ogg-to-mp3": {
+      title: "Convert OGG to MP3",
+      description: "Convert OGG Vorbis audio files to standard MP3.",
+      inputFormat: "ogg",
+      outputFormat: "mp3",
+      actionName: "Convert to MP3",
+      acceptedTypes: { "audio/ogg": [".ogg"] }
+    },
+    "mp3-to-ogg": {
+      title: "Convert MP3 to OGG",
+      description: "Convert standard MP3 audio files to OGG format.",
+      inputFormat: "mp3",
+      outputFormat: "ogg",
+      actionName: "Convert to OGG",
+      acceptedTypes: { "audio/mpeg": [".mp3"] }
     }
   },
   "video": {
