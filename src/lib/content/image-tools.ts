@@ -232,5 +232,44 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
+  },
+  "remove-background": {
+    sections: [
+      {
+        title: "What is this tool?",
+        content: "<p>The Remove Background tool is a state-of-the-art, browser-based AI utility designed to instantly and precisely separate the main subject of your image from its background. Using a cutting-edge machine learning model running entirely within your web browser, this tool creates a transparent cutout of people, products, animals, or objects. Whether you are creating professional product listings for an e-commerce store, designing marketing materials, or simply making fun stickers for social media, this tool eliminates the need for tedious manual tracing, lassoing, or expensive photo editing subscriptions.</p>"
+      },
+      {
+        title: "How does it work?",
+        content: "<p>Traditionally, AI background removal required uploading your personal photos to a remote server where they were processed by powerful GPUs. Our tool revolutionizes this by using WebAssembly (WASM) to run a specialized neural network directly on your local device. When you upload an image, the on-device AI analyzes the pixels, detects the foreground subject, and generates a highly accurate alpha mask. This mask is then applied to your image, rendering the background completely transparent. Because everything happens locally, your images are never uploaded to the internet, guaranteeing absolute privacy and blazing-fast processing speeds.</p>"
+      },
+      {
+        title: "Examples",
+        content: "<p>Imagine you have taken a great photo of a handmade craft you want to sell online, but the background is a cluttered living room. Instead of spending 30 minutes carefully erasing the background in Photoshop, you can simply drop the image into our Remove Background tool. Within seconds, the AI identifies your craft, perfectly isolates it, and removes the messy room behind it. You can then download the resulting transparent PNG and place your product onto a clean, solid white background or a stylized graphic, instantly making it look like a professional studio shot.</p>"
+      },
+      {
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Upload Image:</strong> Drag and drop your JPG, PNG, or WEBP image into the designated area, or click to browse your files.</li><li><strong>AI Processing:</strong> The browser loads the local AI model (this may take a few extra seconds the very first time you use it) and analyzes your image.</li><li><strong>Preview Cutout:</strong> Once processed, the background will disappear, leaving your subject on a transparent checkerboard canvas.</li><li><strong>Save Result:</strong> Click the 'Download' button to save your new transparent image as a high-quality PNG file.</li></ol>"
+      },
+      {
+        title: "Practical uses",
+        content: "<ul><li><strong>E-Commerce:</strong> Creating clean, consistent product photos with transparent or solid white backgrounds for stores like Shopify, Amazon, or Etsy.</li><li><strong>Graphic Design:</strong> Isolating subjects to overlay onto promotional flyers, YouTube thumbnails, or digital ad banners.</li><li><strong>Social Media:</strong> Generating custom stickers, memes, or profile pictures by cutting out people or pets from everyday photos.</li><li><strong>Presentations:</strong> Removing distracting backgrounds from headshots or logos to seamlessly integrate them into professional PowerPoint or Keynote slides.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Is my photo uploaded to your servers for processing?</strong><br>A: No. The AI model runs entirely locally in your web browser. Your photos never leave your device, ensuring complete privacy.</p>
+          <p><strong>Q: What types of images work best for background removal?</strong><br>A: Images with a clear subject (like a person, animal, or product) and good contrast between the subject and the background yield the best results.</p>
+          <p><strong>Q: Why does the resulting file have to be a PNG?</strong><br>A: The PNG format supports an alpha channel, which is required to save transparency. Formats like JPG do not support transparent backgrounds.</p>
+          <p><strong>Q: Do I need to pay a subscription to use this AI tool?</strong><br>A: No! Because the AI processing happens on your own computer's hardware rather than expensive cloud servers, we can offer this tool completely free.</p>
+          <p><strong>Q: Does the tool work on mobile devices?</strong><br>A: Yes, provided you are using a modern mobile browser. However, processing may be slower on older smartphones compared to a desktop computer.</p>
+          <p><strong>Q: How long does the AI processing take?</strong><br>A: Depending on your device's CPU and memory, it usually takes anywhere from a few seconds to a minute. The very first run may take slightly longer to load the model.</p>
+          <p><strong>Q: Can it remove the background from complex objects like hair or fur?</strong><br>A: Yes, our advanced machine learning model is specifically trained to handle complex edges like human hair, animal fur, and translucent materials.</p>
+          <p><strong>Q: Is there a resolution limit for the images I upload?</strong><br>A: There is no hard limit, but extremely high-resolution images may be automatically scaled down slightly by the browser to prevent memory crashes during AI processing.</p>
+          <p><strong>Q: What if the AI misses a spot or cuts off part of the subject?</strong><br>A: While the AI is highly accurate, it can occasionally struggle with scenes lacking contrast. In the future, we plan to add manual touch-up tools.</p>
+          <p><strong>Q: Can I use the resulting transparent images for commercial purposes?</strong><br>A: Yes! You retain full rights to any image you process using our tool, making it perfect for commercial e-commerce or marketing use.</p>
+        `
+      }
+    ]
   }
 };
