@@ -58,10 +58,16 @@ export const convertVideo = async (
 
     await ffmpegInstance.writeFile(inputName, await fetchFile(file));
 
+    let exitCode = 0;
     if (targetFormat === 'mp3') {
-      await ffmpegInstance.exec(['-i', inputName, '-q:a', '0', '-map', 'a', outputName]);
+      // Default to best audio stream instead of mapping all audio streams
+      exitCode = await ffmpegInstance.exec(['-i', inputName, '-q:a', '0', outputName]);
     } else {
-      await ffmpegInstance.exec(['-i', inputName, outputName]);
+      exitCode = await ffmpegInstance.exec(['-i', inputName, outputName]);
+    }
+
+    if (exitCode !== 0) {
+      throw new Error(`Conversion failed with FFmpeg exit code ${exitCode}. Please try a different file.`);
     }
 
     const data = await ffmpegInstance.readFile(outputName);
