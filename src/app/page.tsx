@@ -1,4 +1,7 @@
 import { Hero } from "@/components/home/hero";
+import { HowItWorks } from "@/components/home/how-it-works";
+import { Features } from "@/components/home/features";
+import { FAQ } from "@/components/home/faq";
 import Link from "next/link";
 import { ArrowRight, Image as ImageIcon, FileText, Music, Video } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
@@ -11,7 +14,9 @@ export default function Home() {
     <>
       <Hero />
       
-      <section id="featured-tools" className="py-24 bg-muted/30">
+      <HowItWorks />
+      
+      <section id="featured-tools" className="py-24 bg-muted/30 border-t">
         <div className="container mx-auto px-4 max-w-5xl">
           {/* Document Tools Section */}
           <div className="mb-20">
@@ -134,6 +139,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <Features />
+      
+      <FAQ />
     </>
   );
 }
