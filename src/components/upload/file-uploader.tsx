@@ -203,14 +203,20 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
                   Convert Another File
                 </Button>
                 {downloadUrl && (
-                  <a 
-                    href={downloadUrl} 
-                    download={downloadName}
-                    className={cn(buttonVariants({ variant: "default" }), "w-full sm:w-auto")}
+                  <Button 
+                    onClick={() => {
+                      const a = document.createElement('a');
+                      a.href = downloadUrl;
+                      a.download = downloadName || 'converted_file.mp3';
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                    }}
+                    className={cn("w-full sm:w-auto")}
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Download File
-                  </a>
+                  </Button>
                 )}
               </>
             )}
