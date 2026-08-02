@@ -94,7 +94,8 @@ export const toolContent: Record<string, { sections: { title: string, content: s
           <p><strong>Q: Will headers and footers be preserved?</strong><br>A: Yes, standard headers, footers, and page numbers will be carried over into the final PDF.</p>
         `
       }
-    }
+    ]
+  }
 };
 
 // Fallback generator for tools that haven't been manually written yet
