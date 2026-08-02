@@ -79,6 +79,11 @@ export const convertVideo = async (
     if (targetFormat === 'mp3') mimeType = 'audio/mpeg';
     if (targetFormat === 'wav') mimeType = 'audio/wav';
     if (targetFormat === 'ogg') mimeType = 'audio/ogg';
+    if (targetFormat === 'avi') mimeType = 'video/x-msvideo';
+    if (targetFormat === 'mkv') mimeType = 'video/x-matroska';
+    if (targetFormat === 'wmv') mimeType = 'video/x-ms-wmv';
+    if (targetFormat === 'mov') mimeType = 'video/quicktime';
+    if (targetFormat === 'flv') mimeType = 'video/x-flv';
 
     return new Blob([data as any], { type: mimeType });
   } catch (err: any) {

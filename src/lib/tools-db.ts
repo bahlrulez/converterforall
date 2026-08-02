@@ -226,13 +226,53 @@ export const toolsDatabase = {
       actionName: "Extract Audio",
       acceptedTypes: { "video/mp4": [".mp4"] }
     },
-    "mov-to-mp4": {
-      title: "Convert MOV to MP4",
-      description: "Convert Apple MOV videos to standard MP4 format.",
-      inputFormat: "mov",
+    "video-to-mp4": {
+      title: "Convert to MP4",
+      description: "Convert any video format to standard MP4 format.",
+      inputFormat: "video",
       outputFormat: "mp4",
       actionName: "Convert to MP4",
-      acceptedTypes: { "video/quicktime": [".mov"] }
+      acceptedTypes: { "video/*": [".avi", ".mkv", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
+    },
+    "video-to-avi": {
+      title: "Convert to AVI",
+      description: "Convert any video format to AVI format.",
+      inputFormat: "video",
+      outputFormat: "avi",
+      actionName: "Convert to AVI",
+      acceptedTypes: { "video/*": [".mp4", ".mkv", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
+    },
+    "video-to-mkv": {
+      title: "Convert to MKV",
+      description: "Convert any video format to MKV format.",
+      inputFormat: "video",
+      outputFormat: "mkv",
+      actionName: "Convert to MKV",
+      acceptedTypes: { "video/*": [".mp4", ".avi", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
+    },
+    "video-to-wmv": {
+      title: "Convert to WMV",
+      description: "Convert any video format to WMV format.",
+      inputFormat: "video",
+      outputFormat: "wmv",
+      actionName: "Convert to WMV",
+      acceptedTypes: { "video/*": [".mp4", ".avi", ".mkv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
+    },
+    "video-to-mov": {
+      title: "Convert to MOV",
+      description: "Convert any video format to Apple MOV format.",
+      inputFormat: "video",
+      outputFormat: "mov",
+      actionName: "Convert to MOV",
+      acceptedTypes: { "video/*": [".mp4", ".avi", ".mkv", ".wmv", ".flv", ".webm", ".m4v", ".mpeg"] }
+    },
+    "video-to-flv": {
+      title: "Convert to FLV",
+      description: "Convert any video format to FLV format.",
+      inputFormat: "video",
+      outputFormat: "flv",
+      actionName: "Convert to FLV",
+      acceptedTypes: { "video/*": [".mp4", ".avi", ".mkv", ".wmv", ".mov", ".webm", ".m4v", ".mpeg"] }
     }
   }
 };
