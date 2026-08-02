@@ -61,5 +61,5 @@ export const convertVideo = async (
   await ffmpegInstance.deleteFile(inputName);
   await ffmpegInstance.deleteFile(outputName);
 
-  return new Blob([data], { type: targetFormat === 'mp3' ? 'audio/mpeg' : 'video/mp4' });
+  return new Blob([data as any], { type: targetFormat === 'mp3' ? 'audio/mpeg' : 'video/mp4' });
 };
