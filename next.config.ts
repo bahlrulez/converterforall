@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
         source: "/(.*)",
         headers: [
           {
+            key: "Content-Security-Policy",
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://pagead2.googlesyndication.com https://partner.googleadservices.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' blob: data: https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; font-src 'self' data: https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; media-src 'self' blob: data:; connect-src 'self' blob: data: https://www.google-analytics.com https://region1.google-analytics.com https://*.clarity.ms https://pagead2.googlesyndication.com https://*.doubleclick.net https://unpkg.com https://static.imgly.com; worker-src 'self' blob: data: https://unpkg.com;",
+          },
+          {
             key: "X-DNS-Prefetch-Control",
             value: "on",
           },
