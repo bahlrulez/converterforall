@@ -31,7 +31,7 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 hover:shadow-md transition-all hover:border-primary/50 flex flex-col"
+                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="rounded-xl p-3 bg-blue-500/10 text-blue-500">
@@ -61,7 +61,7 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 hover:shadow-md transition-all hover:border-primary/50 flex flex-col"
+                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="rounded-xl p-3 bg-emerald-500/10 text-emerald-500">
@@ -91,7 +91,7 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 hover:shadow-md transition-all hover:border-primary/50 flex flex-col"
+                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="rounded-xl p-3 bg-red-500/10 text-red-500">
@@ -121,7 +121,7 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 hover:shadow-md transition-all hover:border-primary/50 flex flex-col"
+                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="rounded-xl p-3 bg-purple-500/10 text-purple-500">
@@ -151,7 +151,7 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 hover:shadow-md transition-all hover:border-primary/50 flex flex-col"
+                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="rounded-xl p-3 bg-amber-500/10 text-amber-500">

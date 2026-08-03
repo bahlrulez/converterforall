@@ -92,10 +92,9 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
         <div className="flex flex-col gap-4">
           <div
             {...getRootProps()}
-            className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-12 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-4 ${isDragActive
-                ? "border-primary bg-primary/5"
-                : "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50"
-              }`}
+            className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-12 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-4 ${
+              isDragActive ? "border-primary bg-primary/5 scale-[1.02]" : "border-border md:hover:border-primary/50 md:hover:bg-muted/50"
+            }`}
           >
             <input {...getInputProps()} />
             <div className="rounded-full bg-primary/10 p-4 text-primary">
