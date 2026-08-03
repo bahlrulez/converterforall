@@ -282,6 +282,24 @@ export const toolsDatabase = {
       actionName: "Convert to FLV",
       acceptedTypes: { "video/*": [".mp4", ".avi", ".mkv", ".wmv", ".mov", ".webm", ".m4v", ".mpeg"] }
     }
+  },
+  "utilities": {
+    "live-ruler": {
+      title: "Live CM Ruler",
+      description: "Measure real-world objects using your screen. Automatic calibration for CM and Inches.",
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "camera-measure": {
+      title: "Camera Measurement Tool",
+      description: "Estimate object dimensions and distances using your device's camera.",
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      acceptedTypes: {}
+    }
   }
 };
 

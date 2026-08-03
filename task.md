@@ -1,0 +1,16 @@
+- `[/]` 1. **Core Context & Types**
+  - `[ ]` Create `cookie-context.tsx`
+  - `[ ]` Define consent categories and default states
+  - `[ ]` Implement localStorage persistence with versioning
+  - `[ ]` Implement Google Consent Mode push (`gtag('consent', 'update', ...)`)
+- `[ ]` 2. **UI Components**
+  - `[ ]` Create custom accessible Tailwind `switch.tsx`
+  - `[ ]` Create `cookie-modal.tsx` (Preferences Dialog)
+  - `[ ]` Create `cookie-banner.tsx` (Floating Bottom Card)
+  - `[ ]` Create basic `toast.tsx` or use existing one for success messages
+- `[ ]` 3. **Integration**
+  - `[ ]` Modify `src/app/layout.tsx` (Add script tags, wrap with Provider)
+  - `[ ]` Modify `src/components/layout/footer.tsx` (Add Manage Cookies link)
+- `[ ]` 4. **Testing & Verification**
+  - `[ ]` Verify Next.js build passes
+  - `[ ]` Verify local storage persistence works

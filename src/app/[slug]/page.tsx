@@ -1,4 +1,6 @@
 import { ToolEngine } from "@/components/upload/tool-engine";
+import { LiveRuler } from "@/components/tools/live-ruler";
+import { CameraMeasure } from "@/components/tools/camera-measure";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -82,7 +84,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
 
-      <div className="mb-8">
+      <div className="mb-8 print:hidden">
         <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to all tools
@@ -95,17 +97,24 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
         </p>
       </div>
 
-      <div className="bg-muted/30 rounded-3xl p-6 sm:p-12 border border-border shadow-sm mb-16">
-        <ToolEngine 
-          category={categorySlug}
-          toolSlug={toolSlug}
-          acceptedTypes={tool.acceptedTypes}
-          targetFormat={tool.outputFormat}
-          actionLabel={tool.actionName}
-        />
+      <div className={`${(tool as any).isInteractive ? '' : 'bg-muted/30 rounded-3xl p-6 sm:p-12 border border-border shadow-sm'} mb-16`}>
+        {(tool as any).isInteractive ? (
+          <>
+            {toolSlug === "live-ruler" && <LiveRuler />}
+            {toolSlug === "camera-measure" && <CameraMeasure />}
+          </>
+        ) : (
+          <ToolEngine 
+            category={categorySlug}
+            toolSlug={toolSlug}
+            acceptedTypes={tool.acceptedTypes}
+            targetFormat={tool.outputFormat}
+            actionLabel={(tool as any).actionName}
+          />
+        )}
       </div>
 
-      <article className="prose prose-slate dark:prose-invert max-w-none prose-lg">
+      <article className="prose prose-slate dark:prose-invert max-w-none prose-lg print:hidden">
         {getToolContent(toolSlug, tool.title, tool.description).map((section, index) => (
           <section key={index} className="mb-12">
             <h2>{section.title}</h2>
