@@ -300,6 +300,54 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
+    "age-calculator": {
+      title: "Age Calculator",
+      description: "Calculate your exact age in years, months, and days from your date of birth.",
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "qr-generator": {
+      title: "QR Code Generator",
+      description: "Generate and download custom QR codes for URLs, text, and more instantly.",
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "barcode-generator": {
+      title: "Barcode Generator",
+      description: "Create standard 1D barcodes instantly and download them in high quality.",
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "password-generator": {
+      title: "Password Generator",
+      description: "Generate secure, random, and strong passwords instantly.",
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "fuel-calculator": {
+      title: "Fuel Cost Calculator",
+      description: "Calculate your estimated fuel cost and required fuel volume for a trip.",
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "mileage-calculator": {
+      title: "Mileage Calculator",
+      description: "Calculate your vehicle's exact fuel efficiency and mileage.",
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
     "inches-to-centimeters": {
       title: "Inches to Centimeters",
       description: "Convert Inches to Centimeters instantly with our free length converter.",

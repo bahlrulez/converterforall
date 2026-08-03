@@ -2,6 +2,12 @@ import { ToolEngine } from "@/components/upload/tool-engine";
 import { LiveRuler } from "@/components/tools/live-ruler";
 import { CameraMeasure } from "@/components/tools/camera-measure";
 import { LengthConverter } from "@/components/tools/length-converter";
+import { AgeCalculator } from "@/components/tools/age-calculator";
+import { QRGenerator } from "@/components/tools/qr-generator";
+import { BarcodeGenerator } from "@/components/tools/barcode-generator";
+import { PasswordGenerator } from "@/components/tools/password-generator";
+import { FuelCalculator } from "@/components/tools/fuel-calculator";
+import { MileageCalculator } from "@/components/tools/mileage-calculator";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -114,6 +120,12 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <>
             {toolSlug === "live-ruler" && <LiveRuler />}
             {toolSlug === "camera-measure" && <CameraMeasure />}
+            {toolSlug === "age-calculator" && <AgeCalculator />}
+            {toolSlug === "qr-generator" && <QRGenerator />}
+            {toolSlug === "barcode-generator" && <BarcodeGenerator />}
+            {toolSlug === "password-generator" && <PasswordGenerator />}
+            {toolSlug === "fuel-calculator" && <FuelCalculator />}
+            {toolSlug === "mileage-calculator" && <MileageCalculator />}
             {(tool as any).converterType === "length" && <LengthConverter defaultFrom={defaultFrom} defaultTo={defaultTo} />}
           </>
         ) : (
