@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Moon, Sun, Monitor, Menu } from "lucide-react";
+import { Moon, Sun, Monitor, Menu, Facebook } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -41,6 +41,15 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <Link
+            href="https://www.facebook.com/converterforall"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-blue-600 transition-colors hidden md:inline-flex"
+            title="Follow us on Facebook"
+          >
+            <Facebook className="h-5 w-5" />
+          </Link>
           {mounted && (
             <Button
               variant="ghost"
@@ -89,6 +98,16 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Contact
+            </Link>
+            <Link 
+              href="https://www.facebook.com/converterforall" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-base font-medium p-2 hover:bg-muted rounded-md transition-colors flex items-center gap-2 text-blue-600"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <Facebook className="h-5 w-5" />
+              Follow us on Facebook
             </Link>
             <div className="flex items-center justify-between p-2 border-t mt-2">
               <span className="text-sm font-medium text-muted-foreground">Dark Mode</span>
