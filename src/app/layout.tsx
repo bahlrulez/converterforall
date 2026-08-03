@@ -83,7 +83,7 @@ export default function RootLayout({
           }}
         />
         {/* Google Site Verification Placeholder */}
-        <meta name="google-site-verification" content="YOUR_GOOGLE_SITE_VERIFICATION_TOKEN" />
+        <meta name="google-site-verification" content="google8e488f91621932b6" />
       </head>
       <body className="min-h-full flex flex-col font-sans">
         <CookieConsentProvider>
