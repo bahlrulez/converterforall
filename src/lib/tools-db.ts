@@ -63,6 +63,7 @@ export const toolsDatabase = {
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
+      actionName: "Merge PDF",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "split-pdf": {
@@ -71,6 +72,7 @@ export const toolsDatabase = {
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
+      actionName: "Split PDF",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "remove-pages": {
@@ -79,6 +81,7 @@ export const toolsDatabase = {
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
+      actionName: "Remove Pages",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "extract-pages": {
@@ -87,6 +90,7 @@ export const toolsDatabase = {
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
+      actionName: "Extract Pages",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "organize-pdf": {
@@ -95,6 +99,7 @@ export const toolsDatabase = {
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
+      actionName: "Organize PDF",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "scan-to-pdf": {
@@ -103,6 +108,7 @@ export const toolsDatabase = {
       subCategory: "Organize PDF",
       inputFormat: "image",
       outputFormat: "pdf",
+      actionName: "Create PDF",
       acceptedTypes: { "image/*": [".jpg", ".png", ".jpeg"] }
     },
 
@@ -122,6 +128,7 @@ export const toolsDatabase = {
       subCategory: "Optimize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
+      actionName: "Repair PDF",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "ocr-pdf": {
@@ -130,6 +137,7 @@ export const toolsDatabase = {
       subCategory: "Optimize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
+      actionName: "Run OCR",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
 
