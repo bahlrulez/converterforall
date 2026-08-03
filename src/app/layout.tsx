@@ -53,6 +53,7 @@ import { CookieBanner } from "@/components/cookie-consent/cookie-banner";
 import { CookieModal } from "@/components/cookie-consent/cookie-modal";
 import { CookieToast } from "@/components/cookie-consent/cookie-toast";
 import { ThirdPartyScripts } from "@/components/cookie-consent/third-party-scripts";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function RootLayout({
   children,
@@ -103,6 +104,7 @@ export default function RootLayout({
             <CookieModal />
             <CookieToast />
             <ThirdPartyScripts />
+            <Analytics />
           </ThemeProvider>
         </CookieConsentProvider>
       </body>
