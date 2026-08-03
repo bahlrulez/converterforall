@@ -191,5 +191,5 @@ export async function splitPdf(file: File): Promise<Blob> {
   }
   
   const zipBlob = await zip.generateAsync({ type: "blob" });
-  return zipBlob;
+  return new Blob([zipBlob], { type: "application/zip" });
 }

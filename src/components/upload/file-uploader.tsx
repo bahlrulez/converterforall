@@ -65,6 +65,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
       const url = URL.createObjectURL(blob);
       setDownloadUrl(url);
       setDownloadName(filename);
+      setDownloadBlob(blob);
 
     } catch (err: any) {
       setStatus("error");
