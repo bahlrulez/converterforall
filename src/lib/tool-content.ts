@@ -123,15 +123,38 @@ export const toolContent: Record<string, { sections: { title: string, content: s
 };
 
 // Fallback generator for tools that haven't been manually written yet
-export function getToolContent(slug: string, title: string, description: string) {
-  if (toolContent[slug]) {
-    return toolContent[slug].sections;
+export function getToolContent(toolSlug: string, toolTitle: string, toolDescription: string) {
+  // Check if it's a specific length conversion tool (e.g. inches-to-centimeters)
+  if (toolSlug.includes("-to-") && (toolSlug.includes("inches") || toolSlug.includes("meters") || toolSlug.includes("feet") || toolSlug.includes("miles") || toolSlug.includes("yards") || toolSlug.includes("leagues") || toolSlug.includes("parsecs") || toolSlug.includes("furlongs") || toolSlug.includes("chains") || toolSlug.includes("rods"))) {
+    const parts = toolSlug.split("-to-");
+    const fromUnit = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+    const toUnit = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+    
+    return [
+      {
+        title: `How to convert ${fromUnit} to ${toUnit}`,
+        content: `<p>Converting ${fromUnit} to ${toUnit} is incredibly simple with our free online length converter. Just type the value in ${fromUnit} into the input box, and our tool will instantly calculate the exact equivalent in ${toUnit} with high precision.</p>`
+      },
+      {
+        title: "Why use our length converter?",
+        content: `<ul>
+          <li><strong>Instant Results:</strong> There are no buttons to click or pages to reload. The conversion happens in real-time as you type.</li>
+          <li><strong>100% Free:</strong> Our tool is completely free to use without any limits or hidden fees.</li>
+          <li><strong>Privacy First:</strong> All calculations happen directly inside your web browser. No data is ever sent to our servers.</li>
+          <li><strong>High Precision:</strong> We use high-precision floating point math to ensure your conversions are accurate to 10 decimal places.</li>
+        </ul>`
+      }
+    ];
+  }
+
+  if (toolContent[toolSlug]) {
+    return toolContent[toolSlug].sections;
   }
   
   return [
     {
       title: "What is this converter?",
-      content: `<p>${description} This tool provides a seamless, fast, and completely free way to process your files directly in your web browser. Built with modern web technologies, it ensures high-quality output while maintaining strict privacy standards.</p><p>Whether you are a professional needing reliable daily utilities or a casual user looking for a quick fix, this ${title} tool is designed to meet your needs without the bloat of traditional software.</p>`
+      content: `<p>${toolDescription} This tool provides a seamless, fast, and completely free way to process your files directly in your web browser. Built with modern web technologies, it ensures high-quality output while maintaining strict privacy standards.</p><p>Whether you are a professional needing reliable daily utilities or a casual user looking for a quick fix, this ${toolTitle} tool is designed to meet your needs without the bloat of traditional software.</p>`
     },
     {
       title: "How does it work?",

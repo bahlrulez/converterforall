@@ -299,6 +299,106 @@ export const toolsDatabase = {
       outputFormat: "none",
       isInteractive: true,
       acceptedTypes: {}
+    },
+    "inches-to-centimeters": {
+      title: "Inches to Centimeters",
+      description: "Convert Inches to Centimeters instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "inches-to-millimeters": {
+      title: "Inches to Millimeters",
+      description: "Convert Inches to Millimeters instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "inches-to-feet": {
+      title: "Inches to Feet",
+      description: "Convert Inches to Feet instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "feet-to-meters": {
+      title: "Feet to Meters",
+      description: "Convert Feet to Meters instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "feet-to-yards": {
+      title: "Feet to Yards",
+      description: "Convert Feet to Yards instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "feet-to-inches": {
+      title: "Feet to Inches",
+      description: "Convert Feet to Inches instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "miles-to-kilometers": {
+      title: "Miles to Kilometers",
+      description: "Convert Miles to Kilometers instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "miles-to-nautical-miles": {
+      title: "Miles to Nautical Miles",
+      description: "Convert Miles to Nautical Miles instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "yards-to-meters": {
+      title: "Yards to Meters",
+      description: "Convert Yards to Meters instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "meters-to-kilometers": {
+      title: "Meters to Kilometers",
+      description: "Convert Meters to Kilometers instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "centimeters-to-millimeters": {
+      title: "Centimeters to Millimeters",
+      description: "Convert Centimeters to Millimeters instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "millimeters-to-inches": {
+      title: "Millimeters to Inches",
+      description: "Convert Millimeters to Inches instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "micrometers-to-millimeters": {
+      title: "Micrometers to Millimeters",
+      description: "Convert Micrometers to Millimeters instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "nanometers-to-micrometers": {
+      title: "Nanometers to Micrometers",
+      description: "Convert Nanometers to Micrometers instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "light-years-to-parsecs": {
+      title: "Light Years to Parsecs",
+      description: "Convert Light Years to Parsecs instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "nautical-miles-to-miles": {
+      title: "Nautical Miles to Miles",
+      description: "Convert Nautical Miles to Miles instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "furlongs-to-miles": {
+      title: "Furlongs to Miles",
+      description: "Convert Furlongs to Miles instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "chains-to-meters": {
+      title: "Chains to Meters",
+      description: "Convert Chains to Meters instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "rods-to-yards": {
+      title: "Rods to Yards",
+      description: "Convert Rods to Yards instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
+    },
+    "leagues-to-miles": {
+      title: "Leagues to Miles",
+      description: "Convert Leagues to Miles instantly with our free length converter.",
+      inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     }
   }
 };

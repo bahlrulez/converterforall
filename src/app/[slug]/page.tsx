@@ -1,6 +1,7 @@
 import { ToolEngine } from "@/components/upload/tool-engine";
 import { LiveRuler } from "@/components/tools/live-ruler";
 import { CameraMeasure } from "@/components/tools/camera-measure";
+import { LengthConverter } from "@/components/tools/length-converter";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -41,6 +42,17 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   }
 
   const { categorySlug, toolSlug, tool } = toolData;
+
+  // Extract from/to from slug if it's a length converter (e.g. "inches-to-centimeters")
+  let defaultFrom = "inches";
+  let defaultTo = "centimeters";
+  if ((tool as any).converterType === "length") {
+    const parts = toolSlug.split("-to-");
+    if (parts.length === 2) {
+      defaultFrom = parts[0];
+      defaultTo = parts[1];
+    }
+  }
 
   // Generate Breadcrumb Schema
   const breadcrumbSchema = {
@@ -102,6 +114,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <>
             {toolSlug === "live-ruler" && <LiveRuler />}
             {toolSlug === "camera-measure" && <CameraMeasure />}
+            {(tool as any).converterType === "length" && <LengthConverter defaultFrom={defaultFrom} defaultTo={defaultTo} />}
           </>
         ) : (
           <ToolEngine 
