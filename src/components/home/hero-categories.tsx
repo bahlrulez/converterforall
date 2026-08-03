@@ -9,7 +9,7 @@ const CATEGORIES = [
   { icon: ImageIcon, label: "Images", color: "text-emerald-500", bg: "bg-emerald-500/10", borderHover: "group-hover:border-emerald-500/50", glow: "from-emerald-500/20", href: "/category/image" },
   { icon: Video, label: "Video", color: "text-rose-500", bg: "bg-rose-500/10", borderHover: "group-hover:border-rose-500/50", glow: "from-rose-500/20", href: "/category/video" },
   { icon: Music, label: "Audio", color: "text-purple-500", bg: "bg-purple-500/10", borderHover: "group-hover:border-purple-500/50", glow: "from-purple-500/20", href: "/category/audio" },
-  { icon: Calculator, label: "Utilities", color: "text-amber-500", bg: "bg-amber-500/10", borderHover: "group-hover:border-amber-500/50", glow: "from-amber-500/20", href: "/#featured-tools" },
+  { icon: Calculator, label: "Utilities", color: "text-amber-500", bg: "bg-amber-500/10", borderHover: "group-hover:border-amber-500/50", glow: "from-amber-500/20", href: "/#utility-tools" },
   { icon: Zap, label: "More Tools", color: "text-primary", bg: "bg-primary/10", borderHover: "group-hover:border-primary/50", glow: "from-primary/20", href: "/#featured-tools" },
 ];
 

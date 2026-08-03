@@ -139,7 +139,7 @@ export default function Home() {
           </div>
 
           {/* Utility Tools Section */}
-          <div>
+          <div id="utility-tools" className="scroll-mt-24">
             <div className="flex items-center justify-between mb-12">
               <div>
                 <h2 className="text-3xl font-bold tracking-tight mb-2">Utility Tools</h2>
