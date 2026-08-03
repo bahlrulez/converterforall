@@ -3,6 +3,7 @@ import { pdfOrganizeContent } from "./content/pdf-organize";
 import { pdfOptimizeContent } from "./content/pdf-optimize";
 import { pdfConvertContent } from "./content/pdf-convert";
 import { videoToolsContent } from "./content/video-tools";
+import { utilitiesToolsContent } from "./content/utilities-tools";
 
 export const toolContent: Record<string, { sections: { title: string, content: string }[] }> = {
   ...imageToolsContent,
@@ -10,6 +11,7 @@ export const toolContent: Record<string, { sections: { title: string, content: s
   ...pdfOptimizeContent,
   ...pdfConvertContent,
   ...videoToolsContent,
+  ...utilitiesToolsContent,
   "remove-background": {
     sections: [
       {
@@ -93,30 +95,6 @@ export const toolContent: Record<string, { sections: { title: string, content: s
           <p><strong>Q: Does this converter cost money?</strong><br>A: No, our Word to PDF tool is completely free with no daily limits or watermarks.</p>
           <p><strong>Q: Will headers and footers be preserved?</strong><br>A: Yes, standard headers, footers, and page numbers will be carried over into the final PDF.</p>
         `
-      }
-    ]
-  },
-  "live-ruler": {
-    sections: [
-      {
-        title: "What is the Live CM Ruler?",
-        content: "<p>The Live CM Ruler is a precise, on-screen measuring tool that transforms your desktop monitor, tablet, or smartphone into a highly accurate physical ruler. By allowing you to calibrate the screen using standard objects (like a credit card), the ruler displays true-to-life Centimeters and Inches. You can use it to measure real-world objects simply by placing them against your screen.</p>"
-      },
-      {
-        title: "How to Calibrate",
-        content: "<p>Because every screen has a different pixel density (PPI/DPI), an inch on a 27-inch 4K monitor is rendered with a different number of pixels than an inch on an iPhone. To fix this, click the <strong>Calibrate</strong> button. Place a standard credit card (which is exactly 85.6mm wide) on the blue box on your screen, and adjust the slider until the box perfectly matches the physical card. Once done, your ruler will be 100% accurate for your specific device.</p>"
-      }
-    ]
-  },
-  "camera-measure": {
-    sections: [
-      {
-        title: "How does the Camera Measurement Tool work?",
-        content: "<p>This tool uses your device's camera to estimate the dimensions of objects in the real world. Since standard mobile web browsers do not have full access to native LiDAR or ARKit sensors, this tool relies on a highly accurate <strong>Reference Object</strong> method.</p>"
-      },
-      {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select a Reference:</strong> Choose a standard object you have nearby, such as a Credit Card or a sheet of A4 paper.</li><li><strong>Frame the Shot:</strong> Place the reference object directly next to the item you want to measure, ensuring they are both at the same distance from your camera.</li><li><strong>Calibrate:</strong> Draw a line on the screen across the width of your reference object. The app will calculate the scale of the environment.</li><li><strong>Measure:</strong> Draw lines across the object you want to measure. The tool will calculate its real-world dimensions in Centimeters and Inches!</li></ol>"
       }
     ]
   }
