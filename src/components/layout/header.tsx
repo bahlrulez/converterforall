@@ -1,11 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { Moon, Sun, Monitor, Menu, Facebook } from "lucide-react";
+import { Moon, Sun, Monitor, Menu } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+
+function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -48,7 +67,7 @@ export function Header() {
             className="text-muted-foreground hover:text-blue-600 transition-colors hidden md:inline-flex"
             title="Follow us on Facebook"
           >
-            <Facebook className="h-5 w-5" />
+            <FacebookIcon className="h-5 w-5" />
           </Link>
           {mounted && (
             <Button
@@ -106,7 +125,7 @@ export function Header() {
               className="text-base font-medium p-2 hover:bg-muted rounded-md transition-colors flex items-center gap-2 text-blue-600"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              <Facebook className="h-5 w-5" />
+              <FacebookIcon className="h-5 w-5" />
               Follow us on Facebook
             </Link>
             <div className="flex items-center justify-between p-2 border-t mt-2">
