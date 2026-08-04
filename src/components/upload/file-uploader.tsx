@@ -189,9 +189,9 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
             <div className="mt-6 relative w-full aspect-video md:aspect-[16/7] rounded-xl overflow-hidden bg-muted/20 flex items-center justify-center border shadow-inner">
               <style>{`
                 @keyframes scanline {
-                  0% { top: 0%; }
-                  50% { top: 100%; }
-                  100% { top: 0%; }
+                  0% { transform: translateY(0); }
+                  50% { transform: translateY(100%); }
+                  100% { transform: translateY(0); }
                 }
               `}</style>
               <img 
@@ -199,15 +199,42 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
                 className="w-full h-full object-contain opacity-70 scale-95 transition-transform duration-500 ease-out" 
                 alt="Processing preview" 
               />
-              <div className="absolute inset-0 z-10 pointer-events-none">
-                <div className="w-full h-1 bg-primary shadow-[0_0_20px_rgba(var(--primary),1)] absolute animate-[scanline_3s_ease-in-out_infinite]" />
-                <div className="w-full h-full bg-gradient-to-b from-transparent via-primary/10 to-transparent absolute top-0 mix-blend-overlay animate-[scanline_3s_ease-in-out_infinite]" />
+              <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+                <div className="w-full h-[100%] absolute top-0 animate-[scanline_3s_ease-in-out_infinite]">
+                  <div className="w-full h-1 bg-primary shadow-[0_0_20px_rgba(var(--primary),1)] absolute top-0" />
+                  <div className="w-full h-full bg-gradient-to-b from-primary/20 to-transparent absolute top-0 mix-blend-overlay" />
+                </div>
               </div>
               <div className="absolute bottom-4 inset-x-0 flex justify-center z-20">
                 <div className="bg-background/80 backdrop-blur px-4 py-2 rounded-full border shadow-sm text-sm font-medium flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin text-primary" />
                   Removing Background...
                 </div>
+              </div>
+            </div>
+          )}
+
+          {status === "success" && isDynamicBackgroundRemoval && file && downloadUrl && (
+            <div className="mt-6 flex flex-col md:flex-row gap-4 w-full">
+              <div className="flex-1 rounded-xl border bg-muted/20 overflow-hidden flex flex-col relative aspect-square md:aspect-auto">
+                <div className="absolute top-3 left-3 z-10 bg-background/80 backdrop-blur text-xs font-medium px-2 py-1 rounded-md border shadow-sm">
+                  Original
+                </div>
+                <img src={URL.createObjectURL(file)} className="w-full h-full object-contain p-4" alt="Original" />
+              </div>
+              <div 
+                className="flex-1 rounded-xl border overflow-hidden flex flex-col relative aspect-square md:aspect-auto"
+                style={{
+                  backgroundColor: "#f8f9fa",
+                  backgroundImage: "linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%)",
+                  backgroundSize: "20px 20px",
+                  backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px"
+                }}
+              >
+                <div className="absolute top-3 left-3 z-10 bg-background/80 backdrop-blur text-xs font-medium px-2 py-1 rounded-md border shadow-sm text-primary">
+                  Result
+                </div>
+                <img src={downloadUrl} className="w-full h-full object-contain p-4 drop-shadow-xl" alt="Result with removed background" />
               </div>
             </div>
           )}
@@ -258,10 +285,10 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
                         document.body.removeChild(a);
                       }
                     }}
-                    className={cn("w-full sm:w-auto")}
+                    className={cn("w-full sm:w-auto", isDynamicBackgroundRemoval && "bg-primary text-primary-foreground hover:bg-primary/90")}
                   >
                     <Download className="mr-2 h-4 w-4" />
-                    Download File
+                    Download Result
                   </Button>
                 )}
               </>
