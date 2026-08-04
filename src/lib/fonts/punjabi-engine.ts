@@ -138,7 +138,7 @@ var Convertor;
         return unicodes.map(function (c) { return String.fromCharCode(c); }).join("");
     }
 })(Convertor || (Convertor = {}));
-const PunjabiFontConvertor: any = {};
+var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
 (function (PunjabiFontConvertor) {
     PunjabiFontConvertor.anmolMapping = (_a = {},
         _a[1 /* IkOnkarVersion1a */] = 0x3c,
@@ -280,7 +280,7 @@ const PunjabiFontConvertor: any = {};
     );
     var _a;
 })(PunjabiFontConvertor || (PunjabiFontConvertor = {}));
-const PunjabiFontConvertor: any = {};
+var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
 (function (PunjabiFontConvertor) {
     PunjabiFontConvertor.unicodeMapping = (_a = {},
         _a[0 /* IkOnkarVersion1 */] = 0x0A74,
@@ -411,7 +411,7 @@ const PunjabiFontConvertor: any = {};
     );
     var _a;
 })(PunjabiFontConvertor || (PunjabiFontConvertor = {}));
-const PunjabiFontConvertor: any = {};
+var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
 (function (PunjabiFontConvertor) {
     PunjabiFontConvertor.drChatrikMappings = (_a = {},
         _a[1 /* IkOnkarVersion1a */] = 0xc3,
@@ -516,7 +516,7 @@ const PunjabiFontConvertor: any = {};
     );
     var _a;
 })(PunjabiFontConvertor || (PunjabiFontConvertor = {}));
-const PunjabiFontConvertor: any = {};
+var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
 (function (PunjabiFontConvertor) {
     PunjabiFontConvertor.awazeMappings = (_a = {},
         //[Char.IkOnkarVersion1a]: 0x3c,
@@ -672,7 +672,7 @@ const PunjabiFontConvertor: any = {};
     );
     var _a;
 })(PunjabiFontConvertor || (PunjabiFontConvertor = {}));
-const PunjabiFontConvertor: any = {};
+var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
 (function (PunjabiFontConvertor) {
     PunjabiFontConvertor.satluj = (_a = {},
         _a[0 /* IkOnkarVersion1 */] = 0xfd,
@@ -836,7 +836,7 @@ const PunjabiFontConvertor: any = {};
     );
     var _a;
 })(PunjabiFontConvertor || (PunjabiFontConvertor = {}));
-const PunjabiFontConvertor: any = {};
+var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
 (function (PunjabiFontConvertor) {
     PunjabiFontConvertor.asees = (_a = {},
         _a[0 /* IkOnkarVersion1 */] = 0xc5,
@@ -993,7 +993,7 @@ const PunjabiFontConvertor: any = {};
     );
     var _a;
 })(PunjabiFontConvertor || (PunjabiFontConvertor = {}));
-const PunjabiFontConvertor: any = {};
+var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
 (function (PunjabiFontConvertor) {
     PunjabiFontConvertor.joy = (_a = {},
         _a[0 /* IkOnkarVersion1 */] = 0x2dd,
@@ -1178,7 +1178,7 @@ const PunjabiFontConvertor: any = {};
     );
     var _a;
 })(PunjabiFontConvertor || (PunjabiFontConvertor = {}));
-const PunjabiFontConvertor: any = {};
+var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
 (function (PunjabiFontConvertor) {
     PunjabiFontConvertor.gurbaniLipi = (_a = {},
         _a[126 /* GZero */] = 0x30,
@@ -1215,7 +1215,7 @@ const PunjabiFontConvertor: any = {};
 ///<reference path="./mappings/asees" />
 ///<reference path="./mappings/joy" />
 ///<reference path="./mappings/gurbaniLipi" />
-const PunjabiFontConvertor: any = {};
+var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
 (function (PunjabiFontConvertor) {
     var moveAcrossChaSet = [
         [[66 /* PairiHaha */], [67 /* PairiHaha2 */], [118 /* Virama */, 26 /* Hਹ */]],
@@ -1367,3 +1367,4 @@ const PunjabiFontConvertor: any = {};
 
 
 export { PunjabiFontConvertor };
+
