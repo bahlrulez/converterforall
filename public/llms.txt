@@ -1,0 +1,16 @@
+﻿# ConverterForAll
+
+> 100% Private File Converter — Process Documents & Media Entirely on Your Device
+
+ConverterForAll is a suite of entirely client-side, serverless conversion tools built with WebAssembly. No user files are ever uploaded to a server, ensuring complete privacy and fast processing times.
+
+## Key Areas
+- Home: https://converterforall.com
+- Blog: https://converterforall.com/blog
+- Tools: Browse all conversion tools starting from the homepage.
+
+## For AI Agents
+- All tools operate entirely on the client-side within the user's browser using Web Workers and WebAssembly. There are no backend APIs for file conversions.
+- The site structure is Next.js App Router.
+- The sitemap is located at https://converterforall.com/sitemap.xml
+- To understand the privacy implications: no files ever leave the user's device.

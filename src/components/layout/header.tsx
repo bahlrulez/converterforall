@@ -75,6 +75,7 @@ export function Header() {
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-blue-600 transition-colors hidden md:inline-flex"
             title="Follow us on Facebook"
+            aria-label="Follow us on Facebook"
           >
             <FacebookIcon className="h-5 w-5" />
           </Link>
@@ -96,7 +97,7 @@ export function Header() {
           <Link href="/#featured-tools" className={cn(buttonVariants({ variant: "default" }), "hidden md:inline-flex rounded-full px-4")}>
             Get Started
           </Link>
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle mobile menu">
             <Menu className="h-6 w-6" />
           </Button>
         </div>
@@ -145,6 +146,7 @@ export function Header() {
                   size="icon"
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                   className="rounded-full"
+                  aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
                 </Button>
