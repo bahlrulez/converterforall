@@ -152,6 +152,26 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: "Why are some characters incorrect?",
         content: "<p>Indic scripts have complex rules for half-characters, matras (vowel signs), and ligatures. Legacy fonts often use non-standard hacks to render these correctly on screen. While our converter handles 99% of these complex rules perfectly, extremely rare or unconventional typing habits might result in slight anomalies. If you notice a persistent error, please feel free to report it.</p>"
+      },
+      {
+        title: `Will my formatting be preserved after converting to ${toFont}?`,
+        content: `<p>Because ${fromFont} and ${toFont} have different character widths and spacing rules, the structural text will remain identical, but line breaks and page alignments in your design software might shift slightly. We recommend reviewing your document's layout after pasting the converted text.</p>`
+      },
+      {
+        title: "Is it free to use?",
+        content: "<p>Yes, ConverterForAll is completely free. We do not have any hidden fees, subscriptions, or daily usage limits. You can convert as much text as you need, as often as you want.</p>"
+      },
+      {
+        title: "Which devices and browsers are supported?",
+        content: "<p>Our font converter is web-based and highly optimized. It works flawlessly on modern browsers including Google Chrome, Mozilla Firefox, Apple Safari, and Microsoft Edge. You can use it on your Windows PC, Mac, Linux, Android smartphone, or iPhone.</p>"
+      },
+      {
+        title: "Can I download the converted text as a file?",
+        content: "<p>Yes! After converting your text, you can use the download buttons in the toolbar to save the output directly to your device as a `.txt` file or a Word-compatible `.doc` file.</p>"
+      },
+      {
+        title: "Do I need to install any software or extensions?",
+        content: "<p>No installation is required. Everything runs entirely within your web browser. You don't need to download any apps, browser extensions, or software packages to use our converter.</p>"
       }
     ];
   }
