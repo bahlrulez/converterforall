@@ -169,15 +169,14 @@ export const punjabiMappings: Record<string, FontMap> = {
 };
 
 
-// @ts-ignore
-const { PunjabiFontConvertor } = require('./punjabi-engine.ts') as any;
+import { PunjabiFontConvertor } from './punjabi-engine';
 
 const fontNameMap: Record<string, string> = {
   anmollipi: 'AnmolLipi',
   asees: 'Asees',
   joy: 'Joy',
   gurbanilipi: 'GurbaniLipi',
-  unicode: 'Unicode'
+  unicode: 'Arial Unicode MS'
 };
 
 export function convertPunjabi(text: string, font: string, direction: 'toUnicode' | 'fromUnicode'): string {
@@ -185,9 +184,9 @@ export function convertPunjabi(text: string, font: string, direction: 'toUnicode
   const mappedFontName = fontNameMap[font];
   if (mappedFontName) {
     if (direction === 'toUnicode') {
-      return (PunjabiFontConvertor as any).convert(text, 'Unicode', mappedFontName);
+      return (PunjabiFontConvertor as any).convert(text, 'Arial Unicode MS', mappedFontName);
     } else {
-      return (PunjabiFontConvertor as any).convert(text, mappedFontName, 'Unicode');
+      return (PunjabiFontConvertor as any).convert(text, mappedFontName, 'Arial Unicode MS');
     }
   }
 
@@ -210,5 +209,6 @@ export function convertPunjabi(text: string, font: string, direction: 'toUnicode
   }
   return result;
 }
+
 
 
