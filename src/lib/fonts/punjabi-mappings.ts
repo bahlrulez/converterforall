@@ -168,27 +168,47 @@ export const punjabiMappings: Record<string, FontMap> = {
   }
 };
 
+
+// @ts-ignore
+const { PunjabiFontConvertor } = require('./punjabi-engine.ts') as any;
+
+const fontNameMap: Record<string, string> = {
+  anmollipi: 'AnmolLipi',
+  asees: 'Asees',
+  joy: 'Joy',
+  gurbanilipi: 'GurbaniLipi',
+  unicode: 'Unicode'
+};
+
 export function convertPunjabi(text: string, font: string, direction: 'toUnicode' | 'fromUnicode'): string {
   if (!text) return '';
-  const map = punjabiMappings[font];
-  if (!map) return text;
-
-  let result = text;
-  const rules = map[direction];
-  
-  for (const [pattern, replacement] of rules) {
-    if (pattern instanceof RegExp) {
-      result = result.replace(pattern, replacement);
+  const mappedFontName = fontNameMap[font];
+  if (mappedFontName) {
+    if (direction === 'toUnicode') {
+      return (PunjabiFontConvertor as any).convert(text, 'Unicode', mappedFontName);
     } else {
-      result = result.split(pattern).join(replacement);
+      return (PunjabiFontConvertor as any).convert(text, mappedFontName, 'Unicode');
     }
   }
 
+  // Fallback for Shahmukhi and others
+  const map = punjabiMappings[font];
+  if (!map) return text;
+  let result = text;
+  const rules = map[direction];
+  for (const [pattern, replacement] of rules) {
+    if (pattern instanceof RegExp) {
+      result = result.replace(pattern, replacement as string);
+    } else {
+      result = result.split(pattern as string).join(replacement as string);
+    }
+  }
   if (direction === 'toUnicode' && font !== 'shahmukhi') {
     result = result.replace(/i([ਕਖਗਘਙਚਛਜਝਞਟਠਡਢਣਤਥਦਧਨਪਫਬਭਮਯਰਲਵੜਸ਼ਖ਼ਗ਼ਜ਼ੜਫ਼])/g, "$1ਿ");
   } else if (direction === 'fromUnicode' && font !== 'shahmukhi') {
     result = result.replace(/([ਕਖਗਘਙਚਛਜਝਞਟਠਡਢਣਤਥਦਧਨਪਫਬਭਮਯਰਲਵੜਸ਼ਖ਼ਗ਼ਜ਼ੜਫ਼])ਿ/g, "i$1");
   }
-
   return result;
 }
+
+
