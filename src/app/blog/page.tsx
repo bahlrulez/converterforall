@@ -8,6 +8,13 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: "the-ultimate-guide-to-hindi-and-punjabi-font-conversion",
+    title: "The Ultimate Guide to Hindi & Punjabi Font Conversion: Safe, Fast, and 100% Private",
+    date: "August 4, 2026",
+    excerpt: "Dealing with old Indian language fonts can be incredibly frustrating. Learn how to securely and accurately convert Kruti Dev and AnmolLipi to modern Unicode.",
+    category: "Conversion Guides"
+  },
+  {
     slug: "how-to-remove-image-backgrounds-for-ecommerce",
     title: "How to Remove Image Backgrounds for E-Commerce",
     date: "August 1, 2026",
