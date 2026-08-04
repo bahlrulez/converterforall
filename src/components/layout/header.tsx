@@ -39,7 +39,16 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+          <Link 
+            href="/" 
+            className="flex items-center gap-2" 
+            onClick={(e) => {
+              if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+              setIsMobileMenuOpen(false);
+            }}
+          >
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Monitor className="h-5 w-5" />
             </div>
