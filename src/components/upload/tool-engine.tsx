@@ -18,7 +18,7 @@ interface ToolEngineProps {
 
 export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, actionLabel }: ToolEngineProps) {
   const [compressionPreset, setCompressionPreset] = useState<CompressionPreset>("balanced");
-  const [bgQuality, setBgQuality] = useState<BgRemovalQuality>("isnet_fp16");
+  const [bgQuality, setBgQuality] = useState<BgRemovalQuality>("small");
   const [pageSelection, setPageSelection] = useState<string>("");
 
   // Fix for Next.js SPA navigation wiping out COOP/COEP headers
@@ -148,44 +148,31 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     return (
       <div className="space-y-4">
         <h3 className="text-sm font-medium">AI Model Quality</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button
             disabled={disabled}
-            onClick={() => setBgQuality("isnet_quint8")}
+            onClick={() => setBgQuality("small")}
             className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 text-center transition-all ${
-              bgQuality === "isnet_quint8" 
+              bgQuality === "small" 
                 ? "border-primary bg-primary/5 text-primary" 
                 : "border-border hover:border-primary/50 text-muted-foreground"
             }`}
           >
-            <span className="font-semibold text-sm">Fast</span>
+            <span className="font-semibold text-sm">Fast (Small)</span>
             <span className="text-xs mt-1">Quickest, minor artifacts</span>
           </button>
           
           <button
             disabled={disabled}
-            onClick={() => setBgQuality("isnet_fp16")}
+            onClick={() => setBgQuality("medium")}
             className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 text-center transition-all ${
-              bgQuality === "isnet_fp16" 
+              bgQuality === "medium" 
                 ? "border-primary bg-primary/5 text-primary" 
                 : "border-border hover:border-primary/50 text-muted-foreground"
             }`}
           >
-            <span className="font-semibold text-sm">Balanced</span>
-            <span className="text-xs mt-1">Good speed and quality</span>
-          </button>
-
-          <button
-            disabled={disabled}
-            onClick={() => setBgQuality("isnet")}
-            className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 text-center transition-all ${
-              bgQuality === "isnet" 
-                ? "border-primary bg-primary/5 text-primary" 
-                : "border-border hover:border-primary/50 text-muted-foreground"
-            }`}
-          >
-            <span className="font-semibold text-sm">Maximum Quality</span>
-            <span className="text-xs mt-1">Slower, but highest accuracy</span>
+            <span className="font-semibold text-sm">High Quality (Medium)</span>
+            <span className="text-xs mt-1">Good speed and best accuracy</span>
           </button>
         </div>
       </div>
