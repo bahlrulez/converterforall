@@ -17,7 +17,7 @@ interface FileUploaderProps {
   isDynamicBackgroundRemoval?: boolean;
 }
 
-export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File", optionsRenderer, allowCamera = false }: FileUploaderProps) {
+export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File", optionsRenderer, allowCamera = false, isDynamicBackgroundRemoval = false }: FileUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "converting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
