@@ -13,7 +13,7 @@
     "@ffmpeg/core": "^0.12.10",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
-    "@imgly/background-removal": "^1.4.5",
+    "@imgly/background-removal": "^1.7.0",
     "@prisma/client": "^7.9.1",
     "@quicktoolsone/pdf-compress": "^2.0.0",
     "@types/jszip": "^3.4.0",
