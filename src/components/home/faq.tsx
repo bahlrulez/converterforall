@@ -7,24 +7,28 @@ import { cn } from "@/lib/utils";
 export function FAQ() {
   const faqs = [
     {
-      question: "Are my files uploaded to your servers?",
-      answer: "No. Unlike most online converters, ConverterForAll processes your files entirely within your web browser using client-side technology (WebAssembly). Your files never leave your device, ensuring 100% privacy and security.",
+      question: "Is it safe to use online converters?",
+      answer: "Yes, but it depends on the converter you use. Many online converters upload your personal files to their servers, which can be a privacy risk. ConverterForAll is uniquely safe because it processes your files entirely within your own web browser. Your files never leave your device, ensuring complete privacy and 100% data security.",
     },
     {
-      question: "Is this file converter actually free?",
-      answer: "Yes, our converter is completely free to use. Because we don't have to pay for expensive cloud servers to process your files (your device does the processing), we don't need to charge subscription fees or put features behind a paywall.",
+      question: "What is the best free converter?",
+      answer: "The best free converter is one that is fast, secure, and doesn't limit your usage. ConverterForAll is widely considered the best because it runs locally on your device, meaning there are no artificial file size limits, no waiting in server queues, and absolutely zero hidden fees or premium subscriptions.",
     },
     {
-      question: "Is there a file size limit for conversions?",
-      answer: "There are no artificial file size limits. However, because the processing happens in your browser, the maximum file size you can successfully convert depends on your device's available memory (RAM). For most modern devices, handling files up to several gigabytes is possible.",
+      question: "Is FreeConvert really free?",
+      answer: "While many platforms brand themselves as free, they often restrict features behind paywalls or limit your daily conversions. ConverterForAll, however, is a genuinely 100% free tool. Because we use your device's processing power instead of expensive cloud servers, we can offer unlimited, high-quality file conversions without ever asking for a credit card.",
     },
     {
-      question: "Will I lose quality when converting video or audio?",
-      answer: "No, we use industry-standard conversion algorithms (like FFmpeg) tuned to preserve the maximum possible quality. Unless you specifically choose to compress a file, the output quality will match the original input file.",
+      question: "What is this convert?",
+      answer: "ConverterForAll is a next-generation web application that lets you convert files between different formats (like PDF, JPG, MP4, and more) instantly. Instead of uploading your files to a remote server, it uses advanced WebAssembly technology to perform the conversion directly inside your browser for maximum speed and security.",
     },
     {
-      question: "Do I need to install any software or apps?",
-      answer: "Absolutely not. Everything runs directly inside your web browser. You do not need to download, install, or set up any third-party software, making it perfect for work or school computers.",
+      question: "What is the best free image converter?",
+      answer: "For converting images like JPG, PNG, WebP, or HEIC, ConverterForAll stands out as the best free option. It offers lightning-fast, high-quality image conversion directly on your device, ensuring your private photos remain secure. Plus, it handles bulk conversions instantly without any annoying usage limits.",
+    },
+    {
+      question: "Which is the safest PDF converter?",
+      answer: "The safest PDF converter is one that never stores or reads your documents. ConverterForAll is the most secure choice for PDF conversions because it works offline-first within your browser. Whether you are converting sensitive financial documents or personal records, your PDFs are never uploaded to the internet, guaranteeing total confidentiality.",
     }
   ];
 
