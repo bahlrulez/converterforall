@@ -13,24 +13,24 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://converterforall.com"),
   title: {
-    default: "ConverterForAll - Free Online File Converter",
+    default: "Private Online File Converter | 100% In-Browser & Serverless",
     template: "%s | ConverterForAll"
   },
-  description: "One Platform. Every Conversion. Fast, Secure, and Free. Convert documents, images, video, and audio instantly in your browser.",
-  keywords: ["file converter", "online converter", "free converter", "pdf converter", "image converter"],
+  description: "Experience the next-gen client-side file converter. Our revolutionary WebAssembly technology processes your documents, images, and video directly inside your browser. No server uploads, zero wait times, and absolute privacy—your files never leave your device.",
+  keywords: ["private file converter", "client-side converter", "in-browser file conversion", "serverless converter", "secure file converter", "free offline converter"],
   authors: [{ name: "ConverterForAll" }],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://converterforall.com",
     siteName: "ConverterForAll",
-    title: "ConverterForAll - Free Online File Converter",
-    description: "One Platform. Every Conversion. Fast, Secure, and Free. Convert documents, images, video, and audio instantly in your browser.",
+    title: "100% Private File Converter — Process Documents & Media Entirely on Your Device",
+    description: "Experience the next-gen client-side file converter. Our revolutionary WebAssembly technology processes your documents, images, and video directly inside your browser. No server uploads, zero wait times, and absolute privacy—your files never leave your device.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ConverterForAll - Free Online File Converter",
-    description: "One Platform. Every Conversion. Fast, Secure, and Free. Convert documents, images, video, and audio instantly in your browser.",
+    title: "Serverless File Converter: Fast, Free, and 100% Private",
+    description: "Experience the next-gen client-side file converter. Our revolutionary WebAssembly technology processes your documents, images, and video directly inside your browser. No server uploads, zero wait times, and absolute privacy—your files never leave your device.",
   },
   robots: {
     index: true,
