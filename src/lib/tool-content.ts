@@ -125,6 +125,37 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
     ];
   }
 
+  // Check if it's a font conversion tool
+  if (toolSlug.includes("-to-") && (toolSlug.includes("unicode") || toolSlug.includes("krutidev") || toolSlug.includes("chanakya") || toolSlug.includes("anmollipi") || toolSlug.includes("asees"))) {
+    const parts = toolSlug.split("-to-");
+    const formatName = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).replace('-', ' ');
+    const fromFont = formatName(parts[0]);
+    const toFont = formatName(parts[1]);
+    
+    return [
+      {
+        title: `What is ${fromFont === 'Unicode' ? toFont : fromFont}?`,
+        content: `<p>${fromFont === 'Unicode' ? toFont : fromFont} is a widely used font for typing in Indic scripts (like Hindi or Punjabi). While older legacy fonts map characters to specific keyboard keys without a standard encoding, Unicode is the modern global standard where every character has a unique, universally recognized code. This converter helps you bridge the gap between legacy systems and modern Unicode-compliant software.</p>`
+      },
+      {
+        title: `How do I convert ${fromFont} to ${toFont}?`,
+        content: `<p>Converting ${fromFont} to ${toFont} is fast and seamless. Simply paste your text into the input box on this page, and our advanced client-side script will instantly convert it to ${toFont} without requiring you to click any buttons. You can then copy the result, or download it as a text or document file.</p>`
+      },
+      {
+        title: "Is my data uploaded to your servers?",
+        content: "<p>Absolutely not. The conversion between fonts happens entirely within your web browser using client-side JavaScript. Your text is never sent to our servers, ensuring 100% privacy and security for your sensitive documents.</p>"
+      },
+      {
+        title: "Can I use this tool offline?",
+        content: "<p>Yes! Once this web page fully loads in your browser, the conversion engine is stored locally in memory. You can disconnect from the internet and continue to convert text seamlessly.</p>"
+      },
+      {
+        title: "Why are some characters incorrect?",
+        content: "<p>Indic scripts have complex rules for half-characters, matras (vowel signs), and ligatures. Legacy fonts often use non-standard hacks to render these correctly on screen. While our converter handles 99% of these complex rules perfectly, extremely rare or unconventional typing habits might result in slight anomalies. If you notice a persistent error, please feel free to report it.</p>"
+      }
+    ];
+  }
+
   if (toolContent[toolSlug]) {
     return toolContent[toolSlug].sections;
   }

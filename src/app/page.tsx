@@ -3,7 +3,7 @@ import { HowItWorks } from "@/components/home/how-it-works";
 import { Features } from "@/components/home/features";
 import { FAQ } from "@/components/home/faq";
 import Link from "next/link";
-import { ArrowRight, Image as ImageIcon, FileText, Music, Video } from "lucide-react";
+import { ArrowRight, Image as ImageIcon, FileText, Music, Video, Type } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
 
 export default function Home() {
@@ -128,6 +128,36 @@ export default function Home() {
                       <Music className="h-6 w-6" />
                     </div>
                     <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">{tool.title.replace('Convert ', '')}</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-6">{tool.description}</p>
+                  <div className="mt-auto flex items-center text-sm font-medium text-primary">
+                    Open Tool <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Font Converters Section */}
+          <div className="mb-20">
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-3xl font-bold tracking-tight mb-2">Font Converters</h2>
+                <p className="text-muted-foreground">Convert between Unicode and legacy Hindi/Punjabi fonts instantly.</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Object.entries((toolsDatabase as any).fonts || {}).map(([slug, tool]: any) => (
+                <Link 
+                  key={slug}
+                  href={`/${slug}`}
+                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="rounded-xl p-3 bg-indigo-500/10 text-indigo-500">
+                      <Type className="h-6 w-6" />
+                    </div>
+                    <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">{tool.title}</h3>
                   </div>
                   <p className="text-sm text-muted-foreground mb-6">{tool.description}</p>
                   <div className="mt-auto flex items-center text-sm font-medium text-primary">

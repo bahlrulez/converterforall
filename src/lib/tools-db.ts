@@ -448,6 +448,41 @@ export const toolsDatabase = {
       description: "Convert Leagues to Miles instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     }
+  },
+  "fonts": {
+    "unicode-to-krutidev": { title: "Unicode to Kruti Dev", description: "Convert Unicode Hindi text to legacy Kruti Dev 010 font instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "krutidev-to-unicode": { title: "Kruti Dev to Unicode", description: "Convert legacy Kruti Dev 010 font to standard Unicode Hindi text instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-devlys": { title: "Unicode to DevLys", description: "Convert Unicode Hindi text to DevLys font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "devlys-to-unicode": { title: "DevLys to Unicode", description: "Convert DevLys font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-chanakya": { title: "Unicode to Chanakya", description: "Convert Unicode Hindi text to Chanakya font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "chanakya-to-unicode": { title: "Chanakya to Unicode", description: "Convert Chanakya font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-shusha": { title: "Unicode to Shusha", description: "Convert Unicode Hindi text to Shusha font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "shusha-to-unicode": { title: "Shusha to Unicode", description: "Convert Shusha font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-aps": { title: "Unicode to APS", description: "Convert Unicode Hindi text to APS font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "aps-to-unicode": { title: "APS to Unicode", description: "Convert APS font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-shreelipi": { title: "Unicode to Shree Lipi", description: "Convert Unicode Hindi text to Shree Lipi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "shreelipi-to-unicode": { title: "Shree Lipi to Unicode", description: "Convert Shree Lipi font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    
+    "unicode-to-anmollipi": { title: "Unicode to AnmolLipi", description: "Convert Unicode Punjabi text to AnmolLipi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "anmollipi-to-unicode": { title: "AnmolLipi to Unicode", description: "Convert AnmolLipi font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-asees": { title: "Unicode to Asees", description: "Convert Unicode Punjabi text to Asees font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "asees-to-unicode": { title: "Asees to Unicode", description: "Convert Asees font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-joy": { title: "Unicode to Joy", description: "Convert Unicode Punjabi text to Joy font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "joy-to-unicode": { title: "Joy to Unicode", description: "Convert Joy font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-satluj": { title: "Unicode to Satluj", description: "Convert Unicode Punjabi text to Satluj font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "satluj-to-unicode": { title: "Satluj to Unicode", description: "Convert Satluj font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-gurbani-akhar": { title: "Unicode to Gurbani Akhar", description: "Convert Unicode Punjabi text to Gurbani Akhar font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "gurbani-akhar-to-unicode": { title: "Gurbani Akhar to Unicode", description: "Convert Gurbani Akhar font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-raavi": { title: "Unicode to Raavi", description: "Convert Unicode Punjabi text to Raavi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "raavi-to-unicode": { title: "Raavi to Unicode", description: "Convert Raavi font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "gurmukhi-to-shahmukhi": { title: "Gurmukhi to Shahmukhi", description: "Convert Gurmukhi script to Shahmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "shahmukhi-to-gurmukhi": { title: "Shahmukhi to Gurmukhi", description: "Convert Shahmukhi script to Gurmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+
+    "font-detector": { title: "Font Detector", description: "Automatically detect if your text is Unicode, Kruti Dev, AnmolLipi, or another legacy font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font-detector", acceptedTypes: {} },
+    "unicode-normalizer": { title: "Unicode Normalizer", description: "Normalize Unicode text to its standard composed form (NFC).", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "normalizer", acceptedTypes: {} },
+    "remove-hidden-characters": { title: "Remove Hidden Characters", description: "Strip out invisible Unicode characters like ZWJ, ZWNJ, and BOM.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "hidden-chars", acceptedTypes: {} },
+    "fix-copy-paste-text": { title: "Fix Copy/Paste Text", description: "Fix broken line breaks and garbled characters from bad PDF copies.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "fix-copy-paste", acceptedTypes: {} },
+    "unicode-text-cleaner": { title: "Unicode Text Cleaner", description: "Remove extra whitespace, zero-width spaces, and unwanted formatting.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "cleaner", acceptedTypes: {} },
   }
 };
 

@@ -8,6 +8,9 @@ import { BarcodeGenerator } from "@/components/tools/barcode-generator";
 import { PasswordGenerator } from "@/components/tools/password-generator";
 import { FuelCalculator } from "@/components/tools/fuel-calculator";
 import { MileageCalculator } from "@/components/tools/mileage-calculator";
+import { FontConverter } from "@/components/tools/font-converter";
+import { FontDetector } from "@/components/tools/font-detector";
+import { UnicodeTools } from "@/components/tools/unicode-tools";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -57,6 +60,17 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     if (parts.length === 2) {
       defaultFrom = parts[0];
       defaultTo = parts[1];
+    }
+  }
+
+  // Extract from/to from slug if it's a font converter
+  let defaultFontFrom = "unicode";
+  let defaultFontTo = "krutidev";
+  if ((tool as any).converterType === "font") {
+    const parts = toolSlug.split("-to-");
+    if (parts.length === 2) {
+      defaultFontFrom = parts[0];
+      defaultFontTo = parts[1];
     }
   }
 
@@ -127,6 +141,9 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             {toolSlug === "fuel-calculator" && <FuelCalculator />}
             {toolSlug === "mileage-calculator" && <MileageCalculator />}
             {(tool as any).converterType === "length" && <LengthConverter defaultFrom={defaultFrom} defaultTo={defaultTo} />}
+            {(tool as any).converterType === "font" && <FontConverter defaultFrom={defaultFontFrom} defaultTo={defaultFontTo} category={(tool as any).fontCategory} />}
+            {(tool as any).converterType === "font-detector" && <FontDetector />}
+            {(tool as any).converterType === "unicode-tools" && <UnicodeTools toolType={(tool as any).toolType} />}
           </>
         ) : (
           <ToolEngine 
