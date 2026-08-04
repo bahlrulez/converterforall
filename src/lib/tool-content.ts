@@ -125,8 +125,9 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
     ];
   }
 
+  
   // Check if it's a font conversion tool
-  if (toolSlug.includes("-to-") && (toolSlug.includes("unicode") || toolSlug.includes("krutidev") || toolSlug.includes("chanakya") || toolSlug.includes("anmollipi") || toolSlug.includes("asees"))) {
+  if (toolSlug.includes("-to-") && (toolSlug.includes("unicode") || toolSlug.includes("krutidev") || toolSlug.includes("chanakya") || toolSlug.includes("anmollipi") || toolSlug.includes("asees") || toolSlug.includes("devlys") || toolSlug.includes("shusha") || toolSlug.includes("aps") || toolSlug.includes("shreelipi") || toolSlug.includes("joy") || toolSlug.includes("gurbanilipi"))) {
     const parts = toolSlug.split("-to-");
     const formatName = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).replace('-', ' ');
     const fromFont = formatName(parts[0]);
@@ -142,39 +143,28 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
         content: `<p>Converting ${fromFont} to ${toFont} is fast and seamless. Simply paste your text into the input box on this page, and our advanced client-side script will instantly convert it to ${toFont} without requiring you to click any buttons. You can then copy the result, or download it as a text or document file.</p>`
       },
       {
-        title: "Is my data uploaded to your servers?",
-        content: "<p>Absolutely not. The conversion between fonts happens entirely within your web browser using client-side JavaScript. Your text is never sent to our servers, ensuring 100% privacy and security for your sensitive documents.</p>"
-      },
-      {
-        title: "Can I use this tool offline?",
-        content: "<p>Yes! Once this web page fully loads in your browser, the conversion engine is stored locally in memory. You can disconnect from the internet and continue to convert text seamlessly.</p>"
-      },
-      {
-        title: "Why are some characters incorrect?",
-        content: "<p>Indic scripts have complex rules for half-characters, matras (vowel signs), and ligatures. Legacy fonts often use non-standard hacks to render these correctly on screen. While our converter handles 99% of these complex rules perfectly, extremely rare or unconventional typing habits might result in slight anomalies. If you notice a persistent error, please feel free to report it.</p>"
-      },
-      {
-        title: `Will my formatting be preserved after converting to ${toFont}?`,
-        content: `<p>Because ${fromFont} and ${toFont} have different character widths and spacing rules, the structural text will remain identical, but line breaks and page alignments in your design software might shift slightly. We recommend reviewing your document's layout after pasting the converted text.</p>`
-      },
-      {
-        title: "Is it free to use?",
-        content: "<p>Yes, ConverterForAll is completely free. We do not have any hidden fees, subscriptions, or daily usage limits. You can convert as much text as you need, as often as you want.</p>"
-      },
-      {
-        title: "Which devices and browsers are supported?",
-        content: "<p>Our font converter is web-based and highly optimized. It works flawlessly on modern browsers including Google Chrome, Mozilla Firefox, Apple Safari, and Microsoft Edge. You can use it on your Windows PC, Mac, Linux, Android smartphone, or iPhone.</p>"
-      },
-      {
-        title: "Can I download the converted text as a file?",
-        content: "<p>Yes! After converting your text, you can use the download buttons in the toolbar to save the output directly to your device as a `.txt` file or a Word-compatible `.doc` file.</p>"
-      },
-      {
-        title: "Do I need to install any software or extensions?",
-        content: "<p>No installation is required. Everything runs entirely within your web browser. You don't need to download any apps, browser extensions, or software packages to use our converter.</p>"
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: What is the difference between Unicode and Kruti Dev?</strong><br>A: Kruti Dev is a legacy Hindi font that uses custom key mappings based on the Remington typewriter layout. When you type in Kruti Dev without the font installed, it looks like random English gibberish. Unicode, on the other hand, is a universal standard. Unicode text will render perfectly as Hindi on any modern device (phones, tablets, PCs) without needing to install specific fonts.</p>
+          <p><strong>Q: How can I convert Kruti Dev to Unicode online?</strong><br>A: You can easily convert it using ConverterForAll. Just paste your Kruti Dev text into the input box, and our real-time, highly accurate engine will instantly translate it into perfect Unicode Hindi text directly in your browser.</p>
+          <p><strong>Q: How do I convert AnmolLipi to Unicode?</strong><br>A: Navigate to our AnmolLipi to Unicode tool, paste your Punjabi text written in AnmolLipi, and the tool will automatically handle all the complex matra (vowel) positioning to output flawless Unicode Gurmukhi text.</p>
+          <p><strong>Q: Which Hindi font is best for government work?</strong><br>A: While legacy fonts like Kruti Dev and DevLys are still heavily used in older Indian government offices for typing tests and documents, the official mandate is shifting towards Unicode (like Mangal font) due to its universal compatibility across the internet and modern databases.</p>
+          <p><strong>Q: How do I type Punjabi in Unicode?</strong><br>A: You can type Punjabi in Unicode by installing an Indic keyboard on your device (like Google Indic Keyboard or Raavi layout on Windows), or you can type using familiar legacy fonts like AnmolLipi and use our converter to seamlessly translate it into Unicode.</p>
+          <p><strong>Q: Why is my Hindi text showing strange characters?</strong><br>A: If your Hindi text looks like random English letters or strange symbols (e.g., 'fgunh Hkk"kk'), it is likely typed in a legacy font like Kruti Dev or Chanakya, but your device is displaying it with a standard English font. Using our converter will instantly fix this by translating it to Unicode.</p>
+          <p><strong>Q: How can I identify an unknown Hindi font?</strong><br>A: You can try pasting the text into our various converters (Kruti Dev, Chanakya, DevLys) to see which one produces readable Hindi output. Since many legacy fonts share similar layouts (like Kruti Dev and DevLys), they often convert interchangeably.</p>
+          <p><strong>Q: What is the best Punjabi font converter online?</strong><br>A: ConverterForAll is widely considered the best because it utilizes a highly sophisticated parsing engine that correctly shifts half-characters and vowel modifiers, ensuring 100% accurate conversion for AnmolLipi, Asees, Joy, and GurbaniLipi without any server uploads.</p>
+          <p><strong>Q: Can I convert legacy fonts without installing software?</strong><br>A: Yes! Our tools run completely in your web browser. You do not need to download or install any third-party software, plugins, or extensions.</p>
+          <p><strong>Q: Which font is compatible with Microsoft Word and Google Docs?</strong><br>A: Unicode is the ultimate standard for modern word processors like Google Docs, Microsoft Word, and Apple Pages. While you can install legacy fonts on desktop Word, Google Docs strictly requires Unicode for proper rendering across devices.</p>
+          <p><strong>Q: Is Unicode supported on Android and iPhone?</strong><br>A: Yes, absolutely. Unicode is built into the operating system of all modern Android and iOS devices. You can read, write, and share Unicode Hindi and Punjabi text seamlessly on WhatsApp, Facebook, and standard messaging apps.</p>
+          <p><strong>Q: How do I convert old DTP files to Unicode?</strong><br>A: Simply open your old DTP (Desktop Publishing) files in their original software (like PageMaker or older CorelDraw), copy the text, paste it into our respective font converter, and copy the resulting Unicode text into your new modern software.</p>
+          <p><strong>Q: Why is Unicode better than legacy fonts?</strong><br>A: Unicode is universally compatible. Legacy fonts require the reader to have the exact same font installed on their computer to read the document. Unicode text looks correct everywhere—on the web, in emails, and on mobile phones.</p>
+          <p><strong>Q: Can I convert fonts offline?</strong><br>A: Yes! Our font converters utilize client-side JavaScript. Once you load the webpage, you can disconnect your internet and continue converting text securely and instantly offline.</p>
+          <p><strong>Q: Is my converted text safe and private?</strong><br>A: 100% safe. Your text is processed strictly within your own browser's memory. We do not transmit, save, or store any of your typed or pasted text on our servers.</p>
+        `
       }
     ];
   }
+
 
   if (toolContent[toolSlug]) {
     return toolContent[toolSlug].sections;
