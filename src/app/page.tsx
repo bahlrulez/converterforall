@@ -139,7 +139,7 @@ export default function Home() {
           </div>
 
           {/* Font Converters Section */}
-          <div className="mb-20">
+          <div id="font-converters" className="mb-20 scroll-mt-24">
             <div className="flex items-center justify-between mb-12">
               <div>
                 <h2 className="text-3xl font-bold tracking-tight mb-2">Font Converters</h2>
