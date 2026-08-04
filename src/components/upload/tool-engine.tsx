@@ -229,19 +229,19 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   }
 
   const isCompressPdf = category === "document" && toolSlug === "compress-pdf";
-  const isRemoveBg = category === "image" && toolSlug === "remove-background";
-
   return (
     <FileUploader 
-      acceptedTypes={acceptedTypes}
-      actionLabel={actionLabel || (isRemoveBg ? "Remove Background" : `Convert to ${targetFormat.toUpperCase()}`)}
-      onProcessFile={handleProcessFile}
-      allowCamera={toolSlug === "scan-to-pdf"}
+      onProcessFile={handleProcessFile} 
+      acceptedTypes={acceptedTypes} 
+      actionLabel={actionLabel}
       optionsRenderer={
-        isCompressPdf ? renderPdfCompressionOptions : 
-        isRemoveBg ? renderBgRemovalOptions : 
-        isPageSelector ? renderPageSelectionOptions : undefined
+        category === "document" && toolSlug === "compress-pdf" ? renderPdfCompressionOptions : 
+        category === "image" && toolSlug === "remove-background" ? renderBgRemovalOptions :
+        isPageSelector ? renderPageSelectionOptions :
+        undefined
       }
+      allowCamera={category === "image"}
+      isDynamicBackgroundRemoval={toolSlug === "remove-background"}
     />
   );
 }

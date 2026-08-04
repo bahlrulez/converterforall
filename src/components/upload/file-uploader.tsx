@@ -14,6 +14,7 @@ interface FileUploaderProps {
   actionLabel?: string;
   optionsRenderer?: (disabled: boolean) => React.ReactNode;
   allowCamera?: boolean;
+  isDynamicBackgroundRemoval?: boolean;
 }
 
 export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File", optionsRenderer, allowCamera = false }: FileUploaderProps) {
@@ -169,7 +170,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
             </div>
           )}
 
-          {status === "converting" && progress > 0 && (
+          {status === "converting" && progress > 0 && !isDynamicBackgroundRemoval && (
             <div className="mt-4 space-y-2">
               <div className="flex justify-between text-sm text-muted-foreground">
                 <span>Processing...</span>
@@ -184,6 +185,33 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
             </div>
           )}
 
+          {status === "converting" && isDynamicBackgroundRemoval && file && (
+            <div className="mt-6 relative w-full aspect-video md:aspect-[16/7] rounded-xl overflow-hidden bg-muted/20 flex items-center justify-center border shadow-inner">
+              <style>{`
+                @keyframes scanline {
+                  0% { top: 0%; }
+                  50% { top: 100%; }
+                  100% { top: 0%; }
+                }
+              `}</style>
+              <img 
+                src={URL.createObjectURL(file)} 
+                className="w-full h-full object-contain opacity-70 scale-95 transition-transform duration-500 ease-out" 
+                alt="Processing preview" 
+              />
+              <div className="absolute inset-0 z-10 pointer-events-none">
+                <div className="w-full h-1 bg-primary shadow-[0_0_20px_rgba(var(--primary),1)] absolute animate-[scanline_3s_ease-in-out_infinite]" />
+                <div className="w-full h-full bg-gradient-to-b from-transparent via-primary/10 to-transparent absolute top-0 mix-blend-overlay animate-[scanline_3s_ease-in-out_infinite]" />
+              </div>
+              <div className="absolute bottom-4 inset-x-0 flex justify-center z-20">
+                <div className="bg-background/80 backdrop-blur px-4 py-2 rounded-full border shadow-sm text-sm font-medium flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                  Removing Background...
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="mt-6 flex gap-3 justify-end">
             {status !== "success" && status !== "converting" && status !== "uploading" && (
               <Button onClick={handleConvert} className="w-full sm:w-auto">
@@ -191,7 +219,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
               </Button>
             )}
 
-            {(status === "uploading" || status === "converting") && (
+            {(status === "uploading" || status === "converting") && !isDynamicBackgroundRemoval && (
               <Button disabled className="w-full sm:w-auto">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 {status === "uploading" ? "Uploading..." : "Converting..."}
