@@ -4,7 +4,10 @@ import { removeBackground } from "@imgly/background-removal";
 export type BgRemovalQuality = "isnet_quint8" | "isnet_fp16" | "isnet";
 
 export async function removeImageBackground(file: File, quality: BgRemovalQuality = "isnet_fp16"): Promise<Blob> {
-  const blob = await removeBackground(file, { model: quality });
+  const blob = await removeBackground(file, { 
+    model: quality,
+    publicPath: "https://unpkg.com/@imgly/background-removal-data@1.4.5/dist/"
+  });
   return blob;
 }
 
