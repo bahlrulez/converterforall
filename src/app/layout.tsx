@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   },
   description: "Experience the next-gen client-side file converter. Our revolutionary WebAssembly technology processes your documents, images, and video directly inside your browser. No server uploads, zero wait times, and absolute privacy—your files never leave your device.",
   keywords: ["private file converter", "client-side converter", "in-browser file conversion", "serverless converter", "secure file converter", "free offline converter"],
+  alternates: {
+    canonical: '/',
+  },
   authors: [{ name: "ConverterForAll" }],
   openGraph: {
     type: "website",

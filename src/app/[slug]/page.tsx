@@ -39,6 +39,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `${toolData.tool.title} - Free Online Converter`,
       description: toolData.tool.description,
     },
+    alternates: {
+      canonical: `https://converterforall.com/${resolvedParams.slug}`,
+    }
   };
 }
 

@@ -4,38 +4,14 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Blog - Conversion Guides & Tech News",
   description: "Read the latest articles on file conversion, productivity, and tech trends from ConverterForAll.",
+  alternates: {
+    canonical: "https://converterforall.com/blog",
+  }
 };
 
-const posts = [
-  {
-    slug: "the-ultimate-guide-to-hindi-and-punjabi-font-conversion",
-    title: "The Ultimate Guide to Hindi & Punjabi Font Conversion: Safe, Fast, and 100% Private",
-    date: "August 4, 2026",
-    excerpt: "Dealing with old Indian language fonts can be incredibly frustrating. Learn how to securely and accurately convert Kruti Dev and AnmolLipi to modern Unicode.",
-    category: "Conversion Guides"
-  },
-  {
-    slug: "how-to-remove-image-backgrounds-for-ecommerce",
-    title: "How to Remove Image Backgrounds for E-Commerce",
-    date: "August 1, 2026",
-    excerpt: "Learn the easiest and fastest way to optimize your product photos by removing messy backgrounds.",
-    category: "Conversion Guides"
-  },
-  {
-    slug: "why-client-side-conversion-is-the-future",
-    title: "Why Client-Side Conversion is the Future of Privacy",
-    date: "July 25, 2026",
-    excerpt: "Discover how processing files locally in your browser protects your sensitive data from hackers.",
-    category: "Technology"
-  },
-  {
-    slug: "word-to-pdf-formatting-tips",
-    title: "5 Tips for Preserving Word Formatting when Converting to PDF",
-    date: "July 12, 2026",
-    excerpt: "Ensure your resumes and contracts look perfect on every device by following these simple formatting rules.",
-    category: "Productivity"
-  }
-];
+import { posts } from "@/lib/blog-data";
+
+
 
 export default function BlogIndex() {
   return (

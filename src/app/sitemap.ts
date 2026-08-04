@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getAllToolSlugs } from '@/lib/tools-db'
+import { getAllBlogSlugs } from '@/lib/blog-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://converterforall.com'
@@ -32,5 +33,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
-  return [...routes, ...toolRoutes]
+  // Blog routes
+  const blogSlugs = getAllBlogSlugs()
+  const blogRoutes = blogSlugs.map((slug) => ({
+    url: `${baseUrl}/blog/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }))
+
+  return [...routes, ...toolRoutes, ...blogRoutes]
 }

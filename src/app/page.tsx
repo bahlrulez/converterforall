@@ -12,6 +12,36 @@ export default function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebSite",
+                "@id": "https://converterforall.com/#website",
+                "url": "https://converterforall.com/",
+                "name": "ConverterForAll",
+                "description": "One Platform. Every Conversion. Fast, Secure, and Free.",
+                "publisher": {
+                  "@id": "https://converterforall.com/#organization"
+                }
+              },
+              {
+                "@type": "Organization",
+                "@id": "https://converterforall.com/#organization",
+                "name": "ConverterForAll",
+                "url": "https://converterforall.com/",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://converterforall.com/favicon.ico"
+                }
+              }
+            ]
+          })
+        }}
+      />
       <Hero />
       
       <HowItWorks />
