@@ -28,18 +28,18 @@ export function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link 
+            <a 
               href="#featured-tools"
               className={cn(buttonVariants({ size: "lg" }), "rounded-full w-full sm:w-auto h-12 px-8 text-base")}
             >
               Start Converting <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-            <Link 
+            </a>
+            <a 
               href="#featured-tools"
               className={cn(buttonVariants({ size: "lg", variant: "outline" }), "rounded-full w-full sm:w-auto h-12 px-8 text-base")}
             >
               Explore Tools
-            </Link>
+            </a>
           </div>
         </div>
 

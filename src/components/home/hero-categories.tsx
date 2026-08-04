@@ -47,17 +47,19 @@ function CategoryCard({ category }: { category: typeof CATEGORIES[0] }) {
     setOpacity(0);
   };
 
-  return (
-    <Link
-      ref={divRef}
-      href={category.href}
-      onMouseMove={handleMouseMove}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className={`group relative flex flex-col items-center justify-center gap-4 rounded-[2rem] border bg-card/40 p-8 transition-all duration-500 md:hover:-translate-y-1 md:hover:shadow-2xl overflow-hidden ${category.borderHover}`}
-    >
+  const isHashLink = category.href.includes('#');
+  
+  const commonProps = {
+    onMouseMove: handleMouseMove,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+    className: `group relative flex flex-col items-center justify-center gap-4 rounded-[2rem] border bg-card/40 p-8 transition-all duration-500 md:hover:-translate-y-1 md:hover:shadow-2xl overflow-hidden ${category.borderHover}`
+  };
+
+  const innerContent = (
+    <>
       <div
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100 rounded-[2rem]"
         style={{
@@ -77,6 +79,20 @@ function CategoryCard({ category }: { category: typeof CATEGORIES[0] }) {
       <span className="relative z-10 text-sm font-semibold tracking-wide text-muted-foreground group-hover:text-foreground transition-colors">
         {category.label}
       </span>
+    </>
+  );
+
+  if (isHashLink) {
+    return (
+      <a ref={divRef as any} href={category.href} {...commonProps}>
+        {innerContent}
+      </a>
+    );
+  }
+
+  return (
+    <Link ref={divRef as any} href={category.href} {...commonProps}>
+      {innerContent}
     </Link>
   );
 }
