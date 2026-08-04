@@ -117,8 +117,19 @@ export const hindiMappings: Record<string, FontMap> = {
   }
 };
 
+import { krutidevToUnicode, unicodeToKrutidev } from './krutidev-converter';
+
 export function convertHindi(text: string, font: string, direction: 'toUnicode' | 'fromUnicode'): string {
   if (!text) return '';
+  
+  if (font === 'krutidev' || font === 'Krutidev') {
+    if (direction === 'toUnicode') {
+      return krutidevToUnicode(text);
+    } else {
+      return unicodeToKrutidev(text);
+    }
+  }
+
   const map = hindiMappings[font];
   if (!map) return text;
 
@@ -134,9 +145,9 @@ export function convertHindi(text: string, font: string, direction: 'toUnicode' 
   }
 
   if (direction === 'toUnicode') {
-    result = result.replace(/f([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])/g, "$1ि");
+    result = result.replace(/f([\u0900-\u097F])/g, "$1\u093F");
   } else if (direction === 'fromUnicode') {
-    result = result.replace(/([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])ि/g, "f$1");
+    result = result.replace(/([\u0900-\u097F])\u093F/g, "f$1");
   }
 
   return result;
