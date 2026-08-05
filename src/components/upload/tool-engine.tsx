@@ -20,6 +20,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   const [compressionPreset, setCompressionPreset] = useState<CompressionPreset>("balanced");
   const [bgQuality, setBgQuality] = useState<BgRemovalQuality>("isnet_fp16");
   const [pageSelection, setPageSelection] = useState<string>("");
+  const [videoFps, setVideoFps] = useState<number>(1);
 
   // Fix for Next.js SPA navigation wiping out COOP/COEP headers
   useEffect(() => {
@@ -60,7 +61,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     } else if (category === "video" || category === "audio") {
       blob = await convertVideo(file, targetFormat, toolSlug, (p) => {
         if (onProgress) onProgress(p);
-      });
+      }, { fps: videoFps });
     } else {
       throw new Error("This tool is not yet fully implemented for client-side processing.");
     }
@@ -218,6 +219,33 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     );
   };
 
+  const renderVideoFpsOptions = (disabled: boolean) => {
+    return (
+      <div className="space-y-4">
+        <h3 className="text-sm font-medium">Extraction Rate (Frames per Second)</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+          {[1, 5, 10, 30].map((fps) => (
+            <button
+              key={fps}
+              disabled={disabled}
+              onClick={() => setVideoFps(fps)}
+              className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 text-center transition-all ${
+                videoFps === fps 
+                  ? "border-primary bg-primary/5 text-primary" 
+                  : "border-border hover:border-primary/50 text-muted-foreground"
+              }`}
+            >
+              <span className="font-semibold text-sm">{fps} FPS</span>
+            </button>
+          ))}
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Warning: Selecting high FPS on long videos may cause memory crashes.
+        </p>
+      </div>
+    );
+  };
+
   if (toolSlug === "merge-pdf") {
     return (
       <MultiFileUploader 
@@ -238,6 +266,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
         category === "document" && toolSlug === "compress-pdf" ? renderPdfCompressionOptions : 
         category === "image" && toolSlug === "remove-background" ? renderBgRemovalOptions :
         isPageSelector ? renderPageSelectionOptions :
+        toolSlug === "video-to-jpg" ? renderVideoFpsOptions :
         undefined
       }
       allowCamera={category === "image"}

@@ -44,7 +44,8 @@ export const convertVideo = async (
   file: File, 
   targetFormat: string, 
   toolSlug: string,
-  onProgress: (progress: number) => void
+  onProgress: (progress: number) => void,
+  options?: { fps?: number }
 ): Promise<Blob> => {
   try {
     const ffmpegInstance = await loadFfmpeg((p) => {
@@ -74,12 +75,13 @@ export const convertVideo = async (
         outputName
       ]);
     } else if (toolSlug === 'video-to-jpg') {
-      // Extract frames at 1 fps
+      // Extract frames at given fps
       // We will create a directory first to store frames
+      const fps = options?.fps || 1;
       await ffmpegInstance.createDir('frames');
       exitCode = await ffmpegInstance.exec([
         '-i', inputName,
-        '-r', '1',
+        '-r', fps.toString(),
         '-q:v', '5', 
         '-vf', 'scale=854:-2', // Limit to 480p width to prevent WASM memory crashes
         'frames/frame_%04d.jpg'
