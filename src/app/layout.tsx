@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description: "Experience the next-gen client-side file converter. Process documents, images, and video directly in your browser with zero uploads and absolute privacy.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "ConverterForAll - Private Online File Converter",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Serverless File Converter: Fast, Free, and 100% Private",
     description: "Experience the next-gen client-side file converter. Process documents, images, and video directly in your browser with zero uploads and absolute privacy.",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
