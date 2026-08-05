@@ -61,9 +61,9 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
+                  className="group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-[1.03] hover:border-primary/50 flex flex-col isolation-auto"
                 >
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div><div className="flex items-center gap-4 mb-4 relative z-10">
                     <div className="rounded-xl p-3 bg-blue-500/10 text-blue-500">
                       <FileText className="h-6 w-6" />
                     </div>
@@ -91,9 +91,9 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
+                  className="group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-[1.03] hover:border-primary/50 flex flex-col isolation-auto"
                 >
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div><div className="flex items-center gap-4 mb-4 relative z-10">
                     <div className="rounded-xl p-3 bg-emerald-500/10 text-emerald-500">
                       <ImageIcon className="h-6 w-6" />
                     </div>
@@ -121,9 +121,9 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
+                  className="group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-[1.03] hover:border-primary/50 flex flex-col isolation-auto"
                 >
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div><div className="flex items-center gap-4 mb-4 relative z-10">
                     <div className="rounded-xl p-3 bg-red-500/10 text-red-500">
                       <Video className="h-6 w-6" />
                     </div>
@@ -151,9 +151,9 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
+                  className="group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-[1.03] hover:border-primary/50 flex flex-col isolation-auto"
                 >
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div><div className="flex items-center gap-4 mb-4 relative z-10">
                     <div className="rounded-xl p-3 bg-purple-500/10 text-purple-500">
                       <Music className="h-6 w-6" />
                     </div>
@@ -181,9 +181,9 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
+                  className="group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-[1.03] hover:border-primary/50 flex flex-col isolation-auto"
                 >
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div><div className="flex items-center gap-4 mb-4 relative z-10">
                     <div className="rounded-xl p-3 bg-indigo-500/10 text-indigo-500">
                       <Type className="h-6 w-6" />
                     </div>
@@ -211,9 +211,9 @@ export default function Home() {
                 <Link 
                   key={slug}
                   href={`/${slug}`}
-                  className="group rounded-2xl border bg-card p-6 md:hover:shadow-md transition-all md:hover:border-primary/50 flex flex-col"
+                  className="group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 hover:scale-[1.03] hover:border-primary/50 flex flex-col isolation-auto"
                 >
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div><div className="flex items-center gap-4 mb-4 relative z-10">
                     <div className="rounded-xl p-3 bg-amber-500/10 text-amber-500">
                       <ArrowRight className="h-6 w-6" />
                     </div>
