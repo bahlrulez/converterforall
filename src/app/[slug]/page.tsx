@@ -13,6 +13,7 @@ import { FontDetector } from "@/components/tools/font-detector";
 import { UnicodeTools } from "@/components/tools/unicode-tools";
 import { PassportMaker } from "@/components/tools/passport-maker";
 import OcrPdfTool from "@/components/tools/ocr-pdf";
+import RepairPdfTool from "@/components/tools/repair-pdf";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -151,6 +152,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             {(tool as any).converterType === "unicode-tools" && <UnicodeTools toolType={(tool as any).toolType} />}
             {toolSlug === "passport-photo-maker" && <PassportMaker />}
             {toolSlug === "ocr-pdf" && <OcrPdfTool />}
+            {toolSlug === "repair-pdf" && <RepairPdfTool />}
           </>
         ) : (
           <ToolEngine 

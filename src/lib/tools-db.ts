@@ -154,6 +154,7 @@ export const toolsDatabase = {
       inputFormat: "pdf",
       outputFormat: "pdf",
       actionName: "Repair PDF",
+      isInteractive: true,
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "ocr-pdf": {
