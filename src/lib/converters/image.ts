@@ -66,15 +66,27 @@ export async function processImage(file: File, targetFormat: string): Promise<Bl
   }
 }
 
-export async function compressImageFile(file: File, targetSizeMB: number = 1): Promise<Blob> {
+export async function compressImageFile(file: File, qualityPercentage: number = 80): Promise<Blob> {
+  // Convert quality percentage (0-100) to decimal (0.01-1.0)
+  const decimalQuality = Math.max(0.01, qualityPercentage / 100);
+
   const options = {
-    maxSizeMB: targetSizeMB,
-    maxWidthOrHeight: 1920,
+    maxSizeMB: Number.POSITIVE_INFINITY,
     useWebWorker: true,
+    initialQuality: decimalQuality,
+    alwaysKeepResolution: true,
+    fileType: file.type // ensures PNG stays PNG
   };
   
   try {
     const compressedFile = await imageCompression(file, options);
+    
+    // Fallback: If compression somehow increases the file size (common with already optimized PNGs), 
+    // just return the original file.
+    if (compressedFile.size >= file.size) {
+      return file;
+    }
+    
     return compressedFile;
   } catch (error) {
     console.error("Image compression error:", error);

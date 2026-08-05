@@ -21,7 +21,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   const [bgQuality, setBgQuality] = useState<BgRemovalQuality>("isnet_fp16");
   const [pageSelection, setPageSelection] = useState<string>("");
   const [videoFps, setVideoFps] = useState<number>(1);
-  const [targetSizeMB, setTargetSizeMB] = useState<number>(1);
+  const [compressionQuality, setCompressionQuality] = useState<number>(80);
 
   // Fix for Next.js SPA navigation wiping out COOP/COEP headers
   useEffect(() => {
@@ -43,7 +43,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     if (category === "image" && toolSlug === "remove-background") {
       blob = await removeImageBackground(file, bgQuality);
     } else if (category === "image" && (toolSlug === "compress-jpg" || toolSlug === "compress-png")) {
-      blob = await compressImageFile(file, targetSizeMB);
+      blob = await compressImageFile(file, compressionQuality);
     } else if (category === "image") {
       blob = await processImage(file, targetFormat);
     } else if (category === "document" && toolSlug === "compress-pdf") {
@@ -253,27 +253,27 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     return (
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium">Target File Size</h3>
-          <span className="text-sm font-semibold text-primary">{targetSizeMB} MB</span>
+          <h3 className="text-sm font-medium">Image Quality</h3>
+          <span className="text-sm font-semibold text-primary">{compressionQuality}%</span>
         </div>
         <div className="px-1">
           <input 
             type="range" 
-            min="0.1" 
-            max="10" 
-            step="0.1" 
-            value={targetSizeMB} 
-            onChange={(e) => setTargetSizeMB(parseFloat(e.target.value))} 
+            min="0" 
+            max="100" 
+            step="1" 
+            value={compressionQuality} 
+            onChange={(e) => setCompressionQuality(parseInt(e.target.value, 10))} 
             disabled={disabled}
             className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
           />
         </div>
         <div className="flex justify-between text-xs text-muted-foreground px-1">
-          <span>0.1 MB</span>
-          <span>10 MB</span>
+          <span>0% (Max Compression)</span>
+          <span>100% (Original)</span>
         </div>
         <p className="text-xs text-muted-foreground mt-2">
-          The compressor will try to reach this target size while maintaining the best possible quality.
+          Lower quality results in smaller file sizes.
         </p>
       </div>
     );
