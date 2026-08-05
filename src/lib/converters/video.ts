@@ -80,6 +80,8 @@ export const convertVideo = async (
       exitCode = await ffmpegInstance.exec([
         '-i', inputName,
         '-r', '1',
+        '-q:v', '5', 
+        '-vf', 'scale=854:-2', // Limit to 480p width to prevent WASM memory crashes
         'frames/frame_%04d.jpg'
       ]);
     } else if (targetFormat === 'mp3' || targetFormat === 'wav' || targetFormat === 'ogg') {
