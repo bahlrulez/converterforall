@@ -163,6 +163,7 @@ export const toolsDatabase = {
       inputFormat: "pdf",
       outputFormat: "pdf",
       actionName: "Run OCR",
+      isInteractive: true,
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
 
