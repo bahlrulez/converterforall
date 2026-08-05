@@ -175,22 +175,22 @@ export function PassportMaker() {
               <p className="text-sm text-muted-foreground">Position your face inside the crop box.</p>
             </div>
             
-            <div className="flex gap-2 bg-background p-1 rounded-lg shadow-sm border">
+            <div className="flex gap-2 bg-background p-1 rounded-lg shadow-sm border overflow-x-auto hide-scrollbar max-w-full">
               <button
                 onClick={() => setAspect(35 / 45)}
-                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                className={`px-3 py-1.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${
                   aspect === 35 / 45 ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                 }`}
               >
-                EU / UK / Aus (35x45)
+                India / EU / UK (35x45mm)
               </button>
               <button
                 onClick={() => setAspect(1)}
-                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                className={`px-3 py-1.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${
                   aspect === 1 ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                 }`}
               >
-                US Standard (2x2)
+                US / India OCI (2x2 in)
               </button>
             </div>
           </div>

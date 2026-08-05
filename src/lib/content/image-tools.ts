@@ -344,7 +344,7 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is the Free Passport Photo Maker?",
-        content: "<p>Our Passport Photo Maker is a modern, privacy-focused online tool that allows you to easily crop and convert any portrait image into a perfectly sized passport photo. Whether you need a standard 2x2 inch photo for a US passport, or a 35x45mm photo for a European, UK, or Australian visa, this tool provides precise cropping overlays to ensure your face is perfectly proportioned according to strict international government guidelines. Skip the trip to the local pharmacy or photography studio and create professional passport photos for free directly from your smartphone or computer.</p>"
+        content: "<p>Our Passport Photo Maker is a modern, privacy-focused online tool that allows you to easily crop and convert any portrait image into a perfectly sized passport photo. Whether you need a standard 2x2 inch photo for a US passport or Indian OCI/Visa, or a 35x45mm photo for an Indian domestic passport, European, UK, or Australian visa, this tool provides precise cropping overlays to ensure your face is perfectly proportioned according to strict international government guidelines. Skip the trip to the local pharmacy or photography studio and create professional passport photos for free directly from your smartphone or computer.</p>"
       },
       {
         title: "How does it work?",
@@ -352,7 +352,7 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload a portrait:</strong> Take a clear photo of yourself against a plain white or off-white background with good lighting. Drag and drop this photo into our tool.</li><li><strong>Select your size:</strong> Choose your required aspect ratio—either US Standard (2x2 inches) or International Standard (35x45 mm).</li><li><strong>Crop and frame:</strong> Use the interactive cropping box to scale and position your image. Ensure your head is centered and you leave appropriate space above your hair and below your chin.</li><li><strong>Download:</strong> Click 'Generate Passport Photo' to instantly download your perfectly cropped, high-resolution JPG file.</li></ol>"
+        content: "<ol><li><strong>Upload a portrait:</strong> Take a clear photo of yourself against a plain white or off-white background with good lighting. Drag and drop this photo into our tool.</li><li><strong>Select your size:</strong> Choose your required aspect ratio—either US/India Visa (2x2 inches) or India/International Standard (35x45 mm).</li><li><strong>Crop and frame:</strong> Use the interactive cropping box to scale and position your image. Ensure your head is centered and you leave appropriate space above your hair and below your chin.</li><li><strong>Download:</strong> Click 'Generate Passport Photo' to instantly download your perfectly cropped, high-resolution JPG file.</li></ol>"
       },
       {
         title: "Practical uses",
@@ -362,8 +362,8 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         title: "Frequently Asked Questions",
         content: `
           <p><strong>Q: Is this tool safe for my personal photos?</strong><br>A: Absolutely. Our passport photo maker utilizes client-side processing. This means your photograph never leaves your device and is never uploaded to any database, ensuring total biometric privacy.</p>
-          <p><strong>Q: What size should I choose for a US Passport?</strong><br>A: You should select the US Standard (2x2) option. The US government requires a perfectly square photo (2 by 2 inches) with specific head sizing requirements.</p>
-          <p><strong>Q: What size is required for a UK or Schengen Visa?</strong><br>A: Most European, UK, and Australian applications require the International Standard, which is 35mm wide by 45mm tall.</p>
+          <p><strong>Q: What size should I choose for a US Passport or Indian Visa/OCI?</strong><br>A: You should select the US/India OCI (2x2) option. The government requires a perfectly square photo (2 by 2 inches) with specific head sizing requirements.</p>
+          <p><strong>Q: What size is required for an Indian Passport, UK, or Schengen Visa?</strong><br>A: Most domestic Indian passports, as well as European, UK, and Australian applications require the International Standard, which is 35mm wide by 45mm tall.</p>
           <p><strong>Q: Will this tool automatically remove my background?</strong><br>A: This specific tool focuses on precise dimension cropping. If you need a perfectly white background, we recommend using our 'Remove Background' tool first, saving the image with a solid white layer, and then uploading it here for sizing.</p>
           <p><strong>Q: Can I print the downloaded file at a pharmacy or photo kiosk?</strong><br>A: Yes! The tool outputs a standard, high-quality JPG file. You can easily arrange this file on a 4x6 print template to print multiple copies at any standard photo center.</p>
           <p><strong>Q: Are there any rules for taking the initial photo?</strong><br>A: Yes. Look directly at the camera, maintain a neutral expression, keep both eyes open, and ensure there are no heavy shadows on your face or the background. Glasses should generally be removed to avoid glare.</p>
