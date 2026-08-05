@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { toolsDatabase } from "@/lib/tools-db";
 import { Moon, Sun, Monitor, Menu, ChevronDown } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -63,37 +64,19 @@ export function Header() {
               <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:-rotate-180" />
             </button>
             
-            <div className="absolute top-full left-0 w-[600px] bg-background/95 backdrop-blur-xl border rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-8 z-50 grid grid-cols-3 gap-8 translate-y-2 group-hover:translate-y-0">
-              
-              <div>
-                <h4 className="text-sm font-bold text-foreground mb-4 uppercase tracking-wider">Image</h4>
-                <div className="flex flex-col gap-3">
-                  <Link href="/remove-background" className="text-sm text-muted-foreground hover:text-primary transition-colors">Remove Background</Link>
-                  <Link href="/jpg-to-png" className="text-sm text-muted-foreground hover:text-primary transition-colors">JPG to PNG</Link>
-                  <Link href="/webp-to-png" className="text-sm text-muted-foreground hover:text-primary transition-colors">WEBP to PNG</Link>
-                  <Link href="/heic-to-jpg" className="text-sm text-muted-foreground hover:text-primary transition-colors">HEIC to JPG</Link>
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-[900px] bg-background/95 backdrop-blur-xl border rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-8 z-50 grid grid-cols-4 gap-x-8 gap-y-10 translate-y-2 group-hover:translate-y-0 max-h-[80vh] overflow-y-auto">
+              {Object.entries(toolsDatabase).map(([categoryName, tools]) => (
+                <div key={categoryName}>
+                  <h4 className="text-sm font-bold text-foreground mb-4 uppercase tracking-wider">{categoryName}</h4>
+                  <div className="flex flex-col gap-3">
+                    {Object.entries(tools as any).map(([slug, tool]: any) => (
+                      <Link key={slug} href={`/${slug}`} className="text-sm text-muted-foreground hover:text-primary transition-colors truncate" title={tool.title}>
+                        {tool.title.replace('Convert ', '')}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              
-              <div>
-                <h4 className="text-sm font-bold text-foreground mb-4 uppercase tracking-wider">Document</h4>
-                <div className="flex flex-col gap-3">
-                  <Link href="/merge-pdf" className="text-sm text-muted-foreground hover:text-primary transition-colors">Merge PDF</Link>
-                  <Link href="/split-pdf" className="text-sm text-muted-foreground hover:text-primary transition-colors">Split PDF</Link>
-                  <Link href="/compress-pdf" className="text-sm text-muted-foreground hover:text-primary transition-colors">Compress PDF</Link>
-                  <Link href="/word-to-pdf" className="text-sm text-muted-foreground hover:text-primary transition-colors">Word to PDF</Link>
-                </div>
-              </div>
-              
-              <div>
-                <h4 className="text-sm font-bold text-foreground mb-4 uppercase tracking-wider">Media</h4>
-                <div className="flex flex-col gap-3">
-                  <Link href="/compress-video" className="text-sm text-muted-foreground hover:text-primary transition-colors">Compress Video</Link>
-                  <Link href="/video-to-jpg" className="text-sm text-muted-foreground hover:text-primary transition-colors">Video to JPG</Link>
-                  <Link href="/mp4-to-mp3" className="text-sm text-muted-foreground hover:text-primary transition-colors">MP4 to MP3</Link>
-                  <Link href="/#font-converters" className="text-sm text-muted-foreground hover:text-primary transition-colors">Font Tools</Link>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
