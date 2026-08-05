@@ -102,24 +102,81 @@ export const toolContent: Record<string, { sections: { title: string, content: s
 
 // Fallback generator for tools that haven't been manually written yet
 export function getToolContent(toolSlug: string, toolTitle: string, toolDescription: string) {
-  // Check if it's a specific length conversion tool (e.g. inches-to-centimeters)
-  if (toolSlug.includes("-to-") && (toolSlug.includes("inches") || toolSlug.includes("meters") || toolSlug.includes("feet") || toolSlug.includes("miles") || toolSlug.includes("yards") || toolSlug.includes("leagues") || toolSlug.includes("parsecs") || toolSlug.includes("furlongs") || toolSlug.includes("chains") || toolSlug.includes("rods"))) {
+  // Helper for length conversion factors to base (meters) to generate accurate tables
+  const lengthFactors: Record<string, number> = {
+    'Inches': 0.0254,
+    'Feet': 0.3048,
+    'Yards': 0.9144,
+    'Miles': 1609.344,
+    'Millimeters': 0.001,
+    'Centimeters': 0.01,
+    'Meters': 1,
+    'Kilometers': 1000,
+    'Nautical-miles': 1852
+  };
+
+  // Check if it's a specific length conversion tool
+  if (toolSlug.includes("-to-") && (toolSlug.includes("inches") || toolSlug.includes("meters") || toolSlug.includes("feet") || toolSlug.includes("miles") || toolSlug.includes("yards") || toolSlug.includes("millimeter") || toolSlug.includes("centimeter") || toolSlug.includes("kilometer"))) {
     const parts = toolSlug.split("-to-");
-    const fromUnit = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-    const toUnit = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+    const formatName = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).replace('-', ' ');
+    const fromUnit = formatName(parts[0]);
+    const toUnit = formatName(parts[1]);
     
+    // Attempt to generate a reference table if we know the conversion factor
+    let tableHtml = "";
+    let formulaHtml = "";
+    if (lengthFactors[fromUnit] && lengthFactors[toUnit]) {
+      const ratio = lengthFactors[fromUnit] / lengthFactors[toUnit];
+      // Format number to avoid crazy decimals for simple things
+      const formatNum = (num: number) => Number.isInteger(num) ? num.toString() : num.toPrecision(6).replace(/\.?0+$/, '');
+      
+      formulaHtml = `
+      <div class="bg-muted p-4 rounded-lg my-4 border border-border">
+        <h3 class="text-lg font-semibold mt-0 mb-2">The Formula</h3>
+        <p class="mb-0">To convert ${fromUnit} to ${toUnit}, you multiply the value by <strong>${formatNum(ratio)}</strong>.</p>
+        <code class="block mt-2 bg-background p-2 rounded">${toUnit} = ${fromUnit} × ${formatNum(ratio)}</code>
+      </div>`;
+
+      tableHtml = `
+      <h3 class="mt-8 mb-4">${fromUnit} to ${toUnit} Conversion Chart</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr>
+              <th class="border-b border-border py-2 px-4 font-semibold">${fromUnit}</th>
+              <th class="border-b border-border py-2 px-4 font-semibold">${toUnit}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${[1, 2, 3, 4, 5, 10, 20, 50, 100].map(val => `
+            <tr class="hover:bg-muted/50 transition-colors">
+              <td class="border-b border-border py-2 px-4">${val}</td>
+              <td class="border-b border-border py-2 px-4">${formatNum(val * ratio)}</td>
+            </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>`;
+    }
+
     return [
       {
         title: `How to convert ${fromUnit} to ${toUnit}`,
-        content: `<p>Converting ${fromUnit} to ${toUnit} is incredibly simple with our free online length converter. Just type the value in ${fromUnit} into the input box, and our tool will instantly calculate the exact equivalent in ${toUnit} with high precision.</p>`
+        content: `<p>Converting ${fromUnit} to ${toUnit} doesn't have to be a headache. Just type the number of ${fromUnit} into the box above, and you'll instantly see the exact equivalent in ${toUnit}. There's no submit button to press—the math happens right as you type.</p>
+        ${formulaHtml}`
       },
       {
-        title: "Why use our length converter?",
+        title: "Quick Reference",
+        content: `<p>If you don't want to use the calculator every time, here are the most common conversions for you to quickly reference or copy.</p>
+        ${tableHtml}`
+      },
+      {
+        title: "Why use this tool?",
         content: `<ul>
-          <li><strong>Instant Results:</strong> There are no buttons to click or pages to reload. The conversion happens in real-time as you type.</li>
-          <li><strong>100% Free:</strong> Our tool is completely free to use without any limits or hidden fees.</li>
-          <li><strong>Privacy First:</strong> All calculations happen directly inside your web browser. No data is ever sent to our servers.</li>
-          <li><strong>High Precision:</strong> We use high-precision floating point math to ensure your conversions are accurate to 10 decimal places.</li>
+          <li><strong>It's incredibly fast:</strong> The calculation happens on your own device the millisecond you press a key.</li>
+          <li><strong>It's completely free:</strong> No paywalls, no limits, and no hidden fees.</li>
+          <li><strong>Total privacy:</strong> Since everything runs in your web browser, nothing you type is ever sent to a server.</li>
+          <li><strong>Highly accurate:</strong> We handle the heavy decimal math behind the scenes to give you precision you can trust.</li>
         </ul>`
       }
     ];
@@ -172,24 +229,20 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
   
   return [
     {
-      title: "What is this converter?",
-      content: `<p>${toolDescription} This tool provides a seamless, fast, and completely free way to process your files directly in your web browser. Built with modern web technologies, it ensures high-quality output while maintaining strict privacy standards.</p><p>Whether you are a professional needing reliable daily utilities or a casual user looking for a quick fix, this ${toolTitle} tool is designed to meet your needs without the bloat of traditional software.</p>`
+      title: "What is this tool?",
+      content: `<p>${toolDescription} We built this tool to be the easiest, fastest way to get your file processed right in your web browser. There's no confusing software to download or tricky settings to figure out.</p><p>Whether you're fixing a file for work or just trying to get a quick task done, this ${toolTitle} tool gives you exactly what you need without the usual hassle.</p>`
     },
     {
-      title: "How does it work?",
-      content: "<p>Our platform leverages advanced client-side processing algorithms. When you upload a file, it is loaded directly into your browser's memory. The conversion logic—whether it involves manipulating pixels for an image, altering container formats for video, or restructuring document layouts—happens locally utilizing your device's CPU and GPU. This modern approach eliminates the need to upload files to a remote server, dramatically reducing wait times and completely eliminating the risk of your sensitive data being intercepted or stored.</p>"
+      title: "How it works",
+      content: "<p>Most websites make you upload your private files to their remote servers, make you wait in a queue, and then force you to download the result. We do things differently.</p><p>When you drop a file onto this page, all the hard work happens entirely inside your own browser using your device's processing power. This means it's usually instant, and more importantly, it means <strong>your files never leave your computer</strong>. Nobody else can see them, and they are never stored anywhere on the internet.</p>"
     },
     {
-      title: "Step-by-step guide",
-      content: "<ol><li><strong>Select your file:</strong> Drag and drop your file directly into the conversion area, or click the upload box to browse your device.</li><li><strong>Initiate Conversion:</strong> The tool will automatically detect the file format. Click the primary action button to begin the process.</li><li><strong>Download:</strong> Because processing happens locally, your file will be ready almost instantly. Click download to save the converted file to your device.</li></ol>"
+      title: "How to use it",
+      content: "<ol><li><strong>Pick your file:</strong> Drag and drop your file into the box above, or click to browse your computer or phone.</li><li><strong>Let it run:</strong> The tool will figure out the format and start processing immediately.</li><li><strong>Save it:</strong> Since everything happened locally, your new file is ready to go. Just hit the download button to save it!</li></ol>"
     },
     {
-      title: "Practical uses",
-      content: "<ul><li><strong>Workflow Optimization:</strong> Quickly adapt files to the specific format requirements of different software ecosystems or client requests.</li><li><strong>Storage Efficiency:</strong> Convert bulky, uncompressed files into modern, optimized formats to save hard drive space and bandwidth.</li><li><strong>Cross-Device Compatibility:</strong> Ensure your media and documents can be seamlessly opened and viewed on smartphones, tablets, and desktop computers alike.</li></ul>"
-    },
-    {
-      title: "Frequently Asked Questions",
-      content: "<p><strong>Q: Is this tool really free?</strong><br>A: Yes, ConverterForAll provides this utility completely free of charge. We are supported by unintrusive advertisements.</p><p><strong>Q: Do I need to create an account?</strong><br>A: No registration or account creation is required to use any of our tools.</p><p><strong>Q: What happens to my files after conversion?</strong><br>A: Since the processing is done in your browser, your files never leave your device. There is nothing for us to delete because we never receive your files in the first place.</p>"
+      title: "Common Questions",
+      content: "<p><strong>Do I have to pay to use this?</strong><br>Nope! We keep this utility completely free. We just run a few non-annoying ads to keep the lights on.</p><p><strong>Do I need to sign up?</strong><br>No accounts, no emails, no passwords. Just drop your file and go.</p><p><strong>Are you saving my files?</strong><br>Never. Because the tool runs directly on your device using web technologies, we physically cannot see or save your files.</p>"
     }
   ];
 }
