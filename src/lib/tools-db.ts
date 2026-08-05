@@ -53,6 +53,22 @@ export const toolsDatabase = {
       inputFormat: "heic",
       outputFormat: "jpg",
       acceptedTypes: { "image/heic": [".heic"] }
+    },
+    "compress-jpg": {
+      title: "Compress JPG",
+      description: "Reduce JPG file size while preserving maximum visual quality using our in-browser compressor.",
+      inputFormat: "jpg",
+      outputFormat: "jpg",
+      actionName: "Compress JPG",
+      acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"] }
+    },
+    "compress-png": {
+      title: "Compress PNG",
+      description: "Compress PNG images significantly without losing transparency or visual quality.",
+      inputFormat: "png",
+      outputFormat: "png",
+      actionName: "Compress PNG",
+      acceptedTypes: { "image/png": [".png"] }
     }
   },
   "document": {

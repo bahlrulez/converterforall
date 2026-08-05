@@ -271,5 +271,73 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
+  },
+  "compress-jpg": {
+    sections: [
+      {
+        title: "What is this compressor?",
+        content: "<p>Our Compress JPG tool is an advanced, privacy-first utility designed to significantly reduce the file size of your JPEG and JPG images without sacrificing visual quality. High-resolution photos from modern smartphones and digital cameras can easily exceed 5MB to 10MB per image, making them difficult to upload, slow to share, and space-consuming to store. This compressor uses smart lossy compression algorithms to shrink your file footprint by up to 90%, optimizing them perfectly for web use, email attachments, and strict upload limits.</p>"
+      },
+      {
+        title: "How does it work?",
+        content: "<p>What sets our tool apart is that the entire compression process happens locally inside your web browser. When you select an image, our client-side compression engine (powered by advanced JavaScript and WebAssembly) analyzes the image data on your device. It intelligently reduces the color palette depth and adjusts the DCT (Discrete Cosine Transform) quantization tables. Because your files never leave your device and are never uploaded to a remote server, you experience zero upload delays, zero bandwidth costs, and absolute data privacy.</p>"
+      },
+      {
+        title: "Examples",
+        content: "<p>Imagine you are a web developer building a modern landing page, and you have a stunning 8MB hero image in JPG format. If you upload it as-is, your website will load slowly, punishing your SEO score. By dropping that image into our compressor, you can instantly reduce it to a web-optimized 250KB file that looks virtually identical to the human eye, drastically improving your website's load times and Core Web Vitals.</p>"
+      },
+      {
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Select your image:</strong> Drag and drop your heavy JPG or JPEG file into the tool, or click to open your file browser.</li><li><strong>Adjust Target Size:</strong> Use the modern slider layout to set your desired target file size or compression level.</li><li><strong>Instant Processing:</strong> The browser immediately compresses the image locally. This usually takes just milliseconds.</li><li><strong>Download:</strong> Click download to save your new, lightweight JPG directly to your device.</li></ol>"
+      },
+      {
+        title: "Practical uses",
+        content: "<ul><li><strong>Web Optimization:</strong> Dramatically decreasing page load times for blogs, portfolios, and e-commerce stores.</li><li><strong>Emailing:</strong> Shrinking large photo albums so they easily fit within the strict 25MB attachment limits of Gmail and Outlook.</li><li><strong>Storage Space:</strong> Archiving thousands of personal photos in a fraction of the hard drive space.</li><li><strong>Application Uploads:</strong> Preparing images for passport applications, job portals, or government websites that enforce strict file size limits (e.g., \"Max 500KB\").</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Will my photos become blurry or pixelated?</strong><br>A: Our intelligent compressor aims to find the perfect balance between file size and visual fidelity. While JPG compression is technically lossy, the visual difference is usually unnoticeable to the human eye at standard viewing sizes.</p>
+          <p><strong>Q: Are my personal photos safe?</strong><br>A: Yes! Because this tool utilizes 100% client-side compression, your images are never uploaded to any cloud server. Your private data stays entirely on your own device.</p>
+          <p><strong>Q: Can I compress multiple images at once?</strong><br>A: Currently, this tool is optimized to provide the highest quality processing for one image at a time, allowing you to fine-tune the compression slider for each specific photo.</p>
+          <p><strong>Q: Is there a maximum file size limit for uploading?</strong><br>A: Since the processing happens in your browser, the only limit is your device's memory (RAM). You can safely compress massive 50MB panoramas without worrying about server limits.</p>
+          <p><strong>Q: Does it strip metadata like GPS locations?</strong><br>A: By default, client-side canvas-based compression often strips out EXIF metadata, which actually helps reduce the file size further and protects your privacy by removing location tags.</p>
+        `
+      }
+    ]
+  },
+  "compress-png": {
+    sections: [
+      {
+        title: "What is this compressor?",
+        content: "<p>The Compress PNG tool is a specialized, privacy-focused utility designed to drastically reduce the file size of your Portable Network Graphics (PNG) images. While PNGs are beloved by designers for their lossless quality and support for transparent backgrounds, they are notoriously heavy. Our compressor uses advanced quantization techniques to shrink massive PNG files while retaining crisp edges and perfect transparency, making them ideal for web design and app development.</p>"
+      },
+      {
+        title: "How does it work?",
+        content: "<p>Our tool utilizes cutting-edge client-side technology (including WebAssembly and HTML5 Canvas APIs) to compress your image entirely within your own web browser. When a PNG is loaded, the engine analyzes the image and uses intelligent color quantization to reduce the number of colors in the palette without causing visible banding. By running this complex optimization locally on your hardware, we eliminate the need for server uploads, guaranteeing instant results and 100% data privacy.</p>"
+      },
+      {
+        title: "Examples",
+        content: "<p>Consider an app developer who has exported a complex logo with a transparent background from Adobe Illustrator. The resulting PNG is 3MB, which is too large to bundle efficiently into a mobile app. By processing the logo through our PNG compressor, the file size is slashed to 300KB. The transparent background remains perfect, the logo remains sharp, and the app's overall download size is significantly reduced.</p>"
+      },
+      {
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Upload your graphic:</strong> Drag and drop your heavy PNG file into the drop zone, or browse your device to select it.</li><li><strong>Configure Compression:</strong> Adjust the target compression slider to balance between file size reduction and image clarity.</li><li><strong>Local Optimization:</strong> Your browser instantly processes the image data in memory, requiring zero upload time.</li><li><strong>Save your file:</strong> Click the download button to instantly save the optimized PNG to your computer.</li></ol>"
+      },
+      {
+        title: "Practical uses",
+        content: "<ul><li><strong>UI/UX Design:</strong> Optimizing icons, logos, and interface elements with transparent backgrounds for faster website rendering.</li><li><strong>Game Development:</strong> Shrinking massive sprite sheets and texture atlases to reduce game load times and memory usage.</li><li><strong>Digital Marketing:</strong> Preparing high-quality graphics for email campaigns where strict total payload limits apply.</li><li><strong>Digital Art:</strong> Sharing complex digital illustrations on social media or portfolio sites without hitting upload size caps.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Will my image lose its transparent background?</strong><br>A: Absolutely not! Our PNG compressor fully supports and preserves the alpha channel, ensuring your transparent backgrounds remain perfectly intact.</p>
+          <p><strong>Q: Why is my PNG file so large to begin with?</strong><br>A: PNG is a lossless format, meaning it stores exact pixel data. If your image contains millions of unique colors (like a photograph), the PNG format struggles to compress it efficiently, resulting in massive file sizes.</p>
+          <p><strong>Q: Is this compression process secure?</strong><br>A: 100% secure. The optimization happens locally inside your browser's memory. Your files are never transmitted to our servers.</p>
+          <p><strong>Q: Will the compression cause color banding?</strong><br>A: While heavy compression reduces the color palette, our algorithm uses advanced dithering techniques to smooth out gradients and minimize noticeable banding.</p>
+          <p><strong>Q: Can I use this tool on my iPhone or Android?</strong><br>A: Yes! The client-side compression engine is fully responsive and runs smoothly on modern mobile web browsers.</p>
+        `
+      }
+    ]
   }
 };

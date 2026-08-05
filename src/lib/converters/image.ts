@@ -1,5 +1,6 @@
 import heic2any from "heic2any";
 import { removeBackground } from "@imgly/background-removal";
+import imageCompression from "browser-image-compression";
 
 export type BgRemovalQuality = "isnet_quint8" | "isnet_fp16" | "isnet";
 
@@ -62,5 +63,21 @@ export async function processImage(file: File, targetFormat: string): Promise<Bl
     }
 
     return blob;
+  }
+}
+
+export async function compressImageFile(file: File, targetSizeMB: number = 1): Promise<Blob> {
+  const options = {
+    maxSizeMB: targetSizeMB,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
+  
+  try {
+    const compressedFile = await imageCompression(file, options);
+    return compressedFile;
+  } catch (error) {
+    console.error("Image compression error:", error);
+    throw new Error("Failed to compress the image.");
   }
 }
