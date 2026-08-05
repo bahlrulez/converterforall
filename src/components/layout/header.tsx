@@ -64,7 +64,7 @@ export function Header() {
               <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:-rotate-180" />
             </button>
             
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-[900px] bg-background/95 backdrop-blur-xl border rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-8 z-50 grid grid-cols-4 gap-x-8 gap-y-10 translate-y-2 group-hover:translate-y-0 max-h-[80vh] overflow-y-auto">
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-max min-w-[1000px] max-w-[95vw] bg-background/95 backdrop-blur-xl border rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-8 z-50 grid grid-cols-6 gap-x-6 gap-y-10 translate-y-2 group-hover:translate-y-0 max-h-[85vh] overflow-y-auto">
               {Object.entries(toolsDatabase).map(([categoryName, tools]) => (
                 <div key={categoryName}>
                   <h4 className="text-sm font-bold text-foreground mb-4 uppercase tracking-wider">{categoryName}</h4>
