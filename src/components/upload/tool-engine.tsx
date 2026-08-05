@@ -58,7 +58,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       blob = await splitPdf(file);
       finalFormat = "zip";
     } else if (category === "video" || category === "audio") {
-      blob = await convertVideo(file, targetFormat, (p) => {
+      blob = await convertVideo(file, targetFormat, toolSlug, (p) => {
         if (onProgress) onProgress(p);
       });
     } else {

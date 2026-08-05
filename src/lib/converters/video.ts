@@ -1,5 +1,6 @@
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
+import JSZip from 'jszip';
 
 let ffmpeg: FFmpeg | null = null;
 
@@ -42,6 +43,7 @@ export const loadFfmpeg = async (onProgress: (p: { progress: number }) => void) 
 export const convertVideo = async (
   file: File, 
   targetFormat: string, 
+  toolSlug: string,
   onProgress: (progress: number) => void
 ): Promise<Blob> => {
   try {
@@ -59,7 +61,28 @@ export const convertVideo = async (
     await ffmpegInstance.writeFile(inputName, await fetchFile(file));
 
     let exitCode = 0;
-    if (targetFormat === 'mp3' || targetFormat === 'wav' || targetFormat === 'ogg') {
+    
+    if (toolSlug === 'compress-video') {
+      // Compress video
+      exitCode = await ffmpegInstance.exec([
+        '-i', inputName, 
+        '-vcodec', 'libx264', 
+        '-crf', '28', 
+        '-preset', 'fast', 
+        '-c:a', 'aac', 
+        '-b:a', '128k', 
+        outputName
+      ]);
+    } else if (toolSlug === 'video-to-jpg') {
+      // Extract frames at 1 fps
+      // We will create a directory first to store frames
+      await ffmpegInstance.createDir('frames');
+      exitCode = await ffmpegInstance.exec([
+        '-i', inputName,
+        '-r', '1',
+        'frames/frame_%04d.jpg'
+      ]);
+    } else if (targetFormat === 'mp3' || targetFormat === 'wav' || targetFormat === 'ogg') {
       // Default to best audio stream instead of mapping all audio streams
       exitCode = await ffmpegInstance.exec(['-i', inputName, '-q:a', '0', outputName]);
     } else {
@@ -68,6 +91,30 @@ export const convertVideo = async (
 
     if (exitCode !== 0) {
       throw new Error(`Conversion failed with FFmpeg exit code ${exitCode}. Please try a different file.`);
+    }
+
+    if (toolSlug === 'video-to-jpg') {
+      const zip = new JSZip();
+      // list files in frames directory
+      const files = await ffmpegInstance.listDir('frames');
+      let imageCount = 0;
+      for (const f of files) {
+        if (!f.isDir) {
+          const frameData = await ffmpegInstance.readFile(`frames/${f.name}`);
+          zip.file(f.name, frameData as Uint8Array);
+          imageCount++;
+          await ffmpegInstance.deleteFile(`frames/${f.name}`);
+        }
+      }
+      await ffmpegInstance.deleteDir('frames');
+      
+      if (imageCount === 0) {
+         throw new Error("No frames were extracted from the video.");
+      }
+
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      await ffmpegInstance.deleteFile(inputName);
+      return zipBlob;
     }
 
     const data = await ffmpegInstance.readFile(outputName);

@@ -226,6 +226,22 @@ export const toolsDatabase = {
     }
   },
   "video": {
+    "compress-video": {
+      title: "Compress Video Size",
+      description: "Reduce video file size while maintaining quality.",
+      inputFormat: "video",
+      outputFormat: "mp4",
+      actionName: "Compress Video",
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+    },
+    "video-to-jpg": {
+      title: "Video to JPG Sequence",
+      description: "Extract frames from your video into a sequence of JPG images.",
+      inputFormat: "video",
+      outputFormat: "zip",
+      actionName: "Extract to JPGs",
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+    },
     "mp4-to-mp3": {
       title: "Convert MP4 to MP3",
       description: "Extract high-quality audio from your MP4 videos.",
