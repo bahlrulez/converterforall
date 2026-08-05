@@ -172,15 +172,29 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
 
           {status === "converting" && progress > 0 && !isDynamicBackgroundRemoval && (
             <div className="mt-4 space-y-2">
+              <style>{`
+                @keyframes shine {
+                  from { transform: translateX(-100%); }
+                  to { transform: translateX(200%); }
+                }
+                .animate-shine {
+                  animation: shine 1.5s infinite;
+                }
+              `}</style>
               <div className="flex justify-between text-sm text-muted-foreground">
-                <span>Processing...</span>
-                <span>{progress}%</span>
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  Processing...
+                </span>
+                <span className="font-medium text-foreground">{progress}%</span>
               </div>
-              <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+              <div className="h-2.5 w-full overflow-hidden rounded-full bg-secondary shadow-inner relative">
                 <div
-                  className="h-full bg-primary transition-all duration-300 ease-in-out"
+                  className="h-full bg-gradient-to-r from-primary to-blue-500 transition-all duration-300 ease-out relative overflow-hidden"
                   style={{ width: `${progress}%` }}
-                />
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent w-full animate-shine" />
+                </div>
               </div>
             </div>
           )}

@@ -81,7 +81,7 @@ export const extractFramesWithCanvas = async (file: File, fps: number, onProgres
         if (hasError) return;
         
         if (currentFrame >= totalFrames) {
-          onProgress(1); // 100%
+          onProgress(100); // 100%
           zip.generateAsync({ type: 'blob' }).then(resolve).catch(reject);
           URL.revokeObjectURL(video.src);
           return;
@@ -101,7 +101,7 @@ export const extractFramesWithCanvas = async (file: File, fps: number, onProgres
               zip.file(`frame_${frameNumber}.jpg`, blob);
             }
             currentFrame++;
-            onProgress(currentFrame / totalFrames);
+            onProgress(Math.round((currentFrame / totalFrames) * 100));
             processNextFrame();
           }, 'image/jpeg', 0.9); // Use 0.9 for high quality
         } catch (err) {
