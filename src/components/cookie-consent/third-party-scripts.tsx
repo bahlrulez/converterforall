@@ -10,24 +10,7 @@ export function ThirdPartyScripts() {
 
   return (
     <>
-      {/* Google Analytics 4 - Only load if Analytics consent is granted */}
-      {consent.analytics && (
-        <>
-          <Script 
-            strategy="lazyOnload"
-            src="https://www.googletagmanager.com/gtag/js?id=G-49NFK7K9W6" 
-          />
-          <Script id="google-analytics" strategy="lazyOnload">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-49NFK7K9W6', {
-                page_path: window.location.pathname,
-              });
-            `}
-          </Script>
-
+          {/* Google Analytics is now loaded in layout.tsx using native Consent Mode v2 */}
           {/* Microsoft Clarity - Only load if Analytics consent is granted */}
           <Script id="microsoft-clarity" strategy="lazyOnload">
             {`

@@ -85,6 +85,18 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Google Analytics Script (Runs in consent mode) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-49NFK7K9W6"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-49NFK7K9W6');
+            `,
+          }}
+        />
         {/* Google Site Verification Placeholder */}
         <meta name="google-site-verification" content="google8e488f91621932b6" />
       </head>
