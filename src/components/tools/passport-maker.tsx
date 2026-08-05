@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import Cropper from "react-easy-crop";
 import { useDropzone } from "react-dropzone";
-import { Upload, Download, RefreshCw, Scissors, ArrowLeft } from "lucide-react";
+import { Upload, Download, RefreshCw, Scissors, ArrowLeft, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Utility to create the cropped image
@@ -81,19 +81,29 @@ export function PassportMaker() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = (file: File) => {
+    setFileName(file.name.replace(/\.[^/.]+$/, "") + "-passport.jpg");
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageSrc(reader.result as string);
+      setResultBlob(null); // Reset previous result
+    };
+    reader.readAsDataURL(file);
+  };
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
-      const file = acceptedFiles[0];
-      setFileName(file.name.replace(/\.[^/.]+$/, "") + "-passport.jpg");
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImageSrc(reader.result as string);
-        setResultBlob(null); // Reset previous result
-      };
-      reader.readAsDataURL(file);
+      handleFile(acceptedFiles[0]);
     }
   }, []);
+
+  const handleCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      handleFile(e.target.files[0]);
+    }
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -160,6 +170,25 @@ export function PassportMaker() {
           <p className="text-xs text-muted-foreground">
             Supports JPG, PNG, and WEBP. Processing is 100% private.
           </p>
+        </div>
+        
+        <div className="flex justify-center mt-4">
+          <input
+            type="file"
+            accept="image/*"
+            capture="user"
+            className="hidden"
+            ref={cameraInputRef}
+            onChange={handleCameraCapture}
+          />
+          <Button
+            variant="outline"
+            className="w-full sm:w-auto border-dashed border-2 hover:bg-muted/50 py-6"
+            onClick={() => cameraInputRef.current?.click()}
+          >
+            <Camera className="mr-2 h-5 w-5" />
+            Take Photo
+          </Button>
         </div>
       </div>
     );
