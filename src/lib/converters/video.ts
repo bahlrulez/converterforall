@@ -40,6 +40,90 @@ export const loadFfmpeg = async (onProgress: (p: { progress: number }) => void) 
   return ffmpeg;
 };
 
+export const extractFramesWithCanvas = async (file: File, fps: number, onProgress: (p: number) => void): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video');
+    video.src = URL.createObjectURL(file);
+    video.muted = true;
+    video.playsInline = true;
+    video.crossOrigin = 'anonymous';
+    
+    video.onloadedmetadata = async () => {
+      const duration = video.duration;
+      // Safety net for broken video durations
+      if (!duration || !isFinite(duration)) {
+        reject(new Error("Could not determine video duration."));
+        return;
+      }
+      
+      const totalFrames = Math.floor(duration * fps);
+      if (totalFrames === 0) {
+        reject(new Error("Video is too short for the selected FPS."));
+        return;
+      }
+
+      const zip = new JSZip();
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      if (!ctx) {
+        reject(new Error("Could not create canvas context."));
+        return;
+      }
+      
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      
+      let currentFrame = 0;
+      let hasError = false;
+      
+      const processNextFrame = () => {
+        if (hasError) return;
+        
+        if (currentFrame >= totalFrames) {
+          onProgress(1); // 100%
+          zip.generateAsync({ type: 'blob' }).then(resolve).catch(reject);
+          URL.revokeObjectURL(video.src);
+          return;
+        }
+        
+        const time = currentFrame / fps;
+        video.currentTime = time;
+      };
+      
+      video.onseeked = () => {
+        try {
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob((blob) => {
+            if (blob) {
+              // 1-indexed frame numbers for standard sequences
+              const frameNumber = (currentFrame + 1).toString().padStart(4, '0');
+              zip.file(`frame_${frameNumber}.jpg`, blob);
+            }
+            currentFrame++;
+            onProgress(currentFrame / totalFrames);
+            processNextFrame();
+          }, 'image/jpeg', 0.9); // Use 0.9 for high quality
+        } catch (err) {
+          hasError = true;
+          reject(new Error("Failed to extract frame. The video might be corrupted or in an unsupported codec."));
+        }
+      };
+      
+      video.onerror = (e) => {
+        hasError = true;
+        reject(new Error("Video playback error in browser."));
+      };
+      
+      // Start the loop
+      processNextFrame();
+    };
+    
+    // Trigger metadata load
+    video.load();
+  });
+};
+
 export const convertVideo = async (
   file: File, 
   targetFormat: string, 
@@ -47,6 +131,11 @@ export const convertVideo = async (
   onProgress: (progress: number) => void,
   options?: { fps?: number }
 ): Promise<Blob> => {
+  if (toolSlug === 'video-to-jpg') {
+    // Delegate to native HTML5 Canvas implementation
+    return extractFramesWithCanvas(file, options?.fps || 1, onProgress);
+  }
+
   try {
     const ffmpegInstance = await loadFfmpeg((p) => {
       let pct = Math.round(p.progress * 100);
@@ -74,18 +163,6 @@ export const convertVideo = async (
         '-b:a', '128k', 
         outputName
       ]);
-    } else if (toolSlug === 'video-to-jpg') {
-      // Extract frames at given fps
-      // We will create a directory first to store frames
-      const fps = options?.fps || 1;
-      await ffmpegInstance.createDir('frames');
-      exitCode = await ffmpegInstance.exec([
-        '-i', inputName,
-        '-r', fps.toString(),
-        '-q:v', '5', 
-        '-vf', 'scale=854:-2', // Limit to 480p width to prevent WASM memory crashes
-        'frames/frame_%04d.jpg'
-      ]);
     } else if (targetFormat === 'mp3' || targetFormat === 'wav' || targetFormat === 'ogg') {
       // Default to best audio stream instead of mapping all audio streams
       exitCode = await ffmpegInstance.exec(['-i', inputName, '-q:a', '0', outputName]);
@@ -95,30 +172,6 @@ export const convertVideo = async (
 
     if (exitCode !== 0) {
       throw new Error(`Conversion failed with FFmpeg exit code ${exitCode}. Please try a different file.`);
-    }
-
-    if (toolSlug === 'video-to-jpg') {
-      const zip = new JSZip();
-      // list files in frames directory
-      const files = await ffmpegInstance.listDir('frames');
-      let imageCount = 0;
-      for (const f of files) {
-        if (!f.isDir) {
-          const frameData = await ffmpegInstance.readFile(`frames/${f.name}`);
-          zip.file(f.name, frameData as Uint8Array);
-          imageCount++;
-          await ffmpegInstance.deleteFile(`frames/${f.name}`);
-        }
-      }
-      await ffmpegInstance.deleteDir('frames');
-      
-      if (imageCount === 0) {
-         throw new Error("No frames were extracted from the video.");
-      }
-
-      const zipBlob = await zip.generateAsync({ type: "blob" });
-      await ffmpegInstance.deleteFile(inputName);
-      return zipBlob;
     }
 
     const data = await ffmpegInstance.readFile(outputName);
