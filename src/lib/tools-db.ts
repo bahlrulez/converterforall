@@ -69,6 +69,15 @@ export const toolsDatabase = {
       outputFormat: "png",
       actionName: "Compress PNG",
       acceptedTypes: { "image/png": [".png"] }
+    },
+    "passport-photo-maker": {
+      title: "Passport Photo Maker",
+      description: "Create and crop perfect passport photos online. Supports standard US and International sizes.",
+      inputFormat: "image",
+      outputFormat: "jpg",
+      actionName: "Make Passport Photo",
+      isInteractive: true,
+      acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     }
   },
   "document": {

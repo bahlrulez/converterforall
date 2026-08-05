@@ -11,6 +11,7 @@ import { MileageCalculator } from "@/components/tools/mileage-calculator";
 import { FontConverter } from "@/components/tools/font-converter";
 import { FontDetector } from "@/components/tools/font-detector";
 import { UnicodeTools } from "@/components/tools/unicode-tools";
+import { PassportMaker } from "@/components/tools/passport-maker";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -147,6 +148,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             {(tool as any).converterType === "font" && <FontConverter defaultFrom={defaultFontFrom} defaultTo={defaultFontTo} category={(tool as any).fontCategory} />}
             {(tool as any).converterType === "font-detector" && <FontDetector />}
             {(tool as any).converterType === "unicode-tools" && <UnicodeTools toolType={(tool as any).toolType} />}
+            {toolSlug === "passport-photo-maker" && <PassportMaker />}
           </>
         ) : (
           <ToolEngine 
