@@ -2,8 +2,9 @@
 
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, FileText, Download, Loader2, ArrowRight } from "lucide-react";
+import { Upload, FileText, Download, Loader2, ArrowRight, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import * as pdfjsLib from "pdfjs-dist";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 
@@ -16,6 +17,7 @@ export default function PdfToWordTool() {
   const [progressText, setProgressText] = useState("");
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [fileName, setFileName] = useState("");
+  const [documentLanguage, setDocumentLanguage] = useState("english");
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
@@ -48,6 +50,10 @@ export default function PdfToWordTool() {
       const paragraphs: Paragraph[] = [];
       let totalExtractedChars = 0;
       
+      let targetFont = "Arial";
+      if (documentLanguage === "hindi") targetFont = "Mangal";
+      else if (documentLanguage === "punjabi") targetFont = "Raavi";
+      
       for (let i = 1; i <= numPages; i++) {
         setProgressText(`Extracting text from page ${i} of ${numPages}...`);
         const page = await pdf.getPage(i);
@@ -65,7 +71,7 @@ export default function PdfToWordTool() {
           const height = item.height || 10;
           
           if (lastY !== undefined && Math.abs(lastY - y) > 5 && currentLine) {
-            paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine.trim(), font: "Arial" })] }));
+            paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine.trim(), font: targetFont })] }));
             currentLine = "";
             lastX = undefined;
             lastWidth = undefined;
@@ -99,7 +105,7 @@ export default function PdfToWordTool() {
           lastY = y;
         }
         if (currentLine) {
-          paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine, font: "Arial" })] }));
+          paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine.trim(), font: targetFont })] }));
         }
         
         // Add a blank line between pages
@@ -114,7 +120,7 @@ export default function PdfToWordTool() {
                 text: "NOTICE: This PDF appears to be a scanned image and does not contain any extractable text.",
                 bold: true,
                 color: "FF0000",
-                font: "Arial",
+                font: targetFont,
               }),
             ],
           }),
@@ -122,7 +128,7 @@ export default function PdfToWordTool() {
             children: [
               new TextRun({
                 text: "Please use the 'OCR PDF' tool on our website first to make this document text-searchable, and then you can successfully convert it to Word.",
-                font: "Arial",
+                font: targetFont,
               }),
             ],
           })
@@ -135,7 +141,7 @@ export default function PdfToWordTool() {
           default: {
             document: {
               run: {
-                font: "Arial",
+                font: targetFont,
               },
             },
           },
@@ -198,7 +204,7 @@ export default function PdfToWordTool() {
     <div className="bg-card rounded-3xl p-6 sm:p-12 border shadow-sm flex flex-col items-center justify-center min-h-[400px]">
       {!resultBlob ? (
         <div className="flex flex-col items-center max-w-md w-full">
-          <div className="flex items-center gap-4 mb-8">
+          <div className="flex items-center gap-4 mb-6">
             <div className="flex flex-col items-center">
               <div className="h-16 w-16 bg-red-100 dark:bg-red-900/30 rounded-2xl flex items-center justify-center mb-2">
                 <FileText className="h-8 w-8 text-red-600 dark:text-red-400" />
@@ -214,7 +220,29 @@ export default function PdfToWordTool() {
             </div>
           </div>
           
-          <h3 className="text-xl font-semibold mb-2 text-center">{file.name}</h3>
+          <h3 className="text-xl font-semibold mb-4 text-center">{file.name}</h3>
+          
+          <div className="w-full mb-6">
+            <label className="block text-sm font-medium mb-2">Document Primary Language (Prevents Font Errors)</label>
+            <Select value={documentLanguage} onValueChange={(val) => val && setDocumentLanguage(val)} disabled={isProcessing}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select Language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="english">English / Global (Default)</SelectItem>
+                <SelectItem value="hindi">Hindi</SelectItem>
+                <SelectItem value="punjabi">Punjabi</SelectItem>
+                <SelectItem value="other">Other Language</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-200 p-4 rounded-xl text-sm flex gap-3 mb-6 items-start">
+            <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" />
+            <p>
+              <strong>Note:</strong> This free text-extraction engine accurately extracts text but <strong>will not preserve complex layout, images, or tables</strong>.
+            </p>
+          </div>
           
           {isProcessing ? (
             <div className="flex flex-col items-center mt-6">
