@@ -2,9 +2,10 @@
 
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, FileText, CheckCircle, X, Download, RefreshCw } from "lucide-react";
+import { Upload, FileText, CheckCircle, X, Download, RefreshCw, FileBox } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { processOcrPdf } from "@/lib/converters/ocr";
+import { Document, Packer, Paragraph, TextRun } from "docx";
 
 export default function OcrPdfTool() {
   const [file, setFile] = useState<File | null>(null);
@@ -13,6 +14,7 @@ export default function OcrPdfTool() {
   const [progressValue, setProgressValue] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [extractedText, setExtractedText] = useState<string | null>(null);
   const [language, setLanguage] = useState("eng");
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -23,6 +25,7 @@ export default function OcrPdfTool() {
       setErrorMsg("");
       setProgressValue(0);
       setProgressMsg("");
+      setExtractedText(null);
     }
   }, []);
 
@@ -36,9 +39,53 @@ export default function OcrPdfTool() {
   const reset = () => {
     setFile(null);
     setStatus("idle");
+    if (resultUrl) URL.revokeObjectURL(resultUrl);
     setResultUrl(null);
     setProgressValue(0);
     setProgressMsg("");
+    setExtractedText(null);
+  };
+
+  const handleDownloadWord = async () => {
+    if (!extractedText || !file) return;
+    
+    let targetFont = "Arial";
+    if (language === "hin") targetFont = "Mangal";
+    else if (language === "pan") targetFont = "Raavi";
+    
+    const textLines = extractedText.split('\n');
+    const paragraphs = textLines.map(line => {
+      return new Paragraph({
+        children: [
+          new TextRun({
+            text: line,
+            font: targetFont
+          })
+        ]
+      });
+    });
+
+    const doc = new Document({
+      styles: {
+        default: {
+          document: {
+            run: {
+              font: targetFont,
+            },
+          },
+        },
+      },
+      sections: [{
+        properties: {},
+        children: paragraphs
+      }]
+    });
+
+    const blob = await Packer.toBlob(doc);
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = file.name.replace(".pdf", "-extracted.docx");
+    a.click();
   };
 
   const handleProcess = async () => {
@@ -48,13 +95,16 @@ export default function OcrPdfTool() {
     setProgressValue(5);
     
     try {
-      const blob = await processOcrPdf(file, (msg, val) => {
+      if (resultUrl) URL.revokeObjectURL(resultUrl);
+      
+      const { pdfBlob, text } = await processOcrPdf(file, (msg, val) => {
         setProgressMsg(msg);
         setProgressValue(val);
       }, language);
       
-      const url = URL.createObjectURL(blob);
+      const url = URL.createObjectURL(pdfBlob);
       setResultUrl(url);
+      setExtractedText(text);
       setStatus("success");
     } catch (err: any) {
       console.error(err);
@@ -170,6 +220,10 @@ export default function OcrPdfTool() {
               <RefreshCw className="mr-2 h-4 w-4" />
               Process Another File
             </Button>
+            <Button variant="secondary" onClick={handleDownloadWord}>
+              <FileBox className="mr-2 h-4 w-4" />
+              Direct Word Doc
+            </Button>
             <Button onClick={() => {
               const a = document.createElement("a");
               a.href = resultUrl;
@@ -177,7 +231,7 @@ export default function OcrPdfTool() {
               a.click();
             }}>
               <Download className="mr-2 h-4 w-4" />
-              Download Searchable PDF
+              Searchable PDF
             </Button>
           </div>
         )}

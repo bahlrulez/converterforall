@@ -11,7 +11,7 @@ export async function processOcrPdf(
   file: File,
   onProgress?: (msg: string, progress: number) => void,
   language: string = 'eng'
-): Promise<Blob> {
+): Promise<{ pdfBlob: Blob; text: string }> {
   onProgress?.("Reading PDF...", 5);
   const arrayBuffer = await file.arrayBuffer();
 
@@ -44,6 +44,7 @@ export async function processOcrPdf(
   });
 
   const finalPdf = await PDFDocument.create();
+  let fullText = "";
 
   for (let i = 1; i <= numPages; i++) {
     currentPage = i;
@@ -75,6 +76,9 @@ export async function processOcrPdf(
     // 2. Run Tesseract to generate a 1-page PDF
     const result = await worker.recognize(imageDataUrl, { pdfTitle: `Scanned Page ${i}` }, { pdf: true });
     const pdfBytes = result.data.pdf;
+    if (result.data.text) {
+      fullText += result.data.text + "\n\n";
+    }
     
     if (!pdfBytes) {
       throw new Error(`Failed to generate searchable layer for page ${i}`);
@@ -93,5 +97,8 @@ export async function processOcrPdf(
   const finalBytes = await finalPdf.save();
   onProgress?.("Complete!", 100);
 
-  return new Blob([finalBytes as unknown as BlobPart], { type: 'application/pdf' });
+  return {
+    pdfBlob: new Blob([finalBytes as unknown as BlobPart], { type: 'application/pdf' }),
+    text: fullText.trim()
+  };
 }
