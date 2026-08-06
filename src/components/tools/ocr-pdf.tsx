@@ -109,7 +109,12 @@ export default function OcrPdfTool() {
     } catch (err: any) {
       console.error(err);
       setStatus("error");
-      setErrorMsg(err.message || "Failed to process PDF.");
+      let errorMessage = "Failed to process PDF.";
+      if (typeof err === "string") errorMessage = err;
+      else if (err?.message) errorMessage = err.message;
+      else if (err?.name) errorMessage = err.name;
+      
+      setErrorMsg(errorMessage);
     }
   };
 

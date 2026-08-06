@@ -52,8 +52,12 @@ export async function processOcrPdf(
     
     // 1. Render page to Canvas
     const page = await pdfDoc.getPage(i);
-    // Scale up for better OCR accuracy. 2.0 is usually a good balance between accuracy and performance
-    const viewport = page.getViewport({ scale: 2.0 });
+    const unscaledViewport = page.getViewport({ scale: 1.0 });
+    const maxDim = Math.max(unscaledViewport.width, unscaledViewport.height);
+    // Dynamically calculate scale: target ~2500px maximum dimension to balance OCR accuracy and memory limits
+    // Cap scale at 3.0 for low-res documents, and scale down huge high-res scans
+    const scale = Math.min(3.0, 2500 / maxDim);
+    const viewport = await page.getViewport({ scale });
     
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -93,12 +97,15 @@ export async function processOcrPdf(
   onProgress?.("Finalizing Document...", 98);
   await worker.terminate();
 
-  // Save the final PDF
-  const finalBytes = await finalPdf.save();
-  onProgress?.("Complete!", 100);
+  try {
+    const finalBytes = await finalPdf.save();
+    onProgress?.("Complete!", 100);
 
-  return {
-    pdfBlob: new Blob([finalBytes as unknown as BlobPart], { type: 'application/pdf' }),
-    text: fullText.trim()
-  };
+    return {
+      pdfBlob: new Blob([finalBytes as unknown as BlobPart], { type: 'application/pdf' }),
+      text: fullText.trim()
+    };
+  } catch (err: any) {
+    throw new Error(err.message || "Unknown error occurred while finalizing document.");
+  }
 }
