@@ -32,6 +32,8 @@ export async function processOcrPdf(
   // Tesseract logger updates progress quickly
   let currentPage = 1;
   const worker = await Tesseract.createWorker(language, 1, {
+    workerPath: '/tesseract/worker.min.js',
+    corePath: '/tesseract/tesseract-core.wasm.js',
     logger: (m) => {
       if (m.status === 'recognizing text') {
         // Tesseract progress goes 0 to 1 for each page
