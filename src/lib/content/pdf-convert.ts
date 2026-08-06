@@ -1,4 +1,34 @@
 export const pdfConvertContent: Record<string, { sections: { title: string, content: string }[] }> = {
+  "pdf-to-word": {
+    sections: [
+      {
+        title: "What is the Free PDF to Word Converter?",
+        content: "<p>Our PDF to Word converter is an advanced, privacy-first tool designed to extract text from your uneditable PDF files and instantly format it into a standard Microsoft Word document (.docx). While PDFs are perfect for locking in layouts and sharing finalized documents, they are notoriously frustrating when you need to edit the text, copy paragraphs, or update a resume. This tool bridges that gap by seamlessly converting rigid PDFs back into editable word processing files.</p>"
+      },
+      {
+        title: "How does it work securely?",
+        content: "<p>The biggest problem with most PDF to Word converters is privacy. They require you to upload your sensitive contracts or resumes to their servers, where the document is parsed and returned. Our tool utilizes cutting-edge WebAssembly (powered by Mozilla's PDF.js) and the client-side docx library to process the document entirely within your web browser. The tool reads the text data, maps the paragraphs, and generates a perfect DOCX file directly on your device. Your files are never uploaded anywhere, guaranteeing absolute privacy and zero wait times for server queues.</p>"
+      },
+      {
+        title: "Step-by-step guide to converting PDFs",
+        content: "<ol><li><strong>Upload your PDF:</strong> Drag and drop your PDF file into the upload zone, or click to browse your computer.</li><li><strong>Local Processing:</strong> Our in-browser engine immediately begins reading the PDF data and extracting the text paragraph by paragraph.</li><li><strong>Instant Generation:</strong> The text is intelligently rebuilt into a standard Word document format.</li><li><strong>Download:</strong> Click 'Download' to save your new .docx file, ready to be edited in Microsoft Word, Google Docs, or Apple Pages.</li></ol>"
+      },
+      {
+        title: "Practical uses",
+        content: "<ul><li><strong>Resume Updating:</strong> Converting an old PDF resume back into Word so you can add a new job experience without retyping the whole document.</li><li><strong>Contract Editing:</strong> Extracting the text from a signed PDF contract to use as a template for a new client agreement.</li><li><strong>Academic Research:</strong> Pulling large sections of text from research papers or eBooks to easily quote or reference in your own essays.</li><li><strong>Form Filling:</strong> Converting flat PDF forms into Word to easily type in your answers before printing or saving.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Is this safe for my confidential contracts?</strong><br>A: Yes! Because this tool uses a 100% client-side architecture, your PDF never leaves your device. It is never uploaded to any cloud server, making it perfectly safe for highly confidential legal or financial documents.</p>
+          <p><strong>Q: Will the Word document look exactly like the PDF?</strong><br>A: Our converter focuses heavily on high-quality <strong>text extraction</strong>. While it perfectly extracts paragraphs and text content, highly complex visual layouts (like overlapping images, multi-column magazine layouts, or intricate tables) may not translate perfectly, as PDF is a visual format and Word is a structural one.</p>
+          <p><strong>Q: Can I edit the downloaded file?</strong><br>A: Absolutely. The tool generates a standard .docx file which can be opened and fully edited in Microsoft Word, Google Docs, LibreOffice, or Apple Pages.</p>
+          <p><strong>Q: Does it work on scanned PDFs or images?</strong><br>A: This tool requires standard text-based PDFs (where you can highlight the text with your cursor). It does not perform Optical Character Recognition (OCR) on scanned images or photos of documents.</p>
+          <p><strong>Q: Does this converter cost money?</strong><br>A: No, our PDF to Word converter is completely free to use with no hidden fees, subscriptions, or watermarks.</p>
+        `
+      }
+    ]
+  },
   "jpg-to-pdf": {
     sections: [
       {

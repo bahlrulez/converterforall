@@ -210,6 +210,18 @@ export const toolsDatabase = {
       inputFormat: "html",
       outputFormat: "pdf",
       acceptedTypes: { "text/html": [".html"] }
+    },
+
+    // CONVERT FROM PDF
+    "pdf-to-word": {
+      title: "PDF to WORD",
+      description: "Easily convert your PDF files into editable DOCX Word documents.",
+      subCategory: "Convert from PDF",
+      inputFormat: "pdf",
+      outputFormat: "word",
+      actionName: "Convert to Word",
+      isInteractive: true,
+      acceptedTypes: { "application/pdf": [".pdf"] }
     }
   },
   "audio": {
