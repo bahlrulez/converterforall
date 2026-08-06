@@ -60,14 +60,16 @@ export const toolsDatabase = {
       inputFormat: "jpg",
       outputFormat: "jpg",
       actionName: "Compress JPG",
+      isInteractive: true,
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"] }
     },
     "compress-png": {
       title: "Compress PNG",
-      description: "Compress PNG images significantly without losing transparency or visual quality.",
+      description: "Reduce PNG file size with our advanced browser-based compression engine.",
       inputFormat: "png",
       outputFormat: "png",
       actionName: "Compress PNG",
+      isInteractive: true,
       acceptedTypes: { "image/png": [".png"] }
     },
     "passport-photo-maker": {
