@@ -8,7 +8,7 @@ import * as pdfjsLib from "pdfjs-dist";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 
 // Initialize PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
 export default function PdfToWordTool() {
   const [file, setFile] = useState<File | null>(null);
@@ -83,9 +83,9 @@ export default function PdfToWordTool() {
       const blob = await Packer.toBlob(doc);
       setResultBlob(blob);
       setProgressText("");
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert("An error occurred while converting the PDF.");
+      alert("An error occurred: " + (err.message || err.toString()));
     } finally {
       setIsProcessing(false);
     }
