@@ -46,6 +46,7 @@ export default function PdfToWordTool() {
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       const numPages = pdf.numPages;
       const paragraphs: Paragraph[] = [];
+      let totalExtractedChars = 0;
       
       for (let i = 1; i <= numPages; i++) {
         setProgressText(`Extracting text from page ${i} of ${numPages}...`);
@@ -64,6 +65,7 @@ export default function PdfToWordTool() {
           // Remove replacement characters and control chars, but keep PUA chars (they might be custom Indic fonts)
           const cleanStr = item.str.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\uFFFD]/g, "");
           currentLine += cleanStr;
+          totalExtractedChars += cleanStr.trim().length;
           lastY = y;
         }
         if (currentLine) {
@@ -72,6 +74,29 @@ export default function PdfToWordTool() {
         
         // Add a blank line between pages
         paragraphs.push(new Paragraph({ children: [new TextRun("")] })); 
+      }
+      
+      if (totalExtractedChars < 10) {
+        paragraphs.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "NOTICE: This PDF appears to be a scanned image and does not contain any extractable text.",
+                bold: true,
+                color: "FF0000",
+                font: "Arial",
+              }),
+            ],
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "Please use the 'OCR PDF' tool on our website first to make this document text-searchable, and then you can successfully convert it to Word.",
+                font: "Arial",
+              }),
+            ],
+          })
+        );
       }
       
       setProgressText("Generating Word Document...");
