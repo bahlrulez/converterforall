@@ -54,18 +54,48 @@ export default function PdfToWordTool() {
         const content = await page.getTextContent();
         
         let lastY: number | undefined;
+        let lastX: number | undefined;
+        let lastWidth: number | undefined;
         let currentLine = "";
         
         for (const item of content.items as any[]) {
+          const x = item.transform[4];
           const y = item.transform[5];
+          const width = item.width;
+          const height = item.height || 10;
+          
           if (lastY !== undefined && Math.abs(lastY - y) > 5 && currentLine) {
-            paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine, font: "Arial" })] }));
+            paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine.trim(), font: "Arial" })] }));
             currentLine = "";
+            lastX = undefined;
+            lastWidth = undefined;
           }
           // Remove replacement characters and control chars, but keep PUA chars (they might be custom Indic fonts)
           const cleanStr = item.str.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\uFFFD]/g, "");
-          currentLine += cleanStr;
-          totalExtractedChars += cleanStr.trim().length;
+          
+          if (cleanStr) {
+            // Add space if there is a significant X-coordinate gap between items
+            if (lastX !== undefined && lastWidth !== undefined && currentLine.length > 0 && !currentLine.endsWith(" ")) {
+              const expectedNextX = lastX + lastWidth;
+              const gap = x - expectedNextX;
+              // A gap larger than 15% of the font height is usually a space
+              if (gap > height * 0.15) {
+                currentLine += " ";
+              }
+            }
+            
+            currentLine += cleanStr;
+            totalExtractedChars += cleanStr.trim().length;
+            
+            // Only update X/Width if we actually added text, to properly track the end of the line
+            lastX = x;
+            lastWidth = width;
+          }
+          
+          if (item.hasEOL) {
+             currentLine += " ";
+          }
+          
           lastY = y;
         }
         if (currentLine) {
