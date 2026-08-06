@@ -17,6 +17,17 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
   container.style.color = "#000";
   container.style.background = "#fff";
   
+  // Apply CSS to prevent page breaks inside common text block elements
+  const elementsToAvoid = container.querySelectorAll('p, li, tr, h1, h2, h3, h4, h5, h6, img');
+  elementsToAvoid.forEach((el: any) => {
+    el.style.pageBreakInside = 'avoid';
+    el.style.breakInside = 'avoid';
+    // Add small margin to paragraphs so they look like Word docs
+    if (el.tagName === 'P') {
+      el.style.marginBottom = '10px';
+    }
+  });
+  
   // Create a hidden div to append to body so html2pdf can process it properly
   const wrapper = document.createElement("div");
   wrapper.style.position = "absolute";
@@ -31,10 +42,11 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     
     // 4. Configure html2pdf
     const opt: any = {
-      margin:       10, // mm
+      margin:       15, // mm
       filename:     'converted.pdf',
+      pagebreak:    { mode: ['css', 'legacy'] },
       image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+      html2canvas:  { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
       jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
     
