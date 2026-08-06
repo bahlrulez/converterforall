@@ -15,6 +15,7 @@ import { PassportMaker } from "@/components/tools/passport-maker";
 import OcrPdfTool from "@/components/tools/ocr-pdf";
 import RepairPdfTool from "@/components/tools/repair-pdf";
 import PdfToWordTool from "@/components/tools/pdf-to-word";
+import WordToPdfTool from "@/components/tools/word-to-pdf";
 import ImageCompressor from "@/components/tools/image-compressor";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -156,6 +157,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             {toolSlug === "ocr-pdf" && <OcrPdfTool />}
             {toolSlug === "repair-pdf" && <RepairPdfTool />}
             {toolSlug === "pdf-to-word" && <PdfToWordTool />}
+            {toolSlug === "word-to-pdf" && <WordToPdfTool />}
             {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
           </>
         ) : (

@@ -185,7 +185,9 @@ export const toolsDatabase = {
       subCategory: "Convert to PDF",
       inputFormat: "word",
       outputFormat: "pdf",
-      acceptedTypes: { "application/msword": [".doc", ".docx"] }
+      actionName: "Convert to PDF",
+      isInteractive: true,
+      acceptedTypes: { "application/msword": [".doc", ".docx"], "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"] }
     },
     "powerpoint-to-pdf": {
       title: "POWERPOINT to PDF",
