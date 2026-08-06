@@ -9,7 +9,8 @@ if (typeof window !== 'undefined' && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
 
 export async function processOcrPdf(
   file: File,
-  onProgress?: (msg: string, progress: number) => void
+  onProgress?: (msg: string, progress: number) => void,
+  language: string = 'eng'
 ): Promise<Blob> {
   onProgress?.("Reading PDF...", 5);
   const arrayBuffer = await file.arrayBuffer();
@@ -30,7 +31,7 @@ export async function processOcrPdf(
   
   // Tesseract logger updates progress quickly
   let currentPage = 1;
-  const worker = await Tesseract.createWorker('eng', 1, {
+  const worker = await Tesseract.createWorker(language, 1, {
     logger: (m) => {
       if (m.status === 'recognizing text') {
         // Tesseract progress goes 0 to 1 for each page

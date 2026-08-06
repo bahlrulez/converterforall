@@ -13,6 +13,7 @@ export default function OcrPdfTool() {
   const [progressValue, setProgressValue] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [language, setLanguage] = useState("eng");
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
@@ -50,7 +51,7 @@ export default function OcrPdfTool() {
       const blob = await processOcrPdf(file, (msg, val) => {
         setProgressMsg(msg);
         setProgressValue(val);
-      });
+      }, language);
       
       const url = URL.createObjectURL(blob);
       setResultUrl(url);
@@ -117,6 +118,23 @@ export default function OcrPdfTool() {
         {status === "error" && (
           <div className="mt-4 rounded-lg bg-destructive/10 p-3 text-sm text-destructive border border-destructive/20">
             {errorMsg}
+          </div>
+        )}
+
+        {status === "idle" && (
+          <div className="mt-6 border-t pt-4">
+            <label className="text-sm font-medium mb-2 block text-muted-foreground">Document Language</label>
+            <select 
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="w-full h-12 px-4 rounded-xl border bg-background text-foreground mb-4"
+            >
+              <option value="eng">English</option>
+              <option value="hin">Hindi</option>
+              <option value="pan">Punjabi</option>
+              <option value="eng+hin">English + Hindi</option>
+              <option value="eng+pan">English + Punjabi</option>
+            </select>
           </div>
         )}
 
