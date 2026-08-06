@@ -3,8 +3,9 @@
 import React, { useState, useCallback, useRef } from "react";
 import Cropper from "react-easy-crop";
 import { useDropzone } from "react-dropzone";
-import { Upload, Download, RefreshCw, Scissors, ArrowLeft, Camera } from "lucide-react";
+import { Upload, Download, RefreshCw, Scissors, ArrowLeft, Camera, Wand2, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { removeImageBackground } from "@/lib/converters/image";
 
 // Utility to create the cropped image
 const createImage = (url: string): Promise<HTMLImageElement> =>
@@ -74,6 +75,11 @@ export async function getCroppedImg(
 
 export function PassportMaker() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [originalImageSrc, setOriginalImageSrc] = useState<string | null>(null);
+  const [transparentImageSrc, setTransparentImageSrc] = useState<string | null>(null);
+  const [isRemovingBg, setIsRemovingBg] = useState(false);
+  const [bgColor, setBgColor] = useState("transparent");
+  
   const [fileName, setFileName] = useState<string>("passport-photo.jpg");
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -83,11 +89,22 @@ export function PassportMaker() {
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
 
+  const presetColors = [
+    { name: "White", value: "#FFFFFF" },
+    { name: "Light Blue", value: "#ADD8E6" },
+    { name: "Light Gray", value: "#D3D3D3" },
+    { name: "Deep Red", value: "#8B0000" },
+  ];
+
   const handleFile = (file: File) => {
     setFileName(file.name.replace(/\.[^/.]+$/, "") + "-passport.jpg");
     const reader = new FileReader();
     reader.onload = () => {
-      setImageSrc(reader.result as string);
+      const url = reader.result as string;
+      setImageSrc(url);
+      setOriginalImageSrc(url);
+      setTransparentImageSrc(null);
+      setBgColor("transparent");
       setResultBlob(null); // Reset previous result
     };
     reader.readAsDataURL(file);
@@ -137,6 +154,62 @@ export function PassportMaker() {
       setIsProcessing(false);
     }
   }, [imageSrc, croppedAreaPixels]);
+
+  const handleRemoveBackground = async () => {
+    if (!originalImageSrc) return;
+    setIsRemovingBg(true);
+    try {
+      const response = await fetch(originalImageSrc);
+      const blob = await response.blob();
+      const file = new File([blob], "temp.jpg", { type: blob.type });
+      
+      const transBlob = await removeImageBackground(file, "isnet_fp16");
+      const transUrl = URL.createObjectURL(transBlob);
+      setTransparentImageSrc(transUrl);
+      setImageSrc(transUrl);
+      setBgColor("transparent");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsRemovingBg(false);
+    }
+  };
+
+  const applyBgColor = async (color: string) => {
+    setBgColor(color);
+    if (!transparentImageSrc) return;
+    if (color === "transparent") {
+      setImageSrc(transparentImageSrc);
+      return;
+    }
+
+    const img = new Image();
+    await new Promise((resolve) => {
+      img.onload = resolve;
+      img.src = transparentImageSrc;
+    });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d")!;
+    
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob(resolve, "image/jpeg", 1.0);
+    });
+
+    if (blob) {
+      const newUrl = URL.createObjectURL(blob);
+      if (imageSrc !== originalImageSrc && imageSrc !== transparentImageSrc && imageSrc) {
+        URL.revokeObjectURL(imageSrc);
+      }
+      setImageSrc(newUrl);
+    }
+  };
 
   const handleDownload = () => {
     if (!resultBlob) return;
@@ -198,7 +271,67 @@ export function PassportMaker() {
     <div className="bg-muted/30 rounded-3xl p-6 border border-border shadow-sm flex flex-col gap-6">
       {!resultBlob ? (
         <>
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          {/* Background Replacement Section */}
+          <div className="flex flex-col space-y-4 pt-4 border-t">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-medium">Background</h3>
+              {!transparentImageSrc && (
+                <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  onClick={handleRemoveBackground}
+                  disabled={isRemovingBg}
+                >
+                  {isRemovingBg ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Wand2 className="mr-2 h-4 w-4 text-primary" />
+                  )}
+                  Remove Background
+                </Button>
+              )}
+            </div>
+
+            {transparentImageSrc && (
+              <div className="flex flex-col space-y-2">
+                <p className="text-xs text-muted-foreground">Select a new solid background color for your passport photo:</p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={() => applyBgColor("transparent")}
+                    className={`h-10 w-10 rounded-full border-2 flex items-center justify-center transition-all ${bgColor === "transparent" ? "border-primary" : "border-transparent"} relative overflow-hidden`}
+                    title="Transparent"
+                  >
+                    <div className="absolute inset-0 opacity-50" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='5' height='5' fill='%23ccc' /%3E%3Crect x='5' y='5' width='5' height='5' fill='%23ccc' /%3E%3Crect x='0' y='5' width='5' height='5' fill='%23eee' /%3E%3Crect x='5' y='0' width='5' height='5' fill='%23eee' /%3E%3C/svg%3E\")" }} />
+                    {bgColor === "transparent" && <Check className="h-4 w-4 text-primary z-10" />}
+                  </button>
+
+                  {presetColors.map((pc) => (
+                    <button
+                      key={pc.value}
+                      onClick={() => applyBgColor(pc.value)}
+                      className={`h-10 w-10 rounded-full border shadow-sm flex items-center justify-center transition-all ring-offset-2 ring-offset-background ${bgColor === pc.value ? "ring-2 ring-primary" : "hover:scale-105"}`}
+                      style={{ backgroundColor: pc.value }}
+                      title={pc.name}
+                    >
+                      {bgColor === pc.value && <Check className={`h-4 w-4 ${pc.name === "White" ? "text-black" : "text-white"}`} />}
+                    </button>
+                  ))}
+
+                  <div className="flex items-center ml-2 border rounded-full overflow-hidden h-10 px-2 group hover:border-primary transition-colors cursor-pointer">
+                    <input
+                      type="color"
+                      value={bgColor !== "transparent" ? bgColor : "#ffffff"}
+                      onChange={(e) => applyBgColor(e.target.value)}
+                      className="w-6 h-6 rounded border-0 bg-transparent cursor-pointer p-0"
+                      title="Custom Color"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="pt-2 flex flex-col gap-3 md:flex-row gap-4 items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold">Crop your passport photo</h3>
               <p className="text-sm text-muted-foreground">Position your face inside the crop box.</p>
