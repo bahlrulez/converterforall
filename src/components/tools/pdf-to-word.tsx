@@ -58,14 +58,16 @@ export default function PdfToWordTool() {
         for (const item of content.items as any[]) {
           const y = item.transform[5];
           if (lastY !== undefined && Math.abs(lastY - y) > 5 && currentLine) {
-            paragraphs.push(new Paragraph({ children: [new TextRun(currentLine)] }));
+            paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine, font: "Arial" })] }));
             currentLine = "";
           }
-          currentLine += item.str;
+          // Remove replacement characters, control chars, and Private Use Area chars (which cause boxes)
+          const cleanStr = item.str.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\uFFFD\uE000-\uF8FF]/g, "");
+          currentLine += cleanStr;
           lastY = y;
         }
         if (currentLine) {
-          paragraphs.push(new Paragraph({ children: [new TextRun(currentLine)] }));
+          paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine, font: "Arial" })] }));
         }
         
         // Add a blank line between pages
@@ -74,6 +76,15 @@ export default function PdfToWordTool() {
       
       setProgressText("Generating Word Document...");
       const doc = new Document({
+        styles: {
+          default: {
+            document: {
+              run: {
+                font: "Arial",
+              },
+            },
+          },
+        },
         sections: [{
           properties: {},
           children: paragraphs,
