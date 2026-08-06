@@ -11,6 +11,8 @@ export default function ImageCompressor() {
   const [originalUrl, setOriginalUrl] = useState<string | null>(null);
   
   const [quality, setQuality] = useState<number>(80);
+  const [downscale, setDownscale] = useState<string>("original");
+  const [isGrayscale, setIsGrayscale] = useState<boolean>(false);
   const [compressedBlob, setCompressedBlob] = useState<Blob | null>(null);
   const [compressedUrl, setCompressedUrl] = useState<string | null>(null);
   const [isCompressing, setIsCompressing] = useState<boolean>(false);
@@ -24,12 +26,14 @@ export default function ImageCompressor() {
       setFile(selectedFile);
       setOriginalUrl(URL.createObjectURL(selectedFile));
       setQuality(80); // reset quality
+      setDownscale("original");
+      setIsGrayscale(false);
       setCompressedBlob(null);
       setCompressedUrl(null);
       setErrorMsg("");
       
       // Initial compression trigger
-      runCompression(selectedFile, 80);
+      runCompression(selectedFile, 80, "original", false);
     }
   }, []);
 
@@ -48,25 +52,67 @@ export default function ImageCompressor() {
     setCompressedBlob(null);
     setCompressedUrl(null);
     setQuality(80);
+    setDownscale("original");
+    setIsGrayscale(false);
     setErrorMsg("");
   };
 
-  const runCompression = async (targetFile: File, targetQuality: number) => {
+  const applyGrayscale = async (sourceFile: File): Promise<File> => {
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(sourceFile);
+    
+    await new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve();
+      img.onerror = () => reject(new Error("Failed to load image for grayscale."));
+      img.src = objectUrl;
+    });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Canvas not supported");
+
+    ctx.filter = "grayscale(100%)";
+    ctx.drawImage(img, 0, 0);
+
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob((b) => resolve(b), sourceFile.type, 1.0);
+    });
+
+    URL.revokeObjectURL(objectUrl);
+    if (!blob) throw new Error("Failed to create grayscale blob");
+
+    return new File([blob], sourceFile.name, { type: sourceFile.type });
+  };
+
+  const runCompression = async (targetFile: File, targetQuality: number, targetDownscale: string, targetGrayscale: boolean) => {
     setIsCompressing(true);
     setErrorMsg("");
     
     try {
+      let fileToCompress = targetFile;
+      if (targetGrayscale) {
+        fileToCompress = await applyGrayscale(targetFile);
+      }
+
       const decimalQuality = Math.max(0.01, targetQuality / 100);
       
-      const options = {
+      const options: any = {
         maxSizeMB: Number.POSITIVE_INFINITY,
         useWebWorker: true,
         initialQuality: decimalQuality,
-        alwaysKeepResolution: true,
-        fileType: targetFile.type
+        fileType: fileToCompress.type
       };
 
-      const compressed = await imageCompression(targetFile, options);
+      if (targetDownscale !== "original") {
+        options.maxWidthOrHeight = parseInt(targetDownscale, 10);
+      } else {
+        options.alwaysKeepResolution = true;
+      }
+
+      const compressed = await imageCompression(fileToCompress, options);
       
       // For highly optimized PNGs, browser-image-compression sometimes inflates it if we try to compress it further.
       // If the compressed size is larger, we just use the original file to prevent bad results.
@@ -98,9 +144,21 @@ export default function ImageCompressor() {
     
     debounceTimer.current = setTimeout(() => {
       if (file) {
-        runCompression(file, newQuality);
+        runCompression(file, newQuality, downscale, isGrayscale);
       }
     }, 300); // 300ms debounce
+  };
+
+  const handleDownscaleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newVal = e.target.value;
+    setDownscale(newVal);
+    if (file) runCompression(file, quality, newVal, isGrayscale);
+  };
+
+  const handleGrayscaleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVal = e.target.checked;
+    setIsGrayscale(newVal);
+    if (file) runCompression(file, quality, downscale, newVal);
   };
 
   const formatSize = (bytes: number) => {
@@ -183,13 +241,41 @@ export default function ImageCompressor() {
             className="w-full h-3 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary hover:accent-primary/80 transition-all"
           />
         </div>
-        <div className="flex justify-between text-xs text-muted-foreground px-2 mt-3">
+        <div className="flex justify-between text-xs text-muted-foreground px-2 mt-3 mb-6">
           <span>Smaller File (Lower Quality)</span>
           <span>Original File (High Quality)</span>
         </div>
 
-        <p className="text-sm text-muted-foreground mt-6 bg-muted/50 p-4 rounded-xl text-center">
-          Drag the slider to adjust the file size in real-time. Look at the preview below to ensure the text or graphics remain clear enough for your needs.
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-muted/30 p-4 rounded-xl border">
+          <div className="flex flex-col space-y-2">
+            <label className="text-sm font-medium">Resize (Downscale)</label>
+            <select 
+              value={downscale} 
+              onChange={handleDownscaleChange}
+              className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            >
+              <option value="original">Keep Original Dimensions</option>
+              <option value="1920">Max 1920px (HD)</option>
+              <option value="1280">Max 1280px (Web)</option>
+              <option value="800">Max 800px (Document)</option>
+            </select>
+          </div>
+          <div className="flex items-center space-x-3 sm:justify-end pr-2 pt-2 sm:pt-6">
+            <input 
+              type="checkbox" 
+              id="grayscale-toggle" 
+              checked={isGrayscale}
+              onChange={handleGrayscaleToggle}
+              className="h-4 w-4 rounded border-primary text-primary focus:ring-primary accent-primary cursor-pointer"
+            />
+            <label htmlFor="grayscale-toggle" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
+              Convert to Grayscale (B&W)
+            </label>
+          </div>
+        </div>
+
+        <p className="text-sm text-muted-foreground mt-4 text-center">
+          For strict targets like 20 KB, use <strong>Max 800px</strong> and <strong>Grayscale</strong>. This keeps text sharp while reducing file size drastically.
         </p>
       </div>
 
