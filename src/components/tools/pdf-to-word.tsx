@@ -61,8 +61,8 @@ export default function PdfToWordTool() {
             paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine, font: "Arial" })] }));
             currentLine = "";
           }
-          // Remove replacement characters, control chars, and Private Use Area chars (which cause boxes)
-          const cleanStr = item.str.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\uFFFD\uE000-\uF8FF]/g, "");
+          // Remove replacement characters and control chars, but keep PUA chars (they might be custom Indic fonts)
+          const cleanStr = item.str.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\uFFFD]/g, "");
           currentLine += cleanStr;
           lastY = y;
         }
@@ -187,8 +187,8 @@ export default function PdfToWordTool() {
           <p className="text-muted-foreground mb-8">
             Your Word document is ready to download.
           </p>
-          <Button size="lg" className="w-full rounded-xl h-14 text-lg" onClick={handleDownload}>
-            Download {fileName}
+          <Button size="lg" className="w-full rounded-xl h-14 text-lg overflow-hidden relative group" onClick={handleDownload}>
+            <span className="truncate w-full block px-4">Download {fileName}</span>
           </Button>
           <Button variant="ghost" className="mt-4" onClick={() => { setFile(null); setResultBlob(null); }}>
             Convert Another File

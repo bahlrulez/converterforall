@@ -133,8 +133,8 @@ export default function WordToPdfTool() {
           <p className="text-muted-foreground mb-8">
             Your PDF document is ready to download.
           </p>
-          <Button size="lg" className="w-full rounded-xl h-14 text-lg" onClick={handleDownload}>
-            Download {fileName}
+          <Button size="lg" className="w-full rounded-xl h-14 text-lg overflow-hidden relative group" onClick={handleDownload}>
+            <span className="truncate w-full block px-4">Download {fileName}</span>
           </Button>
           <Button variant="ghost" className="mt-4" onClick={() => { setFile(null); setResultBlob(null); }}>
             Convert Another File
