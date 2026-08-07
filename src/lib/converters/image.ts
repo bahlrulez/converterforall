@@ -1,9 +1,34 @@
 export type BgRemovalQuality = "isnet_quint8" | "isnet_fp16" | "isnet";
 
 export async function removeImageBackground(file: File, quality: BgRemovalQuality = "isnet_fp16"): Promise<Blob> {
-  const { removeBackground } = await import("@imgly/background-removal");
-  const blob = await removeBackground(file, { model: quality });
-  return blob;
+  return new Promise((resolve, reject) => {
+    if (typeof window === "undefined") {
+      reject(new Error("Cannot run background removal on the server."));
+      return;
+    }
+
+    const worker = new Worker(new URL("../../workers/bg-removal.worker", import.meta.url), { type: "module" });
+    const id = Math.random().toString(36).substring(2, 11);
+
+    worker.onmessage = (e) => {
+      const data = e.data;
+      if (data.id === id) {
+        worker.terminate();
+        if (data.success) {
+          resolve(data.blob);
+        } else {
+          reject(new Error(data.error));
+        }
+      }
+    };
+
+    worker.onerror = (err) => {
+      worker.terminate();
+      reject(err);
+    };
+
+    worker.postMessage({ file, quality, id });
+  });
 }
 
 export async function processImage(file: File, targetFormat: string): Promise<Blob> {
