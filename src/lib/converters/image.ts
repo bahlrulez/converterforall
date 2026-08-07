@@ -1,10 +1,7 @@
-import heic2any from "heic2any";
-import { removeBackground } from "@imgly/background-removal";
-import imageCompression from "browser-image-compression";
-
 export type BgRemovalQuality = "isnet_quint8" | "isnet_fp16" | "isnet";
 
 export async function removeImageBackground(file: File, quality: BgRemovalQuality = "isnet_fp16"): Promise<Blob> {
+  const { removeBackground } = await import("@imgly/background-removal");
   const blob = await removeBackground(file, { model: quality });
   return blob;
 }
@@ -16,6 +13,7 @@ export async function processImage(file: File, targetFormat: string): Promise<Bl
 
   if (file.name.toLowerCase().endsWith(".heic")) {
     // Handle HEIC completely client-side using heic2any WASM decoder
+    const heic2any = (await import("heic2any")).default;
     const converted = await heic2any({
       blob: file,
       toType: mimeType,
@@ -67,6 +65,7 @@ export async function processImage(file: File, targetFormat: string): Promise<Bl
 }
 
 export async function compressImageFile(file: File, qualityPercentage: number = 80): Promise<Blob> {
+  const imageCompression = (await import("browser-image-compression")).default;
   // Convert quality percentage (0-100) to decimal (0.01-1.0)
   const decimalQuality = Math.max(0.01, qualityPercentage / 100);
 
