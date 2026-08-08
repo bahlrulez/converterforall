@@ -274,5 +274,40 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
         `
       }
     ]
+  },
+  "qr-scanner": {
+    sections: [
+      {
+        title: "What is the QR Code Scanner Online?",
+        content: "<p>The QR Code Scanner Online is a fast, privacy-focused utility that allows you to instantly read and decode QR codes directly in your web browser. You can scan QR codes using your device's live camera (webcam or smartphone) or by simply uploading an image file containing a QR code.</p>"
+      },
+      {
+        title: "How does it work securely?",
+        content: "<p>Unlike many online QR scanners that upload your images to a remote server for processing, our tool utilizes a powerful, pure JavaScript decoding engine (jsQR) that runs 100% locally on your device. Whether you are using your live camera feed or uploading a static image, the pixels are analyzed directly within your browser. This guarantees that your sensitive data, personal photos, and scanned links are never transmitted over the internet, ensuring absolute privacy.</p>"
+      },
+      {
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Choose your method:</strong> Select whether you want to use your live camera or upload an image file.</li><li><strong>Live Camera:</strong> Grant browser permission to access your camera, then simply point your device at a QR code until it is detected.</li><li><strong>Upload Image:</strong> Drag and drop a photo or screenshot of a QR code into the upload area.</li><li><strong>View Results:</strong> The tool will instantly decode the matrix and display the text or URL on your screen, allowing you to copy it or click the link securely.</li></ol>"
+      },
+      {
+        title: "Practical uses",
+        content: "<ul><li><strong>Restaurant Menus:</strong> Safely scan digital menus without downloading potentially malicious restaurant apps.</li><li><strong>Event Tickets:</strong> Verify QR code contents on tickets or boarding passes.</li><li><strong>Wi-Fi Passwords:</strong> Read and copy complex Wi-Fi passwords encoded in QR format.</li><li><strong>Security Analysis:</strong> Safely inspect where a QR code URL leads *before* clicking it, preventing phishing attacks.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Is it safe to give camera permissions to this website?</strong><br>A: Yes. We only request camera access to feed the video stream directly to the local decoding script. The video feed never leaves your device and is instantly discarded.</p>
+          <p><strong>Q: Can I scan a QR code from a screenshot?</strong><br>A: Absolutely! Just switch to the "Upload Image" tab and select your screenshot. The tool will instantly find and decode the QR code within the image.</p>
+          <p><strong>Q: Are my uploaded images saved anywhere?</strong><br>A: No. When you "upload" an image to our tool, it is actually just loading the image into your local browser's memory for processing. It is never uploaded to our servers.</p>
+          <p><strong>Q: Why isn't the scanner recognizing my QR code?</strong><br>A: If using the camera, ensure you have good lighting and the QR code is in sharp focus. If using an image, ensure the QR code is not heavily blurred, distorted, or cropped too tightly.</p>
+          <p><strong>Q: Can it scan standard barcodes (like UPC)?</strong><br>A: Currently, this tool is highly optimized specifically for 2D QR Codes. Standard 1D linear barcodes (like those on grocery products) are not supported by this specific scanner.</p>
+          <p><strong>Q: Is this tool free to use?</strong><br>A: Yes, our QR Code Scanner is 100% free with no limits on how many codes you can scan.</p>
+          <p><strong>Q: What happens if the QR code contains a malicious link?</strong><br>A: The tool will safely display the decoded text on your screen. It will *not* automatically redirect you to the website. This gives you the opportunity to inspect the URL and decide if it is safe to visit.</p>
+          <p><strong>Q: Does this work on iPhones and Androids?</strong><br>A: Yes, the tool is fully responsive and utilizes standard HTML5 APIs, making it compatible with Safari on iOS and Chrome on Android.</p>
+          <p><strong>Q: What if the QR code contains contact info (vCard)?</strong><br>A: The tool will decode the raw vCard text and display it for you, allowing you to copy the relevant names, phone numbers, or email addresses.</p>
+          <p><strong>Q: How fast is the scanning process?</strong><br>A: Because processing happens locally on your device, decoding is virtually instantaneous—usually taking less than a few milliseconds once the code is in focus.</p>
+        `
+      }
+    ]
   }
 };

@@ -343,6 +343,17 @@ export const toolsDatabase = {
     }
   },
   "utilities": {
+    "qr-scanner": {
+      title: "QR Code Scanner Online",
+      description: "Scan QR codes instantly using your mobile camera, webcam, or by uploading an image. 100% private, fast, and completely secure client-side scanning.",
+      inputFormat: "image",
+      outputFormat: "none",
+      actionName: "Scan QR Code",
+      isInteractive: true,
+      acceptedTypes: {
+        "image/*": [".jpg", ".jpeg", ".png", ".webp"]
+      }
+    },
     "live-ruler": {
       title: "Live CM Ruler",
       description: "Measure real-world objects using your screen. Automatic calibration for CM and Inches.",
@@ -542,7 +553,8 @@ export const toolsDatabase = {
     "remove-hidden-characters": { title: "Remove Hidden Characters", description: "Strip out invisible Unicode characters like ZWJ, ZWNJ, and BOM.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "hidden-chars", acceptedTypes: {} },
     "fix-copy-paste-text": { title: "Fix Copy/Paste Text", description: "Fix broken line breaks and garbled characters from bad PDF copies.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "fix-copy-paste", acceptedTypes: {} },
     "unicode-text-cleaner": { title: "Unicode Text Cleaner", description: "Remove extra whitespace, zero-width spaces, and unwanted formatting.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "cleaner", acceptedTypes: {} },
-  }
+  },
+
 };
 
 export function getToolBySlug(slug: string) {
