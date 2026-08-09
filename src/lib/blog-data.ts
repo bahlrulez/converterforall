@@ -43,18 +43,10 @@ export const blogDatabase: Record<string, { title: string, content: string, date
       <p>For many people, this provides greater peace of mind when working with personal documents.</p>
 
       <h2>We Built These Tools for Everyone</h2>
-      <p>Not everyone knows Photoshop.<br>
-      Not everyone can afford expensive software.<br>
-      Many people only have a mobile phone.</p>
-      <p>Many students, parents, senior citizens, job seekers, and small business owners simply need a quick passport photo without learning complicated editing software.</p>
-      <p>Some online editors are paid.<br>
-      Some require subscriptions.<br>
-      Others have features locked behind premium plans.</p>
-      <p>We wanted to remove those barriers.</p>
-      <p><strong>Our belief is simple:</strong><br>
-      Basic digital tools should be available to everyone without making them complicated.</p>
-      <p>We may not be as big as Google, Microsoft, or Meta. Those companies have contributed enormously to technology around the world.</p>
-      <p>ConverterForAll.com is taking a much smaller step.</p>
+      <p>Not everyone knows Photoshop. Not everyone can afford expensive software. Many people only have a mobile phone. Many students, parents, senior citizens, job seekers, and small business owners simply need a quick passport photo without learning complicated editing software.</p>
+      <p>Some online editors are paid. Some require subscriptions. Others have features locked behind premium plans. We wanted to remove those barriers.</p>
+      <p><strong>Our belief is simple:</strong> Basic digital tools should be available to everyone without making them complicated.</p>
+      <p>We may not be as big as Google, Microsoft, or Meta. Those companies have contributed enormously to technology around the world, but ConverterForAll.com is taking a much smaller step.</p>
       <p>Our mission is simply to make everyday digital tasks easier for people who need them the most.</p>
 
       <h2>Create Passport Size Photos in Minutes</h2>
@@ -139,18 +131,13 @@ export const blogDatabase: Record<string, { title: string, content: string, date
       <p>For anyone handling personal documents, keeping processing local can be an important privacy advantage.</p>
 
       <h2>Technology Should Help Everyone</h2>
-      <p>Technology should not be limited to professionals.</p>
-      <p>It should help students applying for colleges.<br>
-      Parents filling school forms.<br>
-      Senior citizens applying for pensions.<br>
-      Job seekers uploading passport photos.<br>
-      Small businesses preparing documents.<br>
-      Families submitting government applications.</p>
-      <p>Everyone deserves access to simple digital tools without spending money on expensive software.</p>
-      <p>That idea inspired <strong>ConverterForAll.com</strong>.</p>
-      <p>We are not trying to build the biggest technology company.</p>
-      <p>We simply want to solve everyday problems with simple, free tools that respect people's privacy and make life a little easier.</p>
+      <p>Technology should not be limited to professionals. It should help students applying for colleges, parents filling school forms, senior citizens applying for pensions, job seekers uploading passport photos, small businesses preparing documents, and families submitting government applications.</p>
+      <p>Everyone deserves access to simple digital tools without spending money on expensive software. That idea inspired <strong>ConverterForAll.com</strong>.</p>
+      <p>We are not trying to build the biggest technology company. We simply want to solve everyday problems with simple, free tools that respect people's privacy and make life a little easier.</p>
       <p>If our tools save someone time, help them complete an important application, or make them feel more comfortable processing personal documents, then we believe we are moving in the right direction—one small step at a time.</p>
+      <hr />
+      <h3>Ready to edit your first document privately?</h3>
+      <p><strong><a href="https://www.converterforall.com/passport-photo-maker">Click here to try our free Passport Photo Maker today!</a></strong></p>
     `
   },
   "best-free-ai-background-remover-private": {
