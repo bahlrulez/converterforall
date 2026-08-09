@@ -86,6 +86,9 @@ export function Header() {
           <Link href="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             Contact
           </Link>
+          <Link href="/blog" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Blog
+          </Link>
         </nav>
 
         <div className="flex items-center gap-4">
@@ -162,6 +165,13 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Contact
+            </Link>
+            <Link 
+              href="/blog" 
+              className="text-base font-medium p-2 hover:bg-muted rounded-md transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Blog
             </Link>
             <Link 
               href="https://www.facebook.com/converterforall" 
