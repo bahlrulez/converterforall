@@ -18,6 +18,7 @@ import PdfToWordTool from "@/components/tools/pdf-to-word";
 import WordToPdfTool from "@/components/tools/word-to-pdf";
 import ImageCompressor from "@/components/tools/image-compressor";
 import { QrScanner } from "@/components/tools/qr-scanner";
+import { PresentationMaker } from "@/components/tools/presentation-maker";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -161,6 +162,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             {toolSlug === "word-to-pdf" && <WordToPdfTool />}
             {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
             {toolSlug === "qr-scanner" && <QrScanner />}
+            {toolSlug === "presentation-maker" && <PresentationMaker />}
           </>
         ) : (
           <ToolEngine 

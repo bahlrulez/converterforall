@@ -93,6 +93,16 @@ export const toolsDatabase = {
       actionName: "Merge PDF",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
+    "presentation-maker": {
+      title: "Presentation Maker (PPTX)",
+      description: "Create beautiful PowerPoint presentations instantly in your browser. 100% free and private—no uploads required.",
+      subCategory: "Create Document",
+      inputFormat: "text",
+      outputFormat: "pptx",
+      actionName: "Make Presentation",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
     "split-pdf": {
       title: "Split PDF",
       description: "Extract pages from your PDF or save each page as a separate PDF.",

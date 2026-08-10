@@ -1,4 +1,32 @@
 export const utilitiesToolsContent: Record<string, { sections: { title: string, content: string }[] }> = {
+  "presentation-maker": {
+    sections: [
+      {
+        title: "What is the Presentation Maker?",
+        content: "<p>The Presentation Maker is a free, 100% private tool designed to create professional PowerPoint (.pptx) presentations directly in your browser. With no server uploads required, it is the safest way to draft slides for business, education, or personal use.</p>"
+      },
+      {
+        title: "How does it work?",
+        content: "<p>The tool uses a high-performance, client-side generation engine. You select a theme, add your slide content via our intuitive interface, and click 'Download'. The tool then compiles a valid .pptx file on your own device, ensuring your data never leaves your computer.</p>"
+      },
+      {
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Choose a Theme:</strong> Pick from our selection of modern, professional templates like Corporate Blue or Minimalist.</li><li><strong>Add Your Content:</strong> Input your slide titles, bullet points, and text into our easy-to-use slide editor.</li><li><strong>Generate & Download:</strong> Click 'Download PPTX' to instantly save your presentation to your device.</li></ol>"
+      },
+      {
+        title: "Practical uses",
+        content: "<ul><li><strong>Business Meetings:</strong> Quickly drafting internal reports or team updates without needing to sign up for bulky presentation software.</li><li><strong>Academic Projects:</strong> Creating clean, effective slide decks for class presentations.</li><li><strong>Secure Presentations:</strong> Perfect for handling sensitive data where you don't want your presentation stored on a third-party server.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Is my presentation data uploaded to a server?</strong><br>A: No. Our presentation maker is built on a 100% client-side architecture. Your data never leaves your browser.</p>
+          <p><strong>Q: Can I edit the generated file later?</strong><br>A: Yes! The tool generates a standard .pptx file, which you can open and edit in Microsoft PowerPoint, Google Slides, or Keynote.</p>
+          <p><strong>Q: Is this tool completely free?</strong><br>A: Yes, it is 100% free with no watermarks and no hidden fees.</p>
+        `
+      }
+    ]
+  },
   "age-calculator": {
     sections: [
       {

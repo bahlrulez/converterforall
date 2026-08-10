@@ -115,18 +115,26 @@ export function MultiFileUploader({ onProcessFiles, acceptedTypes, actionLabel =
           </div>
         </div>
       ) : (
-        <div className="rounded-2xl border bg-card p-6 shadow-sm">
-          <div className="flex flex-col gap-3 mb-6 max-h-[40vh] overflow-y-auto pr-2">
+        <div className="rounded-2xl border bg-card p-6 shadow-xl relative overflow-hidden backdrop-blur-sm bg-background/50 transition-all">
+          <div className="flex flex-col gap-3 mb-6 max-h-[40vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/20">
             {files.map((file, index) => (
-              <div key={`${file.name}-${index}`} className="flex items-center justify-between border rounded-lg p-3 bg-muted/30">
-                <div className="flex items-center gap-3 overflow-hidden">
-                  <div className="rounded-md bg-primary/10 p-2 text-primary flex-shrink-0">
-                    <FileIcon className="h-5 w-5" />
-                  </div>
-                  <div className="overflow-hidden">
-                    <p className="font-medium truncate max-w-[150px] sm:max-w-[300px] text-sm">{file.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
+              <div key={`${file.name}-${index}`} className="flex items-center justify-between border rounded-xl p-3 bg-background hover:bg-muted/30 transition-colors shadow-sm group">
+                <div className="flex items-center gap-4 overflow-hidden flex-1">
+                  {file.type.startsWith("image/") ? (
+                    <div className="h-12 w-12 rounded-lg overflow-hidden bg-muted/50 border flex-shrink-0 relative">
+                      <img src={URL.createObjectURL(file)} alt="Preview" className="h-full w-full object-cover transition-transform group-hover:scale-110" />
+                    </div>
+                  ) : (
+                    <div className="rounded-lg bg-primary/10 p-3 text-primary flex-shrink-0 border border-primary/20">
+                      <FileIcon className="h-6 w-6" />
+                    </div>
+                  )}
+                  <div className="overflow-hidden pr-2 flex-1">
+                    <p className="font-semibold truncate text-sm sm:text-base">{file.name}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-2">
+                      <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                      <span className="w-1 h-1 rounded-full bg-muted-foreground/40"></span>
+                      <span className="uppercase font-bold tracking-wider">{file.type.split('/')[1] || 'FILE'}</span>
                     </p>
                   </div>
                 </div>

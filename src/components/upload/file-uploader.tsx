@@ -133,28 +133,36 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
           )}
         </div>
       ) : (
-        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+        <div className="rounded-2xl border bg-card p-6 shadow-xl relative overflow-hidden backdrop-blur-sm bg-background/50 transition-all">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="rounded-lg bg-primary/10 p-3 text-primary">
-                <FileIcon className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="font-medium truncate max-w-[200px] sm:max-w-xs">{file.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {(file.size / 1024 / 1024).toFixed(2)} MB
+            <div className="flex items-center gap-4 flex-1 overflow-hidden">
+              {file.type.startsWith("image/") ? (
+                <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-xl overflow-hidden bg-muted/50 border flex-shrink-0 shadow-sm relative group">
+                  <img src={URL.createObjectURL(file)} alt="Preview" className="h-full w-full object-cover transition-transform group-hover:scale-105" />
+                </div>
+              ) : (
+                <div className="rounded-xl bg-primary/10 p-4 sm:p-5 text-primary flex-shrink-0 shadow-sm border border-primary/20">
+                  <FileIcon className="h-8 w-8 sm:h-10 sm:w-10" />
+                </div>
+              )}
+              <div className="flex flex-col overflow-hidden pr-2">
+                <p className="font-semibold truncate text-base sm:text-lg">{file.name}</p>
+                <p className="text-sm text-muted-foreground mt-0.5">
+                  {(file.size / 1024 / 1024).toFixed(2)} MB <span className="mx-1">•</span> <span className="uppercase text-xs font-bold bg-muted px-2 py-0.5 rounded-full">{file.type.split('/')[1] || 'FILE'}</span>
                 </p>
               </div>
             </div>
 
             {status === "idle" && (
-              <Button variant="ghost" size="icon" onClick={reset} className="text-muted-foreground hover:text-destructive">
+              <Button variant="ghost" size="icon" onClick={reset} className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive rounded-full h-10 w-10 flex-shrink-0 transition-colors ml-2">
                 <X className="h-5 w-5" />
               </Button>
             )}
 
             {status === "success" && (
-              <CheckCircle className="h-6 w-6 text-success" />
+              <div className="h-10 w-10 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0 ml-2">
+                <CheckCircle className="h-6 w-6 text-success" />
+              </div>
             )}
           </div>
 
