@@ -402,6 +402,77 @@ export const blogDatabase: Record<string, { title: string, content: string, date
       <h2>5. Use a Reliable Converter</h2>
       <p>Not all converters are created equal. Our <a href="/word-to-pdf">Word to PDF tool</a> uses advanced layout reconstruction algorithms to ensure high fidelity between your original document and the generated PDF.</p>
     `
+  },
+  "kruti-dev-font-showing-as-english-in-word": {
+    title: "Kruti Dev Font Showing as English in Word? Why It Happens and How to Fix It",
+    date: "August 10, 2026",
+    category: "Conversion Guides",
+    content: `
+      <p>If you have ever opened an old Hindi document in Microsoft Word and found that the Hindi text is suddenly showing as English letters, strange symbols, or boxes, you may have wondered what went wrong. In many cases, there is nothing wrong with your document. The problem is usually related to the type of font used in the document.</p>
+      <p>Kruti Dev is one of the older Hindi fonts that has been used for many years for Hindi typing on computers. It is still found in many old documents, office files, applications, books and other Hindi content. The problem is that Kruti Dev does not work in the same way as modern Unicode Hindi.</p>
+      <p>When the required Kruti Dev font is installed on a computer, the text can look perfectly normal. But if the same text is opened on another computer, copied into a website, sent to a mobile phone or pasted into another application, it may appear as English characters or unreadable symbols.</p>
+      <p>This happens because the other device or application may not understand the old Kruti Dev font format.</p>
+      <h2>Why Converting Kruti Dev to Unicode Helps</h2>
+      <p>One of the easiest ways to avoid these problems is to convert Kruti Dev text into Unicode Hindi.</p>
+      <p>Unicode is the standard text system used by most modern computers, smartphones, websites and applications. This is why Unicode Hindi can normally be read on Android phones, iPhones, Windows computers, websites, WhatsApp, social media and other platforms without installing a special Hindi font.</p>
+      <p>If you have old Kruti Dev text that you want to use on modern devices, you can convert it for free using a <a href="/krutidev-to-unicode">Kruti Dev to Unicode converter</a>.</p>
+      <p>You can simply take your old Kruti Dev text, convert it to Unicode and then use the converted Hindi text wherever you need it. This can be especially useful when an old Word document needs to be used online or shared with someone who does not have the Kruti Dev font installed.</p>
+      <h2>Why AnmolLipi Text Breaks into boxes on Android Phones / iPhone and Word</h2>
+      <p>A similar problem happens with AnmolLipi, a popular older Punjabi font.</p>
+      <p>Many people have Punjabi documents written in AnmolLipi that look completely fine on their computer. But when they copy the text and send it to an Android phone, WhatsApp, a website or another application, the Punjabi may suddenly appear as English letters or strange characters.</p>
+      <p>Again, this does not necessarily mean that the text has been damaged.</p>
+      <p>The main reason is that AnmolLipi is a legacy font, while modern phones and applications generally work with Unicode text.</p>
+      <p>AnmolLipi and Unicode Punjabi are not the same thing. Simply having Punjabi text does not mean that every device will understand an AnmolLipi document correctly.</p>
+      <h2>AnmolLipi to Unicode Is the Easier Solution</h2>
+      <p>If you have old Punjabi text written in AnmolLipi and want to use it on modern devices, converting it to Unicode Punjabi is usually the easiest option.</p>
+      <p>You can use the free <a href="/anmollipi-to-unicode">AnmolLipi to Unicode Converter</a> here.</p>
+      <p>After converting the text, the Unicode Punjabi can be copied and used on phones, computers, websites, social media and other applications.</p>
+      <p>This is particularly useful for people who have old Punjabi typing files but now want to publish that content online or use it on a smartphone.</p>
+      <h2>Satluj Font to Unicode: Convert Punjabi Text Easily for Free</h2>
+      <p>If you have an old Punjabi document written in the Satluj font and the text is not displaying correctly on your phone, website, or another computer, the problem is usually the font format. Satluj is a legacy font used for Punjabi and other Indic-language typing, while Unicode is the modern text standard supported by today's computers, smartphones and websites.</p>
+      <p>This is why Satluj text may look normal on one computer but appear as strange characters or incorrect letters when copied to another device. You don't necessarily need to install the Satluj font everywhere. Converting the text to Unicode is a much easier solution.</p>
+      <h2>Convert Satluj to Unicode Online</h2>
+      <p>You can use the free <a href="/satluj-to-unicode">Satluj to Unicode Converter</a> to change your old Punjabi text into Unicode.</p>
+      <p>Simply paste your Satluj text into the converter. The tool converts it directly into Unicode Punjabi, which you can then copy and use in Microsoft Word, Google Docs, websites, WhatsApp, social media and modern mobile devices.</p>
+
+      <h2>What Is the Difference Between Old Fonts and Unicode?</h2>
+      <p>The easiest way to understand the difference is to think about how your phone reads text.</p>
+      <p>With an old font such as Kruti Dev or AnmolLipi, the appearance of the text depends heavily on the particular font being available. If that font is missing, the same text may not look like Hindi or Punjabi at all.</p>
+      <p>Unicode works differently. It gives characters a standard format that modern devices can understand.</p>
+      <p>That is why Unicode has become so important for languages such as Hindi and Punjabi on the internet.</p>
+      <p>For example, if you write something in Unicode Hindi, you can usually copy it from your computer and paste it into WhatsApp on your phone without worrying about installing the same font. The same is true for Unicode Punjabi.</p>
+      <h2>Do You Need to Install a Font on Your Android/iPhone?</h2>
+      <p>Usually, this is not the best solution when dealing with old text.</p>
+      <p>You may find ways to install or use special fonts, but that does not solve the bigger problem. The person receiving the text may still not have the same font, and another application may not support it.</p>
+      <p>Converting the text to Unicode is much more convenient because the resulting text is designed to work with modern systems.</p>
+      <p>The same idea applies to Kruti Dev. Installing the font may help you view an old document on your computer, but converting the text to Unicode makes it much easier to share and use elsewhere.</p>
+      <h2>Is the Conversion Free?</h2>
+      <p>The <a href="/krutidev-to-unicode">Kruti Dev to Unicode</a>, <a href="/anmollipi-to-unicode">AnmolLipi to Unicode</a> and <a href="/satluj-to-unicode">Satluj to Unicode</a> converters mentioned above are completely free to use.</p>
+      <p>This means you do not need to buy expensive software just to convert your old Hindi or Punjabi text. For someone who only wants to convert a few paragraphs, an online converter can be a simple alternative to installing additional software or manually correcting the text.</p>
+      <h2>What About Privacy and Data Safety?</h2>
+      <p>Privacy is an important concern whenever people use an online tool to work with text.</p>
+      <p>The conversion approach used by our tools is based on a simple idea: <strong>Your browser becomes the processor.</strong></p>
+      <p>In simple language, the conversion takes place directly in your browser or on your phone instead of sending your text to a cloud server for processing. No cloud is needed for the conversion.</p>
+      <p>Your text does not have to leave your computer, phone or browser for the conversion process. The processing and conversion happen on the device through the browser. This can be useful when working with documents that contain information you would rather keep on your own device.</p>
+      <p>As always, it is a good habit to avoid sharing highly sensitive information unnecessarily with any online service.</p>
+      <h2>Why Unicode Is Better for Modern Use</h2>
+      <p>If you regularly work with Hindi or Punjabi, moving old content to Unicode can make your life much easier.</p>
+      <p>Unicode text is suitable for modern websites, smartphones, social media platforms, messaging applications and documents. It also makes it easier to share content with other people because they do not need to search for and install the same old font.</p>
+      <p>For website owners, bloggers and content creators, Unicode is especially important. Search engines can understand Unicode text much more naturally than old font-based text. This makes Unicode a better choice when publishing Hindi or Punjabi content online.</p>
+      <h2>Don't Think Your Old Text Is Lost</h2>
+      <p>Seeing English letters or strange symbols in an old Hindi or Punjabi document can be worrying, especially if the document contains important information.</p>
+      <p>But in many cases, the original text is still there.</p>
+      <p>The issue is simply the way the old font is being displayed or interpreted by the device or application.</p>
+      <p>Before deleting an old document, keep a backup copy. Then try converting the text to Unicode.</p>
+      <ul>
+        <li>For Kruti Dev Hindi text, use the free <a href="/krutidev-to-unicode">Kruti Dev to Unicode Converter</a></li>
+        <li>For AnmolLipi Punjabi text, use the free <a href="/anmollipi-to-unicode">AnmolLipi to Unicode Converter</a></li>
+        <li>For Satluj Punjabi text, use the free <a href="/satluj-to-unicode">Satluj to Unicode Converter</a></li>
+      </ul>
+      <p>The main idea is simple: old fonts such as Kruti Dev, AnmolLipi and Satluj were designed for an older way of working with Indian-language text, while Unicode is designed for the modern digital world.</p>
+      <p>So, if your Hindi or Punjabi text looks fine on one computer but breaks on another device, the text may not be the problem at all. The font format may be the reason.</p>
+      <p>Converting old text to Unicode gives you a much easier way to use that content across today's computers, smartphones, websites and applications.</p>
+    `
   }
 };
 
@@ -440,6 +511,13 @@ export const posts = [
     date: "July 12, 2026",
     excerpt: "Ensure your resumes and contracts look perfect on every device by following these simple formatting rules.",
     category: "Productivity"
+  },
+  {
+    slug: "kruti-dev-font-showing-as-english-in-word",
+    title: "Kruti Dev Font Showing as English in Word? Why It Happens and How to Fix It",
+    date: "August 10, 2026",
+    excerpt: "Why does Kruti Dev or AnmolLipi text show as English letters in Word or on your phone? Learn why legacy fonts break and how to easily convert them to modern Unicode for free.",
+    category: "Conversion Guides"
   }
 ];
 
