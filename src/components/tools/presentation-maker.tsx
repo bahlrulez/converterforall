@@ -118,14 +118,24 @@ export function PresentationMaker() {
       }
       
       if (data.slides && Array.isArray(data.slides)) {
-        const aiSlides: SlideData[] = data.slides.map((s: any) => ({
-          id: Math.random().toString(36).substr(2, 9),
-          layout: s.layout,
-          title: s.title,
-          subtitle: s.subtitle || "",
-          content: s.content || "",
-          imagePrompt: s.imagePrompt || s.title,
-        }));
+        const aiSlides: SlideData[] = data.slides.map((s: any) => {
+          let imageUrl = undefined;
+          if (s.layout === "split") {
+            const imagePromptStr = s.imagePrompt || s.title;
+            const encodedPrompt = encodeURIComponent(`Professional beautiful presentation photography for: ${imagePromptStr}`);
+            imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1600&height=900&nologo=true`;
+          }
+          
+          return {
+            id: Math.random().toString(36).substr(2, 9),
+            layout: s.layout,
+            title: s.title,
+            subtitle: s.subtitle || "",
+            content: s.content || "",
+            imagePrompt: s.imagePrompt || s.title,
+            image: imageUrl,
+          };
+        });
         
         setSlides(aiSlides);
         setActiveSlideId(aiSlides[0].id);
@@ -237,7 +247,7 @@ export function PresentationMaker() {
 
           // Add Content (Left Side)
           if (slideData.content) {
-            const lines = slideData.content.split("\n").filter(Boolean);
+            const lines = slideData.content.split(/\n|\\n/).filter(Boolean);
             const bullets = lines.map(line => ({ 
               text: line.replace(/^- /, ''), 
               options: { 
@@ -257,28 +267,26 @@ export function PresentationMaker() {
           }
 
           // Add Image (Right Side)
-          const promptForImage = (slideData as any).imagePrompt || slideData.title;
-          const prompt = encodeURIComponent(`Professional beautiful presentation photography for: ${promptForImage}`);
-          const imageUrl = `/api/proxy-image?prompt=${prompt}`;
-          
-          try {
-            const res = await fetch(imageUrl);
-            if (!res.ok) throw new Error("Image fetch failed");
-            const blob = await res.blob();
-            const base64data = await new Promise<string>((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onloadend = () => resolve(reader.result as string);
-              reader.onerror = reject;
-              reader.readAsDataURL(blob);
-            });
-            
-            slide.addImage({ 
-              data: base64data,
-              x: "55%", y: "20%", w: "40%", h: "70%", 
-              sizing: { type: "cover", w: "40%", h: "70%" } 
-            });
-          } catch (err) {
-            console.warn("Failed to load AI image:", err);
+          if (slideData.image) {
+            try {
+              const res = await fetch(slideData.image);
+              if (!res.ok) throw new Error("Image fetch failed");
+              const blob = await res.blob();
+              const base64data = await new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result as string);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+              });
+              
+              slide.addImage({ 
+                data: base64data,
+                x: "55%", y: "20%", w: "40%", h: "70%", 
+                sizing: { type: "cover", w: "40%", h: "70%" } 
+              });
+            } catch (err) {
+              console.warn("Failed to load AI image:", err);
+            }
           }
         }
       }
