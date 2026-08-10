@@ -158,9 +158,9 @@ export function PresentationMaker() {
           // Top Accent Line
           { rect: { x: 0, y: 0, w: "100%", h: 0.1, fill: { color: selectedTheme.accent } } },
           // Abstract modern circle top right
-          { text: { text: "", options: { shape: pres.ShapeType.ellipse, x: "85%", y: "-15%", w: "30%", h: "40%", fill: { color: selectedTheme.accent, transparency: 85 } } } },
+          { text: { text: "", options: { shape: pres.ShapeType.ellipse, x: "85%", y: "-15%", w: "30%", h: "40%", fill: { color: selectedTheme.accent, transparency: 50 } } } },
           // Abstract modern circle bottom left
-          { text: { text: "", options: { shape: pres.ShapeType.ellipse, x: "-5%", y: "80%", w: "20%", h: "30%", fill: { color: selectedTheme.titleColor, transparency: 92 } } } }
+          { text: { text: "", options: { shape: pres.ShapeType.ellipse, x: "-5%", y: "80%", w: "20%", h: "30%", fill: { color: selectedTheme.titleColor, transparency: 60 } } } }
         ],
         slideNumber: { x: "95%", y: "95%", color: selectedTheme.color, fontSize: 10 }
       });
@@ -170,9 +170,9 @@ export function PresentationMaker() {
         background: { color: selectedTheme.bg },
         objects: [
           // Large abstract circle left
-          { text: { text: "", options: { shape: pres.ShapeType.ellipse, x: "-10%", y: "10%", w: "50%", h: "80%", fill: { color: selectedTheme.accent, transparency: 85 } } } },
+          { text: { text: "", options: { shape: pres.ShapeType.ellipse, x: "-10%", y: "10%", w: "50%", h: "80%", fill: { color: selectedTheme.accent, transparency: 40 } } } },
           // Abstract circle bottom right
-          { text: { text: "", options: { shape: pres.ShapeType.ellipse, x: "70%", y: "60%", w: "40%", h: "60%", fill: { color: selectedTheme.titleColor, transparency: 90 } } } },
+          { text: { text: "", options: { shape: pres.ShapeType.ellipse, x: "70%", y: "60%", w: "40%", h: "60%", fill: { color: selectedTheme.titleColor, transparency: 50 } } } },
           // Accent line for title
           { rect: { x: "10%", y: "30%", w: 1.5, h: 0.05, fill: { color: selectedTheme.accent } } }
         ]
@@ -185,14 +185,14 @@ export function PresentationMaker() {
 
         if (isTitle) {
           slide.addText(slideData.title, { 
-            x: "10%", y: "35%", w: "80%", h: 1.5, 
+            x: "10%", y: "20%", w: "80%", h: "20%", 
             fontSize: 48, color: selectedTheme.titleColor, 
             bold: true, align: "left", fontFace: selectedTheme.fontFace,
             valign: "bottom"
           });
           if (slideData.subtitle) {
             slide.addText(slideData.subtitle, { 
-              x: "10%", y: "52%", w: "80%", h: 1, 
+              x: "10%", y: "45%", w: "80%", h: "20%", 
               fontSize: 24, color: selectedTheme.accent, 
               align: "left", fontFace: selectedTheme.fontFace, bold: true,
               valign: "top"

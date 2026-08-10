@@ -25,7 +25,9 @@ export async function POST(req: Request) {
           role: "user",
           parts: [{ text: `Create a professional presentation outline based on the following request: "${prompt}".
           Return a JSON array of slide objects. Ensure the presentation flows logically.
-          Limit to 5-10 slides max. Make the content informative and well-structured.` }]
+          Limit to 5-10 slides max. 
+          CRITICAL: You MUST include at least 2 or 3 slides with the 'image' layout to make the presentation visually engaging. 
+          Make the text content informative and well-structured.` }]
         }
       ],
       config: {
