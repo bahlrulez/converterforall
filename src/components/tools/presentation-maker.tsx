@@ -25,22 +25,25 @@ const THEMES = {
   modern: {
     name: "Modern Minimalist",
     bg: "FFFFFF",
-    color: "333333",
-    titleColor: "000000",
+    color: "555555",
+    titleColor: "111111",
+    accent: "3B82F6", // Blue
     fontFace: "Arial",
   },
   corporate: {
     name: "Corporate Blue",
     bg: "F4F7F6",
-    color: "333333",
+    color: "444444",
     titleColor: "1A365D",
+    accent: "F97316", // Orange
     fontFace: "Helvetica",
   },
   dark: {
     name: "Dark Gradient",
     bg: "1F2937",
-    color: "F3F4F6",
+    color: "D1D5DB",
     titleColor: "FFFFFF",
+    accent: "8B5CF6", // Purple
     fontFace: "Segoe UI",
   }
 };
@@ -108,39 +111,65 @@ export function PresentationMaker() {
       pres.title = slides[0]?.title || "Presentation";
       pres.layout = "LAYOUT_16x9";
 
+      // Define Masters
+      pres.defineSlideMaster({
+        title: "MASTER_SLIDE",
+        background: { color: selectedTheme.bg },
+        objects: [
+          // Header geometric bar
+          { rect: { x: 0, y: 0, w: "100%", h: 0.15, fill: { color: selectedTheme.accent } } },
+          // Footer text
+          { text: { text: "Generated instantly by ConverterForAll.com", options: { x: 0, y: 5.3, w: "100%", h: 0.3, align: "center", color: selectedTheme.color, fontSize: 10 } } }
+        ],
+        slideNumber: { x: "95%", y: "95%", color: selectedTheme.color, fontSize: 10 }
+      });
+
+      pres.defineSlideMaster({
+        title: "TITLE_SLIDE",
+        background: { color: selectedTheme.bg },
+        objects: [
+          // Left thick accent block
+          { rect: { x: 0, y: 0, w: "3%", h: "100%", fill: { color: selectedTheme.accent } } },
+          // Subtle top-right decorative block
+          { rect: { x: "85%", y: 0, w: "15%", h: "15%", fill: { color: selectedTheme.titleColor } } },
+          // Footer text
+          { text: { text: "Generated instantly by ConverterForAll.com", options: { x: 0, y: 5.3, w: "100%", h: 0.3, align: "center", color: selectedTheme.color, fontSize: 10 } } }
+        ],
+        slideNumber: { x: "95%", y: "95%", color: selectedTheme.color, fontSize: 10 }
+      });
+
       // Build Slides
       slides.forEach((slideData) => {
-        const slide = pres.addSlide();
-        
-        // Background
-        slide.background = { color: selectedTheme.bg };
+        const isTitle = slideData.layout === "title";
+        const slide = pres.addSlide({ masterName: isTitle ? "TITLE_SLIDE" : "MASTER_SLIDE" });
 
-        if (slideData.layout === "title") {
+        if (isTitle) {
           slide.addText(slideData.title, { 
-            x: "10%", y: "40%", w: "80%", h: 1.5, 
-            fontSize: 44, color: selectedTheme.titleColor, 
-            bold: true, align: "center", fontFace: selectedTheme.fontFace 
+            x: "10%", y: "35%", w: "80%", h: 1.5, 
+            fontSize: 54, color: selectedTheme.titleColor, 
+            bold: true, align: "left", fontFace: selectedTheme.fontFace,
+            shadow: { type: 'outer', color: "000000", opacity: 0.2, blur: 4, offset: 2 }
           });
           if (slideData.subtitle) {
             slide.addText(slideData.subtitle, { 
-              x: "10%", y: "55%", w: "80%", h: 1, 
-              fontSize: 24, color: selectedTheme.color, 
-              align: "center", fontFace: selectedTheme.fontFace 
+              x: "10%", y: "50%", w: "80%", h: 1, 
+              fontSize: 28, color: selectedTheme.accent, 
+              align: "left", fontFace: selectedTheme.fontFace, bold: true 
             });
           }
         } 
         else if (slideData.layout === "content") {
           slide.addText(slideData.title, { 
             x: "5%", y: "5%", w: "90%", h: 1, 
-            fontSize: 32, color: selectedTheme.titleColor, 
+            fontSize: 36, color: selectedTheme.titleColor, 
             bold: true, fontFace: selectedTheme.fontFace 
           });
           
           if (slideData.content) {
-            const lines = slideData.content.split("\\n").filter(Boolean);
+            const lines = slideData.content.split("\n").filter(Boolean);
             const bullets = lines.map(line => ({ 
               text: line.replace(/^- /, ''), 
-              options: { bullet: true, color: selectedTheme.color, fontSize: 18, fontFace: selectedTheme.fontFace } 
+              options: { bullet: true, color: selectedTheme.color, fontSize: 20, fontFace: selectedTheme.fontFace, margin: [10, 10, 10, 10] } 
             }));
             
             slide.addText(bullets as any, { 
@@ -152,7 +181,7 @@ export function PresentationMaker() {
         else if (slideData.layout === "image") {
           slide.addText(slideData.title, { 
             x: "5%", y: "5%", w: "90%", h: 1, 
-            fontSize: 32, color: selectedTheme.titleColor, 
+            fontSize: 36, color: selectedTheme.titleColor, 
             bold: true, fontFace: selectedTheme.fontFace 
           });
 
