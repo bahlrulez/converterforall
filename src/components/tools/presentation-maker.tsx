@@ -121,13 +121,8 @@ export function PresentationMaker() {
         const aiSlides: SlideData[] = data.slides.map((s: any) => {
           let imageUrl = undefined;
           if (s.layout === "split") {
-            const keywords = (s.title || "presentation")
-              .replace(/[^a-zA-Z0-9\s]/g, "")
-              .split(/\s+/)
-              .filter((w: string) => w.length > 2)
-              .join(",");
-              
-            imageUrl = `https://loremflickr.com/1600/900/${encodeURIComponent(keywords)}/all`;
+            const encodedTitle = encodeURIComponent(s.title || "presentation");
+            imageUrl = `/api/proxy-image?prompt=${encodedTitle}`;
           }
           
           return {
