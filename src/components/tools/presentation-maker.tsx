@@ -25,7 +25,6 @@ const THEMES = {
   modern: {
     name: "Modern Minimalist",
     bg: "FFFFFF",
-    bgImage: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCA4MDAgNjAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjBmNGY4Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNnMSkiLz48Y2lyY2xlIGN4PSI4MDAiIGN5PSIwIiByPSI0MDAiIGZpbGw9IiNlMmU4ZjAiIG9wYWNpdHk9IjAuNCIvPjxjaXJjbGUgY3g9IjAiIGN5PSI2MDAiIHI9IjMwMCIgZmlsbD0iI2NiZDVlMSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+",
     color: "555555",
     titleColor: "111111",
     accent: "3B82F6", // Blue
@@ -34,7 +33,6 @@ const THEMES = {
   corporate: {
     name: "Corporate Blue",
     bg: "F4F7F6",
-    bgImage: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCA4MDAgNjAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjhmYWZjIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZTBlN2ZmIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNnMikiLz48cGF0aCBkPSJNMCwwIEw4MDAsMCBMODAwLDIwMCBMMCw2MDAgWiIgZmlsbD0iI2M3ZDJmZSIgb3BhY2l0eT0iMC4zIi8+PHBhdGggZD0iTTgwMCw2MDAgTDAsNjAwIEwwLDQwMCBMODAwLDAgWiIgZmlsbD0iI2E1YjRmYyIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+",
     color: "444444",
     titleColor: "1A365D",
     accent: "F97316", // Orange
@@ -43,7 +41,6 @@ const THEMES = {
   dark: {
     name: "Dark Gradient",
     bg: "1F2937",
-    bgImage: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCA4MDAgNjAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTExODI3Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMzEyZTgxIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNnMykiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjMwMCIgZmlsbD0iIzQzMzhjYSIgb3BhY2l0eT0iMC4zIi8+PGNpcmNsZSBjeD0iNzAwIiBjeT0iNTAwIiByPSI0MDAiIGZpbGw9IiM2ZDI4ZDkiIG9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==",
     color: "D1D5DB",
     titleColor: "FFFFFF",
     accent: "8B5CF6", // Purple
@@ -117,11 +114,11 @@ export function PresentationMaker() {
       // Define Masters
       pres.defineSlideMaster({
         title: "MASTER_SLIDE",
-        background: { data: selectedTheme.bgImage },
+        background: { color: selectedTheme.bg },
         objects: [
-          // Header geometric bar
+          // Elegant Header Bar (Native Rectangle)
           { rect: { x: 0, y: 0, w: "100%", h: 0.15, fill: { color: selectedTheme.accent } } },
-          // Footer text
+          // Footer Text
           { text: { text: "Generated instantly by ConverterForAll.com", options: { x: 0, y: 5.3, w: "100%", h: 0.3, align: "center", color: selectedTheme.color, fontSize: 10 } } }
         ],
         slideNumber: { x: "95%", y: "95%", color: selectedTheme.color, fontSize: 10 }
@@ -129,13 +126,15 @@ export function PresentationMaker() {
 
       pres.defineSlideMaster({
         title: "TITLE_SLIDE",
-        background: { data: selectedTheme.bgImage },
+        background: { color: selectedTheme.bg },
         objects: [
-          // Left thick accent block
-          { rect: { x: 0, y: 0, w: "3%", h: "100%", fill: { color: selectedTheme.accent } } },
-          // Subtle top-right decorative block
-          { rect: { x: "85%", y: 0, w: "15%", h: "15%", fill: { color: selectedTheme.titleColor } } },
-          // Footer text
+          // Bold Left Accent Block
+          { rect: { x: 0, y: 0, w: "4%", h: "100%", fill: { color: selectedTheme.accent } } },
+          // Modern Top Right Decorative Block
+          { rect: { x: "85%", y: 0, w: "15%", h: "20%", fill: { color: selectedTheme.titleColor } } },
+          // Modern Bottom Right Decorative Block
+          { rect: { x: "92%", y: "80%", w: "8%", h: "20%", fill: { color: selectedTheme.accent } } },
+          // Footer Text
           { text: { text: "Generated instantly by ConverterForAll.com", options: { x: 0, y: 5.3, w: "100%", h: 0.3, align: "center", color: selectedTheme.color, fontSize: 10 } } }
         ],
         slideNumber: { x: "95%", y: "95%", color: selectedTheme.color, fontSize: 10 }
