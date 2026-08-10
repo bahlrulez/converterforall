@@ -13,7 +13,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Gemini API key is not configured. Please add GEMINI_API_KEY to your .env file." }, { status: 500 });
     }
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const ai = new GoogleGenAI({ 
+      apiKey: process.env.GEMINI_API_KEY,
+      httpOptions: { apiVersion: 'v1' }
+    });
 
     const response = await ai.models.generateContent({
       model: "gemini-1.5-flash",
