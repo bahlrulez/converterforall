@@ -123,7 +123,7 @@ export function PresentationMaker() {
           if (s.layout === "split") {
             const imagePromptStr = s.imagePrompt || s.title;
             const encodedPrompt = encodeURIComponent(`Professional beautiful presentation photography for: ${imagePromptStr}`);
-            imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1600&height=900&nologo=true`;
+            imageUrl = `/api/proxy-image?prompt=${encodedPrompt}`;
           }
           
           return {
