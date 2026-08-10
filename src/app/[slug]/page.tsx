@@ -127,20 +127,26 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
 
-      <div className="mb-8 print:hidden">
-        <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
+      <div className="mb-12 print:hidden flex flex-col items-center text-center">
+        <Link href="/" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary mb-8 transition-colors bg-muted/50 px-4 py-1.5 rounded-full backdrop-blur-sm border border-border/50">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to all tools
         </Link>
-        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-4">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-blue-500 to-purple-600">
           {tool.title}
         </h1>
-        <p className="text-xl text-muted-foreground">
+        <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
           {tool.description}
         </p>
       </div>
 
-      <div className={`${(tool as any).isInteractive ? '' : 'bg-muted/30 rounded-3xl p-6 sm:p-12 border border-border shadow-sm'} mb-16`}>
+      <div className="relative mb-20">
+        {/* Ambient Glow Effects */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[80%] max-w-3xl h-[80%] blur-[100px] opacity-30 dark:opacity-20 pointer-events-none">
+          <div className="w-full h-full bg-gradient-to-tr from-primary via-blue-400 to-purple-500 rounded-full" />
+        </div>
+
+        <div className={`${(tool as any).isInteractive ? '' : 'bg-background/60 backdrop-blur-xl rounded-3xl p-6 sm:p-12 border border-border/50 shadow-2xl'} relative z-10`}>
         {(tool as any).isInteractive ? (
           <>
             {toolSlug === "live-ruler" && <LiveRuler />}
@@ -173,6 +179,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             actionLabel={(tool as any).actionName}
           />
         )}
+        </div>
       </div>
 
       <article className="prose prose-slate dark:prose-invert max-w-none prose-lg print:hidden">

@@ -93,20 +93,31 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
         <div className="flex flex-col gap-4">
           <div
             {...getRootProps()}
-            className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-12 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-4 ${
-              isDragActive ? "border-primary bg-primary/5 scale-[1.02]" : "border-border md:hover:border-primary/50 md:hover:bg-muted/50"
+            className={`group relative overflow-hidden rounded-[2rem] border-2 border-dashed p-16 sm:p-24 text-center transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-6 ${
+              isDragActive 
+                ? "border-primary bg-primary/5 scale-[1.02] shadow-[0_0_40px_rgba(59,130,246,0.15)]" 
+                : "border-border/50 hover:border-primary/50 hover:bg-muted/30 hover:shadow-2xl"
             }`}
           >
             <input {...getInputProps()} />
-            <div className="rounded-full bg-primary/10 p-4 text-primary">
-              <UploadCloud className="h-8 w-8" />
+            
+            {/* Animated Background Gradient on Hover */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            {/* Floating Icon with Glow */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-150 group-hover:scale-175 group-hover:bg-primary/30 transition-all duration-500" />
+              <div className="relative rounded-2xl bg-gradient-to-br from-primary to-blue-600 p-5 text-white shadow-lg group-hover:-translate-y-1 transition-transform duration-300">
+                <UploadCloud className="h-10 w-10" />
+              </div>
             </div>
-            <div>
-              <p className="text-lg font-semibold">
+
+            <div className="relative z-10">
+              <p className="text-2xl font-bold tracking-tight">
                 {isDragActive ? "Drop your file here" : "Drag & drop your file here"}
               </p>
-              <p className="text-sm text-muted-foreground mt-1">
-                or click to browse from your computer
+              <p className="text-base text-muted-foreground mt-2">
+                or <span className="text-primary font-medium group-hover:underline underline-offset-4 cursor-pointer">browse from your computer</span>
               </p>
             </div>
           </div>
