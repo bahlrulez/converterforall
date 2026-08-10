@@ -2,27 +2,28 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
   "presentation-maker": {
     sections: [
       {
-        title: "What is the Presentation Maker?",
-        content: "<p>The Presentation Maker is a free, 100% private tool designed to create professional PowerPoint (.pptx) presentations directly in your browser. With no server uploads required, it is the safest way to draft slides for business, education, or personal use.</p>"
+        title: "Free Online AI Presentation Maker – Generate PPTX Slides Instantly (100% Free)",
+        content: "<p>Turn your ideas into clean, professional PowerPoint slides in seconds. ConverterForAll’s Free Presentation Maker lets you create, edit, and download editable .pptx files directly in your web browser—100% free, no watermarks, and no sign-up required.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>The tool uses a high-performance, client-side generation engine. You select a theme, add your slide content via our intuitive interface, and click 'Download'. The tool then compiles a valid .pptx file on your own device, ensuring your data never leaves your computer.</p>"
+        title: "Key Features – Why Choose ConverterForAll Presentation Maker?",
+        content: "<ul><li><strong>100% Free & Unlimited:</strong> Create as many slide decks as you need without hidden paywalls, subscriptions, or visual watermarks.</li><li><strong>100% Client-Side Privacy:</strong> Your sensitive presentation topics and text never leave your computer. Everything processes locally inside your browser.</li><li><strong>Instant PPTX Export:</strong> Download standard .pptx files fully compatible with Microsoft PowerPoint, Google Slides, and Apple Keynote.</li><li><strong>Custom Slide Layouts:</strong> Flexible options ranging from 2 to 12 slides per presentation with pre-built title and content structures.</li><li><strong>No Account Required:</strong> Start drafting your presentation instantly—no email address or login needed.</li></ul>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Choose a Theme:</strong> Pick from our selection of modern, professional templates like Corporate Blue or Minimalist.</li><li><strong>Add Your Content:</strong> Input your slide titles, bullet points, and text into our easy-to-use slide editor.</li><li><strong>Generate & Download:</strong> Click 'Download PPTX' to instantly save your presentation to your device.</li></ol>"
+        title: "How to Create PPT Slides Online in 3 Easy Steps",
+        content: "<ol><li><strong>Select Number of Slides:</strong> Choose your desired slide count (from 2 up to 12 slides) using the dropdown menu.</li><li><strong>Add Titles & Content:</strong> Type or paste your slide headings, subheadings, bullet points, and main ideas directly into the intuitive editor.</li><li><strong>Download & Edit:</strong> Click Download PPTX to save your presentation file instantly. Open it in PowerPoint or Google Slides to polish and present!</li></ol>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Business Meetings:</strong> Quickly drafting internal reports or team updates without needing to sign up for bulky presentation software.</li><li><strong>Academic Projects:</strong> Creating clean, effective slide decks for class presentations.</li><li><strong>Secure Presentations:</strong> Perfect for handling sensitive data where you don't want your presentation stored on a third-party server.</li></ul>"
+        title: "Who Is This Tool For?",
+        content: "<ul><li><strong>Students & Teachers:</strong> Quickly structure class assignments, lectures, and group project slides without paying for expensive software.</li><li><strong>Business Professionals:</strong> Draft quick team updates, sales outlines, or client pitches securely on the go.</li><li><strong>Privacy-Conscious Creators:</strong> Perfect for confidential reports and proprietary company data that must not be uploaded to cloud servers.</li></ul>"
       },
       {
-        title: "Frequently Asked Questions",
+        title: "Frequently Asked Questions (FAQ)",
         content: `
-          <p><strong>Q: Is my presentation data uploaded to a server?</strong><br>A: No. Our presentation maker is built on a 100% client-side architecture. Your data never leaves your browser.</p>
-          <p><strong>Q: Can I edit the generated file later?</strong><br>A: Yes! The tool generates a standard .pptx file, which you can open and edit in Microsoft PowerPoint, Google Slides, or Keynote.</p>
-          <p><strong>Q: Is this tool completely free?</strong><br>A: Yes, it is 100% free with no watermarks and no hidden fees.</p>
+          <p><strong>Q: Is this presentation maker really 100% free?</strong><br>A: Yes. ConverterForAll provides full access to the presentation generator with no premium upgrades, mandatory credit cards, or hidden fees.</p>
+          <p><strong>Q: Is my presentation content private and safe?</strong><br>A: Yes. Unlike traditional cloud-based AI presentation tools, our generator works entirely inside your browser. No data, text, or file content is uploaded to external servers.</p>
+          <p><strong>Q: Can I open and edit the file in Microsoft PowerPoint or Google Slides?</strong><br>A: Yes. The tool exports a clean, standard .pptx file that is fully editable in Microsoft PowerPoint, Google Slides, LibreOffice Impress, or Apple Keynote.</p>
+          <p><strong>Q: Does the exported PowerPoint file contain a watermark?</strong><br>A: No. All generated .pptx files are clean, professional, and completely free of branding or logos.</p>
         `
       }
     ]
