@@ -121,9 +121,13 @@ export function PresentationMaker() {
         const aiSlides: SlideData[] = data.slides.map((s: any) => {
           let imageUrl = undefined;
           if (s.layout === "split") {
-            const imagePromptStr = s.imagePrompt || s.title;
-            const encodedPrompt = encodeURIComponent(`Professional beautiful presentation photography for: ${imagePromptStr}`);
-            imageUrl = `/api/proxy-image?prompt=${encodedPrompt}`;
+            const keywords = (s.title || "presentation")
+              .replace(/[^a-zA-Z0-9\s]/g, "")
+              .split(/\s+/)
+              .filter((w: string) => w.length > 2)
+              .join(",");
+              
+            imageUrl = `https://loremflickr.com/1600/900/${encodeURIComponent(keywords)}/all`;
           }
           
           return {
