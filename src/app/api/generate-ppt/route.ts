@@ -39,7 +39,8 @@ export async function POST(req: Request) {
             properties: {
               layout: {
                 type: "STRING",
-                enum: ["title", "content", "image"]
+                enum: ["title", "content", "image"],
+                description: "The layout type for the slide. You MUST use 'image' for at least 2 or 3 slides to make the presentation visually engaging."
               },
               title: {
                 type: "STRING",
