@@ -228,14 +228,14 @@ export function PresentationMaker() {
 
           if (slideData.image) {
             // Add image centered
-            slide.addImage({ data: slideData.image, x: "10%", y: "18%", w: "80%", h: "72%", sizing: { type: "contain" } });
+            slide.addImage({ data: slideData.image, x: "10%", y: "18%", w: "80%", h: "72%", sizing: { type: "contain", w: "80%", h: "72%" } });
           } else {
             // Automatically generate a relevant AI image from pollinations!
             const prompt = encodeURIComponent(`Professional beautiful presentation photography for: ${slideData.title}`);
             slide.addImage({ 
               path: `https://image.pollinations.ai/prompt/${prompt}?width=1600&height=900&nologo=true`, 
               x: "10%", y: "18%", w: "80%", h: "72%", 
-              sizing: { type: "cover" } 
+              sizing: { type: "cover", w: "80%", h: "72%" } 
             });
           }
         }
