@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 
 export async function POST(req: Request) {
   try {
-    const { prompt } = await req.json();
+    const { prompt, slideCount = 6 } = await req.json();
 
     if (!prompt) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
@@ -24,10 +24,10 @@ export async function POST(req: Request) {
         {
           role: "user",
           parts: [{ text: `Create a professional presentation outline based on the following request: "${prompt}".
-          Return a JSON array of slide objects. Ensure the presentation flows logically.
-          Limit to 5-10 slides max. 
+          Return a JSON array of exactly ${slideCount} slide objects. Ensure the presentation flows logically.
           CRITICAL: You MUST include at least 2 or 3 slides with the 'split' layout (text on one side, image on the other) to make the presentation visually engaging. 
-          EVERY slide must have 'content', even 'split' layouts. Make the text content informative and well-structured.` }]
+          EVERY slide must have 'content', even 'split' layouts. Make the text content informative and well-structured.
+          The VERY LAST slide MUST be a professional closing/Thank You slide summarizing the presentation or providing contact info/next steps.` }]
         }
       ],
       config: {

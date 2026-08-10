@@ -9,13 +9,15 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
+    const lock = searchParams.get("lock") || Math.floor(Math.random() * 1000).toString();
+
     const keywords = prompt
       .replace(/[^a-zA-Z0-9\s]/g, "")
       .split(/\s+/)
       .filter((w) => w.length > 2)
       .join(",");
       
-    const imageUrl = `https://loremflickr.com/1600/900/${encodeURIComponent(keywords)}/all`;
+    const imageUrl = `https://loremflickr.com/1600/900/${encodeURIComponent(keywords)}/all?lock=${lock}`;
     
     const response = await fetch(imageUrl);
 

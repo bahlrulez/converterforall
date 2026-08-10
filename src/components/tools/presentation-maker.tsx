@@ -58,6 +58,7 @@ export function PresentationMaker() {
   const [theme, setTheme] = useState<ThemeKey>("modern");
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
+  const [aiSlideCount, setAiSlideCount] = useState(6);
   const [isAiGenerating, setIsAiGenerating] = useState(false);
 
   const activeSlideIndex = slides.findIndex(s => s.id === activeSlideId);
@@ -106,23 +107,23 @@ export function PresentationMaker() {
     
     try {
       setIsAiGenerating(true);
-      const res = await fetch("/api/generate-ppt", {
+      const response = await fetch("/api/generate-ppt", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: aiPrompt })
+        body: JSON.stringify({ prompt: aiPrompt, slideCount: aiSlideCount }),
       });
       
-      const data = await res.json();
-      if (!res.ok) {
+      const data = await response.json();
+      if (!response.ok) {
         throw new Error(data.error || "Failed to generate presentation");
       }
       
       if (data.slides && Array.isArray(data.slides)) {
-        const aiSlides: SlideData[] = data.slides.map((s: any) => {
+        const aiSlides: SlideData[] = data.slides.map((s: any, index: number) => {
           let imageUrl = undefined;
           if (s.layout === "split") {
             const encodedTitle = encodeURIComponent(s.title || "presentation");
-            imageUrl = `/api/proxy-image?prompt=${encodedTitle}`;
+            imageUrl = `/api/proxy-image?prompt=${encodedTitle}&lock=${index}`;
           }
           
           return {
@@ -319,6 +320,17 @@ export function PresentationMaker() {
               disabled={isAiGenerating}
             />
           </div>
+          <select
+            value={aiSlideCount}
+            onChange={(e) => setAiSlideCount(Number(e.target.value))}
+            disabled={isAiGenerating}
+            className="w-full sm:w-auto px-4 py-3 rounded-xl border border-purple-500/20 bg-background/80 shadow-inner focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm appearance-none cursor-pointer"
+          >
+            {[...Array(11)].map((_, i) => {
+              const count = i + 2;
+              return <option key={count} value={count}>{count} Slides</option>;
+            })}
+          </select>
           <Button 
             onClick={generateWithAI} 
             disabled={isAiGenerating || !aiPrompt.trim()}
