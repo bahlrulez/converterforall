@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2, Image as ImageIcon, LayoutTemplate, Download, FileText, ChevronRight, ChevronLeft } from "lucide-react";
+import { Plus, Trash2, Image as ImageIcon, LayoutTemplate, Download, FileText, ChevronRight, ChevronLeft, Sparkles, Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // No longer importing Input and Textarea from ui components
 
@@ -57,6 +57,8 @@ export function PresentationMaker() {
   const [activeSlideId, setActiveSlideId] = useState<string>("1");
   const [theme, setTheme] = useState<ThemeKey>("modern");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [isAiGenerating, setIsAiGenerating] = useState(false);
 
   const activeSlideIndex = slides.findIndex(s => s.id === activeSlideId);
   const activeSlide = slides[activeSlideIndex];
@@ -97,6 +99,43 @@ export function PresentationMaker() {
       updateActiveSlide({ image: base64 });
     };
     reader.readAsDataURL(file);
+  };
+
+  const generateWithAI = async () => {
+    if (!aiPrompt.trim()) return;
+    
+    try {
+      setIsAiGenerating(true);
+      const res = await fetch("/api/generate-ppt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: aiPrompt })
+      });
+      
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to generate presentation");
+      }
+      
+      if (data.slides && Array.isArray(data.slides)) {
+        const aiSlides: SlideData[] = data.slides.map((s: any) => ({
+          id: Math.random().toString(36).substr(2, 9),
+          layout: s.layout,
+          title: s.title,
+          subtitle: s.subtitle || "",
+          content: s.content || "",
+        }));
+        
+        setSlides(aiSlides);
+        setActiveSlideId(aiSlides[0].id);
+        setAiPrompt("");
+      }
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message);
+    } finally {
+      setIsAiGenerating(false);
+    }
   };
 
   const generatePresentation = async () => {
@@ -212,7 +251,45 @@ export function PresentationMaker() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 w-full max-w-6xl mx-auto min-h-[600px] rounded-2xl overflow-hidden border bg-background/50 backdrop-blur-sm shadow-xl p-4 mt-8">
+    <div className="flex flex-col gap-6 w-full max-w-6xl mx-auto mt-8">
+      {/* AI Generator Input */}
+      <div className="bg-gradient-to-r from-purple-500/10 via-primary/5 to-blue-500/10 border border-purple-500/20 p-6 rounded-2xl shadow-sm backdrop-blur-sm">
+        <div className="flex flex-col sm:flex-row gap-4 items-center">
+          <div className="flex-1 w-full relative">
+            <Sparkles className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-500 opacity-70" />
+            <input 
+              value={aiPrompt}
+              onChange={(e) => setAiPrompt(e.target.value)}
+              placeholder="E.g., Create a 5-slide presentation on renewable energy..."
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-purple-500/20 bg-background/80 shadow-inner focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all text-sm"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') generateWithAI();
+              }}
+              disabled={isAiGenerating}
+            />
+          </div>
+          <Button 
+            onClick={generateWithAI} 
+            disabled={isAiGenerating || !aiPrompt.trim()}
+            className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg transition-all"
+            size="lg"
+          >
+            {isAiGenerating ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Generating Magic...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 mr-2" />
+                Generate with AI
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-6 w-full min-h-[600px] rounded-2xl overflow-hidden border bg-background/50 backdrop-blur-sm shadow-xl p-4">
       
       {/* Left Sidebar - Slides Navigation */}
       <div className="w-full md:w-64 flex flex-col gap-4 border-r pr-4">
