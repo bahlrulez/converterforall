@@ -155,10 +155,12 @@ export function PresentationMaker() {
         title: "MASTER_SLIDE",
         background: { color: selectedTheme.bg },
         objects: [
-          // Elegant Header Bar (Native Rectangle)
-          { rect: { x: 0, y: 0, w: "100%", h: 0.15, fill: { color: selectedTheme.accent } } },
-          // Footer Text
-          { text: { text: "Generated instantly by ConverterForAll.com", options: { x: 0, y: 5.3, w: "100%", h: 0.3, align: "center", color: selectedTheme.color, fontSize: 10 } } }
+          // Top Accent Line
+          { rect: { x: 0, y: 0, w: "100%", h: 0.1, fill: { color: selectedTheme.accent } } },
+          // Abstract modern circle top right
+          { shape: { type: pres.ShapeType.oval, x: "85%", y: "-15%", w: "30%", h: "40%", fill: { color: selectedTheme.accent, transparency: 85 } } },
+          // Abstract modern circle bottom left
+          { shape: { type: pres.ShapeType.oval, x: "-5%", y: "80%", w: "20%", h: "30%", fill: { color: selectedTheme.titleColor, transparency: 92 } } }
         ],
         slideNumber: { x: "95%", y: "95%", color: selectedTheme.color, fontSize: 10 }
       });
@@ -167,16 +169,13 @@ export function PresentationMaker() {
         title: "TITLE_SLIDE",
         background: { color: selectedTheme.bg },
         objects: [
-          // Bold Left Accent Block
-          { rect: { x: 0, y: 0, w: "4%", h: "100%", fill: { color: selectedTheme.accent } } },
-          // Modern Top Right Decorative Block
-          { rect: { x: "85%", y: 0, w: "15%", h: "20%", fill: { color: selectedTheme.titleColor } } },
-          // Modern Bottom Right Decorative Block
-          { rect: { x: "92%", y: "80%", w: "8%", h: "20%", fill: { color: selectedTheme.accent } } },
-          // Footer Text
-          { text: { text: "Generated instantly by ConverterForAll.com", options: { x: 0, y: 5.3, w: "100%", h: 0.3, align: "center", color: selectedTheme.color, fontSize: 10 } } }
-        ],
-        slideNumber: { x: "95%", y: "95%", color: selectedTheme.color, fontSize: 10 }
+          // Large abstract circle left
+          { shape: { type: pres.ShapeType.oval, x: "-10%", y: "10%", w: "50%", h: "80%", fill: { color: selectedTheme.accent, transparency: 85 } } },
+          // Abstract circle bottom right
+          { shape: { type: pres.ShapeType.oval, x: "70%", y: "60%", w: "40%", h: "60%", fill: { color: selectedTheme.titleColor, transparency: 90 } } },
+          // Accent line for title
+          { rect: { x: "10%", y: "30%", w: 1.5, h: 0.05, fill: { color: selectedTheme.accent } } }
+        ]
       });
 
       // Build Slides
@@ -187,22 +186,23 @@ export function PresentationMaker() {
         if (isTitle) {
           slide.addText(slideData.title, { 
             x: "10%", y: "35%", w: "80%", h: 1.5, 
-            fontSize: 54, color: selectedTheme.titleColor, 
+            fontSize: 48, color: selectedTheme.titleColor, 
             bold: true, align: "left", fontFace: selectedTheme.fontFace,
-            shadow: { type: 'outer', color: "000000", opacity: 0.2, blur: 4, offset: 2 }
+            valign: "bottom"
           });
           if (slideData.subtitle) {
             slide.addText(slideData.subtitle, { 
-              x: "10%", y: "50%", w: "80%", h: 1, 
-              fontSize: 28, color: selectedTheme.accent, 
-              align: "left", fontFace: selectedTheme.fontFace, bold: true 
+              x: "10%", y: "52%", w: "80%", h: 1, 
+              fontSize: 24, color: selectedTheme.accent, 
+              align: "left", fontFace: selectedTheme.fontFace, bold: true,
+              valign: "top"
             });
           }
         } 
         else if (slideData.layout === "content") {
           slide.addText(slideData.title, { 
-            x: "5%", y: "5%", w: "90%", h: 1, 
-            fontSize: 36, color: selectedTheme.titleColor, 
+            x: "8%", y: "8%", w: "84%", h: 0.8, 
+            fontSize: 32, color: selectedTheme.titleColor, 
             bold: true, fontFace: selectedTheme.fontFace 
           });
           
@@ -210,30 +210,32 @@ export function PresentationMaker() {
             const lines = slideData.content.split("\n").filter(Boolean);
             const bullets = lines.map(line => ({ 
               text: line.replace(/^- /, ''), 
-              options: { bullet: true, color: selectedTheme.color, fontSize: 20, fontFace: selectedTheme.fontFace, margin: [10, 10, 10, 10] } 
+              options: { bullet: { type: 'bullet' }, color: selectedTheme.color, fontSize: 18, fontFace: selectedTheme.fontFace, margin: [10, 10, 10, 10] } 
             }));
             
             slide.addText(bullets as any, { 
-              x: "5%", y: "20%", w: "90%", h: "70%", 
+              x: "8%", y: "18%", w: "84%", h: "75%", 
               valign: "top" 
             });
           }
         }
         else if (slideData.layout === "image") {
           slide.addText(slideData.title, { 
-            x: "5%", y: "5%", w: "90%", h: 1, 
-            fontSize: 36, color: selectedTheme.titleColor, 
+            x: "8%", y: "8%", w: "84%", h: 0.8, 
+            fontSize: 32, color: selectedTheme.titleColor, 
             bold: true, fontFace: selectedTheme.fontFace 
           });
 
           if (slideData.image) {
             // Add image centered
-            slide.addImage({ data: slideData.image, x: "10%", y: "20%", w: "80%", h: "70%", sizing: { type: "contain", w: "80%", h: "70%" } });
+            slide.addImage({ data: slideData.image, x: "10%", y: "18%", w: "80%", h: "72%", sizing: { type: "contain" } });
           } else {
-            slide.addText("No Image Uploaded", { 
-              x: "10%", y: "20%", w: "80%", h: "70%", 
-              color: selectedTheme.color, align: "center", valign: "middle", 
-              fill: { color: "E5E7EB" }, fontFace: selectedTheme.fontFace
+            // Automatically generate a relevant AI image from pollinations!
+            const prompt = encodeURIComponent(`Professional beautiful presentation photography for: ${slideData.title}`);
+            slide.addImage({ 
+              path: `https://image.pollinations.ai/prompt/${prompt}?width=1600&height=900&nologo=true`, 
+              x: "10%", y: "18%", w: "80%", h: "72%", 
+              sizing: { type: "cover" } 
             });
           }
         }
