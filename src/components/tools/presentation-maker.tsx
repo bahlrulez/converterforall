@@ -179,7 +179,7 @@ export function PresentationMaker() {
       });
 
       // Build Slides
-      slides.forEach((slideData) => {
+      for (const slideData of slides) {
         const isTitle = slideData.layout === "title";
         const slide = pres.addSlide({ masterName: isTitle ? "TITLE_SLIDE" : "MASTER_SLIDE" });
 
@@ -232,14 +232,30 @@ export function PresentationMaker() {
           } else {
             // Automatically generate a relevant AI image from pollinations!
             const prompt = encodeURIComponent(`Professional beautiful presentation photography for: ${slideData.title}`);
-            slide.addImage({ 
-              path: `https://image.pollinations.ai/prompt/${prompt}?width=1600&height=900&nologo=true`, 
-              x: "10%", y: "18%", w: "80%", h: "72%", 
-              sizing: { type: "cover", w: "80%", h: "72%" } 
-            });
+            const imageUrl = `https://image.pollinations.ai/prompt/${prompt}?width=1600&height=900&nologo=true`;
+            
+            try {
+              const res = await fetch(imageUrl);
+              if (!res.ok) throw new Error("Image fetch failed");
+              const blob = await res.blob();
+              const base64data = await new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result as string);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+              });
+              
+              slide.addImage({ 
+                data: base64data,
+                x: "10%", y: "18%", w: "80%", h: "72%", 
+                sizing: { type: "cover", w: "80%", h: "72%" } 
+              });
+            } catch (err) {
+              console.warn("Failed to load AI image:", err);
+            }
           }
         }
-      });
+      }
 
       // Download
       await pres.writeFile({ fileName: `Presentation_${new Date().getTime()}.pptx` });
