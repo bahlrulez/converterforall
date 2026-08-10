@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // Using default import because the tool is already client-side.
 import pptxgen from "pptxgenjs";
 
-type SlideLayout = "title" | "content" | "image";
+type SlideLayout = "title" | "content" | "split";
 
 interface SlideData {
   id: string;
@@ -124,6 +124,7 @@ export function PresentationMaker() {
           title: s.title,
           subtitle: s.subtitle || "",
           content: s.content || "",
+          imagePrompt: s.imagePrompt || s.title,
         }));
         
         setSlides(aiSlides);
@@ -202,7 +203,7 @@ export function PresentationMaker() {
         else if (slideData.layout === "content") {
           slide.addText(slideData.title, { 
             x: "8%", y: "8%", w: "84%", h: 0.8, 
-            fontSize: 32, color: selectedTheme.titleColor, 
+            fontSize: 36, color: selectedTheme.titleColor, 
             bold: true, fontFace: selectedTheme.fontFace 
           });
           
@@ -210,49 +211,74 @@ export function PresentationMaker() {
             const lines = slideData.content.split("\n").filter(Boolean);
             const bullets = lines.map(line => ({ 
               text: line.replace(/^- /, ''), 
-              options: { bullet: { type: 'bullet' }, color: selectedTheme.color, fontSize: 18, fontFace: selectedTheme.fontFace, margin: [10, 10, 10, 10] } 
+              options: { 
+                bullet: { type: 'bullet' }, 
+                color: selectedTheme.color, 
+                fontSize: 22, 
+                fontFace: selectedTheme.fontFace, 
+                breakLine: true,
+                paraSpaceBefore: 12
+              } 
             }));
             
             slide.addText(bullets as any, { 
-              x: "8%", y: "18%", w: "84%", h: "75%", 
+              x: "8%", y: "20%", w: "84%", h: "70%", 
               valign: "top" 
             });
           }
         }
-        else if (slideData.layout === "image") {
+        else if (slideData.layout === "split") {
+          // Add Title
           slide.addText(slideData.title, { 
-            x: "8%", y: "8%", w: "84%", h: 0.8, 
-            fontSize: 32, color: selectedTheme.titleColor, 
+            x: "5%", y: "8%", w: "90%", h: 0.8, 
+            fontSize: 36, color: selectedTheme.titleColor, 
             bold: true, fontFace: selectedTheme.fontFace 
           });
 
-          if (slideData.image) {
-            // Add image centered
-            slide.addImage({ data: slideData.image, x: "10%", y: "18%", w: "80%", h: "72%", sizing: { type: "contain", w: "80%", h: "72%" } });
-          } else {
-            // Automatically generate a relevant AI image from pollinations!
-            const prompt = encodeURIComponent(`Professional beautiful presentation photography for: ${slideData.title}`);
-            const imageUrl = `https://image.pollinations.ai/prompt/${prompt}?width=1600&height=900&nologo=true`;
+          // Add Content (Left Side)
+          if (slideData.content) {
+            const lines = slideData.content.split("\n").filter(Boolean);
+            const bullets = lines.map(line => ({ 
+              text: line.replace(/^- /, ''), 
+              options: { 
+                bullet: { type: 'bullet' }, 
+                color: selectedTheme.color, 
+                fontSize: 20, 
+                fontFace: selectedTheme.fontFace, 
+                breakLine: true,
+                paraSpaceBefore: 10
+              } 
+            }));
             
-            try {
-              const res = await fetch(imageUrl);
-              if (!res.ok) throw new Error("Image fetch failed");
-              const blob = await res.blob();
-              const base64data = await new Promise<string>((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result as string);
-                reader.onerror = reject;
-                reader.readAsDataURL(blob);
-              });
-              
-              slide.addImage({ 
-                data: base64data,
-                x: "10%", y: "18%", w: "80%", h: "72%", 
-                sizing: { type: "cover", w: "80%", h: "72%" } 
-              });
-            } catch (err) {
-              console.warn("Failed to load AI image:", err);
-            }
+            slide.addText(bullets as any, { 
+              x: "5%", y: "20%", w: "45%", h: "70%", 
+              valign: "top" 
+            });
+          }
+
+          // Add Image (Right Side)
+          const promptForImage = (slideData as any).imagePrompt || slideData.title;
+          const prompt = encodeURIComponent(`Professional beautiful presentation photography for: ${promptForImage}`);
+          const imageUrl = `/api/proxy-image?prompt=${prompt}`;
+          
+          try {
+            const res = await fetch(imageUrl);
+            if (!res.ok) throw new Error("Image fetch failed");
+            const blob = await res.blob();
+            const base64data = await new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result as string);
+              reader.onerror = reject;
+              reader.readAsDataURL(blob);
+            });
+            
+            slide.addImage({ 
+              data: base64data,
+              x: "55%", y: "20%", w: "40%", h: "70%", 
+              sizing: { type: "cover", w: "40%", h: "70%" } 
+            });
+          } catch (err) {
+            console.warn("Failed to load AI image:", err);
           }
         }
       }
@@ -320,7 +346,7 @@ export function PresentationMaker() {
             <Button variant="ghost" size="icon" onClick={() => addSlide("content")} title="Add Content Slide">
               <FileText className="w-4 h-4" />
             </Button>
-            <Button variant="ghost" size="icon" onClick={() => addSlide("image")} title="Add Image Slide">
+            <Button variant="ghost" size="icon" onClick={() => addSlide("split")} title="Add Split Slide">
               <ImageIcon className="w-4 h-4" />
             </Button>
           </div>
@@ -413,8 +439,7 @@ export function PresentationMaker() {
               <p className="text-xs text-muted-foreground">Each new line will be rendered as a bullet point.</p>
             </div>
           )}
-
-          {activeSlide?.layout === "image" && (
+          {activeSlide?.layout === "split" && (
             <div className="flex flex-col gap-4 flex-1">
               <label className="text-sm font-medium">Slide Image</label>
               <div className="border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-8 bg-background relative overflow-hidden flex-1 min-h-[200px]">

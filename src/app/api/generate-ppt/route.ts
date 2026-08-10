@@ -26,8 +26,8 @@ export async function POST(req: Request) {
           parts: [{ text: `Create a professional presentation outline based on the following request: "${prompt}".
           Return a JSON array of slide objects. Ensure the presentation flows logically.
           Limit to 5-10 slides max. 
-          CRITICAL: You MUST include at least 2 or 3 slides with the 'image' layout to make the presentation visually engaging. 
-          Make the text content informative and well-structured.` }]
+          CRITICAL: You MUST include at least 2 or 3 slides with the 'split' layout (text on one side, image on the other) to make the presentation visually engaging. 
+          EVERY slide must have 'content', even 'split' layouts. Make the text content informative and well-structured.` }]
         }
       ],
       config: {
@@ -39,8 +39,8 @@ export async function POST(req: Request) {
             properties: {
               layout: {
                 type: "STRING",
-                enum: ["title", "content", "image"],
-                description: "The layout type for the slide. You MUST use 'image' for at least 2 or 3 slides to make the presentation visually engaging."
+                enum: ["title", "content", "split"],
+                description: "The layout type for the slide. You MUST use 'split' for at least 2 or 3 slides to make the presentation visually engaging. 'split' means it will have an AI generated image."
               },
               title: {
                 type: "STRING",
@@ -52,10 +52,14 @@ export async function POST(req: Request) {
               },
               content: {
                 type: "STRING",
-                description: "The main body content. Only use this for the 'content' layout. Write concise sentences, formatted as bullet points separated by new lines (e.g., 'Point 1\\nPoint 2')."
+                description: "The main body content. Use this for both 'content' and 'split' layouts. Write concise sentences, formatted as bullet points separated by new lines (e.g., 'Point 1\\nPoint 2'). EVERY SLIDE (except title) MUST HAVE CONTENT."
+              },
+              imagePrompt: {
+                type: "STRING",
+                description: "Required ONLY if layout is 'split'. A detailed prompt to generate an image for this slide (e.g., 'Professional photograph of beautiful alpine scenery in Queenstown, highly detailed')."
               }
             },
-            required: ["layout", "title"]
+            required: ["layout", "title", "content"]
           }
         },
         temperature: 0.7,
