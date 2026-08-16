@@ -66,6 +66,16 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
   }, [historyIndex]);
 
   useEffect(() => {
+    try {
+      const storedText = sessionStorage.getItem("font_input_text");
+      if (storedText) {
+        sessionStorage.removeItem("font_input_text");
+        setFromValue(storedText);
+        setToValue(convertText(storedText, fromUnit, toUnit));
+        pushToHistory(storedText);
+        return;
+      }
+    } catch {}
     // Initial history push
     pushToHistory("");
     // eslint-disable-next-line react-hooks/exhaustive-deps

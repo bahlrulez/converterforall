@@ -23,16 +23,34 @@ export function FontDetector() {
   const getRecommendedConverterUrl = () => {
     if (!result || result.font === "Unknown") return null;
     
-    const fontSlug = result.font.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     if (result.isUnicode) {
-      // If it's unicode, they probably want to convert to something, 
-      // but without knowing what, we can suggest a default based on language
       if (result.language === 'Punjabi') return '/unicode-to-anmollipi';
-      if (result.language === 'Hindi') return '/unicode-to-krutidev';
-      return null;
-    } else {
-      // Legacy font to Unicode
-      return `/${fontSlug}-to-unicode`;
+      return '/unicode-to-krutidev';
+    }
+
+    const fontName = result.font.toLowerCase();
+    if (fontName.includes("kruti")) return '/krutidev-to-unicode';
+    if (fontName.includes("anmol")) return '/anmollipi-to-unicode';
+    if (fontName.includes("devlys")) return '/devlys-to-unicode';
+    if (fontName.includes("chanakya")) return '/chanakya-to-unicode';
+    if (fontName.includes("shusha")) return '/shusha-to-unicode';
+    if (fontName.includes("aps")) return '/aps-to-unicode';
+    if (fontName.includes("shree")) return '/shreelipi-to-unicode';
+    if (fontName.includes("asees")) return '/asees-to-unicode';
+    if (fontName.includes("joy")) return '/joy-to-unicode';
+    if (fontName.includes("satluj")) return '/satluj-to-unicode';
+    if (fontName.includes("gurbani")) return '/gurbani-akhar-to-unicode';
+    if (fontName.includes("raavi")) return '/raavi-to-unicode';
+
+    const fontSlug = result.font.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    return `/${fontSlug}-to-unicode`;
+  };
+
+  const handleConvertClick = () => {
+    if (text.trim()) {
+      try {
+        sessionStorage.setItem("font_input_text", text);
+      } catch {}
     }
   };
 
@@ -79,7 +97,7 @@ export function FontDetector() {
               {recommendedUrl && (
                 <div className="mt-4 p-4 bg-background rounded-xl border w-full max-w-sm">
                   <p className="text-sm text-muted-foreground mb-3">Recommended Converter</p>
-                  <Link href={recommendedUrl}>
+                  <Link href={recommendedUrl} onClick={handleConvertClick}>
                     <Button className="w-full gap-2 group">
                       Convert to {result?.isUnicode ? "Legacy" : "Unicode"}
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
