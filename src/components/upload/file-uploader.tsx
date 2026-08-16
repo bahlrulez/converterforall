@@ -31,15 +31,28 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
 
   // Auto-consume transferred pending file and auto-start execution
   useEffect(() => {
+    let isMounted = true;
+    let started = false;
+
     async function checkPending() {
+      if (started) return;
       const pendingFile = await getPendingFile(toolSlug);
-      if (pendingFile) {
+      if (pendingFile && isMounted && !started) {
+        started = true;
         setFile(pendingFile);
-        // Automatically start conversion
         executeProcess(pendingFile);
       }
     }
+
     checkPending();
+    const timer = setTimeout(checkPending, 250);
+    const timer2 = setTimeout(checkPending, 600);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+      clearTimeout(timer2);
+    };
   }, [toolSlug]);
 
   const handleCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -111,11 +111,16 @@ export function ModernDropzone() {
     if (!detected || !selectedTool) return;
     setIsNavigating(true);
 
-    // Save pending file to transfer cache for automatic instant start
+    // Save pending file to persistent transfer cache for automatic instant start
     await storePendingFile(detected.file, selectedTool.slug);
 
-    // Navigate to target tool page with autostart parameter
-    router.push(`/${selectedTool.slug}?autostart=true`);
+    // For video & audio tools requiring SharedArrayBuffer headers, use full page load
+    // For other tools (image, PDF, documents, etc.), router.push transitions instantly
+    if (detected.category === "video" || detected.category === "audio") {
+      window.location.href = `/${selectedTool.slug}?autostart=true`;
+    } else {
+      router.push(`/${selectedTool.slug}?autostart=true`);
+    }
   };
 
   const resetSelection = () => {
