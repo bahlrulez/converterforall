@@ -7,6 +7,7 @@ import { useTheme } from "next-themes";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { ToolsMegaMenu } from "./tools-mega-menu";
 
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -31,6 +32,7 @@ export function Header() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -58,26 +60,24 @@ export function Header() {
         </div>
 
         <nav className="hidden md:flex items-center gap-6 relative h-16">
-          <div className="relative group h-full flex items-center">
-            <button className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors flex items-center gap-1 h-full">
+          <div 
+            className="relative h-full flex items-center"
+            onMouseEnter={() => setIsToolsOpen(true)}
+            onMouseLeave={() => setIsToolsOpen(false)}
+          >
+            <button 
+              onClick={() => setIsToolsOpen(!isToolsOpen)}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 h-full cursor-pointer"
+            >
               Tools
-              <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:-rotate-180" />
+              <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${isToolsOpen ? "-rotate-180 text-primary" : ""}`} />
             </button>
             
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-max min-w-[1000px] max-w-[95vw] bg-background/95 backdrop-blur-xl border rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-8 z-50 grid grid-cols-6 gap-x-6 gap-y-10 translate-y-2 group-hover:translate-y-0 max-h-[85vh] overflow-y-auto">
-              {Object.entries(toolsDatabase).map(([categoryName, tools]) => (
-                <div key={categoryName}>
-                  <h4 className="text-sm font-bold text-foreground mb-4 uppercase tracking-wider">{categoryName}</h4>
-                  <div className="flex flex-col gap-3">
-                    {Object.entries(tools as any).map(([slug, tool]: any) => (
-                      <Link key={slug} href={`/${slug}`} className="text-sm text-muted-foreground hover:text-primary transition-colors truncate" title={tool.title}>
-                        {tool.title.replace('Convert ', '')}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+            {isToolsOpen && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
+                <ToolsMegaMenu onClose={() => setIsToolsOpen(false)} />
+              </div>
+            )}
           </div>
 
           <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
