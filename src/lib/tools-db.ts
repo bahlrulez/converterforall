@@ -582,6 +582,24 @@ export const toolsDatabase = {
     "gurmukhi-to-shahmukhi": { title: "Gurmukhi to Shahmukhi", description: "Convert Gurmukhi script to Shahmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
     "shahmukhi-to-gurmukhi": { title: "Shahmukhi to Gurmukhi", description: "Convert Shahmukhi script to Gurmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
 
+    // NEPALI FONT CONVERTERS
+    "preeti-to-unicode": { title: "Preeti to Unicode Converter", description: "Convert Nepali Preeti legacy font text to standard universal Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
+    "unicode-to-preeti": { title: "Unicode to Preeti Converter", description: "Convert standard Nepali Unicode text to traditional Preeti font format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
+
+    // BENGALI FONT CONVERTERS (BIJOY / SUTONNYMJ)
+    "bijoy-to-unicode": { title: "Bijoy to Unicode Converter (SutonnyMJ)", description: "Convert legacy Bijoy SutonnyMJ Bengali text to standard Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
+    "unicode-to-bijoy": { title: "Unicode to Bijoy Converter (SutonnyMJ)", description: "Convert Unicode Bengali text to legacy Bijoy SutonnyMJ format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
+    "sutonnymj-to-unicode": { title: "SutonnyMJ to Unicode Converter", description: "Convert SutonnyMJ Bengali font text to standard Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
+    "unicode-to-sutonnymj": { title: "Unicode to SutonnyMJ Converter", description: "Convert Unicode Bengali text to SutonnyMJ font format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
+
+    // URDU FONT CONVERTERS (INPAGE)
+    "inpage-to-unicode": { title: "InPage to Unicode Converter", description: "Convert Pakistani Urdu InPage text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    "unicode-to-inpage": { title: "Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+
+    // BURMESE FONT CONVERTERS (ZAWGYI)
+    "zawgyi-to-unicode": { title: "Zawgyi to Unicode Converter", description: "Convert legacy Myanmar Zawgyi font text to international standard Myanmar Unicode.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {} },
+    "unicode-to-zawgyi": { title: "Unicode to Zawgyi Converter", description: "Convert standard Myanmar Unicode text to legacy Zawgyi font format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {} },
+
     "font-detector": { 
       title: "Online Font Detector - Kruti Dev, AnmolLipi & Unicode Identifier", 
       description: "Free online font detector to instantly identify Hindi (Kruti Dev, DevLys, Chanakya) and Punjabi (AnmolLipi, Asees) legacy fonts vs Unicode text with 1-click conversion.", 

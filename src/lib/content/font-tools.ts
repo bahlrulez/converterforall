@@ -3,36 +3,190 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     sections: [
       {
         title: "Free Online Font Detector – Kruti Dev, AnmolLipi & Unicode Identifier (100% Free & Private)",
-        content: "<p>Have you ever copied Hindi or Punjabi text from an old PDF, government document, or website, only to see meaningless English letters like <em>'d'</em>, <em>'j'</em>, <em>'p'</em>, or <em>'s'</em> instead of readable script? <strong>ConverterForAll’s Free Online Font Detector</strong> solves this frustrating problem in one second. Simply paste your text, and our intelligent algorithm instantly detects whether it was typed in <strong>Kruti Dev 010, DevLys, Chanakya, AnmolLipi, Asees, or modern standard Unicode</strong>—with a single click to convert it into clean, readable text.</p>"
+        content: "<p>Have you ever copied Hindi, Nepali, or Punjabi text from an old PDF, government document, or website, only to see meaningless English letters like <em>'d'</em>, <em>'j'</em>, <em>'p'</em>, or <em>'s'</em> instead of readable script? <strong>ConverterForAll’s Free Online Font Detector</strong> solves this frustrating problem in one second. Simply paste your text, and our intelligent algorithm instantly detects whether it was typed in <strong>Kruti Dev 010, DevLys, Chanakya, Preeti, Bijoy SutonnyMJ, InPage, Zawgyi, AnmolLipi, Asees, or modern standard Unicode</strong>—with a single click to convert it into clean, readable text.</p>"
       },
       {
-        title: "The Problem This Tool Solves: Why Does Hindi & Punjabi Text Turn Into Gibberish?",
-        content: "<p>Millions of people across India and around the world face a daily challenge with Indian language typography:</p><ul><li><strong>The Legacy ASCII Font Trap:</strong> Before Unicode was standardized, Hindi and Punjabi typists used legacy fonts (such as <em>Kruti Dev 010</em> for Hindi and <em>AnmolLipi</em> for Punjabi). These fonts mapped Indian characters directly onto English keyboard keys (for example, typing 'd' displayed 'क', and typing 'j' displayed 'र').</li><li><strong>The Broken Copy-Paste Problem:</strong> If you copy that text onto a modern device (smartphone, WhatsApp, web browser, or modern Mac/PC without that specific font installed), the system does not recognize it as Hindi—it simply displays the raw English letters.</li><li><strong>The Conversion Dilemma:</strong> To fix the text, you need to convert it to Unicode. But how do you know <em>which</em> legacy font was used in the first place? Using the wrong converter will produce even worse garbled text.</li><li><strong>Our 100% Free Solution:</strong> This tool acts as an instant diagnostic scanner. It inspects character frequency, vowel placement (matras), and encoding patterns to accurately identify the source font and gives you an instant 1-click button to convert it into universal Unicode.</li></ul>"
+        title: "The Problem This Tool Solves: Why Does Indic & Asian Text Turn Into Gibberish?",
+        content: "<p>Millions of people across South Asia and Southeast Asia face a daily challenge with language typography:</p><ul><li><strong>The Legacy ASCII Font Trap:</strong> Before Unicode was standardized, Hindi, Nepali, Bengali, Urdu, and Burmese typists used legacy fonts (such as <em>Kruti Dev 010</em>, <em>Preeti</em> in Nepal, <em>Bijoy SutonnyMJ</em> in Bangladesh, <em>InPage</em> in Pakistan, and <em>Zawgyi</em> in Myanmar). These fonts mapped regional characters directly onto English keyboard keys (for example, typing 'd' displayed 'क', and typing 'j' displayed 'र').</li><li><strong>The Broken Copy-Paste Problem:</strong> If you copy that text onto a modern device (smartphone, WhatsApp, web browser, or modern Mac/PC without that specific font installed), the system does not recognize it as native script—it simply displays raw, garbled English letters.</li><li><strong>The Conversion Dilemma:</strong> To fix the text, you need to convert it to Unicode. But how do you know <em>which</em> legacy font was used in the first place? Using the wrong converter will produce even worse garbled text.</li><li><strong>Our 100% Free Solution:</strong> This tool acts as an instant diagnostic scanner. It inspects character frequency, vowel placement (matras), and encoding patterns to accurately identify the source font and gives you an instant 1-click button to convert it into universal Unicode.</li></ul>"
       },
       {
         title: "Why ConverterForAll Font Detector Is Ranked #1",
-        content: "<ul><li><strong>100% Free & Unlimited:</strong> Detect and convert thousands of words with zero limits, no mandatory subscriptions, and no sign-up required.</li><li><strong>100% Client-Side Privacy:</strong> Your sensitive government forms, legal affidavits, court notices, and personal messages never leave your computer. All detection and conversion happens locally in your browser.</li><li><strong>1-Click Auto-Conversion:</strong> Once the font is detected, click 'Convert to Unicode' and your text is automatically transferred and converted instantly—saving you time and repetitive copying.</li><li><strong>Supports All Major Indic Fonts:</strong> Identifies Hindi fonts (Kruti Dev 010, DevLys 010, Chanakya, Shusha, APS, Shree Lipi) and Punjabi fonts (AnmolLipi, Asees, Joy, Satluj, Gurbani Akhar, Raavi).</li><li><strong>Works on All Devices:</strong> Fully compatible with Windows, macOS, Android smartphones, iPhones, and tablets without installing any font files.</li></ul>"
+        content: "<ul><li><strong>100% Free & Unlimited:</strong> Detect and convert thousands of words with zero limits, no mandatory subscriptions, and no sign-up required.</li><li><strong>100% Client-Side Privacy:</strong> Your sensitive government forms, legal affidavits, court notices, and personal messages never leave your computer. All detection and conversion happens locally in your browser.</li><li><strong>1-Click Auto-Conversion:</strong> Once the font is detected, click 'Convert to Unicode' and your text is automatically transferred and converted instantly—saving you time and repetitive copying.</li><li><strong>Supports All Major Regional Fonts:</strong> Identifies Hindi (Kruti Dev, DevLys, Chanakya), Nepali (Preeti, Kantipur), Bengali (Bijoy SutonnyMJ), Urdu (InPage), Burmese (Zawgyi), and Punjabi (AnmolLipi, Asees).</li><li><strong>Works on All Devices:</strong> Fully compatible with Windows, macOS, Android smartphones, iPhones, and tablets without installing any font files.</li></ul>"
       },
       {
         title: "Step-by-Step Guide: How to Detect and Convert Any Font in Seconds",
-        content: "<ol><li><strong>Copy & Paste:</strong> Copy your unreadable or unrecognized Hindi/Punjabi text and paste it into the detection box above.</li><li><strong>Instant Auto-Detection:</strong> The detector will immediately display the exact font name (e.g. <em>Kruti Dev 010 Legacy</em>, <em>AnmolLipi Legacy</em>, or <em>Standard Unicode</em>).</li><li><strong>Click Recommended Converter:</strong> Click the highlighted <strong>'Convert to Unicode'</strong> button. Your text will be automatically imported into our high-precision converter for instant, error-free results.</li><li><strong>Copy Clean Text:</strong> Copy your readable Hindi or Punjabi text to use on WhatsApp, Microsoft Word, Facebook, email, or government application portals.</li></ol>"
-      },
-      {
-        title: "Who Is This Free Tool For?",
-        content: "<ul><li><strong>Government Job Applicants (CPCT, SSC, State PSCs, High Court):</strong> Verify your typing test documents and convert legacy notices into readable study material.</li><li><strong>Lawyers, Typists & Notaries:</strong> Easily identify and convert old legal deeds, registry papers, and affidavits originally drafted in Kruti Dev or DevLys.</li><li><strong>DTP Operators & Graphic Designers:</strong> Quickly identify fonts used in client documents to ensure smooth printing without missing font errors.</li><li><strong>Students & Teachers:</strong> Convert old research papers, school notes, and PDF assignments into modern editable text.</li></ul>"
+        content: "<ol><li><strong>Copy & Paste:</strong> Copy your unreadable or unrecognized text and paste it into the detection box above.</li><li><strong>Instant Auto-Detection:</strong> The detector will immediately display the exact font name (e.g. <em>Kruti Dev 010 Legacy</em>, <em>Preeti Nepali</em>, <em>Bijoy SutonnyMJ</em>, <em>InPage Urdu</em>, or <em>Standard Unicode</em>).</li><li><strong>Click Recommended Converter:</strong> Click the highlighted <strong>'Convert to Unicode'</strong> button. Your text will be automatically imported into our high-precision converter for instant, error-free results.</li><li><strong>Copy Clean Text:</strong> Copy your readable text to use on WhatsApp, Microsoft Word, Facebook, email, or government application portals.</li></ol>"
       },
       {
         title: "Frequently Asked Questions (FAQ) – People Also Ask",
         content: `
-          <p><strong>Q: What is the difference between Kruti Dev and Unicode font?</strong><br>A: Kruti Dev is a legacy non-Unicode font that maps Hindi letters onto standard English ASCII keyboard keys (so it requires the specific Kruti Dev .ttf file to display properly). Unicode is the international standard supported by all modern operating systems, smartphones, and web browsers, allowing Hindi text to be read everywhere without installing special fonts.</p>
-          <p><strong>Q: Why does my copied Hindi text show up as random English letters like 'd', 'j', 'k'?</strong><br>A: This happens because the original document was typed using a legacy font like Kruti Dev 010 or DevLys. When copied to a system without that font, the computer falls back to displaying the raw English ASCII characters. Paste the text into our Font Detector to identify it and convert it to readable Unicode Hindi in one click.</p>
-          <p><strong>Q: Can I use this tool to convert Kruti Dev text for WhatsApp or Facebook?</strong><br>A: Yes! After detecting your Kruti Dev text, click 'Convert to Unicode'. The converted Unicode text can be freely pasted into WhatsApp, Facebook, Instagram, Google Docs, or any website and will display properly on all phones and computers.</p>
+          <p><strong>Q: What is the difference between legacy fonts (Kruti Dev, Preeti, Bijoy, InPage, Zawgyi) and Unicode?</strong><br>A: Legacy fonts are proprietary non-Unicode encodings that map regional letters onto standard English ASCII keyboard keys (requiring specific .ttf font files installed on every computer). Unicode is the international standard supported by all modern operating systems, smartphones, and web browsers, allowing text to be read everywhere without installing special fonts.</p>
+          <p><strong>Q: Why does my copied Hindi or Nepali text show up as random English letters like 'd', 'j', 'k'?</strong><br>A: This happens because the original document was typed using a legacy font like Kruti Dev 010 or Preeti. When copied to a system without that font, the computer falls back to displaying the raw English ASCII characters. Paste the text into our Font Detector to identify it and convert it to readable Unicode in one click.</p>
+          <p><strong>Q: Can I use this tool to convert legacy text for WhatsApp or Facebook?</strong><br>A: Yes! After detecting your legacy text, click 'Convert to Unicode'. The converted Unicode text can be freely pasted into WhatsApp, Facebook, Instagram, Google Docs, or any website and will display properly on all phones and computers.</p>
           <p><strong>Q: Is this font detector completely free without word limits?</strong><br>A: Yes, 100% free. There are no word count limits, no credits required, and no hidden fees.</p>
           <p><strong>Q: Are my confidential government or legal documents kept private?</strong><br>A: Absolutely. ConverterForAll processes everything locally within your web browser using client-side JavaScript. Your text is never sent across the internet to external servers, ensuring complete confidentiality.</p>
-          <p><strong>Q: How do I know if my text is already Unicode?</strong><br>A: Simply paste your text into the box above. If the detector shows 'Unicode Detected', your text is already modern standard Unicode and will work everywhere without needing conversion.</p>
-          <p><strong>Q: Does this tool also identify Punjabi Gurmukhi fonts like AnmolLipi or Asees?</strong><br>A: Yes! The detector includes signature analysis for Punjabi fonts, automatically identifying AnmolLipi, Asees, Joy, and standard Gurmukhi Unicode.</p>
-          <p><strong>Q: Do I need to install Kruti Dev font on my computer to use this tool?</strong><br>A: No. You do not need to download or install any fonts. Our online detector and converters work directly inside your browser on Windows, Mac, Android, and iOS.</p>
-          <p><strong>Q: Why do Indian government typing exams still use Kruti Dev 010?</strong><br>A: Many state government departments and typing certification exams (such as CPCT, High Court steno tests, and SSC) standardized on Remington typewriter keyboard layouts decades ago, which match Kruti Dev key mappings. Our tool bridges the gap between legacy typing tests and modern digital systems.</p>
+        `
+      }
+    ]
+  },
+
+  // NEPALI PREETI CONVERTER
+  "preeti-to-unicode": {
+    sections: [
+      {
+        title: "Free Online Preeti to Unicode Converter – Nepali Font Converter (100% Free & Accurate)",
+        content: "<p>Convert traditional Nepali <strong>Preeti font</strong> text into universal <strong>Nepali Unicode</strong> instantly with ConverterForAll. Whether you are dealing with government circulars, legal land records, old Nepali news archives, or typing exam papers, our tool accurately converts complex conjuncts, halants, and vowel modifiers (matras) directly in your browser—100% free with unlimited words.</p>"
+      },
+      {
+        title: "Why Convert Preeti to Unicode?",
+        content: "<ul><li><strong>Read on All Mobile Phones:</strong> Preeti font cannot be viewed on smartphones, tablets, or social media without converting to Unicode.</li><li><strong>Publish on Websites & Social Media:</strong> Unicode Nepali displays perfectly across Facebook, WhatsApp, YouTube, Twitter, and Google search.</li><li><strong>Government & Civil Service (Lok Sewa Aayog):</strong> Cleanly convert official documents and examination notes without formatting corruption.</li><li><strong>100% Client-Side Privacy:</strong> Your text never touches any external server—conversions run locally on your device for absolute confidentiality.</li></ul>"
+      },
+      {
+        title: "How to Convert Preeti to Unicode in 3 Steps",
+        content: "<ol><li><strong>Paste Preeti Text:</strong> Paste your legacy Preeti text into the left input box.</li><li><strong>Instant Auto-Conversion:</strong> The converter immediately outputs clean Nepali Unicode text on the right.</li><li><strong>Copy or Download:</strong> Click 'Copy' to copy the text to your clipboard, or download as a .txt or .doc file.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQ)",
+        content: `
+          <p><strong>Q: Is this Preeti to Unicode converter 100% free?</strong><br>A: Yes, it is completely free with no limits on text length, word count, or daily usage.</p>
+          <p><strong>Q: Does this converter support complex Nepali conjunct letters (युक्ताक्षर)?</strong><br>A: Yes! Our engine accurately handles all complex Nepali conjuncts including त्र, ज्ञ, द्ध, द्व, ष्ट, ष्ठ, and reph (र्).</p>
+          <p><strong>Q: Can I convert Unicode back to Preeti font?</strong><br>A: Yes, use our <strong>Unicode to Preeti Converter</strong> to generate traditional Preeti text for legacy desktop publishing in PageMaker or Word.</p>
+        `
+      }
+    ]
+  },
+  "unicode-to-preeti": {
+    sections: [
+      {
+        title: "Free Online Unicode to Preeti Converter – Convert Nepali Unicode to Preeti Font",
+        content: "<p>Convert modern standard <strong>Nepali Unicode</strong> into traditional <strong>Preeti font</strong> format. Ideal for desktop publishers, print presses, Adobe InDesign, PageMaker, and government offices that still require Preeti layout printing.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why do I need to convert Unicode to Preeti?</strong><br>A: Many traditional Nepali print houses, newspapers, and PageMaker templates require legacy Preeti fonts for press printing.</p>
+          <p><strong>Q: Is this tool free and secure?</strong><br>A: Yes, 100% free, unlimited, and private. Everything runs locally in your browser.</p>
+        `
+      }
+    ]
+  },
+
+  // BENGALI BIJOY (SUTONNYMJ) CONVERTER
+  "bijoy-to-unicode": {
+    sections: [
+      {
+        title: "Free Online Bijoy to Unicode Converter – SutonnyMJ to Bangla Unicode (100% Accurate)",
+        content: "<p>Convert legacy <strong>Bijoy Bayanno (SutonnyMJ)</strong> Bengali font text into standard <strong>Bangla Unicode</strong> online. Essential for students, journalists, government employees, and publishers in Bangladesh and West Bengal to convert old SutonnyMJ Word files into readable Unicode for web and mobile.</p>"
+      },
+      {
+        title: "Why Choose ConverterForAll Bijoy to Unicode?",
+        content: "<ul><li><strong>Accurate Yuktakshar (যুক্তবর্ণ):</strong> Accurately translates complex Bengali conjunct letters, ref, j-fola, and r-fola.</li><li><strong>Instant In-Browser Processing:</strong> Zero server lag, instant character conversion, and complete document privacy.</li><li><strong>Export Options:</strong> 1-click Copy, download as Word (.doc) or text (.txt) file.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQ)",
+        content: `
+          <p><strong>Q: What is the difference between Bijoy (SutonnyMJ) and Unicode Bangla?</strong><br>A: SutonnyMJ is an ASCII-based legacy font created for Bijoy keyboard software. Unicode is the international standard that allows Bangla to be read on all smartphones, computers, and internet browsers without installing specific fonts.</p>
+          <p><strong>Q: Can I convert an entire Bengali book or article at once?</strong><br>A: Yes! There are no character or word limits—paste entire chapters or articles for instant conversion.</p>
+        `
+      }
+    ]
+  },
+  "unicode-to-bijoy": {
+    sections: [
+      {
+        title: "Free Online Unicode to Bijoy Converter – Convert Bangla Unicode to SutonnyMJ",
+        content: "<p>Convert modern <strong>Bangla Unicode</strong> text into legacy <strong>Bijoy (SutonnyMJ)</strong> format for use in Adobe Photoshop, Illustrator, InDesign, QuarkXPress, and legacy PageMaker templates.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why does Unicode text break in Photoshop or Illustrator?</strong><br>A: Older versions of Adobe software require ANSI/ASCII fonts like SutonnyMJ. Converting your Unicode Bangla to Bijoy resolves broken letters in graphics software.</p>
+        `
+      }
+    ]
+  },
+  "sutonnymj-to-unicode": {
+    sections: [
+      {
+        title: "SutonnyMJ to Unicode Converter – Convert SutonnyMJ Bengali Font Online",
+        content: "<p>Convert text written in <strong>SutonnyMJ font</strong> to universal <strong>Bangla Unicode</strong> format. 100% free, accurate, and secure.</p>"
+      }
+    ]
+  },
+  "unicode-to-sutonnymj": {
+    sections: [
+      {
+        title: "Unicode to SutonnyMJ Converter – Convert Bangla Unicode to SutonnyMJ",
+        content: "<p>Convert standard <strong>Bangla Unicode</strong> text to legacy <strong>SutonnyMJ</strong> font format for desktop publishing and printing.</p>"
+      }
+    ]
+  },
+
+  // URDU INPAGE CONVERTER
+  "inpage-to-unicode": {
+    sections: [
+      {
+        title: "Free Online InPage to Unicode Converter – Urdu Font Converter (100% Accurate)",
+        content: "<p>Convert traditional Pakistani <strong>InPage Urdu text</strong> (.inp / Noori Nastaliq ASCII) into universal <strong>Urdu Unicode</strong> text. Perfect for bloggers, authors, journalists, and students who need to publish InPage content onto websites, WordPress, Facebook, WhatsApp, and mobile apps.</p>"
+      },
+      {
+        title: "Key Features of ConverterForAll Urdu Converter",
+        content: "<ul><li><strong>Accurate Nastaliq Character Mapping:</strong> Full support for all Urdu special characters (ٹ, ڈ, ڑ, ں, ے, ھ, چ, پ, ژ, گ, ء, ئ, ؤ).</li><li><strong>100% Privacy:</strong> Private manuscripts, legal records, and articles are processed locally in your browser.</li><li><strong>Zero Word Limits:</strong> Convert full books, essays, and articles with unlimited volume for free.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQ)",
+        content: `
+          <p><strong>Q: Why can't I directly copy InPage text to Facebook or WhatsApp?</strong><br>A: InPage uses non-Unicode encoding that is only readable inside InPage software. To use Urdu text on modern platforms and mobile devices, it must be converted to standard Unicode.</p>
+          <p><strong>Q: Is this InPage to Urdu Unicode converter free?</strong><br>A: Yes, 100% free with no registration or limits.</p>
+        `
+      }
+    ]
+  },
+  "unicode-to-inpage": {
+    sections: [
+      {
+        title: "Free Online Unicode to InPage Converter – Urdu Unicode to InPage",
+        content: "<p>Convert modern <strong>Urdu Unicode</strong> text back into <strong>InPage</strong> compatible format to open and format in InPage desktop software for newspaper layout and book publishing.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: How do I import Unicode Urdu into InPage?</strong><br>A: Paste your Unicode text here, copy the converted InPage output, and paste it directly into InPage text boxes.</p>
+        `
+      }
+    ]
+  },
+
+  // BURMESE ZAWGYI CONVERTER
+  "zawgyi-to-unicode": {
+    sections: [
+      {
+        title: "Free Online Zawgyi to Unicode Converter – Myanmar Font Converter (100% Accurate)",
+        content: "<p>Convert legacy <strong>Myanmar Zawgyi font</strong> text to international standard <strong>Myanmar Unicode</strong> format. Essential for reading older Myanmar documents, legacy Facebook posts, and archives on modern devices running Myanmar Unicode 5.2+.</p>"
+      },
+      {
+        title: "Why Convert Zawgyi to Unicode?",
+        content: "<ul><li><strong>International Standard:</strong> Unicode is the official national standard of Myanmar supported by Android, iOS, Windows, and Google.</li><li><strong>Searchable Content:</strong> Unicode text is fully indexed and searchable on Google and social media.</li><li><strong>Zero Broken Letters:</strong> Cleanly fixes Medials (Ya, Ra, Wa, Ha) and vowel orders.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQ)",
+        content: `
+          <p><strong>Q: What is the difference between Zawgyi and Unicode in Myanmar?</strong><br>A: Zawgyi is an old encoding developed before Myanmar script was fully supported in Unicode. Myanmar Unicode is the official international standard recognized globally.</p>
+          <p><strong>Q: Is this Zawgyi converter free and private?</strong><br>A: Yes, 100% free with client-side local browser processing.</p>
+        `
+      }
+    ]
+  },
+  "unicode-to-zawgyi": {
+    sections: [
+      {
+        title: "Free Online Unicode to Zawgyi Converter – Myanmar Unicode to Zawgyi",
+        content: "<p>Convert standard <strong>Myanmar Unicode</strong> text into legacy <strong>Zawgyi font</strong> format for older devices and legacy systems.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why would I convert Unicode back to Zawgyi?</strong><br>A: For users who still operate older Android phones or legacy computer setups that only have Zawgyi font installed.</p>
         `
       }
     ]

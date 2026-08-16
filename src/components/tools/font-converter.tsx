@@ -5,11 +5,15 @@ import { ArrowLeftRight, Copy, ClipboardPaste, Trash2, Download, Printer, Share2
 import { Button } from "@/components/ui/button";
 import { convertHindi } from "@/lib/fonts/hindi-mappings";
 import { convertPunjabi } from "@/lib/fonts/punjabi-mappings";
+import { convertNepali } from "@/lib/fonts/nepali-mappings";
+import { convertBengali } from "@/lib/fonts/bengali-mappings";
+import { convertUrdu } from "@/lib/fonts/urdu-mappings";
+import { convertBurmese } from "@/lib/fonts/burmese-mappings";
 
 interface FontConverterProps {
   defaultFrom?: string;
   defaultTo?: string;
-  category?: 'hindi' | 'punjabi';
+  category?: 'hindi' | 'punjabi' | 'nepali' | 'bengali' | 'urdu' | 'burmese';
 }
 
 export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev", category = 'hindi' }: FontConverterProps) {
@@ -31,22 +35,24 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
 
   const convertText = useCallback((text: string, from: string, to: string) => {
     let result = text;
+
+    const runConversion = (t: string, f: string, dir: 'toUnicode' | 'fromUnicode') => {
+      if (category === 'nepali') return convertNepali(t, f, dir);
+      if (category === 'bengali') return convertBengali(t, f, dir);
+      if (category === 'urdu') return convertUrdu(t, f, dir);
+      if (category === 'burmese') return convertBurmese(t, f, dir);
+      if (category === 'punjabi') return convertPunjabi(t, f, dir);
+      return convertHindi(t, f, dir);
+    };
+
     if (from === 'unicode' && to !== 'unicode') {
-      result = category === 'hindi' 
-        ? convertHindi(text, to, 'fromUnicode')
-        : convertPunjabi(text, to, 'fromUnicode');
+      result = runConversion(text, to, 'fromUnicode');
     } else if (from !== 'unicode' && to === 'unicode') {
-      result = category === 'hindi'
-        ? convertHindi(text, from, 'toUnicode')
-        : convertPunjabi(text, from, 'toUnicode');
+      result = runConversion(text, from, 'toUnicode');
     } else if (from !== 'unicode' && to !== 'unicode') {
-      // Direct conversion (e.g. KrutiDev to Chanakya) - Go via Unicode
-      const intermediateUnicode = category === 'hindi'
-        ? convertHindi(text, from, 'toUnicode')
-        : convertPunjabi(text, from, 'toUnicode');
-      result = category === 'hindi'
-        ? convertHindi(intermediateUnicode, to, 'fromUnicode')
-        : convertPunjabi(intermediateUnicode, to, 'fromUnicode');
+      // Direct legacy-to-legacy via Unicode intermediate
+      const intermediate = runConversion(text, from, 'toUnicode');
+      result = runConversion(intermediate, to, 'fromUnicode');
     }
     return result;
   }, [category]);
