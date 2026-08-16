@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   Search,
@@ -12,7 +13,6 @@ import {
   Video,
   Wrench,
   Type,
-  ArrowRight,
   ChevronRight,
   Moon,
   Sun,
@@ -52,8 +52,25 @@ interface MobileNavProps {
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [activeCategory, setActiveCategory] = useState("popular");
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   // Flatten all tools for instant search
   const allTools = useMemo(() => {
@@ -82,7 +99,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
     );
   }, [allTools, searchQuery]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const currentCategoryTools =
     activeCategory === "popular"
@@ -93,10 +110,10 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
           category: activeCategory,
         }));
 
-  return (
-    <div className="md:hidden fixed inset-0 z-50 bg-[#040814]/98 backdrop-blur-3xl flex flex-col text-slate-100 animate-in fade-in slide-in-from-top-4 duration-200 overflow-hidden">
+  return createPortal(
+    <div className="md:hidden fixed inset-0 z-[9999] bg-[#040814]/98 backdrop-blur-3xl flex flex-col text-slate-100 overflow-hidden h-[100dvh] w-screen">
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800/80 bg-[#080e22]/90">
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800/80 bg-[#080e22]/95 shrink-0">
         <div className="flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600 text-white shadow-md">
             <Monitor className="h-4 w-4" />
@@ -105,7 +122,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
         </div>
         <button
           onClick={onClose}
-          className="p-1.5 rounded-full text-slate-400 hover:text-white bg-slate-800/60 hover:bg-slate-700 transition-colors"
+          className="p-2 rounded-full text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 transition-colors"
           aria-label="Close menu"
         >
           <X className="h-5 w-5" />
@@ -122,7 +139,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search tools (e.g. PDF to Word, JPG, MP3)..."
-            className="w-full h-11 pl-10 pr-4 rounded-xl bg-[#0e162e] border border-blue-500/30 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            className="w-full h-11 pl-10 pr-4 rounded-xl bg-[#0e162e] border border-blue-500/30 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 shadow-inner"
           />
           {searchQuery && (
             <button
@@ -136,7 +153,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
         {/* Search Results Mode */}
         {searchResults !== null ? (
-          <div className="space-y-2 pt-2">
+          <div className="space-y-2 pt-1">
             <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 px-1">
               Found {searchResults.length} {searchResults.length === 1 ? "tool" : "tools"}
             </div>
@@ -244,7 +261,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
       </div>
 
       {/* Bottom Action Footer */}
-      <div className="p-4 border-t border-slate-800/80 bg-[#080e22]/90 flex items-center justify-between gap-3">
+      <div className="p-4 border-t border-slate-800/80 bg-[#080e22]/95 flex items-center justify-between gap-3 shrink-0">
         <Link
           href="/#featured-tools"
           onClick={onClose}
@@ -261,6 +278,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
           {theme === "dark" ? <Moon className="h-4 w-4 text-blue-400" /> : <Sun className="h-4 w-4 text-amber-400" />}
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
