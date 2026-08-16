@@ -16,19 +16,21 @@ import {
   CheckCircle2,
   X,
   Loader2,
-  Zap,
+  Play,
+  AlignLeft,
+  Plus,
 } from "lucide-react";
 import { detectFileTools, DetectedFileInfo, ConversionOption } from "@/lib/file-detection";
 import { storePendingFile } from "@/lib/file-transfer";
 
 const POPULAR_FORMATS = [
-  { label: "PDF", ext: ".pdf", icon: FileText, color: "text-red-500 bg-red-500/10 border-red-500/20" },
-  { label: "JPG", ext: ".jpg,.jpeg", icon: ImageIcon, color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" },
-  { label: "PNG", ext: ".png", icon: ImageIcon, color: "text-blue-500 bg-blue-500/10 border-blue-500/20" },
-  { label: "MP4", ext: ".mp4,.mov,.mkv", icon: Video, color: "text-purple-500 bg-purple-500/10 border-purple-500/20" },
-  { label: "DOCX", ext: ".docx,.doc", icon: FileText, color: "text-sky-500 bg-sky-500/10 border-sky-500/20" },
-  { label: "WEBP", ext: ".webp", icon: ImageIcon, color: "text-teal-500 bg-teal-500/10 border-teal-500/20" },
-  { label: "MP3", ext: ".mp3,.wav,.ogg", icon: Music, color: "text-amber-500 bg-amber-500/10 border-amber-500/20" },
+  { label: "PDF", ext: ".pdf", icon: FileText, color: "text-red-400" },
+  { label: "JPG", ext: ".jpg,.jpeg", icon: ImageIcon, color: "text-emerald-400" },
+  { label: "PNG", ext: ".png", icon: ImageIcon, color: "text-blue-400" },
+  { label: "MP4", ext: ".mp4,.mov,.mkv", icon: Video, color: "text-purple-400" },
+  { label: "DOCX", ext: ".docx,.doc", icon: FileText, color: "text-sky-400" },
+  { label: "WEBP", ext: ".webp", icon: ImageIcon, color: "text-teal-400" },
+  { label: "MP3", ext: ".mp3,.wav,.ogg", icon: Music, color: "text-amber-400" },
 ];
 
 export function ModernDropzone() {
@@ -126,7 +128,7 @@ export function ModernDropzone() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto relative px-2 sm:px-4">
+    <div className="relative w-full max-w-4xl mx-auto">
       {/* Hidden File Input for Format Buttons */}
       <input
         type="file"
@@ -139,116 +141,140 @@ export function ModernDropzone() {
         }}
       />
 
-      {/* Glow Backdrop */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/30 via-indigo-500/20 to-purple-600/30 rounded-[2rem] blur-xl opacity-70 pointer-events-none -z-10 animate-pulse" />
+      {/* Dual-Side Glowing Halo Behind Box (Blue on left, Magenta/Purple on right) */}
+      <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-600/40 via-indigo-500/25 to-purple-600/40 rounded-[2.25rem] blur-2xl opacity-80 pointer-events-none -z-10" />
 
       {/* Main Glass Container Box */}
       <div
         {...getRootProps()}
-        className={`relative overflow-hidden rounded-[1.75rem] sm:rounded-[2rem] border transition-all duration-500 backdrop-blur-2xl shadow-2xl ${
+        className={`relative overflow-hidden rounded-[2rem] border transition-all duration-500 backdrop-blur-2xl ${
           isDragActive
-            ? "border-blue-400 bg-[#0a1228]/95 scale-[1.01] shadow-[0_0_80px_rgba(59,130,246,0.35)]"
-            : "border-blue-500/30 bg-[#070c1b]/90 hover:border-blue-500/50 shadow-[0_0_50px_rgba(30,58,138,0.25)]"
+            ? "border-blue-400 bg-[#0a1228]/95 scale-[1.01] shadow-[0_0_80px_rgba(59,130,246,0.4)]"
+            : "border-blue-500/30 hover:border-blue-400/50 bg-[#070d1e]/90 shadow-[0_0_60px_rgba(30,58,138,0.3)]"
         }`}
       >
         {!detected ? (
-          /* IDLE / EMPTY STATE MATCHING SCREENSHOT - VIEWPORT OPTIMIZED */
-          <div className="relative p-5 sm:p-7 md:p-9 flex flex-col items-center justify-center text-center cursor-pointer min-h-[350px] sm:min-h-[380px]">
+          /* IDLE / EMPTY STATE MATCHING 3RD IMAGE */
+          <div className="relative p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[380px] sm:min-h-[420px]">
             <input {...getInputProps()} />
 
-            {/* Orbit / Rings Background Pattern */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-              {/* Radial Glow */}
-              <div className="absolute w-80 h-80 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-
-              {/* Concentric Elliptical Perspective Rings */}
-              <div className="absolute w-[600px] h-[300px] rounded-full border border-blue-500/10 [transform:rotateX(65deg)]" />
-              <div className="absolute w-[460px] h-[230px] rounded-full border border-blue-500/20 [transform:rotateX(65deg)]" />
-              <div className="absolute w-[320px] h-[160px] rounded-full border border-indigo-500/25 [transform:rotateX(65deg)]" />
+            {/* Ambient Lighting Rays Inside Container */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center -z-10">
+              <div className="absolute top-1/3 left-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
+              <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
             </div>
 
-            {/* Floating Orbit Format Badges & Center Pedestal */}
-            <div className="relative w-full max-w-md h-28 sm:h-32 flex items-center justify-center mb-1 select-none">
-              {/* PDF Badge - Left (Float 1) */}
+            {/* 3D Floating Isometric File Cards & Glowing Cloud Center */}
+            <div className="relative w-full max-w-lg h-32 sm:h-36 flex items-center justify-center mb-3 select-none">
+              {/* LEFT SIDE FLOATING 3D CARDS */}
+
+              {/* 1. PDF Card (Top-Left) */}
               <button
                 type="button"
                 onClick={(e) => handleFormatClick(".pdf", e)}
-                title="Select PDF file"
-                className="absolute left-3 sm:left-8 top-6 flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[#141d33]/95 border border-red-500/40 shadow-[0_0_20px_rgba(239,68,68,0.25)] animate-float-1 hover:scale-110 hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer group"
+                title="Select PDF"
+                className="absolute left-2 sm:left-6 top-3 w-12 h-14 sm:w-14 sm:h-16 rounded-2xl bg-gradient-to-br from-[#1a1429]/90 to-[#100d1e]/95 border border-red-500/40 p-2 flex flex-col items-center justify-center shadow-[0_10px_25px_rgba(239,68,68,0.25)] animate-float-1 hover:scale-115 hover:border-red-400 hover:shadow-[0_10px_35px_rgba(239,68,68,0.5)] transition-all duration-300 cursor-pointer group"
+                style={{ transform: "perspective(600px) rotateY(15deg) rotateX(10deg)" }}
               >
-                <FileText className="w-3.5 h-3.5 text-red-500 group-hover:animate-pulse" />
-                <span className="text-[11px] font-bold text-red-400">PDF</span>
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center mb-0.5 group-hover:scale-110 transition-transform">
+                  <FileText className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                </div>
+                <span className="text-[9px] font-extrabold text-red-400 tracking-wider">PDF</span>
               </button>
 
-              {/* Image / Gallery Badge - Top Mid-Left (Float 2) */}
+              {/* 2. Photo / JPG Card (Mid-Left) */}
               <button
                 type="button"
-                onClick={(e) => handleFormatClick(".jpg,.jpeg,.png,.webp", e)}
-                title="Select Image file"
-                className="absolute left-20 sm:left-28 -top-2 flex items-center p-2 rounded-xl bg-[#141d33]/95 border border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.25)] animate-float-2 hover:scale-110 hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] transition-all duration-200 cursor-pointer group"
+                onClick={(e) => handleFormatClick(".jpg,.jpeg,.png", e)}
+                title="Select Photo/Image"
+                className="absolute left-20 sm:left-28 -top-3 w-12 h-13 sm:w-13 sm:h-15 rounded-2xl bg-gradient-to-br from-[#0e1938]/90 to-[#0a1128]/95 border border-blue-500/40 p-2 flex items-center justify-center shadow-[0_10px_25px_rgba(59,130,246,0.25)] animate-float-2 hover:scale-115 hover:border-blue-400 hover:shadow-[0_10px_35px_rgba(59,130,246,0.5)] transition-all duration-300 cursor-pointer group"
+                style={{ transform: "perspective(600px) rotateY(18deg) rotateX(-8deg)" }}
               >
-                <ImageIcon className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                <div className="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <ImageIcon className="w-5 h-5" />
+                </div>
               </button>
 
-              {/* Video Badge - Top Center-Left (Float 3) */}
+              {/* 3. Audio Card (Bottom-Left) */}
               <button
                 type="button"
-                onClick={(e) => handleFormatClick(".mp4,.mov,.mkv", e)}
-                title="Select Video file"
-                className="absolute left-34 sm:left-40 -top-5 flex items-center p-2 rounded-xl bg-[#141d33]/95 border border-cyan-500/40 shadow-[0_0_20px_rgba(6,182,212,0.25)] animate-float-3 hover:scale-110 hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] transition-all duration-200 cursor-pointer group"
+                onClick={(e) => handleFormatClick(".mp3,.wav", e)}
+                title="Select Audio"
+                className="absolute left-14 sm:left-20 bottom-0 w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-gradient-to-br from-[#1c1538]/90 to-[#120e26]/95 border border-purple-500/40 p-2 flex items-center justify-center shadow-[0_10px_25px_rgba(168,85,247,0.25)] animate-float-3 hover:scale-115 hover:border-purple-400 hover:shadow-[0_10px_35px_rgba(168,85,247,0.5)] transition-all duration-300 cursor-pointer group"
+                style={{ transform: "perspective(600px) rotateY(12deg) rotateX(15deg)" }}
               >
-                <Video className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
+                <div className="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Music className="w-4 h-4" />
+                </div>
               </button>
 
-              {/* Glowing Pedestal & Center Levitating Document Icon */}
-              <div className="relative flex flex-col items-center">
-                {/* 3D Glowing Neon Center Icon with Levitating Float */}
-                <div className="relative z-10 w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-b from-blue-500 to-indigo-700 p-0.5 shadow-[0_0_40px_rgba(59,130,246,0.65)] flex items-center justify-center animate-float-center transition-transform duration-300 hover:scale-110">
-                  <div className="w-full h-full bg-[#0b142d] rounded-2xl flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/40 to-cyan-400/20" />
-                    <FileText className="w-8 h-8 sm:w-9 sm:h-9 text-blue-400 relative z-10 drop-shadow-[0_0_12px_rgba(96,165,250,0.9)]" />
+              {/* CENTER GLOWING UPLOAD CLOUD ORB */}
+              <div className="relative z-10 flex flex-col items-center">
+                {/* Outer Glow Halo & Circular Cloud Disc */}
+                <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 p-1 shadow-[0_0_50px_rgba(59,130,246,0.6)] flex items-center justify-center animate-float-center hover:scale-105 transition-transform duration-300">
+                  <div className="w-full h-full bg-[#0c1530] rounded-full flex items-center justify-center relative overflow-hidden border border-blue-400/40">
+                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/30 to-purple-500/20" />
+                    <UploadCloud className="w-9 h-9 sm:w-10 sm:h-10 text-white relative z-10 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
                   </div>
                 </div>
-
-                {/* Glowing Illuminated Pedestal Disc with Pulsing Beam */}
-                <div className="w-32 sm:w-36 h-6 -mt-3 rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-600 blur-sm opacity-85 animate-pulse-pedestal pointer-events-none" />
-                <div className="w-22 sm:w-26 h-4 -mt-4 rounded-full bg-cyan-300 blur-xs opacity-95 pointer-events-none" />
               </div>
 
-              {/* Music / Audio Badge - Top Mid-Right (Float 4) */}
+              {/* RIGHT SIDE FLOATING 3D CARDS */}
+
+              {/* 4. Video Play Card (Top-Right) */}
               <button
                 type="button"
-                onClick={(e) => handleFormatClick(".mp3,.wav,.ogg", e)}
-                title="Select Audio file"
-                className="absolute right-20 sm:right-28 -top-2 flex items-center p-2 rounded-xl bg-[#141d33]/95 border border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.25)] animate-float-4 hover:scale-110 hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all duration-200 cursor-pointer group"
+                onClick={(e) => handleFormatClick(".mp4,.mov", e)}
+                title="Select Video"
+                className="absolute right-20 sm:right-28 -top-3 w-12 h-13 sm:w-13 sm:h-15 rounded-2xl bg-gradient-to-br from-[#1c1332]/90 to-[#120a22]/95 border border-purple-500/40 p-2 flex items-center justify-center shadow-[0_10px_25px_rgba(168,85,247,0.25)] animate-float-4 hover:scale-115 hover:border-purple-400 hover:shadow-[0_10px_35px_rgba(168,85,247,0.5)] transition-all duration-300 cursor-pointer group"
+                style={{ transform: "perspective(600px) rotateY(-18deg) rotateX(-8deg)" }}
               >
-                <Music className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
+                <div className="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Play className="w-4 h-4 fill-purple-400 text-purple-400" />
+                </div>
               </button>
 
-              {/* Word / Document Badge - Right (Float 5) */}
+              {/* 5. Document / Lines Card (Mid-Right) */}
               <button
                 type="button"
                 onClick={(e) => handleFormatClick(".docx,.doc,.txt", e)}
-                title="Select Word document"
-                className="absolute right-3 sm:right-8 top-6 flex items-center p-2 rounded-xl bg-[#141d33]/95 border border-sky-500/40 shadow-[0_0_20px_rgba(14,165,233,0.25)] animate-float-5 hover:scale-110 hover:shadow-[0_0_25px_rgba(14,165,233,0.5)] transition-all duration-200 cursor-pointer group"
+                title="Select Document"
+                className="absolute right-2 sm:right-6 top-3 w-12 h-14 sm:w-14 sm:h-16 rounded-2xl bg-gradient-to-br from-[#0c1836]/90 to-[#081024]/95 border border-sky-500/40 p-2 flex flex-col items-center justify-center shadow-[0_10px_25px_rgba(14,165,233,0.25)] animate-float-5 hover:scale-115 hover:border-sky-400 hover:shadow-[0_10px_35px_rgba(14,165,233,0.5)] transition-all duration-300 cursor-pointer group"
+                style={{ transform: "perspective(600px) rotateY(-15deg) rotateX(10deg)" }}
               >
-                <FileText className="w-4 h-4 text-sky-400 group-hover:scale-110 transition-transform" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center mb-0.5 group-hover:scale-110 transition-transform">
+                  <AlignLeft className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                </div>
+                <span className="text-[9px] font-extrabold text-sky-400 tracking-wider">DOCX</span>
+              </button>
+
+              {/* 6. Gallery / Landscape Card (Bottom-Right) */}
+              <button
+                type="button"
+                onClick={(e) => handleFormatClick(".png,.webp", e)}
+                title="Select Image"
+                className="absolute right-14 sm:right-20 bottom-0 w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-gradient-to-br from-[#0c2420]/90 to-[#061412]/95 border border-emerald-500/40 p-2 flex items-center justify-center shadow-[0_10px_25px_rgba(16,185,129,0.25)] animate-float-2 hover:scale-115 hover:border-emerald-400 hover:shadow-[0_10px_35px_rgba(16,185,129,0.5)] transition-all duration-300 cursor-pointer group"
+                style={{ transform: "perspective(600px) rotateY(-12deg) rotateX(15deg)" }}
+              >
+                <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <ImageIcon className="w-4 h-4" />
+                </div>
               </button>
             </div>
 
-            {/* Main Prompt Titles */}
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-1">
-              Drop any file <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">here</span>
+            {/* Main Prompt Heading */}
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-1.5">
+              Drop <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300">any file</span> here
             </h2>
-            <p className="text-slate-400 text-xs sm:text-sm mb-5">
+            <p className="text-slate-400 text-xs sm:text-sm mb-6 max-w-md">
               We&apos;ll automatically identify your file and recommend the best conversion.
             </p>
 
-            {/* Buttons Row */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mb-5">
+            {/* Action Buttons Row */}
+            <div className="flex flex-wrap items-center justify-center gap-3.5 mb-6">
               <button
                 type="button"
-                className="inline-flex items-center justify-center gap-2 px-7 py-2.5 sm:px-8 sm:py-3 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 shadow-[0_0_25px_rgba(37,99,235,0.4)] hover:shadow-[0_0_35px_rgba(37,99,235,0.6)] transition-all duration-300 hover:scale-105 active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-[0_0_30px_rgba(37,99,235,0.5)] hover:shadow-[0_0_40px_rgba(37,99,235,0.7)] transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 <UploadCloud className="w-4 h-4" />
                 Choose File
@@ -260,7 +286,7 @@ export function ModernDropzone() {
                   e.stopPropagation();
                   handlePasteClick();
                 }}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full text-sm font-medium text-slate-300 bg-[#131d38]/80 hover:bg-[#1c294e] border border-slate-700/60 hover:border-slate-500 shadow-md transition-all duration-200"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-medium text-slate-300 bg-[#121b36]/90 hover:bg-[#1a274c] border border-slate-700/80 hover:border-slate-500 shadow-md transition-all duration-200"
               >
                 <Clipboard className="w-4 h-4 text-slate-400" />
                 Paste / Drop
@@ -268,16 +294,16 @@ export function ModernDropzone() {
             </div>
 
             {pasteNotice && (
-              <div className="mb-3 text-xs font-medium text-cyan-400 bg-cyan-950/40 border border-cyan-800/50 px-3.5 py-1 rounded-full animate-fade-in">
+              <div className="mb-3 text-xs font-medium text-cyan-400 bg-cyan-950/50 border border-cyan-800/60 px-3.5 py-1 rounded-full animate-fade-in">
                 {pasteNotice}
               </div>
             )}
 
             {/* Separator */}
             <div className="flex items-center gap-3 w-full max-w-xs mb-4 text-[11px] text-slate-500 font-medium">
-              <div className="flex-1 h-[1px] bg-slate-800" />
+              <div className="flex-1 h-[1px] bg-slate-800/80" />
               <span>or convert directly</span>
-              <div className="flex-1 h-[1px] bg-slate-800" />
+              <div className="flex-1 h-[1px] bg-slate-800/80" />
             </div>
 
             {/* Quick Format Pills Row */}
@@ -289,23 +315,34 @@ export function ModernDropzone() {
                     key={fmt.label}
                     type="button"
                     onClick={(e) => handleFormatClick(fmt.ext, e)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-[#11192e] hover:bg-[#192442] border border-slate-800 hover:border-slate-600 text-slate-300 hover:text-white transition-all duration-200 hover:scale-105 shadow-sm"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-[#0e162e] hover:bg-[#162244] border border-slate-800 hover:border-slate-600 text-slate-300 hover:text-white transition-all duration-200 hover:scale-105 shadow-sm"
                   >
-                    <Icon className="w-3 h-3 text-blue-400" />
+                    <Icon className={`w-3.5 h-3.5 ${fmt.color}`} />
                     <span>{fmt.label}</span>
                   </button>
                 );
               })}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push("/#featured-tools");
+                }}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-[#0e162e] hover:bg-blue-600 border border-slate-800 hover:border-blue-500 text-slate-300 hover:text-white transition-all duration-200"
+              >
+                <Plus className="w-3 h-3" />
+                <span>More</span>
+              </button>
             </div>
           </div>
         ) : (
           /* DETECTED FILE STATE WITH SMART TOOL SELECTOR */
-          <div className="p-5 sm:p-7 md:p-8 text-left">
+          <div className="p-6 sm:p-8 text-left">
             {/* Top Bar with File Details */}
             <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
               <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-emerald-400">
                 <CheckCircle2 className="w-4 h-4" />
-                <span>File Detected & Analyzed</span>
+                <span>File Detected &amp; Analyzed</span>
               </div>
               <button
                 onClick={resetSelection}
@@ -374,83 +411,76 @@ export function ModernDropzone() {
                   <p className="text-xs font-semibold text-white truncate" title={detected.name}>
                     {detected.name}
                   </p>
-                  <p className="text-[11px] text-slate-400">{detected.sizeFormatted}</p>
+                  <p className="text-[11px] text-slate-400 font-mono mt-0.5">{detected.sizeFormatted}</p>
                 </div>
               </div>
 
-              {/* Conversion Selector & Action */}
-              <div className="md:col-span-7 flex flex-col justify-center space-y-4">
+              {/* Conversion Selector Options */}
+              <div className="md:col-span-7 flex flex-col space-y-4">
                 <div>
-                  <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-cyan-400 bg-cyan-950/60 px-2.5 py-0.5 rounded-full border border-cyan-800/60 mb-1.5">
-                    <Sparkles className="w-3 h-3" />
-                    <span>Instant Smart Matching</span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                    What would you like to do?
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-400">
-                    Select your target format or conversion action below:
-                  </p>
-                </div>
-
-                {/* Conversion Tools Dropdown */}
-                <div className="space-y-1.5">
-                  <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                    Select Target Action:
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5 block">
+                    Choose Conversion Tool
                   </label>
-                  <div className="relative">
-                    <select
-                      value={selectedTool?.slug || ""}
-                      onChange={(e) => {
-                        const match = detected.tools.find((t) => t.slug === e.target.value);
-                        if (match) setSelectedTool(match);
-                      }}
-                      className="w-full h-12 pl-3.5 pr-10 rounded-xl bg-[#0d162e] border border-blue-500/40 text-white font-medium text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent appearance-none cursor-pointer shadow-inner"
-                    >
-                      {detected.tools.map((tool) => (
-                        <option key={tool.slug} value={tool.slug} className="bg-[#070c1b] text-white py-2">
-                          {tool.badge ? `[${tool.badge}] ` : ""} {tool.title}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-blue-400 text-xs font-bold">
-                      ▼
-                    </div>
+                  <div className="grid grid-cols-1 gap-2 max-h-[220px] overflow-y-auto pr-1">
+                    {detected.tools.map((tool) => {
+                      const isSelected = selectedTool?.slug === tool.slug;
+                      return (
+                        <div
+                          key={tool.slug}
+                          onClick={() => setSelectedTool(tool)}
+                          className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                            isSelected
+                              ? "bg-blue-600/20 border-blue-500 text-white shadow-md shadow-blue-500/10"
+                              : "bg-[#0b1329] border-slate-800/80 hover:border-slate-700 text-slate-300 hover:text-white"
+                          }`}
+                        >
+                          <div className="flex flex-col min-w-0 pr-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-semibold truncate">{tool.title}</span>
+                              {tool.badge && (
+                                <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                                  {tool.badge}
+                                </span>
+                              )}
+                            </div>
+                            <span className="text-xs text-slate-400 truncate mt-0.5">{tool.description}</span>
+                          </div>
+                          <div
+                            className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
+                              isSelected ? "border-blue-400 bg-blue-500 text-white" : "border-slate-600"
+                            }`}
+                          >
+                            {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                  {selectedTool && (
-                    <p className="text-[11px] text-slate-400 pl-1">{selectedTool.description}</p>
-                  )}
                 </div>
 
-                {/* Action Buttons */}
-                <div className="pt-1 flex flex-col sm:flex-row items-center gap-3">
+                {/* Start Tool Action Button */}
+                <div className="pt-2">
                   <button
-                    type="button"
-                    disabled={isNavigating || !selectedTool}
                     onClick={handleStartConversion}
-                    className="w-full sm:flex-1 h-12 inline-flex items-center justify-center gap-2 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:via-indigo-500 hover:to-cyan-400 shadow-[0_0_25px_rgba(59,130,246,0.5)] hover:shadow-[0_0_35px_rgba(59,130,246,0.7)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+                    disabled={isNavigating || !selectedTool}
+                    className="w-full h-12 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group active:scale-[0.99]"
                   >
                     {isNavigating ? (
                       <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        Loading Tool & Executing...
+                        <Loader2 className="w-4 h-4 animate-spin text-white" />
+                        <span>Opening {selectedTool?.title}...</span>
                       </>
                     ) : (
                       <>
-                        <Zap className="w-4 h-4 text-yellow-300" />
-                        Start Tool & Convert
-                        <ArrowRight className="w-4 h-4 ml-1" />
+                        <Sparkles className="w-4 h-4 text-yellow-300 group-hover:scale-110 transition-transform" />
+                        <span>Start {selectedTool?.title || "Tool"}</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
                   </button>
-
-                  <button
-                    type="button"
-                    onClick={resetSelection}
-                    className="w-full sm:w-auto h-12 px-5 rounded-xl text-xs font-medium text-slate-400 hover:text-white bg-[#0d162e] hover:bg-[#132042] border border-slate-800 transition-colors"
-                  >
-                    Change File
-                  </button>
+                  <p className="text-[11px] text-center text-slate-400 mt-2">
+                    Your file will load directly and start converting instantly.
+                  </p>
                 </div>
               </div>
             </div>
