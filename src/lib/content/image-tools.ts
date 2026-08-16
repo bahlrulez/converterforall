@@ -194,45 +194,6 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       }
     ]
   },
-  "heic-to-jpg": {
-    sections: [
-      {
-        title: "What is this converter?",
-        content: "<p>The HEIC to JPG converter is a crucial compatibility tool for Apple users and those who interact with them. HEIC (High-Efficiency Image Container) is the default photo format used by modern iPhones and iPads. It offers brilliant image quality at roughly half the file size of a standard JPG. Unfortunately, HEIC is notoriously incompatible with Windows PCs, Android devices, many social media platforms, and older photo editing software. Our tool instantly translates these Apple-specific files into the world's most universally accepted image format: the standard JPEG.</p>"
-      },
-      {
-        title: "How does it work?",
-        content: "<p>Because native browser support for HEIC is severely limited outside of Apple's ecosystem, our tool utilizes a specialized, client-side WebAssembly (Wasm) library to decode the complex HEVC video structure housed inside the HEIC container. When you upload a photo, this library runs directly within your browser's memory, dismantling the HEIC file into raw pixels. The browser then re-encodes those pixels into a highly compatible JPG file. This entire heavy-lifting process happens locally on your device, ensuring that your personal iPhone photos are never uploaded to a remote server, protecting your privacy.</p>"
-      },
-      {
-        title: "Examples",
-        content: "<p>Imagine taking a batch of gorgeous photos at a family wedding using your iPhone. When you transfer these files to your Windows PC to create a slideshow, or try to upload them to an online printing service to make a physical photo book, you receive an 'Unsupported File Format' error. Instead of downloading clunky third-party software to your PC, you simply drop the photos into our HEIC to JPG converter. Within seconds, you have standard JPEGs that are instantly recognized by the slideshow software and the printing service.</p>"
-      },
-      {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your HEIC file:</strong> Drag and drop your iPhone photo into the upload area.</li><li><strong>WebAssembly Decoding:</strong> Our localized engine will immediately begin parsing the HEIC container. This may take a few seconds depending on your device's speed.</li><li><strong>Instant Encoding:</strong> The raw data is quickly compressed into a standard JPG format.</li><li><strong>Download:</strong> Click the download button to save your universally compatible photo.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Cross-Platform Sharing:</strong> Ensuring photos taken on an iPhone can be seamlessly viewed and edited by colleagues or family members using Windows or Android devices.</li><li><strong>Web Uploads:</strong> Standardizing photos for uploading to government portals, job applications, or forums that strictly require standard JPG or PNG files.</li><li><strong>Printing:</strong> Converting high-quality smartphone photos into the format required by commercial print shops and local pharmacy photo kiosks.</li><li><strong>Legacy Software:</strong> Opening modern smartphone photos in older desktop publishing or editing suites like early versions of Photoshop or Lightroom.</li></ul>"
-      },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Are my personal photos kept private during HEIC conversion?</strong><br>A: Yes, 100%. We use client-side technology to process the image directly on your computer or phone. Your personal photos never leave your device and are never stored on our servers.</p>
-          <p><strong>Q: Will my iPhone photos lose their Live Photo animation?</strong><br>A: Yes. The JPG format only supports static images. The conversion process extracts the primary, high-quality still frame from the HEIC container and discards the attached video data.</p>
-          <p><strong>Q: Will my photo metadata (EXIF data) be preserved?</strong><br>A: Currently, standard client-side conversion may strip some advanced EXIF data (like specific GPS tags) during the rendering process, resulting in a cleaner, standard image file.</p>
-          <p><strong>Q: Why does my iPhone save photos as HEIC instead of JPG?</strong><br>A: Apple adopted HEIC because it provides superior image quality while taking up about half the storage space of a traditional JPG, allowing you to store far more photos on your device.</p>
-          <p><strong>Q: Does this tool work on Windows computers?</strong><br>A: Absolutely! This tool is entirely web-based, meaning it will run perfectly in Chrome, Edge, or Firefox on any Windows computer.</p>
-          <p><strong>Q: Can I convert HEIC to JPG on an Android phone?</strong><br>A: Yes, you can use your Android's web browser to navigate to our tool and convert HEIC files sent to you by iPhone users.</p>
-          <p><strong>Q: Will the file size change after conversion?</strong><br>A: Yes, the resulting JPG file will likely be larger than the original HEIC file because the older JPG format is less efficient at compressing image data.</p>
-          <p><strong>Q: Do I need to install any apps or software?</strong><br>A: No. Our converter utilizes WebAssembly technology to perform the conversion directly within your existing web browser.</p>
-          <p><strong>Q: Are there any watermarks placed on the new JPG image?</strong><br>A: No. We never modify the visual content of your photos or add any watermarks.</p>
-          <p><strong>Q: How long does the HEIC decoding process take?</strong><br>A: It usually takes between 1 to 3 seconds per image depending on the processing power of your specific device.</p>
-        `
-      }
-    ]
-  },
   "remove-background": {
     sections: [
       {
@@ -367,6 +328,68 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
           <p><strong>Q: What background color should I choose for my passport?</strong><br>A: The requirements vary by country. For US, UK, and Indian passports, a pure White background is standard. Some Middle Eastern and Asian countries require Light Blue. Our tool provides standard presets for all these options, plus a custom color picker.</p>
           <p><strong>Q: Can I print the downloaded file at a pharmacy or photo kiosk?</strong><br>A: Yes! The tool outputs a standard, high-quality JPG file. You can easily arrange this file on a 4x6 print template to print multiple copies at any standard photo center (like CVS, Walgreens, or Walmart).</p>
           <p><strong>Q: Are there any rules for taking the initial selfie?</strong><br>A: Yes. Look directly at the camera, maintain a neutral expression, keep both eyes open, and ensure there are no heavy shadows on your face. Glasses should generally be removed to avoid glare. Our AI handles the background, but lighting on your face must still be good!</p>
+        `
+      }
+    ]
+  },
+  "heic-to-jpg": {
+    sections: [
+      {
+        title: "Free HEIC to JPG Converter - Convert Apple iPhone Photos Online Privately",
+        content: "<p>Welcome to the fastest, most private online HEIC to JPG converter. When you take photos on modern Apple devices like iPhone and iPad, iOS automatically saves them in the <strong>HEIC (High Efficiency Image Container)</strong> format to save storage space. However, HEIC photos often cannot be opened on Windows computers, Android phones, smart TVs, or older photo editing software. Our free tool instantly transforms your Apple HEIC and HEIF photos into universally recognized, high-resolution JPG files with zero quality loss.</p>"
+      },
+      {
+        title: "100% Private, On-Device Browser Processing",
+        content: "<p>Most online file conversion websites upload your personal vacation photos, family memories, and private screenshots to external cloud servers. Our HEIC to JPG converter operates <strong>100% locally inside your web browser</strong> using advanced WebAssembly decoders. Your files are processed entirely in your computer or smartphone's memory (RAM) and are never sent across the internet. You get total privacy, military-grade confidentiality, and instantaneous conversions without waiting for slow server uploads.</p>"
+      },
+      {
+        title: "Step-by-Step: How to Convert HEIC to JPG for Free",
+        content: "<ol><li><strong>Upload Your HEIC Image:</strong> Drag and drop your .heic or .heif file into the upload zone above, or click 'Choose File' to select photos from your device or iCloud.</li><li><strong>Instant On-Device Conversion:</strong> Our in-browser decoder automatically unpacks the High-Efficiency image data and reconstructs a pristine JPG image.</li><li><strong>Download Your JPG:</strong> Click the 'Download Result' button to save your universal JPG photo immediately.</li></ol>"
+      },
+      {
+        title: "Practical Uses for Converting HEIC to JPG",
+        content: "<ul><li><strong>Windows & Android Compatibility:</strong> Seamlessly view and edit iPhone photos on Windows PCs, Android tablets, Chromebooks, and Linux systems.</li><li><strong>Government & Job Application Portals:</strong> Submitting photo IDs, receipts, and documents to websites that reject HEIC files and demand JPG or JPEG formats.</li><li><strong>Social Media & Web Uploads:</strong> Uploading photos to forums, WordPress blogs, and legacy social networks that do not support Apple's HEIC container.</li><li><strong>Photo Printing Kiosks:</strong> Printing iPhone photos at local retail kiosks (like Walmart, Walgreens, or CVS) that require standard JPEG files.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQs)",
+        content: `
+          <p><strong>Q: Why can't I open HEIC photos on my Windows PC or Android phone?</strong><br>A: HEIC is Apple's proprietary adoption of the HEVC/H.265 compression format. Many non-Apple operating systems and older photo viewers lack built-in codec licenses to decode HEIC files. Converting them to JPG makes them universally compatible with every device in the world.</p>
+          <p><strong>Q: Does converting HEIC to JPG reduce photo quality or resolution?</strong><br>A: No. Our converter extracts the full visual fidelity and native resolution of your iPhone camera, producing a crisp, high-quality JPG image.</p>
+          <p><strong>Q: Is this HEIC to JPG converter really 100% free and unlimited?</strong><br>A: Yes! You can convert as many HEIC photos as you need with no subscriptions, no file size caps, and no watermarks.</p>
+          <p><strong>Q: Are my personal photos, family albums, and IDs kept private?</strong><br>A: Absolutely. The conversion occurs entirely within your web browser. Your photos are never uploaded to any remote server or stored in the cloud.</p>
+          <p><strong>Q: How do I stop my iPhone from taking HEIC photos in the future?</strong><br>A: On your iPhone, go to <em>Settings &gt; Camera &gt; Formats</em> and select <strong>'Most Compatible'</strong>. This instructs your iPhone to save new photos directly as JPGs instead of HEIC.</p>
+          <p><strong>Q: Can I convert HEIF files as well as HEIC?</strong><br>A: Yes, our tool supports both .heic and .heif extensions seamlessly.</p>
+          <p><strong>Q: Do I need to install any software or browser extensions?</strong><br>A: No installation or registration is needed. Everything runs directly inside your web browser on Mac, Windows, iOS, Android, and Linux.</p>
+        `
+      }
+    ]
+  },
+  "heic-to-png": {
+    sections: [
+      {
+        title: "Free HEIC to PNG Converter - Convert Apple HEIC to Lossless PNG Online",
+        content: "<p>Convert Apple HEIC and HEIF photos into high-resolution, uncompressed <strong>PNG (Portable Network Graphics)</strong> files for free. If you are a graphic designer, digital artist, or content creator who needs lossless image fidelity, transparent background support, or pixel-perfect editing assets for Adobe Photoshop, Figma, or Canva, our free HEIC to PNG converter is the ideal solution.</p>"
+      },
+      {
+        title: "Why Convert HEIC to PNG Instead of JPG?",
+        content: "<p>While JPG is great for everyday sharing, it uses lossy compression that can cause slight compression artifacts around fine lines and text. PNG is a <strong>lossless format</strong> that preserves every single pixel, color gradient, and sharp edge exactly as captured. Furthermore, if you took a screenshot or created a graphic on your iPhone or iPad, converting HEIC to PNG ensures you maintain pristine visual clarity without generational quality loss.</p>"
+      },
+      {
+        title: "100% Private Client-Side Conversion",
+        content: "<p>Your privacy and intellectual property are completely protected. Our converter uses client-side WebAssembly technology to decode the HEIC file directly in your browser's local memory. Your graphic assets and sensitive photos are never sent to external servers or logged in any database.</p>"
+      },
+      {
+        title: "Step-by-Step Guide to Convert HEIC to PNG",
+        content: "<ol><li><strong>Select Your HEIC File:</strong> Drag and drop your HEIC or HEIF image into the upload box, or browse your device storage.</li><li><strong>Automatic Browser Decoding:</strong> The tool decodes the high-efficiency image and renders it losslessly into a 24-bit/32-bit PNG structure.</li><li><strong>Download Your PNG:</strong> Click the 'Download Result' button to save your uncompressed, watermark-free PNG file.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQs)",
+        content: `
+          <p><strong>Q: What is the difference between converting HEIC to JPG vs HEIC to PNG?</strong><br>A: JPG produces smaller file sizes with mild lossy compression, making it ideal for sharing and storing photos. PNG produces lossless, uncompressed images with maximum sharpness, making it the preferred choice for design work, editing, and screenshots.</p>
+          <p><strong>Q: Will converting HEIC to PNG make the file size larger?</strong><br>A: Yes. Because PNG is a lossless format that retains every piece of uncompressed pixel data, the resulting PNG file will typically be larger than the original compressed HEIC container.</p>
+          <p><strong>Q: Is this tool free and without watermarks?</strong><br>A: Yes, all tools on ConverterForAll are 100% free with no watermarks, registrations, or usage limitations.</p>
+          <p><strong>Q: Does this converter work on Mac, Windows, and smartphones?</strong><br>A: Yes, our tool works seamlessly on all modern browsers (Safari, Chrome, Edge, Firefox) across all desktop and mobile operating systems.</p>
+          <p><strong>Q: Are my files private and safe from third-party tracking?</strong><br>A: Yes. The conversion executes entirely on your device with no server-side transmission or storage.</p>
         `
       }
     ]

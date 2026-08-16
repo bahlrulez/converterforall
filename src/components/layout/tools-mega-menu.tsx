@@ -21,6 +21,8 @@ import {
 import { toolsDatabase } from "@/lib/tools-db";
 
 const POPULAR_TOOLS = [
+  { slug: "heic-to-jpg", title: "HEIC to JPG", icon: ImageIcon, color: "text-amber-400" },
+  { slug: "heic-to-png", title: "HEIC to PNG", icon: ImageIcon, color: "text-rose-400" },
   { slug: "jpg-to-pdf", title: "JPG to PDF", icon: FileText, color: "text-emerald-400" },
   { slug: "png-to-pdf", title: "PNG to PDF", icon: FileText, color: "text-blue-400" },
   { slug: "remove-background", title: "Remove Background", icon: Eraser, color: "text-purple-400" },

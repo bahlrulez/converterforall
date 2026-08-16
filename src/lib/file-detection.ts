@@ -77,9 +77,12 @@ export function detectFileTools(file: File): DetectedFileInfo {
         { slug: "remove-background", title: "Remove Background (AI)", category: "image", badge: "AI Magic", description: "Isolate subject from background" },
         { slug: "jpg-to-pdf", title: "Convert to PDF", category: "document", description: "Convert WEBP image into PDF document" }
       );
-    } else if (extension === "heic") {
+    } else if (extension === "heic" || extension === "heif") {
       tools.push(
-        { slug: "heic-to-jpg", title: "Convert HEIC to JPG", category: "image", badge: "Apple Photo", description: "Convert iPhone HEIC photos to universal JPG", isPopular: true }
+        { slug: "heic-to-jpg", title: "Convert to JPG", category: "image", badge: "Universal JPG", description: "Convert iPhone HEIC photo to universal JPG", isPopular: true },
+        { slug: "heic-to-png", title: "Convert to PNG", category: "image", badge: "Lossless PNG", description: "Convert Apple HEIC photo to high-quality PNG" },
+        { slug: "jpg-to-pdf", title: "Convert to PDF", category: "document", description: "Convert HEIC photo into PDF document" },
+        { slug: "remove-background", title: "Remove Background", category: "image", badge: "AI Magic", description: "Isolate subject and remove background" }
       );
     } else if (extension === "avif") {
       tools.push(

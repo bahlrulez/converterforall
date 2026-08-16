@@ -49,10 +49,19 @@ export const toolsDatabase = {
     },
     "heic-to-jpg": {
       title: "Convert HEIC to JPG",
-      description: "Convert Apple HEIC photos to standard JPG.",
+      description: "Convert Apple iPhone HEIC and HEIF photos to universal JPG online for free.",
       inputFormat: "heic",
       outputFormat: "jpg",
-      acceptedTypes: { "image/heic": [".heic"] }
+      actionName: "Convert to JPG",
+      acceptedTypes: { "image/heic": [".heic"], "image/heif": [".heif"] }
+    },
+    "heic-to-png": {
+      title: "Convert HEIC to PNG",
+      description: "Convert Apple HEIC photos to high-quality transparent PNG format for free.",
+      inputFormat: "heic",
+      outputFormat: "png",
+      actionName: "Convert to PNG",
+      acceptedTypes: { "image/heic": [".heic"], "image/heif": [".heif"] }
     },
     "compress-jpg": {
       title: "Compress JPG",

@@ -36,8 +36,11 @@ export async function processImage(file: File, targetFormat: string): Promise<Bl
   let mimeType = `image/${targetFormat.toLowerCase()}`;
   if (targetFormat.toLowerCase() === "jpg") mimeType = "image/jpeg";
 
-  if (file.name.toLowerCase().endsWith(".heic")) {
-    // Handle HEIC completely client-side using heic2any WASM decoder
+  const fileName = file.name.toLowerCase();
+  const isHeic = fileName.endsWith(".heic") || fileName.endsWith(".heif") || file.type.includes("heic") || file.type.includes("heif");
+
+  if (isHeic) {
+    // Handle HEIC/HEIF completely client-side using heic2any WASM decoder
     const heic2any = (await import("heic2any")).default;
     const converted = await heic2any({
       blob: file,

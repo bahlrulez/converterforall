@@ -33,6 +33,8 @@ const CATEGORIES = [
 ];
 
 const POPULAR_TOOLS = [
+  { slug: "heic-to-jpg", title: "HEIC to JPG", category: "image" },
+  { slug: "heic-to-png", title: "HEIC to PNG", category: "image" },
   { slug: "jpg-to-pdf", title: "JPG to PDF", category: "document" },
   { slug: "png-to-pdf", title: "PNG to PDF", category: "document" },
   { slug: "remove-background", title: "Remove Background", category: "image" },
@@ -41,8 +43,6 @@ const POPULAR_TOOLS = [
   { slug: "word-to-pdf", title: "WORD to PDF", category: "document" },
   { slug: "pdf-to-word", title: "PDF to WORD", category: "document" },
   { slug: "mp4-to-mp3", title: "MP4 to MP3", category: "audio" },
-  { slug: "compress-video", title: "Compress Video Size", category: "video" },
-  { slug: "jpg-to-png", title: "JPG to PNG", category: "image" },
 ];
 
 interface MobileNavProps {
