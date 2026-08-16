@@ -8,6 +8,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { ToolsMegaMenu } from "./tools-mega-menu";
+import { MobileNav } from "./mobile-nav";
 
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -126,80 +127,8 @@ export function Header() {
         </div>
       </div>
       
-      {/* Mobile Menu Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t bg-background/95 backdrop-blur-md absolute w-full shadow-lg max-h-[85vh] overflow-y-auto">
-          <nav className="flex flex-col p-4 gap-4">
-            
-            <div className="flex flex-col gap-4 mb-4 pb-4 border-b">
-              <span className="text-base font-bold px-2">All Tools</span>
-              {Object.entries(toolsDatabase).map(([categoryName, tools]) => (
-                <div key={categoryName}>
-                  <div className="text-xs font-bold text-muted-foreground px-2 mb-2 uppercase tracking-wider">{categoryName}</div>
-                  <div className="flex flex-col pl-4 border-l ml-2 gap-3">
-                    {Object.entries(tools as any).map(([slug, tool]: any) => (
-                      <Link 
-                        key={slug} 
-                        href={`/${slug}`} 
-                        className="text-sm text-foreground hover:text-primary transition-colors"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {tool.title.replace('Convert ', '')}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <Link 
-              href="/about" 
-              className="text-base font-medium p-2 hover:bg-muted rounded-md transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              About Us
-            </Link>
-            <Link 
-              href="/contact" 
-              className="text-base font-medium p-2 hover:bg-muted rounded-md transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-            <Link 
-              href="/blog" 
-              className="text-base font-medium p-2 hover:bg-muted rounded-md transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Blog
-            </Link>
-            <Link 
-              href="https://www.facebook.com/converterforall" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-base font-medium p-2 hover:bg-muted rounded-md transition-colors flex items-center gap-2 text-blue-600"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              <FacebookIcon className="h-5 w-5" />
-              Follow us on Facebook
-            </Link>
-            <div className="flex items-center justify-between p-2 border-t mt-2">
-              <span className="text-sm font-medium text-muted-foreground">Dark Mode</span>
-              {mounted && (
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="rounded-full"
-                  aria-label="Toggle theme"
-                >
-                  {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-                </Button>
-              )}
-            </div>
-          </nav>
-        </div>
-      )}
+      {/* Modern Mobile Navigation Drawer */}
+      <MobileNav isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </header>
   );
 }
