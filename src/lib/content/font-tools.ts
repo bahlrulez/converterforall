@@ -1,0 +1,40 @@
+export const fontToolsContent: Record<string, { sections: { title: string, content: string }[] }> = {
+  "font-detector": {
+    sections: [
+      {
+        title: "Free Online Font Detector – Kruti Dev, AnmolLipi & Unicode Identifier (100% Free & Private)",
+        content: "<p>Have you ever copied Hindi or Punjabi text from an old PDF, government document, or website, only to see meaningless English letters like <em>'d'</em>, <em>'j'</em>, <em>'p'</em>, or <em>'s'</em> instead of readable script? <strong>ConverterForAll’s Free Online Font Detector</strong> solves this frustrating problem in one second. Simply paste your text, and our intelligent algorithm instantly detects whether it was typed in <strong>Kruti Dev 010, DevLys, Chanakya, AnmolLipi, Asees, or modern standard Unicode</strong>—with a single click to convert it into clean, readable text.</p>"
+      },
+      {
+        title: "The Problem This Tool Solves: Why Does Hindi & Punjabi Text Turn Into Gibberish?",
+        content: "<p>Millions of people across India and around the world face a daily challenge with Indian language typography:</p><ul><li><strong>The Legacy ASCII Font Trap:</strong> Before Unicode was standardized, Hindi and Punjabi typists used legacy fonts (such as <em>Kruti Dev 010</em> for Hindi and <em>AnmolLipi</em> for Punjabi). These fonts mapped Indian characters directly onto English keyboard keys (for example, typing 'd' displayed 'क', and typing 'j' displayed 'र').</li><li><strong>The Broken Copy-Paste Problem:</strong> If you copy that text onto a modern device (smartphone, WhatsApp, web browser, or modern Mac/PC without that specific font installed), the system does not recognize it as Hindi—it simply displays the raw English letters.</li><li><strong>The Conversion Dilemma:</strong> To fix the text, you need to convert it to Unicode. But how do you know <em>which</em> legacy font was used in the first place? Using the wrong converter will produce even worse garbled text.</li><li><strong>Our 100% Free Solution:</strong> This tool acts as an instant diagnostic scanner. It inspects character frequency, vowel placement (matras), and encoding patterns to accurately identify the source font and gives you an instant 1-click button to convert it into universal Unicode.</li></ul>"
+      },
+      {
+        title: "Why ConverterForAll Font Detector Is Ranked #1",
+        content: "<ul><li><strong>100% Free & Unlimited:</strong> Detect and convert thousands of words with zero limits, no mandatory subscriptions, and no sign-up required.</li><li><strong>100% Client-Side Privacy:</strong> Your sensitive government forms, legal affidavits, court notices, and personal messages never leave your computer. All detection and conversion happens locally in your browser.</li><li><strong>1-Click Auto-Conversion:</strong> Once the font is detected, click 'Convert to Unicode' and your text is automatically transferred and converted instantly—saving you time and repetitive copying.</li><li><strong>Supports All Major Indic Fonts:</strong> Identifies Hindi fonts (Kruti Dev 010, DevLys 010, Chanakya, Shusha, APS, Shree Lipi) and Punjabi fonts (AnmolLipi, Asees, Joy, Satluj, Gurbani Akhar, Raavi).</li><li><strong>Works on All Devices:</strong> Fully compatible with Windows, macOS, Android smartphones, iPhones, and tablets without installing any font files.</li></ul>"
+      },
+      {
+        title: "Step-by-Step Guide: How to Detect and Convert Any Font in Seconds",
+        content: "<ol><li><strong>Copy & Paste:</strong> Copy your unreadable or unrecognized Hindi/Punjabi text and paste it into the detection box above.</li><li><strong>Instant Auto-Detection:</strong> The detector will immediately display the exact font name (e.g. <em>Kruti Dev 010 Legacy</em>, <em>AnmolLipi Legacy</em>, or <em>Standard Unicode</em>).</li><li><strong>Click Recommended Converter:</strong> Click the highlighted <strong>'Convert to Unicode'</strong> button. Your text will be automatically imported into our high-precision converter for instant, error-free results.</li><li><strong>Copy Clean Text:</strong> Copy your readable Hindi or Punjabi text to use on WhatsApp, Microsoft Word, Facebook, email, or government application portals.</li></ol>"
+      },
+      {
+        title: "Who Is This Free Tool For?",
+        content: "<ul><li><strong>Government Job Applicants (CPCT, SSC, State PSCs, High Court):</strong> Verify your typing test documents and convert legacy notices into readable study material.</li><li><strong>Lawyers, Typists & Notaries:</strong> Easily identify and convert old legal deeds, registry papers, and affidavits originally drafted in Kruti Dev or DevLys.</li><li><strong>DTP Operators & Graphic Designers:</strong> Quickly identify fonts used in client documents to ensure smooth printing without missing font errors.</li><li><strong>Students & Teachers:</strong> Convert old research papers, school notes, and PDF assignments into modern editable text.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQ) – People Also Ask",
+        content: `
+          <p><strong>Q: What is the difference between Kruti Dev and Unicode font?</strong><br>A: Kruti Dev is a legacy non-Unicode font that maps Hindi letters onto standard English ASCII keyboard keys (so it requires the specific Kruti Dev .ttf file to display properly). Unicode is the international standard supported by all modern operating systems, smartphones, and web browsers, allowing Hindi text to be read everywhere without installing special fonts.</p>
+          <p><strong>Q: Why does my copied Hindi text show up as random English letters like 'd', 'j', 'k'?</strong><br>A: This happens because the original document was typed using a legacy font like Kruti Dev 010 or DevLys. When copied to a system without that font, the computer falls back to displaying the raw English ASCII characters. Paste the text into our Font Detector to identify it and convert it to readable Unicode Hindi in one click.</p>
+          <p><strong>Q: Can I use this tool to convert Kruti Dev text for WhatsApp or Facebook?</strong><br>A: Yes! After detecting your Kruti Dev text, click 'Convert to Unicode'. The converted Unicode text can be freely pasted into WhatsApp, Facebook, Instagram, Google Docs, or any website and will display properly on all phones and computers.</p>
+          <p><strong>Q: Is this font detector completely free without word limits?</strong><br>A: Yes, 100% free. There are no word count limits, no credits required, and no hidden fees.</p>
+          <p><strong>Q: Are my confidential government or legal documents kept private?</strong><br>A: Absolutely. ConverterForAll processes everything locally within your web browser using client-side JavaScript. Your text is never sent across the internet to external servers, ensuring complete confidentiality.</p>
+          <p><strong>Q: How do I know if my text is already Unicode?</strong><br>A: Simply paste your text into the box above. If the detector shows 'Unicode Detected', your text is already modern standard Unicode and will work everywhere without needing conversion.</p>
+          <p><strong>Q: Does this tool also identify Punjabi Gurmukhi fonts like AnmolLipi or Asees?</strong><br>A: Yes! The detector includes signature analysis for Punjabi fonts, automatically identifying AnmolLipi, Asees, Joy, and standard Gurmukhi Unicode.</p>
+          <p><strong>Q: Do I need to install Kruti Dev font on my computer to use this tool?</strong><br>A: No. You do not need to download or install any fonts. Our online detector and converters work directly inside your browser on Windows, Mac, Android, and iOS.</p>
+          <p><strong>Q: Why do Indian government typing exams still use Kruti Dev 010?</strong><br>A: Many state government departments and typing certification exams (such as CPCT, High Court steno tests, and SSC) standardized on Remington typewriter keyboard layouts decades ago, which match Kruti Dev key mappings. Our tool bridges the gap between legacy typing tests and modern digital systems.</p>
+        `
+      }
+    ]
+  }
+};

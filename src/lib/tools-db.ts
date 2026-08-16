@@ -582,7 +582,15 @@ export const toolsDatabase = {
     "gurmukhi-to-shahmukhi": { title: "Gurmukhi to Shahmukhi", description: "Convert Gurmukhi script to Shahmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
     "shahmukhi-to-gurmukhi": { title: "Shahmukhi to Gurmukhi", description: "Convert Shahmukhi script to Gurmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
 
-    "font-detector": { title: "Font Detector", description: "Automatically detect if your text is Unicode, Kruti Dev, AnmolLipi, or another legacy font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font-detector", acceptedTypes: {} },
+    "font-detector": { 
+      title: "Online Font Detector - Kruti Dev, AnmolLipi & Unicode Identifier", 
+      description: "Free online font detector to instantly identify Hindi (Kruti Dev, DevLys, Chanakya) and Punjabi (AnmolLipi, Asees) legacy fonts vs Unicode text with 1-click conversion.", 
+      inputFormat: "none", 
+      outputFormat: "none", 
+      isInteractive: true, 
+      converterType: "font-detector", 
+      acceptedTypes: {} 
+    },
     "unicode-normalizer": { title: "Unicode Normalizer", description: "Normalize Unicode text to its standard composed form (NFC).", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "normalizer", acceptedTypes: {} },
     "remove-hidden-characters": { title: "Remove Hidden Characters", description: "Strip out invisible Unicode characters like ZWJ, ZWNJ, and BOM.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "hidden-chars", acceptedTypes: {} },
     "fix-copy-paste-text": { title: "Fix Copy/Paste Text", description: "Fix broken line breaks and garbled characters from bad PDF copies.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "fix-copy-paste", acceptedTypes: {} },
