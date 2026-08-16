@@ -550,12 +550,8 @@ export const toolsDatabase = {
     }
   },
   "fonts": {
-    "unicode-to-krutidev": { title: "Unicode to Kruti Dev", description: "Convert Unicode Hindi text to legacy Kruti Dev 010 font instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "krutidev-to-unicode": { title: "Kruti Dev to Unicode", description: "Convert legacy Kruti Dev 010 font to standard Unicode Hindi text instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "kruti-dev-010-to-unicode": { title: "Kruti Dev 010 to Unicode", description: "Convert legacy Kruti Dev 010 font to standard Unicode Hindi text instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "kruti-dev-to-unicode": { title: "Kruti Dev to Unicode", description: "Convert legacy Kruti Dev 010 font to standard Unicode Hindi text instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "unicode-to-kruti-dev-010": { title: "Unicode to Kruti Dev 010", description: "Convert Unicode Hindi text to legacy Kruti Dev 010 font instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "unicode-to-kruti-dev": { title: "Unicode to Kruti Dev", description: "Convert Unicode Hindi text to legacy Kruti Dev 010 font instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-krutidev": { title: "Unicode to Kruti Dev Converter", description: "Convert Unicode Hindi text to legacy Kruti Dev 010 font instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "krutidev-to-unicode": { title: "Kruti Dev to Unicode Converter", description: "Convert legacy Kruti Dev 010 font to standard Unicode Hindi text instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "unicode-to-devlys": { title: "Unicode to DevLys", description: "Convert Unicode Hindi text to DevLys font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "devlys-to-unicode": { title: "DevLys to Unicode", description: "Convert DevLys font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "unicode-to-chanakya": { title: "Unicode to Chanakya", description: "Convert Unicode Hindi text to Chanakya font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
@@ -589,15 +585,10 @@ export const toolsDatabase = {
     // BENGALI FONT CONVERTERS (BIJOY / SUTONNYMJ)
     "bijoy-to-unicode": { title: "Bijoy to Unicode Converter (SutonnyMJ)", description: "Convert legacy Bijoy SutonnyMJ Bengali text to standard Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
     "unicode-to-bijoy": { title: "Unicode to Bijoy Converter (SutonnyMJ)", description: "Convert Unicode Bengali text to legacy Bijoy SutonnyMJ format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
-    "sutonnymj-to-unicode": { title: "SutonnyMJ to Unicode Converter", description: "Convert SutonnyMJ Bengali font text to standard Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
-    "unicode-to-sutonnymj": { title: "Unicode to SutonnyMJ Converter", description: "Convert Unicode Bengali text to SutonnyMJ font format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
 
     // URDU FONT CONVERTERS (INPAGE & URDU UNICODE)
     "inpage-to-unicode": { title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
-    "inpage-to-urdu-unicode": { title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
-    "inpage-urdu-to-unicode": { title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
     "unicode-to-inpage": { title: "Urdu Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
-    "urdu-unicode-to-inpage": { title: "Urdu Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
 
     // BURMESE FONT CONVERTERS (ZAWGYI)
     "zawgyi-to-unicode": { title: "Zawgyi to Unicode Converter", description: "Convert legacy Myanmar Zawgyi font text to international standard Myanmar Unicode.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {} },
@@ -620,13 +611,28 @@ export const toolsDatabase = {
 
 };
 
+// SEO & Routing Slug Aliases (Resolves alternative URLs without duplicate cards in directories)
+export const SLUG_ALIASES: Record<string, string> = {
+  "kruti-dev-010-to-unicode": "krutidev-to-unicode",
+  "kruti-dev-to-unicode": "krutidev-to-unicode",
+  "unicode-to-kruti-dev-010": "unicode-to-krutidev",
+  "unicode-to-kruti-dev": "unicode-to-krutidev",
+  "sutonnymj-to-unicode": "bijoy-to-unicode",
+  "unicode-to-sutonnymj": "unicode-to-bijoy",
+  "inpage-to-urdu-unicode": "inpage-to-unicode",
+  "inpage-urdu-to-unicode": "inpage-to-unicode",
+  "urdu-unicode-to-inpage": "unicode-to-inpage",
+};
+
 export function getToolBySlug(slug: string) {
+  const targetSlug = SLUG_ALIASES[slug] || slug;
+
   for (const [categorySlug, categoryTools] of Object.entries(toolsDatabase)) {
-    if (slug in categoryTools) {
+    if (targetSlug in categoryTools) {
       return {
         categorySlug,
-        toolSlug: slug,
-        tool: (categoryTools as any)[slug]
+        toolSlug: targetSlug,
+        tool: (categoryTools as any)[targetSlug]
       };
     }
   }
@@ -638,5 +644,6 @@ export function getAllToolSlugs() {
   for (const categoryTools of Object.values(toolsDatabase)) {
     slugs.push(...Object.keys(categoryTools));
   }
+  slugs.push(...Object.keys(SLUG_ALIASES));
   return Array.from(new Set(slugs));
 }
