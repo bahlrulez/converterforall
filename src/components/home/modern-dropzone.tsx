@@ -168,47 +168,72 @@ export function ModernDropzone() {
             </div>
 
             {/* Floating Orbit Format Badges & Center Pedestal */}
-            <div className="relative w-full max-w-md h-24 sm:h-28 flex items-center justify-center mb-1.5">
-              {/* PDF Badge - Left */}
-              <div className="absolute left-4 sm:left-10 top-6 flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#141d33]/90 border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.2)] animate-bounce [animation-duration:3s]">
-                <FileText className="w-3.5 h-3.5 text-red-500" />
-                <span className="text-[10px] font-bold text-red-400">PDF</span>
-              </div>
+            <div className="relative w-full max-w-md h-28 sm:h-32 flex items-center justify-center mb-1 select-none">
+              {/* PDF Badge - Left (Float 1) */}
+              <button
+                type="button"
+                onClick={(e) => handleFormatClick(".pdf", e)}
+                title="Select PDF file"
+                className="absolute left-3 sm:left-8 top-6 flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[#141d33]/95 border border-red-500/40 shadow-[0_0_20px_rgba(239,68,68,0.25)] animate-float-1 hover:scale-110 hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] transition-all duration-200 cursor-pointer group"
+              >
+                <FileText className="w-3.5 h-3.5 text-red-500 group-hover:animate-pulse" />
+                <span className="text-[11px] font-bold text-red-400">PDF</span>
+              </button>
 
-              {/* Gallery Badge - Top Left */}
-              <div className="absolute left-20 sm:left-28 -top-1 flex items-center p-1.5 rounded-lg bg-[#141d33]/90 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)] animate-pulse">
-                <ImageIcon className="w-3.5 h-3.5 text-emerald-400" />
-              </div>
+              {/* Image / Gallery Badge - Top Mid-Left (Float 2) */}
+              <button
+                type="button"
+                onClick={(e) => handleFormatClick(".jpg,.jpeg,.png,.webp", e)}
+                title="Select Image file"
+                className="absolute left-20 sm:left-28 -top-2 flex items-center p-2 rounded-xl bg-[#141d33]/95 border border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.25)] animate-float-2 hover:scale-110 hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] transition-all duration-200 cursor-pointer group"
+              >
+                <ImageIcon className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+              </button>
 
-              {/* Video Badge - Top Center Left */}
-              <div className="absolute left-32 sm:left-38 -top-4 flex items-center p-1.5 rounded-lg bg-[#141d33]/90 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
-                <Video className="w-3.5 h-3.5 text-blue-400" />
-              </div>
+              {/* Video Badge - Top Center-Left (Float 3) */}
+              <button
+                type="button"
+                onClick={(e) => handleFormatClick(".mp4,.mov,.mkv", e)}
+                title="Select Video file"
+                className="absolute left-34 sm:left-40 -top-5 flex items-center p-2 rounded-xl bg-[#141d33]/95 border border-cyan-500/40 shadow-[0_0_20px_rgba(6,182,212,0.25)] animate-float-3 hover:scale-110 hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] transition-all duration-200 cursor-pointer group"
+              >
+                <Video className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
+              </button>
 
-              {/* Glowing Pedestal & Center Document Icon */}
+              {/* Glowing Pedestal & Center Levitating Document Icon */}
               <div className="relative flex flex-col items-center">
-                {/* 3D Glowing Neon Center Icon */}
-                <div className="relative z-10 w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-b from-blue-500/80 to-indigo-700/80 p-0.5 shadow-[0_0_35px_rgba(59,130,246,0.55)] flex items-center justify-center transition-transform duration-300 hover:scale-105">
-                  <div className="w-full h-full bg-[#0d1733] rounded-2xl flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/30 to-indigo-400/20" />
-                    <FileText className="w-8 h-8 sm:w-9 sm:h-9 text-blue-400 relative z-10 drop-shadow-[0_0_8px_rgba(96,165,250,0.8)]" />
+                {/* 3D Glowing Neon Center Icon with Levitating Float */}
+                <div className="relative z-10 w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-b from-blue-500 to-indigo-700 p-0.5 shadow-[0_0_40px_rgba(59,130,246,0.65)] flex items-center justify-center animate-float-center transition-transform duration-300 hover:scale-110">
+                  <div className="w-full h-full bg-[#0b142d] rounded-2xl flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/40 to-cyan-400/20" />
+                    <FileText className="w-8 h-8 sm:w-9 sm:h-9 text-blue-400 relative z-10 drop-shadow-[0_0_12px_rgba(96,165,250,0.9)]" />
                   </div>
                 </div>
 
-                {/* Glowing Illuminated Pedestal Disc */}
-                <div className="w-28 sm:w-32 h-5 -mt-2.5 rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-600 blur-sm opacity-80" />
-                <div className="w-20 sm:w-24 h-3.5 -mt-3.5 rounded-full bg-cyan-300 blur-xs opacity-90" />
+                {/* Glowing Illuminated Pedestal Disc with Pulsing Beam */}
+                <div className="w-32 sm:w-36 h-6 -mt-3 rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-600 blur-sm opacity-85 animate-pulse-pedestal pointer-events-none" />
+                <div className="w-22 sm:w-26 h-4 -mt-4 rounded-full bg-cyan-300 blur-xs opacity-95 pointer-events-none" />
               </div>
 
-              {/* Music Badge - Top Right */}
-              <div className="absolute right-20 sm:right-28 -top-1 flex items-center p-1.5 rounded-lg bg-[#141d33]/90 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)] animate-pulse">
-                <Music className="w-3.5 h-3.5 text-purple-400" />
-              </div>
+              {/* Music / Audio Badge - Top Mid-Right (Float 4) */}
+              <button
+                type="button"
+                onClick={(e) => handleFormatClick(".mp3,.wav,.ogg", e)}
+                title="Select Audio file"
+                className="absolute right-20 sm:right-28 -top-2 flex items-center p-2 rounded-xl bg-[#141d33]/95 border border-purple-500/40 shadow-[0_0_20px_rgba(168,85,247,0.25)] animate-float-4 hover:scale-110 hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all duration-200 cursor-pointer group"
+              >
+                <Music className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
+              </button>
 
-              {/* Doc Badge - Right */}
-              <div className="absolute right-4 sm:right-10 top-6 flex items-center p-1.5 rounded-lg bg-[#141d33]/90 border border-sky-500/30 shadow-[0_0_15px_rgba(14,165,233,0.2)] animate-bounce [animation-duration:3.5s]">
-                <FileText className="w-3.5 h-3.5 text-sky-400" />
-              </div>
+              {/* Word / Document Badge - Right (Float 5) */}
+              <button
+                type="button"
+                onClick={(e) => handleFormatClick(".docx,.doc,.txt", e)}
+                title="Select Word document"
+                className="absolute right-3 sm:right-8 top-6 flex items-center p-2 rounded-xl bg-[#141d33]/95 border border-sky-500/40 shadow-[0_0_20px_rgba(14,165,233,0.25)] animate-float-5 hover:scale-110 hover:shadow-[0_0_25px_rgba(14,165,233,0.5)] transition-all duration-200 cursor-pointer group"
+              >
+                <FileText className="w-4 h-4 text-sky-400 group-hover:scale-110 transition-transform" />
+              </button>
             </div>
 
             {/* Main Prompt Titles */}

@@ -150,3 +150,74 @@
 .animation-delay-4000 {
   animation-delay: 4s;
 }
+
+/* Zero-Gravity Realistic Floating File Icons */
+@keyframes float-1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(-3deg); }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(4deg); }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-4deg); }
+}
+
+@keyframes float-4 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+@keyframes float-5 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-9px) rotate(-2deg); }
+}
+
+@keyframes float-center {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-6px) scale(1.03); }
+}
+
+@keyframes pulse-pedestal {
+  0%, 100% { opacity: 0.75; transform: scaleX(1); }
+  50% { opacity: 1; transform: scaleX(1.1); filter: brightness(1.2); }
+}
+
+.animate-float-1 {
+  animation: float-1 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-2 {
+  animation: float-2 4.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-3 {
+  animation: float-3 3.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-4 {
+  animation: float-4 4.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-5 {
+  animation: float-5 4.0s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-center {
+  animation: float-center 3.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-pulse-pedestal {
+  animation: pulse-pedestal 3.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
