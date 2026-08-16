@@ -550,8 +550,8 @@ export const toolsDatabase = {
     }
   },
   "fonts": {
-    "unicode-to-krutidev": { title: "Unicode to Kruti Dev Converter", description: "Convert Unicode Hindi text to legacy Kruti Dev 010 font instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "krutidev-to-unicode": { title: "Kruti Dev to Unicode Converter", description: "Convert legacy Kruti Dev 010 font to standard Unicode Hindi text instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-krutidev": { title: "Unicode (Mangal) to Kruti Dev Converter", description: "Convert standard Unicode Hindi text (Mangal font) to legacy Kruti Dev 010 font format for typing tests, PageMaker, and printing.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "krutidev-to-unicode": { title: "Kruti Dev to Unicode / Mangal Font Converter", description: "Convert legacy Kruti Dev 010 font text to standard Unicode (Mangal font) Hindi instantly for government exams, CPCT, WhatsApp, and Word.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "unicode-to-devlys": { title: "Unicode to DevLys", description: "Convert Unicode Hindi text to DevLys font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "devlys-to-unicode": { title: "DevLys to Unicode", description: "Convert DevLys font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "unicode-to-chanakya": { title: "Unicode to Chanakya", description: "Convert Unicode Hindi text to Chanakya font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
@@ -615,8 +615,14 @@ export const toolsDatabase = {
 export const SLUG_ALIASES: Record<string, string> = {
   "kruti-dev-010-to-unicode": "krutidev-to-unicode",
   "kruti-dev-to-unicode": "krutidev-to-unicode",
+  "krutidev-to-mangal": "krutidev-to-unicode",
+  "kruti-dev-to-mangal": "krutidev-to-unicode",
+  "kruti-dev-010-to-mangal": "krutidev-to-unicode",
   "unicode-to-kruti-dev-010": "unicode-to-krutidev",
   "unicode-to-kruti-dev": "unicode-to-krutidev",
+  "mangal-to-krutidev": "unicode-to-krutidev",
+  "mangal-to-kruti-dev": "unicode-to-krutidev",
+  "mangal-to-kruti-dev-010": "unicode-to-krutidev",
   "sutonnymj-to-unicode": "bijoy-to-unicode",
   "unicode-to-sutonnymj": "unicode-to-bijoy",
   "inpage-to-urdu-unicode": "inpage-to-unicode",
