@@ -57,7 +57,7 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {documentTools.slice(0, 6).map(([slug, tool]: any) => (
+              {documentTools.slice(0, 9).map(([slug, tool]: any) => (
                 <Link 
                   key={slug}
                   href={`/${slug}`}

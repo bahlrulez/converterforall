@@ -65,7 +65,7 @@ export function detectFileTools(file: File): DetectedFileInfo {
     } else if (extension === "png") {
       tools.push(
         { slug: "png-to-jpg", title: "Convert to JPG", category: "image", badge: "Popular", description: "Convert PNG to compressed JPG image", isPopular: true },
-        { slug: "jpg-to-pdf", title: "Convert to PDF", category: "document", badge: "Document", description: "Convert PNG image to standard PDF" },
+        { slug: "png-to-pdf", title: "Convert to PDF", category: "document", badge: "Document", description: "Convert PNG image to standard PDF" },
         { slug: "compress-png", title: "Compress PNG Size", category: "image", badge: "Optimize", description: "Compress PNG image size in browser" },
         { slug: "remove-background", title: "Remove Background (AI)", category: "image", badge: "AI Magic", description: "Detect subject and cleanly remove background" },
         { slug: "merge-pdf", title: "Merge into PDF", category: "document", badge: "Combine", description: "Combine this image with other files into a PDF" },

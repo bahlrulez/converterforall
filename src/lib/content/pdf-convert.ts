@@ -32,38 +32,63 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
   "jpg-to-pdf": {
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The JPG to PDF converter is a fast, reliable utility designed to transform your standard image files (like JPG, JPEG, and PNG) into the universally standardized Portable Document Format (PDF). While JPGs are excellent for sharing individual photos, they are notoriously difficult to print consistently, they lack native pagination, and they are frequently rejected by official business and government portals that demand document formats. By converting your images to a PDF, you lock the picture into a secure, printable container that maintains exact dimensions and looks professional when sent as an email attachment.</p>"
+        title: "Free JPG to PDF Converter - Convert Images to PDF Online Privately",
+        content: "<p>Welcome to the fastest and most secure online JPG to PDF converter. Whether you need to convert a single JPEG photograph, compile receipts for an expense report, or bundle multiple scanned pages into an official document, our free tool transforms your images into a standardized Portable Document Format (PDF) in seconds. Best of all, everything is 100% free, unlimited, and runs entirely on your device with zero server uploads.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>Our converter leverages a lightweight, client-side PDF generation library. When you upload one or more JPG images, your browser reads the raw image data locally. It then creates a new PDF document, calculating the optimal page size (like A4 or US Letter) and margin width. The images are then seamlessly embedded onto the blank PDF pages. Because the PDF generation is handled entirely by your local device's memory, the conversion is instantaneous, and your personal photos are never uploaded to our servers, ensuring total privacy.</p>"
+        title: "How Does Our In-Browser JPG to PDF Converter Work?",
+        content: "<p>Unlike traditional online converters that upload your private pictures to external servers, our tool operates locally inside your web browser using modern WebAssembly and client-side PDF rendering technology. When you drop your JPG or JPEG files, your computer parses the image resolution and dimensions, creates a blank PDF page with optimal scaling, and embeds the image losslessly. Your sensitive photos, legal IDs, and financial records never leave your computer or phone, guaranteeing 100% privacy and lightning-fast speed.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>Suppose you are applying for a rental apartment. The landlord requires a copy of your driver's license and three recent pay stubs. You take photos of these documents using your smartphone, resulting in four separate JPG files. If you email four loosely attached JPGs, the landlord might have trouble printing them, or they might open at inconsistent sizes. By running the four images through our JPG to PDF tool, you merge them into a single, professional 4-page PDF document. The landlord can easily open it in any standard viewer and print it seamlessly.</p>"
+        title: "Step-by-Step: How to Convert JPG to PDF for Free",
+        content: "<ol><li><strong>Select or Drop Your JPG:</strong> Drag and drop your JPG or JPEG image into the drop zone above, or click 'Choose File' to browse from your device.</li><li><strong>Instant Client-Side Conversion:</strong> The converter automatically reads the image dimensions and packages it into a standard PDF page.</li><li><strong>Download Your PDF:</strong> Click the 'Download Result' button to save your clean, watermark-free PDF document immediately.</li></ol>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload your Images:</strong> Drag and drop your JPG or JPEG files into the upload area. You can select multiple images at once.</li><li><strong>Adjust Order (Optional):</strong> If you uploaded multiple files, ensure they are in the order you want them to appear in the final document.</li><li><strong>Instant Conversion:</strong> The browser immediately generates the PDF structure and embeds your images.</li><li><strong>Download:</strong> Click the download button to save your newly compiled PDF document.</li></ol>"
+        title: "Practical Uses for Converting JPG to PDF",
+        content: "<ul><li><strong>Official Government & Job Applications:</strong> Uploading photo IDs, passports, driver's licenses, and utility bills to portals that strictly require PDF files.</li><li><strong>Expense & Tax Documentation:</strong> Compiling photos of receipts and paper invoices into a single printable document for tax filing.</li><li><strong>Student Homework & Assignments:</strong> Turning smartphone photos of handwritten notes or diagrams into clean PDFs for classroom submissions.</li><li><strong>Print Preparation:</strong> Ensuring photos print at precise dimensions without unexpected distortion or browser scaling errors.</li></ul>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Official Submissions:</strong> Uploading photo IDs, passports, and utility bills to financial portals that only accept PDF formats.</li><li><strong>Portfolio Creation:</strong> Compiling a series of digital art pieces or architectural renders into a single, cohesive presentation file.</li><li><strong>Scanning Replacement:</strong> Taking photos of whiteboard notes or textbook pages and converting them into a multi-page study document.</li><li><strong>Print Preparation:</strong> Ensuring photographs print at the exact dimensions intended without unexpected scaling from default image viewers.</li></ul>"
-      },
-      {
-        title: "Frequently Asked Questions",
+        title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: Can I combine multiple JPGs into one PDF?</strong><br>A: Yes! If you upload multiple JPGs simultaneously, our tool will automatically embed each image onto its own consecutive page within a single PDF document.</p>
-          <p><strong>Q: Will my photos lose quality during conversion?</strong><br>A: No. The converter embeds the exact image data into the PDF container without applying any additional lossy compression.</p>
-          <p><strong>Q: Is this safe for converting photos of my ID or passport?</strong><br>A: Absolutely. The conversion happens entirely locally on your device. Your sensitive images are never transmitted over the internet.</p>
-          <p><strong>Q: Can I upload PNG files as well as JPGs?</strong><br>A: Yes, our tool accepts all standard web image formats, including JPG, JPEG, PNG, and WEBP.</p>
-          <p><strong>Q: How do I change the order of the images?</strong><br>A: Before clicking the convert button, make sure you upload the images in the exact sequence you want them to appear, or drag and drop them to reorganize.</p>
-          <p><strong>Q: Does this tool work on my iPhone or Android?</strong><br>A: Yes! You can easily select photos directly from your smartphone's camera roll and convert them to a PDF instantly on our website.</p>
-          <p><strong>Q: Will the PDF have white margins around my photos?</strong><br>A: Generally, the tool attempts to fit the image to standard page sizes. Depending on the aspect ratio of your photo, there may be slight margins to prevent the image from stretching.</p>
-          <p><strong>Q: Can I add text to the PDF?</strong><br>A: This tool focuses strictly on embedding images. If you need to add text, you will need a dedicated PDF editor after conversion.</p>
-          <p><strong>Q: Are there any file size limits?</strong><br>A: Since processing happens locally, the only limit is the memory capacity of your device.</p>
-          <p><strong>Q: Do I need to pay to convert multiple images?</strong><br>A: No, our service is entirely free and you can convert as many batches of images as you need.</p>
+          <p><strong>Q: Is this JPG to PDF converter really 100% free and unlimited?</strong><br>A: Yes! You can convert as many JPG images as you want with no daily limits, no subscriptions, and no hidden fees.</p>
+          <p><strong>Q: Will my photos lose quality or resolution when converted to PDF?</strong><br>A: No. Our converter performs a lossless embed, preserving the full resolution, sharpness, and color profile of your original JPG image.</p>
+          <p><strong>Q: Are my personal photos, IDs, and documents kept private?</strong><br>A: Absolutely. Processing happens entirely within your web browser's local memory. Your files are never uploaded to any remote server or stored anywhere online.</p>
+          <p><strong>Q: Can I combine multiple JPG photos and PDFs into a single file?</strong><br>A: Yes! Use our 'Merge PDF' tool available on the platform to combine multiple JPGs, PNGs, and PDFs together into one unified document.</p>
+          <p><strong>Q: Does this JPG to PDF tool work on mobile devices (iPhone and Android)?</strong><br>A: Yes. You can open ConverterForAll on Safari, Chrome, Edge, or Firefox on any smartphone or tablet, select photos from your camera roll, and convert them instantly.</p>
+          <p><strong>Q: Will there be any watermarks on the downloaded PDF?</strong><br>A: No. We never add watermarks, branding, or ads to your generated PDF documents.</p>
+          <p><strong>Q: Do I need to register an account or install any software?</strong><br>A: No registration, email, or software installation is required. Just drop your file and convert instantly.</p>
+        `
+      }
+    ]
+  },
+  "png-to-pdf": {
+    sections: [
+      {
+        title: "Free PNG to PDF Converter - Convert PNG Images to PDF Online",
+        content: "<p>Convert your PNG images into high-quality, universally compatible PDF documents for free. Whether you are converting digital artwork, website screenshots, logos, or scanned documents, our online PNG to PDF converter provides a quick, crisp, and completely private conversion in your web browser. No software installation, no watermarks, and no file limits.</p>"
+      },
+      {
+        title: "Why Convert PNG to PDF?",
+        content: "<p>PNG (Portable Network Graphics) is a fantastic image format known for lossless compression and transparency support. However, when sharing official documents, submitting resumes, or printing multi-page records, PDFs are universally preferred. Converting PNG to PDF ensures that your images are locked in exact dimensions, display consistently across every operating system, and can be printed effortlessly without resolution loss.</p>"
+      },
+      {
+        title: "100% Private & Client-Side Processing",
+        content: "<p>Your privacy is our highest priority. Our PNG to PDF converter processes your files entirely on your local machine using advanced browser-native libraries. Your images are never uploaded to the cloud or saved on any third-party servers. This makes it completely safe for converting sensitive business graphics, signed contracts, medical scans, and personal documents.</p>"
+      },
+      {
+        title: "Step-by-Step Guide to Convert PNG to PDF",
+        content: "<ol><li><strong>Upload Your PNG Image:</strong> Drag and drop your PNG file into the upload box above, or choose it from your file explorer.</li><li><strong>Automatic Processing:</strong> The browser instantly builds a calibrated PDF container and losslessly embeds your PNG image.</li><li><strong>Download Your PDF:</strong> Click the download button to immediately save your clean, watermark-free PDF.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQs)",
+        content: `
+          <p><strong>Q: How do I convert a PNG to a PDF for free?</strong><br>A: Simply upload your PNG image to the converter above, and our tool will automatically generate and let you download your PDF document in seconds.</p>
+          <p><strong>Q: What happens to PNG transparent backgrounds during PDF conversion?</strong><br>A: The tool cleanly embeds the PNG with its full visual fidelity onto a crisp standard white PDF canvas, preserving all visible text, graphics, and details.</p>
+          <p><strong>Q: Will converting PNG to PDF blur or reduce image quality?</strong><br>A: No. The conversion is completely lossless, meaning every pixel, color gradient, and sharp edge from your original PNG is preserved at 100% quality.</p>
+          <p><strong>Q: Is there a limit on how many PNG files I can convert?</strong><br>A: There are no limits! You can convert as many PNG images to PDF as you need, completely free of charge.</p>
+          <p><strong>Q: Can I combine multiple PNG files and PDFs together?</strong><br>A: Yes! Use our 'Merge PDF' tool to combine multiple PNGs, JPGs, and PDFs into a single organized document.</p>
+          <p><strong>Q: Are my documents safe and secure?</strong><br>A: Yes. All conversions happen locally in your web browser. Your images never leave your device.</p>
+          <p><strong>Q: Do I need Adobe Acrobat or any external app?</strong><br>A: No third-party software or plugins are required. Everything works directly inside your browser on Windows, Mac, iOS, Android, and Linux.</p>
         `
       }
     ]

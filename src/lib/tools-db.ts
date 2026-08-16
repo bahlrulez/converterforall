@@ -184,11 +184,21 @@ export const toolsDatabase = {
     // CONVERT TO PDF
     "jpg-to-pdf": {
       title: "JPG to PDF",
-      description: "Convert JPG images to PDF in seconds.",
+      description: "Convert JPG images to high-quality PDF documents online for free.",
       subCategory: "Convert to PDF",
       inputFormat: "jpg",
       outputFormat: "pdf",
+      actionName: "Convert to PDF",
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"] }
+    },
+    "png-to-pdf": {
+      title: "PNG to PDF",
+      description: "Convert PNG images with transparent backgrounds to PDF documents for free.",
+      subCategory: "Convert to PDF",
+      inputFormat: "png",
+      outputFormat: "pdf",
+      actionName: "Convert to PDF",
+      acceptedTypes: { "image/png": [".png"] }
     },
     "word-to-pdf": {
       title: "WORD to PDF",

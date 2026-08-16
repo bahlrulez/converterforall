@@ -48,7 +48,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       blob = await processImage(file, targetFormat);
     } else if (category === "document" && toolSlug === "compress-pdf") {
       blob = await compressPdf(file, compressionPreset);
-    } else if (category === "document" && (toolSlug === "jpg-to-pdf" || toolSlug === "scan-to-pdf")) {
+    } else if (category === "document" && (toolSlug === "jpg-to-pdf" || toolSlug === "png-to-pdf" || toolSlug === "scan-to-pdf")) {
       blob = await imageToPdf(file);
     } else if (category === "document" && toolSlug === "word-to-pdf") {
       blob = await convertWordToPdf(file);

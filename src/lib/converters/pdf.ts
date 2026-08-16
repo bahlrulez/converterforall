@@ -28,12 +28,11 @@ export async function imageToPdf(file: File): Promise<Blob> {
   const pdfDoc = await PDFDocument.create();
   
   let image;
-  if (file.type === "image/png") {
+  const isPng = file.type === "image/png" || file.name.toLowerCase().endsWith(".png");
+  if (isPng) {
     image = await pdfDoc.embedPng(arrayBuffer);
-  } else if (file.type === "image/jpeg" || file.type === "image/jpg") {
-    image = await pdfDoc.embedJpg(arrayBuffer);
   } else {
-    throw new Error("Unsupported image format for PDF conversion. Only JPG and PNG are supported.");
+    image = await pdfDoc.embedJpg(arrayBuffer);
   }
 
   const { width, height } = image.scale(1);
