@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Upload, FileText, Download, Loader2, ArrowRight, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import * as pdfjsLib from "pdfjs-dist";
 import { Document, Packer, Paragraph, TextRun } from "docx";
+import { getPendingFile } from "@/lib/file-transfer";
 
 // Initialize PDF.js worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
@@ -18,6 +19,135 @@ export default function PdfToWordTool() {
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [fileName, setFileName] = useState("");
   const [documentLanguage, setDocumentLanguage] = useState("english");
+
+  const processFile = useCallback(async (targetFile: File, lang = "english") => {
+    setIsProcessing(true);
+    setProgressText("Reading PDF file...");
+    
+    try {
+      const arrayBuffer = await targetFile.arrayBuffer();
+      
+      setProgressText("Parsing PDF document...");
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const numPages = pdf.numPages;
+      const paragraphs: Paragraph[] = [];
+      let totalExtractedChars = 0;
+      
+      let targetFont = "Arial";
+      if (lang === "hindi") targetFont = "Mangal";
+      else if (lang === "punjabi") targetFont = "Raavi";
+      
+      for (let i = 1; i <= numPages; i++) {
+        setProgressText(`Extracting text from page ${i} of ${numPages}...`);
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        
+        let lastY: number | undefined;
+        let lastX: number | undefined;
+        let lastWidth: number | undefined;
+        let currentLine = "";
+        
+        for (const item of content.items as any[]) {
+          const x = item.transform[4];
+          const y = item.transform[5];
+          const width = item.width;
+          const height = item.height || 10;
+          
+          if (lastY !== undefined && Math.abs(lastY - y) > 5 && currentLine) {
+            paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine.trim(), font: targetFont })] }));
+            currentLine = "";
+            lastX = undefined;
+            lastWidth = undefined;
+          }
+          const cleanStr = item.str.replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\uFFFD]/g, "");
+          
+          if (cleanStr) {
+            if (lastX !== undefined && lastWidth !== undefined && currentLine.length > 0 && !currentLine.endsWith(" ")) {
+              const expectedNextX = lastX + lastWidth;
+              const gap = x - expectedNextX;
+              if (gap > height * 0.15) {
+                currentLine += " ";
+              }
+            }
+            currentLine += cleanStr;
+            totalExtractedChars += cleanStr.trim().length;
+            lastX = x;
+            lastWidth = width;
+          }
+          
+          if (item.hasEOL) {
+             currentLine += " ";
+          }
+          lastY = y;
+        }
+        if (currentLine) {
+          paragraphs.push(new Paragraph({ children: [new TextRun({ text: currentLine.trim(), font: targetFont })] }));
+        }
+        paragraphs.push(new Paragraph({ children: [new TextRun("")] })); 
+      }
+      
+      if (totalExtractedChars < 10) {
+        paragraphs.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "NOTICE: This PDF appears to be a scanned image and does not contain any extractable text.",
+                bold: true,
+                color: "FF0000",
+                font: targetFont,
+              }),
+            ],
+          }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "Please use the 'OCR PDF' tool on our website first to make this document text-searchable, and then you can successfully convert it to Word.",
+                font: targetFont,
+              }),
+            ],
+          })
+        );
+      }
+      
+      setProgressText("Generating Word Document...");
+      const doc = new Document({
+        styles: {
+          default: {
+            document: {
+              run: {
+                font: targetFont,
+              },
+            },
+          },
+        },
+        sections: [{
+          properties: {},
+          children: paragraphs,
+        }],
+      });
+      
+      const blob = await Packer.toBlob(doc);
+      setResultBlob(blob);
+      setProgressText("");
+    } catch (err: any) {
+      console.error(err);
+      alert("An error occurred: " + (err.message || err.toString()));
+    } finally {
+      setIsProcessing(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    async function checkPending() {
+      const pending = await getPendingFile("pdf-to-word");
+      if (pending) {
+        setFile(pending);
+        setFileName(pending.name.replace(/\.pdf$/i, ".docx"));
+        processFile(pending, documentLanguage);
+      }
+    }
+    checkPending();
+  }, [processFile, documentLanguage]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {

@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
 import { FileDown, UploadCloud, X, FileText, ArrowRight, Loader2, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getPendingFile } from "@/lib/file-transfer";
 
 interface FileItem {
   id: string;
@@ -20,6 +21,21 @@ export default function MergePdfTool() {
   const [successUrl, setSuccessUrl] = useState<string | null>(null);
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
+
+  useEffect(() => {
+    async function checkPending() {
+      const pending = await getPendingFile("merge-pdf");
+      if (pending) {
+        setFiles([{
+          id: Math.random().toString(36).substring(7),
+          file: pending,
+          previewUrl: URL.createObjectURL(pending),
+          type: pending.type.includes('image') ? 'image' : 'pdf'
+        }]);
+      }
+    }
+    checkPending();
+  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newFiles = acceptedFiles.map(file => ({

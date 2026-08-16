@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { Upload, X, Download, RefreshCw, Image as ImageIcon, ArrowRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import imageCompression from "browser-image-compression";
+import { getPendingFile } from "@/lib/file-transfer";
 
 export default function ImageCompressor() {
   const [file, setFile] = useState<File | null>(null);
@@ -19,6 +20,19 @@ export default function ImageCompressor() {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    async function checkPending() {
+      // Check for compress-jpg, compress-png or generic image
+      const pending = (await getPendingFile("compress-jpg")) || (await getPendingFile("compress-png")) || (await getPendingFile());
+      if (pending && pending.type.startsWith("image/")) {
+        setFile(pending);
+        setOriginalUrl(URL.createObjectURL(pending));
+        runCompression(pending, 80, "original", false);
+      }
+    }
+    checkPending();
+  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {

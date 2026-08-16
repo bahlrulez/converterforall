@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Upload, FileText, CheckCircle, X, Download, RefreshCw, AlertTriangle, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { repairPdf, RepairResult } from "@/lib/converters/repair";
+import { getPendingFile } from "@/lib/file-transfer";
 
 export default function RepairPdfTool() {
   const [file, setFile] = useState<File | null>(null);
@@ -14,6 +15,39 @@ export default function RepairPdfTool() {
   const [errorMsg, setErrorMsg] = useState("");
   const [result, setResult] = useState<RepairResult | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+
+  const executeRepair = useCallback(async (targetFile: File) => {
+    setStatus("processing");
+    setProgressMsg("Analyzing file integrity...");
+    setProgressValue(5);
+    
+    try {
+      const res = await repairPdf(targetFile, (msg, val) => {
+        setProgressMsg(msg);
+        setProgressValue(val);
+      });
+      
+      const url = URL.createObjectURL(res.blob);
+      setResult(res);
+      setResultUrl(url);
+      setStatus("success");
+    } catch (err: any) {
+      console.error(err);
+      setStatus("error");
+      setErrorMsg(err.message || "Failed to repair PDF.");
+    }
+  }, []);
+
+  useEffect(() => {
+    async function checkPending() {
+      const pending = await getPendingFile("repair-pdf");
+      if (pending) {
+        setFile(pending);
+        executeRepair(pending);
+      }
+    }
+    checkPending();
+  }, [executeRepair]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
@@ -46,27 +80,9 @@ export default function RepairPdfTool() {
     setProgressMsg("");
   };
 
-  const handleProcess = async () => {
+  const handleProcess = () => {
     if (!file) return;
-    setStatus("processing");
-    setProgressMsg("Analyzing file integrity...");
-    setProgressValue(5);
-    
-    try {
-      const res = await repairPdf(file, (msg, val) => {
-        setProgressMsg(msg);
-        setProgressValue(val);
-      });
-      
-      const url = URL.createObjectURL(res.blob);
-      setResult(res);
-      setResultUrl(url);
-      setStatus("success");
-    } catch (err: any) {
-      console.error(err);
-      setStatus("error");
-      setErrorMsg(err.message || "Failed to repair PDF.");
-    }
+    executeRepair(file);
   };
 
   if (!file) {

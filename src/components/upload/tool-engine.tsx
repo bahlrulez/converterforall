@@ -292,6 +292,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   const isCompressPdf = category === "document" && toolSlug === "compress-pdf";
   return (
     <FileUploader 
+      toolSlug={toolSlug}
       onProcessFile={handleProcessFile} 
       acceptedTypes={acceptedTypes} 
       actionLabel={actionLabel}

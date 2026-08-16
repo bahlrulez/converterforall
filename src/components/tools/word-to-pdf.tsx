@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Upload, FileText, Download, Loader2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { convertWordToPdf } from "@/lib/converters/word";
+import { getPendingFile } from "@/lib/file-transfer";
 
 export default function WordToPdfTool() {
   const [file, setFile] = useState<File | null>(null);
@@ -12,6 +13,33 @@ export default function WordToPdfTool() {
   const [progressText, setProgressText] = useState("");
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [fileName, setFileName] = useState("");
+
+  const processFile = useCallback(async (targetFile: File) => {
+    setIsProcessing(true);
+    setProgressText("Converting Word to PDF...");
+    try {
+      const blob = await convertWordToPdf(targetFile);
+      setResultBlob(blob);
+      setProgressText("");
+    } catch (err: any) {
+      console.error(err);
+      alert("An error occurred: " + (err.message || err.toString()));
+    } finally {
+      setIsProcessing(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    async function checkPending() {
+      const pending = await getPendingFile("word-to-pdf");
+      if (pending) {
+        setFile(pending);
+        setFileName(pending.name.replace(/\.docx?$/i, ".pdf"));
+        processFile(pending);
+      }
+    }
+    checkPending();
+  }, [processFile]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
@@ -33,19 +61,7 @@ export default function WordToPdfTool() {
 
   const handleConvert = async () => {
     if (!file) return;
-    setIsProcessing(true);
-    setProgressText("Converting Word to PDF...");
-    
-    try {
-      const blob = await convertWordToPdf(file);
-      setResultBlob(blob);
-      setProgressText("");
-    } catch (err: any) {
-      console.error(err);
-      alert("An error occurred: " + (err.message || err.toString()));
-    } finally {
-      setIsProcessing(false);
-    }
+    processFile(file);
   };
 
   const handleDownload = () => {

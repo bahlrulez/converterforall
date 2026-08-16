@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useState, useRef } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, Camera } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import heic2any from "heic2any";
+import { getPendingFile } from "@/lib/file-transfer";
 
 interface FileUploaderProps {
   onProcessFile: (file: File, onProgress?: (progress: number) => void) => Promise<{ blob: Blob, filename: string }>;
@@ -15,9 +16,10 @@ interface FileUploaderProps {
   optionsRenderer?: (disabled: boolean) => React.ReactNode;
   allowCamera?: boolean;
   isDynamicBackgroundRemoval?: boolean;
+  toolSlug?: string;
 }
 
-export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File", optionsRenderer, allowCamera = false, isDynamicBackgroundRemoval = false }: FileUploaderProps) {
+export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File", optionsRenderer, allowCamera = false, isDynamicBackgroundRemoval = false, toolSlug }: FileUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "converting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -26,6 +28,19 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
   const [downloadName, setDownloadName] = useState<string>("");
   const [progress, setProgress] = useState(0);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  // Auto-consume transferred pending file and auto-start execution
+  useEffect(() => {
+    async function checkPending() {
+      const pendingFile = await getPendingFile(toolSlug);
+      if (pendingFile) {
+        setFile(pendingFile);
+        // Automatically start conversion
+        executeProcess(pendingFile);
+      }
+    }
+    checkPending();
+  }, [toolSlug]);
 
   const handleCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -49,17 +64,14 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
     maxFiles: 1, // Phase 2 limit to 1
   });
 
-  const handleConvert = async () => {
-    if (!file) return;
-
+  const executeProcess = async (targetFile: File) => {
     setStatus("uploading");
-
     try {
       setStatus("converting");
       setProgress(0);
 
       // Delegate processing to the specialized engine
-      const { blob, filename } = await onProcessFile(file, (p) => setProgress(p));
+      const { blob, filename } = await onProcessFile(targetFile, (p) => setProgress(p));
 
       setStatus("success");
 
@@ -67,11 +79,15 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
       setDownloadUrl(url);
       setDownloadName(filename);
       setDownloadBlob(blob);
-
     } catch (err: any) {
       setStatus("error");
       setErrorMsg(err.message || "An unexpected error occurred.");
     }
+  };
+
+  const handleConvert = async () => {
+    if (!file) return;
+    executeProcess(file);
   };
 
   const reset = () => {

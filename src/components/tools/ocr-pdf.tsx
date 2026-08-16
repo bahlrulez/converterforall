@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Upload, FileText, CheckCircle, X, Download, RefreshCw, FileBox } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { processOcrPdf } from "@/lib/converters/ocr";
 import { Document, Packer, Paragraph, TextRun } from "docx";
+import { getPendingFile } from "@/lib/file-transfer";
 
 export default function OcrPdfTool() {
   const [file, setFile] = useState<File | null>(null);
@@ -16,6 +17,17 @@ export default function OcrPdfTool() {
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [extractedText, setExtractedText] = useState<string | null>(null);
   const [language, setLanguage] = useState("eng");
+
+  useEffect(() => {
+    async function checkPending() {
+      const pending = await getPendingFile("ocr-pdf");
+      if (pending) {
+        setFile(pending);
+        setStatus("idle");
+      }
+    }
+    checkPending();
+  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles && acceptedFiles.length > 0) {
