@@ -592,9 +592,12 @@ export const toolsDatabase = {
     "sutonnymj-to-unicode": { title: "SutonnyMJ to Unicode Converter", description: "Convert SutonnyMJ Bengali font text to standard Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
     "unicode-to-sutonnymj": { title: "Unicode to SutonnyMJ Converter", description: "Convert Unicode Bengali text to SutonnyMJ font format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
 
-    // URDU FONT CONVERTERS (INPAGE)
-    "inpage-to-unicode": { title: "InPage to Unicode Converter", description: "Convert Pakistani Urdu InPage text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
-    "unicode-to-inpage": { title: "Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    // URDU FONT CONVERTERS (INPAGE & URDU UNICODE)
+    "inpage-to-unicode": { title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    "inpage-to-urdu-unicode": { title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    "inpage-urdu-to-unicode": { title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    "unicode-to-inpage": { title: "Urdu Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    "urdu-unicode-to-inpage": { title: "Urdu Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
 
     // BURMESE FONT CONVERTERS (ZAWGYI)
     "zawgyi-to-unicode": { title: "Zawgyi to Unicode Converter", description: "Convert legacy Myanmar Zawgyi font text to international standard Myanmar Unicode.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {} },

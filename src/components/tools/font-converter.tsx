@@ -45,14 +45,17 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
       return convertHindi(t, f, dir);
     };
 
-    if (from === 'unicode' && to !== 'unicode') {
-      result = runConversion(text, to, 'fromUnicode');
-    } else if (from !== 'unicode' && to === 'unicode') {
-      result = runConversion(text, from, 'toUnicode');
-    } else if (from !== 'unicode' && to !== 'unicode') {
+    const cleanFrom = from.includes('unicode') ? 'unicode' : from;
+    const cleanTo = to.includes('unicode') ? 'unicode' : to;
+
+    if (cleanFrom === 'unicode' && cleanTo !== 'unicode') {
+      result = runConversion(text, cleanTo, 'fromUnicode');
+    } else if (cleanFrom !== 'unicode' && cleanTo === 'unicode') {
+      result = runConversion(text, cleanFrom, 'toUnicode');
+    } else if (cleanFrom !== 'unicode' && cleanTo !== 'unicode') {
       // Direct legacy-to-legacy via Unicode intermediate
-      const intermediate = runConversion(text, from, 'toUnicode');
-      result = runConversion(intermediate, to, 'fromUnicode');
+      const intermediate = runConversion(text, cleanFrom, 'toUnicode');
+      result = runConversion(intermediate, cleanTo, 'fromUnicode');
     }
     return result;
   }, [category]);
