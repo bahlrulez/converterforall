@@ -2,38 +2,30 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
   "merge-pdf": {
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The Merge PDF tool is a powerful document management utility designed to combine multiple, separate Portable Document Format (PDF) files into a single, cohesive document. Whether you are assembling a comprehensive end-of-year report from different departments, compiling various scanned receipts into one expense file, or merging chapters of a manuscript, this tool simplifies the process. Instead of printing documents to collate them physically, our digital merger handles the heavy lifting, outputting a flawlessly combined PDF while preserving the original formatting, fonts, and images of every individual file.</p>"
+        title: "Combine PDF, JPG, and PNG into One Unified Document for Free",
+        content: "<p>Welcome to the ultimate solution to merge multiple files into a single PDF document. Whether you have multiple PDF documents, JPG photographs, or PNG screenshots, our powerful online tool allows you to combine them all into one unified PDF document seamlessly. Best of all, everything is FREE and unlimited. There are no daily caps, no hidden subscriptions, and no premium features locked behind a paywall. Get professional results instantly.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>Operating entirely within your web browser, this tool utilizes advanced client-side PDF manipulation libraries. When you select multiple PDFs, the tool loads them into your device's local memory. It then creates a new, blank PDF document and programmatically copies every single page from your selected files into the new master document in the exact order you specified. Because this process happens locally on your machine, your sensitive business or personal documents are completely secure—they are never uploaded to a cloud server, ensuring 100% data privacy and instantaneous processing speeds.</p>"
+        title: "How to Merge Multiple PDFs and Images for Free?",
+        content: "<p>Merging your files has never been easier. Simply drag and drop your PDFs, JPGs, and PNGs into the designated upload area above. You will instantly see a professional preview of the files uploaded. You can easily click and drag these previews to rearrange them into the exact order you need. Once organized, click the 'Merge Files' button. Our advanced client-side processing engine instantly stitches your images and PDF pages together into a perfectly formatted, single PDF document.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>Imagine you are a freelance graphic designer finalizing a portfolio to send to a prospective client. You have your cover letter saved as one PDF, your resume as another, and five different design samples saved as individual PDFs. Sending an email with seven separate attachments is unprofessional and frustrating for the recipient. By using the Merge PDF tool, you can seamlessly stitch all seven documents together in a specific order, creating a single, polished 'Portfolio.pdf' that the client can easily scroll through.</p>"
+        title: "100% Private and Secure - No Uploads Required",
+        content: "<p>Unlike other free converters that upload your sensitive documents to remote cloud servers to process them, our tool operates entirely within your web browser. This means your private files, legal documents, and personal photos never leave your device. We guarantee total privacy and security because the merging happens locally on your computer's memory. Fast, secure, and completely private.</p>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select Multiple Files:</strong> Click the upload area to browse your device and select all the PDF files you wish to combine. You can also drag and drop them simultaneously.</li><li><strong>Local Processing:</strong> Once uploaded, the browser instantly begins stitching the files together. There is no waiting in server queues.</li><li><strong>Download:</strong> Once the 'Success' indicator appears, click the download button to save your newly unified PDF document.</li></ol>"
+        title: "Why Our Tool is the Best Choice",
+        content: "<ul><li><strong>Free and Unlimited:</strong> Merge as many documents as you want, as often as you want. FREE an unlimited is the main key for us!</li><li><strong>Multi-Format Support:</strong> We don't just merge PDFs. You can easily combine multiple PDFs, JPGs, and PNGs into one document.</li><li><strong>Professional Previews:</strong> See exactly what you are merging before you download it.</li><li><strong>No Watermarks:</strong> We never add annoying watermarks or branding to your final document.</li></ul>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Business Reports:</strong> Merging financial statements, marketing summaries, and executive overviews into a single board packet.</li><li><strong>Legal Documentation:</strong> Combining signed contracts, addendums, and identity documents into one secure file for archiving or email transmission.</li><li><strong>Education:</strong> Stitching together syllabus pages, reading materials, and assignment rubrics into a single study guide for students.</li><li><strong>Personal Finance:</strong> Merging 12 months of individual digital bank statements into a single annual tax preparation file.</li></ul>"
-      },
-      {
-        title: "Frequently Asked Questions",
+        title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: Is there a limit to how many PDFs I can merge?</strong><br>A: Because the merging happens in your browser's memory, the limit is determined by your device's available RAM. However, merging dozens of standard documents is generally instantaneous and stable.</p>
-          <p><strong>Q: Are my confidential documents safe when merging?</strong><br>A: Yes. Your files are processed strictly on your local machine. They are never transmitted over the internet or stored on our servers.</p>
-          <p><strong>Q: Will merging PDFs reduce their visual quality?</strong><br>A: No. The tool performs a lossless combination, meaning the text crispness, image resolution, and formatting of the original files are preserved perfectly.</p>
-          <p><strong>Q: Can I rearrange the order of the PDF files before merging?</strong><br>A: Yes, you can ensure your files are in the exact sequence you want them to appear in the final merged document.</p>
-          <p><strong>Q: Does this tool work on mobile devices?</strong><br>A: Yes! You can easily combine PDF files directly on your smartphone or tablet's web browser.</p>
-          <p><strong>Q: Will merging remove my bookmarks or hyperlinks?</strong><br>A: Standard text hyperlinks are typically preserved, but complex document-level bookmarks or interactive form fields may be flattened during the merge process.</p>
-          <p><strong>Q: Can I merge password-protected PDFs?</strong><br>A: Currently, you will need to remove the password protection from your PDF files before merging them, as the client-side engine cannot read encrypted data without the password.</p>
-          <p><strong>Q: Will the final merged PDF be significantly larger?</strong><br>A: The final file size will generally be the sum of all the individual file sizes combined. No extra bloat is added.</p>
-          <p><strong>Q: Do I need Adobe Acrobat installed to use this tool?</strong><br>A: No, our browser-based tool works independently of Adobe Acrobat or any other desktop software.</p>
-          <p><strong>Q: Is the Merge PDF tool completely free to use?</strong><br>A: Yes, there are no hidden fees, subscriptions, or watermarks applied to your final merged document.</p>
+          <p><strong>Q: Is it really free and unlimited to merge PDFs and images?</strong><br>A: Yes! Our tool is 100% free and unlimited. You can combine as many files as you need without any restrictions.</p>
+          <p><strong>Q: How do I combine JPGs and PNGs into one PDF?</strong><br>A: Just upload your JPG and PNG image files along with any PDFs into the drop zone above. The tool automatically converts and embeds the images as new pages in your final merged PDF.</p>
+          <p><strong>Q: Are my files kept private during the merge process?</strong><br>A: Absolutely. The merge process happens entirely locally in your web browser. Your files are never uploaded to any external server, ensuring maximum privacy and security.</p>
+          <p><strong>Q: Can I rearrange the order of the files before merging?</strong><br>A: Yes, you can simply drag and drop the professional file previews to reorder them exactly how you want them to appear in the final document.</p>
+          <p><strong>Q: Do I need to create an account to use the merge tool?</strong><br>A: No account, sign-up, or email is required. Just drop your files and get your merged document instantly.</p>
+          <p><strong>Q: Will there be a watermark on my merged PDF?</strong><br>A: No. We provide a completely clean, professional PDF with zero watermarks.</p>
         `
       }
     ]

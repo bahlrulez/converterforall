@@ -85,13 +85,14 @@ export const toolsDatabase = {
   "document": {
     // ORGANIZE PDF
     "merge-pdf": {
-      title: "Merge PDF",
-      description: "Combine multiple PDFs into one unified document.",
+      title: "Merge PDF, JPG, and PNG",
+      description: "Combine multiple PDFs, JPGs, and PNGs into one unified document for free.",
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
-      actionName: "Merge PDF",
-      acceptedTypes: { "application/pdf": [".pdf"] }
+      actionName: "Merge Files",
+      isInteractive: true,
+      acceptedTypes: { "application/pdf": [".pdf"], "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }
     },
     "presentation-maker": {
       title: "Presentation Maker (PPTX)",
