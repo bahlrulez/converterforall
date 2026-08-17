@@ -100,87 +100,87 @@ export function Hero() {
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-purple-500/15 dark:bg-purple-600/20 blur-[120px] pointer-events-none -z-10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-blue-500/20 via-indigo-500/15 dark:from-blue-600/25 dark:via-indigo-600/15 to-transparent blur-[90px] pointer-events-none -z-10" />
 
-      {/* Abstract Outline File Background Icons (Crisp, High-Contrast Visibility) */}
+      {/* Abstract Outline File Background Icons (Balanced Subtle Opacity) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
         
         {/* LEFT SIDE BACKGROUND ELEMENTS */}
         {/* PDF Document (Top Left) */}
         <FileDocOutline 
           label="PDF" 
-          className="absolute top-[3%] left-[1%] sm:left-[3%] text-rose-500/45 dark:text-rose-400/40 animate-float-drift-1" 
+          className="absolute top-[3%] left-[1%] sm:left-[3%] text-rose-500/28 dark:text-rose-400/25 animate-float-drift-1" 
           style={{ "--rot": "-14deg" } as any}
         />
         {/* Photo Outline (Top Mid-Left) */}
         <OutlinePhoto 
-          className="absolute top-[10%] left-[17%] sm:left-[19%] text-sky-500/40 dark:text-sky-400/35 animate-float-drift-2 hidden sm:block" 
+          className="absolute top-[10%] left-[17%] sm:left-[19%] text-sky-500/22 dark:text-sky-400/20 animate-float-drift-2 hidden sm:block" 
           style={{ "--rot": "8deg" } as any}
         />
         {/* Music Outline (Mid-High Left) */}
         <OutlineMusic 
-          className="absolute top-[26%] left-[18%] sm:left-[21%] text-purple-500/40 dark:text-purple-400/35 animate-float-drift-1 hidden md:block" 
+          className="absolute top-[26%] left-[18%] sm:left-[21%] text-purple-500/22 dark:text-purple-400/20 animate-float-drift-1 hidden md:block" 
           style={{ "--rot": "-10deg" } as any}
         />
         {/* MP4 Document (Middle Left) */}
         <FileDocOutline 
           label="MP4" 
-          className="absolute top-[30%] left-[1%] sm:left-[4%] text-blue-500/45 dark:text-blue-400/40 animate-float-drift-2" 
+          className="absolute top-[30%] left-[1%] sm:left-[4%] text-blue-500/28 dark:text-blue-400/25 animate-float-drift-2" 
           style={{ "--rot": "-16deg" } as any}
         />
         {/* Play Video Outline (Mid-Low Left) */}
         <OutlinePlay 
-          className="absolute top-[48%] left-[17%] sm:left-[20%] text-blue-500/40 dark:text-blue-400/35 animate-float-drift-1 hidden sm:block" 
+          className="absolute top-[48%] left-[17%] sm:left-[20%] text-blue-500/22 dark:text-blue-400/20 animate-float-drift-1 hidden sm:block" 
           style={{ "--rot": "12deg" } as any}
         />
         {/* PNG Document (Low Left) */}
         <FileDocOutline 
           label="PNG" 
-          className="absolute top-[56%] left-[1%] sm:left-[3%] text-emerald-500/45 dark:text-emerald-400/40 animate-float-drift-1" 
+          className="absolute top-[56%] left-[1%] sm:left-[3%] text-emerald-500/28 dark:text-emerald-400/25 animate-float-drift-1" 
           style={{ "--rot": "10deg" } as any}
         />
         {/* ZIP Document (Bottom Left) */}
         <FileDocOutline 
           label="ZIP" 
-          className="absolute top-[76%] left-[10%] sm:left-[14%] text-amber-500/45 dark:text-amber-400/40 animate-float-drift-2 hidden sm:block" 
+          className="absolute top-[76%] left-[10%] sm:left-[14%] text-amber-500/28 dark:text-amber-400/25 animate-float-drift-2 hidden sm:block" 
           style={{ "--rot": "14deg" } as any}
         />
 
         {/* RIGHT SIDE BACKGROUND ELEMENTS */}
         {/* Photo Outline (Top Right) */}
         <OutlinePhoto 
-          className="absolute top-[5%] right-[16%] sm:right-[19%] text-indigo-500/40 dark:text-indigo-400/35 animate-float-drift-1 hidden sm:block" 
+          className="absolute top-[5%] right-[16%] sm:right-[19%] text-indigo-500/22 dark:text-indigo-400/20 animate-float-drift-1 hidden sm:block" 
           style={{ "--rot": "-6deg" } as any}
         />
         {/* JPG Document (Top Right) */}
         <FileDocOutline 
           label="JPG" 
-          className="absolute top-[12%] right-[1%] sm:right-[4%] text-cyan-500/45 dark:text-cyan-400/40 animate-float-drift-2" 
+          className="absolute top-[12%] right-[1%] sm:right-[4%] text-cyan-500/28 dark:text-cyan-400/25 animate-float-drift-2" 
           style={{ "--rot": "12deg" } as any}
         />
         {/* Video Play Outline (Mid-High Right) */}
         <OutlinePlay 
-          className="absolute top-[23%] right-[15%] sm:right-[18%] text-blue-500/40 dark:text-blue-400/35 animate-float-drift-1 hidden md:block" 
+          className="absolute top-[23%] right-[15%] sm:right-[18%] text-blue-500/22 dark:text-blue-400/20 animate-float-drift-1 hidden md:block" 
           style={{ "--rot": "-12deg" } as any}
         />
         {/* DOCX Document (Middle Right) */}
         <FileDocOutline 
           label="DOCX" 
-          className="absolute top-[36%] right-[1%] sm:right-[4%] text-indigo-500/45 dark:text-indigo-400/40 animate-float-drift-2" 
+          className="absolute top-[36%] right-[1%] sm:right-[4%] text-indigo-500/28 dark:text-indigo-400/25 animate-float-drift-2" 
           style={{ "--rot": "-14deg" } as any}
         />
         {/* Music Outline (Mid-Low Right) */}
         <OutlineMusic 
-          className="absolute top-[49%] right-[17%] sm:right-[20%] text-purple-500/40 dark:text-purple-400/35 animate-float-drift-1 hidden sm:block" 
+          className="absolute top-[49%] right-[17%] sm:right-[20%] text-purple-500/22 dark:text-purple-400/20 animate-float-drift-1 hidden sm:block" 
           style={{ "--rot": "-8deg" } as any}
         />
         {/* Photo Outline (Low Right) */}
         <OutlinePhoto 
-          className="absolute top-[62%] right-[5%] sm:right-[8%] text-emerald-500/40 dark:text-emerald-400/35 animate-float-drift-2 hidden sm:block" 
+          className="absolute top-[62%] right-[5%] sm:right-[8%] text-emerald-500/22 dark:text-emerald-400/20 animate-float-drift-2 hidden sm:block" 
           style={{ "--rot": "10deg" } as any}
         />
         {/* TXT Document (Bottom Right) */}
         <FileDocOutline 
           label="TXT" 
-          className="absolute top-[73%] right-[10%] sm:right-[14%] text-purple-500/45 dark:text-purple-400/40 animate-float-drift-1 hidden sm:block" 
+          className="absolute top-[73%] right-[10%] sm:right-[14%] text-purple-500/28 dark:text-purple-400/25 animate-float-drift-1 hidden sm:block" 
           style={{ "--rot": "8deg" } as any}
         />
 
