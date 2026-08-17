@@ -37,11 +37,50 @@ export async function removeImageBackground(file: File, quality: BgRemovalQualit
     // 2. Direct resilient fallback in main thread
     const { removeBackground } = await import("@imgly/background-removal");
     const validModel = (quality === "isnet" || quality === "isnet_fp16" || quality === "isnet_quint8") ? quality : "isnet_fp16";
-    const blob = await removeBackground(file, {
+    const rawBlob = await removeBackground(file, {
       model: validModel,
       proxyToWorker: false
     });
-    return blob;
+    
+    // In-browser canvas alpha refinement
+    try {
+      const img = new Image();
+      const url = URL.createObjectURL(rawBlob);
+      await new Promise((res, rej) => {
+        img.onload = res;
+        img.onerror = rej;
+        img.src = url;
+      });
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imgData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const a = data[i + 3];
+          if (a > 0) {
+            if (a >= 80) {
+              data[i + 3] = 255;
+            } else if (a > 12) {
+              const norm = (a - 12) / 68;
+              data[i + 3] = Math.min(255, Math.round(255 * Math.pow(norm, 0.45)));
+            } else {
+              data[i + 3] = 0;
+            }
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+        const refinedBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, "image/png"));
+        URL.revokeObjectURL(url);
+        if (refinedBlob) return refinedBlob;
+      }
+    } catch {
+      // Return raw blob if refinement fails
+    }
+    return rawBlob;
   }
 }
 
