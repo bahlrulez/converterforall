@@ -1,34 +1,48 @@
 export type BgRemovalQuality = "isnet_quint8" | "isnet_fp16" | "isnet";
 
 export async function removeImageBackground(file: File, quality: BgRemovalQuality = "isnet_fp16"): Promise<Blob> {
-  return new Promise((resolve, reject) => {
-    if (typeof window === "undefined") {
-      reject(new Error("Cannot run background removal on the server."));
-      return;
-    }
+  if (typeof window === "undefined") {
+    throw new Error("Cannot run background removal on the server.");
+  }
 
-    const worker = new Worker(new URL("../../workers/bg-removal.worker", import.meta.url), { type: "module" });
-    const id = Math.random().toString(36).substring(2, 11);
+  // 1. Attempt running in dedicated Web Worker
+  try {
+    const blob = await new Promise<Blob>((resolve, reject) => {
+      const worker = new Worker(new URL("../../workers/bg-removal.worker", import.meta.url), { type: "module" });
+      const id = Math.random().toString(36).substring(2, 11);
 
-    worker.onmessage = (e) => {
-      const data = e.data;
-      if (data.id === id) {
-        worker.terminate();
-        if (data.success) {
-          resolve(data.blob);
-        } else {
-          reject(new Error(data.error));
+      worker.onmessage = (e) => {
+        const data = e.data;
+        if (data.id === id) {
+          worker.terminate();
+          if (data.success && data.blob) {
+            resolve(data.blob);
+          } else {
+            reject(new Error(data.error || "Failed to remove background"));
+          }
         }
-      }
-    };
+      };
 
-    worker.onerror = (err) => {
-      worker.terminate();
-      reject(err);
-    };
+      worker.onerror = (err) => {
+        worker.terminate();
+        reject(err);
+      };
 
-    worker.postMessage({ file, quality, id });
-  });
+      worker.postMessage({ file, quality, id });
+    });
+
+    return blob;
+  } catch (workerErr) {
+    console.warn("Worker background removal failed, attempting main thread fallback:", workerErr);
+    // 2. Direct resilient fallback in main thread
+    const { removeBackground } = await import("@imgly/background-removal");
+    const validModel = (quality === "isnet" || quality === "isnet_fp16" || quality === "isnet_quint8") ? quality : "isnet_fp16";
+    const blob = await removeBackground(file, {
+      model: validModel,
+      proxyToWorker: false
+    });
+    return blob;
+  }
 }
 
 export async function processImage(file: File, targetFormat: string): Promise<Blob> {
