@@ -5,7 +5,15 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/private/'],
+      disallow: [
+        '/api/', 
+        '/private/',
+        '/_next/static/media/',
+        '/*.woff2$',
+        '/*.woff$',
+        '/*.ttf$',
+        '/*.eot$'
+      ],
     },
     sitemap: 'https://converterforall.com/sitemap.xml',
   }

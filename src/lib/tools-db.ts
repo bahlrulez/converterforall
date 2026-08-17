@@ -136,6 +136,22 @@ export const toolsDatabase = {
       actionName: "Resize Image",
       isInteractive: true,
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
+    },
+    "svg-to-png": {
+      title: "Convert SVG to PNG",
+      description: "Convert SVG vector graphics to crisp, transparent PNG images online with 100% privacy.",
+      inputFormat: "svg",
+      outputFormat: "png",
+      actionName: "Convert to PNG",
+      acceptedTypes: { "image/svg+xml": [".svg"] }
+    },
+    "svg-to-jpg": {
+      title: "Convert SVG to JPG",
+      description: "Convert SVG vector files to standard JPG photos online for free.",
+      inputFormat: "svg",
+      outputFormat: "jpg",
+      actionName: "Convert to JPG",
+      acceptedTypes: { "image/svg+xml": [".svg"] }
     }
   },
   "document": {
@@ -418,6 +434,15 @@ export const toolsDatabase = {
       outputFormat: "mkv",
       actionName: "Convert to MKV",
       acceptedTypes: { "video/*": [".mp4", ".avi", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
+    },
+    "screen-recorder": {
+      title: "Online Screen Recorder",
+      description: "Record your desktop, application window, or browser tab with audio for free. 100% private and in-browser.",
+      inputFormat: "none",
+      outputFormat: "mp4",
+      actionName: "Start Recording",
+      isInteractive: true,
+      acceptedTypes: {}
     },
     "video-to-wmv": {
       title: "Convert to WMV",
@@ -707,6 +732,9 @@ export const SLUG_ALIASES: Record<string, string> = {
   "remove-bg": "remove-background",
   "webp-to-jpeg": "webp-to-jpg",
   "image-compressor": "compress-jpg",
+  "screen-recording": "screen-recorder",
+  "record-screen": "screen-recorder",
+  "online-screen-recorder": "screen-recorder",
 
   // PDF Aliases
   "pdf-compressor": "compress-pdf",
@@ -716,6 +744,8 @@ export const SLUG_ALIASES: Record<string, string> = {
   "extract-pdf-pages": "extract-pages",
   "pdf-rotator": "rotate-pdf",
   "rotate-pdf-pages": "rotate-pdf",
+  "images-to-pdf": "jpg-to-pdf",
+  "image-to-pdf": "jpg-to-pdf",
 };
 
 export function getToolBySlug(slug: string) {
@@ -731,6 +761,14 @@ export function getToolBySlug(slug: string) {
     }
   }
   return null;
+}
+
+export function getCanonicalToolSlugs() {
+  const slugs: string[] = [];
+  for (const categoryTools of Object.values(toolsDatabase)) {
+    slugs.push(...Object.keys(categoryTools));
+  }
+  return Array.from(new Set(slugs));
 }
 
 export function getAllToolSlugs() {

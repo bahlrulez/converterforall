@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { getAllToolSlugs } from '@/lib/tools-db'
+import { getCanonicalToolSlugs } from '@/lib/tools-db'
 import { getAllBlogSlugs } from '@/lib/blog-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -24,8 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }))
 
-  // Tool routes
-  const toolSlugs = getAllToolSlugs()
+  // Canonical Tool routes (Only unique primary tools, no duplicate alias spam)
+  const toolSlugs = getCanonicalToolSlugs()
   const toolRoutes = toolSlugs.map((slug) => ({
     url: `${baseUrl}/${slug}`,
     lastModified: new Date(),

@@ -1,31 +1,10 @@
-import { ToolEngine } from "@/components/upload/tool-engine";
-import { LiveRuler } from "@/components/tools/live-ruler";
-import { CameraMeasure } from "@/components/tools/camera-measure";
-import { LengthConverter } from "@/components/tools/length-converter";
-import { AgeCalculator } from "@/components/tools/age-calculator";
-import { QRGenerator } from "@/components/tools/qr-generator";
-import { BarcodeGenerator } from "@/components/tools/barcode-generator";
-import { PasswordGenerator } from "@/components/tools/password-generator";
-import { FuelCalculator } from "@/components/tools/fuel-calculator";
-import { MileageCalculator } from "@/components/tools/mileage-calculator";
-import { FontConverter } from "@/components/tools/font-converter";
-import { FontDetector } from "@/components/tools/font-detector";
-import { UnicodeTools } from "@/components/tools/unicode-tools";
-import { PassportMaker } from "@/components/tools/passport-maker";
-import OcrPdfTool from "@/components/tools/ocr-pdf";
-import RepairPdfTool from "@/components/tools/repair-pdf";
-import PdfToWordTool from "@/components/tools/pdf-to-word";
-import WordToPdfTool from "@/components/tools/word-to-pdf";
-import ImageCompressor from "@/components/tools/image-compressor";
-import { QrScanner } from "@/components/tools/qr-scanner";
-import { PresentationMaker } from "@/components/tools/presentation-maker";
-import MergePdfTool from "@/components/tools/merge-pdf";
-import { ArrowLeft, ShieldCheck, Zap, Sparkles, CheckCircle2, Cpu, HelpCircle, Layers } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Zap, Sparkles, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getToolBySlug } from "@/lib/tools-db";
 import { getToolContent } from "@/lib/tool-content";
 import { Metadata } from "next";
+import { ToolRenderer } from "@/components/tools/tool-renderer";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -182,39 +161,15 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           </div>
 
           <div className={`${(tool as any).isInteractive ? '' : 'bg-white/90 dark:bg-[#080e22]/95 backdrop-blur-xl rounded-3xl p-5 sm:p-10 border border-slate-200/90 dark:border-slate-800 shadow-xl'} relative z-10`}>
-          {(tool as any).isInteractive ? (
-            <>
-              {toolSlug === "live-ruler" && <LiveRuler />}
-              {toolSlug === "camera-measure" && <CameraMeasure />}
-              {toolSlug === "age-calculator" && <AgeCalculator />}
-              {toolSlug === "qr-generator" && <QRGenerator />}
-              {toolSlug === "barcode-generator" && <BarcodeGenerator />}
-              {toolSlug === "password-generator" && <PasswordGenerator />}
-              {toolSlug === "fuel-calculator" && <FuelCalculator />}
-              {toolSlug === "mileage-calculator" && <MileageCalculator />}
-              {(tool as any).converterType === "length" && <LengthConverter defaultFrom={defaultFrom} defaultTo={defaultTo} />}
-              {(tool as any).converterType === "font" && <FontConverter defaultFrom={defaultFontFrom} defaultTo={defaultFontTo} category={(tool as any).fontCategory} />}
-              {(tool as any).converterType === "font-detector" && <FontDetector />}
-              {(tool as any).converterType === "unicode-tools" && <UnicodeTools toolType={(tool as any).toolType} />}
-              {toolSlug === "passport-photo-maker" && <PassportMaker />}
-              {toolSlug === "ocr-pdf" && <OcrPdfTool />}
-              {toolSlug === "repair-pdf" && <RepairPdfTool />}
-              {toolSlug === "pdf-to-word" && <PdfToWordTool />}
-              {toolSlug === "word-to-pdf" && <WordToPdfTool />}
-              {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
-              {toolSlug === "qr-scanner" && <QrScanner />}
-              {toolSlug === "presentation-maker" && <PresentationMaker />}
-              {toolSlug === "merge-pdf" && <MergePdfTool />}
-            </>
-          ) : (
-            <ToolEngine 
-              category={categorySlug}
+            <ToolRenderer
               toolSlug={toolSlug}
-              acceptedTypes={tool.acceptedTypes}
-              targetFormat={tool.outputFormat}
-              actionLabel={(tool as any).actionName}
+              categorySlug={categorySlug}
+              tool={tool}
+              defaultFrom={defaultFrom}
+              defaultTo={defaultTo}
+              defaultFontFrom={defaultFontFrom}
+              defaultFontTo={defaultFontTo}
             />
-          )}
           </div>
         </div>
 
