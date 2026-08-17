@@ -223,3 +223,23 @@
   animation: pulse-pedestal 3.8s ease-in-out infinite;
   will-change: transform, opacity;
 }
+
+@keyframes float-drift-1 {
+  0%, 100% { transform: translateY(0px) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-12px) rotate(calc(var(--rot, 0deg) + 3deg)); }
+}
+
+@keyframes float-drift-2 {
+  0%, 100% { transform: translateY(0px) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(10px) rotate(calc(var(--rot, 0deg) - 3deg)); }
+}
+
+.animate-float-drift-1 {
+  animation: float-drift-1 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-drift-2 {
+  animation: float-drift-2 9s ease-in-out infinite;
+  will-change: transform;
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, Shield, Zap, Lock, Laptop, Infinity as InfinityIcon, Layers, Gift } from "lucide-react";
+import { Sparkles, Shield, Zap, Lock, Laptop, Infinity as InfinityIcon, Layers, Gift, FileText, Image as ImageIcon, Film, Music, FolderArchive, Code2, Presentation } from "lucide-react";
 import { ModernDropzone } from "./modern-dropzone";
 
 export function Hero() {
@@ -10,6 +10,78 @@ export function Hero() {
       <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-blue-500/10 dark:bg-blue-600/15 blur-[120px] pointer-events-none -z-10" />
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-purple-500/10 dark:bg-purple-600/15 blur-[120px] pointer-events-none -z-10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-blue-500/15 via-indigo-500/10 dark:from-blue-600/20 dark:via-indigo-600/10 to-transparent blur-[90px] pointer-events-none -z-10" />
+
+      {/* Abstract Floating File Icons Background (Subtle Low-Opacity Decorative Elements) */}
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden select-none">
+        
+        {/* Left Side Floating Icons */}
+        <div 
+          className="absolute top-[8%] left-[3%] sm:left-[6%] p-3 sm:p-4 rounded-2xl bg-white/5 dark:bg-white/[0.03] border border-rose-500/20 dark:border-rose-500/15 backdrop-blur-xs opacity-[0.15] dark:opacity-[0.14] animate-float-drift-1 shadow-lg shadow-rose-500/5 hidden sm:flex flex-col items-center gap-1"
+          style={{ "--rot": "-12deg" } as any}
+        >
+          <FileText className="w-8 h-8 sm:w-10 sm:h-10 text-rose-500" />
+          <span className="text-[9px] font-extrabold tracking-widest text-rose-400">PDF</span>
+        </div>
+
+        <div 
+          className="absolute top-[42%] left-[2%] sm:left-[4%] p-3 rounded-2xl bg-white/5 dark:bg-white/[0.03] border border-emerald-500/20 dark:border-emerald-500/15 backdrop-blur-xs opacity-[0.12] dark:opacity-[0.12] animate-float-drift-2 shadow-lg shadow-emerald-500/5 hidden md:flex flex-col items-center gap-1"
+          style={{ "--rot": "8deg" } as any}
+        >
+          <ImageIcon className="w-7 h-7 sm:w-9 sm:h-9 text-emerald-400" />
+          <span className="text-[9px] font-extrabold tracking-widest text-emerald-400">PNG</span>
+        </div>
+
+        <div 
+          className="absolute top-[72%] left-[4%] sm:left-[7%] p-3 rounded-2xl bg-white/5 dark:bg-white/[0.03] border border-purple-500/20 dark:border-purple-500/15 backdrop-blur-xs opacity-[0.14] dark:opacity-[0.13] animate-float-drift-1 shadow-lg shadow-purple-500/5 hidden sm:flex flex-col items-center gap-1"
+          style={{ "--rot": "-6deg" } as any}
+        >
+          <Music className="w-7 h-7 sm:w-9 sm:h-9 text-purple-400" />
+          <span className="text-[9px] font-extrabold tracking-widest text-purple-400">MP3</span>
+        </div>
+
+        {/* Right Side Floating Icons */}
+        <div 
+          className="absolute top-[10%] right-[3%] sm:right-[6%] p-3 sm:p-4 rounded-2xl bg-white/5 dark:bg-white/[0.03] border border-blue-500/20 dark:border-blue-500/15 backdrop-blur-xs opacity-[0.15] dark:opacity-[0.14] animate-float-drift-2 shadow-lg shadow-blue-500/5 hidden sm:flex flex-col items-center gap-1"
+          style={{ "--rot": "14deg" } as any}
+        >
+          <Film className="w-8 h-8 sm:w-10 sm:h-10 text-blue-400" />
+          <span className="text-[9px] font-extrabold tracking-widest text-blue-400">MP4</span>
+        </div>
+
+        <div 
+          className="absolute top-[44%] right-[2%] sm:right-[4%] p-3 rounded-2xl bg-white/5 dark:bg-white/[0.03] border border-indigo-500/20 dark:border-indigo-500/15 backdrop-blur-xs opacity-[0.12] dark:opacity-[0.12] animate-float-drift-1 shadow-lg shadow-indigo-500/5 hidden md:flex flex-col items-center gap-1"
+          style={{ "--rot": "-10deg" } as any}
+        >
+          <FileText className="w-7 h-7 sm:w-9 sm:h-9 text-indigo-400" />
+          <span className="text-[9px] font-extrabold tracking-widest text-indigo-400">DOCX</span>
+        </div>
+
+        <div 
+          className="absolute top-[74%] right-[4%] sm:right-[7%] p-3 rounded-2xl bg-white/5 dark:bg-white/[0.03] border border-amber-500/20 dark:border-amber-500/15 backdrop-blur-xs opacity-[0.14] dark:opacity-[0.13] animate-float-drift-2 shadow-lg shadow-amber-500/5 hidden sm:flex flex-col items-center gap-1"
+          style={{ "--rot": "8deg" } as any}
+        >
+          <FolderArchive className="w-7 h-7 sm:w-9 sm:h-9 text-amber-400" />
+          <span className="text-[9px] font-extrabold tracking-widest text-amber-400">ZIP</span>
+        </div>
+
+        {/* Top-Mid Ambient Subtle Floaters */}
+        <div 
+          className="absolute top-[2%] left-[22%] p-2 rounded-xl bg-white/5 border border-cyan-500/15 opacity-[0.08] dark:opacity-[0.07] animate-float-drift-2 hidden lg:flex items-center gap-1"
+          style={{ "--rot": "-4deg" } as any}
+        >
+          <Code2 className="w-5 h-5 text-cyan-400" />
+          <span className="text-[8px] font-bold text-cyan-400">SVG</span>
+        </div>
+
+        <div 
+          className="absolute top-[3%] right-[22%] p-2 rounded-xl bg-white/5 border border-orange-500/15 opacity-[0.08] dark:opacity-[0.07] animate-float-drift-1 hidden lg:flex items-center gap-1"
+          style={{ "--rot": "6deg" } as any}
+        >
+          <Presentation className="w-5 h-5 text-orange-400" />
+          <span className="text-[8px] font-bold text-orange-400">PPTX</span>
+        </div>
+
+      </div>
 
       <div className="container relative mx-auto px-4 text-center max-w-6xl">
         {/* Top Feature Pill Badge */}
