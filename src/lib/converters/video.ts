@@ -64,7 +64,7 @@ export const extractFramesWithCanvas = async (file: File, fps: number, onProgres
 
       const zip = new JSZip();
       const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
       
       if (!ctx) {
         reject(new Error("Could not create canvas context."));
@@ -82,7 +82,7 @@ export const extractFramesWithCanvas = async (file: File, fps: number, onProgres
         
         if (currentFrame >= totalFrames) {
           onProgress(100); // 100%
-          zip.generateAsync({ type: 'blob' }).then(resolve).catch(reject);
+          zip.generateAsync({ type: 'blob', compression: "STORE" }).then(resolve).catch(reject);
           URL.revokeObjectURL(video.src);
           return;
         }
@@ -91,9 +91,21 @@ export const extractFramesWithCanvas = async (file: File, fps: number, onProgres
         video.currentTime = time;
       };
       
-      video.onseeked = () => {
+      video.onseeked = async () => {
         try {
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          // Hardware-accelerated GPU frame grab
+          if (typeof createImageBitmap !== 'undefined') {
+            try {
+              const bitmap = await createImageBitmap(video);
+              ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+              bitmap.close();
+            } catch {
+              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            }
+          } else {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          }
+
           canvas.toBlob((blob) => {
             if (blob) {
               // 1-indexed frame numbers for standard sequences
