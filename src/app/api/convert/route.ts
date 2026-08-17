@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
       return new Response(JSON.stringify({ error: "File and target format are required." }), { status: 400 });
     }
 
-    const validFormats = ["png", "jpeg", "jpg", "webp", "avif"];
+    const validFormats = ["png", "jpeg", "jpg", "webp", "avif", "gif"];
     if (!validFormats.includes(targetFormat.toLowerCase())) {
       return new Response(JSON.stringify({ error: "Unsupported target format for images." }), { status: 400 });
     }
@@ -37,6 +37,9 @@ export async function POST(req: NextRequest) {
         break;
       case "avif":
         sharpInstance = sharpInstance.avif();
+        break;
+      case "gif":
+        sharpInstance = sharpInstance.gif();
         break;
     }
 

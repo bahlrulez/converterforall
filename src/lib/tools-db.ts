@@ -110,6 +110,32 @@ export const toolsDatabase = {
       actionName: "Make Passport Photo",
       isInteractive: true,
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
+    },
+    "gif-maker": {
+      title: "GIF Maker",
+      description: "Convert and create animated GIFs from images and photos online for free.",
+      inputFormat: "image",
+      outputFormat: "gif",
+      actionName: "Make GIF",
+      acceptedTypes: { "image/*": [".jpg", ".jpeg", ".png", ".webp", ".avif"] }
+    },
+    "image-cropper": {
+      title: "Image Cropper",
+      description: "Crop photos and images to exact dimensions and custom aspect ratios.",
+      inputFormat: "image",
+      outputFormat: "jpg",
+      actionName: "Crop Image",
+      isInteractive: true,
+      acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
+    },
+    "image-resizer": {
+      title: "Image Resizer",
+      description: "Resize photos and graphics to custom pixel dimensions with high quality.",
+      inputFormat: "image",
+      outputFormat: "jpg",
+      actionName: "Resize Image",
+      isInteractive: true,
+      acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     }
   },
   "document": {
@@ -335,6 +361,22 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "mp4",
       actionName: "Compress Video",
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+    },
+    "video-compressor": {
+      title: "Video Compressor",
+      description: "Reduce video file sizes while retaining crystal clear video quality.",
+      inputFormat: "video",
+      outputFormat: "mp4",
+      actionName: "Compress Video",
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+    },
+    "video-to-gif": {
+      title: "Video to GIF Converter",
+      description: "Convert video clips and movies to lightweight animated GIFs.",
+      inputFormat: "video",
+      outputFormat: "gif",
+      actionName: "Convert to GIF",
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
     "video-to-jpg": {
@@ -665,11 +707,6 @@ export const SLUG_ALIASES: Record<string, string> = {
   "remove-bg": "remove-background",
   "webp-to-jpeg": "webp-to-jpg",
   "image-compressor": "compress-jpg",
-  "image-resizer": "passport-photo-maker",
-  "image-cropper": "passport-photo-maker",
-  "gif-maker": "video-to-jpg",
-  "video-to-gif": "video-to-jpg",
-  "video-compressor": "compress-video",
 
   // PDF Aliases
   "pdf-compressor": "compress-pdf",
