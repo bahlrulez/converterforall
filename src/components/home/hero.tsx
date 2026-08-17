@@ -8,37 +8,37 @@ import { ModernDropzone } from "./modern-dropzone";
 function FileDocOutline({ label, className, style }: { label: string; className?: string; style?: React.CSSProperties }) {
   return (
     <div className={className} style={style}>
-      <svg 
-        viewBox="0 0 100 130" 
-        className="w-20 h-28 sm:w-24 sm:h-32 md:w-28 md:h-36 text-slate-400 dark:text-slate-500 hover:text-blue-400 transition-colors duration-300" 
-        fill="none" 
+      <svg
+        viewBox="0 0 100 130"
+        className="w-20 h-28 sm:w-24 sm:h-32 md:w-28 md:h-36 text-slate-400 dark:text-slate-500 hover:text-blue-400 transition-colors duration-300"
+        fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* Folded Corner Document Path */}
-        <path 
-          d="M12 6 H64 L88 30 V122 H12 Z" 
-          stroke="currentColor" 
-          strokeWidth="2.5" 
-          strokeLinejoin="round" 
-          fill="none" 
+        <path
+          d="M12 6 H64 L88 30 V122 H12 Z"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+          fill="none"
         />
         {/* Corner Fold Flap */}
-        <path 
-          d="M64 6 V30 H88" 
-          stroke="currentColor" 
-          strokeWidth="2.5" 
-          strokeLinejoin="round" 
-          fill="none" 
+        <path
+          d="M64 6 V30 H88"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+          fill="none"
         />
         {/* File Extension Text */}
-        <text 
-          x="50" 
-          y="82" 
-          textAnchor="middle" 
-          fill="currentColor" 
-          fontSize="19" 
-          fontWeight="900" 
-          fontFamily="system-ui, -apple-system, sans-serif" 
+        <text
+          x="50"
+          y="82"
+          textAnchor="middle"
+          fill="currentColor"
+          fontSize="19"
+          fontWeight="900"
+          fontFamily="system-ui, -apple-system, sans-serif"
           letterSpacing="0.05em"
         >
           {label}
@@ -94,85 +94,85 @@ export function Hero() {
 
       {/* Abstract Outline File Background Icons (Matching User Mockup 1:1) */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden select-none">
-        
+
         {/* LEFT SIDE BACKGROUND ELEMENTS */}
         {/* PDF Document (Top Left) */}
-        <FileDocOutline 
-          label="PDF" 
-          className="absolute top-[4%] left-[2%] sm:left-[4%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-1 hidden sm:block" 
+        <FileDocOutline
+          label="PDF"
+          className="absolute top-[4%] left-[2%] sm:left-[4%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-1 hidden sm:block"
           style={{ "--rot": "-14deg" } as any}
         />
         {/* Photo Outline (Top Mid-Left) */}
-        <OutlinePhoto 
-          className="absolute top-[12%] left-[18%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-2 hidden md:block" 
+        <OutlinePhoto
+          className="absolute top-[12%] left-[18%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-2 hidden md:block"
           style={{ "--rot": "8deg" } as any}
         />
         {/* Music Outline (Mid-High Left) */}
-        <OutlineMusic 
-          className="absolute top-[26%] left-[19%] opacity-[0.15] dark:opacity-[0.13] animate-float-drift-1 hidden lg:block" 
+        <OutlineMusic
+          className="absolute top-[26%] left-[19%] opacity-[0.15] dark:opacity-[0.13] animate-float-drift-1 hidden lg:block"
           style={{ "--rot": "-10deg" } as any}
         />
         {/* MP4 Document (Middle Left) */}
-        <FileDocOutline 
-          label="MP4" 
-          className="absolute top-[32%] left-[3%] sm:left-[5%] opacity-[0.17] dark:opacity-[0.15] animate-float-drift-2 hidden sm:block" 
+        <FileDocOutline
+          label="MP4"
+          className="absolute top-[32%] left-[3%] sm:left-[5%] opacity-[0.17] dark:opacity-[0.15] animate-float-drift-2 hidden sm:block"
           style={{ "--rot": "-16deg" } as any}
         />
         {/* Play Video Outline (Mid-Low Left) */}
-        <OutlinePlay 
-          className="absolute top-[48%] left-[18%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-1 hidden md:block" 
+        <OutlinePlay
+          className="absolute top-[48%] left-[18%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-1 hidden md:block"
           style={{ "--rot": "12deg" } as any}
         />
         {/* PNG Document (Low Left) */}
-        <FileDocOutline 
-          label="PNG" 
-          className="absolute top-[56%] left-[2%] sm:left-[4%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-1 hidden sm:block" 
+        <FileDocOutline
+          label="PNG"
+          className="absolute top-[56%] left-[2%] sm:left-[4%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-1 hidden sm:block"
           style={{ "--rot": "10deg" } as any}
         />
         {/* ZIP Document (Bottom Left) */}
-        <FileDocOutline 
-          label="ZIP" 
-          className="absolute top-[76%] left-[12%] sm:left-[14%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-2 hidden sm:block" 
+        <FileDocOutline
+          label="ZIP"
+          className="absolute top-[76%] left-[12%] sm:left-[14%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-2 hidden sm:block"
           style={{ "--rot": "14deg" } as any}
         />
 
         {/* RIGHT SIDE BACKGROUND ELEMENTS */}
         {/* Photo Outline (Top Right) */}
-        <OutlinePhoto 
-          className="absolute top-[6%] right-[18%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-1 hidden md:block" 
+        <OutlinePhoto
+          className="absolute top-[6%] right-[18%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-1 hidden md:block"
           style={{ "--rot": "-6deg" } as any}
         />
         {/* JPG Document (Top Right) */}
-        <FileDocOutline 
-          label="JPG" 
-          className="absolute top-[14%] right-[4%] sm:right-[6%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-2 hidden sm:block" 
+        <FileDocOutline
+          label="JPG"
+          className="absolute top-[14%] right-[4%] sm:right-[6%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-2 hidden sm:block"
           style={{ "--rot": "12deg" } as any}
         />
         {/* Video Play Outline (Mid-High Right) */}
-        <OutlinePlay 
-          className="absolute top-[24%] right-[16%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-1 hidden lg:block" 
+        <OutlinePlay
+          className="absolute top-[24%] right-[16%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-1 hidden lg:block"
           style={{ "--rot": "-12deg" } as any}
         />
         {/* DOCX Document (Middle Right) */}
-        <FileDocOutline 
-          label="DOCX" 
-          className="absolute top-[38%] right-[3%] sm:right-[5%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-2 hidden sm:block" 
+        <FileDocOutline
+          label="DOCX"
+          className="absolute top-[38%] right-[3%] sm:right-[5%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-2 hidden sm:block"
           style={{ "--rot": "-14deg" } as any}
         />
         {/* Music Outline (Mid-Low Right) */}
-        <OutlineMusic 
-          className="absolute top-[50%] right-[18%] opacity-[0.15] dark:opacity-[0.13] animate-float-drift-1 hidden md:block" 
+        <OutlineMusic
+          className="absolute top-[50%] right-[18%] opacity-[0.15] dark:opacity-[0.13] animate-float-drift-1 hidden md:block"
           style={{ "--rot": "-8deg" } as any}
         />
         {/* Photo Outline (Low Right) */}
-        <OutlinePhoto 
-          className="absolute top-[62%] right-[7%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-2 hidden sm:block" 
+        <OutlinePhoto
+          className="absolute top-[62%] right-[7%] opacity-[0.14] dark:opacity-[0.12] animate-float-drift-2 hidden sm:block"
           style={{ "--rot": "10deg" } as any}
         />
         {/* TXT / TXP Document (Bottom Right) */}
-        <FileDocOutline 
-          label="TXT" 
-          className="absolute top-[74%] right-[12%] sm:right-[15%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-1 hidden sm:block" 
+        <FileDocOutline
+          label="TXT"
+          className="absolute top-[74%] right-[12%] sm:right-[15%] opacity-[0.18] dark:opacity-[0.16] animate-float-drift-1 hidden sm:block"
           style={{ "--rot": "8deg" } as any}
         />
 
@@ -193,17 +193,17 @@ export function Hero() {
               100% Private &amp; Secure.
             </span>
             {/* Glowing Accent Swoosh Underline */}
-            <svg 
-              className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-5 text-blue-400 opacity-90 overflow-visible pointer-events-none" 
-              viewBox="0 0 320 24" 
-              fill="none" 
+            <svg
+              className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-5 text-blue-400 opacity-90 overflow-visible pointer-events-none"
+              viewBox="0 0 320 24"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path 
-                d="M4 14 Q 160 26, 316 8" 
-                stroke="url(#heroSwooshGradient)" 
-                strokeWidth="4.5" 
-                strokeLinecap="round" 
+              <path
+                d="M4 14 Q 160 26, 316 8"
+                stroke="url(#heroSwooshGradient)"
+                strokeWidth="4.5"
+                strokeLinecap="round"
               />
               <defs>
                 <linearGradient id="heroSwooshGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -271,7 +271,7 @@ export function Hero() {
 
         {/* 4 Bottom Stats Bar Banner (Matching Mockup 1:1) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4 max-w-5xl mx-auto text-left p-4 sm:p-5 rounded-2xl bg-white/80 dark:bg-[#080e22]/90 border border-slate-200/90 dark:border-slate-800/90 shadow-sm dark:shadow-md backdrop-blur-md">
-          
+
           <div className="flex items-center gap-3.5">
             <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
               <TrendingUp className="w-5 h-5" />
