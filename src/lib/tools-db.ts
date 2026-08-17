@@ -231,6 +231,18 @@ export const toolsDatabase = {
       acceptedTypes: { "image/*": [".jpg", ".png", ".jpeg"] }
     },
 
+    // EDIT & ANNOTATE PDF
+    "edit-pdf": {
+      title: "Edit PDF Online",
+      description: "Add text, shapes, freehand drawings, highlights, redactions, and digital signatures to your PDF for free in your browser.",
+      subCategory: "Edit PDF",
+      inputFormat: "pdf",
+      outputFormat: "pdf",
+      actionName: "Edit PDF",
+      isInteractive: true,
+      acceptedTypes: { "application/pdf": [".pdf"] }
+    },
+
     // OPTIMIZE PDF
     "compress-pdf": {
       title: "Compress PDF",
@@ -746,6 +758,10 @@ export const SLUG_ALIASES: Record<string, string> = {
   "rotate-pdf-pages": "rotate-pdf",
   "images-to-pdf": "jpg-to-pdf",
   "image-to-pdf": "jpg-to-pdf",
+  "pdf-editor": "edit-pdf",
+  "annotate-pdf": "edit-pdf",
+  "sign-pdf": "edit-pdf",
+  "online-pdf-editor": "edit-pdf",
 };
 
 export function getToolBySlug(slug: string) {

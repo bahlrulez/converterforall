@@ -35,6 +35,7 @@ const QrScanner = dynamic(() => import("@/components/tools/qr-scanner").then(m =
 const PresentationMaker = dynamic(() => import("@/components/tools/presentation-maker").then(m => m.PresentationMaker), { ssr: false, loading: ToolLoading });
 const MergePdfTool = dynamic(() => import("@/components/tools/merge-pdf"), { ssr: false, loading: ToolLoading });
 const ScreenRecorder = dynamic(() => import("@/components/tools/screen-recorder").then(m => m.ScreenRecorder), { ssr: false, loading: ToolLoading });
+const PdfEditor = dynamic(() => import("@/components/tools/pdf-editor").then(m => m.PdfEditor), { ssr: false, loading: ToolLoading });
 
 interface ToolRendererProps {
   toolSlug: string;
@@ -80,6 +81,7 @@ export function ToolRenderer({
         {toolSlug === "presentation-maker" && <PresentationMaker />}
         {toolSlug === "merge-pdf" && <MergePdfTool />}
         {toolSlug === "screen-recorder" && <ScreenRecorder />}
+        {(toolSlug === "edit-pdf" || toolSlug === "pdf-editor" || toolSlug === "annotate-pdf" || toolSlug === "sign-pdf") && <PdfEditor />}
       </>
     );
   }
