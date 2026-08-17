@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import pptxgen from "pptxgenjs";
 import { cn } from "@/lib/utils";
+import { getAbstractSlideGraphic } from "@/lib/presentation-graphics";
 
 export type SlideLayout = "title" | "content" | "split" | "quote" | "metrics";
 
@@ -300,6 +301,29 @@ export function PresentationMaker() {
       .join("\n");
   };
 
+  // Helper to convert any image or fallback to guaranteed Base64 Data URL
+  const toPptxImage = async (src: string | undefined, title: string, accent: string, cardBg: string): Promise<string> => {
+    if (src && src.startsWith("data:")) {
+      return src;
+    }
+    if (src && (src.startsWith("http://") || src.startsWith("https://"))) {
+      try {
+        const res = await fetch(src);
+        if (res.ok) {
+          const blob = await res.blob();
+          return await new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          });
+        }
+      } catch {
+        // Network fallback
+      }
+    }
+    return getAbstractSlideGraphic(title, `#${accent}`, `#${cardBg}`);
+  };
+
   const generateWithAI = async () => {
     if (!aiPrompt.trim()) return;
     
@@ -330,7 +354,7 @@ export function PresentationMaker() {
           metric2Label: s.metric2Label || "Metric 2",
           metric3Value: s.metric3Value || "10x",
           metric3Label: s.metric3Label || "Metric 3",
-          image: s.image || (s.layout === "split" ? "https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&q=80" : undefined),
+          image: s.image || (s.layout === "split" ? getAbstractSlideGraphic(s.title || aiPrompt, "#2563EB", "#1E293B") : undefined),
         }));
         
         setSlides(parsedSlides);
@@ -486,17 +510,22 @@ export function PresentationMaker() {
             });
           }
 
-          // Right Image Container
-          if (slideData.image) {
-            try {
-              slide.addImage({ 
-                path: slideData.image,
-                x: "52%", y: "22%", w: "42%", h: "68%", 
-                sizing: { type: "cover", w: "42%", h: "68%" } 
-              });
-            } catch (err) {
-              console.warn("Failed to load slide image:", err);
-            }
+          // Right Image Container (Guaranteed Safe Base64)
+          try {
+            const safeImgData = await toPptxImage(
+              slideData.image, 
+              slideData.title, 
+              currentTheme.accent, 
+              currentTheme.cardBg
+            );
+            
+            slide.addImage({ 
+              data: safeImgData,
+              x: "52%", y: "22%", w: "42%", h: "68%", 
+              sizing: { type: "cover", w: "42%", h: "68%" } 
+            });
+          } catch (err) {
+            console.warn("Failed to render slide image, continuing without image:", err);
           }
         }
 
@@ -888,8 +917,15 @@ export function PresentationMaker() {
                 <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Side Image / Thematic Diagram</label>
                 <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-6 bg-white dark:bg-[#0a1128] flex flex-col items-center justify-center relative min-h-[160px]">
                   {activeSlide?.image ? (
-                    <div className="relative w-full h-40 flex items-center justify-center">
-                      <img src={activeSlide.image} alt="Slide Preview" className="max-h-full max-w-full object-cover rounded-xl shadow-md" />
+                    <div className="relative w-full h-44 flex items-center justify-center bg-slate-900/50 rounded-xl overflow-hidden">
+                      <img 
+                        src={activeSlide.image} 
+                        alt="Slide Preview" 
+                        onError={(e) => {
+                          e.currentTarget.src = getAbstractSlideGraphic(activeSlide.title, "#2563EB", "#1E293B");
+                        }}
+                        className="max-h-full max-w-full object-contain rounded-lg shadow-md" 
+                      />
                       <Button size="sm" variant="secondary" className="absolute bottom-2 right-2 text-xs shadow-md">
                         Change Image
                         <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleImageUpload} />
@@ -899,7 +935,7 @@ export function PresentationMaker() {
                     <>
                       <ImageIcon className="w-8 h-8 text-slate-400 mb-2" />
                       <p className="text-xs font-bold text-slate-700 dark:text-slate-300">Click to upload slide image</p>
-                      <p className="text-[11px] text-slate-400">Supports JPG, PNG, WEBP</p>
+                      <p className="text-[11px] text-slate-400">Supports JPG, PNG, WEBP, or SVG</p>
                       <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleImageUpload} />
                     </>
                   )}
