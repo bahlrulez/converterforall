@@ -25,6 +25,18 @@ export function FAQ() {
       badge: "100% Private",
     },
     {
+      question: "How does ConverterForAll use WebGPU and WebGL hardware acceleration?",
+      answer: "ConverterForAll utilizes the latest WebGPU and WebGL browser standards to offload heavy computational tasks directly to your graphics card (GPU). For tasks like AI background removal and video sequence extraction, this delivers up to 10x faster processing speeds, keeps your CPU cool, and eliminates waiting in queues.",
+      category: "General & Privacy",
+      badge: "WebGPU / WebGL",
+    },
+    {
+      question: "What happens if my phone or browser does not support WebGPU?",
+      answer: "ConverterForAll features an intelligent zero-error automatic fallback pipeline. If your device or browser does not support WebGPU, the application automatically and seamlessly switches to hardware-accelerated WebGL or multi-threaded CPU WebAssembly (WASM SIMD) with zero interruption or errors.",
+      category: "General & Privacy",
+      badge: "Smart Fallback",
+    },
+    {
       question: "Why is ConverterForAll completely free with no file size limits or watermarks?",
       answer: "Traditional converter websites pay hefty fees for cloud servers and bandwidth to host your files, forcing them to charge monthly subscriptions or enforce strict 10MB limits. Because ConverterForAll uses your device's native hardware processor to convert files locally, we don't have server hosting costs—allowing us to provide completely free, unlimited, and watermark-free conversions forever.",
       category: "General & Privacy",

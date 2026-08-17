@@ -13,11 +13,22 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.converterforall.com"),
   title: {
-    default: "Private Online File Converter | 100% In-Browser & Serverless",
+    default: "Free Private File Converter | WebGPU, WebGL & In-Browser WASM",
     template: "%s | ConverterForAll"
   },
-  description: "Experience the next-gen client-side file converter. Process documents, images, and video directly in your browser with zero uploads and absolute privacy.",
-  keywords: ["private file converter", "client-side converter", "in-browser file conversion", "serverless converter", "secure file converter", "free offline converter"],
+  description: "Next-gen client-side file converter powered by WebGPU, WebGL, and WebAssembly. Convert PDFs, images, videos, audio, and Indic fonts locally on your device with zero cloud uploads and total privacy.",
+  keywords: [
+    "WebGPU file converter",
+    "WebGL image converter",
+    "private file converter",
+    "client-side file converter",
+    "AI background remover WebGPU",
+    "Kruti Dev to Unicode Mangal",
+    "in-browser video compressor",
+    "free PDF converter no upload",
+    "serverless file conversion",
+    "100% offline file tools"
+  ],
   alternates: {
     canonical: '/',
   },
@@ -27,8 +38,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://www.converterforall.com",
     siteName: "ConverterForAll",
-    title: "100% Private File Converter — Process Entirely on Your Device",
-    description: "Experience the next-gen client-side file converter. Process documents, images, and video directly in your browser with zero uploads and absolute privacy.",
+    title: "100% Private File Converter — WebGPU & In-Browser WASM Engine",
+    description: "Convert PDFs, images, videos, audio, and regional Indic fonts directly on your device using WebGPU and WebAssembly. Zero cloud uploads, total privacy.",
     images: [
       {
         url: "/og-image.jpg",
@@ -40,8 +51,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Serverless File Converter: Fast, Free, and 100% Private",
-    description: "Experience the next-gen client-side file converter. Process documents, images, and video directly in your browser with zero uploads and absolute privacy.",
+    title: "WebGPU & WASM File Converter: 100% Private, Fast & Free",
+    description: "Convert PDFs, images, videos, and fonts locally on your device using WebGPU hardware acceleration. Zero server uploads.",
     images: ["/og-image.jpg"],
   },
   robots: {
