@@ -301,27 +301,54 @@ export function PresentationMaker() {
       .join("\n");
   };
 
-  // Helper to convert any image or fallback to guaranteed Base64 Data URL
+  // Helper to convert any SVG/URL into a genuine 100% PowerPoint-supported PNG Base64 bitmap
   const toPptxImage = async (src: string | undefined, title: string, accent: string, cardBg: string): Promise<string> => {
-    if (src && src.startsWith("data:")) {
-      return src;
+    let sourceUrl = src;
+    if (!sourceUrl) {
+      sourceUrl = getAbstractSlideGraphic(title, `#${accent}`, `#${cardBg}`);
     }
-    if (src && (src.startsWith("http://") || src.startsWith("https://"))) {
-      try {
-        const res = await fetch(src);
-        if (res.ok) {
-          const blob = await res.blob();
-          return await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.readAsDataURL(blob);
-          });
+
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = 800;
+          canvas.height = 600;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, 800, 600);
+            const pngData = canvas.toDataURL("image/png");
+            resolve(pngData);
+            return;
+          }
+        } catch (err) {
+          console.warn("Canvas rasterization error:", err);
         }
-      } catch {
-        // Network fallback
-      }
-    }
-    return getAbstractSlideGraphic(title, `#${accent}`, `#${cardBg}`);
+        resolve(sourceUrl || "");
+      };
+      img.onerror = () => {
+        // Fallback to basic abstract SVG converted on canvas
+        const fallbackSvg = getAbstractSlideGraphic(title, `#${accent}`, `#${cardBg}`);
+        const fallbackImg = new Image();
+        fallbackImg.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = 800;
+          canvas.height = 600;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(fallbackImg, 0, 0, 800, 600);
+            resolve(canvas.toDataURL("image/png"));
+          } else {
+            resolve("");
+          }
+        };
+        fallbackImg.onerror = () => resolve("");
+        fallbackImg.src = fallbackSvg;
+      };
+      img.src = sourceUrl;
+    });
   };
 
   const generateWithAI = async () => {
@@ -677,46 +704,7 @@ export function PresentationMaker() {
         </div>
       </div>
 
-      {/* 2. Ready-Made Designer Deck Templates */}
-      <div className="p-6 rounded-3xl bg-white dark:bg-[#0a1128]/95 border border-slate-200/90 dark:border-slate-800 shadow-sm">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
-          <Palette className="w-4 h-4" />
-          <span>1-Click Designer Template Decks</span>
-        </div>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
-          Instantly load a complete, pre-formatted deck with abstract layouts, images, and copy.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {TEMPLATE_DECKS.map((deck) => {
-            const Icon = deck.icon;
-            return (
-              <button
-                key={deck.id}
-                onClick={() => applyTemplateDeck(deck)}
-                className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#080e22] border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/60 hover:shadow-md text-left transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white mb-1">
-                    {deck.name}
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">
-                    {deck.desc}
-                  </p>
-                </div>
-                <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 mt-3 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                  Load Deck →
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 3. Studio Workspace & 16:9 Canvas Editor */}
+      {/* Studio Workspace & 16:9 Canvas Editor */}
       <div className="flex flex-col lg:flex-row gap-6 w-full min-h-[650px] rounded-3xl overflow-hidden border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0a1128]/95 p-4 sm:p-6 shadow-xl">
         
         {/* Left Sidebar: Slides Navigation & Thumbnails */}
