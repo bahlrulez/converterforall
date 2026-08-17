@@ -19,6 +19,27 @@ export const toolsDatabase = {
       outputFormat: "png",
       acceptedTypes: { "image/webp": [".webp"] }
     },
+    "webp-to-jpg": {
+      title: "Convert WEBP to JPG",
+      description: "Fast, secure, and high-quality WEBP to JPG image conversion.",
+      inputFormat: "webp",
+      outputFormat: "jpg",
+      acceptedTypes: { "image/webp": [".webp"] }
+    },
+    "pdf-to-jpg": {
+      title: "Convert PDF to JPG",
+      description: "Convert PDF document pages to high-quality JPG images.",
+      inputFormat: "pdf",
+      outputFormat: "jpg",
+      acceptedTypes: { "application/pdf": [".pdf"] }
+    },
+    "pdf-to-png": {
+      title: "Convert PDF to PNG",
+      description: "Convert PDF document pages to clear PNG images.",
+      inputFormat: "pdf",
+      outputFormat: "png",
+      acceptedTypes: { "application/pdf": [".pdf"] }
+    },
     "jpg-to-png": {
       title: "Convert JPG to PNG",
       description: "Convert your JPG images to PNG format instantly.",
@@ -147,6 +168,15 @@ export const toolsDatabase = {
       inputFormat: "pdf",
       outputFormat: "pdf",
       actionName: "Organize PDF",
+      acceptedTypes: { "application/pdf": [".pdf"] }
+    },
+    "rotate-pdf": {
+      title: "Rotate PDF",
+      description: "Rotate your PDF pages 90, 180, or 270 degrees clockwise.",
+      subCategory: "Organize PDF",
+      inputFormat: "pdf",
+      outputFormat: "pdf",
+      actionName: "Rotate PDF",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "scan-to-pdf": {
@@ -613,6 +643,7 @@ export const toolsDatabase = {
 
 // SEO & Routing Slug Aliases (Resolves alternative URLs without duplicate cards in directories)
 export const SLUG_ALIASES: Record<string, string> = {
+  // Font Aliases
   "kruti-dev-010-to-unicode": "krutidev-to-unicode",
   "kruti-dev-to-unicode": "krutidev-to-unicode",
   "krutidev-to-mangal": "krutidev-to-unicode",
@@ -628,6 +659,26 @@ export const SLUG_ALIASES: Record<string, string> = {
   "inpage-to-urdu-unicode": "inpage-to-unicode",
   "inpage-urdu-to-unicode": "inpage-to-unicode",
   "urdu-unicode-to-inpage": "unicode-to-inpage",
+
+  // Image & Utility Aliases
+  "background-remover": "remove-background",
+  "remove-bg": "remove-background",
+  "webp-to-jpeg": "webp-to-jpg",
+  "image-compressor": "compress-jpg",
+  "image-resizer": "passport-photo-maker",
+  "image-cropper": "passport-photo-maker",
+  "gif-maker": "video-to-jpg",
+  "video-to-gif": "video-to-jpg",
+  "video-compressor": "compress-video",
+
+  // PDF Aliases
+  "pdf-compressor": "compress-pdf",
+  "pdf-page-remover": "remove-pages",
+  "remove-pdf-pages": "remove-pages",
+  "pdf-page-extractor": "extract-pages",
+  "extract-pdf-pages": "extract-pages",
+  "pdf-rotator": "rotate-pdf",
+  "rotate-pdf-pages": "rotate-pdf",
 };
 
 export function getToolBySlug(slug: string) {
