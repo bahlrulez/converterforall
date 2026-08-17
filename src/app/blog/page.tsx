@@ -1,13 +1,19 @@
 import { Metadata } from "next";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Sparkles, Shield, Cpu, Zap } from "lucide-react";
 import { posts } from "@/lib/blog-data";
-import { BlogCard } from "./blog-card";
+import { BlogClient } from "./blog-client";
 
 export const metadata: Metadata = {
-  title: "Blog & Conversion Guides | ConverterForAll",
-  description: "Read the latest articles on file conversion, productivity, tech trends, and privacy from the ConverterForAll team.",
+  title: "Blog & File Conversion Guides | 100% Free & Private | ConverterForAll",
+  description: "Explore free in-depth guides, PDF workflows, image optimization tutorials, Hindi/Punjabi Unicode conversion tips, and privacy-first tech insights from ConverterForAll.",
   alternates: {
     canonical: "https://converterforall.com/blog",
+  },
+  openGraph: {
+    title: "Blog & File Conversion Guides | ConverterForAll",
+    description: "Explore free in-depth guides on PDF conversion, background removal, legacy font translation to Unicode, and 100% private local tools.",
+    type: "website",
+    url: "https://converterforall.com/blog",
   }
 };
 
@@ -39,46 +45,60 @@ export default function BlogIndex() {
       "description": post.excerpt,
       "author": {
         "@type": "Organization",
-        "name": "ConverterForAll Team"
+        "name": "ConverterForAll Editorial Team"
       }
     }))
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      {/* Background ambient light */}
-      <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none -z-10"></div>
+      {/* Background ambient lighting */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
-      {/* Hero Section */}
-      <div className="relative border-b border-border/40 overflow-hidden bg-background/50 backdrop-blur-xl">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10"></div>
-        <div className="container relative mx-auto px-4 py-24 max-w-5xl text-center">
-          <div className="inline-flex items-center justify-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary mb-8 ring-1 ring-inset ring-primary/20 shadow-[0_0_20px_rgba(37,99,235,0.1)] hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] transition-shadow duration-500 cursor-default">
-            <BookOpen className="mr-2 h-4 w-4 animate-pulse" />
-            Learn & Discover
+      {/* Hero Header Section */}
+      <div className="relative pt-16 pb-20 border-b border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
+        <div className="container mx-auto px-4 max-w-5xl text-center relative z-10">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-6 shadow-sm">
+            <BookOpen className="w-3.5 h-3.5 animate-pulse" />
+            <span>High-Impact Privacy &amp; Conversion Guides</span>
           </div>
-          <h1 className="text-5xl font-extrabold tracking-tight lg:text-7xl mb-8 bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-secondary animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            The ConverterForAll Blog
+
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15] mb-6">
+            The ConverterForAll{" "}
+            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 dark:from-blue-400 dark:via-indigo-300 dark:to-sky-400 bg-clip-text text-transparent">
+              Blog &amp; Knowledge Base
+            </span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150">
-            Insights, guides, and tech news to help you work faster, secure your privacy, and master your digital files.
+
+          <p className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
+            Practical tutorials, font conversion manuals, privacy deep-dives, and productivity workflows to help you master your digital files.
           </p>
+
+          {/* Quick Trust Highlights */}
+          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-medium text-slate-500 dark:text-slate-400">
+            <div className="flex items-center gap-1.5">
+              <Shield className="w-4 h-4 text-emerald-500" />
+              <span>100% Client-Side Privacy</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Zap className="w-4 h-4 text-amber-500" />
+              <span>No Cloud Uploads</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Cpu className="w-4 h-4 text-blue-500" />
+              <span>Free Forever</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Blog Grid */}
-      <div className="container mx-auto px-4 py-20 max-w-7xl relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sortedPosts.map((post, i) => (
-            <BlogCard key={post.slug} post={post} index={i} />
-          ))}
-        </div>
-      </div>
+      {/* Interactive Blog Cards & Category Filters */}
+      <BlogClient initialPosts={sortedPosts} />
     </div>
   );
 }
