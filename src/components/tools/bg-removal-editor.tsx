@@ -8,13 +8,14 @@ import {
   Eraser, 
   RotateCcw, 
   Undo2, 
-  Download, 
   Sparkles, 
   Eye, 
   ZoomIn, 
   ZoomOut,
+  Maximize2,
   Check,
-  X
+  X,
+  Move
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -35,13 +36,18 @@ export function BgRemovalEditor({
 }: BgRemovalEditorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [tool, setTool] = useState<"restore" | "erase">("restore");
+  const [tool, setTool] = useState<"restore" | "erase" | "pan">("restore");
   const [brushSize, setBrushSize] = useState<number>(35);
+  const [zoom, setZoom] = useState<number>(1);
+  const [panOffset, setPanOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isDrawing, setIsDrawing] = useState(false);
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  
   const [history, setHistory] = useState<ImageData[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
   const [showOriginal, setShowOriginal] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [cursorPos, setCursorPos] = useState<{ x: number; y: number; visible: boolean }>({ x: 0, y: 0, visible: false });
 
   // Stored image elements
   const originalImgRef = useRef<HTMLImageElement | null>(null);
@@ -104,8 +110,6 @@ export function BgRemovalEditor({
             setHistoryIndex(0);
           }
         }
-
-        setIsLoaded(true);
       } catch (err) {
         console.error("Failed to load images in editor:", err);
       }
@@ -129,8 +133,7 @@ export function BgRemovalEditor({
     const newHistory = history.slice(0, historyIndex + 1);
     newHistory.push(data);
     
-    // Keep max 15 states to avoid memory bloat
-    if (newHistory.length > 15) {
+    if (newHistory.length > 20) {
       newHistory.shift();
     }
     
@@ -185,6 +188,7 @@ export function BgRemovalEditor({
 
   // Perform drawing (Restore or Erase)
   const draw = (coords: { x: number; y: number }) => {
+    if (tool === "pan") return;
     const canvas = canvasRef.current;
     const origCanvas = offscreenOrigCanvasRef.current;
     if (!canvas || !origCanvas) return;
@@ -203,7 +207,6 @@ export function BgRemovalEditor({
       ctx.fill();
       ctx.restore();
     } else if (tool === "restore") {
-      // Restore pixels from original image with smooth circular feathering
       const startX = Math.max(0, Math.floor(coords.x - radius));
       const startY = Math.max(0, Math.floor(coords.y - radius));
       const endX = Math.min(canvas.width, Math.ceil(coords.x + radius));
@@ -227,7 +230,6 @@ export function BgRemovalEditor({
 
           if (dist <= radius) {
             const idx = (y * width + x) * 4;
-            // Smooth feather calculation
             const factor = 1 - (dist / radius);
             const strength = Math.min(1, Math.max(0, factor * 1.5));
 
@@ -235,7 +237,6 @@ export function BgRemovalEditor({
             cD[idx + 1] = oD[idx + 1]; // Green
             cD[idx + 2] = oD[idx + 2]; // Blue
             
-            // Bring back alpha opacity
             const targetAlpha = oD[idx + 3];
             cD[idx + 3] = Math.max(cD[idx + 3], Math.round(targetAlpha * strength));
           }
@@ -247,18 +248,49 @@ export function BgRemovalEditor({
   };
 
   const handlePointerDown = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    if (tool === "pan") {
+      setIsPanning(true);
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+      setPanStart({ x: clientX - panOffset.x, y: clientY - panOffset.y });
+      return;
+    }
+
     setIsDrawing(true);
     const coords = getCoordinates(e);
     draw(coords);
   };
 
   const handlePointerMove = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      setCursorPos({
+        x: clientX - rect.left,
+        y: clientY - rect.top,
+        visible: true
+      });
+    }
+
+    if (isPanning) {
+      setPanOffset({
+        x: clientX - panStart.x,
+        y: clientY - panStart.y
+      });
+      return;
+    }
+
     if (!isDrawing) return;
     const coords = getCoordinates(e);
     draw(coords);
   };
 
   const handlePointerUp = () => {
+    if (isPanning) {
+      setIsPanning(false);
+    }
     if (isDrawing) {
       setIsDrawing(false);
       pushState();
@@ -277,7 +309,7 @@ export function BgRemovalEditor({
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = downloadName.replace(/\.[^/.]+$/, "") + "-touched-up.png";
+        a.download = downloadName.replace(/\.[^/.]+$/, "") + "-perfected.png";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -286,26 +318,33 @@ export function BgRemovalEditor({
     }, "image/png");
   };
 
+  const handleFitScreen = () => {
+    setZoom(1);
+    setPanOffset({ x: 0, y: 0 });
+  };
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-between p-3 sm:p-6 overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex flex-col justify-between p-2 sm:p-4 overflow-hidden select-none">
+      
       {/* Top Header Bar */}
-      <div className="w-full max-w-5xl flex items-center justify-between bg-slate-900/90 border border-slate-800 rounded-2xl px-4 py-3 shadow-xl z-10">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white">
+      <div className="w-full max-w-6xl mx-auto flex items-center justify-between bg-slate-900/90 border border-slate-800 rounded-2xl px-4 py-2.5 shadow-xl z-20">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-white leading-tight">Touch-Up Studio</h3>
-            <p className="text-[11px] text-slate-400">Restore clipped clothes/turban or erase unwanted background</p>
+            <h3 className="text-sm font-extrabold text-white tracking-tight leading-tight">Touch-Up Studio</h3>
+            <p className="text-[11px] text-slate-400">Restore turban/clothes or clean edges with full image view</p>
           </div>
         </div>
 
+        {/* Action Buttons */}
         <div className="flex items-center gap-2">
           <Button
             size="sm"
             variant="outline"
             onClick={onClose}
-            className="border-slate-700 bg-slate-800/80 text-slate-300 hover:bg-slate-700 hover:text-white text-xs h-8"
+            className="border-slate-700 bg-slate-800/90 text-slate-300 hover:bg-slate-700 hover:text-white text-xs h-8"
           >
             <X className="w-3.5 h-3.5 mr-1" />
             Cancel
@@ -321,43 +360,105 @@ export function BgRemovalEditor({
         </div>
       </div>
 
-      {/* Main Canvas Viewport */}
+      {/* Main Canvas Workspace with Viewport Fit & Zoom */}
       <div 
         ref={containerRef}
-        className="relative flex-1 w-full max-w-5xl my-4 rounded-2xl overflow-hidden border border-slate-800 flex items-center justify-center"
+        onMouseLeave={() => setCursorPos((p) => ({ ...p, visible: false }))}
+        className="relative flex-1 w-full max-w-6xl mx-auto my-2 rounded-2xl overflow-hidden border border-slate-800/80 flex items-center justify-center cursor-default"
         style={{
-          backgroundColor: "#0d1322",
-          backgroundImage: "linear-gradient(45deg, #151e36 25%, transparent 25%), linear-gradient(-45deg, #151e36 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #151e36 75%), linear-gradient(-45deg, transparent 75%, #151e36 75%)",
-          backgroundSize: "20px 20px",
-          backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px"
+          backgroundColor: "#070c18",
+          backgroundImage: "linear-gradient(45deg, #0e172c 25%, transparent 25%), linear-gradient(-45deg, #0e172c 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #0e172c 75%), linear-gradient(-45deg, transparent 75%, #0e172c 75%)",
+          backgroundSize: "24px 24px",
+          backgroundPosition: "0 0, 0 12px, 12px -12px, -12px 0px"
         }}
       >
-        <canvas
-          ref={canvasRef}
-          onMouseDown={handlePointerDown}
-          onMouseMove={handlePointerMove}
-          onMouseUp={handlePointerUp}
-          onMouseLeave={handlePointerUp}
-          onTouchStart={handlePointerDown}
-          onTouchMove={handlePointerMove}
-          onTouchEnd={handlePointerUp}
-          className={cn(
-            "max-w-full max-h-[65vh] object-contain cursor-crosshair drop-shadow-2xl transition-opacity",
-            showOriginal && "opacity-0 pointer-events-none"
-          )}
-        />
+        {/* Floating Zoom & Pan Controls Widget */}
+        <div className="absolute top-3 right-3 z-30 flex items-center gap-1 bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-xl p-1 shadow-lg">
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => setZoom((z) => Math.min(3, z + 0.25))}
+            className="w-7 h-7 text-slate-300 hover:text-white"
+            title="Zoom In"
+          >
+            <ZoomIn className="w-3.5 h-3.5" />
+          </Button>
+          <span className="text-[11px] font-bold text-slate-400 px-1">{Math.round(zoom * 100)}%</span>
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => setZoom((z) => Math.max(0.5, z - 0.25))}
+            className="w-7 h-7 text-slate-300 hover:text-white"
+            title="Zoom Out"
+          >
+            <ZoomOut className="w-3.5 h-3.5" />
+          </Button>
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={handleFitScreen}
+            className="w-7 h-7 text-slate-300 hover:text-white"
+            title="Fit to Screen (100%)"
+          >
+            <Maximize2 className="w-3.5 h-3.5" />
+          </Button>
+        </div>
 
-        {showOriginal && originalImgRef.current && (
-          <img
-            src={originalImgRef.current.src}
-            alt="Original Reference"
-            className="absolute inset-0 m-auto max-w-full max-h-[65vh] object-contain pointer-events-none drop-shadow-2xl"
+        {/* The Scaled Canvas Element */}
+        <div
+          style={{
+            transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
+            transformOrigin: "center center",
+            transition: isPanning || isDrawing ? "none" : "transform 0.15s ease-out"
+          }}
+          className="relative max-w-full max-h-[72vh] flex items-center justify-center p-2"
+        >
+          <canvas
+            ref={canvasRef}
+            onMouseDown={handlePointerDown}
+            onMouseMove={handlePointerMove}
+            onMouseUp={handlePointerUp}
+            onMouseLeave={handlePointerUp}
+            onTouchStart={handlePointerDown}
+            onTouchMove={handlePointerMove}
+            onTouchEnd={handlePointerUp}
+            className={cn(
+              "max-w-full max-h-[70vh] object-contain drop-shadow-2xl cursor-crosshair",
+              tool === "pan" && "cursor-grab active:cursor-grabbing",
+              showOriginal && "opacity-0 pointer-events-none"
+            )}
+          />
+
+          {showOriginal && originalImgRef.current && (
+            <img
+              src={originalImgRef.current.src}
+              alt="Original Reference"
+              className="absolute inset-0 m-auto max-w-full max-h-[70vh] object-contain pointer-events-none drop-shadow-2xl"
+            />
+          )}
+        </div>
+
+        {/* Live Circular Brush Size Indicator Overlay */}
+        {cursorPos.visible && tool !== "pan" && (
+          <div
+            className={cn(
+              "pointer-events-none absolute rounded-full border-2 transform -translate-x-1/2 -translate-y-1/2 transition-opacity z-40",
+              tool === "restore" 
+                ? "border-emerald-400 bg-emerald-400/15" 
+                : "border-rose-400 bg-rose-400/15"
+            )}
+            style={{
+              left: `${cursorPos.x}px`,
+              top: `${cursorPos.y}px`,
+              width: `${(brushSize * 2 * zoom) * 0.75}px`,
+              height: `${(brushSize * 2 * zoom) * 0.75}px`,
+            }}
           />
         )}
       </div>
 
       {/* Bottom Floating Control Bar */}
-      <div className="w-full max-w-5xl bg-slate-900/95 border border-slate-800 rounded-2xl p-3 sm:p-4 shadow-2xl flex flex-wrap items-center justify-between gap-4 z-10">
+      <div className="w-full max-w-6xl mx-auto bg-slate-900/95 border border-slate-800 rounded-2xl p-3 shadow-2xl flex flex-wrap items-center justify-between gap-3 z-20">
         
         {/* Tool Selectors */}
         <div className="flex items-center gap-2">
@@ -365,33 +466,47 @@ export function BgRemovalEditor({
             size="sm"
             onClick={() => setTool("restore")}
             className={cn(
-              "h-9 px-3.5 font-bold text-xs transition-all",
+              "h-8 sm:h-9 px-3 font-bold text-xs transition-all",
               tool === "restore" 
                 ? "bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-500/20" 
                 : "bg-slate-800 border border-slate-700 text-slate-300 hover:text-white"
             )}
           >
-            <Paintbrush className="w-4 h-4 mr-1.5 text-emerald-300" />
-            Restore (Brush)
+            <Paintbrush className="w-3.5 h-3.5 mr-1.5 text-emerald-300" />
+            Restore (Turban/Coat)
           </Button>
 
           <Button
             size="sm"
             onClick={() => setTool("erase")}
             className={cn(
-              "h-9 px-3.5 font-bold text-xs transition-all",
+              "h-8 sm:h-9 px-3 font-bold text-xs transition-all",
               tool === "erase" 
                 ? "bg-rose-600 hover:bg-rose-500 text-white shadow-md shadow-rose-500/20" 
                 : "bg-slate-800 border border-slate-700 text-slate-300 hover:text-white"
             )}
           >
-            <Eraser className="w-4 h-4 mr-1.5 text-rose-300" />
+            <Eraser className="w-3.5 h-3.5 mr-1.5 text-rose-300" />
             Erase (Bg)
+          </Button>
+
+          <Button
+            size="sm"
+            onClick={() => setTool("pan")}
+            className={cn(
+              "h-8 sm:h-9 px-3 font-bold text-xs transition-all",
+              tool === "pan" 
+                ? "bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-500/20" 
+                : "bg-slate-800 border border-slate-700 text-slate-300 hover:text-white"
+            )}
+          >
+            <Move className="w-3.5 h-3.5 mr-1.5 text-blue-300" />
+            Pan / Move
           </Button>
         </div>
 
         {/* Brush Size Slider */}
-        <div className="flex items-center gap-3 min-w-[200px] max-w-xs flex-1">
+        <div className="flex items-center gap-2.5 min-w-[170px] max-w-xs flex-1">
           <span className="text-xs font-semibold text-slate-300 shrink-0">Size: {brushSize}px</span>
           <Slider
             value={[brushSize]}
@@ -407,13 +522,13 @@ export function BgRemovalEditor({
         </div>
 
         {/* Action Controls (Undo, Reset, Hold to Preview Original) */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <Button
             size="sm"
             variant="outline"
             onClick={handleUndo}
             disabled={historyIndex <= 0}
-            className="h-9 border-slate-700 bg-slate-800 text-slate-300 hover:text-white text-xs disabled:opacity-40"
+            className="h-8 sm:h-9 border-slate-700 bg-slate-800 text-slate-300 hover:text-white text-xs disabled:opacity-40"
             title="Undo"
           >
             <Undo2 className="w-3.5 h-3.5 mr-1" />
@@ -424,7 +539,7 @@ export function BgRemovalEditor({
             size="sm"
             variant="outline"
             onClick={handleReset}
-            className="h-9 border-slate-700 bg-slate-800 text-slate-300 hover:text-white text-xs"
+            className="h-8 sm:h-9 border-slate-700 bg-slate-800 text-slate-300 hover:text-white text-xs"
             title="Reset to initial AI result"
           >
             <RotateCcw className="w-3.5 h-3.5 mr-1" />
@@ -438,7 +553,7 @@ export function BgRemovalEditor({
             onMouseUp={() => setShowOriginal(false)}
             onTouchStart={() => setShowOriginal(true)}
             onTouchEnd={() => setShowOriginal(false)}
-            className="h-9 border-slate-700 bg-slate-800 text-slate-300 hover:text-white text-xs select-none active:bg-blue-600 active:text-white"
+            className="h-8 sm:h-9 border-slate-700 bg-slate-800 text-slate-300 hover:text-white text-xs select-none active:bg-blue-600 active:text-white"
             title="Hold to view original image"
           >
             <Eye className="w-3.5 h-3.5 mr-1 text-blue-400" />

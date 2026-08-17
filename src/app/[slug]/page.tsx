@@ -20,7 +20,7 @@ import ImageCompressor from "@/components/tools/image-compressor";
 import { QrScanner } from "@/components/tools/qr-scanner";
 import { PresentationMaker } from "@/components/tools/presentation-maker";
 import MergePdfTool from "@/components/tools/merge-pdf";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Zap, Sparkles, CheckCircle2, Cpu, HelpCircle, Layers } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getToolBySlug } from "@/lib/tools-db";
@@ -36,12 +36,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${toolData.tool.title} - Free Online Converter`,
-    description: toolData.tool.description,
+    title: `${toolData.tool.title} | 100% Free & Private Online Tool`,
+    description: `${toolData.tool.description} Fast, secure, client-side conversion powered by in-browser WebAssembly & WebGPU hardware acceleration.`,
     openGraph: {
       title: `${toolData.tool.title} - Free Online Converter`,
       description: toolData.tool.description,
       type: "website",
+      url: `https://converterforall.com/${resolvedParams.slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -122,76 +123,121 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     }
   };
 
+  const contentSections = getToolContent(toolSlug, tool.title, tool.description);
+
   return (
-    <div className="container mx-auto px-4 py-12 max-w-5xl">
-      {/* Inject JSON-LD Schemas */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
+    <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden py-10">
+      {/* Top Ambient Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[350px] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
-      <div className="mb-12 print:hidden flex flex-col items-center text-center">
-        <Link href="/" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary mb-8 transition-colors bg-muted/50 px-4 py-1.5 rounded-full backdrop-blur-sm border border-border/50">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to all tools
-        </Link>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-blue-500 to-purple-600">
-          {tool.title}
-        </h1>
-        <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          {tool.description}
-        </p>
-      </div>
+      <div className="container mx-auto px-4 max-w-5xl relative z-10">
+        {/* Inject JSON-LD Schemas */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
 
-      <div className="relative mb-20">
-        {/* Ambient Glow Effects */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[80%] max-w-3xl h-[80%] blur-[100px] opacity-30 dark:opacity-20 pointer-events-none">
-          <div className="w-full h-full bg-gradient-to-tr from-primary via-blue-400 to-purple-500 rounded-full" />
+        {/* Hero Header Section */}
+        <div className="mb-10 print:hidden flex flex-col items-center text-center">
+          <Link 
+            href="/" 
+            className="inline-flex items-center text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-6 transition-all bg-white dark:bg-[#0a1128]/80 px-4 py-2 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
+          >
+            <ArrowLeft className="mr-2 h-3.5 w-3.5" />
+            <span>Back to All 150+ Tools</span>
+          </Link>
+
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>100% Free &amp; Private On-Device Tool</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-slate-900 dark:text-white leading-[1.15]">
+            {tool.title}
+          </h1>
+          
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed mb-6">
+            {tool.description}
+          </p>
+
+          {/* Quick Trust Highlights Strip */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+              <span>Zero Cloud Uploads</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <Zap className="w-3.5 h-3.5 text-amber-500" />
+              <span>WebGPU Hardware Speed</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
+              <span>Unlimited &amp; Free Forever</span>
+            </span>
+          </div>
         </div>
 
-        <div className={`${(tool as any).isInteractive ? '' : 'bg-background/60 backdrop-blur-xl rounded-3xl p-6 sm:p-12 border border-border/50 shadow-2xl'} relative z-10`}>
-        {(tool as any).isInteractive ? (
-          <>
-            {toolSlug === "live-ruler" && <LiveRuler />}
-            {toolSlug === "camera-measure" && <CameraMeasure />}
-            {toolSlug === "age-calculator" && <AgeCalculator />}
-            {toolSlug === "qr-generator" && <QRGenerator />}
-            {toolSlug === "barcode-generator" && <BarcodeGenerator />}
-            {toolSlug === "password-generator" && <PasswordGenerator />}
-            {toolSlug === "fuel-calculator" && <FuelCalculator />}
-            {toolSlug === "mileage-calculator" && <MileageCalculator />}
-            {(tool as any).converterType === "length" && <LengthConverter defaultFrom={defaultFrom} defaultTo={defaultTo} />}
-            {(tool as any).converterType === "font" && <FontConverter defaultFrom={defaultFontFrom} defaultTo={defaultFontTo} category={(tool as any).fontCategory} />}
-            {(tool as any).converterType === "font-detector" && <FontDetector />}
-            {(tool as any).converterType === "unicode-tools" && <UnicodeTools toolType={(tool as any).toolType} />}
-            {toolSlug === "passport-photo-maker" && <PassportMaker />}
-            {toolSlug === "ocr-pdf" && <OcrPdfTool />}
-            {toolSlug === "repair-pdf" && <RepairPdfTool />}
-            {toolSlug === "pdf-to-word" && <PdfToWordTool />}
-            {toolSlug === "word-to-pdf" && <WordToPdfTool />}
-            {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
-            {toolSlug === "qr-scanner" && <QrScanner />}
-            {toolSlug === "presentation-maker" && <PresentationMaker />}
-            {toolSlug === "merge-pdf" && <MergePdfTool />}
-          </>
-        ) : (
-          <ToolEngine 
-            category={categorySlug}
-            toolSlug={toolSlug}
-            acceptedTypes={tool.acceptedTypes}
-            targetFormat={tool.outputFormat}
-            actionLabel={(tool as any).actionName}
-          />
-        )}
-        </div>
-      </div>
+        {/* Main Interactive Tool Engine Box */}
+        <div className="relative mb-16">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[90%] max-w-3xl h-[85%] blur-[90px] opacity-25 dark:opacity-15 pointer-events-none">
+            <div className="w-full h-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-500 rounded-full" />
+          </div>
 
-      <article className="prose prose-slate dark:prose-invert max-w-none prose-lg print:hidden">
-        {getToolContent(toolSlug, tool.title, tool.description).map((section, index) => (
-          <section key={index} className="mb-12">
-            <h2>{section.title}</h2>
-            <div dangerouslySetInnerHTML={{ __html: section.content }} />
-          </section>
-        ))}
-      </article>
+          <div className={`${(tool as any).isInteractive ? '' : 'bg-white/90 dark:bg-[#080e22]/95 backdrop-blur-xl rounded-3xl p-5 sm:p-10 border border-slate-200/90 dark:border-slate-800 shadow-xl'} relative z-10`}>
+          {(tool as any).isInteractive ? (
+            <>
+              {toolSlug === "live-ruler" && <LiveRuler />}
+              {toolSlug === "camera-measure" && <CameraMeasure />}
+              {toolSlug === "age-calculator" && <AgeCalculator />}
+              {toolSlug === "qr-generator" && <QRGenerator />}
+              {toolSlug === "barcode-generator" && <BarcodeGenerator />}
+              {toolSlug === "password-generator" && <PasswordGenerator />}
+              {toolSlug === "fuel-calculator" && <FuelCalculator />}
+              {toolSlug === "mileage-calculator" && <MileageCalculator />}
+              {(tool as any).converterType === "length" && <LengthConverter defaultFrom={defaultFrom} defaultTo={defaultTo} />}
+              {(tool as any).converterType === "font" && <FontConverter defaultFrom={defaultFontFrom} defaultTo={defaultFontTo} category={(tool as any).fontCategory} />}
+              {(tool as any).converterType === "font-detector" && <FontDetector />}
+              {(tool as any).converterType === "unicode-tools" && <UnicodeTools toolType={(tool as any).toolType} />}
+              {toolSlug === "passport-photo-maker" && <PassportMaker />}
+              {toolSlug === "ocr-pdf" && <OcrPdfTool />}
+              {toolSlug === "repair-pdf" && <RepairPdfTool />}
+              {toolSlug === "pdf-to-word" && <PdfToWordTool />}
+              {toolSlug === "word-to-pdf" && <WordToPdfTool />}
+              {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
+              {toolSlug === "qr-scanner" && <QrScanner />}
+              {toolSlug === "presentation-maker" && <PresentationMaker />}
+              {toolSlug === "merge-pdf" && <MergePdfTool />}
+            </>
+          ) : (
+            <ToolEngine 
+              category={categorySlug}
+              toolSlug={toolSlug}
+              acceptedTypes={tool.acceptedTypes}
+              targetFormat={tool.outputFormat}
+              actionLabel={(tool as any).actionName}
+            />
+          )}
+          </div>
+        </div>
+
+        {/* Structured SEO Guide & Bento Information Sections */}
+        <div className="space-y-8 print:hidden">
+          {contentSections.map((section, index) => (
+            <div 
+              key={index} 
+              className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0a1128]/95 border border-slate-200/90 dark:border-slate-800 shadow-sm"
+            >
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-500" />
+                <span>{section.title}</span>
+              </h2>
+              <div 
+                className="prose prose-slate dark:prose-invert max-w-none prose-sm sm:prose-base leading-relaxed text-slate-600 dark:text-slate-300"
+                dangerouslySetInnerHTML={{ __html: section.content }} 
+              />
+            </div>
+          ))}
+        </div>
+
+      </div>
     </div>
   );
 }
