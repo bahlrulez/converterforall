@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   Plus, 
@@ -46,82 +46,90 @@ export interface SlideData {
 
 export const THEMES = {
   modern: {
-    name: "Modern Minimalist",
+    name: "Modern Sapphire & Glass",
     bg: "FFFFFF",
-    cardBg: "F8FAFC",
+    cardBg: "F1F5F9",
     color: "334155",
     titleColor: "0F172A",
-    accent: "2563EB", // Blue
+    accent: "2563EB", // Sapphire
+    accentLight: "DBEAFE",
     fontFace: "Arial",
     dotColor: "bg-blue-600",
   },
   cyber: {
-    name: "Cyber AI & Tech",
+    name: "Cyber Obsidian & Neon",
     bg: "090D16",
-    cardBg: "111827",
+    cardBg: "131D31",
     color: "94A3B8",
     titleColor: "F8FAFC",
     accent: "06B6D4", // Cyan
+    accentLight: "083344",
     fontFace: "Segoe UI",
     dotColor: "bg-cyan-400",
   },
   corporate: {
-    name: "Executive Navy",
+    name: "Executive Royal & Amber",
     bg: "0A192F",
-    cardBg: "112240",
+    cardBg: "172A45",
     color: "8892B0",
-    titleColor: "E6F1FF",
+    titleColor: "F8FAFC",
     accent: "F59E0B", // Amber Gold
+    accentLight: "451A03",
     fontFace: "Helvetica",
     dotColor: "bg-amber-500",
   },
   luxury: {
-    name: "Midnight Luxury",
+    name: "Midnight Onyx & Gold",
     bg: "121212",
-    cardBg: "1E1E1E",
+    cardBg: "1F1F1F",
     color: "D4AF37",
     titleColor: "FFFFFF",
     accent: "E5C158", // Gold
+    accentLight: "382D08",
     fontFace: "Georgia",
     dotColor: "bg-yellow-500",
   },
   sunset: {
-    name: "Sunset Coral",
-    bg: "1A102F",
-    cardBg: "261845",
+    name: "Sunset Coral & Violet",
+    bg: "150D2A",
+    cardBg: "241744",
     color: "E2E8F0",
     titleColor: "FFA07A",
-    accent: "FF6B6B", // Coral
+    accent: "FF4B72", // Coral
+    accentLight: "4C0519",
     fontFace: "Calibri",
     dotColor: "bg-rose-500",
   },
   forest: {
-    name: "Emerald Eco",
-    bg: "0F291E",
-    cardBg: "173F2E",
-    color: "D1E7DD",
+    name: "Emerald Eco & Mint",
+    bg: "081C15",
+    cardBg: "1B4332",
+    color: "D8F3DC",
     titleColor: "FFFFFF",
     accent: "10B981", // Emerald
+    accentLight: "064E3B",
     fontFace: "Trebuchet MS",
     dotColor: "bg-emerald-500",
   },
   academic: {
-    name: "Academic Clean",
+    name: "Academic Oxford & Crimson",
     bg: "FFFFFF",
-    cardBg: "F1F5F9",
+    cardBg: "F8FAFC",
     color: "475569",
     titleColor: "1E3A8A",
     accent: "DC2626", // Crimson
+    accentLight: "FEE2E2",
     fontFace: "Times New Roman",
     dotColor: "bg-red-600",
   },
   venture: {
-    name: "Pitch Deck Bold",
-    bg: "0B132B",
-    cardBg: "1C2541",
+    name: "Venture Pitch Electric",
+    bg: "070F2B",
+    cardBg: "1B1A55",
     color: "E0E1DD",
     titleColor: "FFFFFF",
     accent: "3A86FF", // Electric Blue
+    accentLight: "1E1B4B",
     fontFace: "Segoe UI",
     dotColor: "bg-indigo-500",
   }
@@ -129,7 +137,6 @@ export const THEMES = {
 
 export type ThemeKey = keyof typeof THEMES;
 
-// Pre-Built Complete Template Decks
 const TEMPLATE_DECKS = [
   {
     id: "pitch-deck",
@@ -140,7 +147,7 @@ const TEMPLATE_DECKS = [
     slides: [
       { id: "p1", layout: "title" as SlideLayout, title: "NextGen AI Platform", subtitle: "Transforming Everyday Workflows with On-Device Intelligence" },
       { id: "p2", layout: "content" as SlideLayout, title: "The Problem", content: "- Cloud software is expensive and forces recurring subscriptions\n- Data privacy leaks and security risks during cloud processing\n- Slow upload queues and frustrating wait times" },
-      { id: "p3", layout: "split" as SlideLayout, title: "Our Breakthrough Solution", content: "- 100% In-Browser Client-Side Processing Engine\n- Zero Server Uploads = Total Privacy Guarantee\n- Blazing fast execution using WebGPU hardware acceleration" },
+      { id: "p3", layout: "split" as SlideLayout, title: "Our Breakthrough Solution", content: "- 100% In-Browser Client-Side Processing Engine\n- Zero Server Uploads = Total Privacy Guarantee\n- Blazing fast execution using WebGPU hardware acceleration", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" },
       { id: "p4", layout: "metrics" as SlideLayout, title: "Market Opportunity & Traction", metric1Label: "Total Addressable Market", metric1Value: "$48 Billion", metric2Label: "Active Monthly Users", metric2Value: "2.4 Million", metric3Label: "MoM Growth Rate", metric3Value: "34%" },
       { id: "p5", layout: "quote" as SlideLayout, title: "Industry Vision", content: "Privacy is not a premium luxury—it is the fundamental requirement for the next generation of web software.", quoteAuthor: "Founding Team" },
       { id: "p6", layout: "content" as SlideLayout, title: "The Investment Ask", content: "- Raising $1.5M Seed Round for core engine expansion\n- 18 Months Runway: 50% Engineering, 30% Growth, 20% Operations\n- Target Milestone: 10M Global Active Users" }
@@ -155,7 +162,7 @@ const TEMPLATE_DECKS = [
     slides: [
       { id: "q1", layout: "title" as SlideLayout, title: "Q3 Business Performance Review", subtitle: "Executive Summary, Key Accomplishments & Q4 Strategic Outlook" },
       { id: "q2", layout: "metrics" as SlideLayout, title: "Quarterly Key Metrics", metric1Label: "Net Revenue", metric1Value: "$1.85M", metric2Label: "Customer Satisfaction", metric2Value: "98.4%", metric3Label: "Gross Margin", metric3Value: "82%" },
-      { id: "q3", layout: "content" as SlideLayout, title: "Core Accomplishments This Quarter", content: "- Shipped 15 new high-precision file converters\n- Reduced mobile latency by 65% with WebGPU optimization\n- Reached #1 organic ranking for high-intent conversion terms" },
+      { id: "q3", layout: "split" as SlideLayout, title: "Core Accomplishments This Quarter", content: "- Shipped 15 new high-precision file converters\n- Reduced mobile latency by 65% with WebGPU optimization\n- Reached #1 organic ranking for high-intent conversion terms", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" },
       { id: "q4", layout: "content" as SlideLayout, title: "Challenges & Mitigations", content: "- Increased mobile memory constraints resolved with WebWorker isolation\n- Scaled CDN edge caching for instant global asset delivery\n- Expanded multi-language font conversion support" },
       { id: "q5", layout: "content" as SlideLayout, title: "Q4 Strategic Roadmap", content: "- Launch automated batch processing suite\n- Introduce team collaboration workspace\n- Expand enterprise security audit compliance" }
     ]
@@ -169,7 +176,7 @@ const TEMPLATE_DECKS = [
     slides: [
       { id: "pl1", layout: "title" as SlideLayout, title: "Product Launch 2026", subtitle: "Introducing the Ultimate Universal Conversion Suite" },
       { id: "pl2", layout: "content" as SlideLayout, title: "Why We Built This Product", content: "- Users waste hours juggling multiple single-purpose websites\n- Existing tools lock basic features behind aggressive paywalls\n- We unified 150+ essential tools into one seamless interface" },
-      { id: "pl3", layout: "split" as SlideLayout, title: "Core Features & Capabilities", content: "- AI Background Removal with sub-second precision\n- Instant PDF compression, merging, and OCR extraction\n- Regional Indic font converters for government exam preparation" },
+      { id: "pl3", layout: "split" as SlideLayout, title: "Core Features & Capabilities", content: "- AI Background Removal with sub-second precision\n- Instant PDF compression, merging, and OCR extraction\n- Regional Indic font converters for government exam preparation", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" },
       { id: "pl4", layout: "metrics" as SlideLayout, title: "Launch Targets & Adoption", metric1Label: "Day 1 Target Signups", metric1Value: "50,000+", metric2Label: "Conversion Speedup", metric2Value: "10x", metric3Label: "User Rating", metric3Value: "4.9 / 5" },
       { id: "pl5", layout: "quote" as SlideLayout, title: "User Testimonial", content: "ConverterForAll has completely eliminated the need for multiple subscriptions. It's fast, private, and unbelievably reliable.", quoteAuthor: "Lead Product Designer" }
     ]
@@ -183,7 +190,7 @@ const TEMPLATE_DECKS = [
     slides: [
       { id: "a1", layout: "title" as SlideLayout, title: "Thesis Defense Presentation", subtitle: "A Comparative Analysis of In-Browser WebAssembly vs Cloud Architectures" },
       { id: "a2", layout: "content" as SlideLayout, title: "Abstract & Research Problem", content: "- Modern cloud architectures introduce significant network latency and privacy exposure\n- WebAssembly (WASM) and WebGPU enable near-native hardware execution in the browser sandbox\n- This study measures throughput, power efficiency, and data integrity" },
-      { id: "a3", layout: "content" as SlideLayout, title: "Methodology & Experimental Setup", content: "- Tested across 1,000 document transformations (PDF, Images, Video)\n- Benchmarked on 5 distinct hardware tiers (Desktop, Laptop, Mobile)\n- Measured CPU thermal throttling, memory footprint, and I/O latency" },
+      { id: "a3", layout: "split" as SlideLayout, title: "Methodology & Experimental Setup", content: "- Tested across 1,000 document transformations (PDF, Images, Video)\n- Benchmarked on 5 distinct hardware tiers (Desktop, Laptop, Mobile)\n- Measured CPU thermal throttling, memory footprint, and I/O latency", image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80" },
       { id: "a4", layout: "metrics" as SlideLayout, title: "Key Empirical Findings", metric1Label: "Latency Reduction", metric1Value: "-78%", metric2Label: "Data Transfer Zero", metric2Value: "0 MB", metric3Label: "Energy Savings", metric3Value: "42%" },
       { id: "a5", layout: "content" as SlideLayout, title: "Conclusions & Future Work", content: "- Client-side WebAssembly matches or exceeds cloud processing for files under 500MB\n- Zero-trust data privacy is achievable without performance penalties\n- Future research will explore multi-node peer-to-peer browser compute" }
     ]
@@ -195,8 +202,8 @@ export function PresentationMaker() {
     { 
       id: "1", 
       layout: "title", 
-      title: "My Presentation", 
-      subtitle: "A stunning presentation generated directly in your browser with 100% privacy." 
+      title: "Renewable Energy Research", 
+      subtitle: "Current Advances, Challenges, and Future Horizons" 
     }
   ]);
   const [activeSlideId, setActiveSlideId] = useState<string>("1");
@@ -213,16 +220,17 @@ export function PresentationMaker() {
     const newSlide: SlideData = {
       id: Math.random().toString(36).substring(2, 9),
       layout,
-      title: layout === "title" ? "New Title Slide" : layout === "quote" ? "Key Quote" : layout === "metrics" ? "Key Milestones & KPIs" : layout === "content" ? "Key Takeaways" : "Visual Overview",
+      title: layout === "title" ? "New Title Slide" : layout === "quote" ? "Key Vision Quote" : layout === "metrics" ? "Key Milestones & KPIs" : layout === "content" ? "Key Takeaways" : "Visual Breakdown",
       subtitle: layout === "title" ? "Add subtitle here..." : "",
-      content: layout === "quote" ? "Add an inspiring statement or customer quote here..." : layout === "content" ? "- Key point 1\n- Key point 2\n- Key point 3" : "",
-      quoteAuthor: layout === "quote" ? "Author Name, Title" : "",
+      content: layout === "quote" ? "Add an inspiring statement or customer quote here..." : layout === "content" ? "- Key point 1\n- Key point 2\n- Key point 3" : "- Feature overview 1\n- Performance metric 2",
+      quoteAuthor: layout === "quote" ? "Author Name, Role" : "",
       metric1Label: "Metric 1",
       metric1Value: "99.9%",
       metric2Label: "Metric 2",
       metric2Value: "10x",
       metric3Label: "Metric 3",
       metric3Value: "$1.2M",
+      image: layout === "split" ? "https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&q=80" : undefined
     };
     setSlides([...slides, newSlide]);
     setActiveSlideId(newSlide.id);
@@ -282,6 +290,16 @@ export function PresentationMaker() {
     setActiveSlideId(deck.slides[0].id);
   };
 
+  const cleanContentText = (rawText?: string) => {
+    if (!rawText) return "";
+    return rawText
+      .replace(/\\n/g, "\n")
+      .split("\n")
+      .map(line => line.trim())
+      .filter(Boolean)
+      .join("\n");
+  };
+
   const generateWithAI = async () => {
     if (!aiPrompt.trim()) return;
     
@@ -301,11 +319,18 @@ export function PresentationMaker() {
       if (Array.isArray(data.slides) && data.slides.length > 0) {
         const parsedSlides: SlideData[] = data.slides.map((s: any) => ({
           id: Math.random().toString(36).substring(2, 9),
-          layout: (s.layout === "split" || s.layout === "title" || s.layout === "content") ? s.layout : "content",
+          layout: s.layout || "content",
           title: s.title || "Slide Title",
           subtitle: s.subtitle || "",
-          content: Array.isArray(s.points) ? s.points.map((p: string) => `- ${p}`).join("\n") : (s.content || ""),
-          image: s.image || undefined,
+          content: cleanContentText(s.content),
+          quoteAuthor: s.quoteAuthor || "",
+          metric1Value: s.metric1Value || "$1.2M",
+          metric1Label: s.metric1Label || "Metric 1",
+          metric2Value: s.metric2Value || "98.5%",
+          metric2Label: s.metric2Label || "Metric 2",
+          metric3Value: s.metric3Value || "10x",
+          metric3Label: s.metric3Label || "Metric 3",
+          image: s.image || (s.layout === "split" ? "https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&q=80" : undefined),
         }));
         
         setSlides(parsedSlides);
@@ -319,6 +344,7 @@ export function PresentationMaker() {
     }
   };
 
+  // Modern Abstract PPTX Exporter (Zero Text Overlaps, Geometric Accents, Perfect Alignment)
   const generatePresentation = async () => {
     try {
       setIsGenerating(true);
@@ -331,51 +357,82 @@ export function PresentationMaker() {
         const slide = pres.addSlide();
         slide.background = { color: currentTheme.bg };
 
+        // 1. TITLE SLIDE (Abstract geometric layout with non-overlapping typography)
         if (slideData.layout === "title") {
-          // Decorative top accent bar
+          // Left vertical geometric accent bar
           slide.addShape(pres.ShapeType.rect, {
-            x: 0, y: 0, w: "100%", h: 0.15,
+            x: 0, y: 0, w: 0.25, h: "100%",
             fill: { color: currentTheme.accent }
           });
 
-          slide.addText(slideData.title, { 
-            x: "8%", y: "28%", w: "84%", h: 2.0, 
-            fontSize: 44, color: currentTheme.titleColor, 
-            bold: true, align: "left", fontFace: currentTheme.fontFace,
-            valign: "bottom"
+          // Top abstract category pill badge
+          slide.addShape(pres.ShapeType.roundRect, {
+            x: "7%", y: "15%", w: 2.2, h: 0.35,
+            fill: { color: currentTheme.cardBg },
+            line: { color: currentTheme.accent, width: 1.0 }
+          });
+          slide.addText("KEYNOTE PRESENTATION", {
+            x: "7%", y: "15%", w: 2.2, h: 0.35,
+            fontSize: 10, color: currentTheme.accent,
+            bold: true, align: "center", fontFace: currentTheme.fontFace,
+            valign: "middle"
           });
 
+          // Title Text (Top-aligned, safe height and line spacing)
+          slide.addText(slideData.title, { 
+            x: "7%", y: "24%", w: "86%", h: 2.0, 
+            fontSize: 38, color: currentTheme.titleColor, 
+            bold: true, align: "left", fontFace: currentTheme.fontFace,
+            valign: "top", lineSpacing: 44
+          });
+
+          // Subtitle Text (Positioned safely below title with clear spacing)
           if (slideData.subtitle) {
             slide.addText(slideData.subtitle, { 
-              x: "8%", y: "52%", w: "84%", h: 1.5, 
-              fontSize: 20, color: currentTheme.accent, 
+              x: "7%", y: "58%", w: "86%", h: 1.2, 
+              fontSize: 18, color: currentTheme.accent, 
               align: "left", fontFace: currentTheme.fontFace, bold: true,
-              valign: "top"
+              valign: "top", lineSpacing: 24
             });
           }
+
+          // Subtle bottom design divider
+          slide.addShape(pres.ShapeType.rect, {
+            x: "7%", y: "82%", w: "86%", h: 0.02,
+            fill: { color: currentTheme.cardBg }
+          });
         } 
+
+        // 2. CONTENT SLIDE (Modern clean card background with high-impact bullets)
         else if (slideData.layout === "content") {
           // Slide Title
           slide.addText(slideData.title, { 
             x: "6%", y: "8%", w: "88%", h: 0.8, 
-            fontSize: 32, color: currentTheme.titleColor, 
-            bold: true, fontFace: currentTheme.fontFace 
+            fontSize: 28, color: currentTheme.titleColor, 
+            bold: true, fontFace: currentTheme.fontFace, valign: "top"
           });
 
-          // Underline accent
+          // Underline accent bar
           slide.addShape(pres.ShapeType.rect, {
-            x: "6%", y: "17%", w: 1.5, h: 0.05,
+            x: "6%", y: "17%", w: 1.2, h: 0.04,
             fill: { color: currentTheme.accent }
+          });
+
+          // Content Card Container
+          slide.addShape(pres.ShapeType.roundRect, {
+            x: "6%", y: "22%", w: "88%", h: "68%",
+            fill: { color: currentTheme.cardBg },
+            line: { color: currentTheme.accent, width: 0.5, transparency: 80 }
           });
           
           if (slideData.content) {
-            const lines = slideData.content.split("\n").filter(Boolean);
+            const lines = cleanContentText(slideData.content).split("\n").filter(Boolean);
             const bullets = lines.map(line => ({ 
-              text: line.replace(/^- /, ''), 
+              text: line.replace(/^-\s*/, ''), 
               options: { 
                 bullet: { type: 'bullet' }, 
                 color: currentTheme.color, 
-                fontSize: 20, 
+                fontSize: 18, 
                 fontFace: currentTheme.fontFace, 
                 breakLine: true,
                 paraSpaceBefore: 12
@@ -383,31 +440,40 @@ export function PresentationMaker() {
             }));
             
             slide.addText(bullets as any, { 
-              x: "6%", y: "22%", w: "88%", h: "68%", 
+              x: "8%", y: "25%", w: "84%", h: "62%", 
               valign: "top" 
             });
           }
         }
+
+        // 3. SPLIT SLIDE (Side-by-side text + auto-attached high-res image)
         else if (slideData.layout === "split") {
           slide.addText(slideData.title, { 
             x: "6%", y: "8%", w: "88%", h: 0.8, 
-            fontSize: 32, color: currentTheme.titleColor, 
-            bold: true, fontFace: currentTheme.fontFace 
+            fontSize: 28, color: currentTheme.titleColor, 
+            bold: true, fontFace: currentTheme.fontFace, valign: "top"
           });
 
           slide.addShape(pres.ShapeType.rect, {
-            x: "6%", y: "17%", w: 1.5, h: 0.05,
+            x: "6%", y: "17%", w: 1.2, h: 0.04,
             fill: { color: currentTheme.accent }
           });
 
+          // Left Text Card Container
+          slide.addShape(pres.ShapeType.roundRect, {
+            x: "6%", y: "22%", w: "43%", h: "68%",
+            fill: { color: currentTheme.cardBg },
+            line: { color: currentTheme.accent, width: 0.5, transparency: 80 }
+          });
+
           if (slideData.content) {
-            const lines = slideData.content.split(/\n|\\n/).filter(Boolean);
+            const lines = cleanContentText(slideData.content).split("\n").filter(Boolean);
             const bullets = lines.map(line => ({ 
-              text: line.replace(/^- /, ''), 
+              text: line.replace(/^-\s*/, ''), 
               options: { 
                 bullet: { type: 'bullet' }, 
                 color: currentTheme.color, 
-                fontSize: 18, 
+                fontSize: 16, 
                 fontFace: currentTheme.fontFace, 
                 breakLine: true,
                 paraSpaceBefore: 10
@@ -415,47 +481,63 @@ export function PresentationMaker() {
             }));
             
             slide.addText(bullets as any, { 
-              x: "6%", y: "22%", w: "44%", h: "68%", 
+              x: "8%", y: "25%", w: "39%", h: "62%", 
               valign: "top" 
             });
           }
 
+          // Right Image Container
           if (slideData.image) {
             try {
               slide.addImage({ 
-                data: slideData.image,
-                x: "54%", y: "22%", w: "40%", h: "68%", 
-                sizing: { type: "contain", w: "40%", h: "68%" } 
+                path: slideData.image,
+                x: "52%", y: "22%", w: "42%", h: "68%", 
+                sizing: { type: "cover", w: "42%", h: "68%" } 
               });
             } catch (err) {
               console.warn("Failed to load slide image:", err);
             }
           }
         }
+
+        // 4. QUOTE SLIDE (Bold centered quote card with attribution)
         else if (slideData.layout === "quote") {
+          // Central Glassmorphic Card
+          slide.addShape(pres.ShapeType.roundRect, {
+            x: "10%", y: "18%", w: "80%", h: "64%",
+            fill: { color: currentTheme.cardBg },
+            line: { color: currentTheme.accent, width: 1.5 }
+          });
+
           slide.addText(`“${slideData.content || slideData.title}”`, { 
-            x: "10%", y: "25%", w: "80%", h: "40%", 
-            fontSize: 32, color: currentTheme.titleColor, 
+            x: "14%", y: "26%", w: "72%", h: "35%", 
+            fontSize: 26, color: currentTheme.titleColor, 
             bold: true, italic: true, align: "center", fontFace: currentTheme.fontFace,
-            valign: "middle"
+            valign: "middle", lineSpacing: 34
           });
 
           if (slideData.quoteAuthor) {
             slide.addText(`— ${slideData.quoteAuthor}`, { 
-              x: "10%", y: "68%", w: "80%", h: "15%", 
-              fontSize: 20, color: currentTheme.accent, 
+              x: "14%", y: "62%", w: "72%", h: "12%", 
+              fontSize: 18, color: currentTheme.accent, 
               align: "center", fontFace: currentTheme.fontFace, bold: true 
             });
           }
         }
+
+        // 5. METRICS SLIDE (3-Column KPI stat milestone cards)
         else if (slideData.layout === "metrics") {
           slide.addText(slideData.title, { 
             x: "6%", y: "8%", w: "88%", h: 0.8, 
-            fontSize: 32, color: currentTheme.titleColor, 
-            bold: true, fontFace: currentTheme.fontFace 
+            fontSize: 28, color: currentTheme.titleColor, 
+            bold: true, fontFace: currentTheme.fontFace, valign: "top"
           });
 
-          // 3 Metric Cards
+          slide.addShape(pres.ShapeType.rect, {
+            x: "6%", y: "17%", w: 1.2, h: 0.04,
+            fill: { color: currentTheme.accent }
+          });
+
           const metrics = [
             { val: slideData.metric1Value || "$1.2M", lbl: slideData.metric1Label || "Total Metric", x: "6%" },
             { val: slideData.metric2Value || "98.5%", lbl: slideData.metric2Label || "Satisfaction", x: "37%" },
@@ -464,21 +546,21 @@ export function PresentationMaker() {
 
           metrics.forEach(m => {
             slide.addShape(pres.ShapeType.roundRect, {
-              x: m.x as any, y: "25%", w: "26%", h: "55%",
+              x: m.x as any, y: "24%", w: "26%", h: "62%",
               fill: { color: currentTheme.cardBg },
               line: { color: currentTheme.accent, width: 1.5 }
             });
 
             slide.addText(m.val, {
-              x: m.x as any, y: "35%", w: "26%", h: "20%",
-              fontSize: 36, color: currentTheme.accent,
+              x: m.x as any, y: "36%", w: "26%", h: "20%",
+              fontSize: 34, color: currentTheme.accent,
               bold: true, align: "center", fontFace: currentTheme.fontFace
             });
 
             slide.addText(m.lbl, {
-              x: m.x as any, y: "55%", w: "26%", h: "15%",
-              fontSize: 16, color: currentTheme.color,
-              align: "center", fontFace: currentTheme.fontFace
+              x: m.x as any, y: "56%", w: "26%", h: "18%",
+              fontSize: 15, color: currentTheme.color,
+              align: "center", fontFace: currentTheme.fontFace, bold: true
             });
           });
         }
@@ -502,7 +584,7 @@ export function PresentationMaker() {
       <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-indigo-500/10 border border-purple-500/20 shadow-md backdrop-blur-md">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-3">
           <Sparkles className="w-4 h-4" />
-          <span>AI Presentation Generator</span>
+          <span>AI Presentation Generator (Auto-Images &amp; Abstract Designs)</span>
         </div>
         
         <div className="flex flex-col sm:flex-row gap-3 items-center">
@@ -510,7 +592,7 @@ export function PresentationMaker() {
             <input 
               value={aiPrompt}
               onChange={(e) => setAiPrompt(e.target.value)}
-              placeholder="e.g. Create an 8-slide investor pitch deck for an AI healthcare startup..."
+              placeholder="e.g. Create an 8-slide presentation on renewable energy breakthroughs..."
               className="w-full pl-4 pr-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-[#0a1128] text-sm text-slate-900 dark:text-white shadow-inner focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
               onKeyDown={(e) => {
                 if (e.key === "Enter") generateWithAI();
@@ -538,7 +620,7 @@ export function PresentationMaker() {
             {isAiGenerating ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                <span>Writing Slides...</span>
+                <span>Designing Deck...</span>
               </>
             ) : (
               <>
@@ -552,7 +634,7 @@ export function PresentationMaker() {
         {/* Quick Suggestion Pills */}
         <div className="flex flex-wrap items-center gap-2 mt-4 text-xs text-slate-500 dark:text-slate-400">
           <span className="font-semibold">Quick Ideas:</span>
-          {["Startup Pitch Deck", "Renewable Energy Research", "Q3 Marketing Strategy", "AI Ethics Workshop"].map((idea) => (
+          {["Renewable Energy Research", "Startup Investor Pitch", "Q3 Marketing Strategy", "AI Healthcare Innovations"].map((idea) => (
             <button
               key={idea}
               onClick={() => {
@@ -573,7 +655,7 @@ export function PresentationMaker() {
           <span>1-Click Designer Template Decks</span>
         </div>
         <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
-          Instantly load a complete, pre-formatted deck with professional layouts and copy.
+          Instantly load a complete, pre-formatted deck with abstract layouts, images, and copy.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -790,11 +872,11 @@ export function PresentationMaker() {
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Slide Content (Bullet Points)</label>
                 <textarea 
-                  value={activeSlide?.content || ""} 
+                  value={cleanContentText(activeSlide?.content)} 
                   onChange={(e) => updateActiveSlide({ content: e.target.value })}
                   placeholder="- Point 1&#10;- Point 2&#10;- Point 3"
                   rows={6}
-                  className="flex min-h-[140px] w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0a1128] px-3.5 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 leading-relaxed font-mono"
+                  className="flex min-h-[140px] w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0a1128] px-3.5 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 leading-relaxed"
                 />
                 <p className="text-[11px] text-slate-500 dark:text-slate-400">Each new line is formatted as a high-impact bullet in PowerPoint.</p>
               </div>
@@ -803,12 +885,12 @@ export function PresentationMaker() {
             {/* Split Image Upload */}
             {activeSlide?.layout === "split" && (
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Side Image / Diagram</label>
-                <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-6 bg-white dark:bg-[#0a1128] flex flex-col items-center justify-center relative min-h-[140px]">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Side Image / Thematic Diagram</label>
+                <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-6 bg-white dark:bg-[#0a1128] flex flex-col items-center justify-center relative min-h-[160px]">
                   {activeSlide?.image ? (
-                    <div className="relative w-full h-32 flex items-center justify-center">
-                      <img src={activeSlide.image} alt="Slide Preview" className="max-h-full object-contain rounded-lg" />
-                      <Button size="sm" variant="secondary" className="absolute bottom-2 right-2 text-xs">
+                    <div className="relative w-full h-40 flex items-center justify-center">
+                      <img src={activeSlide.image} alt="Slide Preview" className="max-h-full max-w-full object-cover rounded-xl shadow-md" />
+                      <Button size="sm" variant="secondary" className="absolute bottom-2 right-2 text-xs shadow-md">
                         Change Image
                         <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleImageUpload} />
                       </Button>
