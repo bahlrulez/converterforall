@@ -2,9 +2,10 @@
 
 import { useCallback, useState, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, Camera } from "lucide-react";
+import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, Camera, Paintbrush } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { BgRemovalEditor } from "@/components/tools/bg-removal-editor";
 
 import heic2any from "heic2any";
 import { getPendingFile } from "@/lib/file-transfer";
@@ -27,6 +28,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
   const [downloadBlob, setDownloadBlob] = useState<Blob | null>(null);
   const [downloadName, setDownloadName] = useState<string>("");
   const [progress, setProgress] = useState(0);
+  const [isEditingBg, setIsEditingBg] = useState(false);
   const cameraInputRef = useRef<HTMLInputElement>(null);
 
   // Auto-consume transferred pending file and auto-start execution
@@ -320,6 +322,18 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
                 <Button onClick={reset} variant="outline" className="w-full sm:w-auto">
                   Convert Another File
                 </Button>
+
+                {isDynamicBackgroundRemoval && file && downloadBlob && (
+                  <Button
+                    onClick={() => setIsEditingBg(true)}
+                    variant="outline"
+                    className="w-full sm:w-auto border-blue-500/40 text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 font-bold"
+                  >
+                    <Paintbrush className="mr-2 h-4 w-4 text-blue-500" />
+                    Touch Up / Restore
+                  </Button>
+                )}
+
                 {downloadUrl && (
                   <Button 
                     onClick={() => {
@@ -357,6 +371,21 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
             )}
           </div>
         </div>
+      )}
+
+      {/* Interactive Touch-Up Studio Modal for Background Removal */}
+      {isEditingBg && file && downloadBlob && (
+        <BgRemovalEditor
+          originalFile={file}
+          processedBlob={downloadBlob}
+          downloadName={downloadName}
+          onSave={(updatedBlob) => {
+            setDownloadBlob(updatedBlob);
+            setDownloadUrl(URL.createObjectURL(updatedBlob));
+            setIsEditingBg(false);
+          }}
+          onClose={() => setIsEditingBg(false)}
+        />
       )}
     </div>
   );
