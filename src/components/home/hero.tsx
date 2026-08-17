@@ -265,50 +265,50 @@ export function Hero() {
         </div>
 
         {/* Drop Box Hero Container */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <ModernDropzone />
         </div>
 
-        {/* 4 Bottom Stats Bar Banner (Matching Mockup 1:1) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4 max-w-5xl mx-auto text-left p-4 sm:p-5 rounded-2xl bg-white/80 dark:bg-[#080e22]/90 border border-slate-200/90 dark:border-slate-800/90 shadow-sm dark:shadow-md backdrop-blur-md">
-
-          <div className="flex items-center gap-3.5">
+        {/* 4 Bottom Trust Cards Grid (Matching User Screenshot 2) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 max-w-5xl mx-auto text-left">
+          
+          <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800/90 shadow-sm dark:shadow-md hover:border-blue-500/40 transition-colors">
             <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
-              <TrendingUp className="w-5 h-5" />
+              <Lock className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">10M+</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Files Converted</p>
+              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">100% Private</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Files never leave your device</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800/90 shadow-sm dark:shadow-md hover:border-indigo-500/40 transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+              <InfinityIcon className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">Unlimited Usage</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">No limits on files or sizes</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800/90 shadow-sm dark:shadow-md hover:border-purple-500/40 transition-colors">
             <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-200 dark:border-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
-              <Users className="w-5 h-5" />
+              <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">500K+</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Happy Users</p>
+              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">Total Privacy</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Client-side in browser</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800/90 shadow-sm dark:shadow-md hover:border-emerald-500/40 transition-colors">
             <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-              <Grid className="w-5 h-5" />
+              <Gift className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">150+</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Tools Available</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-              <CheckCircle2 className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">99.9%</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Uptime Guarantee</p>
+              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">100% Free Forever</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">No subscription or paywall</p>
             </div>
           </div>
 
