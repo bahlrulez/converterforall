@@ -18,11 +18,34 @@ export function Hero() {
           <span>The next generation file converter</span>
         </div>
 
-        {/* Hero Title */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-2 sm:mb-3 leading-tight max-w-4xl mx-auto">
+        {/* Hero Title Matching User Design */}
+        <h1 className="font-jakarta text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.03em] text-slate-900 dark:text-white mb-3 sm:mb-4 leading-[1.15] max-w-4xl mx-auto">
           Free Online File Converter. <br className="hidden sm:inline" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-300 dark:to-purple-400">
-            100% Private &amp; Secure.
+          <span className="relative inline-block mt-1 sm:mt-2">
+            <span className="font-script text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-normal italic text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] via-[#818cf8] to-[#c084fc] drop-shadow-sm pr-2">
+              100% Private &amp; Secure.
+            </span>
+            {/* Glowing Accent Swoosh Underline */}
+            <svg 
+              className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-5 text-blue-400 opacity-90 overflow-visible pointer-events-none" 
+              viewBox="0 0 320 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M4 14 Q 160 26, 316 8" 
+                stroke="url(#heroSwooshGradient)" 
+                strokeWidth="4.5" 
+                strokeLinecap="round" 
+              />
+              <defs>
+                <linearGradient id="heroSwooshGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#38BDF8" />
+                  <stop offset="50%" stopColor="#818CF8" />
+                  <stop offset="100%" stopColor="#C084FC" />
+                </linearGradient>
+              </defs>
+            </svg>
           </span>
         </h1>
 

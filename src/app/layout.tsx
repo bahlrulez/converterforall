@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Geist } from "next/font/google";
+import { Inter, Geist, Plus_Jakarta_Sans, Caveat } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -8,6 +8,18 @@ const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const caveat = Caveat({
+  variable: "--font-script",
+  subsets: ["latin"],
+  weight: ["600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -120,7 +132,7 @@ export default function RootLayout({
         {/* Google Site Verification Placeholder */}
         <meta name="google-site-verification" content="google8e488f91621932b6" />
       </head>
-      <body className="min-h-full flex flex-col font-sans">
+      <body className={cn(geist.variable, inter.variable, plusJakarta.variable, caveat.variable, "min-h-full flex flex-col font-sans antialiased")}>
         <CookieConsentProvider>
           <ThemeProvider
             attribute="class"
