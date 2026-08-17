@@ -1,55 +1,61 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
-// High-quality curated thematic fallback images by keyword
-const THEME_IMAGES: Record<string, string[]> = {
-  energy: [
-    "https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&q=80", // Solar panels
-    "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80", // Wind turbines
-    "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80", // Green energy
-  ],
-  tech: [
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80", // Chip / Circuit
-    "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80", // AI Abstract
-    "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80", // Code Matrix
-  ],
-  business: [
-    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80", // Modern skyscraper
-    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80", // Analytics chart
-    "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80", // Team meeting
-  ],
-  health: [
-    "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80", // Healthcare lab
-    "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&q=80", // Medical science
-  ],
-  nature: [
-    "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80", // Forest
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80", // Ocean
-  ],
-  default: [
-    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80", // Global network
-    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80", // Team workstation
-    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80", // Modern workspace
-  ]
-};
-
-function getThematicImage(promptText: string, slideTitle: string, index: number): string {
-  const combined = `${promptText} ${slideTitle}`.toLowerCase();
+// Server-side photo fetcher: fetches real photographic images and converts to Base64 JPEG
+async function fetchRealPhotoBase64(keyword: string): Promise<string | undefined> {
+  const cleanKeyword = encodeURIComponent(keyword.trim().replace(/[^a-zA-Z0-9\s]/g, ""));
   
-  let pool = THEME_IMAGES.default;
-  if (combined.includes("solar") || combined.includes("energy") || combined.includes("wind") || combined.includes("green") || combined.includes("renewable")) {
-    pool = THEME_IMAGES.energy;
-  } else if (combined.includes("ai") || combined.includes("tech") || combined.includes("software") || combined.includes("data") || combined.includes("cloud")) {
-    pool = THEME_IMAGES.tech;
-  } else if (combined.includes("business") || combined.includes("market") || combined.includes("sales") || combined.includes("finance") || combined.includes("revenue") || combined.includes("pitch")) {
-    pool = THEME_IMAGES.business;
-  } else if (combined.includes("health") || combined.includes("medical") || combined.includes("pharma") || combined.includes("bio")) {
-    pool = THEME_IMAGES.health;
-  } else if (combined.includes("environment") || combined.includes("nature") || combined.includes("eco") || combined.includes("tree")) {
-    pool = THEME_IMAGES.nature;
+  // 1. Try fetching high-res photography from curated photo sources
+  const candidateUrls = [
+    `https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&q=80`, // fallback
+    `https://loremflickr.com/800/600/${cleanKeyword}/all`,
+  ];
+
+  // If keyword matches known famous topics or cities, use verified high-res photos
+  const kw = keyword.toLowerCase();
+  let directUrl = "";
+  if (kw.includes("delhi") || kw.includes("red fort") || kw.includes("qutub") || kw.includes("india")) {
+    directUrl = "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800&q=80"; // India Gate / Delhi
+  } else if (kw.includes("mumbai") || kw.includes("gateway")) {
+    directUrl = "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=800&q=80"; // Mumbai Gateway
+  } else if (kw.includes("solar") || kw.includes("renewable") || kw.includes("energy")) {
+    directUrl = "https://images.unsplash.com/photo-1509391365360-2e959784a276?w=800&q=80"; // Solar
+  } else if (kw.includes("wind") || kw.includes("turbine")) {
+    directUrl = "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80"; // Wind
+  } else if (kw.includes("ai") || kw.includes("tech") || kw.includes("robot") || kw.includes("software")) {
+    directUrl = "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80"; // Tech
+  } else if (kw.includes("business") || kw.includes("finance") || kw.includes("money") || kw.includes("market")) {
+    directUrl = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"; // Skyscraper
+  } else if (kw.includes("food") || kw.includes("culinary") || kw.includes("cooking")) {
+    directUrl = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80"; // Food
+  } else if (kw.includes("health") || kw.includes("medical") || kw.includes("doctor")) {
+    directUrl = "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80"; // Health
+  } else if (kw.includes("nature") || kw.includes("travel") || kw.includes("forest")) {
+    directUrl = "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80"; // Nature
   }
 
-  return pool[index % pool.length];
+  const urlsToTry = directUrl ? [directUrl, ...candidateUrls] : [`https://loremflickr.com/800/600/${cleanKeyword}/all`, ...candidateUrls];
+
+  for (const url of urlsToTry) {
+    try {
+      const res = await fetch(url, { 
+        headers: { "User-Agent": "Mozilla/5.0" },
+        signal: AbortSignal.timeout(4000)
+      });
+      if (res.ok) {
+        const buffer = await res.arrayBuffer();
+        if (buffer && buffer.byteLength > 1000) {
+          const contentType = res.headers.get("content-type") || "image/jpeg";
+          const base64 = Buffer.from(buffer).toString("base64");
+          return `data:${contentType};base64,${base64}`;
+        }
+      }
+    } catch {
+      // try next
+    }
+  }
+
+  return undefined;
 }
 
 export async function POST(req: Request) {
@@ -74,16 +80,15 @@ export async function POST(req: Request) {
       contents: [
         {
           role: "user",
-          parts: [{ text: `You are an expert keynote presentation designer. Create a high-converting, professional, world-class presentation outline based on: "${prompt}".
+          parts: [{ text: `You are an expert keynote presentation designer. Create a high-converting, professional presentation outline based on: "${prompt}".
           Return a JSON array of exactly ${slideCount} slide objects.
           
-          RULES FOR VARIETY & VISUAL APPEAL:
-          1. Slide 1 MUST be layout: 'title'. Give it a compelling title and an insightful subtitle.
-          2. Include at least 2 or 3 'split' slides (side-by-side text and visual diagram/image).
-          3. Include 1 'metrics' slide with 3 impressive numerical KPIs, stats, or metrics relevant to the topic.
-          4. Include 1 'quote' slide with an inspiring or thought-provoking industry quote or takeaway.
-          5. Ensure bullet points are concise, high-impact, and clean without markdown asterisks.
-          6. The very last slide should be an inspiring conclusion, next steps, or Q&A.` }]
+          RULES:
+          1. Slide 1 MUST be layout: 'title'. Compelling title and insightful subtitle.
+          2. Include at least 2 or 3 'split' slides (side-by-side text and high-res photographic visual).
+          3. Include 1 'metrics' slide with 3 impressive numerical stats or KPIs.
+          4. Include 1 'quote' slide with an inspiring or thought-provoking industry quote or customer testimonial.
+          5. For every 'split' slide, provide a specific, descriptive 2-to-3 word photographic search keyword (e.g., 'delhi landmarks', 'solar rooftop', 'qutub minar', 'mumbai skyline', 'financial charts') in the 'photoKeyword' field.` }]
         }
       ],
       config: {
@@ -120,9 +125,9 @@ export async function POST(req: Request) {
               metric2Label: { type: "STRING", description: "Metric 2 label" },
               metric3Value: { type: "STRING", description: "Metric 3 number" },
               metric3Label: { type: "STRING", description: "Metric 3 label" },
-              imageKeyword: {
+              photoKeyword: {
                 type: "STRING",
-                description: "Specific search keyword for this slide image (e.g., 'solar energy', 'wind turbine')."
+                description: "Specific 2-3 word real photo keyword (e.g., 'delhi landmarks', 'red fort', 'modern solar panels')."
               }
             },
             required: ["layout", "title"]
@@ -139,14 +144,20 @@ export async function POST(req: Request) {
 
     const rawSlides = JSON.parse(text);
     
-    // Auto-attach high-resolution thematic images
-    const slides = rawSlides.map((s: any, idx: number) => {
-      const thematicImg = getThematicImage(prompt, s.title, idx);
-      return {
-        ...s,
-        image: s.layout === "split" ? thematicImg : undefined
-      };
-    });
+    // Auto-fetch real photographic Base64 images for split slides in parallel
+    const slides = await Promise.all(
+      rawSlides.map(async (s: any) => {
+        if (s.layout === "split") {
+          const searchKey = s.photoKeyword || s.title || prompt;
+          const photoBase64 = await fetchRealPhotoBase64(searchKey);
+          return {
+            ...s,
+            image: photoBase64
+          };
+        }
+        return s;
+      })
+    );
 
     return NextResponse.json({ slides });
   } catch (error: any) {
