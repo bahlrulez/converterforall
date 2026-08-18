@@ -131,7 +131,7 @@ export function Footer() {
             <span>•</span>
             <Link href="/presentation-maker" className="hover:text-blue-600 dark:hover:text-blue-400">Presentation Maker</Link>
             <span>•</span>
-            <Link href="/qr-code-generator" className="hover:text-blue-600 dark:hover:text-blue-400">QR Generator</Link>
+            <Link href="/qr-generator" className="hover:text-blue-600 dark:hover:text-blue-400">QR Generator</Link>
             <span>•</span>
             <Link href="/krutidev-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400">Kruti Dev</Link>
           </div>

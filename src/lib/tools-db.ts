@@ -820,6 +820,10 @@ export const SLUG_ALIASES: Record<string, string> = {
   "screen-recording": "screen-recorder",
   "record-screen": "screen-recorder",
   "online-screen-recorder": "screen-recorder",
+  "qr-code-generator": "qr-generator",
+  "barcode-creator": "barcode-generator",
+  "generate-qr": "qr-generator",
+  "generate-barcode": "barcode-generator",
 
   // PDF Aliases
   "pdf-compressor": "compress-pdf",
