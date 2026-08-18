@@ -5,6 +5,7 @@ import { getToolBySlug } from "@/lib/tools-db";
 import { getToolContent } from "@/lib/tool-content";
 import { Metadata } from "next";
 import { ToolRenderer } from "@/components/tools/tool-renderer";
+import { RelatedTools } from "@/components/tools/related-tools";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -190,6 +191,11 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
               />
             </div>
           ))}
+        </div>
+
+        {/* Lightweight Related Utilities Discovery Strip */}
+        <div className="print:hidden">
+          <RelatedTools currentSlug={toolSlug} categorySlug={categorySlug} />
         </div>
 
       </div>
