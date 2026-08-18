@@ -6,6 +6,9 @@ import { MultiFileUploader } from "./multi-file-uploader";
 import { processImage, removeImageBackground, BgRemovalQuality, compressImageFile } from "@/lib/converters/image";
 import { compressPdf, imageToPdf, mergePdfs, removePages, extractPages, organizePdf, splitPdf, CompressionPreset } from "@/lib/converters/pdf";
 import { convertWordToPdf } from "@/lib/converters/word";
+import { convertPptxToPdf } from "@/lib/converters/powerpoint";
+import { convertExcelToPdf } from "@/lib/converters/excel";
+import { convertHtmlToPdf } from "@/lib/converters/html";
 import { convertVideo } from "@/lib/converters/video";
 
 interface ToolEngineProps {
@@ -52,6 +55,12 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       blob = await imageToPdf(file);
     } else if (category === "document" && toolSlug === "word-to-pdf") {
       blob = await convertWordToPdf(file);
+    } else if (category === "document" && (toolSlug === "powerpoint-to-pdf" || toolSlug === "ppt-to-pdf" || toolSlug === "pptx-to-pdf")) {
+      blob = await convertPptxToPdf(file);
+    } else if (category === "document" && (toolSlug === "excel-to-pdf" || toolSlug === "xlsx-to-pdf")) {
+      blob = await convertExcelToPdf(file);
+    } else if (category === "document" && toolSlug === "html-to-pdf") {
+      blob = await convertHtmlToPdf(file);
     } else if (category === "document" && toolSlug === "remove-pages") {
       blob = await removePages(file, pageSelection);
     } else if (category === "document" && toolSlug === "extract-pages") {

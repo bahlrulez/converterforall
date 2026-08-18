@@ -309,7 +309,11 @@ export const toolsDatabase = {
       subCategory: "Convert to PDF",
       inputFormat: "ppt",
       outputFormat: "pdf",
-      acceptedTypes: { "application/vnd.ms-powerpoint": [".ppt", ".pptx"] }
+      actionName: "Convert to PDF",
+      acceptedTypes: { 
+        "application/vnd.ms-powerpoint": [".ppt"],
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation": [".pptx"]
+      }
     },
     "excel-to-pdf": {
       title: "EXCEL to PDF",
@@ -317,7 +321,11 @@ export const toolsDatabase = {
       subCategory: "Convert to PDF",
       inputFormat: "excel",
       outputFormat: "pdf",
-      acceptedTypes: { "application/vnd.ms-excel": [".xls", ".xlsx"] }
+      actionName: "Convert to PDF",
+      acceptedTypes: { 
+        "application/vnd.ms-excel": [".xls"],
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"]
+      }
     },
     "html-to-pdf": {
       title: "HTML to PDF",
@@ -325,7 +333,8 @@ export const toolsDatabase = {
       subCategory: "Convert to PDF",
       inputFormat: "html",
       outputFormat: "pdf",
-      acceptedTypes: { "text/html": [".html"] }
+      actionName: "Convert to PDF",
+      acceptedTypes: { "text/html": [".html", ".htm"] }
     },
 
     // CONVERT FROM PDF
@@ -825,7 +834,7 @@ export const SLUG_ALIASES: Record<string, string> = {
   "generate-qr": "qr-generator",
   "generate-barcode": "barcode-generator",
 
-  // PDF Aliases
+  // PDF & Office Document Aliases
   "pdf-compressor": "compress-pdf",
   "pdf-page-remover": "remove-pages",
   "remove-pdf-pages": "remove-pages",
@@ -839,6 +848,13 @@ export const SLUG_ALIASES: Record<string, string> = {
   "annotate-pdf": "edit-pdf",
   "sign-pdf": "edit-pdf",
   "online-pdf-editor": "edit-pdf",
+  "ppt-to-pdf": "powerpoint-to-pdf",
+  "pptx-to-pdf": "powerpoint-to-pdf",
+  "convert-powerpoint-to-pdf": "powerpoint-to-pdf",
+  "xls-to-pdf": "excel-to-pdf",
+  "xlsx-to-pdf": "excel-to-pdf",
+  "convert-excel-to-pdf": "excel-to-pdf",
+  "htm-to-pdf": "html-to-pdf",
 
   // Developer / Data & Code Aliases
   "decode-jwt": "jwt-decoder",
