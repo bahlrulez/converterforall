@@ -17,28 +17,31 @@ import {
   Camera,
   FileStack,
   Layers,
+  Code2,
 } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
 
 const POPULAR_TOOLS = [
   { slug: "heic-to-jpg", title: "HEIC to JPG", icon: ImageIcon, color: "text-amber-400" },
   { slug: "heic-to-png", title: "HEIC to PNG", icon: ImageIcon, color: "text-rose-400" },
+  { slug: "jwt-decoder", title: "JWT Decoder", icon: Code2, color: "text-cyan-400" },
+  { slug: "json-formatter", title: "JSON Formatter", icon: Code2, color: "text-emerald-400" },
   { slug: "jpg-to-pdf", title: "JPG to PDF", icon: FileText, color: "text-emerald-400" },
-  { slug: "png-to-pdf", title: "PNG to PDF", icon: FileText, color: "text-blue-400" },
+  { slug: "edit-pdf", title: "Edit PDF Online", icon: FileText, color: "text-blue-400" },
   { slug: "remove-background", title: "Remove Background", icon: Eraser, color: "text-purple-400" },
   { slug: "merge-pdf", title: "Merge PDF (JPG + PNG)", icon: FileStack, color: "text-red-400" },
   { slug: "compress-pdf", title: "Compress PDF Size", icon: Zap, color: "text-amber-400" },
-  { slug: "word-to-pdf", title: "WORD to PDF", icon: FileText, color: "text-sky-400" },
   { slug: "pdf-to-word", title: "PDF to Word (DOCX)", icon: FileText, color: "text-indigo-400" },
 ];
 
 const CATEGORY_META: Record<string, { label: string; icon: any; color: string }> = {
   image: { label: "Image", icon: ImageIcon, color: "text-emerald-400" },
   document: { label: "Document", icon: FileText, color: "text-blue-400" },
+  developer: { label: "Data & Code", icon: Code2, color: "text-cyan-400" },
   audio: { label: "Audio", icon: Music, color: "text-purple-400" },
   video: { label: "Video", icon: Video, color: "text-red-400" },
   utilities: { label: "Utilities", icon: Wrench, color: "text-amber-400" },
-  fonts: { label: "Fonts", icon: Type, color: "text-cyan-400" },
+  fonts: { label: "Fonts", icon: Type, color: "text-indigo-400" },
 };
 
 interface ToolsMegaMenuProps {

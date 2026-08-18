@@ -2,16 +2,16 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { FileText, Image as ImageIcon, Video, Music, Calculator, Zap, Type } from "lucide-react";
+import { FileText, Image as ImageIcon, Video, Music, Calculator, Zap, Type, Code2 } from "lucide-react";
 
 const CATEGORIES = [
-  { icon: FileText, label: "PDF", color: "text-blue-500", bg: "bg-blue-500/10", borderHover: "group-hover:border-blue-500/50", glow: "from-blue-500/20", href: "/category/document" },
+  { icon: FileText, label: "PDF & Docs", color: "text-blue-500", bg: "bg-blue-500/10", borderHover: "group-hover:border-blue-500/50", glow: "from-blue-500/20", href: "/category/document" },
+  { icon: Code2, label: "Data & Code", color: "text-cyan-500", bg: "bg-cyan-500/10", borderHover: "group-hover:border-cyan-500/50", glow: "from-cyan-500/20", href: "/category/developer" },
   { icon: ImageIcon, label: "Images", color: "text-emerald-500", bg: "bg-emerald-500/10", borderHover: "group-hover:border-emerald-500/50", glow: "from-emerald-500/20", href: "/category/image" },
   { icon: Video, label: "Video", color: "text-rose-500", bg: "bg-rose-500/10", borderHover: "group-hover:border-rose-500/50", glow: "from-rose-500/20", href: "/category/video" },
   { icon: Music, label: "Audio", color: "text-purple-500", bg: "bg-purple-500/10", borderHover: "group-hover:border-purple-500/50", glow: "from-purple-500/20", href: "/category/audio" },
   { icon: Calculator, label: "Utilities", color: "text-amber-500", bg: "bg-amber-500/10", borderHover: "group-hover:border-amber-500/50", glow: "from-amber-500/20", href: "/#utility-tools" },
   { icon: Type, label: "Fonts", color: "text-indigo-500", bg: "bg-indigo-500/10", borderHover: "group-hover:border-indigo-500/50", glow: "from-indigo-500/20", href: "/#font-converters" },
-  { icon: Zap, label: "More Tools", color: "text-primary", bg: "bg-primary/10", borderHover: "group-hover:border-primary/50", glow: "from-primary/20", href: "/#featured-tools" },
 ];
 
 function CategoryCard({ category }: { category: typeof CATEGORIES[0] }) {

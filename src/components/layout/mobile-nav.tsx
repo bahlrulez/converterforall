@@ -18,6 +18,7 @@ import {
   Sun,
   Monitor,
   Sparkles,
+  Code2,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { toolsDatabase } from "@/lib/tools-db";
@@ -25,18 +26,20 @@ import { toolsDatabase } from "@/lib/tools-db";
 const CATEGORIES = [
   { key: "popular", label: "Popular", icon: Zap, color: "text-amber-400" },
   { key: "document", label: "Document", icon: FileText, color: "text-blue-400" },
+  { key: "developer", label: "Data & Code", icon: Code2, color: "text-cyan-400" },
   { key: "image", label: "Image", icon: ImageIcon, color: "text-emerald-400" },
   { key: "audio", label: "Audio", icon: Music, color: "text-purple-400" },
   { key: "video", label: "Video", icon: Video, color: "text-red-400" },
   { key: "utilities", label: "Utilities", icon: Wrench, color: "text-orange-400" },
-  { key: "fonts", label: "Fonts", icon: Type, color: "text-cyan-400" },
+  { key: "fonts", label: "Fonts", icon: Type, color: "text-indigo-400" },
 ];
 
 const POPULAR_TOOLS = [
   { slug: "heic-to-jpg", title: "HEIC to JPG", category: "image" },
-  { slug: "heic-to-png", title: "HEIC to PNG", category: "image" },
+  { slug: "jwt-decoder", title: "JWT Decoder", category: "developer" },
+  { slug: "json-formatter", title: "JSON Formatter", category: "developer" },
   { slug: "jpg-to-pdf", title: "JPG to PDF", category: "document" },
-  { slug: "png-to-pdf", title: "PNG to PDF", category: "document" },
+  { slug: "edit-pdf", title: "Edit PDF Online", category: "document" },
   { slug: "remove-background", title: "Remove Background", category: "image" },
   { slug: "merge-pdf", title: "Merge PDF, JPG, and PNG", category: "document" },
   { slug: "compress-pdf", title: "Compress PDF", category: "document" },

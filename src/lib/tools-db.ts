@@ -718,6 +718,79 @@ export const toolsDatabase = {
     "unicode-text-cleaner": { title: "Unicode Text Cleaner", description: "Remove extra whitespace, zero-width spaces, and unwanted formatting.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "cleaner", acceptedTypes: {} },
   },
 
+  "developer": {
+    "jwt-decoder": {
+      title: "JWT Decoder Online (JSON Web Token)",
+      description: "Safely decode JWT tokens offline in your browser. View algorithm, headers, payload claims, and expiration dates with zero server transmission.",
+      subCategory: "Tokens & Security",
+      inputFormat: "none",
+      outputFormat: "none",
+      actionName: "Decode JWT",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "json-formatter": {
+      title: "JSON Formatter & Validator",
+      description: "Prettify, format, validate, minify, and auto-repair broken JSON syntax with real-time error detection and 1-click copy.",
+      subCategory: "Data Formatting",
+      inputFormat: "none",
+      outputFormat: "none",
+      actionName: "Format JSON",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "json-to-csv": {
+      title: "JSON to CSV Converter",
+      description: "Convert JSON arrays and files to CSV format in your browser with live tabular data preview and custom delimiter settings.",
+      subCategory: "Data Conversion",
+      inputFormat: "none",
+      outputFormat: "none",
+      actionName: "Convert to CSV",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "csv-to-json": {
+      title: "CSV to JSON Converter",
+      description: "Convert CSV spreadsheets and text into structured JSON arrays and objects instantly on your device with 100% privacy.",
+      subCategory: "Data Conversion",
+      inputFormat: "none",
+      outputFormat: "none",
+      actionName: "Convert to JSON",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "base64-encoder-decoder": {
+      title: "Base64 Encoder & Decoder",
+      description: "Encode text and files (images, audio, PDF) to Base64 Data URLs, or decode Base64 strings back to readable text and downloadable files.",
+      subCategory: "Encoding & Data",
+      inputFormat: "none",
+      outputFormat: "none",
+      actionName: "Base64 Convert",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "unix-timestamp-converter": {
+      title: "Unix Timestamp Converter (Epoch to Date)",
+      description: "Convert Unix epoch timestamps in seconds and milliseconds to human-readable dates and vice versa with live epoch clock.",
+      subCategory: "Time & Date",
+      inputFormat: "none",
+      outputFormat: "none",
+      actionName: "Convert Timestamp",
+      isInteractive: true,
+      acceptedTypes: {}
+    },
+    "uuid-generator": {
+      title: "UUID Generator & Validator (v4 GUID)",
+      description: "Generate bulk RFC 4122 v4 UUIDs / GUIDs instantly in your browser with uppercase, hyphens, and braces options, plus UUID syntax validator.",
+      subCategory: "Identifiers & Keys",
+      inputFormat: "none",
+      outputFormat: "none",
+      actionName: "Generate UUID",
+      isInteractive: true,
+      acceptedTypes: {}
+    }
+  }
+
 };
 
 // SEO & Routing Slug Aliases (Resolves alternative URLs without duplicate cards in directories)
@@ -762,6 +835,22 @@ export const SLUG_ALIASES: Record<string, string> = {
   "annotate-pdf": "edit-pdf",
   "sign-pdf": "edit-pdf",
   "online-pdf-editor": "edit-pdf",
+
+  // Developer / Data & Code Aliases
+  "decode-jwt": "jwt-decoder",
+  "jwt-parser": "jwt-decoder",
+  "jwt-validator": "jwt-decoder",
+  "json-validator": "json-formatter",
+  "format-json": "json-formatter",
+  "prettify-json": "json-formatter",
+  "base64-encode": "base64-encoder-decoder",
+  "base64-decode": "base64-encoder-decoder",
+  "base64-converter": "base64-encoder-decoder",
+  "timestamp-converter": "unix-timestamp-converter",
+  "epoch-converter": "unix-timestamp-converter",
+  "epoch-to-date": "unix-timestamp-converter",
+  "uuid-validator": "uuid-generator",
+  "guid-generator": "uuid-generator",
 };
 
 export function getToolBySlug(slug: string) {

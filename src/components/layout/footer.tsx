@@ -77,21 +77,21 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Col 5: Regional Fonts & Typing Exams */}
+          {/* Col 5: Data & Code Tools */}
           <div className="space-y-3">
             <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
-              <Type className="w-3.5 h-3.5 text-amber-500" />
-              <span>Fonts &amp; Exams</span>
+              <Cpu className="w-3.5 h-3.5 text-cyan-500" />
+              <span>Data &amp; Code</span>
             </h3>
             <ul className="space-y-2 text-xs">
-              <li><Link href="/krutidev-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Kruti Dev to Unicode</Link></li>
-              <li><Link href="/unicode-to-krutidev" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Unicode to Kruti Dev</Link></li>
-              <li><Link href="/anmollipi-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">AnmolLipi to Unicode</Link></li>
-              <li><Link href="/satluj-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Satluj to Unicode</Link></li>
-              <li><Link href="/inpage-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">InPage Urdu to Unicode</Link></li>
-              <li><Link href="/bijoy-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Bijoy to Bengali</Link></li>
-              <li><Link href="/preeti-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Preeti to Nepali</Link></li>
-              <li><Link href="/font-detector" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Online Font Detector</Link></li>
+              <li><Link href="/jwt-decoder" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">JWT Decoder (Offline)</Link></li>
+              <li><Link href="/json-formatter" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">JSON Formatter &amp; Validator</Link></li>
+              <li><Link href="/json-to-csv" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">JSON to CSV Converter</Link></li>
+              <li><Link href="/csv-to-json" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">CSV to JSON Converter</Link></li>
+              <li><Link href="/base64-encoder-decoder" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Base64 Encoder &amp; Decoder</Link></li>
+              <li><Link href="/unix-timestamp-converter" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Unix Timestamp Converter</Link></li>
+              <li><Link href="/uuid-generator" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">UUID Generator (v4)</Link></li>
+              <li><Link href="/category/developer" className="hover:text-blue-600 dark:hover:text-blue-400 font-bold transition-colors">All Data Tools →</Link></li>
             </ul>
           </div>
 
@@ -108,7 +108,6 @@ export function Footer() {
               <li><Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Service</Link></li>
               <li><Link href="/cookie-policy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Cookie Policy</Link></li>
               <li><Link href="/disclaimer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Disclaimer</Link></li>
-              <li><Link href="/editorial-policy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Editorial Policy</Link></li>
               <li><Link href="/accessibility" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Accessibility</Link></li>
               <li><ManageCookiesButton /></li>
             </ul>
@@ -120,6 +119,12 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs">
           <div className="flex flex-wrap items-center gap-2 text-slate-500 dark:text-slate-400">
             <span className="font-bold text-slate-700 dark:text-slate-300">Quick Tools:</span>
+            <Link href="/jwt-decoder" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-cyan-600 dark:text-cyan-400">JWT Decoder</Link>
+            <span>•</span>
+            <Link href="/json-formatter" className="hover:text-blue-600 dark:hover:text-blue-400">JSON Formatter</Link>
+            <span>•</span>
+            <Link href="/edit-pdf" className="hover:text-blue-600 dark:hover:text-blue-400">Edit PDF</Link>
+            <span>•</span>
             <Link href="/mp4-to-mp3" className="hover:text-blue-600 dark:hover:text-blue-400">MP4 to MP3</Link>
             <span>•</span>
             <Link href="/video-compressor" className="hover:text-blue-600 dark:hover:text-blue-400">Video Compressor</Link>
@@ -128,14 +133,12 @@ export function Footer() {
             <span>•</span>
             <Link href="/qr-code-generator" className="hover:text-blue-600 dark:hover:text-blue-400">QR Generator</Link>
             <span>•</span>
-            <Link href="/live-ruler" className="hover:text-blue-600 dark:hover:text-blue-400">Screen Ruler</Link>
-            <span>•</span>
-            <Link href="/age-calculator" className="hover:text-blue-600 dark:hover:text-blue-400">Age Calculator</Link>
+            <Link href="/krutidev-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400">Kruti Dev</Link>
           </div>
 
           <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium">
             <Cpu className="w-3.5 h-3.5 text-blue-500" />
-            <span>WebAssembly In-Browser Engine</span>
+            <span>100% In-Browser Privacy Engine</span>
           </div>
         </div>
 

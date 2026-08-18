@@ -1,5 +1,5 @@
 import { toolsDatabase } from "@/lib/tools-db";
-import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText } from "lucide-react";
+import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText, Code2, KeyRound, Clock, Table, Database } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -16,12 +16,22 @@ const getIconForTool = (slug: string) => {
     case "compress-pdf": return <Minimize className="h-6 w-6" />;
     case "repair-pdf": return <Wrench className="h-6 w-6" />;
     case "ocr-pdf": return <FileText className="h-6 w-6" />;
+    case "edit-pdf": return <FileText className="h-6 w-6" />;
     
     case "jpg-to-pdf": return <ImageIcon className="h-6 w-6" />;
     case "word-to-pdf": return <FileText className="h-6 w-6" />;
     case "powerpoint-to-pdf": return <Layout className="h-6 w-6" />;
     case "excel-to-pdf": return <FileType className="h-6 w-6" />;
     case "html-to-pdf": return <FileType className="h-6 w-6" />;
+
+    // Developer / Data & Code Tools
+    case "jwt-decoder": return <KeyRound className="h-6 w-6" />;
+    case "json-formatter": return <Code2 className="h-6 w-6" />;
+    case "json-to-csv": return <Table className="h-6 w-6" />;
+    case "csv-to-json": return <Database className="h-6 w-6" />;
+    case "base64-encoder-decoder": return <Code2 className="h-6 w-6" />;
+    case "unix-timestamp-converter": return <Clock className="h-6 w-6" />;
+    case "uuid-generator": return <KeyRound className="h-6 w-6" />;
     
     default: return <Settings className="h-6 w-6" />;
   }
@@ -30,12 +40,17 @@ const getIconForTool = (slug: string) => {
 const getIconColorClass = (categorySlug: string) => {
   if (categorySlug === 'image') return 'bg-emerald-500/10 text-emerald-500';
   if (categorySlug === 'document') return 'bg-blue-500/10 text-blue-500';
+  if (categorySlug === 'developer' || categorySlug === 'data-code') return 'bg-cyan-500/10 text-cyan-500';
   return 'bg-primary/10 text-primary';
 }
 
 export default async function CategoryPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
-  const categorySlug = params.slug;
+  let categorySlug = params.slug;
+
+  if (categorySlug === "data-code" || categorySlug === "data-tools") {
+    categorySlug = "developer";
+  }
 
   // Typecast to any to allow dynamic indexing
   const categoryData = (toolsDatabase as any)[categorySlug];
@@ -62,6 +77,11 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
   const groups = Object.keys(groupedTools);
   const iconColorClass = getIconColorClass(categorySlug);
 
+  const displayTitle = categorySlug === "developer" ? "Data & Code Tools" : `${categorySlug} Tools`;
+  const displaySubtitle = categorySlug === "developer"
+    ? "Essential, privacy-first developer utilities processed 100% in your browser. Zero cloud transmission."
+    : `Everything you need to manage and transform your ${categorySlug} files in one secure, powerful platform.`;
+
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Premium Header Section */}
@@ -74,10 +94,10 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
             Back to Home
           </Link>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 capitalize bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-            {categorySlug} Tools
+            {displayTitle}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to manage and transform your {categorySlug} files in one secure, powerful platform.
+            {displaySubtitle}
           </p>
         </div>
       </div>

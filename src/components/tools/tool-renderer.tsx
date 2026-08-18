@@ -36,6 +36,12 @@ const PresentationMaker = dynamic(() => import("@/components/tools/presentation-
 const MergePdfTool = dynamic(() => import("@/components/tools/merge-pdf"), { ssr: false, loading: ToolLoading });
 const ScreenRecorder = dynamic(() => import("@/components/tools/screen-recorder").then(m => m.ScreenRecorder), { ssr: false, loading: ToolLoading });
 const PdfEditor = dynamic(() => import("@/components/tools/pdf-editor").then(m => m.PdfEditor), { ssr: false, loading: ToolLoading });
+const JwtDecoder = dynamic(() => import("@/components/tools/jwt-decoder").then(m => m.JwtDecoder), { ssr: false, loading: ToolLoading });
+const JsonFormatter = dynamic(() => import("@/components/tools/json-formatter").then(m => m.JsonFormatter), { ssr: false, loading: ToolLoading });
+const JsonCsvConverter = dynamic(() => import("@/components/tools/json-csv-converter").then(m => m.JsonCsvConverter), { ssr: false, loading: ToolLoading });
+const Base64Converter = dynamic(() => import("@/components/tools/base64-converter").then(m => m.Base64Converter), { ssr: false, loading: ToolLoading });
+const TimestampConverter = dynamic(() => import("@/components/tools/timestamp-converter").then(m => m.TimestampConverter), { ssr: false, loading: ToolLoading });
+const UuidGenerator = dynamic(() => import("@/components/tools/uuid-generator").then(m => m.UuidGenerator), { ssr: false, loading: ToolLoading });
 
 interface ToolRendererProps {
   toolSlug: string;
@@ -82,6 +88,15 @@ export function ToolRenderer({
         {toolSlug === "merge-pdf" && <MergePdfTool />}
         {toolSlug === "screen-recorder" && <ScreenRecorder />}
         {(toolSlug === "edit-pdf" || toolSlug === "pdf-editor" || toolSlug === "annotate-pdf" || toolSlug === "sign-pdf") && <PdfEditor />}
+        
+        {/* Data & Code Tools */}
+        {(toolSlug === "jwt-decoder" || toolSlug === "decode-jwt") && <JwtDecoder />}
+        {(toolSlug === "json-formatter" || toolSlug === "json-validator" || toolSlug === "format-json") && <JsonFormatter />}
+        {toolSlug === "json-to-csv" && <JsonCsvConverter defaultDirection="json-to-csv" />}
+        {toolSlug === "csv-to-json" && <JsonCsvConverter defaultDirection="csv-to-json" />}
+        {(toolSlug === "base64-encoder-decoder" || toolSlug === "base64-encode" || toolSlug === "base64-decode" || toolSlug === "base64-converter") && <Base64Converter />}
+        {(toolSlug === "unix-timestamp-converter" || toolSlug === "timestamp-converter" || toolSlug === "epoch-converter") && <TimestampConverter />}
+        {(toolSlug === "uuid-generator" || toolSlug === "uuid-validator" || toolSlug === "guid-generator") && <UuidGenerator />}
       </>
     );
   }

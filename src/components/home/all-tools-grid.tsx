@@ -27,10 +27,11 @@ import {
   FileCode,
   Presentation,
   CheckCircle2,
+  Code2,
 } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
 
-type CategoryFilter = "all" | "popular" | "pdf" | "image" | "video" | "audio" | "document" | "utilities" | "fonts";
+type CategoryFilter = "all" | "popular" | "developer" | "pdf" | "image" | "video" | "audio" | "document" | "utilities" | "fonts";
 
 interface ToolItem {
   slug: string;
@@ -48,6 +49,7 @@ interface ToolItem {
 const CATEGORY_TABS: { key: CategoryFilter; label: string }[] = [
   { key: "all", label: "All Tools" },
   { key: "popular", label: "Popular" },
+  { key: "developer", label: "Data & Code" },
   { key: "pdf", label: "PDF" },
   { key: "image", label: "Image" },
   { key: "video", label: "Video" },
@@ -59,6 +61,10 @@ const CATEGORY_TABS: { key: CategoryFilter; label: string }[] = [
 
 function getToolMeta(slug: string, category: string, tool: any): { icon: any; iconBg: string; iconColor: string; badge: string; isPopular: boolean } {
   const lowerSlug = slug.toLowerCase();
+  
+  if (category === "developer" || lowerSlug.includes("jwt") || lowerSlug.includes("json") || lowerSlug.includes("base64") || lowerSlug.includes("uuid") || lowerSlug.includes("timestamp")) {
+    return { icon: Code2, iconBg: "bg-cyan-500/15 border-cyan-500/30", iconColor: "text-cyan-400", badge: "Data & Code", isPopular: lowerSlug.includes("jwt") || lowerSlug.includes("json") };
+  }
   
   if (lowerSlug.includes("remove-bg") || lowerSlug.includes("remove-background")) {
     return { icon: Eraser, iconBg: "bg-purple-500/15 border-purple-500/30", iconColor: "text-purple-400", badge: "AI Magic", isPopular: true };
