@@ -277,29 +277,39 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
     sections: [
       {
         title: "How does the Camera Measurement Tool work?",
-        content: "<p>This tool leverages your device's camera to estimate the real-world dimensions of objects. Since standard web browsers do not have access to advanced depth sensors (like LiDAR), this tool relies on 'Reference Object Photogrammetry'. By comparing the pixel width of an object of known size (like a credit card) to the pixel width of the unknown object in the same photograph, it calculates the physical dimensions.</p>"
+        content: "<p>Your camera cannot measure real-world distances on its own because 2D photos do not have depth. This tool uses a simple, smart technique called <strong>Optical Reference Scaling</strong>: by placing an item of known size (such as a standard credit card, coin, or A4 paper) right next to your object, the tool compares pixel counts to calculate exact real-world dimensions in centimeters, millimeters, inches, or feet.</p>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select a Reference:</strong> Choose a standard object you have nearby, such as a Credit Card or a standard piece of paper.</li><li><strong>Frame the Shot:</strong> Place the reference object directly next to the item you want to measure. It is critical they are at the exact same distance from the camera lens.</li><li><strong>Take Photo:</strong> Capture the image ensuring both objects are clearly visible.</li><li><strong>Calibrate:</strong> Draw a line on the screen exactly across the width of your reference object.</li><li><strong>Measure:</strong> Draw lines across the object you want to measure. The app calculates its real-world dimensions instantly.</li></ol>"
+        title: "Simple Real-World Example: Measuring a Book",
+        content: `<div class="space-y-3">
+          <p>Imagine you want to measure the exact length and width of a <strong>Book</strong> on your desk without a physical tape measure:</p>
+          <ol class="list-decimal pl-5 space-y-2">
+            <li><strong>Place a Reference Item:</strong> Put any standard <strong>Credit Card</strong> or ID flat on your desk right next to the book.</li>
+            <li><strong>Point & Freeze:</strong> Aim your phone or webcam straight down at both items. Tap <strong>"Freeze / Snapshot Frame"</strong> so hand shaking doesn't blur your drawing.</li>
+            <li><strong>Calibrate (Step 1):</strong> Drag a line across the width of your Credit Card (from left to right). The tool locks the <strong>8.56 cm</strong> reference scale.</li>
+            <li><strong>Measure (Step 2):</strong> Drag a line across your Book. The tool immediately displays its exact size: <code>21.4 cm (8.43 in)</code>.</li>
+            <li><strong>Measure 2D Area:</strong> Switch to <strong>"2D Area Box"</strong> to draw a box and instantly see its length, width, and surface area (e.g. <code>320.5 cm²</code>).</li>
+          </ol>
+        </div>`
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Furniture Shopping:</strong> Estimating the dimensions of a couch or table to see if it will fit in your living room.</li><li><strong>Shipping:</strong> Estimating the dimensions of a box to calculate shipping costs.</li><li><strong>DIY Projects:</strong> Measuring the length of a pipe, board, or window frame without needing a tape measure.</li></ul>"
+        title: "3 Golden Rules for 99.9% Accuracy",
+        content: `<ul>
+          <li><strong>1. Same Flat Surface:</strong> Always place your reference card/coin directly next to the object on the same flat surface (never hold the card closer or further from the camera).</li>
+          <li><strong>2. Keep Your Phone Level (0° Tilt):</strong> Look at the green <strong>"Level: 0°"</strong> indicator. Holding your phone parallel to the table eliminates perspective distortion.</li>
+          <li><strong>3. Use the 2.5x Zoom Loupe:</strong> When you touch and drag on the screen, a built-in 2.5x magnifying crosshair appears in the corner so your finger never blocks the edge.</li>
+        </ul>`
       },
       {
-        title: "Frequently Asked Questions",
+        title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: How accurate is the camera measurement?</strong><br>A: Under ideal conditions (good lighting, objects at the exact same depth, camera perfectly parallel), it can be accurate to within a few millimeters. However, perspective distortion can cause errors.</p>
-          <p><strong>Q: Why does the reference object have to be at the same distance?</strong><br>A: If the reference object is closer to the camera, it appears larger in pixels. The math relies on both objects experiencing the exact same lens perspective and distance scaling.</p>
-          <p><strong>Q: Do my photos get uploaded to your server?</strong><br>A: No! The camera feed and photo processing happen entirely locally within your web browser using HTML5 Canvas. We never see your photos.</p>
-          <p><strong>Q: Why do I need a reference object?</strong><br>A: A standard 2D camera image contains no depth information. Without knowing the physical size of at least one thing in the photo, it is mathematically impossible to determine the scale of anything else.</p>
-          <p><strong>Q: Can I use a coin as a reference?</strong><br>A: Yes, but larger reference objects (like a piece of A4 paper) yield more accurate results because drawing the calibration line across a larger pixel area reduces the margin of error.</p>
-          <p><strong>Q: Does this work on desktop computers?</strong><br>A: Yes, if your desktop has a webcam, you can hold objects up to the camera. However, it is much easier to use on a smartphone or tablet.</p>
-          <p><strong>Q: Why does the measurement change when I tilt the camera?</strong><br>A: Tilting introduces perspective foreshortening. For accurate measurements, your camera lens must be perfectly parallel to the surface the objects are resting on.</p>
-          <p><strong>Q: Can I measure the height of a building?</strong><br>A: Only if you place a massive reference object right next to the building! For large distant objects, this simple reference method is not suitable.</p>
-          <p><strong>Q: Is this an augmented reality (AR) app?</strong><br>A: No, this uses 2D photogrammetry. Native AR apps use device-specific sensors (like Apple's LiDAR) which provide full 3D spatial mapping.</p>
-          <p><strong>Q: Does it cost money to use the camera tool?</strong><br>A: No, the camera measurement tool is fully accessible and 100% free.</p>
+          <p><strong>Q: What reference items can I use?</strong><br>A: You can use any standard Credit Card / ID (8.56 cm), A4 Paper (21.0 cm), US Letter (21.59 cm / 8.5 in), US Quarter ($0.25), 1 Euro / 2 Euro coins, UK £1 coin, Indian ₹10 coin, or enter any custom object size in centimeters.</p>
+          <p><strong>Q: What is the "Freeze Frame" button for?</strong><br>A: When holding a phone, tiny hand tremors can make drawing lines difficult. Tapping "Freeze / Snapshot Frame" captures a crystal-clear high-res still image so you can draw and fine-tune measurements without any shaking.</p>
+          <p><strong>Q: How does the Zoom Loupe Magnifier work?</strong><br>A: Whenever you touch or drag a line on mobile or desktop, a circular 2.5x magnifying lens with red crosshairs pops up in the top corner. This allows you to align the endpoints down to the single pixel.</p>
+          <p><strong>Q: Why does the phone level indicator matter?</strong><br>A: If you tilt your phone at an angle (e.g. 45°), objects further away appear artificially smaller due to perspective. Keeping your phone flat/level (green indicator) ensures true 1:1 measurement accuracy.</p>
+          <p><strong>Q: Can I measure in inches or millimeters?</strong><br>A: Yes! You can toggle between <strong>cm</strong>, <strong>mm</strong>, <strong>inch</strong>, and <strong>ft</strong> at any time with a single click.</p>
+          <p><strong>Q: Can I save or export the photo with measurements?</strong><br>A: Yes! Click the <strong>"Export Photo"</strong> button to download a high-resolution JPG of your photo stamped with all drawn lines, labels, and dimensions.</p>
+          <p><strong>Q: Are my camera images or photos uploaded to any server?</strong><br>A: Absolutely not. 100% of camera processing, image freezing, and pixel calculations run entirely locally on your device's browser. Zero images or videos ever leave your phone or computer.</p>
         `
       }
     ]
