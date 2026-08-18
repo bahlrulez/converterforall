@@ -114,10 +114,53 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
           dangerouslySetInnerHTML={{ __html: post.content }} 
         />
         
-        {/* Quick Conversion CTA Banner */}
-        <div className="mt-16 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-6">
+        {/* Hub-and-Spoke Contextual Tool Card */}
+        {(() => {
+          const lower = (post.title + " " + post.content).toLowerCase();
+          let toolTarget = { slug: "passport-photo-maker", title: "Passport Photo Maker", desc: "Create official biometric passport and ID photos in 1-click on your device." };
+          
+          if (lower.includes("pdf") && lower.includes("compress")) {
+            toolTarget = { slug: "compress-pdf", title: "Compress PDF Online", desc: "Reduce PDF file size in seconds without quality loss." };
+          } else if (lower.includes("pdf") && (lower.includes("edit") || lower.includes("sign"))) {
+            toolTarget = { slug: "edit-pdf", title: "Free Online PDF Editor", desc: "Annotate, draw, sign, and blackout sensitive PDF records offline." };
+          } else if (lower.includes("pdf")) {
+            toolTarget = { slug: "pdf-to-word", title: "PDF to Word (DOCX)", desc: "Extract clean editable Word documents from any PDF file." };
+          } else if (lower.includes("background") || lower.includes("remove-bg")) {
+            toolTarget = { slug: "remove-background", title: "AI Background Remover", desc: "Automatically isolate subjects and remove image backgrounds with high precision." };
+          } else if (lower.includes("kruti") || lower.includes("mangal") || lower.includes("hindi")) {
+            toolTarget = { slug: "krutidev-to-unicode", title: "Kruti Dev to Unicode Converter", desc: "Convert legacy font typing into standard Unicode Hindi instantly." };
+          } else if (lower.includes("jwt") || lower.includes("token")) {
+            toolTarget = { slug: "jwt-decoder", title: "JWT Token Decoder", desc: "Safely decode JWT headers and payload claims without sending data to servers." };
+          }
+
+          return (
+            <div className="mt-12 p-6 sm:p-7 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-32 bg-blue-500/20 blur-3xl pointer-events-none" />
+              
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 relative z-10">
+                <div className="space-y-1.5">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                    ⚡ Live Interactive Tool
+                  </div>
+                  <h4 className="text-lg sm:text-xl font-bold tracking-tight text-white">{toolTarget.title}</h4>
+                  <p className="text-xs text-slate-300 max-w-md leading-relaxed">{toolTarget.desc}</p>
+                </div>
+                
+                <Link
+                  href={`/${toolTarget.slug}`}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-md shadow-blue-500/20 transition-all shrink-0 active:scale-95"
+                >
+                  <span>Launch Tool Free →</span>
+                </Link>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* Global Conversion CTA Banner */}
+        <div className="mt-8 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <h4 className="text-lg font-bold">Ready to convert files for free?</h4>
+            <h4 className="text-lg font-bold">Ready to convert other files for free?</h4>
             <p className="text-xs sm:text-sm text-blue-100 mt-1">No uploads, 100% private, and completely free forever.</p>
           </div>
           <Link

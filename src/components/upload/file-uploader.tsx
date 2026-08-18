@@ -2,7 +2,7 @@
 
 import { useCallback, useState, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, Camera, Paintbrush } from "lucide-react";
+import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, Camera, Paintbrush, ShieldCheck } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BgRemovalEditor } from "@/components/tools/bg-removal-editor";
@@ -319,6 +319,22 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
 
             {status === "success" && (
               <>
+                {/* Visual Post-Conversion Privacy Trust Confirmation Badge */}
+                <div className="w-full mb-3 p-3.5 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/30 flex items-center gap-3 text-left animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                    <ShieldCheck className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
+                      <span>100% On-Device Conversion Complete</span>
+                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                    </p>
+                    <p className="text-[11px] text-emerald-600/90 dark:text-emerald-400/90">
+                      Processed securely on your device's CPU/GPU • 0 bytes uploaded to external servers
+                    </p>
+                  </div>
+                </div>
+
                 <Button onClick={reset} variant="outline" className="w-full sm:w-auto">
                   Convert Another File
                 </Button>
