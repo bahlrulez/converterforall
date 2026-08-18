@@ -156,7 +156,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
         </div>
 
         {/* Main Interactive Tool Engine Box */}
-        <div className="relative mb-16">
+        <div className="relative mb-14">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[90%] max-w-3xl h-[85%] blur-[90px] opacity-25 dark:opacity-15 pointer-events-none">
             <div className="w-full h-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-500 rounded-full" />
           </div>
@@ -172,6 +172,11 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
               defaultFontTo={defaultFontTo}
             />
           </div>
+        </div>
+
+        {/* Lightweight Modern Related Utilities Discovery Strip (Above FAQs & Guides) */}
+        <div className="print:hidden">
+          <RelatedTools currentSlug={toolSlug} categorySlug={categorySlug} />
         </div>
 
         {/* Structured SEO Guide & Bento Information Sections */}
@@ -191,11 +196,6 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
               />
             </div>
           ))}
-        </div>
-
-        {/* Lightweight Related Utilities Discovery Strip */}
-        <div className="print:hidden">
-          <RelatedTools currentSlug={toolSlug} categorySlug={categorySlug} />
         </div>
 
       </div>
