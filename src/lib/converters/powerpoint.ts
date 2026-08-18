@@ -1,20 +1,72 @@
 import JSZip from "jszip";
 
-interface ExtractedSlide {
-  slideNumber: number;
-  title: string;
-  subtitles: string[];
-  paragraphs: string[];
-  tables: string[][][];
-  images: string[]; // Base64 data URLs
+interface TextRun {
+  text: string;
+  fontSize?: number; // in pt
+  bold?: boolean;
+  italic?: boolean;
+  color?: string; // hex
+}
+
+interface TextParagraph {
+  runs: TextRun[];
+  align?: "left" | "center" | "right" | "justify";
+  spaceBefore?: number;
+}
+
+interface ShapeItem {
+  id: string;
+  type: "shape" | "picture" | "table";
+  x: number; // in pixels
+  y: number; // in pixels
+  width: number; // in pixels
+  height: number; // in pixels
   bgColor?: string;
+  borderColor?: string;
+  borderRadius?: string;
+  paragraphs?: TextParagraph[];
+  imgSrc?: string;
+  tableRows?: string[][];
+  zIndex?: number;
+}
+
+interface SlideObject {
+  slideNumber: number;
+  bgColor: string;
+  shapes: ShapeItem[];
 }
 
 export async function convertPptxToPdf(file: File): Promise<Blob> {
   const arrayBuffer = await file.arrayBuffer();
   const zip = await JSZip.loadAsync(arrayBuffer);
 
-  // 1. Discover all slide XML files and sort them numerically
+  // 1. Determine presentation dimensions (default 16:9 widescreen: 12192000 x 6858000 EMUs)
+  let emuWidth = 12192000;
+  let emuHeight = 6858000;
+
+  const presXmlText = await zip.file("ppt/presentation.xml")?.async("text");
+  const parser = new DOMParser();
+
+  if (presXmlText) {
+    const presDoc = parser.parseFromString(presXmlText, "text/xml");
+    const sldSz = presDoc.getElementsByTagName("p:sldSz")[0];
+    if (sldSz) {
+      const cx = parseInt(sldSz.getAttribute("cx") || "12192000", 10);
+      const cy = parseInt(sldSz.getAttribute("cy") || "6858000", 10);
+      if (cx > 0 && cy > 0) {
+        emuWidth = cx;
+        emuHeight = cy;
+      }
+    }
+  }
+
+  // Target viewport size in pixels for the generated PDF page
+  const VIEW_WIDTH = 1280;
+  const VIEW_HEIGHT = Math.round((VIEW_WIDTH * emuHeight) / emuWidth);
+  const scaleX = VIEW_WIDTH / emuWidth;
+  const scaleY = VIEW_HEIGHT / emuHeight;
+
+  // 2. Discover all slide XML files and sort them numerically
   const slidePaths: string[] = [];
   zip.forEach((relativePath) => {
     if (/^ppt\/slides\/slide\d+\.xml$/i.test(relativePath)) {
@@ -32,17 +84,16 @@ export async function convertPptxToPdf(file: File): Promise<Blob> {
     throw new Error("No readable presentation slides found in this PowerPoint file.");
   }
 
-  const parser = new DOMParser();
-  const slidesData: ExtractedSlide[] = [];
+  const slides: SlideObject[] = [];
 
-  for (let i = 0; i < slidePaths.length; i++) {
-    const slidePath = slidePaths[i];
+  for (let sIdx = 0; sIdx < slidePaths.length; sIdx++) {
+    const slidePath = slidePaths[sIdx];
     const slideXmlText = await zip.file(slidePath)?.async("text");
     if (!slideXmlText) continue;
 
     const xmlDoc = parser.parseFromString(slideXmlText, "text/xml");
 
-    // Check for relationship file to load embedded images
+    // Load relationships for images
     const relsPath = slidePath.replace("ppt/slides/", "ppt/slides/_rels/") + ".rels";
     const relsXmlText = await zip.file(relsPath)?.async("text");
     const relsMap: Record<string, string> = {};
@@ -54,274 +105,327 @@ export async function convertPptxToPdf(file: File): Promise<Blob> {
         const id = relElements[r].getAttribute("Id");
         const target = relElements[r].getAttribute("Target");
         if (id && target) {
-          const cleanTarget = target.replace("../", "ppt/");
-          relsMap[id] = cleanTarget;
+          relsMap[id] = target.replace("../", "ppt/");
         }
       }
     }
 
-    // Extract embedded images for this slide
-    const slideImages: string[] = [];
-    const blipElements = xmlDoc.getElementsByTagName("a:blip");
-    for (let b = 0; b < blipElements.length; b++) {
-      const embedId = blipElements[b].getAttribute("r:embed");
-      if (embedId && relsMap[embedId]) {
-        const imageFile = zip.file(relsMap[embedId]);
-        if (imageFile) {
-          const imgBase64 = await imageFile.async("base64");
-          const mime = relsMap[embedId].endsWith(".png")
-            ? "image/png"
-            : relsMap[embedId].endsWith(".svg")
-            ? "image/svg+xml"
-            : "image/jpeg";
-          slideImages.push(`data:${mime};base64,${imgBase64}`);
-        }
+    // Determine slide background color
+    let slideBgColor = "#0f172a"; // Default dark navy
+    const bgPr = xmlDoc.getElementsByTagName("p:bgPr")[0];
+    if (bgPr) {
+      const srgbClr = bgPr.getElementsByTagName("a:srgbClr")[0];
+      if (srgbClr) {
+        const val = srgbClr.getAttribute("val");
+        if (val) slideBgColor = "#" + val;
       }
     }
 
-    // Extract text paragraphs and titles
-    let title = "";
-    const subtitles: string[] = [];
-    const paragraphs: string[] = [];
+    const shapes: ShapeItem[] = [];
+    const spTree = xmlDoc.getElementsByTagName("p:spTree")[0];
 
-    const shapeElements = xmlDoc.getElementsByTagName("p:sp");
-    for (let s = 0; s < shapeElements.length; s++) {
-      const sp = shapeElements[s];
-      const pElements = sp.getElementsByTagName("a:p");
+    if (spTree) {
+      const children = Array.from(spTree.childNodes) as Element[];
 
-      let shapeText = "";
-      for (let p = 0; p < pElements.length; p++) {
-        const tElements = pElements[p].getElementsByTagName("a:t");
-        let paraLine = "";
-        for (let t = 0; t < tElements.length; t++) {
-          paraLine += tElements[t].textContent || "";
-        }
-        if (paraLine.trim()) {
-          paragraphs.push(paraLine.trim());
-          shapeText += " " + paraLine.trim();
-        }
-      }
+      for (let cIdx = 0; cIdx < children.length; cIdx++) {
+        const node = children[cIdx];
+        if (!node.tagName) continue;
 
-      // Detect title shape
-      const ph = sp.getElementsByTagName("p:ph")[0];
-      const phType = ph?.getAttribute("type");
-      if (phType === "title" || phType === "ctrTitle") {
-        if (shapeText.trim() && !title) {
-          title = shapeText.trim();
-        }
-      } else if (phType === "subTitle") {
-        if (shapeText.trim()) {
-          subtitles.push(shapeText.trim());
-        }
-      }
-    }
+        // --- Handle Pictures (<p:pic>) ---
+        if (node.tagName === "p:pic") {
+          const xfrm = node.getElementsByTagName("a:xfrm")[0];
+          const blip = node.getElementsByTagName("a:blip")[0];
 
-    // Fallback: If no explicit title placeholder was found, use the first paragraph
-    if (!title && paragraphs.length > 0) {
-      title = paragraphs[0];
-      paragraphs.shift();
-    }
+          if (xfrm && blip) {
+            const off = xfrm.getElementsByTagName("a:off")[0];
+            const ext = xfrm.getElementsByTagName("a:ext")[0];
+            const embedId = blip.getAttribute("r:embed");
 
-    // Extract tables
-    const tables: string[][][] = [];
-    const tblElements = xmlDoc.getElementsByTagName("a:tbl");
-    for (let t = 0; t < tblElements.length; t++) {
-      const tbl = tblElements[t];
-      const rowElements = tbl.getElementsByTagName("a:tr");
-      const tableData: string[][] = [];
-      for (let r = 0; r < rowElements.length; r++) {
-        const cellElements = rowElements[r].getElementsByTagName("a:tc");
-        const rowData: string[] = [];
-        for (let c = 0; c < cellElements.length; c++) {
-          const tElements = cellElements[c].getElementsByTagName("a:t");
-          let cellText = "";
-          for (let k = 0; k < tElements.length; k++) {
-            cellText += tElements[k].textContent || "";
+            if (off && ext && embedId && relsMap[embedId]) {
+              const xEmu = parseInt(off.getAttribute("x") || "0", 10);
+              const yEmu = parseInt(off.getAttribute("y") || "0", 10);
+              const cxEmu = parseInt(ext.getAttribute("cx") || "0", 10);
+              const cyEmu = parseInt(ext.getAttribute("cy") || "0", 10);
+
+              const imageFile = zip.file(relsMap[embedId]);
+              if (imageFile) {
+                const imgBase64 = await imageFile.async("base64");
+                const mime = relsMap[embedId].endsWith(".png")
+                  ? "image/png"
+                  : relsMap[embedId].endsWith(".svg")
+                  ? "image/svg+xml"
+                  : "image/jpeg";
+
+                shapes.push({
+                  id: "pic-" + cIdx,
+                  type: "picture",
+                  x: Math.round(xEmu * scaleX),
+                  y: Math.round(yEmu * scaleY),
+                  width: Math.round(cxEmu * scaleX),
+                  height: Math.round(cyEmu * scaleY),
+                  imgSrc: `data:${mime};base64,${imgBase64}`,
+                  borderRadius: "12px",
+                  zIndex: cIdx + 1,
+                });
+              }
+            }
           }
-          rowData.push(cellText.trim());
         }
-        if (rowData.length > 0) tableData.push(rowData);
+
+        // --- Handle Shapes & Text Boxes (<p:sp>) ---
+        if (node.tagName === "p:sp") {
+          const spPr = node.getElementsByTagName("p:spPr")[0];
+          const txBody = node.getElementsByTagName("p:txBody")[0];
+
+          let x = 0, y = 0, width = VIEW_WIDTH - 80, height = 100;
+          let bgColor = "transparent";
+          let borderColor = "transparent";
+          let borderRadius = "0px";
+
+          if (spPr) {
+            const xfrm = spPr.getElementsByTagName("a:xfrm")[0];
+            if (xfrm) {
+              const off = xfrm.getElementsByTagName("a:off")[0];
+              const ext = xfrm.getElementsByTagName("a:ext")[0];
+              if (off && ext) {
+                const xEmu = parseInt(off.getAttribute("x") || "0", 10);
+                const yEmu = parseInt(off.getAttribute("y") || "0", 10);
+                const cxEmu = parseInt(ext.getAttribute("cx") || "0", 10);
+                const cyEmu = parseInt(ext.getAttribute("cy") || "0", 10);
+
+                x = Math.round(xEmu * scaleX);
+                y = Math.round(yEmu * scaleY);
+                width = Math.round(cxEmu * scaleX);
+                height = Math.round(cyEmu * scaleY);
+              }
+            }
+
+            // Fill color
+            const solidFill = spPr.getElementsByTagName("a:solidFill")[0];
+            if (solidFill) {
+              const srgbClr = solidFill.getElementsByTagName("a:srgbClr")[0];
+              if (srgbClr) {
+                const val = srgbClr.getAttribute("val");
+                if (val) bgColor = "#" + val;
+              }
+            }
+
+            // Border
+            const ln = spPr.getElementsByTagName("a:ln")[0];
+            if (ln) {
+              const lnFill = ln.getElementsByTagName("a:solidFill")[0];
+              const lnClr = lnFill?.getElementsByTagName("a:srgbClr")[0];
+              if (lnClr) {
+                const val = lnClr.getAttribute("val");
+                if (val) borderColor = "#" + val;
+              }
+            }
+
+            // Shape Geometry (rounded rectangle, pill, etc.)
+            const prstGeom = spPr.getElementsByTagName("a:prstGeom")[0];
+            if (prstGeom) {
+              const prst = prstGeom.getAttribute("prst");
+              if (prst === "roundRect" || prst === "snipRoundRect") {
+                borderRadius = "12px";
+              } else if (prst === "ellipse") {
+                borderRadius = "9999px";
+              }
+            }
+          }
+
+          // Extract text runs and paragraphs
+          const paragraphs: TextParagraph[] = [];
+          if (txBody) {
+            const pElements = txBody.getElementsByTagName("a:p");
+
+            for (let pI = 0; pI < pElements.length; pI++) {
+              const pEl = pElements[pI];
+              const pPr = pEl.getElementsByTagName("a:pPr")[0];
+              const algnAttr = pPr?.getAttribute("algn");
+
+              let align: "left" | "center" | "right" = "left";
+              if (algnAttr === "ctr") align = "center";
+              else if (algnAttr === "r") align = "right";
+
+              const runs: TextRun[] = [];
+              const rElements = pEl.getElementsByTagName("a:r");
+
+              for (let rI = 0; rI < rElements.length; rI++) {
+                const rEl = rElements[rI];
+                const tEl = rEl.getElementsByTagName("a:t")[0];
+                const rPr = rEl.getElementsByTagName("a:rPr")[0];
+
+                const text = tEl?.textContent || "";
+                if (!text) continue;
+
+                let fontSizePt = 16;
+                let bold = false;
+                let italic = false;
+                let color = "#ffffff";
+
+                if (rPr) {
+                  const sz = rPr.getAttribute("sz");
+                  if (sz) fontSizePt = parseInt(sz, 10) / 100;
+                  if (rPr.getAttribute("b") === "1") bold = true;
+                  if (rPr.getAttribute("i") === "1") italic = true;
+
+                  const srgbClr = rPr.getElementsByTagName("a:srgbClr")[0];
+                  if (srgbClr) {
+                    const val = srgbClr.getAttribute("val");
+                    if (val) color = "#" + val;
+                  }
+                }
+
+                runs.push({
+                  text,
+                  fontSize: fontSizePt,
+                  bold,
+                  italic,
+                  color,
+                });
+              }
+
+              // If no <a:r> child, check direct <a:t>
+              if (runs.length === 0) {
+                const tElements = pEl.getElementsByTagName("a:t");
+                let directText = "";
+                for (let dt = 0; dt < tElements.length; dt++) {
+                  directText += tElements[dt].textContent || "";
+                }
+                if (directText.trim()) {
+                  runs.push({
+                    text: directText,
+                    fontSize: 16,
+                    color: "#ffffff",
+                  });
+                }
+              }
+
+              if (runs.length > 0) {
+                paragraphs.push({ runs, align });
+              }
+            }
+          }
+
+          // Only add shape if it has background, border, or text
+          if (bgColor !== "transparent" || borderColor !== "transparent" || paragraphs.length > 0) {
+            shapes.push({
+              id: "sp-" + cIdx,
+              type: "shape",
+              x,
+              y,
+              width,
+              height,
+              bgColor,
+              borderColor,
+              borderRadius,
+              paragraphs,
+              zIndex: cIdx + 1,
+            });
+          }
+        }
       }
-      if (tableData.length > 0) tables.push(tableData);
     }
 
-    slidesData.push({
-      slideNumber: i + 1,
-      title: title || `Slide ${i + 1}`,
-      subtitles,
-      paragraphs,
-      tables,
-      images: slideImages,
+    slides.push({
+      slideNumber: sIdx + 1,
+      bgColor: slideBgColor,
+      shapes,
     });
   }
 
-  // 2. Render all slides into a print/PDF container with slide layout styling
+  // 3. Render all slides as exact-positioned 1280x720 HTML canvas containers
   const container = document.createElement("div");
-  container.style.width = "1120px";
-  container.style.background = "#0f172a";
-  container.style.color = "#ffffff";
-  container.style.fontFamily = "system-ui, -apple-system, sans-serif";
+  container.style.width = `${VIEW_WIDTH}px`;
+  container.style.background = "#000000";
 
-  slidesData.forEach((slide, idx) => {
-    const slideBox = document.createElement("div");
-    slideBox.style.width = "1120px";
-    slideBox.style.minHeight = "630px";
-    slideBox.style.height = "630px";
-    slideBox.style.boxSizing = "border-box";
-    slideBox.style.padding = "50px 60px";
-    slideBox.style.position = "relative";
-    slideBox.style.display = "flex";
-    slideBox.style.flexDirection = "column";
-    slideBox.style.justifyContent = "space-between";
-    slideBox.style.background = "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)";
-    slideBox.style.color = "#f8fafc";
-    slideBox.style.pageBreakAfter = idx < slidesData.length - 1 ? "always" : "auto";
-    slideBox.style.breakAfter = idx < slidesData.length - 1 ? "page" : "auto";
-    slideBox.style.overflow = "hidden";
+  slides.forEach((slide, sIdx) => {
+    const slidePage = document.createElement("div");
+    slidePage.style.width = `${VIEW_WIDTH}px`;
+    slidePage.style.height = `${VIEW_HEIGHT}px`;
+    slidePage.style.position = "relative";
+    slidePage.style.background = slide.bgColor;
+    slidePage.style.boxSizing = "border-box";
+    slidePage.style.overflow = "hidden";
+    slidePage.style.pageBreakAfter = sIdx < slides.length - 1 ? "always" : "auto";
+    slidePage.style.breakAfter = sIdx < slides.length - 1 ? "page" : "auto";
+    slidePage.style.fontFamily = "system-ui, -apple-system, sans-serif";
 
-    // Slide Header / Title
-    const headerBox = document.createElement("div");
-    headerBox.style.marginBottom = "24px";
+    slide.shapes.forEach((item) => {
+      const el = document.createElement("div");
+      el.style.position = "absolute";
+      el.style.left = `${item.x}px`;
+      el.style.top = `${item.y}px`;
+      el.style.width = `${item.width}px`;
+      el.style.height = `${item.height}px`;
+      el.style.boxSizing = "border-box";
+      el.style.zIndex = `${item.zIndex || 1}`;
 
-    const titleEl = document.createElement("h1");
-    titleEl.innerText = slide.title;
-    titleEl.style.fontSize = "32px";
-    titleEl.style.fontWeight = "800";
-    titleEl.style.lineHeight = "1.2";
-    titleEl.style.margin = "0 0 10px 0";
-    titleEl.style.color = "#ffffff";
-    titleEl.style.borderBottom = "3px solid #3b82f6";
-    titleEl.style.paddingBottom = "12px";
-    headerBox.appendChild(titleEl);
+      if (item.bgColor && item.bgColor !== "transparent") {
+        el.style.backgroundColor = item.bgColor;
+      }
+      if (item.borderColor && item.borderColor !== "transparent") {
+        el.style.border = `1.5px solid ${item.borderColor}`;
+      }
+      if (item.borderRadius && item.borderRadius !== "0px") {
+        el.style.borderRadius = item.borderRadius;
+      }
 
-    if (slide.subtitles.length > 0) {
-      const subEl = document.createElement("p");
-      subEl.innerText = slide.subtitles.join(" • ");
-      subEl.style.fontSize = "16px";
-      subEl.style.color = "#94a3b8";
-      subEl.style.margin = "0";
-      headerBox.appendChild(subEl);
-    }
-    slideBox.appendChild(headerBox);
-
-    // Slide Body Content
-    const bodyBox = document.createElement("div");
-    bodyBox.style.flex = "1";
-    bodyBox.style.display = "flex";
-    bodyBox.style.gap = "30px";
-    bodyBox.style.alignItems = "flex-start";
-
-    // Left Column: Text & Bullets
-    const textBox = document.createElement("div");
-    textBox.style.flex = "1";
-
-    if (slide.paragraphs.length > 0) {
-      const ul = document.createElement("ul");
-      ul.style.listStyleType = "none";
-      ul.style.padding = "0";
-      ul.style.margin = "0";
-
-      slide.paragraphs.forEach((pText) => {
-        const li = document.createElement("li");
-        li.style.fontSize = "16px";
-        li.style.lineHeight = "1.6";
-        li.style.color = "#cbd5e1";
-        li.style.marginBottom = "14px";
-        li.style.display = "flex";
-        li.style.alignItems = "flex-start";
-        li.style.gap = "10px";
-
-        const dot = document.createElement("span");
-        dot.innerHTML = "•";
-        dot.style.color = "#3b82f6";
-        dot.style.fontSize = "22px";
-        dot.style.lineHeight = "1";
-
-        const span = document.createElement("span");
-        span.innerText = pText;
-
-        li.appendChild(dot);
-        li.appendChild(span);
-        ul.appendChild(li);
-      });
-      textBox.appendChild(ul);
-    }
-
-    // Tables if any
-    if (slide.tables.length > 0) {
-      slide.tables.forEach((tableData) => {
-        const tblEl = document.createElement("table");
-        tblEl.style.width = "100%";
-        tblEl.style.borderCollapse = "collapse";
-        tblEl.style.marginTop = "16px";
-        tblEl.style.fontSize = "13px";
-
-        tableData.forEach((row, rIdx) => {
-          const tr = document.createElement("tr");
-          tr.style.background = rIdx === 0 ? "rgba(59, 130, 246, 0.2)" : "rgba(255, 255, 255, 0.05)";
-          row.forEach((cell) => {
-            const td = document.createElement(rIdx === 0 ? "th" : "td");
-            td.innerText = cell;
-            td.style.padding = "8px 12px";
-            td.style.border = "1px solid rgba(255, 255, 255, 0.1)";
-            td.style.color = rIdx === 0 ? "#ffffff" : "#cbd5e1";
-            tr.appendChild(td);
-          });
-          tblEl.appendChild(tr);
-        });
-        textBox.appendChild(tblEl);
-      });
-    }
-
-    bodyBox.appendChild(textBox);
-
-    // Right Column: Images if any
-    if (slide.images.length > 0) {
-      const imgBox = document.createElement("div");
-      imgBox.style.width = "380px";
-      imgBox.style.display = "flex";
-      imgBox.style.flexDirection = "column";
-      imgBox.style.gap = "12px";
-
-      slide.images.slice(0, 2).forEach((imgSrc) => {
+      if (item.type === "picture" && item.imgSrc) {
         const img = document.createElement("img");
-        img.src = imgSrc;
+        img.src = item.imgSrc;
         img.style.width = "100%";
-        img.style.maxHeight = "240px";
-        img.style.objectFit = "contain";
-        img.style.borderRadius = "12px";
-        img.style.border = "1px solid rgba(255, 255, 255, 0.15)";
-        img.style.background = "rgba(0, 0, 0, 0.2)";
-        imgBox.appendChild(img);
-      });
-      bodyBox.appendChild(imgBox);
-    }
+        img.style.height = "100%";
+        img.style.objectFit = "cover";
+        if (item.borderRadius) img.style.borderRadius = item.borderRadius;
+        el.appendChild(img);
+      } else if (item.paragraphs && item.paragraphs.length > 0) {
+        el.style.display = "flex";
+        el.style.flexDirection = "column";
+        el.style.justifyContent = "center";
+        el.style.padding = item.bgColor !== "transparent" ? "12px 18px" : "4px 8px";
 
-    slideBox.appendChild(bodyBox);
+        item.paragraphs.forEach((p) => {
+          const pEl = document.createElement("div");
+          pEl.style.textAlign = p.align || "left";
+          pEl.style.lineHeight = "1.25";
+          pEl.style.marginBottom = "4px";
 
-    // Slide Footer
-    const footerBox = document.createElement("div");
-    footerBox.style.display = "flex";
-    footerBox.style.justifyContent = "space-between";
-    footerBox.style.alignItems = "center";
-    footerBox.style.paddingTop = "16px";
-    footerBox.style.borderTop = "1px solid rgba(255, 255, 255, 0.1)";
-    footerBox.style.fontSize = "12px";
-    footerBox.style.color = "#64748b";
+          p.runs.forEach((r) => {
+            const span = document.createElement("span");
+            span.innerText = r.text;
 
-    const brand = document.createElement("span");
-    brand.innerText = "ConverterForAll Slides";
-    const pageNum = document.createElement("span");
-    pageNum.innerText = `Slide ${slide.slideNumber} of ${slidesData.length}`;
+            // Scale font size proportionally to viewport width
+            const pxSize = Math.max(11, Math.round((r.fontSize || 16) * 1.33));
+            span.style.fontSize = `${pxSize}px`;
+            span.style.fontWeight = r.bold ? "800" : "400";
+            if (r.italic) span.style.fontStyle = "italic";
+            if (r.color) span.style.color = r.color;
 
-    footerBox.appendChild(brand);
-    footerBox.appendChild(pageNum);
-    slideBox.appendChild(footerBox);
+            pEl.appendChild(span);
+          });
+          el.appendChild(pEl);
+        });
+      }
 
-    container.appendChild(slideBox);
+      slidePage.appendChild(el);
+    });
+
+    // Watermark page number in bottom corner
+    const footerNum = document.createElement("div");
+    footerNum.style.position = "absolute";
+    footerNum.style.bottom = "16px";
+    footerNum.style.right = "24px";
+    footerNum.style.fontSize = "12px";
+    footerNum.style.fontWeight = "bold";
+    footerNum.style.color = "rgba(255, 255, 255, 0.4)";
+    footerNum.innerText = `${slide.slideNumber}`;
+    slidePage.appendChild(footerNum);
+
+    container.appendChild(slidePage);
   });
 
-  // 3. Mount hidden container and generate Landscape PDF
+  // 4. Mount hidden wrapper and compile to Landscape PDF
   const wrapper = document.createElement("div");
   wrapper.style.position = "absolute";
   wrapper.style.left = "-9999px";
@@ -336,8 +440,14 @@ export async function convertPptxToPdf(file: File): Promise<Blob> {
       filename: "presentation.pdf",
       pagebreak: { mode: ["css", "legacy"] },
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, letterRendering: true, windowWidth: 1120 },
-      jsPDF: { unit: "px", format: [1120, 630], orientation: "landscape" },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        letterRendering: true,
+        windowWidth: VIEW_WIDTH,
+        backgroundColor: null,
+      },
+      jsPDF: { unit: "px", format: [VIEW_WIDTH, VIEW_HEIGHT], orientation: "landscape" },
     };
 
     const worker = html2pdf().set(opt).from(container);
