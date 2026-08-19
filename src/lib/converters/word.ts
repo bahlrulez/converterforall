@@ -4,7 +4,7 @@ import JSZip from "jszip";
 interface ParagraphStyleInfo {
   alignment?: "left" | "right" | "center" | "justify";
   indentPt?: number;
-  textSnippet?: string;
+  snippet?: string;
 }
 
 async function extractDocxAlignments(arrayBuffer: ArrayBuffer): Promise<ParagraphStyleInfo[]> {
@@ -43,8 +43,8 @@ async function extractDocxAlignments(arrayBuffer: ArrayBuffer): Promise<Paragrap
         }
       }
 
-      // Text snippet for fuzzy verification
-      info.textSnippet = (p.textContent || "").trim().substring(0, 40).toLowerCase();
+      // Clean snippet for matching
+      info.snippet = (p.textContent || "").trim().replace(/\s+/g, " ").toLowerCase().substring(0, 35);
 
       return info;
     });
@@ -76,14 +76,14 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
   container.style.zIndex = "-99999";
   container.style.opacity = "1";
   container.style.pointerEvents = "none";
-  container.style.width = "794px"; // Standard A4 at 96dpi (210mm)
-  container.style.minHeight = "1123px"; // Standard A4 at 96dpi (297mm)
-  container.style.padding = "70px 75px 70px 75px"; // ~20mm standard Word margins
+  container.style.width = "185mm"; // Fits A4 print area
+  container.style.minHeight = "270mm";
+  container.style.padding = "0px";
   container.style.boxSizing = "border-box";
   container.style.background = "#ffffff";
   container.style.color = "#000000";
-  container.style.fontFamily = "'Times New Roman', Times, Calibri, Arial, serif";
-  container.style.fontSize = "11.5pt";
+  container.style.fontFamily = "'Times New Roman', Times, 'Liberation Serif', Georgia, serif";
+  container.style.fontSize = "11pt";
   container.style.lineHeight = "1.35";
 
   // 4. Map paragraph alignments to HTML elements
@@ -95,37 +95,43 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     p.style.breakInside = "avoid";
     p.style.margin = "0 0 6pt 0";
 
-    const pText = (p.textContent || "").trim().toLowerCase();
+    const pText = (p.textContent || "").trim().replace(/\s+/g, " ").toLowerCase();
+    if (!pText) return;
 
-    // Check direct index or match by snippet
+    // Match style by index or snippet
     let match = docxStyles[idx];
-    if (!match || (match.textSnippet && !pText.includes(match.textSnippet.substring(0, 15)))) {
+    if (!match || (match.snippet && !pText.includes(match.snippet.substring(0, 15)))) {
       match = docxStyles.find(
-        (s) => s.textSnippet && pText.includes(s.textSnippet.substring(0, 15))
+        (s) => s.snippet && pText.includes(s.snippet.substring(0, 15))
       ) || match;
     }
 
     if (match) {
       if (match.alignment) {
         p.style.textAlign = match.alignment;
+        if (match.alignment === "right") {
+          p.style.marginLeft = "auto";
+          p.style.width = "100%";
+        }
       }
       if (match.indentPt && match.indentPt > 36) {
         p.style.marginLeft = `${match.indentPt}pt`;
       }
     }
 
-    // Heuristic detection: if paragraph contains address/date header lines often aligned right
+    // Heuristic detection for common right-aligned letter headers (Addresses, Phone numbers, Emails, Dates)
     if (!p.style.textAlign || p.style.textAlign === "left") {
-      if (
-        /^(date:|117 junction|birmingham|b21|\+44|sbunty94)/i.test(pText) ||
-        /\b(england|yahoo\.com|\d{1,2}(st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{4})\b/i.test(pText)
-      ) {
-        // If it was aligned right in XML
+      const isHeaderSnippet = /^(date:|117 junction|birmingham|b21|\+44|sbunty94|handsworth)/i.test(pText) ||
+        /\b(england|yahoo\.com|\d{1,2}(st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{4})\b/i.test(pText);
+
+      if (isHeaderSnippet) {
         const isRightInXml = docxStyles.some(
-          (s) => s.alignment === "right" && s.textSnippet && pText.includes(s.textSnippet.substring(0, 10))
+          (s) => s.alignment === "right" && s.snippet && pText.includes(s.snippet.substring(0, 10))
         );
         if (isRightInXml) {
           p.style.textAlign = "right";
+          p.style.marginLeft = "auto";
+          p.style.width = "100%";
         }
       }
     }
@@ -136,7 +142,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
   tables.forEach((tbl) => {
     tbl.style.width = "100%";
     tbl.style.borderCollapse = "collapse";
-    tbl.style.margin = "10pt 0";
+    tbl.style.margin = "8pt 0";
     tbl.style.pageBreakInside = "avoid";
   });
 
@@ -146,13 +152,13 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     cell.style.verticalAlign = "top";
   });
 
-  // Mount to body so html2canvas has full bounding rect
+  // Mount to body
   document.body.appendChild(container);
 
   try {
     const html2pdf = (await import("html2pdf.js")).default;
     const opt: any = {
-      margin: [10, 10, 10, 10], // 10mm margins for clean A4 printing
+      margin: [12, 12, 12, 12], // Standard 12mm page margin
       filename: file.name.replace(/\.docx?$/i, ".pdf"),
       pagebreak: { mode: ["css", "legacy", "avoid-all"] },
       image: { type: "jpeg", quality: 0.98 },
@@ -160,6 +166,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
         scale: 2,
         useCORS: true,
         letterRendering: true,
+        backgroundColor: "#ffffff",
         scrollX: 0,
         scrollY: 0,
         windowWidth: 1024
@@ -168,7 +175,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     };
 
     const worker = html2pdf().set(opt).from(container);
-    const pdfBlob: Blob = await worker.output("blob");
+    const pdfBlob: Blob = await worker.outputPdf("blob");
     return pdfBlob;
   } finally {
     if (document.body.contains(container)) {
@@ -176,5 +183,6 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     }
   }
 }
+
 
 
