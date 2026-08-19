@@ -1,11 +1,102 @@
 import JSZip from "jszip";
-import mammoth from "mammoth";
+
+// Style definition interface
+interface DocxStyle {
+  id: string;
+  name?: string;
+  alignment?: string;
+  fontSizePt?: number;
+  isBold?: boolean;
+  isItalic?: boolean;
+  color?: string;
+  isHeading?: boolean;
+  isTitle?: boolean;
+}
 
 // Chart data interface
 interface ChartData {
   title: string;
   categories: string[];
   series: { name: string; values: number[]; color?: string }[];
+}
+
+// Extract all styles from word/styles.xml
+function parseStylesXml(xmlStr: string): Map<string, DocxStyle> {
+  const stylesMap = new Map<string, DocxStyle>();
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xmlStr, "text/xml");
+    const allStyles = Array.from(doc.getElementsByTagName("*")).filter(
+      (el) => el.localName === "style"
+    );
+
+    for (const s of allStyles) {
+      const styleId = s.getAttribute("w:styleId") || s.getAttribute("styleId") || s.getAttribute("id");
+      if (!styleId) continue;
+
+      const styleObj: DocxStyle = { id: styleId };
+      const nameEl = Array.from(s.getElementsByTagName("*")).find((el) => el.localName === "name");
+      if (nameEl) {
+        styleObj.name = nameEl.getAttribute("w:val") || nameEl.getAttribute("val") || "";
+      }
+
+      // Check if Heading or Title
+      const sName = (styleObj.name || styleId).toLowerCase();
+      if (sName.includes("title")) {
+        styleObj.isTitle = true;
+        styleObj.alignment = "center";
+        styleObj.fontSizePt = 24;
+        styleObj.isBold = true;
+      } else if (sName.includes("subtitle")) {
+        styleObj.alignment = "center";
+        styleObj.fontSizePt = 13;
+        styleObj.isBold = true;
+      } else if (sName.includes("heading 1") || sName === "heading1") {
+        styleObj.isHeading = true;
+        styleObj.fontSizePt = 16;
+        styleObj.isBold = true;
+      } else if (sName.includes("heading 2") || sName === "heading2") {
+        styleObj.isHeading = true;
+        styleObj.fontSizePt = 13;
+        styleObj.isBold = true;
+      }
+
+      // Paragraph Properties (w:pPr)
+      const pPr = Array.from(s.getElementsByTagName("*")).find((el) => el.localName === "pPr");
+      if (pPr) {
+        const jc = Array.from(pPr.getElementsByTagName("*")).find((el) => el.localName === "jc");
+        if (jc) {
+          const val = (jc.getAttribute("w:val") || jc.getAttribute("val") || "").toLowerCase();
+          if (val === "center") styleObj.alignment = "center";
+          else if (val === "right") styleObj.alignment = "right";
+          else if (val === "both" || val === "justify") styleObj.alignment = "justify";
+          else if (val === "left") styleObj.alignment = "left";
+        }
+      }
+
+      // Run Properties (w:rPr)
+      const rPr = Array.from(s.getElementsByTagName("*")).find((el) => el.localName === "rPr");
+      if (rPr) {
+        const sz = Array.from(rPr.getElementsByTagName("*")).find((el) => el.localName === "sz");
+        if (sz) {
+          const val = parseInt(sz.getAttribute("w:val") || sz.getAttribute("val") || "0", 10);
+          if (val > 0) styleObj.fontSizePt = val / 2; // half-points to pt
+        }
+        const b = Array.from(rPr.getElementsByTagName("*")).find((el) => el.localName === "b");
+        if (b) styleObj.isBold = true;
+        const colorEl = Array.from(rPr.getElementsByTagName("*")).find((el) => el.localName === "color");
+        if (colorEl) {
+          const cVal = colorEl.getAttribute("w:val") || colorEl.getAttribute("val");
+          if (cVal && cVal !== "auto") styleObj.color = `#${cVal}`;
+        }
+      }
+
+      stylesMap.set(styleId, styleObj);
+    }
+  } catch (e) {
+    console.warn("Failed to parse styles.xml:", e);
+  }
+  return stylesMap;
 }
 
 // Parse DrawingML Chart XML into structured ChartData
@@ -15,42 +106,50 @@ function parseChartXml(xmlStr: string): ChartData {
   try {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xmlStr, "text/xml");
+    const allEls = Array.from(doc.getElementsByTagName("*"));
 
     // Title
-    const titleEl = doc.querySelector("title");
+    const titleEl = allEls.find((el) => el.localName === "title");
     if (titleEl) {
       chartData.title = (titleEl.textContent || "").trim();
     }
 
-    // Categories
-    const catPts = Array.from(doc.querySelectorAll("cat pt, c\\:cat c\\:pt"));
-    if (catPts.length > 0) {
-      chartData.categories = catPts.map((pt) => {
-        const val = pt.querySelector("v, c\\:v");
-        return val ? (val.textContent || "").trim() : "";
+    // Categories (c:cat)
+    const catEl = allEls.find((el) => el.localName === "cat");
+    if (catEl) {
+      const ptEls = Array.from(catEl.getElementsByTagName("*")).filter((el) => el.localName === "pt");
+      chartData.categories = ptEls.map((pt) => {
+        const v = Array.from(pt.getElementsByTagName("*")).find((el) => el.localName === "v");
+        return v ? (v.textContent || "").trim() : "";
       });
     }
 
-    // Series
-    const serNodes = Array.from(doc.querySelectorAll("ser, c\\:ser"));
-    serNodes.forEach((ser, sIdx) => {
+    // Series (c:ser)
+    const serEls = allEls.filter((el) => el.localName === "ser");
+    serEls.forEach((ser, sIdx) => {
       let name = `Series ${sIdx + 1}`;
-      const tx = ser.querySelector("tx, c\\:tx");
+      const tx = Array.from(ser.getElementsByTagName("*")).find((el) => el.localName === "tx");
       if (tx) {
-        const v = tx.querySelector("v, c\\:v, a\\:t, t");
+        const v = Array.from(tx.getElementsByTagName("*")).find(
+          (el) => el.localName === "v" || el.localName === "t"
+        );
         if (v && v.textContent) name = v.textContent.trim();
       }
 
-      const valPts = Array.from(ser.querySelectorAll("val pt, c\\:val c\\:pt"));
-      const values = valPts.map((pt) => {
-        const v = pt.querySelector("v, c\\:v");
-        return v ? parseFloat(v.textContent || "0") || 0 : 0;
-      });
+      const valEl = Array.from(ser.getElementsByTagName("*")).find((el) => el.localName === "val");
+      const values: number[] = [];
+      if (valEl) {
+        const pts = Array.from(valEl.getElementsByTagName("*")).filter((el) => el.localName === "pt");
+        pts.forEach((pt) => {
+          const v = Array.from(pt.getElementsByTagName("*")).find((el) => el.localName === "v");
+          values.push(v ? parseFloat(v.textContent || "0") || 0 : 0);
+        });
+      }
 
       let color: string | undefined;
-      const clr = ser.querySelector("srgbClr, a\\:srgbClr");
+      const clr = Array.from(ser.getElementsByTagName("*")).find((el) => el.localName === "srgbClr");
       if (clr) {
-        const hex = clr.getAttribute("val");
+        const hex = clr.getAttribute("val") || clr.getAttribute("w:val");
         if (hex) color = `#${hex}`;
       }
 
@@ -63,12 +162,12 @@ function parseChartXml(xmlStr: string): ChartData {
   return chartData;
 }
 
-// Render ChartData into crisp vector SVG
+// Render ChartData into crisp vector SVG matching Microsoft Word chart aesthetics
 function renderChartToSvg(chartData: ChartData): string {
-  const width = 480;
-  const height = 260;
+  const width = 500;
+  const height = 270;
   const padLeft = 45;
-  const padRight = 110;
+  const padRight = 115;
   const padTop = 25;
   const padBottom = 35;
 
@@ -81,30 +180,32 @@ function renderChartToSvg(chartData: ChartData): string {
       if (v > maxVal) maxVal = v;
     }
   }
-  maxVal = Math.ceil(maxVal * 1.15) || 10;
+  maxVal = Math.ceil(maxVal * 1.15) || 12;
 
   const numCats = Math.max(1, chartData.categories.length);
   const catWidth = plotWidth / numCats;
   const numSeries = Math.max(1, chartData.series.length);
-  const barWidth = Math.max(6, Math.min(24, (catWidth * 0.7) / numSeries));
-  const defaultColors = ["#4472C4", "#ED7D31", "#FFC000", "#A5A5A5", "#70AD47", "#264478"];
+  const barWidth = Math.max(6, Math.min(22, (catWidth * 0.7) / numSeries));
+  // Exact Microsoft Office standard chart theme colors
+  const defaultColors = ["#2F5597", "#C65911", "#FFC000", "#70AD47", "#5B9BD5", "#A5A5A5"];
 
-  let svg = `<svg viewBox="0 0 ${width} ${height}" style="width: 100%; max-width: 480px; height: auto; display: block; margin: 12pt auto; font-family: Calibri, Arial, sans-serif; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 6px;">`;
+  let svg = `<div style="width: 100%; display: flex; justify-content: center; margin: 14pt 0;">`;
+  svg += `<svg viewBox="0 0 ${width} ${height}" style="width: 100%; max-width: 500px; height: auto; display: block; font-family: Calibri, 'Segoe UI', Arial, sans-serif; background: #ffffff; border: 1px solid #d0d7de; border-radius: 4px; padding: 4px;">`;
 
   // Grid lines
   const gridSteps = 4;
   for (let g = 0; g <= gridSteps; g++) {
     const val = Math.round((maxVal / gridSteps) * g);
     const y = padTop + plotHeight - (g / gridSteps) * plotHeight;
-    svg += `<line x1="${padLeft}" y1="${y}" x2="${padLeft + plotWidth}" y2="${y}" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="2,2" />`;
-    svg += `<text x="${padLeft - 6}" y="${y + 4}" text-anchor="end" font-size="10" fill="#666">${val}</text>`;
+    svg += `<line x1="${padLeft}" y1="${y}" x2="${padLeft + plotWidth}" y2="${y}" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="2,2" />`;
+    svg += `<text x="${padLeft - 6}" y="${y + 4}" text-anchor="end" font-size="10" fill="#6b7280">${val}</text>`;
   }
 
   // Axes
-  svg += `<line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + plotHeight}" stroke="#888" stroke-width="1" />`;
-  svg += `<line x1="${padLeft}" y1="${padTop + plotHeight}" x2="${padLeft + plotWidth}" y2="${padTop + plotHeight}" stroke="#888" stroke-width="1" />`;
+  svg += `<line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + plotHeight}" stroke="#9ca3af" stroke-width="1" />`;
+  svg += `<line x1="${padLeft}" y1="${padTop + plotHeight}" x2="${padLeft + plotWidth}" y2="${padTop + plotHeight}" stroke="#9ca3af" stroke-width="1" />`;
 
-  // Bars
+  // Draw Bars
   for (let c = 0; c < numCats; c++) {
     const catCenter = padLeft + c * catWidth + catWidth / 2;
     const groupStartX = catCenter - (numSeries * barWidth) / 2;
@@ -120,20 +221,20 @@ function renderChartToSvg(chartData: ChartData): string {
     }
 
     const catName = chartData.categories[c] || `Row ${c + 1}`;
-    svg += `<text x="${catCenter}" y="${padTop + plotHeight + 16}" text-anchor="middle" font-size="10" fill="#333">${catName}</text>`;
+    svg += `<text x="${catCenter}" y="${padTop + plotHeight + 16}" text-anchor="middle" font-size="10" fill="#374151" font-weight="500">${catName}</text>`;
   }
 
-  // Legend
-  const legendX = padLeft + plotWidth + 10;
+  // Legend on Right
+  const legendX = padLeft + plotWidth + 12;
   for (let s = 0; s < numSeries; s++) {
-    const ly = padTop + 20 + s * 18;
+    const ly = padTop + 25 + s * 20;
     const col = chartData.series[s]?.color || defaultColors[s % defaultColors.length];
     const sName = chartData.series[s]?.name || `Column ${s + 1}`;
     svg += `<rect x="${legendX}" y="${ly - 9}" width="10" height="10" fill="${col}" rx="1" />`;
-    svg += `<text x="${legendX + 15}" y="${ly}" font-size="10" fill="#444">${sName}</text>`;
+    svg += `<text x="${legendX + 15}" y="${ly}" font-size="10" fill="#374151">${sName}</text>`;
   }
 
-  svg += `</svg>`;
+  svg += `</svg></div>`;
   return svg;
 }
 
@@ -141,34 +242,39 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
   const arrayBuffer = await file.arrayBuffer();
 
   try {
-    // 1. Unzip DOCX package
+    // 1. Unzip DOCX archive
     const zip = await JSZip.loadAsync(arrayBuffer);
 
-    // 2. Extract media images to base64 Data URLs
+    // 2. Parse styles.xml for inheritance
+    let stylesMap = new Map<string, DocxStyle>();
+    const stylesFile = zip.file("word/styles.xml");
+    if (stylesFile) {
+      const stylesXml = await stylesFile.async("text");
+      stylesMap = parseStylesXml(stylesXml);
+    }
+
+    // 3. Extract media images to base64 Data URLs
     const mediaMap = new Map<string, string>();
-    const mediaFolder = zip.folder("word/media");
-    if (mediaFolder) {
-      const mediaFiles = Object.keys(zip.files).filter((k) => k.startsWith("word/media/"));
-      for (const mPath of mediaFiles) {
-        const mFile = zip.file(mPath);
-        if (mFile) {
-          const b64 = await mFile.async("base64");
-          const ext = mPath.split(".").pop()?.toLowerCase() || "png";
-          const mime = ext === "jpg" || ext === "jpeg" ? "image/jpeg" : ext === "png" ? "image/png" : "image/png";
-          const filename = mPath.replace("word/media/", "");
-          mediaMap.set(filename, `data:${mime};base64,${b64}`);
-        }
+    const mediaFiles = Object.keys(zip.files).filter((k) => k.startsWith("word/media/"));
+    for (const mPath of mediaFiles) {
+      const mFile = zip.file(mPath);
+      if (mFile) {
+        const b64 = await mFile.async("base64");
+        const ext = mPath.split(".").pop()?.toLowerCase() || "png";
+        const mime = ext === "jpg" || ext === "jpeg" ? "image/jpeg" : ext === "png" ? "image/png" : "image/png";
+        const filename = mPath.replace("word/media/", "");
+        mediaMap.set(filename, `data:${mime};base64,${b64}`);
       }
     }
 
-    // 3. Extract Relationships mapping rId -> Target
+    // 4. Extract Relationships mapping rId -> Target
     const relsMap = new Map<string, string>();
     const relsFile = zip.file("word/_rels/document.xml.rels");
     if (relsFile) {
       const relsXml = await relsFile.async("text");
       const rParser = new DOMParser();
       const rDoc = rParser.parseFromString(relsXml, "text/xml");
-      const relNodes = Array.from(rDoc.querySelectorAll("Relationship"));
+      const relNodes = Array.from(rDoc.getElementsByTagName("*")).filter((el) => el.localName === "Relationship");
       for (const rel of relNodes) {
         const id = rel.getAttribute("Id");
         const target = rel.getAttribute("Target");
@@ -178,7 +284,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
       }
     }
 
-    // 4. Extract Charts
+    // 5. Extract and pre-render DrawingML Charts
     const chartSvgMap = new Map<string, string>();
     const chartFiles = Object.keys(zip.files).filter((k) => k.startsWith("word/charts/") && k.endsWith(".xml"));
     for (const cPath of chartFiles) {
@@ -194,7 +300,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
       }
     }
 
-    // 5. Parse word/document.xml page-by-page
+    // 6. Parse word/document.xml
     const docFile = zip.file("word/document.xml");
     if (!docFile) {
       throw new Error("Missing word/document.xml in DOCX");
@@ -203,8 +309,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     const docParser = new DOMParser();
     const doc = docParser.parseFromString(docXml, "text/xml");
 
-    // Extract pages by splitting on page breaks
-    const body = doc.querySelector("w\\:body, body");
+    const body = Array.from(doc.getElementsByTagName("*")).find((el) => el.localName === "body");
     if (!body) throw new Error("Missing document body");
 
     const pageBuckets: string[][] = [[]];
@@ -213,76 +318,102 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     const childNodes = Array.from(body.children);
 
     for (const node of childNodes) {
-      const tagName = node.tagName.toLowerCase();
+      const localName = node.localName;
 
-      // Check for explicit page break in paragraphs
-      if (tagName.includes("p") || tagName === "w:p") {
-        const hasPageBreak = !!node.querySelector("w\\:br[w\\:type='page'], br[type='page'], w\\:lastRenderedPageBreak, lastRenderedPageBreak");
+      // PARAGRAPH
+      if (localName === "p") {
+        const descendants = Array.from(node.getElementsByTagName("*"));
         
-        // Convert paragraph to HTML
-        let alignment = "left";
-        const jc = node.querySelector("w\\:jc, jc");
-        if (jc) {
-          const val = (jc.getAttribute("w:val") || jc.getAttribute("val") || "").toLowerCase();
-          if (val === "right") alignment = "right";
-          else if (val === "center") alignment = "center";
+        // Page break detection
+        const hasPageBreak = descendants.some(
+          (el) =>
+            (el.localName === "br" && (el.getAttribute("w:type") === "page" || el.getAttribute("type") === "page")) ||
+            el.localName === "lastRenderedPageBreak"
+        );
+
+        // Style inheritance
+        const pStyleEl = descendants.find((el) => el.localName === "pStyle");
+        const styleId = pStyleEl ? (pStyleEl.getAttribute("w:val") || pStyleEl.getAttribute("val") || "") : "";
+        const inheritedStyle = stylesMap.get(styleId);
+
+        // Alignment: direct w:jc or inherited
+        let alignment = inheritedStyle?.alignment || "left";
+        const jcEl = descendants.find((el) => el.localName === "jc");
+        if (jcEl) {
+          const val = (jcEl.getAttribute("w:val") || jcEl.getAttribute("val") || "").toLowerCase();
+          if (val === "center") alignment = "center";
+          else if (val === "right") alignment = "right";
           else if (val === "both" || val === "justify") alignment = "justify";
+          else if (val === "left") alignment = "left";
         }
 
-        // Check for charts or drawings in this paragraph
-        const blip = node.querySelector("a\\:blip, blip");
-        const chartRef = node.querySelector("c\\:chart, chart");
-
+        // Drawings / Charts / Images
         let customMediaHtml = "";
-        if (chartRef) {
-          const rId = chartRef.getAttribute("r:id") || chartRef.getAttribute("id");
+        const chartEl = descendants.find((el) => el.localName === "chart");
+        const blipEl = descendants.find((el) => el.localName === "blip");
+
+        if (chartEl) {
+          const rId =
+            chartEl.getAttribute("r:id") ||
+            chartEl.getAttribute("id") ||
+            chartEl.getAttributeNS("http://schemas.openxmlformats.org/officeDocument/2006/relationships", "id");
           if (rId && relsMap.has(rId)) {
             const chartTarget = relsMap.get(rId)!;
             if (chartSvgMap.has(chartTarget)) {
               customMediaHtml = chartSvgMap.get(chartTarget)!;
             }
           }
-        } else if (blip) {
-          const embedId = blip.getAttribute("r:embed") || blip.getAttribute("embed");
+        } else if (blipEl) {
+          const embedId =
+            blipEl.getAttribute("r:embed") ||
+            blipEl.getAttribute("embed") ||
+            blipEl.getAttributeNS("http://schemas.openxmlformats.org/officeDocument/2006/relationships", "embed");
           if (embedId && relsMap.has(embedId)) {
             const target = relsMap.get(embedId)!.replace("media/", "");
             if (mediaMap.has(target)) {
-              customMediaHtml = `<img src="${mediaMap.get(target)}" style="max-width: 100%; height: auto; display: block; margin: 10pt auto;" />`;
+              customMediaHtml = `<div style="text-align: center; margin: 12pt 0;"><img src="${mediaMap.get(target)}" style="max-width: 100%; height: auto; display: inline-block;" /></div>`;
             }
           }
         }
 
-        // Paragraph text content & formatting
-        const runs = Array.from(node.querySelectorAll("w\\:r, r"));
+        // Runs and text formatting
+        const runNodes = descendants.filter((el) => el.localName === "r");
         let pTextHtml = "";
-        for (const r of runs) {
-          const isBold = !!r.querySelector("w\\:b, b");
-          const isItalic = !!r.querySelector("w\\:i, i");
-          const isUnderline = !!r.querySelector("w\\:u, u");
-          let t = (r.querySelector("w\\:t, t")?.textContent || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        for (const r of runNodes) {
+          const rChildren = Array.from(r.getElementsByTagName("*"));
+          const isBold = rChildren.some((el) => el.localName === "b");
+          const isItalic = rChildren.some((el) => el.localName === "i");
+          const isUnderline = rChildren.some((el) => el.localName === "u");
+
+          const tEl = rChildren.find((el) => el.localName === "t");
+          let t = (tEl?.textContent || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
           if (!t) continue;
+
           if (isBold) t = `<strong>${t}</strong>`;
           if (isItalic) t = `<em>${t}</em>`;
           if (isUnderline) t = `<u>${t}</u>`;
           pTextHtml += t;
         }
 
-        const isBullet = !!node.querySelector("w\\:numPr, numPr");
-        const headingStyle = node.querySelector("w\\:pStyle, pStyle")?.getAttribute("w:val") || "";
-        const isHeading = headingStyle.toLowerCase().includes("heading") || headingStyle.toLowerCase().includes("title");
+        const isBullet = descendants.some((el) => el.localName === "numPr");
+        const isTitle = inheritedStyle?.isTitle || styleId.toLowerCase().includes("title");
+        const isHeading = inheritedStyle?.isHeading || styleId.toLowerCase().includes("heading");
 
         let elHtml = "";
         if (customMediaHtml) {
           elHtml += customMediaHtml;
         }
         if (pTextHtml.trim()) {
-          if (isHeading) {
-            elHtml += `<h2 style="font-size: 14pt; font-weight: bold; margin: 12pt 0 6pt 0; text-align: ${alignment}; color: #000;">${pTextHtml}</h2>`;
+          if (isTitle) {
+            elHtml += `<h1 style="font-size: 22pt; font-weight: bold; margin: 14pt 0 8pt 0; text-align: ${alignment}; color: #000000;">${pTextHtml}</h1>`;
+          } else if (isHeading) {
+            const fSize = inheritedStyle?.fontSizePt ? `${inheritedStyle.fontSizePt}pt` : "14pt";
+            elHtml += `<h2 style="font-size: ${fSize}; font-weight: bold; margin: 12pt 0 6pt 0; text-align: ${alignment}; color: #000000;">${pTextHtml}</h2>`;
           } else if (isBullet) {
-            elHtml += `<div style="margin-left: 20pt; margin-bottom: 4pt; color: #000;">• ${pTextHtml}</div>`;
+            elHtml += `<div style="margin-left: 24pt; margin-bottom: 4pt; color: #000000; text-align: ${alignment};">• &nbsp;${pTextHtml}</div>`;
           } else {
             const rightStyle = alignment === "right" ? "margin-left: auto; width: 100%;" : "";
-            elHtml += `<p style="margin: 0 0 6pt 0; line-height: 1.35; text-align: ${alignment}; ${rightStyle} color: #000;">${pTextHtml}</p>`;
+            elHtml += `<p style="margin: 0 0 6pt 0; line-height: 1.35; text-align: ${alignment}; ${rightStyle} color: #000000;">${pTextHtml}</p>`;
           }
         }
 
@@ -294,16 +425,16 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
           currentPageIndex++;
           pageBuckets[currentPageIndex] = [];
         }
-      } else if (tagName.includes("tbl") || tagName === "w:tbl") {
-        // Table parsing
-        let tblHtml = `<table style="width: 100%; border-collapse: collapse; margin: 10pt 0;">`;
-        const rows = Array.from(node.querySelectorAll("w\\:tr, tr"));
-        for (const row of rows) {
+      } else if (localName === "tbl") {
+        // TABLE
+        let tblHtml = `<table style="width: 100%; border-collapse: collapse; margin: 12pt 0;">`;
+        const rowNodes = Array.from(node.getElementsByTagName("*")).filter((el) => el.localName === "tr");
+        for (const row of rowNodes) {
           tblHtml += `<tr>`;
-          const cells = Array.from(row.querySelectorAll("w\\:tc, tc"));
-          for (const cell of cells) {
+          const cellNodes = Array.from(row.getElementsByTagName("*")).filter((el) => el.localName === "tc");
+          for (const cell of cellNodes) {
             const cellText = (cell.textContent || "").trim();
-            tblHtml += `<td style="border: 1px solid #555; padding: 5pt 8pt; font-size: 10.5pt; color: #000; vertical-align: top;">${cellText}</td>`;
+            tblHtml += `<td style="border: 1px solid #555555; padding: 6pt 10pt; font-size: 10.5pt; color: #000000; vertical-align: top;">${cellText}</td>`;
           }
           tblHtml += `</tr>`;
         }
@@ -312,23 +443,23 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
       }
     }
 
-    // Filter out completely empty page buckets
+    // Filter valid page buckets
     const validPages = pageBuckets.filter((p) => p.length > 0);
     if (validPages.length === 0) {
-      throw new Error("No page content parsed");
+      throw new Error("No page content could be extracted from DOCX");
     }
 
-    // 6. Multi-page A4 rendering via html2canvas & jsPDF
+    // 7. Multi-page A4 PDF Generation
     const html2canvas = (await import("html2canvas")).default;
     const { jsPDF } = await import("jspdf");
     const pdf = new jsPDF("p", "mm", "a4");
 
     for (let pIdx = 0; pIdx < validPages.length; pIdx++) {
       const pageContainer = document.createElement("div");
-      pageContainer.id = `docx-page-${pIdx}`;
+      pageContainer.id = `docx-page-render-${pIdx}`;
       pageContainer.innerHTML = validPages[pIdx].join("\n");
 
-      // Exact A4 dimensions (794px × 1123px)
+      // Standard A4 Dimensions (794px × 1123px, 1-inch margins)
       pageContainer.style.position = "fixed";
       pageContainer.style.top = "0px";
       pageContainer.style.left = "0px";
@@ -375,81 +506,11 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
 
     return pdf.output("blob");
   } catch (error) {
-    console.warn("Custom docx parser failed, falling back to mammoth:", error);
-    return await fallbackMammothConvert(arrayBuffer, file.name);
+    console.error("OpenXML conversion error:", error);
+    throw error;
   }
 }
 
-async function fallbackMammothConvert(arrayBuffer: ArrayBuffer, fileName: string): Promise<Blob> {
-  const result = await mammoth.convertToHtml({ arrayBuffer });
-  const htmlContent = result.value;
-
-  const container = document.createElement("div");
-  container.innerHTML = htmlContent;
-  container.style.position = "fixed";
-  container.style.top = "0px";
-  container.style.left = "0px";
-  container.style.zIndex = "999999";
-  container.style.opacity = "1";
-  container.style.width = "794px";
-  container.style.padding = "60px 65px";
-  container.style.boxSizing = "border-box";
-  container.style.background = "#ffffff";
-  container.style.color = "#000000";
-  container.style.fontFamily = "'Times New Roman', Times, 'Liberation Serif', Georgia, serif";
-  container.style.fontSize = "11pt";
-  container.style.lineHeight = "1.35";
-
-  document.body.appendChild(container);
-
-  try {
-    if (document.fonts) {
-      await document.fonts.ready;
-    }
-    const html2canvas = (await import("html2canvas")).default;
-    const canvas = await html2canvas(container, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: "#ffffff",
-      logging: false,
-      windowWidth: 1024
-    });
-
-    const { jsPDF } = await import("jspdf");
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pageWidth = 210;
-    const pageHeight = 297;
-    const pageCanvasHeight = (canvas.width * pageHeight) / pageWidth;
-    const numPages = Math.max(1, Math.ceil(canvas.height / pageCanvasHeight));
-
-    for (let p = 0; p < numPages; p++) {
-      const sliceCanvas = document.createElement("canvas");
-      sliceCanvas.width = canvas.width;
-      sliceCanvas.height = pageCanvasHeight;
-      const ctx = sliceCanvas.getContext("2d");
-      if (ctx) {
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
-        ctx.drawImage(
-          canvas,
-          0, p * pageCanvasHeight, canvas.width, pageCanvasHeight,
-          0, 0, canvas.width, pageCanvasHeight
-        );
-      }
-
-      if (p > 0) {
-        pdf.addPage();
-      }
-      pdf.addImage(sliceCanvas.toDataURL("image/jpeg", 0.98), "JPEG", 0, 0, pageWidth, pageHeight, undefined, "FAST");
-    }
-
-    return pdf.output("blob");
-  } finally {
-    if (document.body.contains(container)) {
-      document.body.removeChild(container);
-    }
-  }
-}
 
 
 
