@@ -129,9 +129,33 @@ function renderChartToSvg(chartData: ChartData): string {
 }
 
 export async function convertWordToPdf(file: File): Promise<Blob> {
+  // 1. First attempt high-fidelity server-side conversion if available
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const apiRes = await fetch("/api/convert-word-to-pdf", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (apiRes.ok) {
+      const contentType = apiRes.headers.get("content-type") || "";
+      if (contentType.includes("application/pdf")) {
+        const blob = await apiRes.blob();
+        if (blob.size > 0) {
+          return blob;
+        }
+      }
+    }
+  } catch (apiErr) {
+    console.info("Server API bypass, running client-side engine:", apiErr);
+  }
+
+  // 2. Client-Side High-Precision Engine
   const arrayBuffer = await file.arrayBuffer();
 
-  // 1. Extract DrawingML Charts from ZIP
+  // Extract DrawingML Charts from ZIP
   const chartSvgList: string[] = [];
   try {
     const zip = await JSZip.loadAsync(arrayBuffer);
@@ -150,7 +174,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     console.warn("Chart extraction warning:", e);
   }
 
-  // 2. Mount high-precision docx-preview container
+  // Mount high-precision docx-preview container
   const renderContainer = document.createElement("div");
   renderContainer.id = "docx-render-stage";
   renderContainer.style.position = "fixed";
