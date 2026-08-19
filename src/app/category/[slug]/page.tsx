@@ -124,7 +124,16 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
                       <div className={`rounded-xl p-3 transition-colors ${iconColorClass}`}>
                         {getIconForTool(tool.slug)}
                       </div>
-                      <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">{tool.title}</h3>
+                      <h3 className="font-semibold text-lg group-hover:text-primary transition-colors leading-snug">
+                        {(() => {
+                          let clean = tool.title.replace(/^Convert /i, "");
+                          if (clean.includes(" – ")) clean = clean.split(" – ")[0];
+                          else if (clean.includes(" - ")) clean = clean.split(" - ")[0];
+                          else if (clean.includes(" — ")) clean = clean.split(" — ")[0];
+                          clean = clean.replace(/^Free Online /i, "");
+                          return clean.trim();
+                        })()}
+                      </h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-6 relative z-10 flex-grow">{tool.description}</p>
                     <div className="mt-auto flex items-center text-sm font-medium text-primary relative z-10">

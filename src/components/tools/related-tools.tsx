@@ -171,8 +171,15 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
                   )}
                 </div>
 
-                <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors line-clamp-1 mb-1.5">
-                  {tool.title}
+                <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors mb-1.5 leading-snug">
+                  {(() => {
+                    let clean = tool.title.replace(/^Convert /i, "");
+                    if (clean.includes(" – ")) clean = clean.split(" – ")[0];
+                    else if (clean.includes(" - ")) clean = clean.split(" - ")[0];
+                    else if (clean.includes(" — ")) clean = clean.split(" — ")[0];
+                    clean = clean.replace(/^Free Online /i, "");
+                    return clean.trim();
+                  })()}
                 </h4>
 
                 <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed mb-4">
