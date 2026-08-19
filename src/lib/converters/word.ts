@@ -1,75 +1,103 @@
-import mammoth from "mammoth";
-import JSZip from "jszip";
-
-interface ParagraphStyleInfo {
-  alignment?: "left" | "right" | "center" | "justify";
-  indentPt?: number;
-  snippet?: string;
-}
-
-async function extractDocxAlignments(arrayBuffer: ArrayBuffer): Promise<ParagraphStyleInfo[]> {
-  try {
-    const zip = await JSZip.loadAsync(arrayBuffer);
-    const docXmlFile = zip.file("word/document.xml");
-    if (!docXmlFile) return [];
-
-    const xmlText = await docXmlFile.async("text");
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-    const pNodes = Array.from(xmlDoc.getElementsByTagName("w:p"));
-
-    return pNodes.map((p) => {
-      const info: ParagraphStyleInfo = {};
-      
-      // Check alignment (w:jc)
-      const jc = p.getElementsByTagName("w:jc")[0] || p.querySelector("jc");
-      if (jc) {
-        const val = (jc.getAttribute("w:val") || jc.getAttribute("val") || "").toLowerCase();
-        if (val === "right") info.alignment = "right";
-        else if (val === "center") info.alignment = "center";
-        else if (val === "both" || val === "justify") info.alignment = "justify";
-        else if (val === "left") info.alignment = "left";
-      }
-
-      // Check left indentation
-      const ind = p.getElementsByTagName("w:ind")[0] || p.querySelector("ind");
-      if (ind) {
-        const left = ind.getAttribute("w:left") || ind.getAttribute("left");
-        if (left) {
-          const dxa = parseInt(left, 10);
-          if (!isNaN(dxa) && dxa > 720) {
-            info.indentPt = Math.round(dxa / 20); // 20 dxa = 1 pt
-          }
-        }
-      }
-
-      // Clean snippet for matching
-      info.snippet = (p.textContent || "").trim().replace(/\s+/g, " ").toLowerCase().substring(0, 35);
-
-      return info;
-    });
-  } catch (err) {
-    console.warn("Failed to extract DOCX alignment XML:", err);
-    return [];
-  }
-}
-
 export async function convertWordToPdf(file: File): Promise<Blob> {
   const arrayBuffer = await file.arrayBuffer();
 
-  // 1. Extract clean HTML and embedded images with Mammoth
+  // Create temporary offscreen visible container for capturing
+  const container = document.createElement("div");
+  container.id = "docx-pdf-render-box";
+  container.style.position = "fixed";
+  container.style.top = "0px";
+  container.style.left = "0px";
+  container.style.zIndex = "999999";
+  container.style.opacity = "1";
+  container.style.background = "#ffffff";
+  container.style.color = "#000000";
+  container.style.pointerEvents = "none";
+  container.style.overflow = "visible";
+  document.body.appendChild(container);
+
+  try {
+    // 1. High-fidelity rendering with docx-preview (renders exact Word pages, charts, tables, fonts, alignments)
+    const { renderAsync } = await import("docx-preview");
+    await renderAsync(arrayBuffer, container, undefined, {
+      className: "docx-doc",
+      inWrapper: true,
+      ignoreWidth: false,
+      ignoreHeight: false,
+      ignoreFonts: false,
+      breakPages: true,
+      useBase64URL: true,
+    });
+
+    // Clean padding/shadows for exact A4 canvas capture
+    const pageSections = Array.from(
+      container.querySelectorAll<HTMLElement>("section.docx, section.docx-doc, .docx-wrapper > section, article.docx-doc")
+    );
+
+    // If docx-preview grouped into sections
+    const pagesToRender = pageSections.length > 0 ? pageSections : [container];
+
+    pagesToRender.forEach((sec) => {
+      sec.style.boxShadow = "none";
+      sec.style.margin = "0 auto";
+      sec.style.background = "#ffffff";
+    });
+
+    // Wait for fonts and all images/charts to be completely loaded
+    if (document.fonts) {
+      await document.fonts.ready;
+    }
+    const imgs = Array.from(container.querySelectorAll("img"));
+    if (imgs.length > 0) {
+      await Promise.all(
+        imgs.map((img) =>
+          img.complete ? Promise.resolve() : new Promise((res) => { img.onload = res; img.onerror = res; })
+        )
+      );
+    }
+
+    // Small tick to ensure browser layout & SVG/canvas charts are fully drawn
+    await new Promise((resolve) => setTimeout(resolve, 150));
+
+    const html2canvas = (await import("html2canvas")).default;
+    const { jsPDF } = await import("jspdf");
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    for (let i = 0; i < pagesToRender.length; i++) {
+      const pageEl = pagesToRender[i];
+      const pageCanvas = await html2canvas(pageEl, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+        windowWidth: 1024
+      });
+
+      if (i > 0) {
+        pdf.addPage();
+      }
+
+      const imgData = pageCanvas.toDataURL("image/jpeg", 0.96);
+      pdf.addImage(imgData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
+    }
+
+    return pdf.output("blob");
+  } catch (error) {
+    console.warn("docx-preview failed, falling back to mammoth:", error);
+    return await fallbackMammothConvert(arrayBuffer, file.name);
+  } finally {
+    if (document.body.contains(container)) {
+      document.body.removeChild(container);
+    }
+  }
+}
+
+async function fallbackMammothConvert(arrayBuffer: ArrayBuffer, fileName: string): Promise<Blob> {
+  const mammoth = (await import("mammoth")).default;
   const result = await mammoth.convertToHtml({ arrayBuffer });
   const htmlContent = result.value;
 
-  // 2. Extract paragraph alignments from DOCX XML
-  const docxStyles = await extractDocxAlignments(arrayBuffer);
-
-  // 3. Create document container styled like a real Word page
   const container = document.createElement("div");
-  container.id = "word-pdf-render-box";
   container.innerHTML = htmlContent;
-  
-  // High-accuracy Word formatting (A4 width at 96 DPI: 794px)
   container.style.position = "fixed";
   container.style.top = "0px";
   container.style.left = "0px";
@@ -84,127 +112,13 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
   container.style.fontFamily = "'Times New Roman', Times, 'Liberation Serif', Georgia, serif";
   container.style.fontSize = "11pt";
   container.style.lineHeight = "1.35";
-  container.style.overflow = "visible";
 
-  // 4. Style headings, lists, tables, and images inside container
-  const headings = container.querySelectorAll<HTMLElement>("h1, h2, h3, h4, h5, h6");
-  headings.forEach((h) => {
-    h.style.color = "#000000";
-    h.style.fontWeight = "bold";
-    h.style.margin = "12pt 0 6pt 0";
-  });
-
-  const h1s = container.querySelectorAll<HTMLElement>("h1");
-  h1s.forEach((h) => {
-    h.style.fontSize = "18pt";
-    h.style.textAlign = "center";
-  });
-
-  const lists = container.querySelectorAll<HTMLElement>("ul, ol");
-  lists.forEach((l) => {
-    l.style.margin = "4pt 0 8pt 24pt";
-    l.style.padding = "0";
-  });
-
-  const listItems = container.querySelectorAll<HTMLElement>("li");
-  listItems.forEach((li) => {
-    li.style.margin = "0 0 3pt 0";
-    li.style.color = "#000000";
-  });
-
-  const images = container.querySelectorAll<HTMLElement>("img");
-  images.forEach((img) => {
-    img.style.maxWidth = "100%";
-    img.style.height = "auto";
-    img.style.display = "block";
-    img.style.margin = "10pt auto";
-  });
-
-  const tables = container.querySelectorAll<HTMLElement>("table");
-  tables.forEach((tbl) => {
-    tbl.style.width = "100%";
-    tbl.style.borderCollapse = "collapse";
-    tbl.style.margin = "10pt 0";
-  });
-
-  const tableCells = container.querySelectorAll<HTMLElement>("td, th");
-  tableCells.forEach((cell) => {
-    cell.style.border = "1px solid #444444";
-    cell.style.padding = "5pt 8pt";
-    cell.style.verticalAlign = "top";
-    cell.style.fontSize = "10.5pt";
-    cell.style.color = "#000000";
-  });
-
-  // 5. Map paragraph alignments to HTML elements
-  const htmlParas = Array.from(container.querySelectorAll<HTMLElement>("p, h1, h2, h3, h4, h5, h6, li"));
-  
-  htmlParas.forEach((p, idx) => {
-    if (p.tagName === "P") {
-      p.style.margin = "0 0 6pt 0";
-      p.style.color = "#000000";
-    }
-
-    const pText = (p.textContent || "").trim().replace(/\s+/g, " ").toLowerCase();
-    if (!pText) return;
-
-    // Match style by index or snippet
-    let match = docxStyles[idx];
-    if (!match || (match.snippet && !pText.includes(match.snippet.substring(0, 15)))) {
-      match = docxStyles.find(
-        (s) => s.snippet && pText.includes(s.snippet.substring(0, 15))
-      ) || match;
-    }
-
-    if (match) {
-      if (match.alignment) {
-        p.style.textAlign = match.alignment;
-        if (match.alignment === "right") {
-          p.style.marginLeft = "auto";
-          p.style.width = "100%";
-        }
-      }
-      if (match.indentPt && match.indentPt > 36) {
-        p.style.marginLeft = `${match.indentPt}pt`;
-      }
-    }
-
-    // Heuristic detection for common right-aligned letter headers (Addresses, Phone numbers, Emails, Dates)
-    if (!p.style.textAlign || p.style.textAlign === "left") {
-      const isHeaderSnippet = /^(date:|117 junction|birmingham|b21|\+44|sbunty94|handsworth)/i.test(pText) ||
-        /\b(england|yahoo\.com|\d{1,2}(st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{4})\b/i.test(pText);
-
-      if (isHeaderSnippet) {
-        const isRightInXml = docxStyles.some(
-          (s) => s.alignment === "right" && s.snippet && pText.includes(s.snippet.substring(0, 10))
-        );
-        if (isRightInXml) {
-          p.style.textAlign = "right";
-          p.style.marginLeft = "auto";
-          p.style.width = "100%";
-        }
-      }
-    }
-  });
-
-  // Mount to body for capture
   document.body.appendChild(container);
 
   try {
-    // Wait for fonts and any embedded images to be ready
     if (document.fonts) {
       await document.fonts.ready;
     }
-    const imgs = Array.from(container.querySelectorAll("img"));
-    if (imgs.length > 0) {
-      await Promise.all(
-        imgs.map((img) =>
-          img.complete ? Promise.resolve() : new Promise((res) => { img.onload = res; img.onerror = res; })
-        )
-      );
-    }
-
-    // Capture with html2canvas directly
     const html2canvas = (await import("html2canvas")).default;
     const canvas = await html2canvas(container, {
       scale: 2,
@@ -214,7 +128,6 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
       windowWidth: 1024
     });
 
-    // Generate multi-page A4 PDF using jsPDF
     const { jsPDF } = await import("jspdf");
     const pdf = new jsPDF("p", "mm", "a4");
     const pageWidth = 210;
@@ -226,11 +139,9 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     let heightLeft = imgHeight;
     let position = 0;
 
-    // Page 1
     pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight, undefined, "FAST");
     heightLeft -= pageHeight;
 
-    // Remaining pages if document is longer than 1 page
     while (heightLeft > 0) {
       position = heightLeft - imgHeight;
       pdf.addPage();
@@ -245,6 +156,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     }
   }
 }
+
 
 
 
