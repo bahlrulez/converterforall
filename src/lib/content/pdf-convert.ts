@@ -209,5 +209,36 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
+  },
+  "word-to-pdf": {
+    sections: [
+      {
+        title: "Free Word to PDF Converter - Convert DOCX & DOC to High-Fidelity PDF",
+        content: "<p>Welcome to the ultimate Word to PDF converter designed to transform your Microsoft Word documents (.docx, .doc) into pristine, publication-grade PDF files. Whether you are submitting a job application, filing legal affidavits, distributing invoices, or compiling academic papers, our converter maintains 100% fidelity for fonts, margins, tables, DrawingML charts, and pagination without introducing layout drift or watermarks.</p>"
+      },
+      {
+        title: "How Does Our Word to PDF Engine Ensure Pixel-Perfect Fidelity?",
+        content: "<p>Unlike basic converters that distort paragraph spacing, mishandle tab-stops, or scramble charts, <strong>ConverterForAll</strong> employs a high-precision dual-engine architecture. Word documents are rendered with native sub-pixel OpenXML typesetting and vector chart parsing, ensuring that 2 pages in Word convert into exactly 2 pages in PDF with identical line breaks, right-aligned header addresses, and sharp vector graphics.</p>"
+      },
+      {
+        title: "Zero-Retention Privacy Guarantee: Complete Security for Sensitive Files",
+        content: "<p>Your privacy is our top priority. We operate on a strict <strong>Zero-Retention Ephemeral Processing</strong> model. Documents converted through our high-fidelity engine are processed in temporary, isolated volatile memory (RAM) and are <strong>immediately purged after download</strong>. Zero documents are permanently stored on disk, logged, or shared with third parties, ensuring strict compliance with GDPR, CCPA, and global confidentiality standards.</p>"
+      },
+      {
+        title: "Step-by-Step Guide: How to Convert Word (DOCX) to PDF Online",
+        content: "<ol><li><strong>Upload Your Word Document:</strong> Drag and drop your .docx or .doc file into the upload box above, or click 'Choose File' to browse your computer or mobile device.</li><li><strong>Automated High-Precision Processing:</strong> Our engine reads the OpenXML layout, calibrates sub-pixel font metrics, and embeds vector graphics and tables seamlessly.</li><li><strong>Instant PDF Download:</strong> Click 'Download PDF' to save your flawless, unwatermarked document ready for immediate printing, emailing, or official filing.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQs)",
+        content: `
+          <p><strong>Q: Will my converted PDF match my original Word layout and page count?</strong><br>A: Yes! Our engine is engineered to match Microsoft Word's pagination, tab stops, margins, and typography so that multi-page documents maintain their exact page boundaries.</p>
+          <p><strong>Q: Are my confidential business agreements and resumes stored on your servers?</strong><br>A: Never. We enforce a strict Zero-Retention Privacy Promise. Files are processed in temporary ephemeral memory and wiped immediately upon completion. We never store, log, or index your personal data.</p>
+          <p><strong>Q: Does this tool support embedded charts, images, and tables?</strong><br>A: Yes. All DrawingML bar/line charts, embedded images (PNG/JPG), and complex multi-column tables are extracted and rendered losslessly.</p>
+          <p><strong>Q: Is there any cost or file size limit?</strong><br>A: No. ConverterForAll is completely free to use with no hidden subscriptions, paywalls, or daily caps.</p>
+          <p><strong>Q: Can I convert Word documents on iPhone or Android?</strong><br>A: Absolutely. The converter runs seamlessly in Safari, Chrome, Edge, and Firefox across all smartphones, tablets, laptops, and desktops.</p>
+        `
+      }
+    ]
   }
 };
+
