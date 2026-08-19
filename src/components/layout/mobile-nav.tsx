@@ -41,7 +41,7 @@ const POPULAR_TOOLS = [
   { slug: "jpg-to-pdf", title: "JPG to PDF", category: "document" },
   { slug: "edit-pdf", title: "Edit PDF Online", category: "document" },
   { slug: "remove-background", title: "Remove Background", category: "image" },
-  { slug: "merge-pdf", title: "Merge PDF, JPG, and PNG", category: "document" },
+  { slug: "merge-pdf", title: "Merge PDF, Word & Images", category: "document" },
   { slug: "compress-pdf", title: "Compress PDF", category: "document" },
   { slug: "word-to-pdf", title: "WORD to PDF", category: "document" },
   { slug: "pdf-to-word", title: "PDF to WORD", category: "document" },

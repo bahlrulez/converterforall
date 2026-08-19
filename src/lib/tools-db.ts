@@ -157,14 +157,21 @@ export const toolsDatabase = {
   "document": {
     // ORGANIZE PDF
     "merge-pdf": {
-      title: "Merge PDF, JPG, and PNG",
-      description: "Combine multiple PDFs, JPGs, and PNGs into one unified document for free.",
+      title: "Merge PDF, Word (DOCX), JPG & PNG Online Free",
+      description: "Combine multiple PDF documents, Microsoft Word files (DOCX/DOC), and images (JPG, PNG, WebP) into one unified PDF for free. 100% private, on-device merging.",
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
       actionName: "Merge Files",
       isInteractive: true,
-      acceptedTypes: { "application/pdf": [".pdf"], "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] }
+      acceptedTypes: { 
+        "application/pdf": [".pdf"], 
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
+        "application/msword": [".doc"],
+        "image/jpeg": [".jpg", ".jpeg"], 
+        "image/png": [".png"],
+        "image/webp": [".webp"]
+      }
     },
     "presentation-maker": {
       title: "Presentation Maker (PPTX)",
@@ -964,6 +971,13 @@ export const SLUG_ALIASES: Record<string, string> = {
   "compress-android-video": "compress-video-for-phone",
 
   // PDF & Office Document Aliases
+  "pdf-merger": "merge-pdf",
+  "combine-pdf": "merge-pdf",
+  "merge-word-to-pdf": "merge-pdf",
+  "merge-word-and-pdf": "merge-pdf",
+  "combine-word-and-pdf": "merge-pdf",
+  "merge-docx-pdf": "merge-pdf",
+  "combine-pdf-word": "merge-pdf",
   "pdf-compressor": "compress-pdf",
   "pdf-page-remover": "remove-pages",
   "remove-pdf-pages": "remove-pages",

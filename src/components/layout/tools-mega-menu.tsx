@@ -31,7 +31,7 @@ const POPULAR_TOOLS = [
   { slug: "jpg-to-pdf", title: "JPG to PDF", icon: FileText, color: "text-emerald-400" },
   { slug: "edit-pdf", title: "Edit PDF Online", icon: FileText, color: "text-blue-400" },
   { slug: "remove-background", title: "Remove Background", icon: Eraser, color: "text-purple-400" },
-  { slug: "merge-pdf", title: "Merge PDF (JPG + PNG)", icon: FileStack, color: "text-red-400" },
+  { slug: "merge-pdf", title: "Merge PDF, Word & Images", icon: FileStack, color: "text-red-400" },
   { slug: "compress-pdf", title: "Compress PDF Size", icon: Zap, color: "text-amber-400" },
   { slug: "pdf-to-word", title: "PDF to Word (DOCX)", icon: FileText, color: "text-indigo-400" },
 ];

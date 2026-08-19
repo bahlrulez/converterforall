@@ -2,30 +2,32 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
   "merge-pdf": {
     sections: [
       {
-        title: "Combine PDF, JPG, and PNG into One Unified Document for Free",
-        content: "<p>Welcome to the ultimate solution to merge multiple files into a single PDF document. Whether you have multiple PDF documents, JPG photographs, or PNG screenshots, our powerful online tool allows you to combine them all into one unified PDF document seamlessly. Best of all, everything is FREE and unlimited. There are no daily caps, no hidden subscriptions, and no premium features locked behind a paywall. Get professional results instantly.</p>"
+        title: "Universal PDF Merger: Combine PDF, Word (DOCX), JPG, and PNG Online for Free",
+        content: "<p>Welcome to the universal document combiner designed to bring all your files together into one clean, polished PDF. Whether you need to attach a Microsoft Word (.docx, .doc) cover letter to a PDF contract, append JPG photographs, or insert PNG screenshots, our powerful in-browser tool merges them seamlessly. Best of all, everything is 100% free, unlimited, and runs locally on your device without cloud server uploads.</p>"
       },
       {
-        title: "How to Merge Multiple PDFs and Images for Free?",
-        content: "<p>Merging your files has never been easier. Simply drag and drop your PDFs, JPGs, and PNGs into the designated upload area above. You will instantly see a professional preview of the files uploaded. You can easily click and drag these previews to rearrange them into the exact order you need. Once organized, click the 'Merge Files' button. Our advanced client-side processing engine instantly stitches your images and PDF pages together into a perfectly formatted, single PDF document.</p>"
+        title: "How to Merge Word Documents, PDFs, and Images in Seconds?",
+        content: "<ol><li><strong>Select or Drop Files:</strong> Drag and drop your PDFs, Word documents (.docx, .doc), and images (JPG, PNG, WebP) into the upload area above.</li><li><strong>Arrange Page Sequence:</strong> Drag and reorder the visual file cards to arrange your documents in the exact order you want them to appear.</li><li><strong>Click 'Merge Files':</strong> Our client-side engine parses Word formatting, decodes PDF pages, and embeds high-resolution photos into a single unified document.</li><li><strong>Download Instantly:</strong> Save your complete, professional PDF file directly to your computer or mobile phone with zero watermarks.</li></ol>"
       },
       {
-        title: "100% Private and Secure - No Uploads Required",
-        content: "<p>Unlike other free converters that upload your sensitive documents to remote cloud servers to process them, our tool operates entirely within your web browser. This means your private files, legal documents, and personal photos never leave your device. We guarantee total privacy and security because the merging happens locally on your computer's memory. Fast, secure, and completely private.</p>"
+        title: "100% Client-Side Privacy: Your Confidential Files Never Leave Your Device",
+        content: "<p>Most online PDF mergers upload your sensitive business contracts, medical forms, tax returns, and personal resumes to remote cloud servers. At <strong>ConverterForAll</strong>, our state-of-the-art WebAssembly and JavaScript engines process everything directly inside your web browser. <strong>0 bytes are uploaded to external servers</strong>, guaranteeing absolute confidentiality, compliance, and instant processing speed.</p>"
       },
       {
-        title: "Why Our Tool is the Best Choice",
-        content: "<ul><li><strong>Free and Unlimited:</strong> Merge as many documents as you want, as often as you want. FREE an unlimited is the main key for us!</li><li><strong>Multi-Format Support:</strong> We don't just merge PDFs. You can easily combine multiple PDFs, JPGs, and PNGs into one document.</li><li><strong>Professional Previews:</strong> See exactly what you are merging before you download it.</li><li><strong>No Watermarks:</strong> We never add annoying watermarks or branding to your final document.</li></ul>"
+        title: "Popular Real-World Merging Workflows",
+        content: "<ul><li><strong>Job Applications & Resumes:</strong> Combine a Word (.docx) cover letter, a PDF resume, and scanned JPG recommendation letters into one single application package.</li><li><strong>Legal & Financial Filing:</strong> Merge Word agreements, PDF tax schedules, and ID photo proofs in the exact required sequence.</li><li><strong>Real Estate & Invoicing:</strong> Bundle Word proposal agreements with PDF inspection reports and high-resolution site photos.</li><li><strong>Academic & School Projects:</strong> Stitch together Word essays, reference PDF handouts, and diagram images for clean digital submission.</li></ul>"
       },
       {
         title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: Is it really free and unlimited to merge PDFs and images?</strong><br>A: Yes! Our tool is 100% free and unlimited. You can combine as many files as you need without any restrictions.</p>
-          <p><strong>Q: How do I combine JPGs and PNGs into one PDF?</strong><br>A: Just upload your JPG and PNG image files along with any PDFs into the drop zone above. The tool automatically converts and embeds the images as new pages in your final merged PDF.</p>
-          <p><strong>Q: Are my files kept private during the merge process?</strong><br>A: Absolutely. The merge process happens entirely locally in your web browser. Your files are never uploaded to any external server, ensuring maximum privacy and security.</p>
-          <p><strong>Q: Can I rearrange the order of the files before merging?</strong><br>A: Yes, you can simply drag and drop the professional file previews to reorder them exactly how you want them to appear in the final document.</p>
-          <p><strong>Q: Do I need to create an account to use the merge tool?</strong><br>A: No account, sign-up, or email is required. Just drop your files and get your merged document instantly.</p>
-          <p><strong>Q: Will there be a watermark on my merged PDF?</strong><br>A: No. We provide a completely clean, professional PDF with zero watermarks.</p>
+          <p><strong>Q: Can I merge Microsoft Word (.docx / .doc) files directly with PDF documents?</strong><br>A: Yes! You can upload Word documents alongside existing PDFs. Our tool automatically converts the Word document into crisp PDF pages in your browser and merges them together seamlessly into one final document.</p>
+          <p><strong>Q: How do I combine JPG, PNG, and WebP images with my PDFs?</strong><br>A: Simply drop your image files into the upload box along with your PDFs or Word files. Each image is automatically scaled and embedded as a full-page photo in your final PDF.</p>
+          <p><strong>Q: Are my files kept private and secure?</strong><br>A: 100% yes. All file conversion and PDF page stitching happen locally in your web browser. Your private documents, contracts, and photos never travel across the internet or touch any external server.</p>
+          <p><strong>Q: Can I rearrange the order of the files before creating the PDF?</strong><br>A: Yes! Each uploaded document has a preview card. Simply click and drag the cards (or tap and drag on touchscreens) to arrange the exact page order you want.</p>
+          <p><strong>Q: Is there any limit on how many files or pages I can merge?</strong><br>A: No. ConverterForAll is 100% free and unlimited. You can combine 2 files or 20+ files in a single session without hitting daily limits or paywalls.</p>
+          <p><strong>Q: Will merging degrade the quality of my images or text?</strong><br>A: No. Original PDF text vectors, Word fonts, and high-resolution photo dimensions are preserved with maximum clarity.</p>
+          <p><strong>Q: Does this tool add any watermark or logo to my merged PDF?</strong><br>A: Never. Your downloaded PDF is 100% clean, professional, and ready for business, school, or legal use.</p>
+          <p><strong>Q: Can I merge Word and PDF files on my phone (iPhone & Android)?</strong><br>A: Yes. The tool works directly inside Safari, Chrome, Edge, and Firefox on all mobile devices and desktop computers without installing any apps.</p>
         `
       }
     ]
