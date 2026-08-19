@@ -195,19 +195,30 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
 
                   {/* Tool List with Blue Accent Indicator */}
                   <div className="flex flex-col gap-1.5">
-                    {previewTools.map(([slug, tool]: any) => (
-                      <Link
-                        key={slug}
-                        href={`/${slug}`}
-                        onClick={onClose}
-                        className="flex items-center gap-2 text-xs text-slate-300 hover:text-white group transition-colors py-0.5"
-                      >
-                        <span className="text-blue-500 font-bold text-xs select-none">|</span>
-                        <span className="truncate group-hover:text-blue-400 transition-colors" title={tool.title}>
-                          {tool.title.replace("Convert ", "")}
-                        </span>
-                      </Link>
-                    ))}
+                    {previewTools.map(([slug, tool]: any) => {
+                      let cleanTitle = tool.title.replace(/^Convert /i, "");
+                      if (cleanTitle.includes(" – ")) cleanTitle = cleanTitle.split(" – ")[0];
+                      else if (cleanTitle.includes(" - ")) cleanTitle = cleanTitle.split(" - ")[0];
+                      else if (cleanTitle.includes(" — ")) cleanTitle = cleanTitle.split(" — ")[0];
+                      cleanTitle = cleanTitle.replace(/^Free Online /i, "");
+                      if (cleanTitle.includes(" (") && cleanTitle.length > 22) {
+                        cleanTitle = cleanTitle.split(" (")[0];
+                      }
+
+                      return (
+                        <Link
+                          key={slug}
+                          href={`/${slug}`}
+                          onClick={onClose}
+                          className="flex items-center gap-2 text-xs text-slate-300 hover:text-white group transition-colors py-0.5"
+                        >
+                          <span className="text-blue-500 font-bold text-xs select-none">|</span>
+                          <span className="truncate group-hover:text-blue-400 transition-colors" title={tool.title}>
+                            {cleanTitle}
+                          </span>
+                        </Link>
+                      );
+                    })}
 
                     {remainingCount > 0 && (
                       <Link

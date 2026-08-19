@@ -214,22 +214,33 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
             {/* Category Tools List */}
             <div className="space-y-1.5 pt-1">
-              {currentCategoryTools.map((tool: any) => (
-                <Link
-                  key={tool.slug}
-                  href={`/${tool.slug}`}
-                  onClick={onClose}
-                  className="flex items-center justify-between p-3 rounded-xl bg-[#0c142c]/90 hover:bg-[#132044] border border-slate-800/80 hover:border-blue-500/30 transition-all group active:scale-[0.99]"
-                >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="text-blue-400 font-bold text-sm">|</span>
-                    <span className="text-sm font-medium text-slate-200 group-hover:text-white truncate">
-                      {tool.title.replace("Convert ", "")}
-                    </span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all shrink-0" />
-                </Link>
-              ))}
+              {currentCategoryTools.map((tool: any) => {
+                let cleanTitle = tool.title.replace(/^Convert /i, "");
+                if (cleanTitle.includes(" – ")) cleanTitle = cleanTitle.split(" – ")[0];
+                else if (cleanTitle.includes(" - ")) cleanTitle = cleanTitle.split(" - ")[0];
+                else if (cleanTitle.includes(" — ")) cleanTitle = cleanTitle.split(" — ")[0];
+                cleanTitle = cleanTitle.replace(/^Free Online /i, "");
+                if (cleanTitle.includes(" (") && cleanTitle.length > 24) {
+                  cleanTitle = cleanTitle.split(" (")[0];
+                }
+
+                return (
+                  <Link
+                    key={tool.slug}
+                    href={`/${tool.slug}`}
+                    onClick={onClose}
+                    className="flex items-center justify-between p-3 rounded-xl bg-[#0c142c]/90 hover:bg-[#132044] border border-slate-800/80 hover:border-blue-500/30 transition-all group active:scale-[0.99]"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="text-blue-400 font-bold text-sm">|</span>
+                      <span className="text-sm font-medium text-slate-200 group-hover:text-white truncate">
+                        {cleanTitle}
+                      </span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all shrink-0" />
+                  </Link>
+                );
+              })}
             </div>
 
             {/* Site Navigation Links */}
