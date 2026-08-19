@@ -119,7 +119,9 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
           const lower = (post.title + " " + post.content).toLowerCase();
           let toolTarget = { slug: "passport-photo-maker", title: "Passport Photo Maker", desc: "Create official biometric passport and ID photos in 1-click on your device." };
           
-          if (lower.includes("pdf") && lower.includes("compress")) {
+          if (lower.includes("video") && lower.includes("compress")) {
+            toolTarget = { slug: "video-compressor", title: "Free Online Video Compressor", desc: "Reduce MP4, MOV & WebM video size by up to 80% on-device with zero quality loss." };
+          } else if (lower.includes("pdf") && lower.includes("compress")) {
             toolTarget = { slug: "compress-pdf", title: "Compress PDF Online", desc: "Reduce PDF file size in seconds without quality loss." };
           } else if (lower.includes("pdf") && (lower.includes("edit") || lower.includes("sign"))) {
             toolTarget = { slug: "edit-pdf", title: "Free Online PDF Editor", desc: "Annotate, draw, sign, and blackout sensitive PDF records offline." };

@@ -550,170 +550,329 @@ export const blogDatabase: Record<string, { title: string, content: string, date
     date: "August 19, 2026",
     category: "Guides & Tutorials",
     content: `
-      <p class="lead"><strong>Make Any Video Smaller Without Losing Quality</strong></p>
+      <p class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 leading-relaxed mb-6">
+        Make Any Video Smaller in Seconds — 100% Private, Without Server Uploads
+      </p>
       
-      <p>Have you ever tried to send a video and suddenly got a message saying:</p>
-      <blockquote class="p-4 my-4 border-l-4 border-rose-500 bg-rose-500/10 rounded-r-xl font-bold text-rose-300">
-        “File is too large.”
-      </blockquote>
-      <p>It is frustrating.</p>
-      <p>Maybe you recorded a nice video on your phone, but it is too big for WhatsApp. Maybe you have a gaming clip that Discord will not accept. Maybe Gmail refuses to attach your video. Or maybe your phone is running out of storage because your videos are taking up too much space.</p>
-      
-      <p>At that moment, you just want one simple thing:</p>
-      <p class="text-lg font-semibold text-blue-400">“Please make this video smaller.”</p>
-      
-      <p>You shouldn't need to learn complicated video editing software or memorize technical terms like bitrate, codec, or CRF values. Here's everything you need to know about video compression — and here's a <a href="/video-compressor">free online video compressor tool</a> you can use right in your browser.</p>
+      <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+        Have you ever tried to send a video and suddenly got hit with that annoying error message:
+      </p>
 
-      <h2>What Does a Video Compressor Do?</h2>
-      <p>Think of a video compressor like packing a big suitcase into a smaller suitcase. Your video still looks like the same video, but the file takes up significantly less space.</p>
-      <p>For example, you might have a <strong>200 MB video</strong>. After compression, it might become <strong>80 MB, 50 MB, or even smaller</strong>, depending on the video settings you choose.</p>
-      
-      <p>The smaller file is much easier to:</p>
-      <ul>
-        <li>Send on WhatsApp without running into file limits</li>
-        <li>Upload to Discord without a paid Nitro subscription</li>
-        <li>Attach directly to an email in Gmail or Outlook</li>
-        <li>Post on Instagram Reels and Stories faster</li>
-        <li>Upload to Facebook feeds and groups with less mobile data</li>
-        <li>Store on your phone without filling up internal storage</li>
-        <li>Share with friends and family quickly</li>
-      </ul>
-
-      <h2>What Affects Video File Size? (What Makes a Video Large?)</h2>
-      <p>Before compressing, it helps to understand why videos get so heavy in the first place. A video isn't just one file — it is thousands of individual pictures flashing across your screen every second, along with synchronized audio tracks. Here is what determines your video's size:</p>
-      
-      <div class="space-y-4 my-6">
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h3 class="text-base font-bold text-white mb-1">1. Resolution (4K vs 1080p vs 720p)</h3>
-          <p class="text-xs text-slate-300">Resolution is the number of pixels in each frame. A 4K video (3840×2160) contains 4 times more pixels per frame than a Full HD 1080p video (1920×1080). If you are watching on a phone screen, 1080p or 720p looks virtually identical to 4K while cutting file size by 60% to 80%.</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h3 class="text-base font-bold text-white mb-1">2. Video Bitrate</h3>
-          <p class="text-xs text-slate-300">Bitrate is the amount of video data processed every second (measured in Mbps or kbps). A high bitrate gives maximum clarity, but a lot of that data is redundant (like stationary backgrounds in a talking-head clip). Smart compression reduces unnecessary bitrate without blurring your footage.</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h3 class="text-base font-bold text-white mb-1">3. Video Length &amp; Duration</h3>
-          <p class="text-xs text-slate-300">This is simple math: a 10-minute video has 10 times more frames than a 1-minute video at the same settings. If you only need a specific clip, trimming out unused parts before compressing can save massive amounts of space.</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h3 class="text-base font-bold text-white mb-1">4. Frame Rate (FPS: 30fps vs 60fps)</h3>
-          <p class="text-xs text-slate-300">Frame rate is how many images appear per second. 60 FPS delivers silky-smooth gameplay, but it literally packs twice as many pictures as 30 FPS. For vlogs, meetings, and tutorials, 30 FPS cuts file size in half without hurting quality.</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h3 class="text-base font-bold text-white mb-1">5. Video Codec (H.264 vs H.265 / HEVC vs WebM)</h3>
-          <p class="text-xs text-slate-300">A codec is the compression algorithm. Modern codecs like H.264 (AVC) and H.265 (HEVC) pack visual details much more tightly than older formats like uncompressed AVI or WMV.</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h3 class="text-base font-bold text-white mb-1">6. Audio Quality &amp; HDR Color Depth</h3>
-          <p class="text-xs text-slate-300">High-fidelity uncompressed audio and 10-bit HDR color profiles add extra megabytes to every second of video. Compressing audio to clean 128 kbps stereo AAC keeps voice and music crystal clear while trimming file bulk.</p>
+      <div class="my-6 p-5 rounded-2xl bg-gradient-to-r from-red-500/10 via-rose-500/5 to-transparent border-l-4 border-rose-500 flex items-center gap-3">
+        <span class="text-2xl">⚠️</span>
+        <div>
+          <p class="font-extrabold text-base sm:text-lg text-rose-500 dark:text-rose-400">“File is too large to send.”</p>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Common on WhatsApp, Discord, Gmail, and Instagram uploads.</p>
         </div>
       </div>
 
-      <h2>Compress by Platform: Instant Presets</h2>
-      <p>Depending on where you want to send your video, different platforms have strict file size limits:</p>
+      <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+        Maybe you recorded a nice 4K clip on your phone, but it is too heavy for WhatsApp. Maybe you have a gaming replay that Discord rejects unless you buy a Nitro subscription. Or maybe your phone is running out of internal memory.
+      </p>
+      
+      <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+        At that moment, you shouldn't have to learn complicated video editing software or memorize confusing words like bitrate, codec, or CRF values. Here's everything you need to know about video compression — and here is our <a href="/video-compressor" class="font-bold text-blue-600 dark:text-blue-400 underline underline-offset-4 hover:text-blue-500">Free Online Video Compressor Tool</a> you can run right in your browser.
+      </p>
 
-      <h3>💬 Compress for Discord (&lt;25MB)</h3>
-      <p>Free Discord accounts have a strict 25MB file upload limit per message. Use the <a href="/compress-video-for-discord"><strong>Discord video compressor</strong></a> to shrink your gameplay clips and meme edits right under 24MB so they send instantly in chat without paying for Nitro.</p>
-
-      <h3>🟢 Compress for WhatsApp (&lt;16MB)</h3>
-      <p>WhatsApp limits video attachments to 16MB. Our <a href="/compress-video-for-whatsapp"><strong>WhatsApp video compressor</strong></a> targets crisp 720p/1080p MP4 files under 15.5MB so your family videos and travel clips share without errors.</p>
-
-      <h3>✉️ Compress for Email Attachments (&lt;25MB)</h3>
-      <p>Gmail and Outlook reject attachments over 20MB–25MB. The <a href="/compress-video-for-email"><strong>email video compressor</strong></a> shrinks presentations and work videos to fit directly into your email drafts with zero Google Drive prompts.</p>
-
-      <h3>📸 Compress for Instagram &amp; Facebook</h3>
-      <p>Save mobile data and avoid upload timeouts on Reels and Stories with the <a href="/compress-video-for-instagram"><strong>Instagram video compressor</strong></a> and <a href="/compress-video-for-facebook"><strong>Facebook video compressor</strong></a>.</p>
-
-      <h3>📱 Free Up Phone Storage</h3>
-      <p>If your iPhone or Android phone keeps showing <em>“Storage Almost Full”</em>, run your large 4K videos through the <a href="/compress-video-for-phone"><strong>phone video compressor</strong></a> to save up to 80% of your internal disk space.</p>
-
-      <h2>The Best Part: Your Video Stays 100% Private on Your Device</h2>
-      <p>Most compression websites upload your private videos to external cloud servers. That means your personal video travels across the internet and sits on someone else's computer.</p>
-      <p>At <strong>ConverterForAll.com</strong>, all video processing runs <strong>100% locally inside your web browser</strong> using WebAssembly and hardware acceleration.</p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-        <div class="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20">
-          <h4 class="font-bold text-white mb-1">🔒 100% Client-Side Privacy</h4>
-          <p class="text-xs text-slate-300">Your family, work, and personal videos never leave your device. 0 bytes uploaded to external servers.</p>
+      <!-- Quick Platform Jump Cards -->
+      <div class="my-8 p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-2xl text-white">
+        <div class="flex items-center gap-2.5 mb-2">
+          <span class="p-2 rounded-xl bg-blue-500/20 text-blue-400">🚀</span>
+          <h3 class="text-lg sm:text-xl font-black text-white m-0">Instant Compression Presets</h3>
         </div>
-        <div class="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
-          <h4 class="font-bold text-white mb-1">⚡ Zero Upload Queues</h4>
-          <p class="text-xs text-slate-300">No waiting for huge files to upload over slow internet connections. Processing begins instantly on your device.</p>
+        <p class="text-xs sm:text-sm text-slate-400 mb-6">Click any preset below to open the tool pre-configured for your platform limit:</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <a href="/compress-video-for-discord" class="p-4 rounded-2xl bg-slate-800/80 hover:bg-blue-600/20 border border-slate-700/80 hover:border-blue-500/50 transition-all flex flex-col justify-between gap-2 group text-decoration-none">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-white group-hover:text-blue-400 transition-colors">💬 Discord Compressor</span>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">&lt; 25MB</span>
+            </div>
+            <span class="text-xs text-slate-400">Optimizes gameplay and clips for Discord's free message cap.</span>
+          </a>
+
+          <a href="/compress-video-for-whatsapp" class="p-4 rounded-2xl bg-slate-800/80 hover:bg-emerald-600/20 border border-slate-700/80 hover:border-emerald-500/50 transition-all flex flex-col justify-between gap-2 group text-decoration-none">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">🟢 WhatsApp Compressor</span>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">&lt; 16MB</span>
+            </div>
+            <span class="text-xs text-slate-400">Shrinks family clips to send instantly without attachment errors.</span>
+          </a>
+
+          <a href="/compress-video-for-email" class="p-4 rounded-2xl bg-slate-800/80 hover:bg-purple-600/20 border border-slate-700/80 hover:border-purple-500/50 transition-all flex flex-col justify-between gap-2 group text-decoration-none">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-white group-hover:text-purple-400 transition-colors">✉️ Email Compressor</span>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30">&lt; 25MB</span>
+            </div>
+            <span class="text-xs text-slate-400">Attaches directly to Gmail &amp; Outlook with zero Google Drive links.</span>
+          </a>
+
+          <a href="/compress-video-for-instagram" class="p-4 rounded-2xl bg-slate-800/80 hover:bg-pink-600/20 border border-slate-700/80 hover:border-pink-500/50 transition-all flex flex-col justify-between gap-2 group text-decoration-none">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-white group-hover:text-pink-400 transition-colors">📸 Instagram &amp; Reels</span>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-400 border border-pink-500/30">1080p HD</span>
+            </div>
+            <span class="text-xs text-slate-400">Pre-optimizes 9:16 vertical video to prevent upload blur.</span>
+          </a>
+
+          <a href="/compress-video-for-phone" class="p-4 rounded-2xl bg-slate-800/80 hover:bg-amber-600/20 border border-slate-700/80 hover:border-amber-500/50 transition-all flex flex-col justify-between gap-2 group text-decoration-none">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-white group-hover:text-amber-400 transition-colors">📱 Phone Storage Saver</span>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">Save 80%</span>
+            </div>
+            <span class="text-xs text-slate-400">Shrinks large 4K phone libraries without monthly cloud fees.</span>
+          </a>
+
+          <a href="/compress-mp4" class="p-4 rounded-2xl bg-slate-800/80 hover:bg-cyan-600/20 border border-slate-700/80 hover:border-cyan-500/50 transition-all flex flex-col justify-between gap-2 group text-decoration-none">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-white group-hover:text-cyan-400 transition-colors">🎞️ Compress MP4</span>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">Universal</span>
+            </div>
+            <span class="text-xs text-slate-400">High-efficiency MP4 encoder for web and desktop files.</span>
+          </a>
         </div>
       </div>
 
-      <h2>Important Notice: Processing Speed &amp; Device Capacity</h2>
-      <div class="p-5 my-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-slate-200">
-        <h3 class="text-base font-bold text-amber-300 mb-2">
-          📢 Transparent Note on Processing Speed &amp; Hardware
-        </h3>
-        <p class="text-sm leading-relaxed mb-3">
-          <strong>Why is conversion speed dependent on your device?</strong> Because ConverterForAll is 100% committed to your privacy, <strong>we do not upload your video files to remote cloud servers</strong>. All decoding, compression algorithms, and MP4 rendering occur directly inside your web browser using your own device's CPU, GPU, and RAM via WebAssembly and hardware acceleration.
+      <h2>What Affects Video File Size? (Why Are Videos So Big?)</h2>
+      <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+        A video is a high-speed sequence of thousands of high-resolution images played every second, paired with high-quality audio streams. Here are the 6 factors that determine your video's megabytes:
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-md">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-400 mb-2">
+            <span>📐 Factor 1</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white mb-1.5 m-0">Resolution (4K vs 1080p vs 720p)</h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+            A 4K frame contains 8.3 million pixels, while 1080p has 2 million pixels. On a phone screen, 1080p looks virtually identical to 4K while cutting file size by 60% to 80%.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-md">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-500/20 text-purple-400 mb-2">
+            <span>⚡ Factor 2</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white mb-1.5 m-0">Video Bitrate (Data Density)</h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+            Bitrate measures the megabytes allocated per second of video. Smart compression removes invisible pixel redundancies (like static background scenery) without blurring the subject.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-md">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-400 mb-2">
+            <span>⏱️ Factor 3</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white mb-1.5 m-0">Video Length &amp; Duration</h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+            A 10-minute recording contains 10× more frames than a 1-minute clip. Trimming unnecessary footage before compressing gives the fastest, cleanest size reduction.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-md">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500/20 text-amber-400 mb-2">
+            <span>🎬 Factor 4</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white mb-1.5 m-0">Frame Rate (30 FPS vs 60 FPS)</h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+            60 FPS is great for gaming replays, but stores double the pictures of 30 FPS. For vlogs, presentations, and tutorials, 30 FPS cuts file size in half with zero loss in clarity.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-md">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-rose-500/20 text-rose-400 mb-2">
+            <span>📦 Factor 5</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white mb-1.5 m-0">Compression Codec (H.264 vs WebM)</h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+            H.264 (MP4) is the gold standard for compatibility and efficiency. Legacy formats like uncompressed AVI or WMV take up 5× to 10× more space for the exact same visual quality.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-md">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-500/20 text-blue-400 mb-2">
+            <span>🔊 Factor 6</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white mb-1.5 m-0">Audio Quality &amp; HDR Profiles</h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+            Uncompressed multi-channel audio and 10-bit HDR color data add heavy overhead. Encoding audio at clean 128 kbps stereo AAC keeps speech and music pristine while shrinking file size.
+          </p>
+        </div>
+      </div>
+
+      <h2>100% Client-Side Privacy: Why Local Processing Matters</h2>
+      <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+        Most compression websites make you upload your personal videos to remote cloud servers. That means your family recordings, confidential meetings, and personal clips travel across the internet.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-8">
+        <div class="p-6 rounded-3xl bg-blue-500/10 border border-blue-500/30">
+          <div class="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold mb-3">🔒</div>
+          <h4 class="text-base font-bold text-white mb-1.5 m-0">100% Private On-Device</h4>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+            Your videos never leave your phone or PC. Processing happens directly inside your web browser. 0 bytes uploaded to external servers.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-emerald-500/10 border border-emerald-500/30">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold mb-3">⚡</div>
+          <h4 class="text-base font-bold text-white mb-1.5 m-0">Zero Upload Waiting</h4>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+            No waiting for a 500MB file to slowly upload over cellular data. Compression begins immediately using your local hardware.
+          </p>
+        </div>
+      </div>
+
+      <!-- Transparent Speed Notice -->
+      <div class="my-8 p-6 sm:p-7 rounded-3xl bg-amber-500/10 border border-amber-500/30 text-slate-200">
+        <div class="flex items-center gap-2.5 mb-3">
+          <span class="p-2 rounded-xl bg-amber-500/20 text-amber-400 text-lg">📢</span>
+          <h3 class="text-base sm:text-lg font-bold text-amber-300 m-0">Honest Note on Processing Speed &amp; Device Hardware</h3>
+        </div>
+        <p class="text-xs sm:text-sm leading-relaxed text-slate-300 mb-3">
+          Because we do not upload your video to powerful cloud server farms, <strong>conversion speed depends directly on your device's processor (CPU/GPU) and available RAM</strong>.
         </p>
-        <p class="text-sm leading-relaxed mb-2">
-          <strong>What this means in practice:</strong>
-        </p>
-        <ul class="text-xs space-y-1.5 list-disc pl-5 text-slate-300">
-          <li><strong>Modern PCs, Macs &amp; Fast Laptops:</strong> Compress 1080p and 720p clips in just a few seconds.</li>
-          <li><strong>Mobile Phones &amp; Budget Hardware:</strong> Compression speed depends on your phone's processor power and available RAM.</li>
-          <li><strong>Large 4K Videos &amp; Long Clips:</strong> Require more processing cycles. We recommend keeping your browser tab open until the conversion completes.</li>
+        <ul class="text-xs sm:text-sm space-y-2 text-slate-300 list-disc pl-5 m-0">
+          <li><strong>Modern PCs &amp; MacBooks:</strong> Compress 1080p videos in just a few seconds.</li>
+          <li><strong>Smartphones &amp; Older Laptops:</strong> May take 1–3 minutes depending on processor speed and battery temperature.</li>
+          <li><strong>Large 4K Videos:</strong> Require heavy processing cycles. Please keep your browser tab open until the circular progress radar finishes.</li>
         </ul>
-        <p class="text-xs text-amber-300 font-medium mt-3 border-t border-amber-500/20 pt-2">
-          🛡️ <strong>Our Commitment:</strong> Server-based websites can process faster only by uploading and storing your private videos on their machines. We refuse to compromise your privacy. By running everything locally, your personal files remain 100% secure and strictly under your control.
+        <p class="text-xs text-amber-300/90 font-medium mt-4 pt-3 border-t border-amber-500/20 m-0">
+          🛡️ <em>Cloud tools only seem faster because they store your video on their servers. We prioritize your privacy above everything else.</em>
         </p>
       </div>
 
-      <h2>Frequently Asked Questions (FAQ)</h2>
-      <div class="space-y-4 my-6">
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h4 class="font-bold text-white text-sm mb-1">How can I compress a video without losing quality?</h4>
-          <p class="text-xs text-slate-300">Human eyes can't perceive microscopic compression artifacts. By using modern H.264 encoding with smart variable bitrates, you can remove redundant data (like motionless background pixels) to cut file size by 50% to 70% while the visual quality appears virtually indistinguishable from the original.</p>
+      <!-- Redesigned High-Impact FAQ Section -->
+      <div class="my-12">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="p-2.5 rounded-2xl bg-blue-600/20 text-blue-400 text-xl">❓</div>
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white m-0">Frequently Asked Questions</h2>
+            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 m-0">Quick answers to common video compression questions</p>
+          </div>
         </div>
 
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h4 class="font-bold text-white text-sm mb-1">What is the best video format for a small file size?</h4>
-          <p class="text-xs text-slate-300">MP4 (H.264 video with AAC audio) is universally recognized as the best overall format. It provides the highest compression efficiency while playing natively on every iPhone, Android, Mac, Windows PC, browser, and social media platform.</p>
-        </div>
+        <div class="space-y-4">
+          <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-blue-500/40 transition-all shadow-md">
+            <div class="flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs shrink-0 mt-0.5">Q1</span>
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-white m-0 mb-2">How can I compress a video without losing quality?</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+                  Human eyes cannot perceive microscopic pixel redundancies. By using modern H.264 variable bitrates, smart compression trims background data and downscales 4K to 1080p, reducing file size by 50% to 70% while looking virtually identical on screens.
+                </p>
+              </div>
+            </div>
+          </div>
 
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h4 class="font-bold text-white text-sm mb-1">How do I reduce a 1GB video to 100MB?</h4>
-          <p class="text-xs text-slate-300">To achieve a 90% file size reduction, choose our <em>"Maximum Compression (Tiny)"</em> preset or downscale 4K resolution down to 1080p or 720p. You can also adjust the custom compression slider to target your exact desired megabyte size.</p>
-        </div>
+          <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-blue-500/40 transition-all shadow-md">
+            <div class="flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs shrink-0 mt-0.5">Q2</span>
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-white m-0 mb-2">What is the best video format for a small file size?</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+                  <strong>MP4 with H.264 video and AAC audio</strong> is universally recognized as the best format. It delivers the tightest compression efficiency while playing smoothly on every iPhone, Android, Windows, Mac, and web browser.
+                </p>
+              </div>
+            </div>
+          </div>
 
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h4 class="font-bold text-white text-sm mb-1">How do I compress a 4K video?</h4>
-          <p class="text-xs text-slate-300">Select your 4K video in our compressor and choose the <strong>1080p HD</strong> or <strong>Smart Balanced</strong> preset. This downscales the massive pixel count into crisp 1080p, saving up to 80% disk space while looking fantastic on all monitors and mobile devices.</p>
-        </div>
+          <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-blue-500/40 transition-all shadow-md">
+            <div class="flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs shrink-0 mt-0.5">Q3</span>
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-white m-0 mb-2">How do I reduce a 1GB video to 100MB?</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+                  To achieve a 90% size reduction, choose our <em>"Maximum Compression"</em> preset or downscale 4K footage to 720p/1080p. You can also use the custom compression percentage slider to target your exact file size.
+                </p>
+              </div>
+            </div>
+          </div>
 
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h4 class="font-bold text-white text-sm mb-1">Does compressing a video reduce quality?</h4>
-          <p class="text-xs text-slate-300">Mild to moderate compression (up to ~60% reduction) preserves clear visuals and crisp audio without visible blur. Only extreme compression (like shrinking a 500MB movie into 10MB) will soften edges or lower resolution for small email attachments.</p>
-        </div>
+          <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-blue-500/40 transition-all shadow-md">
+            <div class="flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs shrink-0 mt-0.5">Q4</span>
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-white m-0 mb-2">How do I compress a 4K video?</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+                  Select your 4K video in our studio and choose the <strong>1080p Full HD</strong> preset. This downscales the massive 8.3-million-pixel density into crisp 1080p, saving up to 80% disk space while looking crystal clear on all monitors.
+                </p>
+              </div>
+            </div>
+          </div>
 
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h4 class="font-bold text-white text-sm mb-1">How do I compress a video for WhatsApp?</h4>
-          <p class="text-xs text-slate-300">Use our dedicated <a href="/compress-video-for-whatsapp" class="text-blue-400 underline">WhatsApp Video Compressor</a>. It automatically configures target bitrates to ensure the output MP4 stays below WhatsApp's 16MB file sharing limit.</p>
-        </div>
+          <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-blue-500/40 transition-all shadow-md">
+            <div class="flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs shrink-0 mt-0.5">Q5</span>
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-white m-0 mb-2">Does compressing a video reduce its quality?</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+                  Moderate compression (up to ~60% reduction) preserves clear visuals and pristine audio without noticeable blur. Only extreme reduction (such as squeezing a 1GB video into a 10MB email attachment) will soften edges for quick transfer.
+                </p>
+              </div>
+            </div>
+          </div>
 
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h4 class="font-bold text-white text-sm mb-1">How do I make a video smaller for email?</h4>
-          <p class="text-xs text-slate-300">Select the <a href="/compress-video-for-email" class="text-blue-400 underline">Email Video Compressor</a>. It optimizes the video to stay under 20MB/25MB, allowing direct attachment in Gmail, Outlook, Yahoo, and Apple Mail without cloud upload links.</p>
-        </div>
+          <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-blue-500/40 transition-all shadow-md">
+            <div class="flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs shrink-0 mt-0.5">Q6</span>
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-white m-0 mb-2">How do I compress a video for WhatsApp?</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+                  Use our dedicated <a href="/compress-video-for-whatsapp" class="text-emerald-400 font-semibold underline">WhatsApp Video Compressor</a>. It automatically locks the output file size under WhatsApp's 16MB standard limit.
+                </p>
+              </div>
+            </div>
+          </div>
 
-        <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <h4 class="font-bold text-white text-sm mb-1">Can I compress a video without uploading it?</h4>
-          <p class="text-xs text-slate-300">Yes! That is the core feature of ConverterForAll. Your video is processed 100% locally on your computer or phone using client-side WebAssembly technology. Your files never leave your device.</p>
+          <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-blue-500/40 transition-all shadow-md">
+            <div class="flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs shrink-0 mt-0.5">Q7</span>
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-white m-0 mb-2">How do I make a video smaller for email?</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+                  Open the <a href="/compress-video-for-email" class="text-purple-400 font-semibold underline">Email Video Compressor</a>. It optimizes the file under 20MB–25MB, allowing direct attachment in Gmail and Outlook without filling up your Google Drive quota.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-blue-500/40 transition-all shadow-md">
+            <div class="flex items-start gap-3">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-500/20 text-blue-400 font-extrabold text-xs shrink-0 mt-0.5">Q8</span>
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-white m-0 mb-2">Can I compress a video without uploading it?</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
+                  Yes! ConverterForAll operates 100% locally inside your web browser. Your video is processed right on your device and never uploaded to any cloud server.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <h2>Final Verdict: Don't Make It Complicated</h2>
-      <p>If you came here searching for a way to reduce video size, compress MP4, or shrink video for WhatsApp and Discord, you don't need complicated software or expensive monthly subscriptions.</p>
-      <p>Your video belongs to you. It shouldn't have to leave your device just because you want to make it smaller. Try our <a href="/video-compressor"><strong>Free Online Video Compressor</strong></a> today and experience instant, private video compression!</p>
+      <!-- Bottom Interactive Hero CTA -->
+      <div class="my-10 p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 text-white text-center shadow-2xl relative overflow-hidden">
+        <div class="relative z-10 max-w-xl mx-auto space-y-4">
+          <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-md inline-block">
+            ⚡ 100% Free &amp; Private
+          </span>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight m-0">
+            Ready to Shrink Your Video?
+          </h2>
+          <p class="text-xs sm:text-sm text-blue-100 leading-relaxed m-0">
+            No signup, no subscriptions, and no cloud uploads. Drag and drop your video to compress it locally on your device in seconds!
+          </p>
+          <div class="pt-2">
+            <a
+              href="/video-compressor"
+              class="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-blue-600 hover:bg-blue-50 font-black text-sm sm:text-base shadow-2xl hover:scale-105 transition-all active:scale-95 text-decoration-none"
+            >
+              <span>Launch Video Compressor →</span>
+            </a>
+          </div>
+        </div>
+      </div>
     `
   }
 };
