@@ -19,45 +19,56 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(arrayBuffer);
 
     // 1. Check for Gotenberg / LibreOffice headless microservice
-    const gotenbergUrl =
+    let gotenbergUrl = (
       process.env.GOTENBERG_URL ||
       process.env.DOCX_CONVERTER_URL ||
-      process.env.LIBREOFFICE_API_URL;
+      process.env.LIBREOFFICE_API_URL ||
+      ""
+    ).trim();
 
     if (gotenbergUrl) {
       try {
-        const upstreamFormData = new FormData();
-        upstreamFormData.append(
-          "files",
-          new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }),
-          file.name || "document.docx"
-        );
+        if (!gotenbergUrl.startsWith("http://") && !gotenbergUrl.startsWith("https://")) {
+          gotenbergUrl = `https://${gotenbergUrl}`;
+        }
+        gotenbergUrl = gotenbergUrl.replace(/\/+$/, "").replace(/\/forms\/libreoffice\/convert\/?$/, "");
 
-        const endpoint = gotenbergUrl.endsWith("/forms/libreoffice/convert")
-          ? gotenbergUrl
-          : `${gotenbergUrl.replace(/\/$/, "")}/forms/libreoffice/convert`;
+        const endpoint = `${gotenbergUrl}/forms/libreoffice/convert`;
+        const fileName = file.name || "document.docx";
+
+        const upstreamFormData = new FormData();
+        const fileObj = new File([buffer], fileName, {
+          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        });
+        upstreamFormData.append("files", fileObj);
+
+        console.info(`[Word->PDF] Forwarding ${fileName} (${buffer.length} bytes) to Gotenberg: ${endpoint}`);
 
         const upstreamRes = await fetch(endpoint, {
           method: "POST",
           body: upstreamFormData,
-          signal: AbortSignal.timeout(30000), // 30s timeout for large documents
+          signal: AbortSignal.timeout(60000), // 60s timeout to allow for Render cold-starts
         });
 
         if (upstreamRes.ok) {
           const pdfBuffer = await upstreamRes.arrayBuffer();
+          console.info(`[Word->PDF] Success! Received ${pdfBuffer.byteLength} bytes PDF from Gotenberg`);
           return new Response(new Uint8Array(pdfBuffer), {
             status: 200,
             headers: {
               "Content-Type": "application/pdf",
-              "Content-Disposition": `attachment; filename="${(file.name || "document").replace(/\.[^/.]+$/, "")}.pdf"`,
+              "Content-Disposition": `attachment; filename="${fileName.replace(/\.[^/.]+$/, "")}.pdf"`,
               "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
               "Pragma": "no-cache",
               "Expires": "0",
             },
           });
+        } else {
+          const errText = await upstreamRes.text().catch(() => "");
+          console.warn(`[Word->PDF] Gotenberg returned status ${upstreamRes.status}: ${errText}`);
         }
       } catch (upstreamErr) {
-        console.warn("Upstream conversion service unreachable:", upstreamErr);
+        console.warn("[Word->PDF] Gotenberg service unreachable/timeout:", upstreamErr);
       }
     }
 
