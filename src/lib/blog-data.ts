@@ -651,6 +651,27 @@ export const blogDatabase: Record<string, { title: string, content: string, date
         <li><strong>Download:</strong> Click compress and save your lightweight, high-quality video instantly!</li>
       </ol>
 
+      <h2>Important Notice: Processing Speed &amp; Device Capacity</h2>
+      <div class="p-5 my-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-slate-200">
+        <h3 class="text-base font-bold text-amber-300 mb-2">
+          📢 Transparent Note on Processing Speed &amp; Hardware
+        </h3>
+        <p class="text-sm leading-relaxed mb-3">
+          <strong>Why is conversion speed dependent on your device?</strong> Because ConverterForAll is 100% committed to your privacy, <strong>we do not upload your video files to remote cloud servers</strong>. All decoding, compression algorithms, and MP4 rendering occur directly inside your web browser using your own device's CPU, GPU, and RAM via WebAssembly and hardware acceleration.
+        </p>
+        <p class="text-sm leading-relaxed mb-2">
+          <strong>What this means in practice:</strong>
+        </p>
+        <ul class="text-xs space-y-1.5 list-disc pl-5 text-slate-300">
+          <li><strong>Modern PCs, Macs &amp; Fast Laptops:</strong> Compress 1080p and 720p clips in just a few seconds.</li>
+          <li><strong>Mobile Phones &amp; Budget Hardware:</strong> Compression speed depends on your phone's processor power and available RAM.</li>
+          <li><strong>Large 4K Videos &amp; Long Clips:</strong> Require more processing cycles. We recommend keeping your browser tab open until the conversion completes.</li>
+        </ul>
+        <p class="text-xs text-amber-300 font-medium mt-3 border-t border-amber-500/20 pt-2">
+          🛡️ <strong>Our Commitment:</strong> Server-based websites can process faster only by uploading and storing your private videos on their machines. We refuse to compromise your privacy. By running everything locally, your personal files remain 100% secure and strictly under your control.
+        </p>
+      </div>
+
       <h2>Final Verdict: Don't Make It Complicated</h2>
       <p>If you came here looking for a free video compressor to reduce video size, compress MP4, or shrink video for WhatsApp and Discord, you don't need complicated tutorials or expensive software subscriptions.</p>
       <p>Your video belongs to you. It shouldn't have to leave your device just because you want to make it smaller. Try our <a href="/video-compressor"><strong>Free Online Video Compressor</strong></a> today and experience instant, private video compression!</p>
