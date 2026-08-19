@@ -44,7 +44,11 @@ interface VideoMetadata {
 
 type CompressionPreset = "recommended" | "discord" | "max" | "high_quality" | "custom";
 
-export function VideoCompressor() {
+interface VideoCompressorProps {
+  toolSlug?: string;
+}
+
+export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressorProps) {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [videoMeta, setVideoMeta] = useState<VideoMetadata | null>(null);
@@ -52,10 +56,19 @@ export function VideoCompressor() {
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
 
-  // Compression Settings
-  const [preset, setPreset] = useState<CompressionPreset>("recommended");
+  // Compression Settings - Auto-tuned based on target landing page
+  const getInitialPreset = (): CompressionPreset => {
+    if (toolSlug?.includes("discord") || toolSlug?.includes("whatsapp")) return "discord";
+    if (toolSlug?.includes("email")) return "max";
+    if (toolSlug?.includes("instagram") || toolSlug?.includes("facebook")) return "high_quality";
+    return "recommended";
+  };
+
+  const [preset, setPreset] = useState<CompressionPreset>(getInitialPreset());
   const [customPercentage, setCustomPercentage] = useState(55); // 55% reduction
-  const [resolution, setResolution] = useState<"original" | "1080p" | "720p" | "480p" | "360p">("original");
+  const [resolution, setResolution] = useState<"original" | "1080p" | "720p" | "480p" | "360p">(
+    toolSlug?.includes("phone") ? "720p" : "original"
+  );
   const [audioBitrate, setAudioBitrate] = useState<"128k" | "96k" | "64k">("128k");
   const [muteAudio, setMuteAudio] = useState(false);
 

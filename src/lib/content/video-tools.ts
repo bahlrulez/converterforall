@@ -110,5 +110,81 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
         content: "<p><strong>Q: Are my extracted photos uploaded anywhere?</strong><br>A: No. The entire frame extraction process happens securely within your local web browser using hardware-accelerated decoding. Your video and photos remain entirely on your device.</p><p><strong>Q: How is frame extraction so fast without lag?</strong><br>A: Our engine leverages GPU-accelerated video surfaces (`createImageBitmap`) and desynchronized rendering contexts. This allows your graphics hardware to capture frames at 60+ FPS directly from the video stream without freezing your browser tab.</p><p><strong>Q: Why do I download a ZIP file instead of individual images?</strong><br>A: A 10-second video at 10 FPS generates 100 individual images. Forcing your browser to prompt you 100 times to save each file individually would crash your browser and ruin your experience. We bundle them into a single, convenient ZIP file for a one-click download.</p><p><strong>Q: What does the FPS selector mean?</strong><br>A: FPS stands for Frames Per Second. If you select 1 FPS on a 10-second video, you will get 10 images. If you select 30 FPS on that same video, you will get 300 images. Higher FPS yields smoother motion sequences but takes longer to process and creates larger ZIP files.</p><p><strong>Q: Will the extracted JPEGs be blurry?</strong><br>A: Our engine extracts the frames at the full, native resolution of your uploaded video and saves them at 90% JPEG quality, ensuring crisp, production-ready images.</p><p><strong>Q: Can I extract frames from a 2-hour movie?</strong><br>A: Technically yes, but practically no. Extracting 30 FPS from a 2-hour movie would generate over 200,000 images, resulting in a ZIP file dozens of gigabytes in size, which will definitely crash your web browser. Use this tool for short clips!</p><p><strong>Q: Does this tool support audio extraction?</strong><br>A: No, this specific tool only extracts the visual frames. If you need the audio, use our dedicated 'MP4 to MP3' audio extraction tool.</p><p><strong>Q: Is there any cost to use this extractor?</strong><br>A: No, it is 100% free with no hidden fees or watermarks on your extracted images.</p>"
       }
     ]
+  },
+  "compress-video-for-discord": {
+    sections: [
+      {
+        title: "How to Compress Videos for Discord (<25MB)",
+        content: "<p>Discord limits free file uploads to <strong>25MB</strong> (previously 8MB). Uploading game clips, screen recordings, or meme edits that exceed 25MB fails unless you pay for a Discord Nitro subscription. Our Discord Video Compressor automatically targets an output file size under 24.5MB by optimizing the video bitrate while maintaining smooth 60fps and crisp 1080p or 720p resolution.</p>"
+      },
+      {
+        title: "Why Use Client-Side Discord Compression?",
+        content: "<p>Most video compression websites require you to upload your gameplay or personal recordings to their cloud servers. Our tool runs directly inside your web browser using WebAssembly and hardware acceleration. Your gaming footage never leaves your PC, compressing in seconds with zero queues or watermarks.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: What is the Discord upload limit in 2026?</strong><br>A: Standard free Discord accounts have a 25MB file upload limit per message. Discord Nitro Basic has a 50MB limit, and Nitro has a 500MB limit.</p><p><strong>Q: Will my game audio stay synced after compressing for Discord?</strong><br>A: Yes! The encoder preserves the original audio timestamp streams with crystal clear 128 kbps AAC stereo sound.</p><p><strong>Q: Does Discord support the compressed MP4 format?</strong><br>A: Yes. MP4 with H.264 video and AAC audio is Discord's native inline playable format on desktop, iOS, and Android.</p>"
+      }
+    ]
+  },
+  "compress-video-for-whatsapp": {
+    sections: [
+      {
+        title: "Compress Videos for WhatsApp (<16MB)",
+        content: "<p>WhatsApp restricts video sharing to a strict <strong>16MB file limit</strong> on mobile and web. When you send a large video, WhatsApp's built-in compressor often blurs your footage and causes stuttering. By pre-compressing your video using our dedicated WhatsApp compressor, you ensure your video stays sharp, plays instantly, and sends without error.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: What is the maximum video size for WhatsApp status and chats?</strong><br>A: WhatsApp allows up to 16MB for standard media messages and up to 2GB if sent as an uncompressed document.</p><p><strong>Q: Can I compress iPhone 4K videos for WhatsApp?</strong><br>A: Yes! The tool accepts large iPhone MOV and 4K MP4 videos, scales them down to 1080p or 720p, and compresses them under 16MB in seconds.</p>"
+      }
+    ]
+  },
+  "compress-video-for-email": {
+    sections: [
+      {
+        title: "Compress Large Videos for Email Attachments",
+        content: "<p>Major email providers like Gmail, Outlook, Yahoo Mail, and Apple Mail impose strict attachment limits between <strong>20MB and 25MB</strong>. Our Email Video Compressor applies intelligent CRF compression to fit your videos directly inside standard email attachments without needing Google Drive or Dropbox links.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: What is Gmail's attachment limit?</strong><br>A: Gmail allows up to 25MB of total email attachments per email.</p><p><strong>Q: What is Outlook's attachment limit?</strong><br>A: Microsoft Outlook and Hotmail allow up to 20MB for attachments.</p>"
+      }
+    ]
+  },
+  "compress-video-for-instagram": {
+    sections: [
+      {
+        title: "Compress Video for Instagram Reels & Stories without Blur",
+        content: "<p>When you upload high-bitrate 4K videos to Instagram Reels or Stories, Instagram's aggressive server compression crushes the video, making it look pixelated and blurry. By pre-compressing your video to Instagram's recommended specs (1080×1920, 30fps/60fps, ~3.5 to 5 Mbps bitrate), you bypass Instagram's heavy compression algorithm and maintain maximum visual sharpness.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: What is the best resolution for Instagram Reels?</strong><br>A: 1080 × 1920 pixels with a 9:16 vertical aspect ratio.</p><p><strong>Q: Why do my 4K videos look blurry when uploaded to Instagram?</strong><br>A: Instagram downscales and recompresses any video exceeding 1080p. Pre-compressing with our tool avoids destructive re-encoding.</p>"
+      }
+    ]
+  },
+  "compress-mov-video": {
+    sections: [
+      {
+        title: "Compress Apple QuickTime MOV Videos to MP4",
+        content: "<p>Apple iPhones and Mac computers record video in QuickTime MOV format using high bitrates that consume gigabytes of storage. Our MOV Compressor converts and shrinks MOV files into ultra-compact, universally playable MP4 videos with up to 80% space savings.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: Why are iPhone MOV files so big?</strong><br>A: iOS cameras capture high-bitrate footage with uncompressed color profiles. Compressing with H.264 reduces the file size significantly with near-zero visible difference.</p><p><strong>Q: Will the compressed file work on Windows and Android?</strong><br>A: Yes! The output is standard MP4 H.264, which plays natively on all devices.</p>"
+      }
+    ]
+  },
+  "compress-mp4": {
+    sections: [
+      {
+        title: "Compress MP4 Videos Online – Fast & 100% Private",
+        content: "<p>MP4 is the world's most popular video format. Our MP4 Video Compressor lets you dial in the exact compression level you need—from light 20% size reduction to maximum 80% reduction—running entirely on your device's GPU/CPU.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: Is there any quality loss when compressing MP4?</strong><br>A: With our Smart Balanced preset (CRF 26), quality loss is virtually imperceptible on phone screens and computer monitors.</p><p><strong>Q: Are my MP4 files safe?</strong><br>A: Yes. All processing occurs locally in your browser with 0 bytes uploaded to external servers.</p>"
+      }
+    ]
   }
 };

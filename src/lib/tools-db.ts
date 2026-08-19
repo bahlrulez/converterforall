@@ -393,20 +393,141 @@ export const toolsDatabase = {
   },
   "video": {
     "compress-video": {
-      title: "Compress Video Size",
-      description: "Reduce video file size while maintaining quality.",
+      title: "Free Online Video Compressor – Reduce Video Size (Private & Instant)",
+      description: "Reduce video file sizes (MP4, MOV, WebM) instantly in your browser without uploading to cloud servers. 100% free, private, and no quality loss.",
       inputFormat: "video",
       outputFormat: "mp4",
       actionName: "Compress Video",
       isInteractive: true,
-      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm", ".avi", ".wmv", ".flv"] }
     },
     "video-compressor": {
-      title: "Video Compressor",
-      description: "Reduce video file sizes while retaining crystal clear video quality.",
+      title: "Video Compressor – Shrink Video File Size Online Free",
+      description: "Reduce video file sizes while retaining crystal clear video quality. Hardware-accelerated local WebGPU/SIMD compression.",
       inputFormat: "video",
       outputFormat: "mp4",
       actionName: "Compress Video",
+      isInteractive: true,
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm", ".avi", ".wmv", ".flv"] }
+    },
+
+    // FORMAT-SPECIFIC VIDEO COMPRESSORS
+    "compress-mp4": {
+      title: "Compress MP4 Video Online – Reduce MP4 Size Free (Private)",
+      description: "Reduce MP4 file size online without losing quality. 100% client-side compression on your device with no uploads required.",
+      inputFormat: "mp4",
+      outputFormat: "mp4",
+      actionName: "Compress MP4",
+      isInteractive: true,
+      acceptedTypes: { "video/mp4": [".mp4"] }
+    },
+    "compress-mov-video": {
+      title: "Compress MOV Video Online – Reduce iPhone & Mac MOV Size",
+      description: "Compress Apple QuickTime MOV videos into lightweight, web-optimized MP4 files without quality loss.",
+      inputFormat: "mov",
+      outputFormat: "mp4",
+      actionName: "Compress MOV",
+      isInteractive: true,
+      acceptedTypes: { "video/quicktime": [".mov"] }
+    },
+    "compress-mkv": {
+      title: "Compress MKV Video Online – Reduce MKV File Size",
+      description: "Compress high-definition MKV movie and video files to compact MP4 size for easy sharing and streaming.",
+      inputFormat: "mkv",
+      outputFormat: "mp4",
+      actionName: "Compress MKV",
+      isInteractive: true,
+      acceptedTypes: { "video/x-matroska": [".mkv"] }
+    },
+    "compress-avi": {
+      title: "Compress AVI Video Online – Convert & Shrink AVI Files",
+      description: "Shrink heavy uncompressed AVI video files into modern lightweight MP4 files instantly.",
+      inputFormat: "avi",
+      outputFormat: "mp4",
+      actionName: "Compress AVI",
+      isInteractive: true,
+      acceptedTypes: { "video/x-msvideo": [".avi"] }
+    },
+    "compress-webm": {
+      title: "Compress WebM Video Online – Optimize WebM Size",
+      description: "Optimize and compress WebM HTML5 videos for faster website loading speeds and lower bandwidth.",
+      inputFormat: "webm",
+      outputFormat: "mp4",
+      actionName: "Compress WebM",
+      isInteractive: true,
+      acceptedTypes: { "video/webm": [".webm"] }
+    },
+    "compress-wmv": {
+      title: "Compress WMV Video Online – Shrink Windows Media Video",
+      description: "Compress legacy Windows Media Video (WMV) files into ultra-compatible compact MP4 videos.",
+      inputFormat: "wmv",
+      outputFormat: "mp4",
+      actionName: "Compress WMV",
+      isInteractive: true,
+      acceptedTypes: { "video/x-ms-wmv": [".wmv"] }
+    },
+    "compress-flv": {
+      title: "Compress FLV Video Online – Reduce Flash Video Size",
+      description: "Compress and modernize Flash video files into lightweight MP4 video streams.",
+      inputFormat: "flv",
+      outputFormat: "mp4",
+      actionName: "Compress FLV",
+      isInteractive: true,
+      acceptedTypes: { "video/x-flv": [".flv"] }
+    },
+
+    // PLATFORM & INTENT-SPECIFIC VIDEO COMPRESSORS
+    "compress-video-for-discord": {
+      title: "Compress Video for Discord (<25MB) – Free Online Compressor",
+      description: "Compress video files to fit under Discord's 25MB free upload limit automatically without ruining video quality.",
+      inputFormat: "video",
+      outputFormat: "mp4",
+      actionName: "Compress for Discord",
+      isInteractive: true,
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+    },
+    "compress-video-for-whatsapp": {
+      title: "Compress Video for WhatsApp (<16MB) – Reduce Video Size Free",
+      description: "Shrink long or HD videos under WhatsApp's 16MB limit for instant sharing without compression stutter.",
+      inputFormat: "video",
+      outputFormat: "mp4",
+      actionName: "Compress for WhatsApp",
+      isInteractive: true,
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+    },
+    "compress-video-for-email": {
+      title: "Compress Video for Email Attachment – Under 20MB/25MB Free",
+      description: "Easily compress large videos to fit inside Gmail and Outlook 25MB email attachment limits.",
+      inputFormat: "video",
+      outputFormat: "mp4",
+      actionName: "Compress for Email",
+      isInteractive: true,
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+    },
+    "compress-video-for-instagram": {
+      title: "Compress Video for Instagram & Reels – Keep 1080p HD Quality",
+      description: "Compress videos for Instagram Stories, Reels, and Feed without the blur or pixelation caused by Instagram's auto-compression.",
+      inputFormat: "video",
+      outputFormat: "mp4",
+      actionName: "Compress for Instagram",
+      isInteractive: true,
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+    },
+    "compress-video-for-facebook": {
+      title: "Compress Video for Facebook – Fast Upload & HD Quality",
+      description: "Optimize video bitrates for fast Facebook uploads while maintaining crisp 1080p clarity.",
+      inputFormat: "video",
+      outputFormat: "mp4",
+      actionName: "Compress for Facebook",
+      isInteractive: true,
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
+    },
+    "compress-video-for-phone": {
+      title: "Compress Video for Phone (Android & iPhone) – Free & Private",
+      description: "Compress videos directly on your Android or iPhone browser to free up gigabytes of phone storage.",
+      inputFormat: "video",
+      outputFormat: "mp4",
+      actionName: "Compress for Phone",
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
@@ -835,6 +956,17 @@ export const SLUG_ALIASES: Record<string, string> = {
   "barcode-creator": "barcode-generator",
   "generate-qr": "qr-generator",
   "generate-barcode": "barcode-generator",
+
+  // Video Compressor Aliases
+  "compress-mov": "compress-mov-video",
+  "compress-discord-video": "compress-video-for-discord",
+  "compress-whatsapp-video": "compress-video-for-whatsapp",
+  "compress-email-video": "compress-video-for-email",
+  "compress-reels": "compress-video-for-instagram",
+  "compress-instagram-video": "compress-video-for-instagram",
+  "compress-facebook-video": "compress-video-for-facebook",
+  "compress-iphone-video": "compress-video-for-phone",
+  "compress-android-video": "compress-video-for-phone",
 
   // PDF & Office Document Aliases
   "pdf-compressor": "compress-pdf",
