@@ -99,65 +99,62 @@ function parseStylesXml(xmlStr: string): Map<string, DocxStyle> {
   return stylesMap;
 }
 
-// Parse DrawingML Chart XML into structured ChartData
+// Extract default document font from styles.xml or settings
+function extractDocxDefaultFont(stylesXml: string): string {
+  const fontMatch = stylesXml.match(/<w:rFonts\s+[^>]*w:ascii="([^"]+)"/i) || stylesXml.match(/<w:rFonts\s+[^>]*ascii="([^"]+)"/i);
+  if (fontMatch) {
+    const f = fontMatch[1];
+    if (/calibri|arial|liberation sans|segoe|helvetica/i.test(f)) {
+      return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
+    }
+    if (/times|liberation serif|georgia|cambria/i.test(f)) {
+      return `'Times New Roman', 'Liberation Serif', Georgia, serif`;
+    }
+    return `'${f}', Calibri, Arial, sans-serif`;
+  }
+  return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
+}
+
+// Parse DrawingML Chart XML into structured ChartData using universal pattern matching
 function parseChartXml(xmlStr: string): ChartData {
   const chartData: ChartData = { title: "", categories: [], series: [] };
 
-  try {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xmlStr, "text/xml");
-    const allEls = Array.from(doc.getElementsByTagName("*"));
+  // Title
+  const titleMatch = xmlStr.match(/<c:title>[\s\S]*?<c:v>([^<]+)<\/c:v>/i) || xmlStr.match(/<c:title>[\s\S]*?<a:t>([^<]+)<\/a:t>/i);
+  if (titleMatch) chartData.title = titleMatch[1].trim();
 
-    // Title
-    const titleEl = allEls.find((el) => el.localName === "title");
-    if (titleEl) {
-      chartData.title = (titleEl.textContent || "").trim();
-    }
-
-    // Categories (c:cat)
-    const catEl = allEls.find((el) => el.localName === "cat");
-    if (catEl) {
-      const ptEls = Array.from(catEl.getElementsByTagName("*")).filter((el) => el.localName === "pt");
-      chartData.categories = ptEls.map((pt) => {
-        const v = Array.from(pt.getElementsByTagName("*")).find((el) => el.localName === "v");
-        return v ? (v.textContent || "").trim() : "";
-      });
-    }
-
-    // Series (c:ser)
-    const serEls = allEls.filter((el) => el.localName === "ser");
-    serEls.forEach((ser, sIdx) => {
-      let name = `Series ${sIdx + 1}`;
-      const tx = Array.from(ser.getElementsByTagName("*")).find((el) => el.localName === "tx");
-      if (tx) {
-        const v = Array.from(tx.getElementsByTagName("*")).find(
-          (el) => el.localName === "v" || el.localName === "t"
-        );
-        if (v && v.textContent) name = v.textContent.trim();
-      }
-
-      const valEl = Array.from(ser.getElementsByTagName("*")).find((el) => el.localName === "val");
-      const values: number[] = [];
-      if (valEl) {
-        const pts = Array.from(valEl.getElementsByTagName("*")).filter((el) => el.localName === "pt");
-        pts.forEach((pt) => {
-          const v = Array.from(pt.getElementsByTagName("*")).find((el) => el.localName === "v");
-          values.push(v ? parseFloat(v.textContent || "0") || 0 : 0);
-        });
-      }
-
-      let color: string | undefined;
-      const clr = Array.from(ser.getElementsByTagName("*")).find((el) => el.localName === "srgbClr");
-      if (clr) {
-        const hex = clr.getAttribute("val") || clr.getAttribute("w:val");
-        if (hex) color = `#${hex}`;
-      }
-
-      chartData.series.push({ name, values, color });
-    });
-  } catch (e) {
-    console.warn("Error parsing chart XML:", e);
+  // Categories
+  const catMatches = [...xmlStr.matchAll(/<c:cat>([\s\S]*?)<\/c:cat>/gi)];
+  if (catMatches.length > 0) {
+    const ptMatches = [...catMatches[0][1].matchAll(/<c:pt[^>]*>[\s\S]*?<c:v>([^<]+)<\/c:v>/gi)];
+    chartData.categories = ptMatches.map((m) => m[1].trim());
   }
+
+  // Series
+  const serMatches = [...xmlStr.matchAll(/<c:ser>([\s\S]*?)<\/c:ser>/gi)];
+  serMatches.forEach((sMatch, idx) => {
+    const serXml = sMatch[1];
+
+    // Name
+    const txMatch =
+      serXml.match(/<c:tx>[\s\S]*?<c:v>([^<]+)<\/c:v>/i) ||
+      serXml.match(/<c:tx>[\s\S]*?<a:t>([^<]+)<\/a:t>/i);
+    const name = txMatch ? txMatch[1].trim() : `Column ${idx + 1}`;
+
+    // Values
+    const valBlock = serXml.match(/<c:val>([\s\S]*?)<\/c:val>/i);
+    const values: number[] = [];
+    if (valBlock) {
+      const ptMatches = [...valBlock[1].matchAll(/<c:pt[^>]*>[\s\S]*?<c:v>([^<]+)<\/c:v>/gi)];
+      ptMatches.forEach((m) => values.push(parseFloat(m[1]) || 0));
+    }
+
+    // Color
+    const clrMatch = serXml.match(/<a:srgbClr\s+val="([0-9a-fA-F]{6})"/i);
+    const color = clrMatch ? `#${clrMatch[1]}` : undefined;
+
+    chartData.series.push({ name, values, color });
+  });
 
   return chartData;
 }
@@ -245,15 +242,17 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     // 1. Unzip DOCX archive
     const zip = await JSZip.loadAsync(arrayBuffer);
 
-    // 2. Parse styles.xml for inheritance
+    // 2. Parse styles.xml and default font
     let stylesMap = new Map<string, DocxStyle>();
+    let docDefaultFont = `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
     const stylesFile = zip.file("word/styles.xml");
     if (stylesFile) {
       const stylesXml = await stylesFile.async("text");
       stylesMap = parseStylesXml(stylesXml);
+      docDefaultFont = extractDocxDefaultFont(stylesXml);
     }
 
-    // 3. Extract media images to base64 Data URLs
+    // 3. Extract media images to base64 Data URLs with normalized file names
     const mediaMap = new Map<string, string>();
     const mediaFiles = Object.keys(zip.files).filter((k) => k.startsWith("word/media/"));
     for (const mPath of mediaFiles) {
@@ -262,8 +261,8 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
         const b64 = await mFile.async("base64");
         const ext = mPath.split(".").pop()?.toLowerCase() || "png";
         const mime = ext === "jpg" || ext === "jpeg" ? "image/jpeg" : ext === "png" ? "image/png" : "image/png";
-        const filename = mPath.replace("word/media/", "");
-        mediaMap.set(filename, `data:${mime};base64,${b64}`);
+        const simpleName = mPath.split("/").pop() || "";
+        mediaMap.set(simpleName.toLowerCase(), `data:${mime};base64,${b64}`);
       }
     }
 
@@ -279,7 +278,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
         const id = rel.getAttribute("Id");
         const target = rel.getAttribute("Target");
         if (id && target) {
-          relsMap.set(id, target);
+          relsMap.set(id, target.split("/").pop() || target);
         }
       }
     }
@@ -294,8 +293,8 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
         const chartData = parseChartXml(cXml);
         if (chartData.series.length > 0) {
           const svg = renderChartToSvg(chartData);
-          const cName = cPath.replace("word/", "");
-          chartSvgMap.set(cName, svg);
+          const simpleName = cPath.split("/").pop() || "";
+          chartSvgMap.set(simpleName.toLowerCase(), svg);
         }
       }
     }
@@ -347,52 +346,72 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
           else if (val === "left") alignment = "left";
         }
 
-        // Drawings / Charts / Images
+        // Check for charts or drawings in this paragraph (using XML tree + regex match)
         let customMediaHtml = "";
-        const chartEl = descendants.find((el) => el.localName === "chart");
-        const blipEl = descendants.find((el) => el.localName === "blip");
+        const nodeXml = new XMLSerializer().serializeToString(node);
 
-        if (chartEl) {
-          const rId =
-            chartEl.getAttribute("r:id") ||
-            chartEl.getAttribute("id") ||
-            chartEl.getAttributeNS("http://schemas.openxmlformats.org/officeDocument/2006/relationships", "id");
-          if (rId && relsMap.has(rId)) {
-            const chartTarget = relsMap.get(rId)!;
+        // Check chart via regex or localName
+        const chartIdMatch = nodeXml.match(/<c:chart\s+[^>]*?(?:r:id|id)="([^"]+)"/i);
+        if (chartIdMatch) {
+          const rId = chartIdMatch[1];
+          if (relsMap.has(rId)) {
+            const chartTarget = (relsMap.get(rId) || "").toLowerCase();
             if (chartSvgMap.has(chartTarget)) {
               customMediaHtml = chartSvgMap.get(chartTarget)!;
             }
           }
-        } else if (blipEl) {
-          const embedId =
-            blipEl.getAttribute("r:embed") ||
-            blipEl.getAttribute("embed") ||
-            blipEl.getAttributeNS("http://schemas.openxmlformats.org/officeDocument/2006/relationships", "embed");
-          if (embedId && relsMap.has(embedId)) {
-            const target = relsMap.get(embedId)!.replace("media/", "");
-            if (mediaMap.has(target)) {
-              customMediaHtml = `<div style="text-align: center; margin: 12pt 0;"><img src="${mediaMap.get(target)}" style="max-width: 100%; height: auto; display: inline-block;" /></div>`;
+        }
+
+        // Check image via regex or blip
+        if (!customMediaHtml) {
+          const blipIdMatch = nodeXml.match(/<a:blip\s+[^>]*?(?:r:embed|embed)="([^"]+)"/i);
+          if (blipIdMatch) {
+            const embedId = blipIdMatch[1];
+            if (relsMap.has(embedId)) {
+              const target = (relsMap.get(embedId) || "").toLowerCase();
+              if (mediaMap.has(target)) {
+                customMediaHtml = `<div style="text-align: center; margin: 12pt 0;"><img src="${mediaMap.get(target)}" style="max-width: 100%; height: auto; display: inline-block;" /></div>`;
+              }
             }
           }
         }
 
-        // Runs and text formatting
-        const runNodes = descendants.filter((el) => el.localName === "r");
+        // Runs, text formatting, and hyperlinks
         let pTextHtml = "";
-        for (const r of runNodes) {
-          const rChildren = Array.from(r.getElementsByTagName("*"));
-          const isBold = rChildren.some((el) => el.localName === "b");
-          const isItalic = rChildren.some((el) => el.localName === "i");
-          const isUnderline = rChildren.some((el) => el.localName === "u");
+        const runsAndLinks = descendants.filter((el) => el.localName === "r" || el.localName === "hyperlink");
+        
+        for (const item of runsAndLinks) {
+          if (item.localName === "hyperlink") {
+            const linkRuns = Array.from(item.getElementsByTagName("*")).filter((el) => el.localName === "r");
+            for (const lr of linkRuns) {
+              const tEl = Array.from(lr.getElementsByTagName("*")).find((el) => el.localName === "t");
+              const t = (tEl?.textContent || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+              if (t) {
+                pTextHtml += `<span style="color: #0563C1; text-decoration: underline;">${t}</span>`;
+              }
+            }
+          } else if (item.localName === "r" && item.parentElement?.localName !== "hyperlink") {
+            const rChildren = Array.from(item.getElementsByTagName("*"));
+            const isBold = rChildren.some((el) => el.localName === "b");
+            const isItalic = rChildren.some((el) => el.localName === "i");
+            const isUnderline = rChildren.some((el) => el.localName === "u");
 
-          const tEl = rChildren.find((el) => el.localName === "t");
-          let t = (tEl?.textContent || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-          if (!t) continue;
+            // Text color
+            const colorEl = rChildren.find((el) => el.localName === "color");
+            const runColor = colorEl ? colorEl.getAttribute("w:val") || colorEl.getAttribute("val") : null;
 
-          if (isBold) t = `<strong>${t}</strong>`;
-          if (isItalic) t = `<em>${t}</em>`;
-          if (isUnderline) t = `<u>${t}</u>`;
-          pTextHtml += t;
+            const tEl = rChildren.find((el) => el.localName === "t");
+            let t = (tEl?.textContent || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            if (!t) continue;
+
+            if (runColor && runColor !== "auto") {
+              t = `<span style="color: #${runColor};">${t}</span>`;
+            }
+            if (isBold) t = `<strong>${t}</strong>`;
+            if (isItalic) t = `<em>${t}</em>`;
+            if (isUnderline) t = `<u>${t}</u>`;
+            pTextHtml += t;
+          }
         }
 
         const isBullet = descendants.some((el) => el.localName === "numPr");
@@ -471,7 +490,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
       pageContainer.style.boxSizing = "border-box";
       pageContainer.style.background = "#ffffff";
       pageContainer.style.color = "#000000";
-      pageContainer.style.fontFamily = "'Times New Roman', Times, 'Liberation Serif', Georgia, serif";
+      pageContainer.style.fontFamily = docDefaultFont;
       pageContainer.style.fontSize = "11pt";
       pageContainer.style.lineHeight = "1.35";
       pageContainer.style.pointerEvents = "none";
@@ -510,6 +529,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     throw error;
   }
 }
+
 
 
 
