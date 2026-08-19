@@ -162,7 +162,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
   renderContainer.style.pointerEvents = "none";
   renderContainer.style.overflow = "visible";
 
-  // Clean wrapper styling only (preserve native Word font metrics & line spacing)
+  // Exact Microsoft Word Typography & Box-Model Metrics Reset
   const styleEl = document.createElement("style");
   styleEl.innerHTML = `
     #docx-render-stage .docx-wrapper {
@@ -174,6 +174,40 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
       box-shadow: none !important;
       margin: 0 !important;
       background: #ffffff !important;
+      box-sizing: border-box !important;
+      width: 210mm !important;
+      min-height: 297mm !important;
+      padding: 25.4mm !important; /* Exact 1-inch Word margin */
+    }
+    #docx-render-stage p {
+      margin-top: 0 !important;
+      margin-bottom: 3.5pt !important; /* Exact Word standard paragraph space-after */
+      line-height: 1.15 !important;    /* Exact Word 1.15 line pitch */
+      letter-spacing: normal !important;
+      word-spacing: normal !important;
+    }
+    #docx-render-stage h1,
+    #docx-render-stage h2,
+    #docx-render-stage h3,
+    #docx-render-stage h4 {
+      margin-top: 6pt !important;
+      margin-bottom: 2pt !important;
+      line-height: 1.2 !important;
+    }
+    #docx-render-stage ul,
+    #docx-render-stage ol {
+      margin-top: 2pt !important;
+      margin-bottom: 4pt !important;
+      padding-left: 20pt !important;
+    }
+    #docx-render-stage li {
+      margin-top: 0 !important;
+      margin-bottom: 1.5pt !important;
+      line-height: 1.15 !important;
+    }
+    #docx-render-stage table {
+      margin-top: 6pt !important;
+      margin-bottom: 6pt !important;
     }
   `;
   renderContainer.appendChild(styleEl);
