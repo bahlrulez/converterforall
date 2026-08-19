@@ -1,137 +1,11 @@
 import JSZip from "jszip";
-
-// Style definition interface
-interface DocxStyle {
-  id: string;
-  name?: string;
-  alignment?: string;
-  fontSizePt?: number;
-  isBold?: boolean;
-  isItalic?: boolean;
-  color?: string;
-  isHeading?: boolean;
-  isTitle?: boolean;
-}
+import * as docxPreview from "docx-preview";
 
 // Chart data interface
 interface ChartData {
   title: string;
   categories: string[];
   series: { name: string; values: number[]; color?: string }[];
-}
-
-// Extract all styles from word/styles.xml
-function parseStylesXml(xmlStr: string): Map<string, DocxStyle> {
-  const stylesMap = new Map<string, DocxStyle>();
-  try {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xmlStr, "text/xml");
-    const allStyles = Array.from(doc.getElementsByTagName("*")).filter(
-      (el) => el.localName === "style"
-    );
-
-    for (const s of allStyles) {
-      const styleId = s.getAttribute("w:styleId") || s.getAttribute("styleId") || s.getAttribute("id");
-      if (!styleId) continue;
-
-      const styleObj: DocxStyle = { id: styleId };
-      const nameEl = Array.from(s.getElementsByTagName("*")).find((el) => el.localName === "name");
-      if (nameEl) {
-        styleObj.name = nameEl.getAttribute("w:val") || nameEl.getAttribute("val") || "";
-      }
-
-      // Check if Heading or Title
-      const sName = (styleObj.name || styleId).toLowerCase();
-      if (sName.includes("title")) {
-        styleObj.isTitle = true;
-        styleObj.alignment = "center";
-        styleObj.fontSizePt = 24;
-        styleObj.isBold = true;
-      } else if (sName.includes("subtitle")) {
-        styleObj.alignment = "center";
-        styleObj.fontSizePt = 13;
-        styleObj.isBold = true;
-      } else if (sName.includes("heading 1") || sName === "heading1") {
-        styleObj.isHeading = true;
-        styleObj.fontSizePt = 16;
-        styleObj.isBold = true;
-      } else if (sName.includes("heading 2") || sName === "heading2") {
-        styleObj.isHeading = true;
-        styleObj.fontSizePt = 13;
-        styleObj.isBold = true;
-      }
-
-      // Paragraph Properties (w:pPr)
-      const pPr = Array.from(s.getElementsByTagName("*")).find((el) => el.localName === "pPr");
-      if (pPr) {
-        const jc = Array.from(pPr.getElementsByTagName("*")).find((el) => el.localName === "jc");
-        if (jc) {
-          const val = (jc.getAttribute("w:val") || jc.getAttribute("val") || "").toLowerCase();
-          if (val === "center") styleObj.alignment = "center";
-          else if (val === "right") styleObj.alignment = "right";
-          else if (val === "both" || val === "justify") styleObj.alignment = "justify";
-          else if (val === "left") styleObj.alignment = "left";
-        }
-      }
-
-      // Run Properties (w:rPr)
-      const rPr = Array.from(s.getElementsByTagName("*")).find((el) => el.localName === "rPr");
-      if (rPr) {
-        const sz = Array.from(rPr.getElementsByTagName("*")).find((el) => el.localName === "sz");
-        if (sz) {
-          const val = parseInt(sz.getAttribute("w:val") || sz.getAttribute("val") || "0", 10);
-          if (val > 0) styleObj.fontSizePt = val / 2; // half-points to pt
-        }
-        const b = Array.from(rPr.getElementsByTagName("*")).find((el) => el.localName === "b");
-        if (b) styleObj.isBold = true;
-        const colorEl = Array.from(rPr.getElementsByTagName("*")).find((el) => el.localName === "color");
-        if (colorEl) {
-          const cVal = colorEl.getAttribute("w:val") || colorEl.getAttribute("val");
-          if (cVal && cVal !== "auto") styleObj.color = `#${cVal}`;
-        }
-      }
-
-      stylesMap.set(styleId, styleObj);
-    }
-  } catch (e) {
-    console.warn("Failed to parse styles.xml:", e);
-  }
-  return stylesMap;
-}
-
-// Extract default document font from docDefaults, Normal style, or body
-function extractDocxDefaultFont(stylesXml: string, docXml?: string): string {
-  // 1. Check docDefaults in styles.xml
-  const docDefaultsMatch = stylesXml.match(/<w:docDefaults>[\s\S]*?<w:rFonts\s+[^>]*?w:ascii="([^"]+)"/i);
-  if (docDefaultsMatch) {
-    const f = docDefaultsMatch[1];
-    if (/times/i.test(f)) return `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
-    if (/calibri|arial|liberation sans|segoe/i.test(f)) return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
-    return `'${f}', 'Times New Roman', serif`;
-  }
-
-  // 2. Check Normal / Default style in styles.xml
-  const normalStyleMatch = stylesXml.match(/<w:style[^>]*?(?:w:styleId="Normal"|w:default="1")[^>]*?>[\s\S]*?<w:rFonts\s+[^>]*?w:ascii="([^"]+)"/i);
-  if (normalStyleMatch) {
-    const f = normalStyleMatch[1];
-    if (/times/i.test(f)) return `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
-    if (/calibri|arial|liberation sans|segoe/i.test(f)) return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
-    return `'${f}', 'Times New Roman', serif`;
-  }
-
-  // 3. Check document.xml for predominant font
-  if (docXml) {
-    const docFontMatch = docXml.match(/<w:rFonts\s+[^>]*?w:ascii="([^"]+)"/i);
-    if (docFontMatch) {
-      const f = docFontMatch[1];
-      if (/times/i.test(f)) return `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
-      if (/calibri|arial|liberation sans|segoe/i.test(f)) return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
-      return `'${f}', 'Times New Roman', serif`;
-    }
-  }
-
-  // Default fallback for formal letters
-  return `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
 }
 
 // Parse DrawingML Chart XML into structured ChartData using universal pattern matching
@@ -205,7 +79,7 @@ function renderChartToSvg(chartData: ChartData): string {
   // Exact Microsoft Office standard chart theme colors
   const defaultColors = ["#2F5597", "#C65911", "#FFC000", "#70AD47", "#5B9BD5", "#A5A5A5"];
 
-  let svg = `<div style="width: 100%; display: flex; justify-content: center; margin: 14pt 0;">`;
+  let svg = `<div class="embedded-word-chart" style="width: 100%; display: flex; justify-content: center; margin: 14pt 0;">`;
   svg += `<svg viewBox="0 0 ${width} ${height}" style="width: 100%; max-width: 500px; height: auto; display: block; font-family: Calibri, 'Segoe UI', Arial, sans-serif; background: #ffffff; border: 1px solid #d0d7de; border-radius: 4px; padding: 4px;">`;
 
   // Grid lines
@@ -257,59 +131,10 @@ function renderChartToSvg(chartData: ChartData): string {
 export async function convertWordToPdf(file: File): Promise<Blob> {
   const arrayBuffer = await file.arrayBuffer();
 
+  // 1. Extract DrawingML Charts from ZIP
+  const chartSvgList: string[] = [];
   try {
-    // 1. Unzip DOCX archive
     const zip = await JSZip.loadAsync(arrayBuffer);
-
-    // 2. Parse styles.xml and default font
-    let stylesMap = new Map<string, DocxStyle>();
-    let docDefaultFont = `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
-    
-    const docFile = zip.file("word/document.xml");
-    const docXml = docFile ? await docFile.async("text") : "";
-
-    const stylesFile = zip.file("word/styles.xml");
-    if (stylesFile) {
-      const stylesXml = await stylesFile.async("text");
-      stylesMap = parseStylesXml(stylesXml);
-      docDefaultFont = extractDocxDefaultFont(stylesXml, docXml);
-    } else if (docXml) {
-      docDefaultFont = extractDocxDefaultFont("", docXml);
-    }
-
-    // 3. Extract media images to base64 Data URLs with normalized file names
-    const mediaMap = new Map<string, string>();
-    const mediaFiles = Object.keys(zip.files).filter((k) => k.startsWith("word/media/"));
-    for (const mPath of mediaFiles) {
-      const mFile = zip.file(mPath);
-      if (mFile) {
-        const b64 = await mFile.async("base64");
-        const ext = mPath.split(".").pop()?.toLowerCase() || "png";
-        const mime = ext === "jpg" || ext === "jpeg" ? "image/jpeg" : ext === "png" ? "image/png" : "image/png";
-        const simpleName = mPath.split("/").pop() || "";
-        mediaMap.set(simpleName.toLowerCase(), `data:${mime};base64,${b64}`);
-      }
-    }
-
-    // 4. Extract Relationships mapping rId -> Target
-    const relsMap = new Map<string, string>();
-    const relsFile = zip.file("word/_rels/document.xml.rels");
-    if (relsFile) {
-      const relsXml = await relsFile.async("text");
-      const rParser = new DOMParser();
-      const rDoc = rParser.parseFromString(relsXml, "text/xml");
-      const relNodes = Array.from(rDoc.getElementsByTagName("*")).filter((el) => el.localName === "Relationship");
-      for (const rel of relNodes) {
-        const id = rel.getAttribute("Id");
-        const target = rel.getAttribute("Target");
-        if (id && target) {
-          relsMap.set(id, target.split("/").pop() || target);
-        }
-      }
-    }
-
-    // 5. Extract and pre-render DrawingML Charts
-    const chartSvgMap = new Map<string, string>();
     const chartFiles = Object.keys(zip.files).filter((k) => k.startsWith("word/charts/") && k.endsWith(".xml"));
     for (const cPath of chartFiles) {
       const cFile = zip.file(cPath);
@@ -317,263 +142,96 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
         const cXml = await cFile.async("text");
         const chartData = parseChartXml(cXml);
         if (chartData.series.length > 0) {
-          const svg = renderChartToSvg(chartData);
-          const simpleName = cPath.split("/").pop() || "";
-          chartSvgMap.set(simpleName.toLowerCase(), svg);
+          chartSvgList.push(renderChartToSvg(chartData));
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("Chart extraction warning:", e);
+  }
+
+  // 2. Mount high-precision docx-preview container
+  const renderContainer = document.createElement("div");
+  renderContainer.id = "docx-render-stage";
+  renderContainer.style.position = "fixed";
+  renderContainer.style.top = "0px";
+  renderContainer.style.left = "0px";
+  renderContainer.style.zIndex = "999999";
+  renderContainer.style.opacity = "1";
+  renderContainer.style.background = "#ffffff";
+  renderContainer.style.pointerEvents = "none";
+  renderContainer.style.overflow = "visible";
+
+  document.body.appendChild(renderContainer);
+
+  try {
+    // 3. Render DOCX using docx-preview layout engine
+    await docxPreview.renderAsync(arrayBuffer, renderContainer, undefined, {
+      className: "docx",
+      inWrapper: true,
+      ignoreWidth: false,
+      ignoreHeight: false,
+      ignoreFonts: false,
+      breakPages: true,
+      ignoreLastRenderedPageBreak: false,
+      experimental: true,
+      trimXmlDeclaration: true,
+      useBase64URL: true,
+      renderHeaders: true,
+      renderFooters: true,
+    });
+
+    // 4. Inject DrawingML vector charts into drawing placeholders if missing
+    if (chartSvgList.length > 0) {
+      const allParagraphs = Array.from(renderContainer.querySelectorAll("p, div, section"));
+      let chartIdx = 0;
+      for (const p of allParagraphs) {
+        if (p.textContent?.includes("Column 1") || p.innerHTML.includes("drawing") || p.classList.contains("docx-drawing")) {
+          if (chartIdx < chartSvgList.length) {
+            const chartWrapper = document.createElement("div");
+            chartWrapper.innerHTML = chartSvgList[chartIdx];
+            p.appendChild(chartWrapper);
+            chartIdx++;
+          }
+        }
+      }
+      // If not inserted yet, append to first section
+      if (chartIdx < chartSvgList.length) {
+        const firstSection = renderContainer.querySelector("section.docx, section");
+        if (firstSection) {
+          const chartWrapper = document.createElement("div");
+          chartWrapper.innerHTML = chartSvgList[0];
+          firstSection.appendChild(chartWrapper);
         }
       }
     }
 
-    // 6. Parse word/document.xml
-    if (!docXml) {
-      throw new Error("Missing word/document.xml in DOCX");
+    // 5. Wait for document fonts and images to complete rendering
+    if (document.fonts) {
+      await document.fonts.ready;
     }
-    const docParser = new DOMParser();
-    const doc = docParser.parseFromString(docXml, "text/xml");
+    await new Promise((r) => setTimeout(r, 100));
 
-    const body = Array.from(doc.getElementsByTagName("*")).find((el) => el.localName === "body");
-    if (!body) throw new Error("Missing document body");
+    // 6. Locate all rendered page sections
+    const pageSections = Array.from(
+      renderContainer.querySelectorAll("section.docx, .docx-wrapper > section, section")
+    ) as HTMLElement[];
 
-    // Extract all elements as HTML items with manual page break flags
-    interface ExtractedItem {
-      html: string;
-      isManualPageBreak?: boolean;
-    }
-    const extractedItems: ExtractedItem[] = [];
-
-    const childNodes = Array.from(body.children);
-
-    for (const node of childNodes) {
-      const localName = node.localName;
-
-      // PARAGRAPH
-      if (localName === "p") {
-        const descendants = Array.from(node.getElementsByTagName("*"));
-        
-        // Manual Page break detection
-        const hasManualPageBreak = descendants.some(
-          (el) =>
-            (el.localName === "br" && (el.getAttribute("w:type") === "page" || el.getAttribute("type") === "page")) ||
-            el.localName === "lastRenderedPageBreak"
-        );
-
-        // Style inheritance
-        const pStyleEl = descendants.find((el) => el.localName === "pStyle");
-        const styleId = pStyleEl ? (pStyleEl.getAttribute("w:val") || pStyleEl.getAttribute("val") || "") : "";
-        const inheritedStyle = stylesMap.get(styleId);
-
-        // Alignment: direct w:jc or inherited
-        let alignment = inheritedStyle?.alignment || "left";
-        const jcEl = descendants.find((el) => el.localName === "jc");
-        if (jcEl) {
-          const val = (jcEl.getAttribute("w:val") || jcEl.getAttribute("val") || "").toLowerCase();
-          if (val === "center") alignment = "center";
-          else if (val === "right") alignment = "right";
-          else if (val === "both" || val === "justify") alignment = "justify";
-          else if (val === "left") alignment = "left";
-        }
-
-        // Check for charts or drawings in this paragraph (using XML tree + regex match)
-        let customMediaHtml = "";
-        const nodeXml = new XMLSerializer().serializeToString(node);
-
-        // Check chart via regex or localName
-        const chartIdMatch = nodeXml.match(/<c:chart\s+[^>]*?(?:r:id|id)="([^"]+)"/i);
-        if (chartIdMatch) {
-          const rId = chartIdMatch[1];
-          if (relsMap.has(rId)) {
-            const chartTarget = (relsMap.get(rId) || "").toLowerCase();
-            if (chartSvgMap.has(chartTarget)) {
-              customMediaHtml = chartSvgMap.get(chartTarget)!;
-            }
-          }
-        }
-
-        // Check image via regex or blip
-        if (!customMediaHtml) {
-          const blipIdMatch = nodeXml.match(/<a:blip\s+[^>]*?(?:r:embed|embed)="([^"]+)"/i);
-          if (blipIdMatch) {
-            const embedId = blipIdMatch[1];
-            if (relsMap.has(embedId)) {
-              const target = (relsMap.get(embedId) || "").toLowerCase();
-              if (mediaMap.has(target)) {
-                customMediaHtml = `<div style="text-align: center; margin: 12pt 0;"><img src="${mediaMap.get(target)}" style="max-width: 100%; height: auto; display: inline-block;" /></div>`;
-              }
-            }
-          }
-        }
-
-        // Runs, text formatting, and hyperlinks
-        let pTextHtml = "";
-        const runsAndLinks = descendants.filter((el) => el.localName === "r" || el.localName === "hyperlink");
-        
-        for (const item of runsAndLinks) {
-          if (item.localName === "hyperlink") {
-            const linkRuns = Array.from(item.getElementsByTagName("*")).filter((el) => el.localName === "r");
-            for (const lr of linkRuns) {
-              const tEl = Array.from(lr.getElementsByTagName("*")).find((el) => el.localName === "t");
-              const t = (tEl?.textContent || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-              if (t) {
-                pTextHtml += `<span style="color: #0563C1; text-decoration: underline;">${t}</span>`;
-              }
-            }
-          } else if (item.localName === "r" && item.parentElement?.localName !== "hyperlink") {
-            const rChildren = Array.from(item.getElementsByTagName("*"));
-            const isBold = rChildren.some((el) => el.localName === "b");
-            const isItalic = rChildren.some((el) => el.localName === "i");
-            const isUnderline = rChildren.some((el) => el.localName === "u");
-
-            // Text color
-            const colorEl = rChildren.find((el) => el.localName === "color");
-            const runColor = colorEl ? colorEl.getAttribute("w:val") || colorEl.getAttribute("val") : null;
-
-            const tEl = rChildren.find((el) => el.localName === "t");
-            let t = (tEl?.textContent || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            if (!t) continue;
-
-            if (runColor && runColor !== "auto") {
-              t = `<span style="color: #${runColor};">${t}</span>`;
-            }
-            if (isBold) t = `<strong>${t}</strong>`;
-            if (isItalic) t = `<em>${t}</em>`;
-            if (isUnderline) t = `<u>${t}</u>`;
-            pTextHtml += t;
-          }
-        }
-
-        const isBullet = descendants.some((el) => el.localName === "numPr");
-        const isTitle = inheritedStyle?.isTitle || styleId.toLowerCase().includes("title");
-        const isHeading = inheritedStyle?.isHeading || styleId.toLowerCase().includes("heading");
-
-        let elHtml = "";
-        if (customMediaHtml) {
-          elHtml += customMediaHtml;
-        }
-        if (pTextHtml.trim()) {
-          if (isTitle) {
-            elHtml += `<h1 style="font-size: 20pt; font-weight: bold; margin: 14pt 0 8pt 0; text-align: ${alignment}; color: #000000;">${pTextHtml}</h1>`;
-          } else if (isHeading) {
-            const fSize = inheritedStyle?.fontSizePt ? `${inheritedStyle.fontSizePt}pt` : "12pt";
-            elHtml += `<h2 style="font-size: ${fSize}; font-weight: bold; margin: 10pt 0 4pt 0; text-align: ${alignment}; color: #000000;">${pTextHtml}</h2>`;
-          } else if (isBullet) {
-            elHtml += `<div style="margin-left: 24pt; margin-bottom: 3pt; color: #000000; text-align: ${alignment};">• &nbsp;${pTextHtml}</div>`;
-          } else {
-            const justifyStyle = alignment === "justify" ? "text-align: justify; text-justify: inter-word;" : `text-align: ${alignment};`;
-            const rightStyle = alignment === "right" ? "margin-left: auto; width: 100%;" : "";
-            elHtml += `<p style="margin: 0 0 5pt 0; line-height: 1.25; ${justifyStyle} ${rightStyle} color: #000000;">${pTextHtml}</p>`;
-          }
-        }
-
-        if (elHtml) {
-          extractedItems.push({ html: elHtml, isManualPageBreak: hasManualPageBreak });
-        }
-      } else if (localName === "tbl") {
-        // TABLE
-        let tblHtml = `<table style="width: 100%; border-collapse: collapse; margin: 10pt 0;">`;
-        const rowNodes = Array.from(node.getElementsByTagName("*")).filter((el) => el.localName === "tr");
-        for (const row of rowNodes) {
-          tblHtml += `<tr>`;
-          const cellNodes = Array.from(row.getElementsByTagName("*")).filter((el) => el.localName === "tc");
-          for (const cell of cellNodes) {
-            const cellText = (cell.textContent || "").trim();
-            tblHtml += `<td style="border: 1px solid #555555; padding: 5pt 8pt; font-size: 10.5pt; color: #000000; vertical-align: top;">${cellText}</td>`;
-          }
-          tblHtml += `</tr>`;
-        }
-        tblHtml += `</table>`;
-        extractedItems.push({ html: tblHtml });
-      }
-    }
-
-    if (extractedItems.length === 0) {
-      throw new Error("No readable content could be extracted from DOCX");
-    }
-
-    // 7. Natural Height-Based Auto-Pagination + Manual Break Segmentation
-    // Usable printable height inside 794px × 1123px A4 sheet with 72pt (96px) margins is ~925px
-    const MAX_PAGE_CONTENT_HEIGHT_PX = 925;
-
-    // Measurement scratch container
-    const measurer = document.createElement("div");
-    measurer.style.position = "fixed";
-    measurer.style.top = "-99999px";
-    measurer.style.left = "0px";
-    measurer.style.width = "602px"; // 794px - 192px (margins)
-    measurer.style.fontFamily = docDefaultFont;
-    measurer.style.fontSize = "11pt";
-    measurer.style.lineHeight = "1.25";
-    measurer.style.boxSizing = "border-box";
-    measurer.style.visibility = "hidden";
-    document.body.appendChild(measurer);
-
-    const validPages: string[][] = [[]];
-    let currentPageIndex = 0;
-
-    for (const item of extractedItems) {
-      // Test height if appended to current page
-      const testDiv = document.createElement("div");
-      testDiv.innerHTML = item.html;
-      measurer.appendChild(testDiv);
-
-      const currentHeight = measurer.offsetHeight;
-
-      if (currentHeight > MAX_PAGE_CONTENT_HEIGHT_PX && validPages[currentPageIndex].length > 0) {
-        // Start a new page bucket
-        currentPageIndex++;
-        validPages[currentPageIndex] = [item.html];
-        measurer.innerHTML = item.html;
-      } else {
-        validPages[currentPageIndex].push(item.html);
-      }
-
-      if (item.isManualPageBreak) {
-        currentPageIndex++;
-        validPages[currentPageIndex] = [];
-        measurer.innerHTML = "";
-      }
-    }
-
-    if (document.body.contains(measurer)) {
-      document.body.removeChild(measurer);
-    }
-
-    const filteredPages = validPages.filter((p) => p.length > 0);
-
-    // 8. Multi-page A4 PDF Generation
     const html2canvas = (await import("html2canvas")).default;
     const { jsPDF } = await import("jspdf");
     const pdf = new jsPDF("p", "mm", "a4");
 
-    for (let pIdx = 0; pIdx < filteredPages.length; pIdx++) {
-      const pageContainer = document.createElement("div");
-      pageContainer.id = `docx-page-render-${pIdx}`;
-      pageContainer.innerHTML = filteredPages[pIdx].join("\n");
+    if (pageSections.length > 0) {
+      // Process page by page matching exact Word section pagination
+      for (let i = 0; i < pageSections.length; i++) {
+        const section = pageSections[i];
+        
+        // Ensure clean white background and full visibility
+        section.style.background = "#ffffff";
+        section.style.boxShadow = "none";
+        section.style.margin = "0";
 
-      // Standard A4 Dimensions (794px × 1123px, exact 1-inch margins = 72pt/96px)
-      pageContainer.style.position = "fixed";
-      pageContainer.style.top = "0px";
-      pageContainer.style.left = "0px";
-      pageContainer.style.zIndex = "999999";
-      pageContainer.style.opacity = "1";
-      pageContainer.style.width = "794px";
-      pageContainer.style.minHeight = "1123px";
-      pageContainer.style.padding = "72px 80px"; // 1-inch margins
-      pageContainer.style.boxSizing = "border-box";
-      pageContainer.style.background = "#ffffff";
-      pageContainer.style.color = "#000000";
-      pageContainer.style.fontFamily = docDefaultFont;
-      pageContainer.style.fontSize = "11pt";
-      pageContainer.style.lineHeight = "1.25";
-      pageContainer.style.pointerEvents = "none";
-      pageContainer.style.overflow = "visible";
-
-      document.body.appendChild(pageContainer);
-
-      try {
-        if (document.fonts) {
-          await document.fonts.ready;
-        }
-        const pageCanvas = await html2canvas(pageContainer, {
+        const canvas = await html2canvas(section, {
           scale: 2,
           useCORS: true,
           backgroundColor: "#ffffff",
@@ -581,23 +239,55 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
           windowWidth: 1024
         });
 
-        if (pIdx > 0) {
+        if (i > 0) {
           pdf.addPage();
         }
 
-        const imgData = pageCanvas.toDataURL("image/jpeg", 0.98);
+        const imgData = canvas.toDataURL("image/jpeg", 0.98);
         pdf.addImage(imgData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
-      } finally {
-        if (document.body.contains(pageContainer)) {
-          document.body.removeChild(pageContainer);
+      }
+    } else {
+      // Fallback single wrapper capture
+      const canvas = await html2canvas(renderContainer, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+        windowWidth: 1024
+      });
+
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const pageCanvasHeight = (canvas.width * pageHeight) / pageWidth;
+      const numPages = Math.max(1, Math.ceil(canvas.height / pageCanvasHeight));
+
+      for (let p = 0; p < numPages; p++) {
+        const sliceCanvas = document.createElement("canvas");
+        sliceCanvas.width = canvas.width;
+        sliceCanvas.height = pageCanvasHeight;
+        const ctx = sliceCanvas.getContext("2d");
+        if (ctx) {
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
+          ctx.drawImage(
+            canvas,
+            0, p * pageCanvasHeight, canvas.width, pageCanvasHeight,
+            0, 0, canvas.width, pageCanvasHeight
+          );
         }
+
+        if (p > 0) {
+          pdf.addPage();
+        }
+        pdf.addImage(sliceCanvas.toDataURL("image/jpeg", 0.98), "JPEG", 0, 0, pageWidth, pageHeight, undefined, "FAST");
       }
     }
 
     return pdf.output("blob");
-  } catch (error) {
-    console.error("OpenXML conversion error:", error);
-    throw error;
+  } finally {
+    if (document.body.contains(renderContainer)) {
+      document.body.removeChild(renderContainer);
+    }
   }
 }
 
