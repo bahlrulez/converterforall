@@ -392,18 +392,9 @@ export const toolsDatabase = {
     }
   },
   "video": {
-    "compress-video": {
+    "video-compressor": {
       title: "Free Online Video Compressor – Reduce Video Size (Private & Instant)",
       description: "Reduce video file sizes (MP4, MOV, WebM) instantly in your browser without uploading to cloud servers. 100% free, private, and no quality loss.",
-      inputFormat: "video",
-      outputFormat: "mp4",
-      actionName: "Compress Video",
-      isInteractive: true,
-      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm", ".avi", ".wmv", ".flv"] }
-    },
-    "video-compressor": {
-      title: "Video Compressor – Shrink Video File Size Online Free",
-      description: "Reduce video file sizes while retaining crystal clear video quality. Hardware-accelerated local WebGPU/SIMD compression.",
       inputFormat: "video",
       outputFormat: "mp4",
       actionName: "Compress Video",
@@ -958,6 +949,10 @@ export const SLUG_ALIASES: Record<string, string> = {
   "generate-barcode": "barcode-generator",
 
   // Video Compressor Aliases
+  "compress-video": "video-compressor",
+  "compress-video-size": "video-compressor",
+  "reduce-video-size": "video-compressor",
+  "shrink-video": "video-compressor",
   "compress-mov": "compress-mov-video",
   "compress-discord-video": "compress-video-for-discord",
   "compress-whatsapp-video": "compress-video-for-whatsapp",
