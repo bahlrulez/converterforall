@@ -57,7 +57,7 @@ async function extractDocxAlignments(arrayBuffer: ArrayBuffer): Promise<Paragrap
 export async function convertWordToPdf(file: File): Promise<Blob> {
   const arrayBuffer = await file.arrayBuffer();
 
-  // 1. Extract clean HTML with Mammoth
+  // 1. Extract clean HTML and embedded images with Mammoth
   const result = await mammoth.convertToHtml({ arrayBuffer });
   const htmlContent = result.value;
 
@@ -66,34 +66,89 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
 
   // 3. Create document container styled like a real Word page
   const container = document.createElement("div");
-  container.className = "word-document-container";
+  container.id = "word-pdf-render-box";
   container.innerHTML = htmlContent;
   
   // High-accuracy Word formatting
+  // Positioned on top with full opacity so html2canvas renders 100% of the content without dark theme overlay or blank clipping
   container.style.position = "fixed";
   container.style.top = "0px";
   container.style.left = "0px";
-  container.style.zIndex = "-99999";
+  container.style.zIndex = "999999";
   container.style.opacity = "1";
-  container.style.pointerEvents = "none";
-  container.style.width = "185mm"; // Fits A4 print area
-  container.style.minHeight = "270mm";
-  container.style.padding = "0px";
+  container.style.width = "794px"; // Standard A4 width (210mm at 96dpi)
+  container.style.minHeight = "1123px";
+  container.style.padding = "40px 50px";
   container.style.boxSizing = "border-box";
   container.style.background = "#ffffff";
   container.style.color = "#000000";
   container.style.fontFamily = "'Times New Roman', Times, 'Liberation Serif', Georgia, serif";
   container.style.fontSize = "11pt";
   container.style.lineHeight = "1.35";
+  container.style.overflow = "visible";
 
-  // 4. Map paragraph alignments to HTML elements
+  // 4. Style headings, lists, tables, and images inside container
+  const headings = container.querySelectorAll<HTMLElement>("h1, h2, h3, h4, h5, h6");
+  headings.forEach((h) => {
+    h.style.color = "#000000";
+    h.style.fontWeight = "bold";
+    h.style.margin = "12pt 0 6pt 0";
+    h.style.pageBreakInside = "avoid";
+  });
+
+  const h1s = container.querySelectorAll<HTMLElement>("h1");
+  h1s.forEach((h) => {
+    h.style.fontSize = "18pt";
+  });
+
+  const lists = container.querySelectorAll<HTMLElement>("ul, ol");
+  lists.forEach((l) => {
+    l.style.margin = "4pt 0 8pt 24pt";
+    l.style.padding = "0";
+  });
+
+  const listItems = container.querySelectorAll<HTMLElement>("li");
+  listItems.forEach((li) => {
+    li.style.margin = "0 0 3pt 0";
+    li.style.pageBreakInside = "avoid";
+  });
+
+  const images = container.querySelectorAll<HTMLElement>("img");
+  images.forEach((img) => {
+    img.style.maxWidth = "100%";
+    img.style.height = "auto";
+    img.style.display = "block";
+    img.style.margin = "10pt auto";
+    img.style.pageBreakInside = "avoid";
+  });
+
+  const tables = container.querySelectorAll<HTMLElement>("table");
+  tables.forEach((tbl) => {
+    tbl.style.width = "100%";
+    tbl.style.borderCollapse = "collapse";
+    tbl.style.margin = "10pt 0";
+    tbl.style.pageBreakInside = "avoid";
+  });
+
+  const tableCells = container.querySelectorAll<HTMLElement>("td, th");
+  tableCells.forEach((cell) => {
+    cell.style.border = "1px solid #666666";
+    cell.style.padding = "5pt 8pt";
+    cell.style.verticalAlign = "top";
+    cell.style.fontSize = "10.5pt";
+    cell.style.color = "#000000";
+  });
+
+  // 5. Map paragraph alignments to HTML elements
   const htmlParas = Array.from(container.querySelectorAll<HTMLElement>("p, h1, h2, h3, h4, h5, h6, li"));
   
   htmlParas.forEach((p, idx) => {
-    // Prevent awkward page cuts inside paragraphs
     p.style.pageBreakInside = "avoid";
     p.style.breakInside = "avoid";
-    p.style.margin = "0 0 6pt 0";
+    if (p.tagName === "P") {
+      p.style.margin = "0 0 6pt 0";
+      p.style.color = "#000000";
+    }
 
     const pText = (p.textContent || "").trim().replace(/\s+/g, " ").toLowerCase();
     if (!pText) return;
@@ -137,28 +192,13 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     }
   });
 
-  // Style tables if any
-  const tables = container.querySelectorAll<HTMLElement>("table");
-  tables.forEach((tbl) => {
-    tbl.style.width = "100%";
-    tbl.style.borderCollapse = "collapse";
-    tbl.style.margin = "8pt 0";
-    tbl.style.pageBreakInside = "avoid";
-  });
-
-  const tableCells = container.querySelectorAll<HTMLElement>("td, th");
-  tableCells.forEach((cell) => {
-    cell.style.padding = "4pt 6pt";
-    cell.style.verticalAlign = "top";
-  });
-
-  // Mount to body
+  // Mount to body for capture
   document.body.appendChild(container);
 
   try {
     const html2pdf = (await import("html2pdf.js")).default;
     const opt: any = {
-      margin: [12, 12, 12, 12], // Standard 12mm page margin
+      margin: [10, 10, 10, 10], // 10mm margins for clean A4 printing
       filename: file.name.replace(/\.docx?$/i, ".pdf"),
       pagebreak: { mode: ["css", "legacy", "avoid-all"] },
       image: { type: "jpeg", quality: 0.98 },
@@ -183,6 +223,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     }
   }
 }
+
 
 
 
