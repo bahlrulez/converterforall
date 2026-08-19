@@ -43,6 +43,7 @@ const Base64Converter = dynamic(() => import("@/components/tools/base64-converte
 const TimestampConverter = dynamic(() => import("@/components/tools/timestamp-converter").then(m => m.TimestampConverter), { ssr: false, loading: ToolLoading });
 const UuidGenerator = dynamic(() => import("@/components/tools/uuid-generator").then(m => m.UuidGenerator), { ssr: false, loading: ToolLoading });
 const VideoCompressor = dynamic(() => import("@/components/tools/video-compressor").then(m => m.VideoCompressor), { ssr: false, loading: ToolLoading });
+const CompressPdfTool = dynamic(() => import("@/components/tools/compress-pdf").then(m => m.CompressPdfTool), { ssr: false, loading: ToolLoading });
 
 interface ToolRendererProps {
   toolSlug: string;
@@ -86,7 +87,7 @@ export function ToolRenderer({
         {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
         {(toolSlug === "compress-video" || toolSlug === "video-compressor" || toolSlug.startsWith("compress-video-") || toolSlug.startsWith("compress-mp4") || toolSlug.startsWith("compress-mov") || toolSlug.startsWith("compress-mkv") || toolSlug.startsWith("compress-avi") || toolSlug.startsWith("compress-webm") || toolSlug.startsWith("compress-wmv") || toolSlug.startsWith("compress-flv")) && <VideoCompressor toolSlug={toolSlug} />}
         {toolSlug === "qr-scanner" && <QrScanner />}
-        {toolSlug === "presentation-maker" && <PresentationMaker />}
+        {(toolSlug === "compress-pdf" || toolSlug === "pdf-compressor" || toolSlug === "reduce-pdf-size") && <CompressPdfTool />}
         {toolSlug === "merge-pdf" && <MergePdfTool />}
         {toolSlug === "screen-recorder" && <ScreenRecorder />}
         {(toolSlug === "edit-pdf" || toolSlug === "pdf-editor" || toolSlug === "annotate-pdf" || toolSlug === "sign-pdf") && <PdfEditor />}

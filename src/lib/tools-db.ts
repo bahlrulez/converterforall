@@ -258,6 +258,7 @@ export const toolsDatabase = {
       inputFormat: "pdf",
       outputFormat: "pdf",
       actionName: "Compress PDF",
+      isInteractive: true,
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "repair-pdf": {
