@@ -4,7 +4,7 @@ export function Features() {
   const comparisonItems = [
     {
       problem: "Uploads private files to unknown cloud servers",
-      solution: "100% In-Browser: Files never leave your device",
+      solution: "100% Privacy: On-device & zero-retention processing",
     },
     {
       problem: "Slow upload progress bars & queue delays",
@@ -24,13 +24,13 @@ export function Features() {
     {
       icon: Shield,
       title: "100% Secure & Private",
-      badge: "Zero Server Logs",
+      badge: "Zero Data Retention",
       badgeColor: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
       accentBorder: "group-hover:border-emerald-500/50",
       glowBg: "from-emerald-500/10 via-teal-500/5 to-transparent",
       iconColor: "text-emerald-500",
       iconBg: "bg-emerald-500/10 border-emerald-500/20",
-      description: "Unlike traditional converters that store files on remote servers, our WebAssembly engine operates entirely inside your browser. Your confidential PDFs, passport photos, and bank documents remain strictly private.",
+      description: "Unlike traditional converters that store files on remote servers, our engines process files directly inside your browser or in temporary volatile memory with instant deletion. Your confidential PDFs, passport photos, and bank documents remain strictly private.",
     },
     {
       icon: Zap,

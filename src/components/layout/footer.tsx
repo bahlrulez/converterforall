@@ -33,10 +33,10 @@ export function Footer() {
             <div className="p-3.5 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm max-w-sm">
               <div className="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-white mb-1">
                 <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                <span>Zero Server Uploads Guarantee</span>
+                <span>Zero-Retention Privacy Guarantee</span>
               </div>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                All processing happens locally on your CPU/GPU via WebAssembly (WASM). Your personal files never leave your device.
+                Most tools process 100% locally on your device via WebAssembly. Complex conversions run in ephemeral RAM and are immediately destroyed. Zero files are stored or logged.
               </p>
             </div>
           </div>
