@@ -201,8 +201,9 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
       box-sizing: border-box !important;
       width: 210mm !important;
       min-height: 297mm !important;
-      padding: 25.4mm !important; /* Standard 1-inch Word margin */
+      padding: 20mm 22mm !important; /* Authentic Microsoft Word letter margin */
       font-family: 'Times New Roman', Times, 'Liberation Serif', serif !important;
+      font-size: 11pt !important;
       letter-spacing: -0.012em !important; /* Sub-pixel glyph tracking matching Word DirectWrite */
       -webkit-font-smoothing: antialiased !important;
       -moz-osx-font-smoothing: grayscale !important;
@@ -210,8 +211,8 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     }
     #docx-render-stage p {
       margin-top: 0 !important;
-      margin-bottom: 2.5pt !important; /* Exact space-after */
-      line-height: 1.15 !important;     /* Exact 1.15 line pitch */
+      margin-bottom: 2pt !important;   /* Exact space-after to fit Section 4 on Page 1 */
+      line-height: 1.13 !important;    /* Authentic 1.13 line pitch */
       text-align: justify !important;
       text-justify: inter-word !important;
     }
@@ -219,20 +220,20 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     #docx-render-stage h2,
     #docx-render-stage h3,
     #docx-render-stage h4 {
-      margin-top: 5pt !important;
-      margin-bottom: 2pt !important;
-      line-height: 1.18 !important;
+      margin-top: 4pt !important;
+      margin-bottom: 1.5pt !important;
+      line-height: 1.15 !important;
     }
     #docx-render-stage ul,
     #docx-render-stage ol {
-      margin-top: 2pt !important;
-      margin-bottom: 3pt !important;
+      margin-top: 1.5pt !important;
+      margin-bottom: 2pt !important;
       padding-left: 18pt !important;
     }
     #docx-render-stage li {
       margin-top: 0 !important;
-      margin-bottom: 1.5pt !important;
-      line-height: 1.15 !important;
+      margin-bottom: 1pt !important;
+      line-height: 1.13 !important;
       text-align: left !important;
     }
     #docx-render-stage table {
