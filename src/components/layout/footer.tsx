@@ -127,7 +127,13 @@ export function Footer() {
             <span>•</span>
             <Link href="/mp4-to-mp3" className="hover:text-blue-600 dark:hover:text-blue-400">MP4 to MP3</Link>
             <span>•</span>
-            <Link href="/video-compressor" className="hover:text-blue-600 dark:hover:text-blue-400">Video Compressor</Link>
+            <Link href="/video-compressor" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-rose-600 dark:text-rose-400">Video Compressor</Link>
+            <span>•</span>
+            <Link href="/compress-video-for-discord" className="hover:text-blue-600 dark:hover:text-blue-400">Discord Compressor</Link>
+            <span>•</span>
+            <Link href="/compress-mp4" className="hover:text-blue-600 dark:hover:text-blue-400">Compress MP4</Link>
+            <span>•</span>
+            <Link href="/compress-mov-video" className="hover:text-blue-600 dark:hover:text-blue-400">Compress MOV</Link>
             <span>•</span>
             <Link href="/presentation-maker" className="hover:text-blue-600 dark:hover:text-blue-400">Presentation Maker</Link>
             <span>•</span>

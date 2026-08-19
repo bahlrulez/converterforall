@@ -22,6 +22,8 @@ import {
 import { toolsDatabase } from "@/lib/tools-db";
 
 const POPULAR_TOOLS = [
+  { slug: "video-compressor", title: "Video Compressor", icon: Video, color: "text-rose-400" },
+  { slug: "compress-video-for-discord", title: "Discord Video Compressor", icon: Video, color: "text-indigo-400" },
   { slug: "heic-to-jpg", title: "HEIC to JPG", icon: ImageIcon, color: "text-amber-400" },
   { slug: "heic-to-png", title: "HEIC to PNG", icon: ImageIcon, color: "text-rose-400" },
   { slug: "jwt-decoder", title: "JWT Decoder", icon: Code2, color: "text-cyan-400" },

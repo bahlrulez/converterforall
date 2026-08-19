@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { useDropzone } from "react-dropzone";
 import { 
   Film, 
@@ -759,6 +760,205 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
           </div>
         </div>
       )}
+
+      {/* Internal Linking & Programmatic SEO Preset Navigation Cluster */}
+      <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-slate-900/60 border border-slate-800 shadow-xl space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div>
+            <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-blue-400" />
+              <span>Explore Targeted Video Compression Presets</span>
+            </h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Optimize videos specifically for platform upload limits or file extensions
+            </p>
+          </div>
+          <Link
+            href="/video-compressor"
+            className="inline-flex items-center text-xs font-bold text-blue-400 hover:text-blue-300"
+          >
+            <span>All Video Tools →</span>
+          </Link>
+        </div>
+
+        {/* Platform Upload Limits */}
+        <div className="space-y-2.5">
+          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            🌐 Optimize for Platform Limits
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+            <Link
+              href="/compress-video-for-discord"
+              className={cn(
+                "p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center gap-1",
+                toolSlug === "compress-video-for-discord"
+                  ? "bg-blue-600/20 border-blue-500 text-white shadow-md shadow-blue-500/20 font-bold"
+                  : "bg-slate-800/40 border-slate-800/80 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-700"
+              )}
+            >
+              <span className="text-xs font-bold">Discord</span>
+              <span className="text-[10px] text-blue-400 font-semibold">&lt; 25MB Limit</span>
+            </Link>
+
+            <Link
+              href="/compress-video-for-whatsapp"
+              className={cn(
+                "p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center gap-1",
+                toolSlug === "compress-video-for-whatsapp"
+                  ? "bg-blue-600/20 border-blue-500 text-white shadow-md shadow-blue-500/20 font-bold"
+                  : "bg-slate-800/40 border-slate-800/80 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-700"
+              )}
+            >
+              <span className="text-xs font-bold">WhatsApp</span>
+              <span className="text-[10px] text-emerald-400 font-semibold">&lt; 16MB Limit</span>
+            </Link>
+
+            <Link
+              href="/compress-video-for-email"
+              className={cn(
+                "p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center gap-1",
+                toolSlug === "compress-video-for-email"
+                  ? "bg-blue-600/20 border-blue-500 text-white shadow-md shadow-blue-500/20 font-bold"
+                  : "bg-slate-800/40 border-slate-800/80 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-700"
+              )}
+            >
+              <span className="text-xs font-bold">Email (Gmail)</span>
+              <span className="text-[10px] text-purple-400 font-semibold">&lt; 25MB Attach</span>
+            </Link>
+
+            <Link
+              href="/compress-video-for-instagram"
+              className={cn(
+                "p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center gap-1",
+                toolSlug === "compress-video-for-instagram"
+                  ? "bg-blue-600/20 border-blue-500 text-white shadow-md shadow-blue-500/20 font-bold"
+                  : "bg-slate-800/40 border-slate-800/80 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-700"
+              )}
+            >
+              <span className="text-xs font-bold">Reels &amp; IG</span>
+              <span className="text-[10px] text-pink-400 font-semibold">1080p HD</span>
+            </Link>
+
+            <Link
+              href="/compress-video-for-facebook"
+              className={cn(
+                "p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center gap-1",
+                toolSlug === "compress-video-for-facebook"
+                  ? "bg-blue-600/20 border-blue-500 text-white shadow-md shadow-blue-500/20 font-bold"
+                  : "bg-slate-800/40 border-slate-800/80 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-700"
+              )}
+            >
+              <span className="text-xs font-bold">Facebook</span>
+              <span className="text-[10px] text-blue-400 font-semibold">Fast Upload</span>
+            </Link>
+
+            <Link
+              href="/compress-video-for-phone"
+              className={cn(
+                "p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center gap-1",
+                toolSlug === "compress-video-for-phone"
+                  ? "bg-blue-600/20 border-blue-500 text-white shadow-md shadow-blue-500/20 font-bold"
+                  : "bg-slate-800/40 border-slate-800/80 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-700"
+              )}
+            >
+              <span className="text-xs font-bold">Phone Storage</span>
+              <span className="text-[10px] text-amber-400 font-semibold">Save Space</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Format Specific Presets */}
+        <div className="space-y-2.5 pt-2 border-t border-slate-800/60">
+          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            🎞️ Compress by Video Format
+          </p>
+          <div className="flex flex-wrap gap-2 text-xs">
+            <Link
+              href="/compress-mp4"
+              className={cn(
+                "px-3.5 py-1.5 rounded-xl border transition-all",
+                toolSlug === "compress-mp4"
+                  ? "bg-blue-600 border-blue-500 text-white font-bold"
+                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
+              )}
+            >
+              Compress MP4
+            </Link>
+
+            <Link
+              href="/compress-mov-video"
+              className={cn(
+                "px-3.5 py-1.5 rounded-xl border transition-all",
+                toolSlug === "compress-mov-video" || toolSlug === "compress-mov"
+                  ? "bg-blue-600 border-blue-500 text-white font-bold"
+                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
+              )}
+            >
+              Compress MOV (iPhone / Mac)
+            </Link>
+
+            <Link
+              href="/compress-mkv"
+              className={cn(
+                "px-3.5 py-1.5 rounded-xl border transition-all",
+                toolSlug === "compress-mkv"
+                  ? "bg-blue-600 border-blue-500 text-white font-bold"
+                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
+              )}
+            >
+              Compress MKV
+            </Link>
+
+            <Link
+              href="/compress-webm"
+              className={cn(
+                "px-3.5 py-1.5 rounded-xl border transition-all",
+                toolSlug === "compress-webm"
+                  ? "bg-blue-600 border-blue-500 text-white font-bold"
+                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
+              )}
+            >
+              Compress WebM
+            </Link>
+
+            <Link
+              href="/compress-avi"
+              className={cn(
+                "px-3.5 py-1.5 rounded-xl border transition-all",
+                toolSlug === "compress-avi"
+                  ? "bg-blue-600 border-blue-500 text-white font-bold"
+                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
+              )}
+            >
+              Compress AVI
+            </Link>
+
+            <Link
+              href="/compress-wmv"
+              className={cn(
+                "px-3.5 py-1.5 rounded-xl border transition-all",
+                toolSlug === "compress-wmv"
+                  ? "bg-blue-600 border-blue-500 text-white font-bold"
+                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
+              )}
+            >
+              Compress WMV
+            </Link>
+
+            <Link
+              href="/compress-flv"
+              className={cn(
+                "px-3.5 py-1.5 rounded-xl border transition-all",
+                toolSlug === "compress-flv"
+                  ? "bg-blue-600 border-blue-500 text-white font-bold"
+                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
+              )}
+            >
+              Compress FLV
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
