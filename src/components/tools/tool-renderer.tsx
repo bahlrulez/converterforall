@@ -42,6 +42,7 @@ const JsonCsvConverter = dynamic(() => import("@/components/tools/json-csv-conve
 const Base64Converter = dynamic(() => import("@/components/tools/base64-converter").then(m => m.Base64Converter), { ssr: false, loading: ToolLoading });
 const TimestampConverter = dynamic(() => import("@/components/tools/timestamp-converter").then(m => m.TimestampConverter), { ssr: false, loading: ToolLoading });
 const UuidGenerator = dynamic(() => import("@/components/tools/uuid-generator").then(m => m.UuidGenerator), { ssr: false, loading: ToolLoading });
+const VideoCompressor = dynamic(() => import("@/components/tools/video-compressor").then(m => m.VideoCompressor), { ssr: false, loading: ToolLoading });
 
 interface ToolRendererProps {
   toolSlug: string;
@@ -83,6 +84,7 @@ export function ToolRenderer({
         {toolSlug === "pdf-to-word" && <PdfToWordTool />}
         {toolSlug === "word-to-pdf" && <WordToPdfTool />}
         {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
+        {(toolSlug === "compress-video" || toolSlug === "video-compressor") && <VideoCompressor />}
         {toolSlug === "qr-scanner" && <QrScanner />}
         {toolSlug === "presentation-maker" && <PresentationMaker />}
         {toolSlug === "merge-pdf" && <MergePdfTool />}

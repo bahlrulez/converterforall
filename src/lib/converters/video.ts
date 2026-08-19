@@ -136,6 +136,85 @@ export const extractFramesWithCanvas = async (file: File, fps: number, onProgres
   });
 };
 
+export interface VideoCompressionOptions {
+  crf?: number; // 18 to 36
+  resolution?: "original" | "1080p" | "720p" | "480p" | "360p";
+  muteAudio?: boolean;
+  audioBitrate?: "128k" | "96k" | "64k";
+  fpsLimit?: number;
+}
+
+export const compressVideoAdvanced = async (
+  file: File,
+  options: VideoCompressionOptions,
+  onProgress: (progress: number) => void
+): Promise<Blob> => {
+  const ffmpegInstance = await loadFfmpeg((p) => {
+    let pct = Math.round(p.progress * 100);
+    if (pct < 0) pct = 0;
+    if (pct > 100) pct = 100;
+    onProgress(pct);
+  });
+
+  const inputExt = file.name.split('.').pop()?.toLowerCase() || 'mp4';
+  const inputName = `input_${Date.now()}.${inputExt}`;
+  const outputName = `compressed_${Date.now()}.mp4`;
+
+  await ffmpegInstance.writeFile(inputName, await fetchFile(file));
+
+  const args: string[] = ['-i', inputName];
+
+  // Video Codec & Quality
+  args.push('-vcodec', 'libx264');
+  args.push('-crf', (options.crf || 26).toString());
+  args.push('-preset', 'fast');
+
+  // Video Filter (Scaling)
+  const filters: string[] = [];
+  if (options.resolution === "1080p") {
+    filters.push("scale='min(1920,iw)':-2");
+  } else if (options.resolution === "720p") {
+    filters.push("scale='min(1280,iw)':-2");
+  } else if (options.resolution === "480p") {
+    filters.push("scale='min(854,iw)':-2");
+  } else if (options.resolution === "360p") {
+    filters.push("scale='min(640,iw)':-2");
+  }
+
+  if (options.fpsLimit) {
+    filters.push(`fps=${options.fpsLimit}`);
+  }
+
+  if (filters.length > 0) {
+    args.push('-vf', filters.join(','));
+  }
+
+  // Audio Handling
+  if (options.muteAudio) {
+    args.push('-an');
+  } else {
+    args.push('-c:a', 'aac');
+    args.push('-b:a', options.audioBitrate || '128k');
+  }
+
+  // Fast start for web streaming
+  args.push('-movflags', '+faststart');
+  args.push(outputName);
+
+  const exitCode = await ffmpegInstance.exec(args);
+
+  if (exitCode !== 0) {
+    throw new Error(`Video compression failed with FFmpeg exit code ${exitCode}.`);
+  }
+
+  const data = await ffmpegInstance.readFile(outputName);
+
+  await ffmpegInstance.deleteFile(inputName);
+  await ffmpegInstance.deleteFile(outputName);
+
+  return new Blob([data as any], { type: 'video/mp4' });
+};
+
 export const convertVideo = async (
   file: File, 
   targetFormat: string, 

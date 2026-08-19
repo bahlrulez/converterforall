@@ -398,6 +398,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "mp4",
       actionName: "Compress Video",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
     "video-compressor": {
@@ -406,6 +407,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "mp4",
       actionName: "Compress Video",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
     "video-to-gif": {
