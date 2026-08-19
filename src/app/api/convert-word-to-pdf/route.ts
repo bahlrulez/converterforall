@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       process.env.GOTENBERG_URL ||
       process.env.DOCX_CONVERTER_URL ||
       process.env.LIBREOFFICE_API_URL ||
-      ""
+      "https://gotenberg-8-zkdt.onrender.com"
     ).trim();
 
     if (gotenbergUrl) {
