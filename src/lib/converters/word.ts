@@ -99,20 +99,39 @@ function parseStylesXml(xmlStr: string): Map<string, DocxStyle> {
   return stylesMap;
 }
 
-// Extract default document font from styles.xml or settings
-function extractDocxDefaultFont(stylesXml: string): string {
-  const fontMatch = stylesXml.match(/<w:rFonts\s+[^>]*w:ascii="([^"]+)"/i) || stylesXml.match(/<w:rFonts\s+[^>]*ascii="([^"]+)"/i);
-  if (fontMatch) {
-    const f = fontMatch[1];
-    if (/calibri|arial|liberation sans|segoe|helvetica/i.test(f)) {
-      return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
-    }
-    if (/times|liberation serif|georgia|cambria/i.test(f)) {
-      return `'Times New Roman', 'Liberation Serif', Georgia, serif`;
-    }
-    return `'${f}', Calibri, Arial, sans-serif`;
+// Extract default document font from docDefaults, Normal style, or body
+function extractDocxDefaultFont(stylesXml: string, docXml?: string): string {
+  // 1. Check docDefaults in styles.xml
+  const docDefaultsMatch = stylesXml.match(/<w:docDefaults>[\s\S]*?<w:rFonts\s+[^>]*?w:ascii="([^"]+)"/i);
+  if (docDefaultsMatch) {
+    const f = docDefaultsMatch[1];
+    if (/times/i.test(f)) return `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
+    if (/calibri|arial|liberation sans|segoe/i.test(f)) return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
+    return `'${f}', 'Times New Roman', serif`;
   }
-  return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
+
+  // 2. Check Normal / Default style in styles.xml
+  const normalStyleMatch = stylesXml.match(/<w:style[^>]*?(?:w:styleId="Normal"|w:default="1")[^>]*?>[\s\S]*?<w:rFonts\s+[^>]*?w:ascii="([^"]+)"/i);
+  if (normalStyleMatch) {
+    const f = normalStyleMatch[1];
+    if (/times/i.test(f)) return `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
+    if (/calibri|arial|liberation sans|segoe/i.test(f)) return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
+    return `'${f}', 'Times New Roman', serif`;
+  }
+
+  // 3. Check document.xml for predominant font
+  if (docXml) {
+    const docFontMatch = docXml.match(/<w:rFonts\s+[^>]*?w:ascii="([^"]+)"/i);
+    if (docFontMatch) {
+      const f = docFontMatch[1];
+      if (/times/i.test(f)) return `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
+      if (/calibri|arial|liberation sans|segoe/i.test(f)) return `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
+      return `'${f}', 'Times New Roman', serif`;
+    }
+  }
+
+  // Default fallback for formal letters
+  return `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
 }
 
 // Parse DrawingML Chart XML into structured ChartData using universal pattern matching
@@ -244,12 +263,18 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
 
     // 2. Parse styles.xml and default font
     let stylesMap = new Map<string, DocxStyle>();
-    let docDefaultFont = `'Calibri', 'Segoe UI', 'Liberation Sans', Arial, sans-serif`;
+    let docDefaultFont = `'Times New Roman', Times, 'Liberation Serif', Georgia, serif`;
+    
+    const docFile = zip.file("word/document.xml");
+    const docXml = docFile ? await docFile.async("text") : "";
+
     const stylesFile = zip.file("word/styles.xml");
     if (stylesFile) {
       const stylesXml = await stylesFile.async("text");
       stylesMap = parseStylesXml(stylesXml);
-      docDefaultFont = extractDocxDefaultFont(stylesXml);
+      docDefaultFont = extractDocxDefaultFont(stylesXml, docXml);
+    } else if (docXml) {
+      docDefaultFont = extractDocxDefaultFont("", docXml);
     }
 
     // 3. Extract media images to base64 Data URLs with normalized file names
@@ -300,19 +325,21 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     }
 
     // 6. Parse word/document.xml
-    const docFile = zip.file("word/document.xml");
-    if (!docFile) {
+    if (!docXml) {
       throw new Error("Missing word/document.xml in DOCX");
     }
-    const docXml = await docFile.async("text");
     const docParser = new DOMParser();
     const doc = docParser.parseFromString(docXml, "text/xml");
 
     const body = Array.from(doc.getElementsByTagName("*")).find((el) => el.localName === "body");
     if (!body) throw new Error("Missing document body");
 
-    const pageBuckets: string[][] = [[]];
-    let currentPageIndex = 0;
+    // Extract all elements as HTML items with manual page break flags
+    interface ExtractedItem {
+      html: string;
+      isManualPageBreak?: boolean;
+    }
+    const extractedItems: ExtractedItem[] = [];
 
     const childNodes = Array.from(body.children);
 
@@ -323,8 +350,8 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
       if (localName === "p") {
         const descendants = Array.from(node.getElementsByTagName("*"));
         
-        // Page break detection
-        const hasPageBreak = descendants.some(
+        // Manual Page break detection
+        const hasManualPageBreak = descendants.some(
           (el) =>
             (el.localName === "br" && (el.getAttribute("w:type") === "page" || el.getAttribute("type") === "page")) ||
             el.localName === "lastRenderedPageBreak"
@@ -424,61 +451,105 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
         }
         if (pTextHtml.trim()) {
           if (isTitle) {
-            elHtml += `<h1 style="font-size: 22pt; font-weight: bold; margin: 14pt 0 8pt 0; text-align: ${alignment}; color: #000000;">${pTextHtml}</h1>`;
+            elHtml += `<h1 style="font-size: 20pt; font-weight: bold; margin: 14pt 0 8pt 0; text-align: ${alignment}; color: #000000;">${pTextHtml}</h1>`;
           } else if (isHeading) {
-            const fSize = inheritedStyle?.fontSizePt ? `${inheritedStyle.fontSizePt}pt` : "14pt";
-            elHtml += `<h2 style="font-size: ${fSize}; font-weight: bold; margin: 12pt 0 6pt 0; text-align: ${alignment}; color: #000000;">${pTextHtml}</h2>`;
+            const fSize = inheritedStyle?.fontSizePt ? `${inheritedStyle.fontSizePt}pt` : "12pt";
+            elHtml += `<h2 style="font-size: ${fSize}; font-weight: bold; margin: 10pt 0 4pt 0; text-align: ${alignment}; color: #000000;">${pTextHtml}</h2>`;
           } else if (isBullet) {
-            elHtml += `<div style="margin-left: 24pt; margin-bottom: 4pt; color: #000000; text-align: ${alignment};">• &nbsp;${pTextHtml}</div>`;
+            elHtml += `<div style="margin-left: 24pt; margin-bottom: 3pt; color: #000000; text-align: ${alignment};">• &nbsp;${pTextHtml}</div>`;
           } else {
+            const justifyStyle = alignment === "justify" ? "text-align: justify; text-justify: inter-word;" : `text-align: ${alignment};`;
             const rightStyle = alignment === "right" ? "margin-left: auto; width: 100%;" : "";
-            elHtml += `<p style="margin: 0 0 6pt 0; line-height: 1.35; text-align: ${alignment}; ${rightStyle} color: #000000;">${pTextHtml}</p>`;
+            elHtml += `<p style="margin: 0 0 5pt 0; line-height: 1.25; ${justifyStyle} ${rightStyle} color: #000000;">${pTextHtml}</p>`;
           }
         }
 
         if (elHtml) {
-          pageBuckets[currentPageIndex].push(elHtml);
-        }
-
-        if (hasPageBreak) {
-          currentPageIndex++;
-          pageBuckets[currentPageIndex] = [];
+          extractedItems.push({ html: elHtml, isManualPageBreak: hasManualPageBreak });
         }
       } else if (localName === "tbl") {
         // TABLE
-        let tblHtml = `<table style="width: 100%; border-collapse: collapse; margin: 12pt 0;">`;
+        let tblHtml = `<table style="width: 100%; border-collapse: collapse; margin: 10pt 0;">`;
         const rowNodes = Array.from(node.getElementsByTagName("*")).filter((el) => el.localName === "tr");
         for (const row of rowNodes) {
           tblHtml += `<tr>`;
           const cellNodes = Array.from(row.getElementsByTagName("*")).filter((el) => el.localName === "tc");
           for (const cell of cellNodes) {
             const cellText = (cell.textContent || "").trim();
-            tblHtml += `<td style="border: 1px solid #555555; padding: 6pt 10pt; font-size: 10.5pt; color: #000000; vertical-align: top;">${cellText}</td>`;
+            tblHtml += `<td style="border: 1px solid #555555; padding: 5pt 8pt; font-size: 10.5pt; color: #000000; vertical-align: top;">${cellText}</td>`;
           }
           tblHtml += `</tr>`;
         }
         tblHtml += `</table>`;
-        pageBuckets[currentPageIndex].push(tblHtml);
+        extractedItems.push({ html: tblHtml });
       }
     }
 
-    // Filter valid page buckets
-    const validPages = pageBuckets.filter((p) => p.length > 0);
-    if (validPages.length === 0) {
-      throw new Error("No page content could be extracted from DOCX");
+    if (extractedItems.length === 0) {
+      throw new Error("No readable content could be extracted from DOCX");
     }
 
-    // 7. Multi-page A4 PDF Generation
+    // 7. Natural Height-Based Auto-Pagination + Manual Break Segmentation
+    // Usable printable height inside 794px × 1123px A4 sheet with 72pt (96px) margins is ~925px
+    const MAX_PAGE_CONTENT_HEIGHT_PX = 925;
+
+    // Measurement scratch container
+    const measurer = document.createElement("div");
+    measurer.style.position = "fixed";
+    measurer.style.top = "-99999px";
+    measurer.style.left = "0px";
+    measurer.style.width = "602px"; // 794px - 192px (margins)
+    measurer.style.fontFamily = docDefaultFont;
+    measurer.style.fontSize = "11pt";
+    measurer.style.lineHeight = "1.25";
+    measurer.style.boxSizing = "border-box";
+    measurer.style.visibility = "hidden";
+    document.body.appendChild(measurer);
+
+    const validPages: string[][] = [[]];
+    let currentPageIndex = 0;
+
+    for (const item of extractedItems) {
+      // Test height if appended to current page
+      const testDiv = document.createElement("div");
+      testDiv.innerHTML = item.html;
+      measurer.appendChild(testDiv);
+
+      const currentHeight = measurer.offsetHeight;
+
+      if (currentHeight > MAX_PAGE_CONTENT_HEIGHT_PX && validPages[currentPageIndex].length > 0) {
+        // Start a new page bucket
+        currentPageIndex++;
+        validPages[currentPageIndex] = [item.html];
+        measurer.innerHTML = item.html;
+      } else {
+        validPages[currentPageIndex].push(item.html);
+      }
+
+      if (item.isManualPageBreak) {
+        currentPageIndex++;
+        validPages[currentPageIndex] = [];
+        measurer.innerHTML = "";
+      }
+    }
+
+    if (document.body.contains(measurer)) {
+      document.body.removeChild(measurer);
+    }
+
+    const filteredPages = validPages.filter((p) => p.length > 0);
+
+    // 8. Multi-page A4 PDF Generation
     const html2canvas = (await import("html2canvas")).default;
     const { jsPDF } = await import("jspdf");
     const pdf = new jsPDF("p", "mm", "a4");
 
-    for (let pIdx = 0; pIdx < validPages.length; pIdx++) {
+    for (let pIdx = 0; pIdx < filteredPages.length; pIdx++) {
       const pageContainer = document.createElement("div");
       pageContainer.id = `docx-page-render-${pIdx}`;
-      pageContainer.innerHTML = validPages[pIdx].join("\n");
+      pageContainer.innerHTML = filteredPages[pIdx].join("\n");
 
-      // Standard A4 Dimensions (794px × 1123px, 1-inch margins)
+      // Standard A4 Dimensions (794px × 1123px, exact 1-inch margins = 72pt/96px)
       pageContainer.style.position = "fixed";
       pageContainer.style.top = "0px";
       pageContainer.style.left = "0px";
@@ -486,13 +557,13 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
       pageContainer.style.opacity = "1";
       pageContainer.style.width = "794px";
       pageContainer.style.minHeight = "1123px";
-      pageContainer.style.padding = "60px 65px";
+      pageContainer.style.padding = "72px 80px"; // 1-inch margins
       pageContainer.style.boxSizing = "border-box";
       pageContainer.style.background = "#ffffff";
       pageContainer.style.color = "#000000";
       pageContainer.style.fontFamily = docDefaultFont;
       pageContainer.style.fontSize = "11pt";
-      pageContainer.style.lineHeight = "1.35";
+      pageContainer.style.lineHeight = "1.25";
       pageContainer.style.pointerEvents = "none";
       pageContainer.style.overflow = "visible";
 
