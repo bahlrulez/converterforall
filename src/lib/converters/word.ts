@@ -162,6 +162,32 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
   renderContainer.style.pointerEvents = "none";
   renderContainer.style.overflow = "visible";
 
+  // Inject high-fidelity typography styling
+  const styleEl = document.createElement("style");
+  styleEl.innerHTML = `
+    #docx-render-stage .docx-wrapper {
+      background: transparent !important;
+      padding: 0 !important;
+    }
+    #docx-render-stage section.docx {
+      box-sizing: border-box !important;
+      width: 794px !important;
+      min-height: 1123px !important;
+      padding: 72px 80px !important;
+      margin: 0 !important;
+      background: #ffffff !important;
+      box-shadow: none !important;
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+      text-rendering: geometricPrecision !important;
+    }
+    #docx-render-stage section.docx p {
+      line-height: 1.25 !important;
+      margin-top: 0 !important;
+      margin-bottom: 5pt !important;
+    }
+  `;
+  renderContainer.appendChild(styleEl);
   document.body.appendChild(renderContainer);
 
   try {
@@ -210,7 +236,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     if (document.fonts) {
       await document.fonts.ready;
     }
-    await new Promise((r) => setTimeout(r, 100));
+    await new Promise((r) => setTimeout(r, 150));
 
     // 6. Locate all rendered page sections
     const pageSections = Array.from(
@@ -243,8 +269,15 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
           pdf.addPage();
         }
 
+        // Calculate exact aspect ratio to prevent vertical squeezing
+        const pdfWidth = 210;
+        const pdfHeight = 297;
+        const imgAspect = canvas.height / canvas.width;
+        const naturalImgHeight = pdfWidth * imgAspect;
+        const drawHeight = Math.min(pdfHeight, naturalImgHeight);
+
         const imgData = canvas.toDataURL("image/jpeg", 0.98);
-        pdf.addImage(imgData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
+        pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, drawHeight, undefined, "FAST");
       }
     } else {
       // Fallback single wrapper capture
@@ -290,6 +323,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     }
   }
 }
+
 
 
 
