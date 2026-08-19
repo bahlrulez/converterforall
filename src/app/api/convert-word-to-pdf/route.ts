@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
         const upstreamRes = await fetch(endpoint, {
           method: "POST",
           body: upstreamFormData,
-          signal: AbortSignal.timeout(15000), // 15s timeout
+          signal: AbortSignal.timeout(30000), // 30s timeout for large documents
         });
 
         if (upstreamRes.ok) {
