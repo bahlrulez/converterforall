@@ -1,34 +1,28 @@
 import mammoth from "mammoth";
 
-export async function convertWordToPdf(file: File): Promise<Blob> {
-  const arrayBuffer = await file.arrayBuffer();
-  
-  // 1. Convert DOCX to HTML using mammoth
+async function fallbackMammothConvert(arrayBuffer: ArrayBuffer, fileName: string): Promise<Blob> {
   const result = await mammoth.convertToHtml({ arrayBuffer });
   const htmlContent = result.value;
-  
-  // 2. Wrap HTML in a container to give it a document-like appearance
+
   const container = document.createElement("div");
   container.innerHTML = htmlContent;
-  container.style.padding = "20px";
-  container.style.fontFamily = "Arial, sans-serif";
-  container.style.fontSize = "12pt";
-  container.style.lineHeight = "1.5";
-  container.style.color = "#000";
+  container.style.padding = "25mm 20mm";
+  container.style.fontFamily = "Calibri, 'Segoe UI', Arial, sans-serif";
+  container.style.fontSize = "11pt";
+  container.style.lineHeight = "1.35";
+  container.style.color = "#111";
   container.style.background = "#fff";
-  
-  // Apply CSS to prevent page breaks inside common text block elements
-  const elementsToAvoid = container.querySelectorAll('p, li, tr, h1, h2, h3, h4, h5, h6, img');
+  container.style.width = "210mm";
+
+  const elementsToAvoid = container.querySelectorAll("p, li, tr, h1, h2, h3, h4, h5, h6, img");
   elementsToAvoid.forEach((el: any) => {
-    el.style.pageBreakInside = 'avoid';
-    el.style.breakInside = 'avoid';
-    // Add small margin to paragraphs so they look like Word docs
-    if (el.tagName === 'P') {
-      el.style.marginBottom = '10px';
+    el.style.pageBreakInside = "avoid";
+    el.style.breakInside = "avoid";
+    if (el.tagName === "P") {
+      el.style.marginBottom = "8px";
     }
   });
-  
-  // Create a hidden div to append to body so html2pdf can process it properly
+
   const wrapper = document.createElement("div");
   wrapper.style.position = "absolute";
   wrapper.style.left = "-9999px";
@@ -37,28 +31,83 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
   document.body.appendChild(wrapper);
 
   try {
-    // 3. Dynamically import html2pdf.js to avoid SSR issues
     const html2pdf = (await import("html2pdf.js")).default;
-    
-    // 4. Configure html2pdf
     const opt: any = {
-      margin:       15, // mm
-      filename:     'converted.pdf',
-      pagebreak:    { mode: ['css', 'legacy'] },
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      margin: 0,
+      filename: fileName.replace(/\.docx?$/i, ".pdf"),
+      pagebreak: { mode: ["css", "legacy"] },
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
     };
-    
-    // 5. Generate PDF and get Blob
-    const worker = html2pdf().set(opt).from(container);
-    
-    // html2pdf().output('blob') returns a promise resolving to a blob in newer versions.
-    const pdfBlob = await worker.output('blob');
-    
-    return pdfBlob;
+    return await html2pdf().set(opt).from(container).output("blob");
   } finally {
-    // Clean up the hidden element
-    document.body.removeChild(wrapper);
+    if (document.body.contains(wrapper)) {
+      document.body.removeChild(wrapper);
+    }
   }
 }
+
+export async function convertWordToPdf(file: File): Promise<Blob> {
+  const arrayBuffer = await file.arrayBuffer();
+
+  // Create temporary offscreen container
+  const container = document.createElement("div");
+  container.className = "docx-render-wrapper";
+  container.style.position = "absolute";
+  container.style.left = "-9999px";
+  container.style.top = "0";
+  container.style.width = "210mm";
+  container.style.background = "#fff";
+  container.style.color = "#000";
+  document.body.appendChild(container);
+
+  try {
+    // 1. High-fidelity rendering with docx-preview (preserves right/center alignments, tables, margins, font styles)
+    const { renderAsync } = await import("docx-preview");
+    await renderAsync(arrayBuffer, container, undefined, {
+      className: "docx-doc",
+      inWrapper: true,
+      ignoreWidth: false,
+      ignoreHeight: false,
+      ignoreFonts: false,
+      breakPages: true,
+      useBase64URL: true,
+    });
+
+    // Clean padding inside docx pages for exact A4 print rendering
+    const pages = container.querySelectorAll<HTMLElement>(".docx-doc, section.docx-doc, .docx-wrapper > section");
+    pages.forEach((page) => {
+      page.style.boxShadow = "none";
+      page.style.margin = "0 auto";
+    });
+
+    // 2. Generate PDF via html2pdf.js
+    const html2pdf = (await import("html2pdf.js")).default;
+    const opt: any = {
+      margin: 0,
+      filename: file.name.replace(/\.docx?$/i, ".pdf"),
+      pagebreak: { mode: ["css", "legacy"] },
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        letterRendering: true,
+        scrollX: 0,
+        scrollY: 0
+      },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+    };
+
+    const pdfBlob: Blob = await html2pdf().set(opt).from(container).output("blob");
+    return pdfBlob;
+  } catch (error) {
+    console.warn("docx-preview conversion fallback to mammoth:", error);
+    return await fallbackMammothConvert(arrayBuffer, file.name);
+  } finally {
+    if (document.body.contains(container)) {
+      document.body.removeChild(container);
+    }
+  }
+}
+
