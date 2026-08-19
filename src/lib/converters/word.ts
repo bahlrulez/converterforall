@@ -162,36 +162,25 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
   renderContainer.style.pointerEvents = "none";
   renderContainer.style.overflow = "visible";
 
-  // Inject high-fidelity typography styling
+  // Clean wrapper styling only (preserve native Word font metrics & line spacing)
   const styleEl = document.createElement("style");
   styleEl.innerHTML = `
     #docx-render-stage .docx-wrapper {
-      background: transparent !important;
+      background: #ffffff !important;
       padding: 0 !important;
+      margin: 0 !important;
     }
     #docx-render-stage section.docx {
-      box-sizing: border-box !important;
-      width: 794px !important;
-      min-height: 1123px !important;
-      padding: 72px 80px !important;
+      box-shadow: none !important;
       margin: 0 !important;
       background: #ffffff !important;
-      box-shadow: none !important;
-      -webkit-font-smoothing: antialiased !important;
-      -moz-osx-font-smoothing: grayscale !important;
-      text-rendering: geometricPrecision !important;
-    }
-    #docx-render-stage section.docx p {
-      line-height: 1.25 !important;
-      margin-top: 0 !important;
-      margin-bottom: 5pt !important;
     }
   `;
   renderContainer.appendChild(styleEl);
   document.body.appendChild(renderContainer);
 
   try {
-    // 3. Render DOCX using docx-preview layout engine
+    // 3. Render DOCX using docx-preview layout engine with authentic Word layout
     await docxPreview.renderAsync(arrayBuffer, renderContainer, undefined, {
       className: "docx",
       inWrapper: true,
@@ -262,22 +251,14 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
           useCORS: true,
           backgroundColor: "#ffffff",
           logging: false,
-          windowWidth: 1024
         });
 
         if (i > 0) {
           pdf.addPage();
         }
 
-        // Calculate exact aspect ratio to prevent vertical squeezing
-        const pdfWidth = 210;
-        const pdfHeight = 297;
-        const imgAspect = canvas.height / canvas.width;
-        const naturalImgHeight = pdfWidth * imgAspect;
-        const drawHeight = Math.min(pdfHeight, naturalImgHeight);
-
         const imgData = canvas.toDataURL("image/jpeg", 0.98);
-        pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, drawHeight, undefined, "FAST");
+        pdf.addImage(imgData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
       }
     } else {
       // Fallback single wrapper capture
@@ -286,7 +267,6 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
         useCORS: true,
         backgroundColor: "#ffffff",
         logging: false,
-        windowWidth: 1024
       });
 
       const pageWidth = 210;
@@ -323,6 +303,7 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     }
   }
 }
+
 
 
 
