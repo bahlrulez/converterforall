@@ -546,7 +546,7 @@ export const blogDatabase: Record<string, { title: string, content: string, date
     `
   },
   "how-to-compress-a-video-free-without-losing-quality": {
-    title: "How to Compress a Video FREE Without Losing Quality – Free Tool FOR SHRINK/COMPRESS VIDEO GUIDE",
+    title: "How to Compress a Video FREE Without Losing Quality – FULL GUIDE",
     date: "August 19, 2026",
     category: "Guides & Tutorials",
     content: `
@@ -682,7 +682,7 @@ export const blogDatabase: Record<string, { title: string, content: string, date
 export const posts = [
   {
     slug: "how-to-compress-a-video-free-without-losing-quality",
-    title: "How to Compress a Video FREE Without Losing Quality – Free Tool For Shrink/Compress Video Guide",
+    title: "How to Compress a Video FREE Without Losing Quality – FULL GUIDE",
     date: "August 19, 2026",
     excerpt: "Learn how to shrink and compress large videos for WhatsApp, Discord, Email, Instagram, and phone storage for free without losing quality or uploading to cloud servers.",
     category: "Guides & Tutorials"
