@@ -196,42 +196,49 @@ export async function convertWordToPdf(file: File): Promise<Blob> {
     }
     #docx-render-stage section.docx {
       box-shadow: none !important;
-      margin: 0 !important;
+      margin: 0 auto !important;
       background: #ffffff !important;
       box-sizing: border-box !important;
       width: 210mm !important;
       min-height: 297mm !important;
-      padding: 25.4mm !important; /* Exact 1-inch Word margin */
+      padding: 25.4mm !important; /* Standard 1-inch Word margin */
+      font-family: 'Times New Roman', Times, 'Liberation Serif', serif !important;
+      letter-spacing: -0.012em !important; /* Sub-pixel glyph tracking matching Word DirectWrite */
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+      text-rendering: geometricPrecision !important;
     }
     #docx-render-stage p {
       margin-top: 0 !important;
-      margin-bottom: 3.5pt !important; /* Exact Word standard paragraph space-after */
-      line-height: 1.15 !important;    /* Exact Word 1.15 line pitch */
-      letter-spacing: normal !important;
-      word-spacing: normal !important;
+      margin-bottom: 2.5pt !important; /* Exact space-after */
+      line-height: 1.15 !important;     /* Exact 1.15 line pitch */
+      text-align: justify !important;
+      text-justify: inter-word !important;
     }
     #docx-render-stage h1,
     #docx-render-stage h2,
     #docx-render-stage h3,
     #docx-render-stage h4 {
-      margin-top: 6pt !important;
+      margin-top: 5pt !important;
       margin-bottom: 2pt !important;
-      line-height: 1.2 !important;
+      line-height: 1.18 !important;
     }
     #docx-render-stage ul,
     #docx-render-stage ol {
       margin-top: 2pt !important;
-      margin-bottom: 4pt !important;
-      padding-left: 20pt !important;
+      margin-bottom: 3pt !important;
+      padding-left: 18pt !important;
     }
     #docx-render-stage li {
       margin-top: 0 !important;
       margin-bottom: 1.5pt !important;
       line-height: 1.15 !important;
+      text-align: left !important;
     }
     #docx-render-stage table {
-      margin-top: 6pt !important;
-      margin-bottom: 6pt !important;
+      margin-top: 4pt !important;
+      margin-bottom: 4pt !important;
+      border-collapse: collapse !important;
     }
   `;
   renderContainer.appendChild(styleEl);
