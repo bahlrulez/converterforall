@@ -107,7 +107,7 @@ export default function MergePdfTool() {
 
   // Scaling & Layout State
   const [pageSize, setPageSize] = useState<PageSizeType>('a4');
-  const [orientation, setOrientation] = useState<OrientationType>('auto');
+  const [orientation, setOrientation] = useState<OrientationType>('portrait');
   const [fitMode, setFitMode] = useState<FitModeType>('fit');
   const [marginSize, setMarginSize] = useState<MarginSizeType>('standard');
   const [applyScope, setApplyScope] = useState<ApplyScopeType>('images_only');
@@ -553,8 +553,8 @@ export default function MergePdfTool() {
                           disabled={pageSize === 'fit_content'}
                           className="w-full h-10 px-3 rounded-xl bg-background border border-border text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none disabled:opacity-50"
                         >
+                          <option value="portrait">Portrait (Vertical A4 — Recommended Uniform)</option>
                           <option value="auto">Auto (Match Image/Page)</option>
-                          <option value="portrait">Portrait (Vertical)</option>
                           <option value="landscape">Landscape (Horizontal)</option>
                         </select>
                       </div>
