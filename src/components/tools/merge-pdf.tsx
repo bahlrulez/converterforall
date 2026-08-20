@@ -21,7 +21,8 @@ import {
   Presentation,
   Info,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Power
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getPendingFile } from "@/lib/file-transfer";
@@ -108,7 +109,8 @@ export default function MergePdfTool() {
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
 
-  // Scaling & Layout State
+  // Scaling & Layout State (Default ON)
+  const [enableScaling, setEnableScaling] = useState<boolean>(true);
   const [pageSize, setPageSize] = useState<PageSizeType>('a4');
   const [orientation, setOrientation] = useState<OrientationType>('portrait');
   const [fitMode, setFitMode] = useState<FitModeType>('fit');
@@ -202,7 +204,7 @@ export default function MergePdfTool() {
           const pdfDoc = await PDFDocument.load(fileBuffer, { ignoreEncryption: true });
           const pageIndices = pdfDoc.getPageIndices();
 
-          if (pageSize === 'fit_content' || applyScope === 'images_only') {
+          if (!enableScaling || pageSize === 'fit_content' || applyScope === 'images_only') {
             // Keep native PDF pages 1:1 intact
             const copiedPages = await mergedPdf.copyPages(pdfDoc, pageIndices);
             copiedPages.forEach(page => mergedPdf.addPage(page));
@@ -290,7 +292,7 @@ export default function MergePdfTool() {
           const pptxPdfDoc = await PDFDocument.load(pptxPdfBuffer);
           const pageIndices = pptxPdfDoc.getPageIndices();
 
-          if (pageSize === 'fit_content' || orientation === 'landscape') {
+          if (!enableScaling || pageSize === 'fit_content' || orientation === 'landscape') {
             const copiedPages = await mergedPdf.copyPages(pptxPdfDoc, pageIndices);
             copiedPages.forEach(page => mergedPdf.addPage(page));
           } else {
@@ -323,7 +325,7 @@ export default function MergePdfTool() {
             }
           }
         } else if (item.type === 'image') {
-          // Embed image with chosen scaling & page dimensions
+          // Embed image
           let embeddedImage: any;
           const isJpg = item.file.type === 'image/jpeg' || /\.(jpe?g)$/i.test(item.file.name);
           const isPng = item.file.type === 'image/png' || /\.png$/i.test(item.file.name);
@@ -352,7 +354,7 @@ export default function MergePdfTool() {
           const imgW = embeddedImage.width;
           const imgH = embeddedImage.height;
 
-          if (pageSize === 'fit_content') {
+          if (!enableScaling || pageSize === 'fit_content') {
             // Keep native pixel size
             const page = mergedPdf.addPage([imgW, imgH]);
             page.drawImage(embeddedImage, { x: 0, y: 0, width: imgW, height: imgH });
@@ -540,148 +542,209 @@ export default function MergePdfTool() {
                 ))}
               </div>
 
-              {/* ⚙️ Page Scaling & Layout Customizer Panel */}
-              <div className="rounded-2xl border border-border/70 bg-muted/20 overflow-hidden transition-all">
-                <button
-                  type="button"
-                  onClick={() => setShowSettings(!showSettings)}
-                  className="w-full px-5 py-3.5 flex items-center justify-between bg-muted/40 hover:bg-muted/60 transition-colors text-left"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
+              {/* ⚙️ Page Scaling & Layout Customizer Panel with ON/OFF Toggle */}
+              <div className={`rounded-2xl border transition-all ${
+                enableScaling 
+                  ? 'border-border/80 bg-muted/20' 
+                  : 'border-border/40 bg-muted/10 opacity-90'
+              }`}>
+                {/* Header with Switch */}
+                <div className="w-full px-5 py-3.5 flex items-center justify-between bg-muted/40 rounded-t-2xl">
+                  <div 
+                    onClick={() => setShowSettings(!showSettings)}
+                    className="flex items-center gap-2.5 cursor-pointer select-none"
+                  >
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-colors ${
+                      enableScaling 
+                        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' 
+                        : 'bg-muted text-muted-foreground border-border'
+                    }`}>
                       <SlidersHorizontal className="w-4 h-4" />
                     </div>
                     <div>
                       <h5 className="text-xs sm:text-sm font-bold text-foreground flex items-center gap-2">
                         <span>Page Scaling &amp; Layout Options</span>
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                          {pageSize === 'fit_content' ? 'Original Size' : `${pageSize.toUpperCase()} Standard`}
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border transition-colors ${
+                          enableScaling 
+                            ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' 
+                            : 'bg-muted text-muted-foreground border-border'
+                        }`}>
+                          {enableScaling ? `${pageSize.toUpperCase()} Standard` : 'Original Sizes'}
                         </span>
                       </h5>
                       <p className="text-[11px] text-muted-foreground">
-                        Auto-scale small/large images &amp; PowerPoint slides to fit standard dimensions with clean margins.
+                        {enableScaling 
+                          ? "Auto-scale images & slides to fit standard dimensions with clean margins." 
+                          : "Scaling turned off. Files will merge at their original native dimensions."}
                       </p>
                     </div>
                   </div>
-                  <div className="text-muted-foreground">
-                    {showSettings ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                  </div>
-                </button>
 
+                  {/* Toggle Switch */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs font-bold transition-colors ${
+                        enableScaling 
+                          ? 'text-emerald-600 dark:text-emerald-400' 
+                          : 'text-muted-foreground'
+                      }`}>
+                        {enableScaling ? 'Auto-Scale ON' : 'Scaling OFF'}
+                      </span>
+                      <button
+                        type="button"
+                        role="switch"
+                        aria-checked={enableScaling}
+                        onClick={() => setEnableScaling(!enableScaling)}
+                        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                          enableScaling ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-700'
+                        }`}
+                      >
+                        <span
+                          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out ${
+                            enableScaling ? 'translate-x-5' : 'translate-x-0'
+                          }`}
+                        />
+                      </button>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowSettings(!showSettings)}
+                      className="p-1 text-muted-foreground hover:text-foreground transition-colors"
+                      title="Expand / Collapse settings"
+                    >
+                      {showSettings ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Collapsible Settings Body */}
                 {showSettings && (
                   <div className="p-5 space-y-5 border-t border-border/60 animate-in fade-in duration-200">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {/* 1. Target Page Size */}
-                      <div className="space-y-1.5">
-                        <label className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                          <Layout className="w-3.5 h-3.5 text-blue-500" />
-                          <span>Target Page Size</span>
-                        </label>
-                        <select
-                          value={pageSize}
-                          onChange={(e) => setPageSize(e.target.value as PageSizeType)}
-                          className="w-full h-10 px-3 rounded-xl bg-background border border-border text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none"
-                        >
-                          <option value="a4">A4 (210 × 297 mm) — Standard</option>
-                          <option value="letter">US Letter (8.5 × 11 in)</option>
-                          <option value="legal">US Legal (8.5 × 14 in)</option>
-                          <option value="a3">A3 (297 × 420 mm) — Large</option>
-                          <option value="a5">A5 (148 × 210 mm) — Booklet</option>
-                          <option value="fit_content">Original Native Size</option>
-                        </select>
-                      </div>
+                    {enableScaling ? (
+                      <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                          {/* 1. Target Page Size */}
+                          <div className="space-y-1.5">
+                            <label className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                              <Layout className="w-3.5 h-3.5 text-blue-500" />
+                              <span>Target Page Size</span>
+                            </label>
+                            <select
+                              value={pageSize}
+                              onChange={(e) => setPageSize(e.target.value as PageSizeType)}
+                              className="w-full h-10 px-3 rounded-xl bg-background border border-border text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none"
+                            >
+                              <option value="a4">A4 (210 × 297 mm) — Standard</option>
+                              <option value="letter">US Letter (8.5 × 11 in)</option>
+                              <option value="legal">US Legal (8.5 × 14 in)</option>
+                              <option value="a3">A3 (297 × 420 mm) — Large</option>
+                              <option value="a5">A5 (148 × 210 mm) — Booklet</option>
+                              <option value="fit_content">Original Native Size</option>
+                            </select>
+                          </div>
 
-                      {/* 2. Orientation */}
-                      <div className="space-y-1.5">
-                        <label className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                          <Compass className="w-3.5 h-3.5 text-indigo-500" />
-                          <span>Orientation</span>
-                        </label>
-                        <select
-                          value={orientation}
-                          onChange={(e) => setOrientation(e.target.value as OrientationType)}
-                          disabled={pageSize === 'fit_content'}
-                          className="w-full h-10 px-3 rounded-xl bg-background border border-border text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none disabled:opacity-50"
-                        >
-                          <option value="portrait">Portrait (Vertical A4 — Recommended Uniform)</option>
-                          <option value="auto">Auto (Match Image/Page)</option>
-                          <option value="landscape">Landscape (Horizontal)</option>
-                        </select>
-                      </div>
+                          {/* 2. Orientation */}
+                          <div className="space-y-1.5">
+                            <label className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                              <Compass className="w-3.5 h-3.5 text-indigo-500" />
+                              <span>Orientation</span>
+                            </label>
+                            <select
+                              value={orientation}
+                              onChange={(e) => setOrientation(e.target.value as OrientationType)}
+                              disabled={pageSize === 'fit_content'}
+                              className="w-full h-10 px-3 rounded-xl bg-background border border-border text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none disabled:opacity-50"
+                            >
+                              <option value="portrait">Portrait (Vertical A4 — Recommended Uniform)</option>
+                              <option value="auto">Auto (Match Image/Page)</option>
+                              <option value="landscape">Landscape (Horizontal)</option>
+                            </select>
+                          </div>
 
-                      {/* 3. Content Fit Mode */}
-                      <div className="space-y-1.5">
-                        <label className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                          <Maximize2 className="w-3.5 h-3.5 text-emerald-500" />
-                          <span>Content Scaling</span>
-                        </label>
-                        <select
-                          value={fitMode}
-                          onChange={(e) => setFitMode(e.target.value as FitModeType)}
-                          disabled={pageSize === 'fit_content'}
-                          className="w-full h-10 px-3 rounded-xl bg-background border border-border text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none disabled:opacity-50"
-                        >
-                          <option value="fit">Fit to Page (Proportional)</option>
-                          <option value="fill">Fill / Stretch Full Page</option>
-                          <option value="original">Original Size (Centered)</option>
-                        </select>
-                      </div>
+                          {/* 3. Content Fit Mode */}
+                          <div className="space-y-1.5">
+                            <label className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                              <Maximize2 className="w-3.5 h-3.5 text-emerald-500" />
+                              <span>Content Scaling</span>
+                            </label>
+                            <select
+                              value={fitMode}
+                              onChange={(e) => setFitMode(e.target.value as FitModeType)}
+                              disabled={pageSize === 'fit_content'}
+                              className="w-full h-10 px-3 rounded-xl bg-background border border-border text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none disabled:opacity-50"
+                            >
+                              <option value="fit">Fit to Page (Proportional)</option>
+                              <option value="fill">Fill / Stretch Full Page</option>
+                              <option value="original">Original Size (Centered)</option>
+                            </select>
+                          </div>
 
-                      {/* 4. Margins */}
-                      <div className="space-y-1.5">
-                        <label className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                          <Square className="w-3.5 h-3.5 text-purple-500" />
-                          <span>Page Margins</span>
-                        </label>
-                        <select
-                          value={marginSize}
-                          onChange={(e) => setMarginSize(e.target.value as MarginSizeType)}
-                          disabled={pageSize === 'fit_content' || fitMode === 'fill'}
-                          className="w-full h-10 px-3 rounded-xl bg-background border border-border text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none disabled:opacity-50"
-                        >
-                          <option value="standard">Standard (12.7 mm / 0.5 in)</option>
-                          <option value="small">Small (5 mm)</option>
-                          <option value="none">No Margin (Full Bleed)</option>
-                          <option value="large">Large (25.4 mm / 1 in)</option>
-                        </select>
-                      </div>
-                    </div>
+                          {/* 4. Margins */}
+                          <div className="space-y-1.5">
+                            <label className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                              <Square className="w-3.5 h-3.5 text-purple-500" />
+                              <span>Page Margins</span>
+                            </label>
+                            <select
+                              value={marginSize}
+                              onChange={(e) => setMarginSize(e.target.value as MarginSizeType)}
+                              disabled={pageSize === 'fit_content' || fitMode === 'fill'}
+                              className="w-full h-10 px-3 rounded-xl bg-background border border-border text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none disabled:opacity-50"
+                            >
+                              <option value="standard">Standard (12.7 mm / 0.5 in)</option>
+                              <option value="small">Small (5 mm)</option>
+                              <option value="none">No Margin (Full Bleed)</option>
+                              <option value="large">Large (25.4 mm / 1 in)</option>
+                            </select>
+                          </div>
+                        </div>
 
-                    {/* Scope Selector: Images only vs All Pages */}
-                    <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-background/60 p-3.5 rounded-xl border border-border/60">
-                      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                        <Info className="w-4 h-4 text-primary shrink-0" />
-                        <span>
-                          {applyScope === 'images_only' 
-                            ? "Standard PDFs remain 1:1; small/large images & PowerPoint slides are scaled to fit target page." 
-                            : "Every page across all PDFs, slides, and images will be resized to uniform target dimensions."}
-                        </span>
+                        {/* Scope Selector: Images only vs All Pages */}
+                        <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-background/60 p-3.5 rounded-xl border border-border/60">
+                          <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                            <Info className="w-4 h-4 text-primary shrink-0" />
+                            <span>
+                              {applyScope === 'images_only' 
+                                ? "Standard PDFs remain 1:1; small/large images & PowerPoint slides are scaled to fit target page." 
+                                : "Every page across all PDFs, slides, and images will be resized to uniform target dimensions."}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0 bg-muted/60 p-1 rounded-lg border border-border/40">
+                            <button
+                              type="button"
+                              onClick={() => setApplyScope('images_only')}
+                              className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all ${
+                                applyScope === 'images_only' 
+                                ? 'bg-background text-foreground shadow-sm' 
+                                : 'text-muted-foreground hover:text-foreground'
+                              }`}
+                            >
+                              Images &amp; Slides Only
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setApplyScope('all_pages')}
+                              className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all ${
+                                applyScope === 'all_pages' 
+                                ? 'bg-background text-foreground shadow-sm' 
+                                : 'text-muted-foreground hover:text-foreground'
+                              }`}
+                            >
+                              All Pages
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex items-center gap-3 p-4 rounded-xl bg-background/50 border border-border/60 text-xs text-muted-foreground">
+                        <Info className="w-5 h-5 text-amber-500 shrink-0" />
+                        <div>
+                          <p className="font-semibold text-foreground">Auto-scaling is disabled</p>
+                          <p>All files (PDFs, images, slides) will be merged maintaining their exact native dimensions and aspect ratios without adding margins or resizing.</p>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1.5 shrink-0 bg-muted/60 p-1 rounded-lg border border-border/40">
-                        <button
-                          type="button"
-                          onClick={() => setApplyScope('images_only')}
-                          className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all ${
-                            applyScope === 'images_only' 
-                              ? 'bg-background text-foreground shadow-sm' 
-                              : 'text-muted-foreground hover:text-foreground'
-                          }`}
-                        >
-                          Images &amp; Slides Only
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setApplyScope('all_pages')}
-                          className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all ${
-                            applyScope === 'all_pages' 
-                              ? 'bg-background text-foreground shadow-sm' 
-                              : 'text-muted-foreground hover:text-foreground'
-                          }`}
-                        >
-                          All Pages
-                        </button>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -708,7 +771,7 @@ export default function MergePdfTool() {
                     </>
                   ) : (
                     <>
-                      <span>Merge {files.length} Files into Scaled PDF</span>
+                      <span>{enableScaling ? `Merge ${files.length} Files into Scaled PDF` : `Merge ${files.length} Files into PDF`}</span>
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </>
                   )}
@@ -724,9 +787,11 @@ export default function MergePdfTool() {
           </div>
           
           <div>
-            <h3 className="text-2xl sm:text-3xl font-black mb-2 text-foreground tracking-tight">Your Scaled PDF is Ready!</h3>
+            <h3 className="text-2xl sm:text-3xl font-black mb-2 text-foreground tracking-tight">Your Merged PDF is Ready!</h3>
             <p className="text-sm text-muted-foreground max-w-md mx-auto">
-              All your PDFs, Word documents, PowerPoint slides, and images have been merged with perfectly calibrated {pageSize.toUpperCase()} page dimensions.
+              {enableScaling 
+                ? `All your documents and media have been merged with calibrated ${pageSize.toUpperCase()} page dimensions.`
+                : "All your documents and media have been merged maintaining their original native dimensions."}
             </p>
           </div>
 
