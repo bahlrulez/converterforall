@@ -3,28 +3,27 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is the Free PDF to Word Converter?",
-        content: "<p>Our PDF to Word converter is an advanced, privacy-first tool designed to extract text from your uneditable PDF files and instantly format it into a standard Microsoft Word document (.docx). While PDFs are perfect for locking in layouts and sharing finalized documents, they are notoriously frustrating when you need to edit the text, copy paragraphs, or update a resume. This tool bridges that gap by seamlessly converting rigid PDFs back into editable word processing files.</p>"
+        content: "<p>The PDF to Word converter extracts text from your PDF files and turns it into a standard Microsoft Word document (.docx). If you have a resume, contract, or report locked in PDF format that you need to edit or copy from, this tool converts the document back into an editable Word file.</p>"
       },
       {
-        title: "How does it work securely?",
-        content: "<p>The biggest problem with most PDF to Word converters is privacy. They require you to upload your sensitive contracts or resumes to their servers, where the document is parsed and returned. Our tool utilizes cutting-edge WebAssembly (powered by Mozilla's PDF.js) and the client-side docx library to process the document entirely within your web browser. The tool reads the text data, maps the paragraphs, and generates a perfect DOCX file directly on your device. Your files are never uploaded anywhere, guaranteeing absolute privacy and zero wait times for server queues.</p>"
+        title: "How does it work?",
+        content: "<p>The tool reads your PDF text directly in your web browser and structures it into a Word (.docx) document on your device. Because the text parsing happens locally on your computer or phone, your documents are not sent to external servers.</p>"
       },
       {
-        title: "Step-by-step guide to converting PDFs",
-        content: "<ol><li><strong>Upload your PDF:</strong> Drag and drop your PDF file into the upload zone, or click to browse your computer.</li><li><strong>Local Processing:</strong> Our in-browser engine immediately begins reading the PDF data and extracting the text paragraph by paragraph.</li><li><strong>Instant Generation:</strong> The text is intelligently rebuilt into a standard Word document format.</li><li><strong>Download:</strong> Click 'Download' to save your new .docx file, ready to be edited in Microsoft Word, Google Docs, or Apple Pages.</li></ol>"
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Select your PDF:</strong> Drag and drop your PDF into the box, or browse your device.</li><li><strong>Text Extraction:</strong> The browser reads and organizes the text into Word paragraphs.</li><li><strong>Download:</strong> Click download to save your new .docx file, ready to edit in Word or Google Docs.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Resume Updating:</strong> Converting an old PDF resume back into Word so you can add a new job experience without retyping the whole document.</li><li><strong>Contract Editing:</strong> Extracting the text from a signed PDF contract to use as a template for a new client agreement.</li><li><strong>Academic Research:</strong> Pulling large sections of text from research papers or eBooks to easily quote or reference in your own essays.</li><li><strong>Form Filling:</strong> Converting flat PDF forms into Word to easily type in your answers before printing or saving.</li></ul>"
+        content: "<ul><li><strong>Resumes:</strong> Updating an old PDF resume without typing everything out from scratch.</li><li><strong>Agreements &amp; Contracts:</strong> Reusing text from a finalized PDF contract for a new template.</li><li><strong>Study Material:</strong> Copying quotes and sections from PDF study guides into your notes.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is this safe for my confidential contracts?</strong><br>A: Yes! Because this tool uses a 100% client-side architecture, your PDF never leaves your device. It is never uploaded to any cloud server, making it perfectly safe for highly confidential legal or financial documents.</p>
-          <p><strong>Q: Will the Word document look exactly like the PDF?</strong><br>A: Our converter focuses heavily on high-quality <strong>text extraction</strong>. While it perfectly extracts paragraphs and text content, highly complex visual layouts (like overlapping images, multi-column magazine layouts, or intricate tables) may not translate perfectly, as PDF is a visual format and Word is a structural one.</p>
-          <p><strong>Q: Can I edit the downloaded file?</strong><br>A: Absolutely. The tool generates a standard .docx file which can be opened and fully edited in Microsoft Word, Google Docs, LibreOffice, or Apple Pages.</p>
-          <p><strong>Q: Does it work on scanned PDFs or images?</strong><br>A: This tool requires standard text-based PDFs (where you can highlight the text with your cursor). It does not perform Optical Character Recognition (OCR) on scanned images or photos of documents.</p>
-          <p><strong>Q: Does this converter cost money?</strong><br>A: No, our PDF to Word converter is completely free to use with no hidden fees, subscriptions, or watermarks.</p>
+          <p><strong>Q: Are my documents kept private?</strong><br>A: Yes. The conversion runs locally in your web browser without uploading your files to remote servers.</p>
+          <p><strong>Q: Will the Word document match the PDF layout?</strong><br>A: The tool focuses on extracting paragraphs and clean text. Complex multi-column magazine layouts or overlapping graphics may need small adjustments in Word.</p>
+          <p><strong>Q: Can I edit the downloaded file?</strong><br>A: Yes. The downloaded .docx file can be opened and edited in Microsoft Word, Google Docs, LibreOffice, and Apple Pages.</p>
+          <p><strong>Q: Does this work on scanned image PDFs?</strong><br>A: This tool is for text-based PDFs. If your PDF is a scanned photo of paper, you will need an OCR tool to read the image text.</p>
         `
       }
     ]
@@ -32,31 +31,27 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
   "jpg-to-pdf": {
     sections: [
       {
-        title: "Free JPG to PDF Converter - Convert Images to PDF Online Privately",
-        content: "<p>Welcome to the fastest and most secure online JPG to PDF converter. Whether you need to convert a single JPEG photograph, compile receipts for an expense report, or bundle multiple scanned pages into an official document, our free tool transforms your images into a standardized Portable Document Format (PDF) in seconds. Best of all, everything is 100% free, unlimited, and runs entirely on your device with zero server uploads.</p>"
+        title: "JPG to PDF Converter - Convert Images to PDF Online",
+        content: "<p>Convert JPG and JPEG photos into standard PDF documents. Whether you need to attach a photo ID to a form, combine receipts for an expense report, or save photos as a clean document, this tool packages your pictures into a PDF in seconds.</p>"
       },
       {
-        title: "How Does Our In-Browser JPG to PDF Converter Work?",
-        content: "<p>Unlike traditional online converters that upload your private pictures to external servers, our tool operates locally inside your web browser using modern WebAssembly and client-side PDF rendering technology. When you drop your JPG or JPEG files, your computer parses the image resolution and dimensions, creates a blank PDF page with optimal scaling, and embeds the image losslessly. Your sensitive photos, legal IDs, and financial records never leave your computer or phone, guaranteeing 100% privacy and lightning-fast speed.</p>"
+        title: "How does it work?",
+        content: "<p>The tool scales and embeds your image onto a standard PDF page directly inside your web browser. Because the processing occurs on your device, your personal photos stay on your computer or phone.</p>"
       },
       {
-        title: "Step-by-Step: How to Convert JPG to PDF for Free",
-        content: "<ol><li><strong>Select or Drop Your JPG:</strong> Drag and drop your JPG or JPEG image into the drop zone above, or click 'Choose File' to browse from your device.</li><li><strong>Instant Client-Side Conversion:</strong> The converter automatically reads the image dimensions and packages it into a standard PDF page.</li><li><strong>Download Your PDF:</strong> Click the 'Download Result' button to save your clean, watermark-free PDF document immediately.</li></ol>"
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Select your Image:</strong> Drag and drop your JPG into the box.</li><li><strong>Conversion:</strong> The browser creates a standard PDF page with your photo.</li><li><strong>Download:</strong> Click download to save your new PDF.</li></ol>"
       },
       {
-        title: "Practical Uses for Converting JPG to PDF",
-        content: "<ul><li><strong>Official Government & Job Applications:</strong> Uploading photo IDs, passports, driver's licenses, and utility bills to portals that strictly require PDF files.</li><li><strong>Expense & Tax Documentation:</strong> Compiling photos of receipts and paper invoices into a single printable document for tax filing.</li><li><strong>Student Homework & Assignments:</strong> Turning smartphone photos of handwritten notes or diagrams into clean PDFs for classroom submissions.</li><li><strong>Print Preparation:</strong> Ensuring photos print at precise dimensions without unexpected distortion or browser scaling errors.</li></ul>"
+        title: "Practical uses",
+        content: "<ul><li><strong>Applications &amp; Forms:</strong> Uploading photo IDs or certificates to portals that require PDF format.</li><li><strong>Receipts:</strong> Saving photos of receipts and bills into a printable document for filing.</li><li><strong>School Assignments:</strong> Turning photos of handwritten notes into a clean PDF for submission.</li></ul>"
       },
       {
         title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: Is this JPG to PDF converter really 100% free and unlimited?</strong><br>A: Yes! You can convert as many JPG images as you want with no daily limits, no subscriptions, and no hidden fees.</p>
-          <p><strong>Q: Will my photos lose quality or resolution when converted to PDF?</strong><br>A: No. Our converter performs a lossless embed, preserving the full resolution, sharpness, and color profile of your original JPG image.</p>
-          <p><strong>Q: Are my personal photos, IDs, and documents kept private?</strong><br>A: Absolutely. Processing happens entirely within your web browser's local memory. Your files are never uploaded to any remote server or stored anywhere online.</p>
-          <p><strong>Q: Can I combine multiple JPG photos and PDFs into a single file?</strong><br>A: Yes! Use our 'Merge PDF' tool available on the platform to combine multiple JPGs, PNGs, and PDFs together into one unified document.</p>
-          <p><strong>Q: Does this JPG to PDF tool work on mobile devices (iPhone and Android)?</strong><br>A: Yes. You can open ConverterForAll on Safari, Chrome, Edge, or Firefox on any smartphone or tablet, select photos from your camera roll, and convert them instantly.</p>
-          <p><strong>Q: Will there be any watermarks on the downloaded PDF?</strong><br>A: No. We never add watermarks, branding, or ads to your generated PDF documents.</p>
-          <p><strong>Q: Do I need to register an account or install any software?</strong><br>A: No registration, email, or software installation is required. Just drop your file and convert instantly.</p>
+          <p><strong>Q: Will my photo quality be preserved?</strong><br>A: Yes. The image is embedded at full resolution into the PDF page.</p>
+          <p><strong>Q: Are my photos uploaded to external servers?</strong><br>A: No. Image embedding happens locally in your web browser.</p>
+          <p><strong>Q: Can I merge multiple JPG photos into one PDF?</strong><br>A: Yes! You can use our Merge PDF tool to combine multiple images and documents together.</p>
         `
       }
     ]
@@ -64,31 +59,23 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
   "png-to-pdf": {
     sections: [
       {
-        title: "Free PNG to PDF Converter - Convert PNG Images to PDF Online",
-        content: "<p>Convert your PNG images into high-quality, universally compatible PDF documents for free. Whether you are converting digital artwork, website screenshots, logos, or scanned documents, our online PNG to PDF converter provides a quick, crisp, and completely private conversion in your web browser. No software installation, no watermarks, and no file limits.</p>"
+        title: "PNG to PDF Converter - Convert PNG Images to PDF Online",
+        content: "<p>Convert PNG graphics and screenshots into standard PDF files. Converting to PDF ensures your images maintain consistent dimensions and print cleanly across all devices.</p>"
       },
       {
-        title: "Why Convert PNG to PDF?",
-        content: "<p>PNG (Portable Network Graphics) is a fantastic image format known for lossless compression and transparency support. However, when sharing official documents, submitting resumes, or printing multi-page records, PDFs are universally preferred. Converting PNG to PDF ensures that your images are locked in exact dimensions, display consistently across every operating system, and can be printed effortlessly without resolution loss.</p>"
+        title: "How does it work?",
+        content: "<p>The tool formats your PNG image onto a standard PDF page inside your web browser without uploading your files to external servers.</p>"
       },
       {
-        title: "100% Private & Client-Side Processing",
-        content: "<p>Your privacy is our highest priority. Our PNG to PDF converter processes your files entirely on your local machine using advanced browser-native libraries. Your images are never uploaded to the cloud or saved on any third-party servers. This makes it completely safe for converting sensitive business graphics, signed contracts, medical scans, and personal documents.</p>"
-      },
-      {
-        title: "Step-by-Step Guide to Convert PNG to PDF",
-        content: "<ol><li><strong>Upload Your PNG Image:</strong> Drag and drop your PNG file into the upload box above, or choose it from your file explorer.</li><li><strong>Automatic Processing:</strong> The browser instantly builds a calibrated PDF container and losslessly embeds your PNG image.</li><li><strong>Download Your PDF:</strong> Click the download button to immediately save your clean, watermark-free PDF.</li></ol>"
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Select your PNG:</strong> Drag and drop your PNG image into the box.</li><li><strong>Conversion:</strong> The browser embeds the image onto a PDF canvas.</li><li><strong>Download:</strong> Click download to save your new PDF file.</li></ol>"
       },
       {
         title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: How do I convert a PNG to a PDF for free?</strong><br>A: Simply upload your PNG image to the converter above, and our tool will automatically generate and let you download your PDF document in seconds.</p>
-          <p><strong>Q: What happens to PNG transparent backgrounds during PDF conversion?</strong><br>A: The tool cleanly embeds the PNG with its full visual fidelity onto a crisp standard white PDF canvas, preserving all visible text, graphics, and details.</p>
-          <p><strong>Q: Will converting PNG to PDF blur or reduce image quality?</strong><br>A: No. The conversion is completely lossless, meaning every pixel, color gradient, and sharp edge from your original PNG is preserved at 100% quality.</p>
-          <p><strong>Q: Is there a limit on how many PNG files I can convert?</strong><br>A: There are no limits! You can convert as many PNG images to PDF as you need, completely free of charge.</p>
-          <p><strong>Q: Can I combine multiple PNG files and PDFs together?</strong><br>A: Yes! Use our 'Merge PDF' tool to combine multiple PNGs, JPGs, and PDFs into a single organized document.</p>
-          <p><strong>Q: Are my documents safe and secure?</strong><br>A: Yes. All conversions happen locally in your web browser. Your images never leave your device.</p>
-          <p><strong>Q: Do I need Adobe Acrobat or any external app?</strong><br>A: No third-party software or plugins are required. Everything works directly inside your browser on Windows, Mac, iOS, Android, and Linux.</p>
+          <p><strong>Q: What happens to transparent PNG backgrounds?</strong><br>A: Transparent backgrounds are placed on a clean white PDF page background so all text and elements remain clear.</p>
+          <p><strong>Q: Are my documents kept private?</strong><br>A: Yes. All conversions run locally in your web browser.</p>
+          <p><strong>Q: Does this tool add watermarks?</strong><br>A: No. Converted PDFs are clean with no watermarks.</p>
         `
       }
     ]

@@ -2,28 +2,26 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
   "presentation-maker": {
     sections: [
       {
-        title: "Free Online AI Presentation Maker – Generate PPTX Slides Instantly (100% Free)",
-        content: "<p>Turn your ideas into clean, professional PowerPoint slides in seconds. ConverterForAll’s Free Presentation Maker lets you create, edit, and download editable .pptx files directly in your web browser—100% free, no watermarks, and no sign-up required.</p>"
+        title: "Online Presentation Maker – Create PowerPoint Slides",
+        content: "<p>Turn your ideas into PowerPoint slides quickly. ConverterForAll’s Presentation Maker lets you structure, edit, and download editable .pptx slide files directly in your web browser with no watermarks or account sign-ups.</p>"
       },
       {
-        title: "Key Features – Why Choose ConverterForAll Presentation Maker?",
-        content: "<ul><li><strong>100% Free & Unlimited:</strong> Create as many slide decks as you need without hidden paywalls, subscriptions, or visual watermarks.</li><li><strong>100% Client-Side Privacy:</strong> Your sensitive presentation topics and text never leave your computer. Everything processes locally inside your browser.</li><li><strong>Instant PPTX Export:</strong> Download standard .pptx files fully compatible with Microsoft PowerPoint, Google Slides, and Apple Keynote.</li><li><strong>Custom Slide Layouts:</strong> Flexible options ranging from 2 to 12 slides per presentation with pre-built title and content structures.</li><li><strong>No Account Required:</strong> Start drafting your presentation instantly—no email address or login needed.</li></ul>"
+        title: "Key Features",
+        content: "<ul><li><strong>In-Browser Processing:</strong> Slides and notes are structured locally in your web browser.</li><li><strong>Standard PPTX Export:</strong> Download standard .pptx files compatible with Microsoft PowerPoint, Google Slides, and Apple Keynote.</li><li><strong>Custom Layouts:</strong> Select from 2 to 12 slides with pre-built title and bullet point layouts.</li><li><strong>No Account Required:</strong> Start creating your slides immediately without an email or login.</li></ul>"
       },
       {
-        title: "How to Create PPT Slides Online in 3 Easy Steps",
-        content: "<ol><li><strong>Select Number of Slides:</strong> Choose your desired slide count (from 2 up to 12 slides) using the dropdown menu.</li><li><strong>Add Titles & Content:</strong> Type or paste your slide headings, subheadings, bullet points, and main ideas directly into the intuitive editor.</li><li><strong>Download & Edit:</strong> Click Download PPTX to save your presentation file instantly. Open it in PowerPoint or Google Slides to polish and present!</li></ol>"
+        title: "How to Create PPT Slides Online",
+        content: "<ol><li><strong>Select Number of Slides:</strong> Pick how many slides you need.</li><li><strong>Add Titles &amp; Content:</strong> Type or paste your slide headings and bullet points.</li><li><strong>Download &amp; Edit:</strong> Click Download PPTX to save your presentation file. Open it in PowerPoint or Google Slides to polish and present.</li></ol>"
       },
       {
         title: "Who Is This Tool For?",
-        content: "<ul><li><strong>Students & Teachers:</strong> Quickly structure class assignments, lectures, and group project slides without paying for expensive software.</li><li><strong>Business Professionals:</strong> Draft quick team updates, sales outlines, or client pitches securely on the go.</li><li><strong>Privacy-Conscious Creators:</strong> Perfect for confidential reports and proprietary company data that must not be uploaded to cloud servers.</li></ul>"
+        content: "<ul><li><strong>Students &amp; Teachers:</strong> Quickly outline class assignments, presentations, and group project slides.</li><li><strong>Professionals:</strong> Draft meeting outlines, summaries, or talking points on the go.</li></ul>"
       },
       {
         title: "Frequently Asked Questions (FAQ)",
         content: `
-          <p><strong>Q: Is this presentation maker really 100% free?</strong><br>A: Yes. ConverterForAll provides full access to the presentation generator with no premium upgrades, mandatory credit cards, or hidden fees.</p>
-          <p><strong>Q: Is my presentation content private and safe?</strong><br>A: Yes. Unlike traditional cloud-based AI presentation tools, our generator works entirely inside your browser. No data, text, or file content is uploaded to external servers.</p>
-          <p><strong>Q: Can I open and edit the file in Microsoft PowerPoint or Google Slides?</strong><br>A: Yes. The tool exports a clean, standard .pptx file that is fully editable in Microsoft PowerPoint, Google Slides, LibreOffice Impress, or Apple Keynote.</p>
-          <p><strong>Q: Does the exported PowerPoint file contain a watermark?</strong><br>A: No. All generated .pptx files are clean, professional, and completely free of branding or logos.</p>
+          <p><strong>Q: Can I open and edit the file in Microsoft PowerPoint or Google Slides?</strong><br>A: Yes. The tool exports a standard .pptx file that can be opened and edited in PowerPoint, Google Slides, LibreOffice, and Keynote.</p>
+          <p><strong>Q: Does the presentation include watermarks?</strong><br>A: No. Downloaded .pptx files are clean with no watermarks or logos.</p>
         `
       }
     ]
@@ -293,23 +291,21 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
         </div>`
       },
       {
-        title: "3 Golden Rules for 99.9% Accuracy",
+        title: "Tips for Accurate Measurements",
         content: `<ul>
-          <li><strong>1. Same Flat Surface:</strong> Always place your reference card/coin directly next to the object on the same flat surface (never hold the card closer or further from the camera).</li>
-          <li><strong>2. Keep Your Phone Level (0° Tilt):</strong> Look at the green <strong>"Level: 0°"</strong> indicator. Holding your phone parallel to the table eliminates perspective distortion.</li>
-          <li><strong>3. Use the 2.5x Zoom Loupe:</strong> When you touch and drag on the screen, a built-in 2.5x magnifying crosshair appears in the corner so your finger never blocks the edge.</li>
+          <li><strong>1. Same Flat Surface:</strong> Place your reference card or coin right next to the object on the same flat surface.</li>
+          <li><strong>2. Keep Your Phone Level (0° Tilt):</strong> Look at the green <strong>"Level: 0°"</strong> indicator. Holding your phone parallel to the table reduces perspective distortion.</li>
+          <li><strong>3. Use the 2.5x Zoom Loupe:</strong> When you touch and drag on the screen, a 2.5x magnifying crosshair appears so your finger doesn't block the edge.</li>
         </ul>`
       },
       {
         title: "Frequently Asked Questions (FAQs)",
         content: `
           <p><strong>Q: What reference items can I use?</strong><br>A: You can use any standard Credit Card / ID (8.56 cm), A4 Paper (21.0 cm), US Letter (21.59 cm / 8.5 in), US Quarter ($0.25), 1 Euro / 2 Euro coins, UK £1 coin, Indian ₹10 coin, or enter any custom object size in centimeters.</p>
-          <p><strong>Q: What is the "Freeze Frame" button for?</strong><br>A: When holding a phone, tiny hand tremors can make drawing lines difficult. Tapping "Freeze / Snapshot Frame" captures a crystal-clear high-res still image so you can draw and fine-tune measurements without any shaking.</p>
-          <p><strong>Q: How does the Zoom Loupe Magnifier work?</strong><br>A: Whenever you touch or drag a line on mobile or desktop, a circular 2.5x magnifying lens with red crosshairs pops up in the top corner. This allows you to align the endpoints down to the single pixel.</p>
-          <p><strong>Q: Why does the phone level indicator matter?</strong><br>A: If you tilt your phone at an angle (e.g. 45°), objects further away appear artificially smaller due to perspective. Keeping your phone flat/level (green indicator) ensures true 1:1 measurement accuracy.</p>
-          <p><strong>Q: Can I measure in inches or millimeters?</strong><br>A: Yes! You can toggle between <strong>cm</strong>, <strong>mm</strong>, <strong>inch</strong>, and <strong>ft</strong> at any time with a single click.</p>
-          <p><strong>Q: Can I save or export the photo with measurements?</strong><br>A: Yes! Click the <strong>"Export Photo"</strong> button to download a high-resolution JPG of your photo stamped with all drawn lines, labels, and dimensions.</p>
-          <p><strong>Q: Are my camera images or photos uploaded to any server?</strong><br>A: Absolutely not. 100% of camera processing, image freezing, and pixel calculations run entirely locally on your device's browser. Zero images or videos ever leave your phone or computer.</p>
+          <p><strong>Q: What is the "Freeze Frame" button for?</strong><br>A: Tapping "Freeze / Snapshot Frame" captures a still image so you can draw and fine-tune measurements without camera shaking.</p>
+          <p><strong>Q: Can I measure in inches or millimeters?</strong><br>A: Yes! You can toggle between <strong>cm</strong>, <strong>mm</strong>, <strong>inch</strong>, and <strong>ft</strong> at any time.</p>
+          <p><strong>Q: Can I save or export the photo with measurements?</strong><br>A: Yes! Click the <strong>"Export Photo"</strong> button to download a JPG stamped with your drawn lines and dimensions.</p>
+          <p><strong>Q: Are my camera images uploaded to any server?</strong><br>A: No. Camera processing and pixel calculations run entirely locally in your browser.</p>
         `
       }
     ]
@@ -318,33 +314,26 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
     sections: [
       {
         title: "What is the QR Code Scanner Online?",
-        content: "<p>The QR Code Scanner Online is a fast, privacy-focused utility that allows you to instantly read and decode QR codes directly in your web browser. You can scan QR codes using your device's live camera (webcam or smartphone) or by simply uploading an image file containing a QR code.</p>"
+        content: "<p>The QR Code Scanner reads and decodes QR codes directly in your web browser. You can scan QR codes using your device's camera (webcam or smartphone) or by uploading an image containing a QR code.</p>"
       },
       {
-        title: "How does it work securely?",
-        content: "<p>Unlike many online QR scanners that upload your images to a remote server for processing, our tool utilizes a powerful, pure JavaScript decoding engine (jsQR) that runs 100% locally on your device. Whether you are using your live camera feed or uploading a static image, the pixels are analyzed directly within your browser. This guarantees that your sensitive data, personal photos, and scanned links are never transmitted over the internet, ensuring absolute privacy.</p>"
+        title: "How does it work?",
+        content: "<p>The scanner uses a client-side JavaScript engine to read the QR code pattern directly in your browser. Because processing happens on your device, your images and scanned links are not uploaded to remote servers.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Choose your method:</strong> Select whether you want to use your live camera or upload an image file.</li><li><strong>Live Camera:</strong> Grant browser permission to access your camera, then simply point your device at a QR code until it is detected.</li><li><strong>Upload Image:</strong> Drag and drop a photo or screenshot of a QR code into the upload area.</li><li><strong>View Results:</strong> The tool will instantly decode the matrix and display the text or URL on your screen, allowing you to copy it or click the link securely.</li></ol>"
+        content: "<ol><li><strong>Choose your method:</strong> Select whether to use your live camera or upload an image file.</li><li><strong>Live Camera:</strong> Point your camera at a QR code until it is detected.</li><li><strong>Upload Image:</strong> Drag and drop a photo or screenshot of a QR code into the upload area.</li><li><strong>View Results:</strong> The tool displays the decoded text or URL so you can copy it or visit the link safely.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Restaurant Menus:</strong> Safely scan digital menus without downloading potentially malicious restaurant apps.</li><li><strong>Event Tickets:</strong> Verify QR code contents on tickets or boarding passes.</li><li><strong>Wi-Fi Passwords:</strong> Read and copy complex Wi-Fi passwords encoded in QR format.</li><li><strong>Security Analysis:</strong> Safely inspect where a QR code URL leads *before* clicking it, preventing phishing attacks.</li></ul>"
+        content: "<ul><li><strong>Restaurant Menus:</strong> Scan digital menus directly in your browser.</li><li><strong>Wi-Fi Passwords:</strong> Read and copy Wi-Fi passwords encoded in QR codes.</li><li><strong>Link Verification:</strong> Inspect where a QR code URL leads before opening it.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is it safe to give camera permissions to this website?</strong><br>A: Yes. We only request camera access to feed the video stream directly to the local decoding script. The video feed never leaves your device and is instantly discarded.</p>
-          <p><strong>Q: Can I scan a QR code from a screenshot?</strong><br>A: Absolutely! Just switch to the "Upload Image" tab and select your screenshot. The tool will instantly find and decode the QR code within the image.</p>
-          <p><strong>Q: Are my uploaded images saved anywhere?</strong><br>A: No. When you "upload" an image to our tool, it is actually just loading the image into your local browser's memory for processing. It is never uploaded to our servers.</p>
-          <p><strong>Q: Why isn't the scanner recognizing my QR code?</strong><br>A: If using the camera, ensure you have good lighting and the QR code is in sharp focus. If using an image, ensure the QR code is not heavily blurred, distorted, or cropped too tightly.</p>
-          <p><strong>Q: Can it scan standard barcodes (like UPC)?</strong><br>A: Currently, this tool is highly optimized specifically for 2D QR Codes. Standard 1D linear barcodes (like those on grocery products) are not supported by this specific scanner.</p>
-          <p><strong>Q: Is this tool free to use?</strong><br>A: Yes, our QR Code Scanner is 100% free with no limits on how many codes you can scan.</p>
-          <p><strong>Q: What happens if the QR code contains a malicious link?</strong><br>A: The tool will safely display the decoded text on your screen. It will *not* automatically redirect you to the website. This gives you the opportunity to inspect the URL and decide if it is safe to visit.</p>
-          <p><strong>Q: Does this work on iPhones and Androids?</strong><br>A: Yes, the tool is fully responsive and utilizes standard HTML5 APIs, making it compatible with Safari on iOS and Chrome on Android.</p>
-          <p><strong>Q: What if the QR code contains contact info (vCard)?</strong><br>A: The tool will decode the raw vCard text and display it for you, allowing you to copy the relevant names, phone numbers, or email addresses.</p>
-          <p><strong>Q: How fast is the scanning process?</strong><br>A: Because processing happens locally on your device, decoding is virtually instantaneous—usually taking less than a few milliseconds once the code is in focus.</p>
+          <p><strong>Q: Is it safe to grant camera permission?</strong><br>A: Yes. Camera access is only used locally by your browser to decode the code. No video stream is recorded or uploaded.</p>
+          <p><strong>Q: Can I scan a QR code from a screenshot?</strong><br>A: Yes! Switch to the 'Upload Image' tab and select your screenshot.</p>
+          <p><strong>Q: Does this scanner work on smartphones?</strong><br>A: Yes, it works on Safari on iOS and Chrome on Android.</p>
         `
       }
     ]
