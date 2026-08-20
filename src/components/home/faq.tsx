@@ -19,39 +19,39 @@ export function FAQ() {
   const faqs: FAQItem[] = [
     // GENERAL & PRIVACY
     {
-      question: "Is it safe to use online converters for passport photos, Aadhaar cards, and bank documents?",
-      answer: "Yes, ConverterForAll is 100% safe because it processes your files entirely within your own web browser using local WebAssembly (WASM) and JavaScript. Unlike traditional converters that upload your personal documents to unknown remote servers, your files never leave your computer or phone. This guarantees total privacy and zero data exposure for sensitive identity cards, tax forms, and personal photographs.",
+      question: "Is it safe to use online converters for passport photos, ID cards, and documents?",
+      answer: "Yes. Supported browser tools process your files directly on your own device using WebAssembly (WASM) and JavaScript. For supported tools, your documents don't need to be uploaded to an external server, keeping sensitive identity cards, tax forms, and personal photographs on your own device.",
       category: "General & Privacy",
-      badge: "100% Private",
+      badge: "On-Device Privacy",
     },
     {
       question: "How does ConverterForAll use WebGPU and WebGL hardware acceleration?",
-      answer: "ConverterForAll utilizes the latest WebGPU and WebGL browser standards to offload heavy computational tasks directly to your graphics card (GPU). For tasks like AI background removal and video sequence extraction, this delivers up to 10x faster processing speeds, keeps your CPU cool, and eliminates waiting in queues.",
+      answer: "ConverterForAll uses modern browser standards (like WebGPU and WebGL) to run tasks like AI background removal and image processing directly on your device without server wait queues.",
       category: "General & Privacy",
       badge: "WebGPU / WebGL",
     },
     {
       question: "What happens if my phone or browser does not support WebGPU?",
-      answer: "ConverterForAll features an intelligent zero-error automatic fallback pipeline. If your device or browser does not support WebGPU, the application automatically and seamlessly switches to hardware-accelerated WebGL or multi-threaded CPU WebAssembly (WASM SIMD) with zero interruption or errors.",
+      answer: "If your browser or device doesn't support WebGPU, the tool automatically switches to standard WebGL or CPU processing so the conversion continues smoothly without errors.",
       category: "General & Privacy",
-      badge: "Smart Fallback",
+      badge: "Automatic Fallback",
     },
     {
-      question: "Why is ConverterForAll completely free with no file size limits or watermarks?",
-      answer: "Traditional converter websites pay hefty fees for cloud servers and bandwidth to host your files, forcing them to charge monthly subscriptions or enforce strict 10MB limits. Because ConverterForAll uses your device's native hardware processor to convert files locally, we don't have server hosting costs—allowing us to provide completely free, unlimited, and watermark-free conversions forever.",
+      question: "Why is ConverterForAll free with no daily limits on supported tools?",
+      answer: "Because supported tools process files locally on your own computer or phone, we don't carry heavy server hosting costs for those tasks. That allows us to keep everyday file utilities free, without daily task limits or watermarks.",
       category: "General & Privacy",
       badge: "No Limits",
     },
     {
-      question: "How does in-browser client-side WebAssembly conversion work without uploading files?",
-      answer: "When you open ConverterForAll, your web browser downloads lightweight client-side scripts. When you drop a file, your device's CPU and GPU execute the conversion algorithms directly inside your browser's secure sandbox. No cloud servers are involved, ensuring instant execution and complete data confidentiality.",
+      question: "How does in-browser WebAssembly conversion work without uploading files?",
+      answer: "When you open a supported tool, your browser loads the necessary code. When you choose a file, your own device processes it locally. For supported tools, no remote server upload is required.",
       category: "General & Privacy",
     },
 
     // FONTS & GOVT EXAMS
     {
-      question: "How do I convert Kruti Dev 010 to Unicode (Mangal Font) for CPCT, SSC, High Court, and government typing exams?",
-      answer: "You can convert Kruti Dev to Unicode instantly by using our free Kruti Dev to Unicode Converter. Simply paste your Kruti Dev (or DevLys / Chanakya) text, and our engine will accurately translate it into Microsoft Mangal Unicode font with 100% correct Matras, conjuncts, and halants—fully compliant with CPCT, SSC CGL, Allahabad High Court, MP Patwari, and state government typing tests.",
+      question: "How do I convert Kruti Dev 010 to Unicode (Mangal Font) for CPCT, SSC, and government exams?",
+      answer: "Paste your Kruti Dev (or DevLys / Chanakya) text into our Kruti Dev to Unicode converter. It translates the legacy characters into standard Mangal Unicode font with proper matra and conjunct placement, suitable for CPCT, SSC, and official government typing tests.",
       category: "Fonts & Exams",
       badge: "CPCT / SSC Ready",
     },
@@ -63,7 +63,7 @@ export function FAQ() {
     },
     {
       question: "How to convert Punjabi AnmolLipi and Satluj fonts to standard Gurmukhi Unicode?",
-      answer: "Use our dedicated AnmolLipi to Unicode Converter or Satluj to Unicode Converter. Our engine preserves all Gurmukhi Tipli, Bindi, Adhak, Pairin Rara, and Pairin Haha characters so your Punjabi documents, poetry, and court records can be shared seamlessly across Android, iPhone, and Windows.",
+      answer: "Use our AnmolLipi to Unicode Converter or Satluj to Unicode Converter. It properly converts Gurmukhi Tipli, Bindi, Adhak, Pairin Rara, and Pairin Haha characters so your Punjabi text displays cleanly on Android, iPhone, and Windows.",
       category: "Fonts & Exams",
       badge: "Gurmukhi Unicode",
     },
@@ -88,28 +88,28 @@ export function FAQ() {
 
     // PDF & DOCUMENTS
     {
-      question: "How can I convert PDF to Word document without losing formatting, tables, or fonts?",
-      answer: "Our PDF to Word Converter extracts text, headings, layout grids, and embedded images, reconstructing them into an editable Microsoft Word (.docx) document right in your browser. This preserves your formatting while keeping your document completely confidential.",
+      question: "How can I convert PDF to Word document without losing formatting?",
+      answer: "Our PDF to Word Converter extracts text, headings, and images to generate an editable Microsoft Word (.docx) file while keeping your document layout as close to the original as possible.",
       category: "PDF & Documents",
       badge: "Editable DOCX",
     },
     {
       question: "How to compress large PDF files from 50MB to under 200KB for government job portals?",
-      answer: "Job portals (like UPSC, SSC, IBPS, and State PSCs) frequently restrict document uploads to under 200KB or 500KB. Use our free Compress PDF tool to optimize vector graphics, resample images, and strip redundant metadata while maintaining crystal clear readability for signatures and certificates.",
+      answer: "Job portals (like UPSC, SSC, IBPS, and State PSCs) frequently restrict document uploads to under 200KB or 500KB. Use our free Compress PDF tool to optimize vector graphics, resample images, and strip redundant metadata while maintaining clear readability for signatures and certificates.",
       category: "PDF & Documents",
       badge: "Job Portal Ready",
     },
     {
-      question: "Can I merge multiple PDFs, JPGs, and PNG images into a single PDF document?",
-      answer: "Yes! Our Merge PDF tool allows you to combine PDF files, JPG photos, and PNG graphics into a single unified PDF file. You can drag and drop to reorder pages and download the combined document instantly with zero size restrictions.",
+      question: "Can I merge multiple PDFs, Word documents, and images into a single PDF?",
+      answer: "Yes! Our Merge PDF tool allows you to combine PDF files, Word (.docx), PowerPoint (.pptx), and images (JPG/PNG) into a single unified PDF file. You can drag and drop to reorder pages with optional auto-scaling to uniform Portrait A4 pages.",
       category: "PDF & Documents",
       badge: "Multi-Format Merge",
     },
 
     // IMAGE & MEDIA
     {
-      question: "How can I remove an image background for free with AI without losing photo quality?",
-      answer: "Our AI Background Remover uses an advanced in-browser deep learning model to separate foreground subjects (people, products, pets, cars) with pixel-perfect edge detection. It outputs a crisp, transparent PNG file directly on your device with no upload wait times.",
+      question: "How can I remove an image background for free without losing photo quality?",
+      answer: "Our Background Remover runs directly in your browser to separate people, products, or pets from the background and save a transparent PNG directly to your device without server upload wait times.",
       category: "Image & Media",
       badge: "AI Powered",
     },
@@ -120,10 +120,10 @@ export function FAQ() {
       badge: "Passport & Visa",
     },
     {
-      question: "Can I extract high-quality MP3 audio from MP4 video files directly in my browser?",
-      answer: "Yes, our MP4 to MP3 Converter strips audio tracks from MP4, MOV, MKV, and WebM video files and converts them into high-bitrate MP3 audio without uploading large video files to the internet.",
+      question: "Can I extract MP3 audio from MP4 video files directly in my browser?",
+      answer: "Yes, our MP4 to MP3 Converter strips audio tracks from MP4, MOV, MKV, and WebM video files and converts them into standard MP3 audio without uploading large video files to the internet.",
       category: "Image & Media",
-      badge: "High-Bitrate Audio",
+      badge: "Audio Extract",
     },
   ];
 

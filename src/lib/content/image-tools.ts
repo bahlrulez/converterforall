@@ -19,21 +19,20 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Graphic Design:</strong> Converting downloaded web assets into a format compatible with Adobe Creative Suite and other professional design tools.</li><li><strong>Website Building:</strong> Standardizing image formats for uploading to older Content Management Systems (CMS) that reject WEBP uploads.</li><li><strong>Archiving:</strong> Saving images in a widely recognized legacy format to guarantee they can be opened decades from now.</li><li><strong>Social Media:</strong> Ensuring seamless image uploads to social platforms or forums that have strictly whitelisted JPG and PNG extensions.</li></ul>"
+        content: "<ul><li><strong>Graphic Design:</strong> Converting downloaded web assets into a format compatible with Adobe Creative Suite and other design tools.</li><li><strong>Website Building:</strong> Standardizing image formats for uploading to older Content Management Systems (CMS) that reject WEBP uploads.</li><li><strong>Archiving:</strong> Saving images in a widely recognized format to ensure they can be opened on any device.</li><li><strong>Social Media:</strong> Converting images for platforms or forums that only accept JPG and PNG files.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is my data safe when using this background remover?</strong><br>A: Absolutely. All processing happens locally in your web browser. Your images are never uploaded to our servers.</p>
-          <p><strong>Q: How does this tool utilize WebGPU and WebGL hardware acceleration?</strong><br>A: Our background removal AI runs directly on your device's graphics card (GPU) using next-generation WebGPU and WebGL standards. This parallel tensor processing allows the AI to isolate foreground subjects in just 0.8 to 2 seconds—up to 10x faster than CPU-only converters.</p>
-          <p><strong>Q: What happens if my browser or smartphone does not support WebGPU?</strong><br>A: Our engine has a built-in zero-error fallback pipeline. If your device doesn't support WebGPU, it automatically switches to multi-threaded CPU WebAssembly (WASM SIMD) so the tool continues working flawlessly.</p>
-          <p><strong>Q: What is the maximum file size I can upload?</strong><br>A: Since processing is local, the file size is only limited by your device's available memory. However, we recommend images under 20MB for optimal performance.</p>
-          <p><strong>Q: Why is the output always a PNG?</strong><br>A: PNG is the standard web format that supports an alpha channel (transparency). If we outputted a JPG, the transparent areas would automatically be filled with white.</p>
-          <p><strong>Q: Do I need to install any software to convert WEBP to PNG?</strong><br>A: No software installation is required. This tool runs 100% in your web browser (Chrome, Firefox, Safari, Edge).</p>
-          <p><strong>Q: Is there a file size limit for uploading WEBP images?</strong><br>A: Because the conversion happens locally on your device, the only limit is your device's available memory (RAM). There are no strict server-side upload limits.</p>
-          <p><strong>Q: Can I use this WEBP to PNG converter on my smartphone?</strong><br>A: Yes! The tool is fully responsive and works perfectly on mobile browsers for both iOS and Android devices.</p>
-          <p><strong>Q: Why do some websites use WEBP instead of PNG?</strong><br>A: WEBP provides superior compression, allowing websites to load faster and use less bandwidth while maintaining high image quality.</p>
-          <p><strong>Q: How long does it take to convert a WEBP to PNG?</strong><br>A: Because the conversion happens locally without requiring an internet upload, it is typically instantaneous—often taking less than a second.</p>
+          <p><strong>Q: Is my data safe when using this background remover?</strong><br>A: Yes. Processing happens locally in your web browser. Your images are not uploaded to our servers.</p>
+          <p><strong>Q: How does this tool utilize WebGPU and WebGL hardware acceleration?</strong><br>A: Our background removal tool can utilize your device's graphics processor (GPU) using standard WebGPU and WebGL APIs for fast, responsive edge detection.</p>
+          <p><strong>Q: What happens if my browser or smartphone does not support WebGPU?</strong><br>A: The tool automatically falls back to standard WebGL or CPU WebAssembly processing so the conversion runs smoothly without errors.</p>
+          <p><strong>Q: What is the maximum file size I can upload?</strong><br>A: Since processing is local, the file size is only limited by your device's available memory. Images under 20MB are recommended for the best performance.</p>
+          <p><strong>Q: Why is the output always a PNG?</strong><br>A: PNG supports transparency (an alpha channel). If saved as a JPG, transparent background areas would automatically be filled with solid white.</p>
+          <p><strong>Q: Do I need to install any software to convert WEBP to PNG?</strong><br>A: No software installation is required. This tool runs directly in your web browser (Chrome, Firefox, Safari, Edge).</p>
+          <p><strong>Q: Is there a file size limit for uploading WEBP images?</strong><br>A: Because conversion happens locally on your device, there are no strict server-side upload limits.</p>
+          <p><strong>Q: Can I use this WEBP to PNG converter on my smartphone?</strong><br>A: Yes. The tool works on mobile browsers on both iOS and Android.</p>
+          <p><strong>Q: Why do some websites use WEBP instead of PNG?</strong><br>A: WEBP provides efficient compression, helping websites load faster while maintaining good visual quality.</p>
         `
       }
     ]
@@ -42,37 +41,31 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is this converter?",
-        content: "<p>The JPG to PNG converter is a robust, client-side utility that transforms your standard Joint Photographic Experts Group (JPG/JPEG) photos into the Portable Network Graphics (PNG) format. While JPG is the world's most popular image format for digital photography due to its efficient lossy compression, it has a major limitation: it does not support transparency. PNG, on the other hand, is a lossless format that fully supports alpha channels (transparency). Converting a JPG to a PNG is often the essential first step when you intend to edit a photograph to remove its background, overlay it onto other designs, or preserve its exact current state without further generational degradation.</p>"
+        content: "<p>The JPG to PNG converter transforms standard JPEG photos into the Portable Network Graphics (PNG) format. While JPG is popular for digital photography due to its small file size, it does not support transparent backgrounds. PNG is a lossless format that supports transparency. Converting a JPG to a PNG is often the first step when preparing an image for background removal or graphic design overlays.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>Our JPG to PNG tool utilizes the native image processing capabilities of your modern web browser. When you add a JPG file to the conversion queue, the browser decodes the compressed image data into raw, uncompressed pixels using the HTML5 Canvas API. It then losslessly re-encodes this raw pixel map into the PNG format. Because this operation happens entirely locally within your device's memory (RAM), it is completely secure. Your private photographs are never uploaded to the cloud, ensuring your data remains yours while providing instant conversion speeds.</p>"
+        content: "<p>Our JPG to PNG tool uses your browser's native image decoding to read the JPG data into uncompressed pixels, then encodes the image into the PNG format. Because this happens locally within your browser's memory, your photos are not sent to external servers.</p>"
       },
       {
         title: "Examples",
-        content: "<p>Consider a scenario where you are designing a digital marketing banner. You have a high-quality JPG photograph of a product. If you edit the JPG directly and save it multiple times, the lossy compression will slowly degrade the image quality (a phenomenon known as generation loss). By first converting the JPG to a lossless PNG using our tool, you create a stable 'master' file. You can then safely remove the background and save the file with perfect transparency, ensuring the product looks crisp and professional when placed against the colored backdrop of your banner.</p>"
+        content: "<p>Imagine you have a product photo in JPG format and want to remove its background for an online store banner. Converting the JPG to a PNG creates a format that supports transparent layers, so you can cleanly place the product against different colored backgrounds.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your JPG:</strong> Drag and drop the JPG or JPEG file into the upload area, or browse your local files to select it.</li><li><strong>Instant Processing:</strong> The browser immediately decodes your image. Since there are no server queues or upload times, this happens almost instantaneously.</li><li><strong>Save the PNG:</strong> Click the 'Download' button to save the newly generated, lossless PNG file directly to your computer or mobile device.</li></ol>"
+        content: "<ol><li><strong>Select your JPG:</strong> Drag and drop your image into the box or browse your local files.</li><li><strong>Conversion:</strong> The browser reads and encodes your image directly.</li><li><strong>Save:</strong> Click download to save your new PNG file to your computer or phone.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Photo Editing:</strong> Creating a lossless master copy of a photograph before making extensive edits to prevent compression artifacts.</li><li><strong>Design Preparation:</strong> Converting an image to a format that supports an alpha channel in preparation for background removal.</li><li><strong>Digital Art:</strong> Ensuring that flat graphics, screenshots, or line art originally saved as JPGs do not suffer further degradation when shared.</li><li><strong>App Development:</strong> Standardizing assets for mobile applications that require PNG files for UI elements.</li></ul>"
+        content: "<ul><li><strong>Photo Editing:</strong> Creating a lossless copy of an image before making edits.</li><li><strong>Design Preparation:</strong> Converting an image to support transparency before background removal.</li><li><strong>App Development:</strong> Preparing assets for applications that require PNG format for UI icons.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will converting a JPG to a PNG magically add transparency?</strong><br>A: No. Converting the format simply enables the file to <em>support</em> transparency. You will still need to use a background removal tool or photo editor to actually make parts of the image transparent.</p>
-          <p><strong>Q: Why did my file size get so much bigger after converting JPG to PNG?</strong><br>A: JPG uses lossy compression to keep file sizes very small. PNG uses lossless compression, which retains exact pixel data. Because photographs contain millions of unique colors, saving them as lossless PNGs results in significantly larger files.</p>
-          <p><strong>Q: Can I batch convert multiple JPG files to PNG?</strong><br>A: Currently, our tool processes one file at a time to ensure maximum stability and zero browser crashing on lower-end devices.</p>
-          <p><strong>Q: Does converting to PNG improve the visual quality of my JPG?</strong><br>A: No. Converting to PNG will freeze the current quality and prevent future degradation, but it cannot magically restore lost detail or remove existing JPG compression artifacts.</p>
-          <p><strong>Q: Is this JPG to PNG converter safe for private photos?</strong><br>A: 100% safe. The conversion process happens entirely within your web browser. Your photos are never uploaded or stored on external servers.</p>
-          <p><strong>Q: Can I use this tool offline?</strong><br>A: Once the web page is loaded in your browser, the conversion mechanism functions locally, which means it technically does not require an active internet connection to process the file.</p>
-          <p><strong>Q: What is the difference between JPG and JPEG?</strong><br>A: There is no difference in the image format itself. ".jpg" and ".jpeg" are simply two different file extensions for the exact same Joint Photographic Experts Group format.</p>
-          <p><strong>Q: Are PNG files better for printing than JPG files?</strong><br>A: For standard photographs, JPG is usually fine. However, if your image contains sharp lines, text, or vector graphics, the lossless nature of PNG often prints with crisper edges.</p>
-          <p><strong>Q: Do PNG files support EXIF data (camera metadata)?</strong><br>A: While PNG can technically store some metadata, standard conversion usually strips out complex EXIF data (like GPS locations) that are natively embedded in JPGs from digital cameras.</p>
-          <p><strong>Q: Is PNG supported by all web browsers?</strong><br>A: Yes, PNG is a universal image standard supported by virtually every web browser, operating system, and image viewing software in existence.</p>
+          <p><strong>Q: Will converting a JPG to a PNG automatically make the background transparent?</strong><br>A: No. Converting to PNG allows the file to <em>support</em> transparency, but you will still need to use our Background Remover or a photo editor to remove the background.</p>
+          <p><strong>Q: Why is the PNG file larger than the original JPG?</strong><br>A: JPG uses lossy compression to minimize file size, while PNG uses lossless compression to preserve full pixel detail, resulting in larger file sizes for complex photos.</p>
+          <p><strong>Q: Is this JPG to PNG converter private?</strong><br>A: Yes. The conversion happens entirely within your web browser on your own device.</p>
+          <p><strong>Q: What is the difference between JPG and JPEG?</strong><br>A: There is no functional difference. '.jpg' and '.jpeg' are two file extensions for the exact same image format.</p>
         `
       }
     ]
@@ -81,37 +74,31 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is this converter?",
-        content: "<p>The PNG to JPG converter is an essential optimization tool designed to reduce the file size of your images by converting them from the lossless Portable Network Graphics (PNG) format into the highly compressed Joint Photographic Experts Group (JPG/JPEG) format. PNGs are fantastic for digital art, logos, and images requiring transparency, but they can produce massive file sizes when used for complex photographs. By converting these hefty PNG files into JPGs, you can drastically reduce their footprint, making them perfect for fast web loading, emailing, or saving hard drive space.</p>"
+        content: "<p>The PNG to JPG converter reduces image file sizes by converting lossless PNG images into compressed JPG/JPEG format. While PNGs are great for graphics and transparent logos, they can create large file sizes for photographs. Converting heavy PNGs to JPGs makes them much lighter for websites, emails, and online applications.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>When you provide a PNG file, our tool reads the image data locally via your browser's HTML5 Canvas rendering engine. Because the JPG format does not support transparency (alpha channels), any transparent pixels in your original PNG are automatically flattened against a solid white background (or another default color). The browser then applies a standard DCT (Discrete Cosine Transform) compression algorithm to encode the image into the JPG format. This entire process happens locally on your device, guaranteeing absolute privacy and blazing-fast performance without relying on external servers.</p>"
+        content: "<p>When you select a PNG, our tool renders the image locally in your browser. Because JPG format does not support transparency, any transparent areas are filled with a solid white background before compressing the image to a standard JPG file.</p>"
       },
       {
         title: "Examples",
-        content: "<p>Imagine you took a high-resolution screenshot on your Mac or edited a complex photograph in Photoshop, exporting it as a 15MB PNG file. If you try to upload this image to a real estate listing website, a social media platform, or simply email it to a colleague, you might hit strict file size limits. By dropping the PNG into our converter, you can instantly transform it into a 2MB JPG. The visual difference is practically unnoticeable to the human eye, but the file size is reduced by 85%, allowing for a smooth, immediate upload.</p>"
+        content: "<p>If you take a high-resolution screenshot on a Mac, it often saves as a 10MB PNG file. Uploading that heavy file to a portal or email can be slow. Running it through our converter creates a lightweight JPG under 1MB with practically identical visual clarity.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload the PNG:</strong> Click the upload box or drag and drop your hefty PNG file into the designated area.</li><li><strong>Automatic Conversion:</strong> The tool will instantly flatten any transparency and compress the image data into the JPG format using your device's local processing power.</li><li><strong>Download your Image:</strong> Once the 'Success' indicator appears, click the download button to save your newly optimized, lightweight JPG file.</li></ol>"
+        content: "<ol><li><strong>Select your PNG:</strong> Drag and drop your file into the box.</li><li><strong>Automatic Conversion:</strong> The tool flattens transparency and compresses the image to JPG locally.</li><li><strong>Download:</strong> Click download to save your new lightweight JPG file.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Web Optimization:</strong> Dramatically decreasing page load times for blogs and websites by serving compressed JPGs instead of heavy PNGs.</li><li><strong>Overcoming Upload Limits:</strong> Shrinking image file sizes to bypass strict constraints on forums, government portals, and email attachments.</li><li><strong>Storage Management:</strong> Archiving massive libraries of digital screenshots or exported graphics in a fraction of the disk space.</li><li><strong>Format Standardization:</strong> Converting digital graphics into a universally accepted format for printing at standard photo kiosks.</li></ul>"
+        content: "<ul><li><strong>Web Optimization:</strong> Speeding up website loading times by serving compact JPGs.</li><li><strong>Upload Limits:</strong> Shrinking file sizes to meet upload limits on government and job portals.</li><li><strong>Saving Storage:</strong> Freeing up disk space by converting large screenshot libraries to JPG.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: What happens to the transparent parts of my PNG when converting to JPG?</strong><br>A: Because the JPG format mathematically cannot support transparency, any transparent areas in your PNG will automatically be filled with a solid white background during the conversion process.</p>
-          <p><strong>Q: Will I lose image quality when converting PNG to JPG?</strong><br>A: JPG uses lossy compression, meaning some data is discarded to reduce file size. However, for photographs and complex images, this loss is usually imperceptible. For flat graphics with sharp text, you might notice minor artifacting.</p>
-          <p><strong>Q: Is it safe to convert private photos?</strong><br>A: Yes. 100% of the conversion process occurs locally in your browser. Your photos are completely secure and are never uploaded to the internet.</p>
-          <p><strong>Q: How much smaller will the JPG file be compared to the PNG?</strong><br>A: The file size reduction can be massive, often between 50% and 90% depending on how complex the colors and details are in the original PNG image.</p>
-          <p><strong>Q: Can I reverse the process to restore my original PNG?</strong><br>A: Once you convert to a JPG, the compression is permanent. Converting the JPG back to a PNG will not restore the lost detail or transparency.</p>
-          <p><strong>Q: Why do screenshots save as PNG on Mac but JPG on some PCs?</strong><br>A: MacOS defaults to saving screenshots as lossless PNGs to capture crisp interface text. Windows often defaults to JPG to save space. Our tool lets you bridge that gap effortlessly.</p>
-          <p><strong>Q: Is there any cost to use this PNG to JPG converter?</strong><br>A: No, our converter is completely free to use without any hidden fees or watermarks.</p>
-          <p><strong>Q: Does this tool work on mobile devices?</strong><br>A: Absolutely. It runs flawlessly on Safari for iOS and Chrome for Android, allowing you to optimize photos on the go.</p>
-          <p><strong>Q: Are JPG and JPEG the same thing?</strong><br>A: Yes. They are exactly the same format. The three-letter '.jpg' extension exists due to character limits on older Windows operating systems.</p>
-          <p><strong>Q: Why does my text look slightly blurry in the new JPG?</strong><br>A: The JPG compression algorithm is designed for smooth gradients in photographs, not sharp contrasting lines like text. This can cause minor edge blurring, known as compression artifacts.</p>
+          <p><strong>Q: What happens to transparent areas when converting PNG to JPG?</strong><br>A: Because the JPG format does not support transparency, transparent areas are filled with a solid white background.</p>
+          <p><strong>Q: Will I lose visual quality when converting to JPG?</strong><br>A: For most photos and screenshots, the difference is practically unnoticeable while reducing file size by 70% to 90%.</p>
+          <p><strong>Q: Is it safe to convert private photos?</strong><br>A: Yes. The conversion occurs locally in your browser without uploading to external servers.</p>
+          <p><strong>Q: Does this tool work on mobile phones?</strong><br>A: Yes. It works smoothly in Safari on iOS and Chrome on Android.</p>
         `
       }
     ]
@@ -120,37 +107,30 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is this converter?",
-        content: "<p>The AVIF to JPEG converter is a specialized compatibility tool that bridges the gap between next-generation image technology and universal legacy support. AVIF (AV1 Image File Format) is an incredible, ultra-modern image format that offers staggering compression efficiency—often beating both WEBP and JPEG by a wide margin while retaining higher quality. However, because it is so new, many older operating systems, desktop applications, and legacy content management systems cannot view or process AVIF files. This tool solves that problem by instantly converting your state-of-the-art AVIF images back into the universally recognized standard JPEG format.</p>"
+        content: "<p>The AVIF to JPEG converter turns modern AVIF images into standard JPEG format. AVIF is a newer image format with great compression efficiency, but some older programs, devices, and websites cannot open it yet. This tool converts your AVIF files into standard JPEGs so you can use them anywhere.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>Our converter leverages the latest web technologies to perform this complex format translation entirely on your device. When you upload an AVIF file, your modern browser uses its native decoding capabilities to unpack the highly compressed AV1 video keyframe (which is what an AVIF essentially is) into raw, uncompressed pixels onto an invisible HTML5 Canvas. From there, the browser re-encodes those pixels using the standard JPEG compression algorithm. Because all decoding and encoding are handled by your local machine, the process is incredibly secure and requires no server-side processing.</p>"
+        content: "<p>Your browser decodes the AVIF file locally and re-encodes the image into the standard JPEG format. Because decoding and encoding happen on your local device, no files are uploaded to a remote server.</p>"
       },
       {
         title: "Examples",
-        content: "<p>Suppose you are browsing the web on a brand-new smartphone and download a stunning, high-resolution photograph. Because the website is highly optimized, it serves you the image as an AVIF file. Later, you try to insert this photograph into a Microsoft Word document on your office computer, but Word refuses to recognize the file format. By quickly dropping the AVIF file into our converter, you generate a standard JPEG that slips seamlessly into Word, PowerPoint, or any other software in existence.</p>"
+        content: "<p>If you download an image from a modern website saved as an AVIF file, you might find that older versions of Word or Photoshop refuse to open it. Converting it to a standard JPEG allows you to insert it into documents and share it without compatibility issues.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Import the AVIF:</strong> Drag your AVIF file onto the page or use the file picker.</li><li><strong>Local Decoding:</strong> Your browser will read the complex AVIF structure and render the pixels locally.</li><li><strong>Instant Encoding:</strong> The raw image data is immediately compressed into the widely compatible JPEG format.</li><li><strong>Save:</strong> Click download to grab your new JPEG file, ready for use in any application.</li></ol>"
+        content: "<ol><li><strong>Select your AVIF:</strong> Drag and drop your file into the box.</li><li><strong>Local Conversion:</strong> Your browser decodes and converts the image.</li><li><strong>Download:</strong> Click download to save your new JPEG file.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Software Compatibility:</strong> Making downloaded web assets usable in older versions of Photoshop, Microsoft Office, and legacy video editors.</li><li><strong>Social Media Sharing:</strong> Converting next-gen formats into standard JPEGs to ensure they are accepted by platforms like Instagram, Twitter, and Facebook.</li><li><strong>Printing:</strong> Preparing images for commercial print shops or local photo kiosks that only accept standard JPG files.</li><li><strong>Client Delivery:</strong> Ensuring that clients using older hardware or operating systems can view the image galleries you send them.</li></ul>"
+        content: "<ul><li><strong>Software Compatibility:</strong> Making web assets usable in older versions of Word, PowerPoint, and photo editors.</li><li><strong>Social Media Sharing:</strong> Converting AVIF files into standard JPEGs for platforms that do not yet support AVIF.</li><li><strong>Printing:</strong> Preparing images for photo print kiosks that require standard JPG files.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Why would I convert from AVIF to JPEG?</strong><br>A: Purely for compatibility. AVIF is vastly superior in efficiency, but if the software or platform you need to use doesn't support it yet, converting to JPEG is the only way to utilize the image.</p>
-          <p><strong>Q: Will the file size increase when converting AVIF to JPEG?</strong><br>A: Yes, it is highly likely. AVIF is significantly more efficient than JPEG. When you convert back to the older standard, the file size will expand because JPEG requires more data to represent the same visual quality.</p>
-          <p><strong>Q: Do I need to install plugins to convert AVIF files?</strong><br>A: No. As long as you are using a modern, updated web browser (like Chrome, Firefox, or Edge) that supports AVIF decoding, the tool will work natively without plugins.</p>
-          <p><strong>Q: Does AVIF support transparency, and what happens to it in JPEG?</strong><br>A: Yes, AVIF supports transparency. However, because JPEG does not, any transparent background in your AVIF will be filled with solid white during the conversion.</p>
-          <p><strong>Q: Is this AVIF converter private?</strong><br>A: Completely private. The AVIF image is decoded and encoded entirely within your browser's local memory. We do not store or transmit your photos.</p>
-          <p><strong>Q: Why did my smartphone save my photo as an AVIF?</strong><br>A: Many modern smartphones and operating systems are adopting AVIF as the default format to save massive amounts of storage space without sacrificing camera quality.</p>
-          <p><strong>Q: Can I use this tool on a Mac?</strong><br>A: Yes, this web-based converter works on macOS, Windows, Linux, and all mobile operating systems.</p>
-          <p><strong>Q: What does AVIF stand for?</strong><br>A: It stands for AV1 Image File Format, which is based on the highly efficient AV1 open-source video codec.</p>
-          <p><strong>Q: How long does the AVIF conversion take?</strong><br>A: Because the process relies on your device's local CPU, it usually takes only a fraction of a second, with no wait times for server uploading.</p>
-          <p><strong>Q: Is there any cost associated with this tool?</strong><br>A: No, our AVIF to JPEG converter is 100% free with no usage limits.</p>
+          <p><strong>Q: Why would I convert AVIF to JPEG?</strong><br>A: For compatibility with older software, photo editors, or websites that do not yet support AVIF files.</p>
+          <p><strong>Q: Does AVIF support transparency?</strong><br>A: Yes, but because JPEG does not support transparency, transparent areas are filled with white during conversion.</p>
+          <p><strong>Q: Is this AVIF converter private?</strong><br>A: Yes. The file is processed locally in your browser's memory without external server uploads.</p>
         `
       }
     ]
@@ -159,23 +139,23 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is this converter?",
-        content: "<p>The AVIF to PNG converter is an advanced utility designed to transform next-generation AVIF images into the highly compatible, lossless Portable Network Graphics (PNG) format. AVIF is an incredibly efficient image format that supports advanced features like high dynamic range (HDR) and alpha channel transparency while keeping file sizes minuscule. However, due to its recent introduction, many graphic design tools and older websites cannot process it. By converting an AVIF file to a PNG, you perfectly preserve the image's exact quality and any transparent backgrounds, making it instantly editable and widely supported.</p>"
+        content: "<p>The AVIF to PNG converter transforms modern AVIF images into standard PNG format while preserving transparent backgrounds. This makes transparent web assets usable in graphic design tools and older software that cannot yet open AVIF files.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>This tool utilizes your browser's cutting-edge native decoding capabilities to process the file locally. When an AVIF is selected, the browser unpacks the AV1-encoded data stream into a raw pixel matrix on an HTML5 Canvas, perfectly maintaining the alpha channel data (transparency). It then utilizes standard browser APIs to losslessly re-encode this raw data into the ubiquitous PNG format. This local, client-side approach ensures that your sensitive images are never transmitted over the internet, guaranteeing total privacy and immediate conversion times.</p>"
+        content: "<p>Your browser decodes the AVIF image and encodes it into the standard PNG format, maintaining transparency and full image detail without sending files to external servers.</p>"
       },
       {
         title: "Examples",
-        content: "<p>Imagine you download a beautiful, transparent 3D render from a modern stock asset website, and it arrives as an AVIF file. When you attempt to drag it into Adobe Premiere or an older version of Figma to use as an overlay, the software rejects the file format. By routing the asset through our AVIF to PNG converter, you instantly obtain an identical, transparent image in the PNG format. You can now seamlessly overlay the graphic onto your video timeline or design canvas without losing any visual fidelity.</p>"
+        content: "<p>If you download a transparent graphic in AVIF format and your video editor or design program rejects it, converting it to PNG gives you a compatible file with its transparent background intact.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Provide the AVIF:</strong> Click the dropzone to browse your device, or drag and drop your AVIF file directly onto the page.</li><li><strong>Local Conversion:</strong> The application uses your device's RAM and CPU to decode the AVIF and flawlessly re-encode it as a PNG, preserving transparency.</li><li><strong>Download:</strong> Once the success indicator appears, simply click the download button to save your pristine PNG file.</li></ol>"
+        content: "<ol><li><strong>Select your AVIF:</strong> Drag your file into the box.</li><li><strong>Conversion:</strong> The browser processes the image locally.</li><li><strong>Download:</strong> Click download to save your PNG file.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Design Compatibility:</strong> Ensuring transparent web assets can be imported into standard design software like Photoshop, Illustrator, and Canva.</li><li><strong>Lossless Archiving:</strong> Converting highly compressed, lossy AVIFs into a stable, lossless format before making multiple rounds of digital edits.</li><li><strong>Web Development:</strong> Standardizing transparent image assets for legacy browsers (like Internet Explorer 11) that do not support the AVIF format.</li><li><strong>Video Production:</strong> Creating compatible lower-thirds and transparent overlays for older video editing suites.</li></ul>"
+        content: "<ul><li><strong>Design Compatibility:</strong> Ensuring transparent graphics can be opened in Photoshop, Illustrator, and Canva.</li><li><strong>Video Overlays:</strong> Creating compatible transparent overlays for video editing software.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
@@ -237,32 +217,30 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is this compressor?",
-        content: "<p>Our Compress JPG tool is an advanced, privacy-first utility designed to significantly reduce the file size of your JPEG and JPG images without sacrificing visual quality. High-resolution photos from modern smartphones and digital cameras can easily exceed 5MB to 10MB per image, making them difficult to upload, slow to share, and space-consuming to store. This compressor uses smart lossy compression algorithms to shrink your file footprint by up to 90%, optimizing them perfectly for web use, email attachments, and strict upload limits.</p>"
+        content: "<p>Our Compress JPG tool is designed to reduce the file size of your JPEG and JPG images without noticeable loss in visual quality. High-resolution photos from smartphones and cameras can easily be 5MB to 10MB each. This compressor shrinks the file footprint so your photos upload faster on portals, fit into email attachments, and load quickly on websites.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>What sets our tool apart is that the entire compression process happens locally inside your web browser. When you select an image, our client-side compression engine (powered by advanced JavaScript and WebAssembly) analyzes the image data on your device. It intelligently reduces the color palette depth and adjusts the DCT (Discrete Cosine Transform) quantization tables. Because your files never leave your device and are never uploaded to a remote server, you experience zero upload delays, zero bandwidth costs, and absolute data privacy.</p>"
+        content: "<p>The compression runs locally inside your web browser. When you select an image, your device processes the image data directly in memory. Because supported operations happen on your own computer or phone, you don't have to wait for server uploads or worry about file privacy.</p>"
       },
       {
         title: "Examples",
-        content: "<p>Imagine you are a web developer building a modern landing page, and you have a stunning 8MB hero image in JPG format. If you upload it as-is, your website will load slowly, punishing your SEO score. By dropping that image into our compressor, you can instantly reduce it to a web-optimized 250KB file that looks virtually identical to the human eye, drastically improving your website's load times and Core Web Vitals.</p>"
+        content: "<p>If you have an 8MB photo to upload to a portfolio or job portal that has a 2MB limit, dropping it into our compressor quickly reduces the file size to under 500KB while keeping the image clear and sharp.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your image:</strong> Drag and drop your heavy JPG or JPEG file into the tool, or click to open your file browser.</li><li><strong>Adjust Target Size:</strong> Use the modern slider layout to set your desired target file size or compression level.</li><li><strong>Instant Processing:</strong> The browser immediately compresses the image locally. This usually takes just milliseconds.</li><li><strong>Download:</strong> Click download to save your new, lightweight JPG directly to your device.</li></ol>"
+        content: "<ol><li><strong>Select your image:</strong> Drag and drop your JPG file into the box or browse your device.</li><li><strong>Adjust Compression:</strong> Choose your preferred compression level or target size.</li><li><strong>Download:</strong> Click download to save your new lightweight JPG file.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Web Optimization:</strong> Dramatically decreasing page load times for blogs, portfolios, and e-commerce stores.</li><li><strong>Emailing:</strong> Shrinking large photo albums so they easily fit within the strict 25MB attachment limits of Gmail and Outlook.</li><li><strong>Storage Space:</strong> Archiving thousands of personal photos in a fraction of the hard drive space.</li><li><strong>Application Uploads:</strong> Preparing images for passport applications, job portals, or government websites that enforce strict file size limits (e.g., \"Max 500KB\").</li></ul>"
+        content: "<ul><li><strong>Website Speed:</strong> Optimizing photos so blog posts and online stores load quickly.</li><li><strong>Email Attachments:</strong> Shrinking photos to fit within email attachment size limits.</li><li><strong>Job &amp; Exam Portals:</strong> Meeting strict upload caps on government and university applications.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will my photos become blurry or pixelated?</strong><br>A: Our intelligent compressor aims to find the perfect balance between file size and visual fidelity. While JPG compression is technically lossy, the visual difference is usually unnoticeable to the human eye at standard viewing sizes.</p>
-          <p><strong>Q: Are my personal photos safe?</strong><br>A: Yes! Because this tool utilizes 100% client-side compression, your images are never uploaded to any cloud server. Your private data stays entirely on your own device.</p>
-          <p><strong>Q: Can I compress multiple images at once?</strong><br>A: Currently, this tool is optimized to provide the highest quality processing for one image at a time, allowing you to fine-tune the compression slider for each specific photo.</p>
-          <p><strong>Q: Is there a maximum file size limit for uploading?</strong><br>A: Since the processing happens in your browser, the only limit is your device's memory (RAM). You can safely compress massive 50MB panoramas without worrying about server limits.</p>
-          <p><strong>Q: Does it strip metadata like GPS locations?</strong><br>A: By default, client-side canvas-based compression often strips out EXIF metadata, which actually helps reduce the file size further and protects your privacy by removing location tags.</p>
+          <p><strong>Q: Will my photos become blurry?</strong><br>A: At standard compression settings, the visual difference is practically unnoticeable for regular viewing while significantly reducing file size.</p>
+          <p><strong>Q: Are my photos kept private?</strong><br>A: Yes. The compression runs in your browser's local memory and is not uploaded to our servers.</p>
+          <p><strong>Q: Does it strip camera location data?</strong><br>A: Yes, in-browser canvas processing naturally removes EXIF metadata (such as GPS coordinates), which protects your privacy and helps make the file smaller.</p>
         `
       }
     ]
@@ -271,32 +249,29 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is this compressor?",
-        content: "<p>The Compress PNG tool is a specialized, privacy-focused utility designed to drastically reduce the file size of your Portable Network Graphics (PNG) images. While PNGs are beloved by designers for their lossless quality and support for transparent backgrounds, they are notoriously heavy. Our compressor uses advanced quantization techniques to shrink massive PNG files while retaining crisp edges and perfect transparency, making them ideal for web design and app development.</p>"
+        content: "<p>The Compress PNG tool reduces the file size of Portable Network Graphics (PNG) images while preserving sharp lines and transparent backgrounds. It is especially useful for screenshots, logos, and digital graphics that need to be lightweight for web use.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>Our tool utilizes cutting-edge client-side technology (including WebAssembly and HTML5 Canvas APIs) to compress your image entirely within your own web browser. When a PNG is loaded, the engine analyzes the image and uses intelligent color quantization to reduce the number of colors in the palette without causing visible banding. By running this complex optimization locally on your hardware, we eliminate the need for server uploads, guaranteeing instant results and 100% data privacy.</p>"
+        content: "<p>Our tool uses in-browser color optimization to reduce unnecessary palette data without causing visible banding. By running directly on your device, your images remain private and download immediately.</p>"
       },
       {
         title: "Examples",
-        content: "<p>Consider an app developer who has exported a complex logo with a transparent background from Adobe Illustrator. The resulting PNG is 3MB, which is too large to bundle efficiently into a mobile app. By processing the logo through our PNG compressor, the file size is slashed to 300KB. The transparent background remains perfect, the logo remains sharp, and the app's overall download size is significantly reduced.</p>"
+        content: "<p>A high-resolution screenshot or app icon exported as a 3MB PNG can often be reduced to under 400KB with clean edges and transparent background intact.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload your graphic:</strong> Drag and drop your heavy PNG file into the drop zone, or browse your device to select it.</li><li><strong>Configure Compression:</strong> Adjust the target compression slider to balance between file size reduction and image clarity.</li><li><strong>Local Optimization:</strong> Your browser instantly processes the image data in memory, requiring zero upload time.</li><li><strong>Save your file:</strong> Click the download button to instantly save the optimized PNG to your computer.</li></ol>"
+        content: "<ol><li><strong>Select your PNG:</strong> Drag your file into the box.</li><li><strong>Adjust:</strong> Choose your desired compression level.</li><li><strong>Download:</strong> Click download to save your optimized PNG file.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>UI/UX Design:</strong> Optimizing icons, logos, and interface elements with transparent backgrounds for faster website rendering.</li><li><strong>Game Development:</strong> Shrinking massive sprite sheets and texture atlases to reduce game load times and memory usage.</li><li><strong>Digital Marketing:</strong> Preparing high-quality graphics for email campaigns where strict total payload limits apply.</li><li><strong>Digital Art:</strong> Sharing complex digital illustrations on social media or portfolio sites without hitting upload size caps.</li></ul>"
+        content: "<ul><li><strong>App &amp; Web Design:</strong> Compressing transparent logos and icons for faster rendering.</li><li><strong>Email Graphics:</strong> Keeping newsletters and email banners under size caps.</li><li><strong>Sharing Screenshots:</strong> Sending crisp screenshots without sending heavy files.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will my image lose its transparent background?</strong><br>A: Absolutely not! Our PNG compressor fully supports and preserves the alpha channel, ensuring your transparent backgrounds remain perfectly intact.</p>
-          <p><strong>Q: Why is my PNG file so large to begin with?</strong><br>A: PNG is a lossless format, meaning it stores exact pixel data. If your image contains millions of unique colors (like a photograph), the PNG format struggles to compress it efficiently, resulting in massive file sizes.</p>
-          <p><strong>Q: Is this compression process secure?</strong><br>A: 100% secure. The optimization happens locally inside your browser's memory. Your files are never transmitted to our servers.</p>
-          <p><strong>Q: Will the compression cause color banding?</strong><br>A: While heavy compression reduces the color palette, our algorithm uses advanced dithering techniques to smooth out gradients and minimize noticeable banding.</p>
-          <p><strong>Q: Can I use this tool on my iPhone or Android?</strong><br>A: Yes! The client-side compression engine is fully responsive and runs smoothly on modern mobile web browsers.</p>
+          <p><strong>Q: Will my image keep its transparent background?</strong><br>A: Yes. The PNG compressor preserves transparent alpha layers.</p>
+          <p><strong>Q: Is this compression private?</strong><br>A: Yes. Processing happens locally in your browser's memory without server uploads.</p>
         `
       }
     ]
@@ -304,30 +279,28 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
   "passport-photo-maker": {
     sections: [
       {
-        title: "What is the Free AI Passport Photo Maker?",
-        content: "<p>Our AI Passport Photo Maker is a modern, premium online studio that allows you to easily convert any selfie or portrait image into a perfectly sized passport photo. Whether you need a standard 2x2 inch photo for a US passport or Indian OCI/Visa, or a 35x45mm photo for an Indian domestic passport, European, UK, or Australian visa, this tool has you covered. Beyond simple cropping, our tool now features a built-in AI Background Remover that instantly replaces your messy room background with standard, government-approved solid colors like pure white, light blue, or light gray. Skip the trip to the local pharmacy or photography studio and create professional, flawless passport photos for free directly from your smartphone or computer.</p>"
+        title: "What is the Passport Photo Maker?",
+        content: "<p>Our Passport Photo Maker lets you convert portraits and selfies into properly sized passport and visa photos directly in your browser. Whether you need standard 2x2 inch photos (for US passport and Indian Visa/OCI) or 35x45mm photos (for Indian domestic passport, UK, European Schengen, or Australian visas), you can easily crop, frame, and replace background colors to meet official requirements.</p>"
       },
       {
-        title: "How does the AI Background Replacement work?",
-        content: "<p>Unlike most online passport photo tools that require you to upload your sensitive personal photographs to their remote servers—creating a major privacy risk—our tool is built on cutting-edge WebAssembly and on-device machine learning. When you click 'Remove Background', a neural network analyzes the image locally in your browser to perfectly cut out your face and shoulders. You can then select a professional solid background color, which is instantly drawn behind you using HTML5 Canvas technology. Because the entire AI and cropping process happens 100% locally on your device, your face is never uploaded, stored, or analyzed by any cloud server. You get premium AI features with absolute biometric privacy.</p>"
+        title: "How does background replacement work?",
+        content: "<p>The tool uses on-device image processing to separate your portrait from the background and apply a standard solid color (such as white, light blue, or gray). Because this runs locally in your web browser, your personal photo is not uploaded or stored on any server.</p>"
       },
       {
-        title: "Step-by-step guide to a perfect photo",
-        content: "<ol><li><strong>Upload a portrait:</strong> Take a clear photo of yourself with good lighting. Don't worry about finding a perfectly white wall—our AI will fix the background! Drag and drop this photo into our tool, or use your phone's camera.</li><li><strong>Remove & Replace Background:</strong> Click the 'Remove Background' magic wand button. Once the AI isolates your subject, click one of the standard color swatches (White, Blue, Gray) to instantly apply a solid background.</li><li><strong>Select your size:</strong> Choose your required aspect ratio—either US/India Visa (2x2 inches) or India/International Standard (35x45 mm).</li><li><strong>Crop and frame:</strong> Use the interactive cropping box to scale and position your image so your head is perfectly centered according to guidelines.</li><li><strong>Download:</strong> Click 'Generate Passport Photo' to instantly download your perfectly cropped, high-resolution JPG file with the new background.</li></ol>"
+        title: "Step-by-step guide to a clean photo",
+        content: "<ol><li><strong>Select a portrait:</strong> Choose a clear photo with even lighting on your face.</li><li><strong>Background Color:</strong> Use the background tool to select a solid color (white or light blue) as required by your application.</li><li><strong>Choose Size:</strong> Select US/India Visa (2x2 inches) or International Standard (35x45mm).</li><li><strong>Crop &amp; Center:</strong> Position your face within the guidelines.</li><li><strong>Download:</strong> Save your formatted photo ready for printing or digital submission.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Passport Applications:</strong> Printing compliant photos with perfect white backgrounds at home or at a kiosk for your passport renewal.</li><li><strong>Online Visas:</strong> Uploading the exact required dimensions and background colors to digital immigration portals without getting rejected.</li><li><strong>Student IDs & Resumes:</strong> Creating professional, consistently sized headshots with clean, uniform backgrounds for university profiles, CVs, and corporate badges.</li><li><strong>Driving Licenses:</strong> Formatting a compliant photograph for international driving permits and local licensing authorities.</li></ul>"
+        content: "<ul><li><strong>Passport Renewals:</strong> Creating compliant photos with standard solid white backgrounds.</li><li><strong>Online Visa Portals:</strong> Preparing exact dimension requirements for online immigration forms.</li><li><strong>Student &amp; Work IDs:</strong> Standardizing photos for badges and application profiles.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is the AI Background Removal safe for my personal photos?</strong><br>A: Absolutely. Our passport photo maker utilizes client-side, on-device AI processing. This means your photograph never leaves your device and is never uploaded to any database, ensuring total biometric privacy while still giving you premium AI features.</p>
-          <p><strong>Q: What size should I choose for a US Passport or Indian Visa/OCI?</strong><br>A: You should select the US/India OCI (2x2) option. The government requires a perfectly square photo (2 by 2 inches) with specific head sizing requirements.</p>
-          <p><strong>Q: What size is required for an Indian Passport, UK, or Schengen Visa?</strong><br>A: Most domestic Indian passports, as well as European, UK, and Australian applications require the International Standard, which is 35mm wide by 45mm tall.</p>
-          <p><strong>Q: What background color should I choose for my passport?</strong><br>A: The requirements vary by country. For US, UK, and Indian passports, a pure White background is standard. Some Middle Eastern and Asian countries require Light Blue. Our tool provides standard presets for all these options, plus a custom color picker.</p>
-          <p><strong>Q: Can I print the downloaded file at a pharmacy or photo kiosk?</strong><br>A: Yes! The tool outputs a standard, high-quality JPG file. You can easily arrange this file on a 4x6 print template to print multiple copies at any standard photo center (like CVS, Walgreens, or Walmart).</p>
-          <p><strong>Q: Are there any rules for taking the initial selfie?</strong><br>A: Yes. Look directly at the camera, maintain a neutral expression, keep both eyes open, and ensure there are no heavy shadows on your face. Glasses should generally be removed to avoid glare. Our AI handles the background, but lighting on your face must still be good!</p>
+          <p><strong>Q: Is it safe to use for passport photos?</strong><br>A: Yes. The tool runs locally in your browser, so your photos are not saved or sent to external databases.</p>
+          <p><strong>Q: What size do I need for a US Passport or Indian Visa/OCI?</strong><br>A: Select the 2x2 inch (square) preset.</p>
+          <p><strong>Q: What size is used for Indian domestic passports and Schengen Visas?</strong><br>A: The 35x45mm international standard is used for Indian passports, Schengen visas, and UK applications.</p>
+          <p><strong>Q: Can I print the downloaded file?</strong><br>A: Yes. The tool outputs a standard high-resolution JPG file that you can print at home or at any local photo center.</p>
         `
       }
     ]
@@ -335,31 +308,27 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
   "heic-to-jpg": {
     sections: [
       {
-        title: "Free HEIC to JPG Converter - Convert Apple iPhone Photos Online Privately",
-        content: "<p>Welcome to the fastest, most private online HEIC to JPG converter. When you take photos on modern Apple devices like iPhone and iPad, iOS automatically saves them in the <strong>HEIC (High Efficiency Image Container)</strong> format to save storage space. However, HEIC photos often cannot be opened on Windows computers, Android phones, smart TVs, or older photo editing software. Our free tool instantly transforms your Apple HEIC and HEIF photos into universally recognized, high-resolution JPG files with zero quality loss.</p>"
+        title: "HEIC to JPG Converter - Convert iPhone Photos Online",
+        content: "<p>When you take photos on an iPhone or iPad, iOS often saves them in the <strong>HEIC (High Efficiency Image Container)</strong> format. However, HEIC photos often cannot be opened on Windows PCs, older photo software, or online application portals. Our tool converts your Apple HEIC photos into standard JPG files so they open anywhere.</p>"
       },
       {
-        title: "100% Private, On-Device Browser Processing",
-        content: "<p>Most online file conversion websites upload your personal vacation photos, family memories, and private screenshots to external cloud servers. Our HEIC to JPG converter operates <strong>100% locally inside your web browser</strong> using advanced WebAssembly decoders. Your files are processed entirely in your computer or smartphone's memory (RAM) and are never sent across the internet. You get total privacy, military-grade confidentiality, and instantaneous conversions without waiting for slow server uploads.</p>"
+        title: "Private, On-Device Browser Processing",
+        content: "<p>Our HEIC to JPG converter operates directly inside your web browser. Your photos are decoded and saved locally in your device's memory without being sent across the internet, keeping your personal photos and document scans private.</p>"
       },
       {
-        title: "Step-by-Step: How to Convert HEIC to JPG for Free",
-        content: "<ol><li><strong>Upload Your HEIC Image:</strong> Drag and drop your .heic or .heif file into the upload zone above, or click 'Choose File' to select photos from your device or iCloud.</li><li><strong>Instant On-Device Conversion:</strong> Our in-browser decoder automatically unpacks the High-Efficiency image data and reconstructs a pristine JPG image.</li><li><strong>Download Your JPG:</strong> Click the 'Download Result' button to save your universal JPG photo immediately.</li></ol>"
+        title: "Step-by-Step: How to Convert HEIC to JPG",
+        content: "<ol><li><strong>Select Your HEIC Image:</strong> Drag and drop your .heic or .heif file into the box.</li><li><strong>Conversion:</strong> The browser decodes the image and converts it to JPG.</li><li><strong>Download:</strong> Click download to save your standard JPG photo.</li></ol>"
       },
       {
-        title: "Practical Uses for Converting HEIC to JPG",
-        content: "<ul><li><strong>Windows & Android Compatibility:</strong> Seamlessly view and edit iPhone photos on Windows PCs, Android tablets, Chromebooks, and Linux systems.</li><li><strong>Government & Job Application Portals:</strong> Submitting photo IDs, receipts, and documents to websites that reject HEIC files and demand JPG or JPEG formats.</li><li><strong>Social Media & Web Uploads:</strong> Uploading photos to forums, WordPress blogs, and legacy social networks that do not support Apple's HEIC container.</li><li><strong>Photo Printing Kiosks:</strong> Printing iPhone photos at local retail kiosks (like Walmart, Walgreens, or CVS) that require standard JPEG files.</li></ul>"
+        title: "Practical Uses",
+        content: "<ul><li><strong>Windows &amp; Android Viewing:</strong> Opening and viewing iPhone photos on Windows laptops and Android devices.</li><li><strong>Application Portals:</strong> Submitting photo IDs and receipts to portals that reject HEIC files.</li><li><strong>Photo Printing:</strong> Printing iPhone photos at retail kiosks that require JPG format.</li></ul>"
       },
       {
         title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: Why can't I open HEIC photos on my Windows PC or Android phone?</strong><br>A: HEIC is Apple's proprietary adoption of the HEVC/H.265 compression format. Many non-Apple operating systems and older photo viewers lack built-in codec licenses to decode HEIC files. Converting them to JPG makes them universally compatible with every device in the world.</p>
-          <p><strong>Q: Does converting HEIC to JPG reduce photo quality or resolution?</strong><br>A: No. Our converter extracts the full visual fidelity and native resolution of your iPhone camera, producing a crisp, high-quality JPG image.</p>
-          <p><strong>Q: Is this HEIC to JPG converter really 100% free and unlimited?</strong><br>A: Yes! You can convert as many HEIC photos as you need with no subscriptions, no file size caps, and no watermarks.</p>
-          <p><strong>Q: Are my personal photos, family albums, and IDs kept private?</strong><br>A: Absolutely. The conversion occurs entirely within your web browser. Your photos are never uploaded to any remote server or stored in the cloud.</p>
-          <p><strong>Q: How do I stop my iPhone from taking HEIC photos in the future?</strong><br>A: On your iPhone, go to <em>Settings &gt; Camera &gt; Formats</em> and select <strong>'Most Compatible'</strong>. This instructs your iPhone to save new photos directly as JPGs instead of HEIC.</p>
-          <p><strong>Q: Can I convert HEIF files as well as HEIC?</strong><br>A: Yes, our tool supports both .heic and .heif extensions seamlessly.</p>
-          <p><strong>Q: Do I need to install any software or browser extensions?</strong><br>A: No installation or registration is needed. Everything runs directly inside your web browser on Mac, Windows, iOS, Android, and Linux.</p>
+          <p><strong>Q: Why won't my Windows PC open HEIC files?</strong><br>A: Windows does not always have built-in HEIC codec support installed. Converting the photos to JPG allows them to open in any default photo viewer.</p>
+          <p><strong>Q: Are my photos kept private?</strong><br>A: Yes. The conversion takes place entirely within your web browser on your own device.</p>
+          <p><strong>Q: How can I make my iPhone take JPG photos directly?</strong><br>A: On your iPhone, go to <em>Settings &gt; Camera &gt; Formats</em> and choose <strong>'Most Compatible'</strong>.</p>
         `
       }
     ]
@@ -367,29 +336,23 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
   "heic-to-png": {
     sections: [
       {
-        title: "Free HEIC to PNG Converter - Convert Apple HEIC to Lossless PNG Online",
-        content: "<p>Convert Apple HEIC and HEIF photos into high-resolution, uncompressed <strong>PNG (Portable Network Graphics)</strong> files for free. If you are a graphic designer, digital artist, or content creator who needs lossless image fidelity, transparent background support, or pixel-perfect editing assets for Adobe Photoshop, Figma, or Canva, our free HEIC to PNG converter is the ideal solution.</p>"
+        title: "HEIC to PNG Converter - Convert Apple Photos to PNG Online",
+        content: "<p>Convert Apple HEIC and HEIF photos into standard PNG files for free. If you need lossless quality or want to edit iPhone screenshots in graphic design software like Photoshop, Figma, or Canva, converting to PNG gives you a widely supported format.</p>"
       },
       {
-        title: "Why Convert HEIC to PNG Instead of JPG?",
-        content: "<p>While JPG is great for everyday sharing, it uses lossy compression that can cause slight compression artifacts around fine lines and text. PNG is a <strong>lossless format</strong> that preserves every single pixel, color gradient, and sharp edge exactly as captured. Furthermore, if you took a screenshot or created a graphic on your iPhone or iPad, converting HEIC to PNG ensures you maintain pristine visual clarity without generational quality loss.</p>"
+        title: "Private Browser Conversion",
+        content: "<p>The tool decodes the HEIC image directly in your browser's local memory. Your files are not uploaded to external servers or logged in any database.</p>"
       },
       {
-        title: "100% Private Client-Side Conversion",
-        content: "<p>Your privacy and intellectual property are completely protected. Our converter uses client-side WebAssembly technology to decode the HEIC file directly in your browser's local memory. Your graphic assets and sensitive photos are never sent to external servers or logged in any database.</p>"
-      },
-      {
-        title: "Step-by-Step Guide to Convert HEIC to PNG",
-        content: "<ol><li><strong>Select Your HEIC File:</strong> Drag and drop your HEIC or HEIF image into the upload box, or browse your device storage.</li><li><strong>Automatic Browser Decoding:</strong> The tool decodes the high-efficiency image and renders it losslessly into a 24-bit/32-bit PNG structure.</li><li><strong>Download Your PNG:</strong> Click the 'Download Result' button to save your uncompressed, watermark-free PNG file.</li></ol>"
+        title: "Step-by-Step: How to Convert HEIC to PNG",
+        content: "<ol><li><strong>Select Your HEIC File:</strong> Drag your HEIC image into the box.</li><li><strong>Conversion:</strong> The browser decodes the image and converts it to PNG.</li><li><strong>Download:</strong> Click download to save your PNG file.</li></ol>"
       },
       {
         title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: What is the difference between converting HEIC to JPG vs HEIC to PNG?</strong><br>A: JPG produces smaller file sizes with mild lossy compression, making it ideal for sharing and storing photos. PNG produces lossless, uncompressed images with maximum sharpness, making it the preferred choice for design work, editing, and screenshots.</p>
-          <p><strong>Q: Will converting HEIC to PNG make the file size larger?</strong><br>A: Yes. Because PNG is a lossless format that retains every piece of uncompressed pixel data, the resulting PNG file will typically be larger than the original compressed HEIC container.</p>
-          <p><strong>Q: Is this tool free and without watermarks?</strong><br>A: Yes, all tools on ConverterForAll are 100% free with no watermarks, registrations, or usage limitations.</p>
-          <p><strong>Q: Does this converter work on Mac, Windows, and smartphones?</strong><br>A: Yes, our tool works seamlessly on all modern browsers (Safari, Chrome, Edge, Firefox) across all desktop and mobile operating systems.</p>
-          <p><strong>Q: Are my files private and safe from third-party tracking?</strong><br>A: Yes. The conversion executes entirely on your device with no server-side transmission or storage.</p>
+          <p><strong>Q: When should I convert to PNG instead of JPG?</strong><br>A: JPG is great for smaller file sizes when sharing photos. PNG is better for screenshots and graphics where you want uncompressed pixel detail.</p>
+          <p><strong>Q: Does this converter work on Mac, Windows, and phones?</strong><br>A: Yes. It works directly in modern web browsers across desktop and mobile devices.</p>
+          <p><strong>Q: Are my files private?</strong><br>A: Yes. The conversion executes locally on your device without server uploads.</p>
         `
       }
     ]
