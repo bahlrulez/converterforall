@@ -84,6 +84,7 @@ export function ToolRenderer({
         {toolSlug === "repair-pdf" && <RepairPdfTool />}
         {toolSlug === "pdf-to-word" && <PdfToWordTool />}
         {toolSlug === "word-to-pdf" && <WordToPdfTool />}
+        {toolSlug === "presentation-maker" && <PresentationMaker />}
         {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
         {(toolSlug === "compress-video" || toolSlug === "video-compressor" || toolSlug.startsWith("compress-video-") || toolSlug.startsWith("compress-mp4") || toolSlug.startsWith("compress-mov") || toolSlug.startsWith("compress-mkv") || toolSlug.startsWith("compress-avi") || toolSlug.startsWith("compress-webm") || toolSlug.startsWith("compress-wmv") || toolSlug.startsWith("compress-flv")) && <VideoCompressor toolSlug={toolSlug} />}
         {toolSlug === "qr-scanner" && <QrScanner />}

@@ -125,7 +125,6 @@ export const toolsDatabase = {
       inputFormat: "image",
       outputFormat: "jpg",
       actionName: "Crop Image",
-      isInteractive: true,
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     },
     "image-resizer": {
@@ -134,7 +133,6 @@ export const toolsDatabase = {
       inputFormat: "image",
       outputFormat: "jpg",
       actionName: "Resize Image",
-      isInteractive: true,
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     },
     "svg-to-png": {
