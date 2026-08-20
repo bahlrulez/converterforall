@@ -1213,11 +1213,11 @@ export const blogDatabase: Record<string, { title: string, content: string, date
         If you add 6 or 7 camera photos into a Word document or presentation and export it to PDF, your 5-page report can suddenly balloon to 35 MB!
       </p>
       <p class="text-base text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-        If you’re creating the document yourself:
+        If you’re creating the document yourself, shrink your photos before inserting them into Word, Google Docs, or PowerPoint:
       </p>
       <ul class="list-disc pl-6 space-y-2 text-slate-600 dark:text-slate-300 mb-4 text-sm sm:text-base">
-        <li>Resize the photos before inserting them into your document. If an image is only going to take up a small corner of the page, it doesn't need full camera billboard resolution.</li>
-        <li>Use standard JPG or WEBP formats rather than raw uncompressed bitmaps (BMP or heavy PNGs).</li>
+        <li><strong>For camera photos &amp; pictures (JPG / JPEG):</strong> Run your photos through our <a href="https://www.converterforall.com/compress-jpg" class="text-blue-600 dark:text-blue-400 font-semibold underline">Free JPG Compressor</a>. It reduces image weight by 70% to 90% while keeping visual details crisp.</li>
+        <li><strong>For screenshots, diagrams &amp; logos (PNG):</strong> Use our <a href="https://www.converterforall.com/compress-png" class="text-blue-600 dark:text-blue-400 font-semibold underline">Free PNG Compressor</a> to strip unnecessary color palettes and unneeded metadata without losing sharp text edges.</li>
       </ul>
       <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-6">
         <strong>Best for:</strong> School projects, portfolios, photo-heavy PDFs, pitch decks, and documents with lots of screenshots.
@@ -1308,6 +1308,11 @@ export const blogDatabase: Record<string, { title: string, content: string, date
               <td class="p-3.5 font-bold text-slate-900 dark:text-white">Already finished 10MB+ PDF</td>
               <td class="p-3.5">Exported with high-res assets</td>
               <td class="p-3.5"><a href="/compress-pdf" class="text-blue-600 dark:text-blue-400 underline font-semibold">Run through PDF Compressor</a></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+              <td class="p-3.5 font-bold text-slate-900 dark:text-white">Heavy photos &amp; screenshots before embedding</td>
+              <td class="p-3.5">Raw 5MB–8MB camera files</td>
+              <td class="p-3.5">Shrink with <a href="/compress-jpg" class="text-blue-600 dark:text-blue-400 underline font-semibold">Compress JPG</a> or <a href="/compress-png" class="text-blue-600 dark:text-blue-400 underline font-semibold">Compress PNG</a></td>
             </tr>
             <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
               <td class="p-3.5 font-bold text-slate-900 dark:text-white">Scanned paperwork / receipts</td>
