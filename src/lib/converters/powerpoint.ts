@@ -37,10 +37,32 @@ interface SlideObject {
 }
 
 export async function convertPptxToPdf(file: File): Promise<Blob> {
+  // 1. First attempt high-precision Cloudmersive serverless engine
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const apiRes = await fetch("/api/convert-powerpoint-to-pdf", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (apiRes.ok) {
+      const pdfBlob = await apiRes.blob();
+      if (pdfBlob && pdfBlob.size > 200) {
+        console.info(`[PPTX->PDF] Successfully converted via high-precision engine (${pdfBlob.size} bytes)`);
+        return pdfBlob;
+      }
+    }
+  } catch (apiErr) {
+    console.warn("[PPTX->PDF] Cloud engine unreachable, activating in-browser renderer:", apiErr);
+  }
+
+  // 2. Client-Side in-browser XML slide renderer fallback
   const arrayBuffer = await file.arrayBuffer();
   const zip = await JSZip.loadAsync(arrayBuffer);
 
-  // 1. Determine presentation dimensions (default 16:9 widescreen: 12192000 x 6858000 EMUs)
+  // Determine presentation dimensions (default 16:9 widescreen: 12192000 x 6858000 EMUs)
   let emuWidth = 12192000;
   let emuHeight = 6858000;
 

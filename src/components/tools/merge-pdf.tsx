@@ -18,7 +18,7 @@ import {
   Layout,
   Compass,
   Square,
-  Sparkles,
+  Presentation,
   Info,
   ChevronDown,
   ChevronUp
@@ -30,7 +30,7 @@ interface FileItem {
   id: string;
   file: File;
   previewUrl: string;
-  type: 'pdf' | 'word' | 'image';
+  type: 'pdf' | 'word' | 'powerpoint' | 'image';
 }
 
 type PageSizeType = 'a4' | 'letter' | 'legal' | 'a3' | 'a5' | 'fit_content';
@@ -85,8 +85,11 @@ async function imageToPngBytes(file: File): Promise<ArrayBuffer> {
   });
 }
 
-function detectFileType(file: File): 'pdf' | 'word' | 'image' {
+function detectFileType(file: File): 'pdf' | 'word' | 'powerpoint' | 'image' {
   const name = file.name.toLowerCase();
+  if (name.endsWith('.pptx') || name.endsWith('.ppt') || file.type.includes('presentation') || file.type.includes('powerpoint')) {
+    return 'powerpoint';
+  }
   if (name.endsWith('.docx') || name.endsWith('.doc') || file.type.includes('word') || file.type.includes('officedocument')) {
     return 'word';
   }
@@ -146,6 +149,8 @@ export default function MergePdfTool() {
       'application/pdf': ['.pdf'],
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
       'application/msword': ['.doc'],
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['.pptx'],
+      'application/vnd.ms-powerpoint': ['.ppt'],
       'image/jpeg': ['.jpg', '.jpeg'],
       'image/png': ['.png'],
       'image/webp': ['.webp']
@@ -278,6 +283,45 @@ export default function MergePdfTool() {
           const wordPdfDoc = await PDFDocument.load(wordPdfBuffer);
           const copiedPages = await mergedPdf.copyPages(wordPdfDoc, wordPdfDoc.getPageIndices());
           copiedPages.forEach(page => mergedPdf.addPage(page));
+        } else if (item.type === 'powerpoint') {
+          const { convertPptxToPdf } = await import("@/lib/converters/powerpoint");
+          const pptxPdfBlob = await convertPptxToPdf(item.file);
+          const pptxPdfBuffer = await pptxPdfBlob.arrayBuffer();
+          const pptxPdfDoc = await PDFDocument.load(pptxPdfBuffer);
+          const pageIndices = pptxPdfDoc.getPageIndices();
+
+          if (pageSize === 'fit_content' || orientation === 'landscape') {
+            const copiedPages = await mergedPdf.copyPages(pptxPdfDoc, pageIndices);
+            copiedPages.forEach(page => mergedPdf.addPage(page));
+          } else {
+            // Scale and center each PowerPoint slide onto standard Portrait A4 page
+            const [baseW, baseH] = PAGE_SIZE_POINTS[pageSize as Exclude<PageSizeType, 'fit_content'>];
+            const targetW = Math.min(baseW, baseH);
+            const targetH = Math.max(baseW, baseH);
+            const printableW = Math.max(10, targetW - 2 * marginPt);
+            const printableH = Math.max(10, targetH - 2 * marginPt);
+
+            for (const pageIdx of pageIndices) {
+              const srcPage = pptxPdfDoc.getPage(pageIdx);
+              const origW = srcPage.getWidth();
+              const origH = srcPage.getHeight();
+
+              const embeddedPage = await mergedPdf.embedPage(srcPage);
+              const scale = Math.min(printableW / origW, printableH / origH);
+              const drawW = origW * scale;
+              const drawH = origH * scale;
+              const drawX = marginPt + (printableW - drawW) / 2;
+              const drawY = marginPt + (printableH - drawH) / 2;
+
+              const page = mergedPdf.addPage([targetW, targetH]);
+              page.drawPage(embeddedPage, {
+                x: drawX,
+                y: drawY,
+                xScale: scale,
+                yScale: scale,
+              });
+            }
+          }
         } else if (item.type === 'image') {
           // Embed image with chosen scaling & page dimensions
           let embeddedImage: any;
@@ -399,7 +443,7 @@ export default function MergePdfTool() {
               </div>
             </div>
             <h3 className="text-xl sm:text-2xl font-black mb-2 tracking-tight text-foreground">
-              {isDragActive ? 'Drop files to combine' : 'Select PDF, Word (DOCX) & Image files'}
+              {isDragActive ? 'Drop files to combine' : 'Select PDF, Word, PowerPoint & Images'}
             </h3>
             <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
               Drag &amp; drop your documents here. 100% private and processed on-device.
@@ -407,6 +451,7 @@ export default function MergePdfTool() {
             <div className="flex flex-wrap justify-center gap-2 text-xs font-bold">
               <span className="bg-red-500/10 text-red-500 border border-red-500/20 px-3 py-1 rounded-full shadow-sm">PDF</span>
               <span className="bg-blue-500/10 text-blue-500 border border-blue-500/20 px-3 py-1 rounded-full shadow-sm">DOCX / DOC</span>
+              <span className="bg-amber-500/10 text-amber-500 border border-amber-500/20 px-3 py-1 rounded-full shadow-sm">PPTX / PPT</span>
               <span className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-3 py-1 rounded-full shadow-sm">JPG</span>
               <span className="bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 px-3 py-1 rounded-full shadow-sm">PNG</span>
               <span className="bg-purple-500/10 text-purple-500 border border-purple-500/20 px-3 py-1 rounded-full shadow-sm">WEBP</span>
@@ -470,6 +515,11 @@ export default function MergePdfTool() {
                           <FileType className="w-10 h-10 mb-1" />
                           <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-500 border border-blue-500/20">DOCX</span>
                         </div>
+                      ) : item.type === 'powerpoint' ? (
+                        <div className="flex flex-col items-center justify-center text-amber-500 p-2 text-center">
+                          <Presentation className="w-10 h-10 mb-1" />
+                          <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-500 border border-amber-500/20">PPTX</span>
+                        </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center text-red-500 p-2 text-center">
                           <FileText className="w-10 h-10 mb-1" />
@@ -509,7 +559,7 @@ export default function MergePdfTool() {
                         </span>
                       </h5>
                       <p className="text-[11px] text-muted-foreground">
-                        Auto-scale small/large images &amp; pages to fit standard dimensions with clean margins.
+                        Auto-scale small/large images &amp; PowerPoint slides to fit standard dimensions with clean margins.
                       </p>
                     </div>
                   </div>
@@ -603,8 +653,8 @@ export default function MergePdfTool() {
                         <Info className="w-4 h-4 text-primary shrink-0" />
                         <span>
                           {applyScope === 'images_only' 
-                            ? "Standard PDFs remain 1:1; small/large images are scaled to fit target page." 
-                            : "Every page across all PDFs and images will be resized to uniform target dimensions."}
+                            ? "Standard PDFs remain 1:1; small/large images & PowerPoint slides are scaled to fit target page." 
+                            : "Every page across all PDFs, slides, and images will be resized to uniform target dimensions."}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0 bg-muted/60 p-1 rounded-lg border border-border/40">
@@ -617,7 +667,7 @@ export default function MergePdfTool() {
                               : 'text-muted-foreground hover:text-foreground'
                           }`}
                         >
-                          Images Only
+                          Images &amp; Slides Only
                         </button>
                         <button
                           type="button"
@@ -676,7 +726,7 @@ export default function MergePdfTool() {
           <div>
             <h3 className="text-2xl sm:text-3xl font-black mb-2 text-foreground tracking-tight">Your Scaled PDF is Ready!</h3>
             <p className="text-sm text-muted-foreground max-w-md mx-auto">
-              All your PDFs, Word documents, and images have been merged with perfectly calibrated {pageSize.toUpperCase()} page dimensions.
+              All your PDFs, Word documents, PowerPoint slides, and images have been merged with perfectly calibrated {pageSize.toUpperCase()} page dimensions.
             </p>
           </div>
 
