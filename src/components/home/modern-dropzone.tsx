@@ -160,7 +160,7 @@ export function ModernDropzone() {
       >
         {!detected ? (
           /* IDLE / EMPTY STATE */
-          <div className="relative p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[360px] sm:min-h-[400px]">
+          <div className="relative p-4 sm:p-6 md:p-7 flex flex-col items-center justify-center text-center cursor-pointer min-h-[270px] sm:min-h-[300px]">
             <input {...getInputProps()} />
 
             {/* Ambient Lighting Rays Inside Container */}
@@ -170,7 +170,7 @@ export function ModernDropzone() {
             </div>
 
             {/* 3D Floating Isometric File Cards & Glowing Cloud Center */}
-            <div className="relative w-full max-w-lg h-32 sm:h-36 flex items-center justify-center mb-3 select-none">
+            <div className="relative w-full max-w-md h-20 sm:h-24 flex items-center justify-center mb-1 select-none">
               {/* LEFT SIDE FLOATING 3D CARDS */}
 
               {/* 1. PDF Card (Top-Left) */}
@@ -178,13 +178,13 @@ export function ModernDropzone() {
                 type="button"
                 onClick={(e) => handleFormatClick(".pdf", e)}
                 title="Select PDF"
-                className="absolute left-2 sm:left-6 top-3 w-12 h-14 sm:w-14 sm:h-16 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-[#1a1429]/90 dark:to-[#100d1e]/95 border border-red-200 dark:border-red-500/40 p-2 flex flex-col items-center justify-center shadow-md dark:shadow-[0_10px_25px_rgba(239,68,68,0.25)] animate-float-1 hover:scale-115 hover:border-red-400 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="absolute left-3 sm:left-10 top-1 w-9 h-11 sm:w-11 sm:h-13 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#1a1429]/90 dark:to-[#100d1e]/95 border border-red-200 dark:border-red-500/40 p-1 flex flex-col items-center justify-center shadow-md dark:shadow-[0_8px_20px_rgba(239,68,68,0.25)] animate-float-1 hover:scale-110 hover:border-red-400 transition-all duration-300 cursor-pointer group"
                 style={{ transform: "perspective(600px) rotateY(15deg) rotateX(10deg)" }}
               >
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-red-500/10 dark:bg-red-500/20 text-red-500 dark:text-red-400 flex items-center justify-center mb-0.5 group-hover:scale-110 transition-transform">
-                  <FileText className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-red-500/10 dark:bg-red-500/20 text-red-500 dark:text-red-400 flex items-center justify-center mb-0.5 group-hover:scale-110 transition-transform">
+                  <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
-                <span className="text-[9px] font-extrabold text-red-500 dark:text-red-400 tracking-wider">PDF</span>
+                <span className="text-[8px] font-extrabold text-red-500 dark:text-red-400 tracking-wider">PDF</span>
               </button>
 
               {/* 2. Photo / JPG Card (Mid-Left) */}
@@ -192,11 +192,11 @@ export function ModernDropzone() {
                 type="button"
                 onClick={(e) => handleFormatClick(".jpg,.jpeg,.png", e)}
                 title="Select Photo/Image"
-                className="absolute left-20 sm:left-28 -top-3 w-12 h-13 sm:w-13 sm:h-15 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-[#0e1938]/90 dark:to-[#0a1128]/95 border border-blue-200 dark:border-blue-500/40 p-2 flex items-center justify-center shadow-md dark:shadow-[0_10px_25px_rgba(59,130,246,0.25)] animate-float-2 hover:scale-115 hover:border-blue-400 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="absolute left-16 sm:left-24 -top-2 w-9 h-10 sm:w-10 sm:h-12 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#0e1938]/90 dark:to-[#0a1128]/95 border border-blue-200 dark:border-blue-500/40 p-1 flex items-center justify-center shadow-md dark:shadow-[0_8px_20px_rgba(59,130,246,0.25)] animate-float-2 hover:scale-110 hover:border-blue-400 transition-all duration-300 cursor-pointer group"
                 style={{ transform: "perspective(600px) rotateY(18deg) rotateX(-8deg)" }}
               >
-                <div className="w-8 h-8 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 text-blue-500 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <ImageIcon className="w-5 h-5" />
+                <div className="w-6 h-6 rounded-md bg-blue-500/10 dark:bg-blue-500/20 text-blue-500 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <ImageIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
               </button>
 
@@ -205,21 +205,20 @@ export function ModernDropzone() {
                 type="button"
                 onClick={(e) => handleFormatClick(".mp3,.wav", e)}
                 title="Select Audio"
-                className="absolute left-14 sm:left-20 bottom-0 w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-[#1c1538]/90 dark:to-[#120e26]/95 border border-purple-200 dark:border-purple-500/40 p-2 flex items-center justify-center shadow-md dark:shadow-[0_10px_25px_rgba(168,85,247,0.25)] animate-float-3 hover:scale-115 hover:border-purple-400 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="absolute left-10 sm:left-16 bottom-0 w-8 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#1c1538]/90 dark:to-[#120e26]/95 border border-purple-200 dark:border-purple-500/40 p-1 flex items-center justify-center shadow-md dark:shadow-[0_8px_20px_rgba(168,85,247,0.25)] animate-float-3 hover:scale-110 hover:border-purple-400 transition-all duration-300 cursor-pointer group"
                 style={{ transform: "perspective(600px) rotateY(12deg) rotateX(15deg)" }}
               >
-                <div className="w-7 h-7 rounded-lg bg-purple-500/10 dark:bg-purple-500/20 text-purple-500 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Music className="w-4 h-4" />
+                <div className="w-5 h-5 rounded-md bg-purple-500/10 dark:bg-purple-500/20 text-purple-500 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Music className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
               </button>
 
               {/* CENTER GLOWING UPLOAD CLOUD ORB */}
               <div className="relative z-10 flex flex-col items-center">
-                {/* Outer Glow Halo & Circular Cloud Disc */}
-                <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 p-1 shadow-[0_0_40px_rgba(59,130,246,0.4)] dark:shadow-[0_0_50px_rgba(59,130,246,0.6)] flex items-center justify-center animate-float-center hover:scale-105 transition-transform duration-300">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 p-0.5 shadow-[0_0_30px_rgba(59,130,246,0.35)] dark:shadow-[0_0_40px_rgba(59,130,246,0.5)] flex items-center justify-center animate-float-center hover:scale-105 transition-transform duration-300">
                   <div className="w-full h-full bg-white dark:bg-[#0c1530] rounded-full flex items-center justify-center relative overflow-hidden border border-blue-200 dark:border-blue-400/40 shadow-inner">
                     <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-purple-500/10 dark:from-blue-500/30 dark:to-purple-500/20" />
-                    <UploadCloud className="w-9 h-9 sm:w-10 sm:h-10 text-blue-600 dark:text-white relative z-10 drop-shadow-sm dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+                    <UploadCloud className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 dark:text-white relative z-10 drop-shadow-sm" />
                   </div>
                 </div>
               </div>
@@ -231,11 +230,11 @@ export function ModernDropzone() {
                 type="button"
                 onClick={(e) => handleFormatClick(".mp4,.mov", e)}
                 title="Select Video"
-                className="absolute right-20 sm:right-28 -top-3 w-12 h-13 sm:w-13 sm:h-15 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-[#1c1332]/90 dark:to-[#120a22]/95 border border-purple-200 dark:border-purple-500/40 p-2 flex items-center justify-center shadow-md dark:shadow-[0_10px_25px_rgba(168,85,247,0.25)] animate-float-4 hover:scale-115 hover:border-purple-400 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="absolute right-16 sm:right-24 -top-2 w-9 h-10 sm:w-10 sm:h-12 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#1c1332]/90 dark:to-[#120a22]/95 border border-purple-200 dark:border-purple-500/40 p-1 flex items-center justify-center shadow-md dark:shadow-[0_8px_20px_rgba(168,85,247,0.25)] animate-float-4 hover:scale-110 hover:border-purple-400 transition-all duration-300 cursor-pointer group"
                 style={{ transform: "perspective(600px) rotateY(-18deg) rotateX(-8deg)" }}
               >
-                <div className="w-8 h-8 rounded-lg bg-purple-500/10 dark:bg-purple-500/20 text-purple-500 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Play className="w-4 h-4 fill-purple-500 dark:fill-purple-400 text-purple-500 dark:text-purple-400" />
+                <div className="w-6 h-6 rounded-md bg-purple-500/10 dark:bg-purple-500/20 text-purple-500 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Play className="w-3.5 h-3.5 fill-purple-500 dark:fill-purple-400 text-purple-500 dark:text-purple-400" />
                 </div>
               </button>
 
@@ -244,13 +243,13 @@ export function ModernDropzone() {
                 type="button"
                 onClick={(e) => handleFormatClick(".docx,.doc,.txt", e)}
                 title="Select Document"
-                className="absolute right-2 sm:right-6 top-3 w-12 h-14 sm:w-14 sm:h-16 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-[#0c1836]/90 dark:to-[#081024]/95 border border-sky-200 dark:border-sky-500/40 p-2 flex flex-col items-center justify-center shadow-md dark:shadow-[0_10px_25px_rgba(14,165,233,0.25)] animate-float-5 hover:scale-115 hover:border-sky-400 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="absolute right-3 sm:right-10 top-1 w-9 h-11 sm:w-11 sm:h-13 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#0c1836]/90 dark:to-[#081024]/95 border border-sky-200 dark:border-sky-500/40 p-1 flex flex-col items-center justify-center shadow-md dark:shadow-[0_8px_20px_rgba(14,165,233,0.25)] animate-float-5 hover:scale-110 hover:border-sky-400 transition-all duration-300 cursor-pointer group"
                 style={{ transform: "perspective(600px) rotateY(-15deg) rotateX(10deg)" }}
               >
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-0.5 group-hover:scale-110 transition-transform">
-                  <AlignLeft className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-0.5 group-hover:scale-110 transition-transform">
+                  <AlignLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
-                <span className="text-[9px] font-extrabold text-sky-600 dark:text-sky-400 tracking-wider">DOCX</span>
+                <span className="text-[8px] font-extrabold text-sky-600 dark:text-sky-400 tracking-wider">DOCX</span>
               </button>
 
               {/* 6. Gallery / Landscape Card (Bottom-Right) */}
@@ -258,28 +257,28 @@ export function ModernDropzone() {
                 type="button"
                 onClick={(e) => handleFormatClick(".png,.webp", e)}
                 title="Select Image"
-                className="absolute right-14 sm:right-20 bottom-0 w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-[#0c2420]/90 dark:to-[#061412]/95 border border-emerald-200 dark:border-emerald-500/40 p-2 flex items-center justify-center shadow-md dark:shadow-[0_10px_25px_rgba(16,185,129,0.25)] animate-float-2 hover:scale-115 hover:border-emerald-400 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="absolute right-10 sm:right-16 bottom-0 w-8 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#0c2420]/90 dark:to-[#061412]/95 border border-emerald-200 dark:border-emerald-500/40 p-1 flex items-center justify-center shadow-md dark:shadow-[0_8px_20px_rgba(16,185,129,0.25)] animate-float-2 hover:scale-110 hover:border-emerald-400 transition-all duration-300 cursor-pointer group"
                 style={{ transform: "perspective(600px) rotateY(-12deg) rotateX(15deg)" }}
               >
-                <div className="w-7 h-7 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <ImageIcon className="w-4 h-4" />
+                <div className="w-5 h-5 rounded-md bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <ImageIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
               </button>
             </div>
 
             {/* Main Prompt Heading */}
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-1.5">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-1">
               Drop <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-500 dark:from-blue-400 dark:to-sky-300">any file</span> here
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mb-6 max-w-md">
+            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mb-4 max-w-sm">
               We&apos;ll automatically identify your file and recommend the best conversion.
             </p>
 
             {/* Action Buttons Row */}
-            <div className="flex flex-wrap items-center justify-center gap-3.5 mb-6">
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
               <button
                 type="button"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 <UploadCloud className="w-4 h-4" />
                 Choose File
@@ -291,21 +290,21 @@ export function ModernDropzone() {
                   e.stopPropagation();
                   handlePasteClick();
                 }}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-[#121b36]/90 dark:hover:bg-[#1a274c] border border-slate-300 dark:border-slate-700/80 shadow-sm transition-all duration-200"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-[#121b36]/90 dark:hover:bg-[#1a274c] border border-slate-300 dark:border-slate-700/80 shadow-sm transition-all duration-200"
               >
-                <Clipboard className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                <Clipboard className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
                 Paste / Drop
               </button>
             </div>
 
             {pasteNotice && (
-              <div className="mb-3 text-xs font-medium text-blue-700 dark:text-cyan-400 bg-blue-50 dark:bg-cyan-950/50 border border-blue-200 dark:border-cyan-800/60 px-3.5 py-1 rounded-full animate-fade-in">
+              <div className="mb-2 text-xs font-medium text-blue-700 dark:text-cyan-400 bg-blue-50 dark:bg-cyan-950/50 border border-blue-200 dark:border-cyan-800/60 px-3 py-0.5 rounded-full animate-fade-in">
                 {pasteNotice}
               </div>
             )}
 
             {/* Separator */}
-            <div className="flex items-center gap-3 w-full max-w-xs mb-4 text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+            <div className="flex items-center gap-3 w-full max-w-xs mb-3 text-[10px] text-slate-400 dark:text-slate-500 font-medium">
               <div className="flex-1 h-[1px] bg-slate-200 dark:bg-slate-800/80" />
               <span>or convert directly</span>
               <div className="flex-1 h-[1px] bg-slate-200 dark:bg-slate-800/80" />
@@ -320,9 +319,9 @@ export function ModernDropzone() {
                     key={fmt.label}
                     type="button"
                     onClick={(e) => handleFormatClick(fmt.ext, e)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-[#0e162e] dark:hover:bg-[#162244] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-200 hover:scale-105 shadow-sm"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-[#0e162e] dark:hover:bg-[#162244] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-200 hover:scale-105 shadow-2xs"
                   >
-                    <Icon className={`w-3.5 h-3.5 ${fmt.color}`} />
+                    <Icon className={`w-3 h-3 ${fmt.color}`} />
                     <span>{fmt.label}</span>
                   </button>
                 );
@@ -331,11 +330,14 @@ export function ModernDropzone() {
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  router.push("/#featured-tools");
+                  if (fileInputRef.current) {
+                    fileInputRef.current.accept = "*/*";
+                    fileInputRef.current.click();
+                  }
                 }}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-slate-100 hover:bg-blue-600 dark:bg-[#0e162e] dark:hover:bg-blue-600 border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-slate-700 hover:text-white dark:text-slate-300 dark:hover:text-white transition-all duration-200"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900/60 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 transition-all duration-200 hover:scale-105 shadow-2xs"
               >
-                <Plus className="w-3 h-3" />
+                <Plus className="w-3 h-3 text-blue-500" />
                 <span>More</span>
               </button>
             </div>

@@ -29,6 +29,27 @@ function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
 export function Header() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -48,15 +69,15 @@ export function Header() {
             className="flex items-center gap-2" 
             onClick={(e) => {
               if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
-              setIsMobileMenuOpen(false);
             }}
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Monitor className="h-5 w-5" />
             </div>
-            <span className="text-xl font-bold tracking-tight">ConverterForAll</span>
+            <span className="text-xl font-bold tracking-tight text-foreground">ConverterForAll</span>
           </Link>
         </div>
 
@@ -92,28 +113,38 @@ export function Header() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <Link
             href="https://www.facebook.com/converterforall"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-blue-600 transition-colors hidden md:inline-flex"
+            className="text-muted-foreground hover:text-blue-600 transition-colors hidden md:inline-flex p-1"
             title="Follow us on Facebook"
             aria-label="Follow us on Facebook"
           >
-            <FacebookIcon className="h-5 w-5" />
+            <FacebookIcon className="h-4 w-4" />
+          </Link>
+          <Link
+            href="https://www.instagram.com/converterforall"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-pink-600 transition-colors hidden md:inline-flex p-1"
+            title="Follow us on Instagram"
+            aria-label="Follow us on Instagram"
+          >
+            <InstagramIcon className="h-4 w-4" />
           </Link>
           {mounted && (
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full hidden md:inline-flex"
+              className="rounded-full hidden md:inline-flex h-8 w-8"
             >
               {theme === "dark" ? (
-                <Moon className="h-5 w-5" />
+                <Moon className="h-4 w-4" />
               ) : (
-                <Sun className="h-5 w-5" />
+                <Sun className="h-4 w-4" />
               )}
               <span className="sr-only">Toggle theme</span>
             </Button>
