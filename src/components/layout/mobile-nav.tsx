@@ -114,18 +114,18 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
         }));
 
   return createPortal(
-    <div className="md:hidden fixed inset-0 z-[9999] bg-[#040814]/98 backdrop-blur-3xl flex flex-col text-slate-100 overflow-hidden h-[100dvh] w-screen">
+    <div className="md:hidden fixed inset-0 z-[9999] bg-white/98 dark:bg-[#040814]/98 backdrop-blur-3xl flex flex-col text-slate-800 dark:text-slate-100 overflow-hidden h-[100dvh] w-screen">
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800/80 bg-[#080e22]/95 shrink-0">
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-[#080e22]/95 shrink-0">
         <div className="flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600 text-white shadow-md">
             <Monitor className="h-4 w-4" />
           </div>
-          <span className="text-base font-bold text-white tracking-tight">ConverterForAll</span>
+          <span className="text-base font-bold text-slate-900 dark:text-white tracking-tight">ConverterForAll</span>
         </div>
         <button
           onClick={onClose}
-          className="p-2 rounded-full text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 transition-colors"
+          className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
           aria-label="Close menu"
         >
           <X className="h-5 w-5" />
@@ -136,18 +136,18 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 pointer-events-none" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-500 dark:text-blue-400 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search tools (e.g. PDF to Word, JPG, MP3)..."
-            className="w-full h-11 pl-10 pr-4 rounded-xl bg-[#0e162e] border border-blue-500/30 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 shadow-inner"
+            className="w-full h-11 pl-10 pr-4 rounded-xl bg-slate-100/90 dark:bg-[#0e162e] border border-slate-200 dark:border-blue-500/30 text-slate-900 dark:text-white placeholder-slate-400 text-sm focus:outline-none focus:bg-white dark:focus:bg-[#0e162e] focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-blue-500/50 shadow-inner"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white bg-slate-800 px-2 py-0.5 rounded-full"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white bg-slate-200 dark:bg-slate-800 px-2 py-0.5 rounded-full"
             >
               Clear
             </button>
@@ -157,7 +157,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
         {/* Search Results Mode */}
         {searchResults !== null ? (
           <div className="space-y-2 pt-1">
-            <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 px-1">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 px-1">
               Found {searchResults.length} {searchResults.length === 1 ? "tool" : "tools"}
             </div>
             {searchResults.length > 0 ? (
@@ -167,22 +167,22 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     key={tool.slug}
                     href={`/${tool.slug}`}
                     onClick={onClose}
-                    className="flex items-center justify-between p-3 rounded-xl bg-[#0c142c] hover:bg-blue-600/20 border border-slate-800 hover:border-blue-500/40 transition-colors group"
+                    className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-[#0c142c] hover:bg-blue-50/80 dark:hover:bg-blue-600/20 border border-slate-200/80 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-500/40 transition-colors group"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="text-blue-400 font-bold text-sm">|</span>
-                      <span className="text-sm font-medium text-white group-hover:text-blue-300 truncate">
+                      <span className="text-blue-500 dark:text-blue-400 font-bold text-sm">|</span>
+                      <span className="text-sm font-medium text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 truncate">
                         {tool.title}
                       </span>
                     </div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded-md ml-2 shrink-0">
+                    <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 bg-slate-200/80 dark:bg-slate-800/80 px-2 py-0.5 rounded-md ml-2 shrink-0">
                       {tool.category}
                     </span>
                   </Link>
                 ))}
               </div>
             ) : (
-              <div className="py-12 text-center text-slate-400 text-sm">
+              <div className="py-12 text-center text-slate-500 dark:text-slate-400 text-sm">
                 No tools found matching &quot;{searchQuery}&quot;
               </div>
             )}
@@ -201,8 +201,8 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     onClick={() => setActiveCategory(cat.key)}
                     className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
                       isActive
-                        ? "bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)] border border-blue-400/50"
-                        : "bg-[#0e162e] text-slate-300 hover:text-white border border-slate-800"
+                        ? "bg-blue-600 text-white shadow-md border border-blue-500"
+                        : "bg-slate-100 dark:bg-[#0e162e] text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800"
                     }`}
                   >
                     <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : cat.color}`} />
@@ -229,45 +229,45 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     key={tool.slug}
                     href={`/${tool.slug}`}
                     onClick={onClose}
-                    className="flex items-center justify-between p-3 rounded-xl bg-[#0c142c]/90 hover:bg-[#132044] border border-slate-800/80 hover:border-blue-500/30 transition-all group active:scale-[0.99]"
+                    className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-[#0c142c]/90 hover:bg-blue-50/80 dark:hover:bg-[#132044] border border-slate-200/80 dark:border-slate-800/80 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all group active:scale-[0.99]"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="text-blue-400 font-bold text-sm">|</span>
-                      <span className="text-sm font-medium text-slate-200 group-hover:text-white truncate">
+                      <span className="text-blue-500 dark:text-blue-400 font-bold text-sm">|</span>
+                      <span className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white truncate">
                         {cleanTitle}
                       </span>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all shrink-0" />
                   </Link>
                 );
               })}
             </div>
 
             {/* Site Navigation Links */}
-            <div className="pt-4 border-t border-slate-800/80 space-y-1">
+            <div className="pt-4 border-t border-slate-200/80 dark:border-slate-800/80 space-y-1">
               <Link
                 href="/about"
                 onClick={onClose}
-                className="flex items-center justify-between p-2.5 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-[#0e162e] transition-colors"
+                className="flex items-center justify-between p-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#0e162e] transition-colors"
               >
                 <span>About Us</span>
-                <ChevronRight className="w-4 h-4 text-slate-600" />
+                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-600" />
               </Link>
               <Link
                 href="/contact"
                 onClick={onClose}
-                className="flex items-center justify-between p-2.5 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-[#0e162e] transition-colors"
+                className="flex items-center justify-between p-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#0e162e] transition-colors"
               >
                 <span>Contact</span>
-                <ChevronRight className="w-4 h-4 text-slate-600" />
+                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-600" />
               </Link>
               <Link
                 href="/blog"
                 onClick={onClose}
-                className="flex items-center justify-between p-2.5 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-[#0e162e] transition-colors"
+                className="flex items-center justify-between p-2.5 rounded-lg text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#0e162e] transition-colors"
               >
                 <span>Blog</span>
-                <ChevronRight className="w-4 h-4 text-slate-600" />
+                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-600" />
               </Link>
             </div>
           </>
@@ -275,21 +275,21 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
       </div>
 
       {/* Bottom Action Footer */}
-      <div className="p-4 border-t border-slate-800/80 bg-[#080e22]/95 flex items-center justify-between gap-3 shrink-0">
+      <div className="p-4 border-t border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-[#080e22]/95 flex items-center justify-between gap-3 shrink-0">
         <Link
           href="/#featured-tools"
           onClick={onClose}
-          className="flex-1 h-11 inline-flex items-center justify-center gap-1.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md"
+          className="flex-1 h-11 inline-flex items-center justify-center gap-1.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md hover:opacity-95 transition-opacity"
         >
           <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
           <span>Explore All 150+ Tools</span>
         </Link>
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="h-11 w-11 inline-flex items-center justify-center rounded-xl bg-[#0e162e] border border-slate-800 text-slate-300 hover:text-white transition-colors"
+          className="h-11 w-11 inline-flex items-center justify-center rounded-xl bg-slate-100 dark:bg-[#0e162e] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
           aria-label="Toggle theme"
         >
-          {theme === "dark" ? <Moon className="h-4 w-4 text-blue-400" /> : <Sun className="h-4 w-4 text-amber-400" />}
+          {theme === "dark" ? <Moon className="h-4 w-4 text-blue-400" /> : <Sun className="h-4 w-4 text-amber-500" />}
         </button>
       </div>
     </div>,

@@ -83,21 +83,21 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
   }, [allTools, searchQuery]);
 
   return (
-    <div className="w-[900px] max-w-[96vw] bg-[#070d1e]/98 backdrop-blur-2xl border border-blue-500/30 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] text-slate-200 overflow-hidden flex flex-col p-6 z-50 animate-in fade-in zoom-in-95 duration-200">
+    <div className="w-[900px] max-w-[96vw] bg-white/95 dark:bg-[#070d1e]/98 backdrop-blur-2xl border border-slate-200/90 dark:border-blue-500/30 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.8)] text-slate-700 dark:text-slate-200 overflow-hidden flex flex-col p-6 z-50 animate-in fade-in zoom-in-95 duration-200">
       {/* Search Bar Header */}
       <div className="relative mb-6">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 pointer-events-none" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-500 dark:text-blue-400 pointer-events-none" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for a tool (e.g., 'PDF to Word', 'JPG to PNG', 'Compress')..."
-          className="w-full h-11 pl-11 pr-4 rounded-xl bg-[#0e1730] border border-blue-500/20 text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 transition-all shadow-inner"
+          className="w-full h-11 pl-11 pr-4 rounded-xl bg-slate-100/90 dark:bg-[#0e1730] border border-slate-200 dark:border-blue-500/20 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-400 text-sm focus:outline-none focus:bg-white dark:focus:bg-[#0e1730] focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-blue-500/50 focus:border-blue-500 dark:focus:border-blue-400 transition-all shadow-inner"
         />
         {searchQuery && (
           <button
             onClick={() => setSearchQuery("")}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 hover:text-white bg-slate-800 px-2 py-0.5 rounded-full"
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white bg-slate-200 dark:bg-slate-800 px-2 py-0.5 rounded-full transition-colors"
           >
             Clear
           </button>
@@ -115,14 +115,14 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
                   key={tool.slug}
                   href={`/${tool.slug}`}
                   onClick={onClose}
-                  className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[#0e1730]/60 hover:bg-blue-600/15 border border-slate-800 hover:border-blue-500/40 transition-all group"
+                  className="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 hover:bg-blue-50 dark:bg-[#0e1730]/60 dark:hover:bg-blue-600/15 border border-slate-200/80 hover:border-blue-300 dark:border-slate-800 dark:hover:border-blue-500/40 transition-all group"
                 >
-                  <div className="w-2 h-2 rounded-full bg-blue-500 group-hover:scale-125 transition-transform" />
+                  <div className="w-2 h-2 rounded-full bg-blue-500 group-hover:scale-125 transition-transform shrink-0" />
                   <div className="flex flex-col min-w-0">
-                    <span className="text-xs font-semibold text-white group-hover:text-blue-400 truncate">
+                    <span className="text-xs font-semibold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 truncate">
                       {tool.title}
                     </span>
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider">
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                       {tool.category}
                     </span>
                   </div>
@@ -130,10 +130,10 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center h-48 text-center text-slate-400">
-              <Search className="w-8 h-8 text-slate-600 mb-2" />
+            <div className="flex flex-col items-center justify-center h-48 text-center text-slate-500 dark:text-slate-400">
+              <Search className="w-8 h-8 text-slate-400 dark:text-slate-600 mb-2" />
               <p className="text-sm font-medium">No tools found matching &quot;{searchQuery}&quot;</p>
-              <p className="text-xs text-slate-500 mt-1">Try searching for keywords like pdf, jpg, word, audio</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Try searching for keywords like pdf, jpg, word, audio</p>
             </div>
           )}
         </div>
@@ -141,9 +141,9 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
         /* Standard Layout: Popular Sidebar + Category Columns */
         <div className="grid grid-cols-12 gap-6 min-h-[300px] max-h-[440px] overflow-y-auto pr-2">
           {/* Left Column: POPULAR Tools */}
-          <div className="col-span-12 md:col-span-4 border-b md:border-b-0 md:border-r border-slate-800/80 pr-0 md:pr-4 pb-4 md:pb-0">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
-              <Zap className="w-3.5 h-3.5 text-amber-400" />
+          <div className="col-span-12 md:col-span-4 border-b md:border-b-0 md:border-r border-slate-200/80 dark:border-slate-800/80 pr-0 md:pr-4 pb-4 md:pb-0">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+              <Zap className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
               <span>Popular</span>
             </div>
 
@@ -155,17 +155,17 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
                     key={tool.slug}
                     href={`/${tool.slug}`}
                     onClick={onClose}
-                    className="flex items-center justify-between p-2.5 rounded-xl hover:bg-blue-950/40 border border-transparent hover:border-blue-500/20 text-slate-200 hover:text-white transition-all group"
+                    className="flex items-center justify-between p-2.5 rounded-xl hover:bg-blue-50/80 dark:hover:bg-blue-950/40 border border-transparent hover:border-blue-200 dark:hover:border-blue-500/20 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-white transition-all group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <div className={`p-1.5 rounded-lg bg-slate-900/80 border border-slate-800 ${tool.color}`}>
+                      <div className={`p-1.5 rounded-lg bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-sm ${tool.color}`}>
                         <Icon className="w-4 h-4" />
                       </div>
-                      <span className="text-xs font-semibold group-hover:text-blue-400 transition-colors">
+                      <span className="text-xs font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {tool.title}
                       </span>
                     </div>
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all" />
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all" />
                   </Link>
                 );
               })}
@@ -178,7 +178,7 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
               const meta = CATEGORY_META[categoryKey] || {
                 label: categoryKey,
                 icon: FileText,
-                color: "text-blue-400",
+                color: "text-blue-500 dark:text-blue-400",
               };
               const Icon = meta.icon;
               const toolEntries = Object.entries(tools as any);
@@ -188,7 +188,7 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
               return (
                 <div key={categoryKey} className="flex flex-col">
                   {/* Category Header */}
-                  <div className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-wider mb-2.5 pb-1 border-b border-slate-800/60">
+                  <div className="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2.5 pb-1 border-b border-slate-200/80 dark:border-slate-800/60">
                     <Icon className={`w-3.5 h-3.5 ${meta.color}`} />
                     <span>{meta.label}</span>
                   </div>
@@ -210,10 +210,10 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
                           key={slug}
                           href={`/${slug}`}
                           onClick={onClose}
-                          className="flex items-center gap-2 text-xs text-slate-300 hover:text-white group transition-colors py-0.5"
+                          className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-white group transition-colors py-0.5"
                         >
-                          <span className="text-blue-500 font-bold text-xs select-none">|</span>
-                          <span className="truncate group-hover:text-blue-400 transition-colors" title={tool.title}>
+                          <span className="text-blue-500 dark:text-blue-400 font-bold text-xs select-none">|</span>
+                          <span className="truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" title={tool.title}>
                             {cleanTitle}
                           </span>
                         </Link>
@@ -224,7 +224,7 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
                       <Link
                         href="/#featured-tools"
                         onClick={onClose}
-                        className="text-[11px] font-semibold text-blue-400 hover:text-cyan-300 transition-colors mt-0.5 pl-3"
+                        className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-cyan-300 transition-colors mt-0.5 pl-3"
                       >
                         + {remainingCount} more
                       </Link>
@@ -238,11 +238,11 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
       )}
 
       {/* Bottom Footer Bar */}
-      <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-center">
+      <div className="mt-6 pt-4 border-t border-slate-200/80 dark:border-slate-800/80 flex items-center justify-center">
         <Link
           href="/#featured-tools"
           onClick={onClose}
-          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-blue-400 hover:text-cyan-300 transition-colors"
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-cyan-300 transition-colors"
         >
           <span>Explore All 150+ Tools</span>
           <ArrowRight className="w-4 h-4" />
