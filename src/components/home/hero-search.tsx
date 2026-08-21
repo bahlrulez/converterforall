@@ -71,11 +71,24 @@ export function HeroSearch() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Keyboard shortcut listener (Ctrl+K or '/' to focus search)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        const input = containerRef.current?.querySelector("input");
+        input?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <div ref={containerRef} className="relative w-full max-w-2xl mx-auto mb-4 sm:mb-5 text-left z-30">
-      {/* Search Input Box */}
+      {/* Search Input Box with Ambient Dynamic Halo */}
       <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-purple-500/20 rounded-2xl blur-md opacity-60 group-hover:opacity-100 transition-opacity pointer-events-none" />
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/25 via-indigo-500/20 to-purple-500/25 dark:from-blue-600/40 dark:via-indigo-500/30 dark:to-purple-600/40 rounded-2xl blur-md opacity-70 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none" />
         <div className="relative flex items-center">
           <Search className="absolute left-3.5 w-4 h-4 text-blue-600 dark:text-blue-400 pointer-events-none transition-colors" />
           <input
@@ -87,7 +100,7 @@ export function HeroSearch() {
               setIsFocused(true);
             }}
             placeholder="Search 150+ tools (e.g. PDF to Word, Video Compressor, Remove BG)..."
-            className="w-full h-10 sm:h-11 pl-10 pr-20 rounded-xl bg-white dark:bg-[#0b132b] border-2 border-slate-200 dark:border-blue-500/30 text-slate-900 dark:text-white placeholder-slate-400 text-xs sm:text-sm font-medium shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-600 dark:focus:border-blue-400 transition-all"
+            className="w-full h-11 sm:h-12 pl-10 pr-24 rounded-2xl bg-white dark:bg-[#0a1228] border-2 border-slate-200/90 dark:border-blue-500/30 text-slate-900 dark:text-white placeholder-slate-400 text-xs sm:text-sm font-medium shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-600 dark:focus:border-blue-400 transition-all"
           />
           {query ? (
             <button
@@ -98,8 +111,9 @@ export function HeroSearch() {
               <X className="w-3.5 h-3.5" />
             </button>
           ) : (
-            <div className="absolute right-3 hidden sm:flex items-center gap-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-100 dark:bg-slate-800/80 px-2 py-0.5 rounded-md pointer-events-none">
-              <span>Quick Search</span>
+            <div className="absolute right-3 hidden sm:flex items-center gap-1 text-[10px] font-bold text-slate-400 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-2 py-0.5 rounded-md pointer-events-none border border-slate-200/60 dark:border-slate-700/60 shadow-2xs">
+              <span className="text-[9px]">⌘</span>
+              <span>K</span>
             </div>
           )}
         </div>
@@ -110,7 +124,7 @@ export function HeroSearch() {
         <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-[#070e24] border-2 border-slate-200 dark:border-slate-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.18)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.9)] overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-150">
           <div className="p-2.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             <span>Matching Tools ({filteredResults.length})</span>
-            <span className="text-[10px] text-slate-400">Press tool to open</span>
+            <span className="text-[10px] text-slate-400">Click to launch</span>
           </div>
 
           <div className="max-h-[300px] overflow-y-auto p-1.5 space-y-1">
@@ -184,14 +198,14 @@ export function HeroSearch() {
       {/* Quick Clickable Popular Filter Chips Under Search Bar */}
       <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-[11px]">
         <span className="font-bold text-slate-500 dark:text-slate-400 mr-0.5 flex items-center gap-1">
-          <Sparkles className="w-3 h-3 text-amber-500" />
+          <Sparkles className="w-3 h-3 text-amber-500 fill-amber-400" />
           Popular:
         </span>
         {POPULAR_SHORTCUTS.slice(0, 5).map((item) => (
           <Link
             key={item.slug}
             href={`/${item.slug}`}
-            className="px-2 py-0.5 rounded-md bg-white dark:bg-[#0c142c] hover:bg-blue-50 dark:hover:bg-blue-900/30 border border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-all shadow-xs"
+            className="px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0c142c] hover:bg-blue-50 dark:hover:bg-blue-900/30 border border-slate-200/90 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-all shadow-2xs hover:shadow-xs hover:border-blue-300 hover:-translate-y-0.5"
           >
             {item.label}
           </Link>

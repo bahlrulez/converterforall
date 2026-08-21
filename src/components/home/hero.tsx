@@ -1,173 +1,136 @@
 "use client";
 
 import React from "react";
-import { Sparkles, Shield, Zap, Lock, Laptop, Infinity as InfinityIcon, Layers, Gift } from "lucide-react";
+import { Sparkles, Shield, Zap, Lock, Infinity as InfinityIcon, Gift, FileText, Image as ImageIcon, Video, Music, FileCode, Type, ArrowRight } from "lucide-react";
 import { ModernDropzone } from "./modern-dropzone";
+import { HeroSearch } from "./hero-search";
 
-// Folded-Corner Document Outline Component with Crisp High-Contrast Styling
-function FileDocOutline({ 
-  label, 
-  className, 
-  style 
-}: { 
-  label: string; 
-  className?: string; 
-  style?: React.CSSProperties 
+// Modern Floating Glass Token Component
+function FloatingFormatToken({
+  label,
+  ext,
+  icon: Icon,
+  colorClass,
+  bgClass,
+  borderClass,
+  className,
+  style,
+}: {
+  label: string;
+  ext: string;
+  icon: any;
+  colorClass: string;
+  bgClass: string;
+  borderClass: string;
+  className?: string;
+  style?: React.CSSProperties;
 }) {
   return (
     <div className={className} style={style}>
-      <svg 
-        viewBox="0 0 100 130" 
-        className="w-20 h-28 sm:w-28 sm:h-36 md:w-32 md:h-42 drop-shadow-md transition-transform duration-500 hover:scale-105" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Folded Corner Document Path with Translucent Fill */}
-        <path 
-          d="M12 6 H64 L88 30 V122 H12 Z" 
-          stroke="currentColor" 
-          strokeWidth="3" 
-          strokeLinejoin="round" 
-          className="fill-white/5 dark:fill-[#0c1630]/40 backdrop-blur-xs"
-        />
-        {/* Corner Fold Flap */}
-        <path 
-          d="M64 6 V30 H88" 
-          stroke="currentColor" 
-          strokeWidth="3" 
-          strokeLinejoin="round" 
-          className="fill-black/10 dark:fill-white/10"
-        />
-        {/* File Extension Text */}
-        <text 
-          x="50" 
-          y="84" 
-          textAnchor="middle" 
-          fill="currentColor" 
-          fontSize="22" 
-          fontWeight="900" 
-          fontFamily="system-ui, -apple-system, sans-serif" 
-          letterSpacing="0.06em"
-        >
-          {label}
-        </text>
-      </svg>
+      <div className={`flex items-center gap-2 sm:gap-2.5 px-3 py-2 sm:px-3.5 sm:py-2 rounded-2xl bg-white/80 dark:bg-[#0a1228]/75 backdrop-blur-md border ${borderClass} shadow-md dark:shadow-[0_8px_20px_rgba(0,0,0,0.4)] transition-all duration-500 hover:scale-110 select-none group`}>
+        <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl ${bgClass} ${colorClass} flex items-center justify-center shadow-2xs group-hover:scale-105 transition-transform`}>
+          <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+        </div>
+        <div className="flex flex-col text-left">
+          <span className="text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-100 tracking-tight leading-none">
+            {label}
+          </span>
+          <span className={`text-[10px] font-bold ${colorClass} tracking-wider leading-tight mt-0.5`}>
+            {ext}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
-
-// Outline Image Icon Component
-function OutlinePhoto({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <div className={className} style={style}>
-      <svg viewBox="0 0 60 60" className="w-10 h-10 sm:w-14 sm:h-14 drop-shadow-sm" fill="none" stroke="currentColor" strokeWidth="2.8" xmlns="http://www.w3.org/2000/svg">
-        <rect x="6" y="6" width="48" height="48" rx="10" className="fill-white/5 dark:fill-[#0c1630]/30" />
-        <circle cx="20" cy="20" r="5" />
-        <path d="M12 46 L26 30 L38 42 L48 32" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </div>
-  );
-}
-
-// Outline Music Note Component
-function OutlineMusic({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <div className={className} style={style}>
-      <svg viewBox="0 0 50 50" className="w-10 h-10 sm:w-12 sm:h-12 drop-shadow-sm" fill="none" stroke="currentColor" strokeWidth="2.8" xmlns="http://www.w3.org/2000/svg">
-        <path d="M34 10 V36 A 5.5 5.5 0 1 1 28.5 30.5 H34 V18 L16 22 V40 A 5.5 5.5 0 1 1 10.5 34.5 H16 V14 Z" strokeLinejoin="round" />
-      </svg>
-    </div>
-  );
-}
-
-// Outline Video Play Component
-function OutlinePlay({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <div className={className} style={style}>
-      <svg viewBox="0 0 60 48" className="w-11 h-9 sm:w-14 sm:h-11 drop-shadow-sm" fill="none" stroke="currentColor" strokeWidth="2.8" xmlns="http://www.w3.org/2000/svg">
-        <rect x="5" y="4" width="50" height="40" rx="10" className="fill-white/5 dark:fill-[#0c1630]/30" />
-        <polygon points="24,16 38,24 24,32" strokeLinejoin="round" fill="currentColor" opacity="0.3" />
-      </svg>
-    </div>
-  );
-}
-
-import { HeroSearch } from "./hero-search";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden py-4 sm:py-6 md:py-8 bg-slate-50/50 dark:bg-[#040814] text-slate-900 dark:text-white transition-colors duration-300">
-      {/* Ambient Gradient Glow Behind Hero */}
-      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-blue-500/15 dark:bg-blue-600/20 blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-purple-500/15 dark:bg-purple-600/20 blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-blue-500/20 via-indigo-500/15 dark:from-blue-600/25 dark:via-indigo-600/15 to-transparent blur-[90px] pointer-events-none -z-10" />
+    <section className="relative overflow-hidden py-4 sm:py-6 md:py-8 bg-slate-50/60 dark:bg-[#030714] text-slate-900 dark:text-white transition-colors duration-300">
+      {/* Dynamic Ambient Mesh Glows */}
+      <div className="absolute top-1/4 left-1/10 w-[550px] h-[550px] bg-blue-500/15 dark:bg-blue-600/20 blur-[130px] pointer-events-none -z-10 rounded-full animate-pulse" style={{ animationDuration: '8s' }} />
+      <div className="absolute top-1/3 right-1/10 w-[550px] h-[550px] bg-purple-500/15 dark:bg-purple-600/20 blur-[130px] pointer-events-none -z-10 rounded-full animate-pulse" style={{ animationDuration: '10s' }} />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[350px] bg-gradient-to-b from-blue-500/20 via-indigo-500/15 dark:from-blue-600/25 dark:via-indigo-600/15 to-transparent blur-[100px] pointer-events-none -z-10" />
 
-      {/* Abstract Outline File Background Icons */}
+      {/* Modern Floating Format Tokens (Left and Right Flanks) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
-        {/* LEFT SIDE BACKGROUND ELEMENTS */}
-        <FileDocOutline 
-          label="PDF" 
-          className="absolute top-[2%] left-[1%] sm:left-[3%] text-rose-500/28 dark:text-rose-400/25 animate-float-drift-1" 
-          style={{ "--rot": "-14deg" } as any}
-        />
-        <OutlinePhoto 
-          className="absolute top-[8%] left-[17%] sm:left-[19%] text-sky-500/22 dark:text-sky-400/20 animate-float-drift-2 hidden sm:block" 
-          style={{ "--rot": "8deg" } as any}
-        />
-        <OutlineMusic 
-          className="absolute top-[24%] left-[18%] sm:left-[21%] text-purple-500/22 dark:text-purple-400/20 animate-float-drift-1 hidden md:block" 
-          style={{ "--rot": "-10deg" } as any}
-        />
-        <FileDocOutline 
-          label="MP4" 
-          className="absolute top-[28%] left-[1%] sm:left-[4%] text-blue-500/28 dark:text-blue-400/25 animate-float-drift-2" 
-          style={{ "--rot": "-16deg" } as any}
-        />
-        <OutlinePlay 
-          className="absolute top-[48%] left-[17%] sm:left-[20%] text-blue-500/22 dark:text-blue-400/20 animate-float-drift-1 hidden sm:block" 
-          style={{ "--rot": "12deg" } as any}
-        />
-        <FileDocOutline 
-          label="PNG" 
-          className="absolute top-[56%] left-[1%] sm:left-[3%] text-emerald-500/28 dark:text-emerald-400/25 animate-float-drift-1" 
-          style={{ "--rot": "10deg" } as any}
-        />
-
-        {/* RIGHT SIDE BACKGROUND ELEMENTS */}
-        <OutlinePhoto 
-          className="absolute top-[4%] right-[16%] sm:right-[19%] text-indigo-500/22 dark:text-indigo-400/20 animate-float-drift-1 hidden sm:block" 
-          style={{ "--rot": "-6deg" } as any}
-        />
-        <FileDocOutline 
-          label="JPG" 
-          className="absolute top-[10%] right-[1%] sm:right-[4%] text-cyan-500/28 dark:text-cyan-400/25 animate-float-drift-2" 
-          style={{ "--rot": "12deg" } as any}
-        />
-        <OutlinePlay 
-          className="absolute top-[22%] right-[15%] sm:right-[18%] text-blue-500/22 dark:text-blue-400/20 animate-float-drift-1 hidden md:block" 
-          style={{ "--rot": "-12deg" } as any}
-        />
-        <FileDocOutline 
-          label="DOCX" 
-          className="absolute top-[34%] right-[1%] sm:right-[4%] text-indigo-500/28 dark:text-indigo-400/25 animate-float-drift-2" 
-          style={{ "--rot": "-14deg" } as any}
-        />
-        <OutlineMusic 
-          className="absolute top-[48%] right-[17%] sm:right-[20%] text-purple-500/22 dark:text-purple-400/20 animate-float-drift-1 hidden sm:block" 
+        {/* LEFT SIDE TOKENS */}
+        <FloatingFormatToken
+          label="PDF"
+          ext=".pdf"
+          icon={FileText}
+          colorClass="text-rose-600 dark:text-rose-400"
+          bgClass="bg-rose-500/15 dark:bg-rose-500/20"
+          borderClass="border-rose-200/80 dark:border-rose-500/30"
+          className="absolute top-[4%] left-[2%] sm:left-[4%] animate-float-drift-1"
           style={{ "--rot": "-8deg" } as any}
         />
-        <FileDocOutline 
-          label="TXT" 
-          className="absolute top-[70%] right-[10%] sm:right-[14%] text-purple-500/28 dark:text-purple-400/25 animate-float-drift-1 hidden sm:block" 
+
+        <FloatingFormatToken
+          label="MP4"
+          ext=".mp4"
+          icon={Video}
+          colorClass="text-blue-600 dark:text-blue-400"
+          bgClass="bg-blue-500/15 dark:bg-blue-500/20"
+          borderClass="border-blue-200/80 dark:border-blue-500/30"
+          className="absolute top-[32%] left-[1%] sm:left-[3%] animate-float-drift-2"
+          style={{ "--rot": "6deg" } as any}
+        />
+
+        <FloatingFormatToken
+          label="PNG"
+          ext=".png"
+          icon={ImageIcon}
+          colorClass="text-emerald-600 dark:text-emerald-400"
+          bgClass="bg-emerald-500/15 dark:bg-emerald-500/20"
+          borderClass="border-emerald-200/80 dark:border-emerald-500/30"
+          className="absolute top-[60%] left-[2%] sm:left-[4%] animate-float-drift-1"
+          style={{ "--rot": "-6deg" } as any}
+        />
+
+        {/* RIGHT SIDE TOKENS */}
+        <FloatingFormatToken
+          label="JPG"
+          ext=".jpg"
+          icon={ImageIcon}
+          colorClass="text-amber-600 dark:text-amber-400"
+          bgClass="bg-amber-500/15 dark:bg-amber-500/20"
+          borderClass="border-amber-200/80 dark:border-amber-500/30"
+          className="absolute top-[5%] right-[2%] sm:right-[4%] animate-float-drift-2"
           style={{ "--rot": "8deg" } as any}
+        />
+
+        <FloatingFormatToken
+          label="DOCX"
+          ext=".docx"
+          icon={FileText}
+          colorClass="text-sky-600 dark:text-sky-400"
+          bgClass="bg-sky-500/15 dark:bg-sky-500/20"
+          borderClass="border-sky-200/80 dark:border-sky-500/30"
+          className="absolute top-[34%] right-[1%] sm:right-[3%] animate-float-drift-1"
+          style={{ "--rot": "-6deg" } as any}
+        />
+
+        <FloatingFormatToken
+          label="MP3"
+          ext=".mp3"
+          icon={Music}
+          colorClass="text-purple-600 dark:text-purple-400"
+          bgClass="bg-purple-500/15 dark:bg-purple-500/20"
+          borderClass="border-purple-200/80 dark:border-purple-500/30"
+          className="absolute top-[62%] right-[2%] sm:right-[4%] animate-float-drift-2"
+          style={{ "--rot": "7deg" } as any}
         />
       </div>
 
       <div className="container relative z-10 mx-auto px-4 text-center max-w-5xl">
-        {/* Top Feature Pill Badge */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50/90 dark:bg-[#0c1630]/90 text-blue-600 dark:text-blue-400 text-[11px] sm:text-xs font-semibold backdrop-blur-md shadow-xs mb-2 sm:mb-2.5 animate-fade-in">
-          <Zap className="w-3 h-3 text-blue-500 dark:text-blue-400 fill-blue-500 dark:fill-blue-400" />
-          <span>The next generation file converter</span>
+        {/* Top Feature Pill Badge with Glowing Shimmer Dot */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-blue-200/90 dark:border-blue-500/30 bg-white/90 dark:bg-[#0c1630]/90 text-blue-700 dark:text-blue-300 text-[11px] sm:text-xs font-semibold backdrop-blur-md shadow-xs mb-2 sm:mb-2.5 animate-fade-in group hover:border-blue-400 transition-all">
+          <span className="flex h-2 w-2 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+          </span>
+          <span className="font-bold tracking-tight">150+ Free In-Browser Conversion Tools</span>
         </div>
 
         {/* Hero Title */}
@@ -216,9 +179,9 @@ export function Hero() {
 
         {/* 4 Bottom Trust Cards Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 max-w-4xl mx-auto text-left">
-          <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800 shadow-xs hover:border-blue-400 dark:hover:border-blue-500/40 transition-colors">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 border border-blue-200/80 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
-              <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200/90 dark:border-slate-800 shadow-xs hover:shadow-md hover:border-blue-400 dark:hover:border-blue-500/40 hover:-translate-y-0.5 transition-all">
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-200/80 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+              <Lock className="w-4 h-4" />
             </div>
             <div>
               <h4 className="text-xs font-bold text-slate-900 dark:text-white">Client-Side Privacy</h4>
@@ -226,9 +189,9 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800 shadow-xs hover:border-indigo-400 dark:hover:border-indigo-500/40 transition-colors">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-500/10 border border-indigo-200/80 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
-              <InfinityIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200/90 dark:border-slate-800 shadow-xs hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500/40 hover:-translate-y-0.5 transition-all">
+            <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-200/80 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+              <InfinityIcon className="w-4 h-4" />
             </div>
             <div>
               <h4 className="text-xs font-bold text-slate-900 dark:text-white">No Daily Limits</h4>
@@ -236,9 +199,9 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800 shadow-xs hover:border-purple-400 dark:hover:border-purple-500/40 transition-colors">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/10 border border-purple-200/80 dark:border-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
-              <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200/90 dark:border-slate-800 shadow-xs hover:shadow-md hover:border-purple-400 dark:hover:border-purple-500/40 hover:-translate-y-0.5 transition-all">
+            <div className="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-200/80 dark:border-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+              <Shield className="w-4 h-4" />
             </div>
             <div>
               <h4 className="text-xs font-bold text-slate-900 dark:text-white">Zero Watermarks</h4>
@@ -246,9 +209,9 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800 shadow-xs hover:border-emerald-400 dark:hover:border-emerald-500/40 transition-colors">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-              <Gift className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <div className="flex items-center gap-2.5 p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200/90 dark:border-slate-800 shadow-xs hover:shadow-md hover:border-emerald-400 dark:hover:border-emerald-500/40 hover:-translate-y-0.5 transition-all">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <Gift className="w-4 h-4" />
             </div>
             <div>
               <h4 className="text-xs font-bold text-slate-900 dark:text-white">100% Free Forever</h4>
