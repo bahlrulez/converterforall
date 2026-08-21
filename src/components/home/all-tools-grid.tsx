@@ -195,7 +195,7 @@ export function AllToolsGrid() {
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
               All the Tools You Need, <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 dark:from-blue-400 dark:via-indigo-300 dark:to-sky-400 bg-clip-text text-transparent">
+              <span className="text-blue-600 dark:text-blue-400">
                 In One Place.
               </span>
             </h2>

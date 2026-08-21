@@ -71,7 +71,7 @@ export default function AboutPage() {
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15] mb-6">
             About{" "}
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 dark:from-blue-400 dark:via-indigo-300 dark:to-sky-400 bg-clip-text text-transparent">
+            <span className="text-blue-600 dark:text-blue-400">
               ConverterForAll
             </span>
           </h1>

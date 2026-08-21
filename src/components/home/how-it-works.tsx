@@ -60,7 +60,7 @@ export function HowItWorks() {
             className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-4"
           >
             How to Convert Files in{" "}
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 dark:from-blue-400 dark:via-indigo-300 dark:to-sky-400 bg-clip-text text-transparent">
+            <span className="text-blue-600 dark:text-blue-400">
               3 Simple Steps
             </span>
           </h2>

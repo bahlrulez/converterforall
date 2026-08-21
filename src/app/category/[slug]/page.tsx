@@ -93,7 +93,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Home
           </Link>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 capitalize bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 capitalize text-foreground">
             {displayTitle}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
