@@ -92,9 +92,11 @@ function OutlinePlay({ className, style }: { className?: string; style?: React.C
   );
 }
 
+import { HeroSearch } from "./hero-search";
+
 export function Hero() {
   return (
-    <section className="relative overflow-hidden py-8 sm:py-10 md:py-12 bg-slate-50/50 dark:bg-[#040814] text-slate-900 dark:text-white transition-colors duration-300">
+    <section className="relative overflow-hidden py-8 sm:py-12 md:py-16 bg-slate-50/50 dark:bg-[#040814] text-slate-900 dark:text-white transition-colors duration-300">
       {/* Ambient Gradient Glow Behind Hero */}
       <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-blue-500/15 dark:bg-blue-600/20 blur-[120px] pointer-events-none -z-10" />
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-purple-500/15 dark:bg-purple-600/20 blur-[120px] pointer-events-none -z-10" />
@@ -186,18 +188,18 @@ export function Hero() {
 
       </div>
 
-      <div className="container relative z-10 mx-auto px-4 text-center max-w-6xl">
+      <div className="container relative z-10 mx-auto px-4 text-center max-w-5xl">
         {/* Top Feature Pill Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50/80 dark:bg-[#0c1630]/80 text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-semibold backdrop-blur-md shadow-sm dark:shadow-[0_0_20px_rgba(59,130,246,0.25)] mb-3 sm:mb-4 animate-fade-in">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50/90 dark:bg-[#0c1630]/90 text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-semibold backdrop-blur-md shadow-sm mb-3 sm:mb-4 animate-fade-in">
           <Zap className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400 fill-blue-500 dark:fill-blue-400" />
           <span>The next generation file converter</span>
         </div>
 
-        {/* Hero Title Matching User Design */}
-        <h1 className="font-jakarta text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.03em] text-slate-900 dark:text-white mb-3 sm:mb-4 leading-[1.15] max-w-4xl mx-auto">
+        {/* Hero Title */}
+        <h1 className="font-jakarta text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-3 sm:mb-4 leading-[1.18] max-w-4xl mx-auto">
           Free Online File Converter. <br className="hidden sm:inline" />
           <span className="relative inline-block mt-1 sm:mt-2">
-            <span className="font-script text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-normal italic text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] via-[#818cf8] to-[#c084fc] drop-shadow-sm pr-2">
+            <span className="font-script text-4xl sm:text-6xl md:text-7xl font-bold tracking-normal italic text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] via-[#818cf8] to-[#c084fc] drop-shadow-sm pr-2">
               100% Private &amp; Secure.
             </span>
             {/* Glowing Accent Swoosh Underline */}
@@ -225,101 +227,102 @@ export function Hero() {
         </h1>
 
         {/* Hero Subtitle */}
-        <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
-          Convert, merge, and compress PDF, image, video, and audio files securely in your browser.
+        <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 mb-6 sm:mb-8 leading-relaxed">
+          Convert, merge, and compress PDF, image, video, audio, and font files securely in your browser.
         </p>
 
+        {/* Landing Page Tool Search Box */}
+        <HeroSearch />
+
         {/* 4 Mini Feature Pills Row Above Drop Box */}
-        <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto mb-6 sm:mb-8 text-left">
-          <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/90 dark:bg-[#0a1128]/70 border border-slate-200 dark:border-slate-800/80 backdrop-blur-md shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-blue-500/10 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+        <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto mb-6 text-left">
+          <div className="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
               <Shield className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-slate-900 dark:text-white">100% Private</div>
-              <div className="text-[10px] text-slate-500 dark:text-slate-400">Your files stay local</div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">In-Browser Privacy</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400">Files stay on device</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/90 dark:bg-[#0a1128]/70 border border-slate-200 dark:border-slate-800/80 backdrop-blur-md shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+          <div className="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
               <Zap className="w-4 h-4" />
             </div>
             <div>
               <div className="text-xs font-bold text-slate-900 dark:text-white">Lightning Fast</div>
-              <div className="text-[10px] text-slate-500 dark:text-slate-400">Instant conversion</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400">Instant processing</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/90 dark:bg-[#0a1128]/70 border border-slate-200 dark:border-slate-800/80 backdrop-blur-md shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+          <div className="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
               <Lock className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-slate-900 dark:text-white">Secure & Safe</div>
-              <div className="text-[10px] text-slate-500 dark:text-slate-400">256-bit encryption</div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">No Sign-Up</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400">100% free forever</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/90 dark:bg-[#0a1128]/70 border border-slate-200 dark:border-slate-800/80 backdrop-blur-md shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-purple-500/10 dark:bg-purple-500/15 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+          <div className="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
               <Laptop className="w-4 h-4" />
             </div>
             <div>
               <div className="text-xs font-bold text-slate-900 dark:text-white">Works Anywhere</div>
-              <div className="text-[10px] text-slate-500 dark:text-slate-400">No installation</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400">All OS &amp; devices</div>
             </div>
           </div>
         </div>
 
         {/* Drop Box Hero Container */}
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-6 sm:mb-8 max-w-4xl mx-auto">
           <ModernDropzone />
         </div>
 
         {/* 4 Bottom Trust Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 max-w-5xl mx-auto text-left">
-          
-          <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800/90 shadow-sm dark:shadow-md hover:border-blue-500/40 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
-              <Lock className="w-5 h-5" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto text-left">
+          <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-blue-400 dark:hover:border-blue-500/40 transition-colors">
+            <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-200/80 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+              <Lock className="w-4 h-4" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">100% Private</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Files never leave your device</p>
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white">Client-Side Privacy</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Processed locally</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800/90 shadow-sm dark:shadow-md hover:border-indigo-500/40 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
-              <InfinityIcon className="w-5 h-5" />
+          <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-indigo-400 dark:hover:border-indigo-500/40 transition-colors">
+            <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-200/80 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+              <InfinityIcon className="w-4 h-4" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">Unlimited Usage</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">No limits on files or sizes</p>
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white">No Daily Limits</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Convert as needed</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800/90 shadow-sm dark:shadow-md hover:border-purple-500/40 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-200 dark:border-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
-              <Shield className="w-5 h-5" />
+          <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-purple-400 dark:hover:border-purple-500/40 transition-colors">
+            <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-200/80 dark:border-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+              <Shield className="w-4 h-4" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">Total Privacy</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Client-side in browser</p>
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white">Zero Watermarks</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">Original quality retained</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800/90 shadow-sm dark:shadow-md hover:border-emerald-500/40 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-              <Gift className="w-5 h-5" />
+          <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white dark:bg-[#080e22]/90 border border-slate-200 dark:border-slate-800 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500/40 transition-colors">
+            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <Gift className="w-4 h-4" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">100% Free Forever</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">No subscription or paywall</p>
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white">100% Free Forever</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">No credit card or login</p>
             </div>
           </div>
-
         </div>
 
       </div>

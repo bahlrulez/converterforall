@@ -149,18 +149,18 @@ export function ModernDropzone() {
       {/* Dual-Side Glowing Halo Behind Box (Blue on left, Magenta/Purple on right) */}
       <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-500/20 via-indigo-500/15 to-purple-500/20 dark:from-blue-600/40 dark:via-indigo-500/25 dark:to-purple-600/40 rounded-[2.25rem] blur-2xl opacity-80 pointer-events-none -z-10" />
 
-      {/* Main Glass Container Box */}
+      {/* Main Container Box */}
       <div
         {...getRootProps()}
-        className={`relative overflow-hidden rounded-[2rem] border transition-all duration-500 backdrop-blur-2xl ${
+        className={`relative overflow-hidden rounded-[2.25rem] border-2 transition-all duration-300 ${
           isDragActive
-            ? "border-blue-400 bg-blue-50/90 dark:bg-[#0a1228]/95 scale-[1.01] shadow-[0_0_80px_rgba(59,130,246,0.3)]"
-            : "border-slate-200/90 hover:border-blue-400/60 dark:border-blue-500/30 dark:hover:border-blue-400/50 bg-white/95 dark:bg-[#070d1e]/90 shadow-xl dark:shadow-[0_0_60px_rgba(30,58,138,0.3)]"
+            ? "border-blue-500 bg-blue-50/90 dark:bg-[#0a1228]/95 scale-[1.01] shadow-[0_0_80px_rgba(59,130,246,0.3)]"
+            : "border-slate-200 dark:border-blue-500/30 hover:border-blue-400/80 dark:hover:border-blue-400/60 bg-white dark:bg-[#070d1e] shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:shadow-[0_0_60px_rgba(30,58,138,0.3)]"
         }`}
       >
         {!detected ? (
-          /* IDLE / EMPTY STATE MATCHING 3RD IMAGE */
-          <div className="relative p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[380px] sm:min-h-[420px]">
+          /* IDLE / EMPTY STATE */
+          <div className="relative p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[360px] sm:min-h-[400px]">
             <input {...getInputProps()} />
 
             {/* Ambient Lighting Rays Inside Container */}
