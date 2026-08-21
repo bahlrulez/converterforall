@@ -166,12 +166,9 @@ export function ModernDropzone() {
             </div>
 
             {/* Main Prompt Heading */}
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
-              Convert your file
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">
+              Drop your file here
             </h2>
-            <p className="text-lg text-slate-900 dark:text-white font-medium mb-1">
-              Drop a file here
-            </p>
             <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 max-w-sm">
               We&apos;ll automatically detect the file and suggest the best conversion.
             </p>
@@ -196,6 +193,11 @@ export function ModernDropzone() {
                 or paste/drop
               </button>
             </div>
+
+            {/* Supported Formats */}
+            <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500 tracking-wider">
+              PDF &middot; DOCX &middot; JPG &middot; PNG &middot; MP4 &middot; MP3
+            </p>
           </div>
         ) : (
           /* DETECTED FILE STATE WITH SMART TOOL SELECTOR */

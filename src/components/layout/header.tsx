@@ -150,7 +150,7 @@ export function Header() {
             </Button>
           )}
           <Link href="/#featured-tools" className={cn(buttonVariants({ variant: "default" }), "hidden md:inline-flex rounded-full px-4")}>
-            Get Started
+            Convert Your File
           </Link>
           <Button 
             variant="ghost" 

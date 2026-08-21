@@ -136,7 +136,7 @@ export default function RootLayout({
         <CookieConsentProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="dark"
             disableTransitionOnChange
           >
             <Header />
