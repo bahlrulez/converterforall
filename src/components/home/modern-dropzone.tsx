@@ -146,145 +146,43 @@ export function ModernDropzone() {
         }}
       />
 
-      {/* Dual-Side Glowing Halo Behind Box */}
-      <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-500/20 via-indigo-500/15 to-purple-500/20 dark:from-blue-600/35 dark:via-indigo-500/20 dark:to-purple-600/35 rounded-[2.5rem] blur-2xl opacity-75 pointer-events-none -z-10" />
-
       {/* Main Container Box */}
       <div
         {...getRootProps()}
-        className={`relative overflow-hidden rounded-[2.25rem] border-2 transition-all duration-300 backdrop-blur-xl ${
+        className={`relative overflow-hidden rounded-xl border transition-all duration-300 ${
           isDragActive
-            ? "border-blue-500 bg-blue-50/95 dark:bg-[#0a1228]/95 scale-[1.01] shadow-[0_0_80px_rgba(59,130,246,0.35)]"
-            : "border-slate-200/90 dark:border-blue-500/30 hover:border-blue-400/90 dark:hover:border-blue-400/60 bg-white/95 dark:bg-[#070d1e]/95 shadow-[0_20px_60px_rgba(0,0,0,0.07)] dark:shadow-[0_20px_60px_rgba(30,58,138,0.3)] ring-1 ring-slate-900/5 dark:ring-white/5"
+            ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-lg"
+            : "border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-600 bg-white dark:bg-[#0f172a] shadow-sm hover:shadow-md"
         }`}
       >
-        {/* Top subtle highlight reflection line */}
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent pointer-events-none" />
 
         {!detected ? (
           /* IDLE / EMPTY STATE */
           <div className="relative p-4 sm:p-6 md:p-7 flex flex-col items-center justify-center text-center cursor-pointer min-h-[270px] sm:min-h-[300px]">
             <input {...getInputProps()} />
 
-            {/* Ambient Lighting Rays Inside Container */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center -z-10">
-              <div className="absolute top-1/3 left-1/4 w-72 h-72 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl" />
-              <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-3xl" />
-            </div>
-
-            {/* 3D Floating Isometric File Cards & Glowing Cloud Center */}
-            <div className="relative w-full max-w-md h-20 sm:h-24 flex items-center justify-center mb-1 select-none">
-              {/* LEFT SIDE FLOATING 3D CARDS */}
-
-              {/* 1. PDF Card (Top-Left) */}
-              <button
-                type="button"
-                onClick={(e) => handleFormatClick(".pdf", e)}
-                title="Select PDF"
-                className="absolute left-3 sm:left-10 top-1 w-9 h-11 sm:w-11 sm:h-13 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#1a1429]/90 dark:to-[#100d1e]/95 border border-red-200/90 dark:border-red-500/40 p-1 flex flex-col items-center justify-center shadow-xs dark:shadow-[0_8px_20px_rgba(239,68,68,0.25)] animate-float-1 hover:scale-110 hover:border-red-400 transition-all duration-300 cursor-pointer group"
-                style={{ transform: "perspective(600px) rotateY(15deg) rotateX(10deg)" }}
-              >
-                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-red-500/10 dark:bg-red-500/20 text-red-500 dark:text-red-400 flex items-center justify-center mb-0.5 group-hover:scale-110 transition-transform">
-                  <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                </div>
-                <span className="text-[8px] font-extrabold text-red-500 dark:text-red-400 tracking-wider">PDF</span>
-              </button>
-
-              {/* 2. Photo / JPG Card (Mid-Left) */}
-              <button
-                type="button"
-                onClick={(e) => handleFormatClick(".jpg,.jpeg,.png", e)}
-                title="Select Photo/Image"
-                className="absolute left-16 sm:left-24 -top-2 w-9 h-10 sm:w-10 sm:h-12 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#0e1938]/90 dark:to-[#0a1128]/95 border border-blue-200/90 dark:border-blue-500/40 p-1 flex items-center justify-center shadow-xs dark:shadow-[0_8px_20px_rgba(59,130,246,0.25)] animate-float-2 hover:scale-110 hover:border-blue-400 transition-all duration-300 cursor-pointer group"
-                style={{ transform: "perspective(600px) rotateY(18deg) rotateX(-8deg)" }}
-              >
-                <div className="w-6 h-6 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 text-blue-500 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <ImageIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </div>
-              </button>
-
-              {/* 3. Audio Card (Bottom-Left) */}
-              <button
-                type="button"
-                onClick={(e) => handleFormatClick(".mp3,.wav", e)}
-                title="Select Audio"
-                className="absolute left-10 sm:left-16 bottom-0 w-8 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#1c1538]/90 dark:to-[#120e26]/95 border border-purple-200/90 dark:border-purple-500/40 p-1 flex items-center justify-center shadow-xs dark:shadow-[0_8px_20px_rgba(168,85,247,0.25)] animate-float-3 hover:scale-110 hover:border-purple-400 transition-all duration-300 cursor-pointer group"
-                style={{ transform: "perspective(600px) rotateY(12deg) rotateX(15deg)" }}
-              >
-                <div className="w-5 h-5 rounded-lg bg-purple-500/10 dark:bg-purple-500/20 text-purple-500 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Music className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                </div>
-              </button>
-
-              {/* CENTER GLOWING UPLOAD CLOUD ORB */}
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 p-0.5 shadow-[0_8px_25px_rgba(59,130,246,0.4)] dark:shadow-[0_8px_30px_rgba(59,130,246,0.6)] flex items-center justify-center animate-float-center hover:scale-105 transition-transform duration-300">
-                  <div className="w-full h-full bg-white dark:bg-[#0c1530] rounded-[0.9rem] flex items-center justify-center relative overflow-hidden border border-blue-200/80 dark:border-blue-400/40 shadow-inner">
-                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-purple-500/10 dark:from-blue-500/30 dark:to-purple-500/20" />
-                    <UploadCloud className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 dark:text-white relative z-10 drop-shadow-sm" />
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT SIDE FLOATING 3D CARDS */}
-
-              {/* 4. Video Play Card (Top-Right) */}
-              <button
-                type="button"
-                onClick={(e) => handleFormatClick(".mp4,.mov", e)}
-                title="Select Video"
-                className="absolute right-16 sm:right-24 -top-2 w-9 h-10 sm:w-10 sm:h-12 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#1c1332]/90 dark:to-[#120a22]/95 border border-purple-200/90 dark:border-purple-500/40 p-1 flex items-center justify-center shadow-xs dark:shadow-[0_8px_20px_rgba(168,85,247,0.25)] animate-float-4 hover:scale-110 hover:border-purple-400 transition-all duration-300 cursor-pointer group"
-                style={{ transform: "perspective(600px) rotateY(-18deg) rotateX(-8deg)" }}
-              >
-                <div className="w-6 h-6 rounded-lg bg-purple-500/10 dark:bg-purple-500/20 text-purple-500 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Play className="w-3.5 h-3.5 fill-purple-500 dark:fill-purple-400 text-purple-500 dark:text-purple-400" />
-                </div>
-              </button>
-
-              {/* 5. Document / Lines Card (Mid-Right) */}
-              <button
-                type="button"
-                onClick={(e) => handleFormatClick(".docx,.doc,.txt", e)}
-                title="Select Document"
-                className="absolute right-3 sm:right-10 top-1 w-9 h-11 sm:w-11 sm:h-13 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#0c1836]/90 dark:to-[#081024]/95 border border-sky-200/90 dark:border-sky-500/40 p-1 flex flex-col items-center justify-center shadow-xs dark:shadow-[0_8px_20px_rgba(14,165,233,0.25)] animate-float-5 hover:scale-110 hover:border-sky-400 transition-all duration-300 cursor-pointer group"
-                style={{ transform: "perspective(600px) rotateY(-15deg) rotateX(10deg)" }}
-              >
-                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-0.5 group-hover:scale-110 transition-transform">
-                  <AlignLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                </div>
-                <span className="text-[8px] font-extrabold text-sky-600 dark:text-sky-400 tracking-wider">DOCX</span>
-              </button>
-
-              {/* 6. Gallery / Landscape Card (Bottom-Right) */}
-              <button
-                type="button"
-                onClick={(e) => handleFormatClick(".png,.webp", e)}
-                title="Select Image"
-                className="absolute right-10 sm:right-16 bottom-0 w-8 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-gradient-to-br dark:from-[#0c2420]/90 dark:to-[#061412]/95 border border-emerald-200/90 dark:border-emerald-500/40 p-1 flex items-center justify-center shadow-xs dark:shadow-[0_8px_20px_rgba(16,185,129,0.25)] animate-float-2 hover:scale-110 hover:border-emerald-400 transition-all duration-300 cursor-pointer group"
-                style={{ transform: "perspective(600px) rotateY(-12deg) rotateX(15deg)" }}
-              >
-                <div className="w-5 h-5 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <ImageIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                </div>
-              </button>
+            <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-6">
+              <UploadCloud className="w-8 h-8" />
             </div>
 
             {/* Main Prompt Heading */}
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-1">
-              Drop <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 dark:from-blue-400 dark:via-indigo-300 dark:to-sky-300">any file</span> here
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
+              Convert your file
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mb-4 max-w-sm">
-              We&apos;ll automatically identify your file and recommend the best conversion.
+            <p className="text-lg text-slate-900 dark:text-white font-medium mb-1">
+              Drop a file here
+            </p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 max-w-sm">
+              We&apos;ll automatically detect the file and suggest the best conversion.
             </p>
 
             {/* Action Buttons Row */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
               <button
                 type="button"
-                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/35 transition-all duration-300 hover:scale-105 active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors"
               >
-                <UploadCloud className="w-4 h-4" />
-                Choose File
+                Choose file
               </button>
 
               <button
@@ -293,55 +191,9 @@ export function ModernDropzone() {
                   e.stopPropagation();
                   handlePasteClick();
                 }}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100/90 hover:bg-slate-200 dark:bg-[#121b36]/90 dark:hover:bg-[#1a274c] border border-slate-300/80 dark:border-slate-700/80 shadow-2xs hover:shadow-xs transition-all duration-200 hover:scale-102"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-colors"
               >
-                <Clipboard className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-                Paste / Drop
-              </button>
-            </div>
-
-            {pasteNotice && (
-              <div className="mb-2 text-xs font-medium text-blue-700 dark:text-cyan-400 bg-blue-50 dark:bg-cyan-950/50 border border-blue-200 dark:border-cyan-800/60 px-3 py-0.5 rounded-full animate-fade-in">
-                {pasteNotice}
-              </div>
-            )}
-
-            {/* Separator */}
-            <div className="flex items-center gap-3 w-full max-w-xs mb-3 text-[10px] text-slate-400 dark:text-slate-500 font-medium">
-              <div className="flex-1 h-[1px] bg-slate-200 dark:bg-slate-800/80" />
-              <span>or convert directly</span>
-              <div className="flex-1 h-[1px] bg-slate-200 dark:bg-slate-800/80" />
-            </div>
-
-            {/* Quick Format Pills Row */}
-            <div className="flex flex-wrap items-center justify-center gap-1.5 max-w-xl">
-              {POPULAR_FORMATS.map((fmt) => {
-                const Icon = fmt.icon;
-                return (
-                  <button
-                    key={fmt.label}
-                    type="button"
-                    onClick={(e) => handleFormatClick(fmt.ext, e)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-slate-100/90 hover:bg-white dark:bg-[#0e162e] dark:hover:bg-[#162244] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-200 hover:scale-105 shadow-2xs hover:border-blue-300"
-                  >
-                    <Icon className={`w-3.5 h-3.5 ${fmt.color}`} />
-                    <span>{fmt.label}</span>
-                  </button>
-                );
-              })}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (fileInputRef.current) {
-                    fileInputRef.current.accept = "*/*";
-                    fileInputRef.current.click();
-                  }
-                }}
-                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900/60 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 transition-all duration-200 hover:scale-105 shadow-2xs"
-              >
-                <Plus className="w-3.5 h-3.5 text-blue-500" />
-                <span>More</span>
+                or paste/drop
               </button>
             </div>
           </div>
@@ -473,7 +325,7 @@ export function ModernDropzone() {
                   <button
                     onClick={handleStartConversion}
                     disabled={isNavigating || !selectedTool}
-                    className="w-full h-12 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group active:scale-[0.99]"
+                    className="w-full h-12 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group"
                   >
                     {isNavigating ? (
                       <>
@@ -482,7 +334,6 @@ export function ModernDropzone() {
                       </>
                     ) : (
                       <>
-                        <Sparkles className="w-4 h-4 text-yellow-300 group-hover:scale-110 transition-transform" />
                         <span>Start {selectedTool?.title || "Tool"}</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </>
