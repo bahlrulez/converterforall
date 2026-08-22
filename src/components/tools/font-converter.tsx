@@ -227,7 +227,7 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
         <div className="flex flex-col lg:flex-row gap-4 relative">
           
           {/* FROM */}
-          <div className="flex-1 w-full bg-muted/30 rounded-2xl p-4 border border-border/50 focus-within:border-primary/50 transition-colors flex flex-col min-h-[300px]">
+          <div className="flex-1 w-full bg-muted/30 rounded-2xl p-4 border border-border/50 focus-within:border-primary/50 transition-colors flex flex-col min-h-[450px]">
             <div className="flex justify-between items-center mb-3 pb-3 border-b border-border/50">
                <div className="font-semibold text-lg text-foreground">{formatFontName(fromUnit)}</div>
                <div className="text-xs text-muted-foreground">Input</div>
@@ -258,7 +258,7 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
           </div>
 
           {/* TO */}
-          <div className="flex-1 w-full bg-primary/5 rounded-2xl p-4 border border-primary/20 flex flex-col min-h-[300px]">
+          <div className="flex-1 w-full bg-primary/5 rounded-2xl p-4 border border-primary/20 flex flex-col min-h-[450px]">
             <div className="flex justify-between items-center mb-3 pb-3 border-b border-primary/10">
                <div className="font-semibold text-lg text-primary">{formatFontName(toUnit)}</div>
                <div className="text-xs text-primary/70">Output</div>

@@ -1,4 +1,69 @@
 export const fontToolsContent: Record<string, { sections: { title: string, content: string }[] }> = {
+  // PUNJABI SATLUJ CONVERTER
+  "unicode-to-satluj": {
+    sections: [
+      {
+        title: "What is Satluj Font?",
+        content: "<p>Satluj is one of the most widely used legacy Gurmukhi (Punjabi) fonts in newspaper publishing, desktop publishing (DTP), and official printing in Punjab.</p>"
+      },
+      {
+        title: "How do I convert Unicode to Satluj?",
+        content: "<p>Converting Unicode to Satluj is straightforward. Just paste your modern Punjabi text into the box above, and the tool converts it to Satluj right away. You can copy the result or download it as a document file.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is the difference between Unicode (Raavi) and Satluj font?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Unicode (commonly using the Raavi font layout) is the international standard for typing Punjabi across mobile devices, websites, and modern word processors. Satluj is an older non-Unicode legacy font mapped to standard English keyboard layouts (ASCII/ANSI), heavily used in older desktop publishing tools like Adobe PageMaker, InDesign, and CorelDraw."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Why does Satluj font show English characters when pasted online?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Legacy fonts like Satluj do not use standard Unicode character encoding. When you copy Satluj text into modern web browsers, WhatsApp, or Google Docs, it renders as standard Latin/English letters (e.g., s turns into ਸ). Converting it to Unicode fixes this immediately."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I use converted Satluj text in Adobe PageMaker or CorelDraw?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "1. Copy the converted Satluj output from our tool. 2. Open Adobe PageMaker, Photoshop, or CorelDraw. 3. Select the text tool, paste your text, and set the font name to Satluj (or Satluj Bold)."
+                }
+              }
+            ]
+          }
+          </script>
+          <p><strong>Q: What is the difference between Unicode (Raavi) and Satluj font?</strong><br>A: Unicode (commonly using the Raavi font layout) is the international standard for typing Punjabi across mobile devices, websites, and modern word processors. Satluj is an older non-Unicode legacy font mapped to standard English keyboard layouts (ASCII/ANSI), heavily used in older desktop publishing tools like Adobe PageMaker, InDesign, and CorelDraw.</p>
+          <p><strong>Q: Why does Satluj font show English characters when pasted online?</strong><br>A: Legacy fonts like Satluj do not use standard Unicode character encoding. When you copy Satluj text into modern web browsers, WhatsApp, or Google Docs, it renders as standard Latin/English letters (e.g., s turns into ਸ). Converting it to Unicode fixes this immediately.</p>
+          <p><strong>Q: How do I use converted Satluj text in Adobe PageMaker or CorelDraw?</strong><br>A: 1. Copy the converted Satluj output from our tool.<br>2. Open Adobe PageMaker, Photoshop, or CorelDraw.<br>3. Select the text tool, paste your text, and set the font name to Satluj (or Satluj Bold).</p>
+        `
+      },
+      {
+        title: "Related Punjabi Font Converters",
+        content: \`
+          <ul class="flex flex-col gap-2 list-disc pl-5">
+            <li><a href="/satluj-to-unicode" class="text-blue-600 dark:text-blue-400 hover:underline">Satluj to Unicode</a></li>
+            <li><a href="/unicode-to-asees" class="text-blue-600 dark:text-blue-400 hover:underline">Unicode to Asees</a></li>
+            <li><a href="/unicode-to-anmollipi" class="text-blue-600 dark:text-blue-400 hover:underline">Unicode to AnmolLipi</a></li>
+            <li><a href="/unicode-to-raavi" class="text-blue-600 dark:text-blue-400 hover:underline">Unicode to Raavi</a></li>
+          </ul>
+        \`
+      }
+    ]
+  },
+
   // KRUTI DEV TO UNICODE / MANGAL CONVERTER
   "krutidev-to-unicode": {
     sections: [

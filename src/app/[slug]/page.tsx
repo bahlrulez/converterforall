@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${toolData.tool.title} | 100% Free & Private Online Tool`,
-    description: `${toolData.tool.description} Fast, secure, client-side conversion powered by in-browser WebAssembly & WebGPU hardware acceleration.`,
+    title: (toolData.tool as any).seoTitle || `${toolData.tool.title} | 100% Free & Private Online Tool`,
+    description: (toolData.tool as any).seoDescription || `${toolData.tool.description} Fast, secure, client-side conversion powered by in-browser WebAssembly & WebGPU hardware acceleration.`,
     openGraph: {
       title: `${toolData.tool.title} - Free Online Converter`,
       description: toolData.tool.description,
@@ -110,13 +110,13 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
       {/* Top Ambient Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[350px] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
-      <div className="container mx-auto px-4 max-w-5xl relative z-10">
+      <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Inject JSON-LD Schemas */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
 
         {/* Hero Header Section */}
-        <div className="mb-10 print:hidden flex flex-col items-center text-center">
+        <div className="mb-10 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
           <Link 
             href="/" 
             className="inline-flex items-center text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-6 transition-all bg-white dark:bg-[#0a1128]/80 px-4 py-2 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
