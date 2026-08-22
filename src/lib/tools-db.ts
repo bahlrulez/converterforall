@@ -408,6 +408,51 @@ export const toolsDatabase = {
       outputFormat: "ogg",
       actionName: "Convert to OGG",
       acceptedTypes: { "audio/mpeg": [".mp3"] }
+    },
+    "trim-audio": {
+      title: "Audio Trimmer & Cutter (MP3, WAV, OGG)",
+      description: "Trim, cut, and split audio files directly in your browser. 100% private, no uploads.",
+      inputFormat: "audio",
+      outputFormat: "mp3",
+      actionName: "Trim Audio",
+      isInteractive: true,
+      acceptedTypes: { "audio/*": [".mp3", ".wav", ".ogg", ".m4a", ".aac"] }
+    },
+    "trim-mp3-online": {
+      title: "Free MP3 Cutter & Trimmer Online",
+      description: "Cut and trim MP3 files online instantly. No file size limits, no watermarks, completely private.",
+      inputFormat: "audio",
+      outputFormat: "mp3",
+      actionName: "Cut MP3",
+      isInteractive: true,
+      acceptedTypes: { "audio/mpeg": [".mp3"] }
+    },
+    "cut-audio-free": {
+      title: "Cut Audio Files Free Online",
+      description: "Easily slice and cut audio clips, songs, and recordings for free directly on your device.",
+      inputFormat: "audio",
+      outputFormat: "mp3",
+      actionName: "Cut Audio",
+      isInteractive: true,
+      acceptedTypes: { "audio/*": [".mp3", ".wav", ".ogg", ".m4a", ".aac"] }
+    },
+    "private-audio-trimmer": {
+      title: "Private Audio Trimmer (No Server Uploads)",
+      description: "A highly secure, 100% client-side audio cutter. Your voice notes and recordings never leave your device.",
+      inputFormat: "audio",
+      outputFormat: "mp3",
+      actionName: "Securely Trim Audio",
+      isInteractive: true,
+      acceptedTypes: { "audio/*": [".mp3", ".wav", ".ogg", ".m4a", ".aac"] }
+    },
+    "convert-whatsapp-voice-note-to-mp3": {
+      title: "Convert WhatsApp Voice Notes to MP3 & Trim",
+      description: "Upload your WhatsApp voice notes (.ogg or .opus) to trim dead space and convert them into standard MP3 files.",
+      inputFormat: "audio",
+      outputFormat: "mp3",
+      actionName: "Convert Voice Note",
+      isInteractive: true,
+      acceptedTypes: { "audio/*": [".ogg", ".opus", ".m4a", ".mp3", ".wav"] }
     }
   },
   "video": {

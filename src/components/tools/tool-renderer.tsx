@@ -45,6 +45,7 @@ const UuidGenerator = dynamic(() => import("@/components/tools/uuid-generator").
 const VideoCompressor = dynamic(() => import("@/components/tools/video-compressor").then(m => m.VideoCompressor), { ssr: false, loading: ToolLoading });
 const CompressPdfTool = dynamic(() => import("@/components/tools/compress-pdf").then(m => m.CompressPdfTool), { ssr: false, loading: ToolLoading });
 const ImageToSvgComponent = dynamic(() => import("@/components/tools/image-to-svg").then(m => m.default), { ssr: false, loading: ToolLoading });
+const AudioTrimmerComponent = dynamic(() => import("@/components/tools/audio-trimmer").then(m => m.default), { ssr: false, loading: ToolLoading });
 
 interface ToolRendererProps {
   toolSlug: string;
@@ -94,6 +95,7 @@ export function ToolRenderer({
         {toolSlug === "screen-recorder" && <ScreenRecorder />}
         {(toolSlug === "edit-pdf" || toolSlug === "pdf-editor" || toolSlug === "annotate-pdf" || toolSlug === "sign-pdf") && <PdfEditor />}
         {toolSlug === "image-to-svg" && <ImageToSvgComponent />}
+        {(toolSlug === "trim-audio" || toolSlug === "trim-mp3-online" || toolSlug === "cut-audio-free" || toolSlug === "private-audio-trimmer" || toolSlug === "convert-whatsapp-voice-note-to-mp3") && <AudioTrimmerComponent />}
         
         {/* Data & Code Tools */}
         {(toolSlug === "jwt-decoder" || toolSlug === "decode-jwt") && <JwtDecoder />}

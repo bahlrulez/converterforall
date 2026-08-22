@@ -5,6 +5,7 @@ import { pdfConvertContent } from "./content/pdf-convert";
 import { videoToolsContent } from "./content/video-tools";
 import { utilitiesToolsContent } from "./content/utilities-tools";
 import { fontToolsContent } from "./content/font-tools";
+import { audioToolsContent } from "./content/audio-tools";
 
 export const toolContent: Record<string, { sections: { title: string, content: string }[] }> = {
   ...imageToolsContent,
@@ -14,6 +15,7 @@ export const toolContent: Record<string, { sections: { title: string, content: s
   ...videoToolsContent,
   ...utilitiesToolsContent,
   ...fontToolsContent,
+  ...audioToolsContent,
   "remove-background": {
     sections: [
       {
