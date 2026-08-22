@@ -308,6 +308,25 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
       {
         title: "Why use WOFF2?",
         content: "<p>WOFF2 (Web Open Font Format 2) is the modern standard for web typography. It offers a ~30% better compression rate than the original WOFF format, significantly speeding up your website's load time and improving your Core Web Vitals.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <div itemscope itemtype="https://schema.org/FAQPage">
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+              <h3 itemprop="name">What is the difference between TTF and WOFF2?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">TTF (TrueType Font) is a standard desktop font format meant for operating systems and design software. WOFF2 is a highly compressed font format specifically designed for fast loading on websites. You should always convert TTF to WOFF2 before using it in CSS.</p>
+              </div>
+            </div>
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="mt-4">
+              <h3 itemprop="name">Can I install WOFF2 files on my Windows or Mac computer?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">No. Operating systems do not natively support WOFF2 for system-wide installation. If you have a WOFF2 file that you want to use in Microsoft Word, Photoshop, or Figma, you must convert the WOFF2 file back to TTF or OTF first.</p>
+              </div>
+            </div>
+          </div>
+        `
       }
     ]
   },
@@ -320,6 +339,19 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
       {
         title: "Why convert TTF to WOFF2?",
         content: "<p>While TTF works on the web, it is not compressed. Converting a TTF file to WOFF2 can reduce its file size by up to 50%, resulting in faster page loads and better SEO rankings.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <div itemscope itemtype="https://schema.org/FAQPage">
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+              <h3 itemprop="name">Is it better to self-host WOFF2 fonts or use Google Fonts?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">Self-hosting your own converted WOFF2 fonts is often faster and much more privacy-friendly than using Google Fonts, as it eliminates extra DNS lookups and prevents third-party tracking scripts from running on your site.</p>
+              </div>
+            </div>
+          </div>
+        `
       }
     ]
   },
@@ -336,6 +368,19 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
       {
         title: "Extract WOFF2 to TTF",
         content: "<p>Need to use a web font in your desktop design software like Photoshop or Illustrator? This tool perfectly decompresses WOFF2 files back into standard TTF format, entirely within your browser.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <div itemscope itemtype="https://schema.org/FAQPage">
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+              <h3 itemprop="name">Does converting WOFF2 to TTF lose quality?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">No. WOFF2 is simply a compressed container for the original TTF or OTF font data. Converting it back to TTF restores the exact original font file perfectly with zero quality loss.</p>
+              </div>
+            </div>
+          </div>
+        `
       }
     ]
   }
