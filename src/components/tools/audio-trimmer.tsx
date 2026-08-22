@@ -145,9 +145,9 @@ export default function AudioTrimmerComponent() {
       const left = convertBuffer(channels[0]);
       const right = channels.length > 1 ? convertBuffer(channels[1]) : null;
       
-      // Dynamically import lamejs
+      // Dynamically import patched lamejs fork
       // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const lamejs = require('lamejs');
+      const lamejs = require('@breezystack/lamejs');
       const numChannels = Math.min(2, channels.length);
       const mp3encoder = new lamejs.Mp3Encoder(numChannels, audioBuffer.sampleRate, 192); // 192kbps
       
