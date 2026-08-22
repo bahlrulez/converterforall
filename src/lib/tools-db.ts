@@ -150,6 +150,19 @@ export const toolsDatabase = {
       outputFormat: "jpg",
       actionName: "Convert to JPG",
       acceptedTypes: { "image/svg+xml": [".svg"] }
+    },
+    "image-to-svg": {
+      title: "Image to SVG Vector Converter",
+      description: "Convert pixel images (PNG, JPG, WEBP) to scalable vector graphics (SVG) instantly. 100% private.",
+      inputFormat: "image",
+      outputFormat: "svg",
+      actionName: "Convert to Vector",
+      isInteractive: true,
+      acceptedTypes: { 
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"],
+        "image/webp": [".webp"]
+      }
     }
   },
   "document": {

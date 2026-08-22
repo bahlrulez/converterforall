@@ -349,5 +349,29 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
+  },
+  "image-to-svg": {
+    sections: [
+      {
+        title: "Image Raster to Vector Converter (PNG/JPG to SVG)",
+        content: "<p>Instantly vectorize logos, icons, and signatures. Convert pixel-based images (PNG, JPG, WEBP) into scalable vector graphics (SVG) entirely inside your browser without uploading your files to any cloud server.</p>"
+      },
+      {
+        title: "Is this Image to Vector converter really free?",
+        content: "<p>Yes! Unlike most vectorizer tools that charge monthly fees or add watermarks to your downloads, our tool is 100% free with unlimited conversions and zero watermarks.</p>"
+      },
+      {
+        title: "Are my images uploaded to your servers?",
+        content: "<p>No. All vector tracing is done entirely in your browser using advanced client-side scripts. Your sensitive images and signatures never leave your device.</p>"
+      },
+      {
+        title: "What is the difference between Raster and Vector?",
+        content: "<p>Raster images (like PNG or JPG) are made of fixed pixels and become blurry when zoomed in. Vector graphics (like SVG) are made of mathematical paths, meaning they can be scaled to any size (from a business card to a billboard) without losing quality.</p>"
+      },
+      {
+        title: "What types of images work best?",
+        content: "<p>This tool works best on high-contrast images with solid colors and clear edges, such as logos, icons, line art, and scanned signatures. It is not designed to vectorize complex, highly detailed photographs.</p>"
+      }
+    ]
   }
 };
