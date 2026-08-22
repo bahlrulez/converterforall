@@ -248,6 +248,33 @@ export const toolsDatabase = {
       actionName: "Create PDF",
       acceptedTypes: { "image/*": [".jpg", ".png", ".jpeg"] }
     },
+    "clean-pdf-metadata": {
+      title: "PDF Metadata Cleaner (100% Private)",
+      description: "Scrub hidden author names, dates, and software tracks from your PDF files directly in your browser.",
+      subCategory: "Organize PDF",
+      inputFormat: "pdf",
+      outputFormat: "pdf",
+      actionName: "Scrub Metadata",
+      acceptedTypes: { "application/pdf": [".pdf"] }
+    },
+    "remove-pdf-properties": {
+      title: "Remove PDF Document Properties",
+      description: "Instantly delete all hidden properties, tracking data, and author information from PDF documents.",
+      subCategory: "Organize PDF",
+      inputFormat: "pdf",
+      outputFormat: "pdf",
+      actionName: "Remove Properties",
+      acceptedTypes: { "application/pdf": [".pdf"] }
+    },
+    "pdf-privacy-scrubber": {
+      title: "Secure PDF Privacy Scrubber",
+      description: "Ensure document confidentiality by erasing invisible EXIF data and metadata from PDFs without uploading to any server.",
+      subCategory: "Organize PDF",
+      inputFormat: "pdf",
+      outputFormat: "pdf",
+      actionName: "Scrub PDF Privacy",
+      acceptedTypes: { "application/pdf": [".pdf"] }
+    },
 
     // EDIT & ANNOTATE PDF
     "edit-pdf": {

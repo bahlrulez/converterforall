@@ -192,5 +192,53 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
         `
       }
     ]
+  },
+  "clean-pdf-metadata": {
+    sections: [
+      {
+        title: "What is PDF Metadata?",
+        content: "<p>Whenever a PDF is created (whether by Microsoft Word, Adobe Illustrator, or a scanner), the software often embeds hidden 'metadata' inside the file's code. This can include the author's real name, the software version used, the exact date and time it was created, and sometimes even the file path on their computer (e.g., C:/Users/YourName/Desktop/Confidential.docx).</p>"
+      },
+      {
+        title: "Why scrub metadata?",
+        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Our PDF Metadata Cleaner strips all this hidden data (Title, Author, Subject, Keywords, Creator, and Producer tags) so your file is completely anonymized.</p>"
+      },
+      {
+        title: "100% Client-Side Privacy",
+        content: "<p>Why upload your confidential PDF to a remote server just to clean it? Other tools force you to upload your sensitive files. Our tool uses advanced WebAssembly to parse and scrub the PDF directly in your browser's memory. The file never leaves your computer, ensuring absolute privacy.</p>"
+      }
+    ]
+  },
+  "remove-pdf-properties": {
+    sections: [
+      {
+        title: "What is PDF Metadata?",
+        content: "<p>Whenever a PDF is created (whether by Microsoft Word, Adobe Illustrator, or a scanner), the software often embeds hidden 'metadata' inside the file's code. This can include the author's real name, the software version used, the exact date and time it was created, and sometimes even the file path on their computer (e.g., C:/Users/YourName/Desktop/Confidential.docx).</p>"
+      },
+      {
+        title: "Why scrub metadata?",
+        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Our PDF Metadata Cleaner strips all this hidden data (Title, Author, Subject, Keywords, Creator, and Producer tags) so your file is completely anonymized.</p>"
+      },
+      {
+        title: "100% Client-Side Privacy",
+        content: "<p>Why upload your confidential PDF to a remote server just to clean it? Other tools force you to upload your sensitive files. Our tool uses advanced WebAssembly to parse and scrub the PDF directly in your browser's memory. The file never leaves your computer, ensuring absolute privacy.</p>"
+      }
+    ]
+  },
+  "pdf-privacy-scrubber": {
+    sections: [
+      {
+        title: "What is PDF Metadata?",
+        content: "<p>Whenever a PDF is created (whether by Microsoft Word, Adobe Illustrator, or a scanner), the software often embeds hidden 'metadata' inside the file's code. This can include the author's real name, the software version used, the exact date and time it was created, and sometimes even the file path on their computer (e.g., C:/Users/YourName/Desktop/Confidential.docx).</p>"
+      },
+      {
+        title: "Why scrub metadata?",
+        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Our PDF Metadata Cleaner strips all this hidden data (Title, Author, Subject, Keywords, Creator, and Producer tags) so your file is completely anonymized.</p>"
+      },
+      {
+        title: "100% Client-Side Privacy",
+        content: "<p>Why upload your confidential PDF to a remote server just to clean it? Other tools force you to upload your sensitive files. Our tool uses advanced WebAssembly to parse and scrub the PDF directly in your browser's memory. The file never leaves your computer, ensuring absolute privacy.</p>"
+      }
+    ]
   }
 };

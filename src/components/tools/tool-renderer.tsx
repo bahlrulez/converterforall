@@ -35,6 +35,7 @@ const QrScanner = dynamic(() => import("@/components/tools/qr-scanner").then(m =
 const PresentationMaker = dynamic(() => import("@/components/tools/presentation-maker").then(m => m.PresentationMaker), { ssr: false, loading: ToolLoading });
 const MergePdfTool = dynamic(() => import("@/components/tools/merge-pdf"), { ssr: false, loading: ToolLoading });
 const ScreenRecorder = dynamic(() => import("@/components/tools/screen-recorder").then(m => m.ScreenRecorder), { ssr: false, loading: ToolLoading });
+const PdfMetadataCleanerComponent = dynamic(() => import("@/components/tools/pdf-metadata-cleaner").then(m => m.default), { ssr: false, loading: ToolLoading });
 const PdfEditor = dynamic(() => import("@/components/tools/pdf-editor").then(m => m.PdfEditor), { ssr: false, loading: ToolLoading });
 const JwtDecoder = dynamic(() => import("@/components/tools/jwt-decoder").then(m => m.JwtDecoder), { ssr: false, loading: ToolLoading });
 const JsonFormatter = dynamic(() => import("@/components/tools/json-formatter").then(m => m.JsonFormatter), { ssr: false, loading: ToolLoading });
@@ -82,6 +83,8 @@ export function ToolRenderer({
         {tool.converterType === "font-detector" && <FontDetector />}
         {tool.converterType === "unicode-tools" && <UnicodeTools toolType={tool.toolType} />}
         {toolSlug === "passport-photo-maker" && <PassportMaker />}
+        {toolSlug === "compress-pdf" && <CompressPdfTool />}
+        {(toolSlug === "clean-pdf-metadata" || toolSlug === "remove-pdf-properties" || toolSlug === "pdf-privacy-scrubber") && <PdfMetadataCleanerComponent />}
         {toolSlug === "ocr-pdf" && <OcrPdfTool />}
         {toolSlug === "repair-pdf" && <RepairPdfTool />}
         {toolSlug === "pdf-to-word" && <PdfToWordTool />}
