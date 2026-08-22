@@ -149,7 +149,7 @@ export default function AudioTrimmerComponent() {
       const numChannels = Math.min(2, channels.length);
       const mp3encoder = new Mp3Encoder(numChannels, audioBuffer.sampleRate, 192); // 192kbps
       
-      const mp3Data: Int8Array[] = [];
+      const mp3Data: Uint8Array[] = [];
       const sampleBlockSize = 1152;
       
       for (let i = 0; i < left.length; i += sampleBlockSize) {
