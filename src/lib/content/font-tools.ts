@@ -292,5 +292,51 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
         `
       }
     ]
+  },
+
+  // WEB FONT CONVERTER
+  "web-font-converter": {
+    sections: [
+      {
+        title: "Web Font Converter (TTF, OTF, WOFF, WOFF2)",
+        content: "<p>Instantly convert your desktop fonts into web-ready formats. Whether you need to compress a bulky TTF into a fast-loading WOFF2, or extract a TTF from a WOFF file, this tool handles it entirely within your browser.</p>"
+      },
+      {
+        title: "100% Client-Side Privacy",
+        content: "<p>Licensed fonts can be expensive. Uploading them to a remote conversion server risks piracy and violates many commercial font licenses. Our converter uses advanced WebAssembly to process the fonts directly on your computer's memory. <strong>Your font files never leave your device.</strong></p>"
+      },
+      {
+        title: "Why use WOFF2?",
+        content: "<p>WOFF2 (Web Open Font Format 2) is the modern standard for web typography. It offers a ~30% better compression rate than the original WOFF format, significantly speeding up your website's load time and improving your Core Web Vitals.</p>"
+      }
+    ]
+  },
+  "ttf-to-woff2": {
+    sections: [
+      {
+        title: "Convert TTF to WOFF2",
+        content: "<p>Convert your TrueType Fonts (TTF) into the highly compressed WOFF2 format for the web. This tool runs 100% locally in your browser, keeping your premium fonts secure from unauthorized uploads.</p>"
+      },
+      {
+        title: "Why convert TTF to WOFF2?",
+        content: "<p>While TTF works on the web, it is not compressed. Converting a TTF file to WOFF2 can reduce its file size by up to 50%, resulting in faster page loads and better SEO rankings.</p>"
+      }
+    ]
+  },
+  "otf-to-woff2": {
+    sections: [
+      {
+        title: "Convert OTF to WOFF2",
+        content: "<p>Quickly compress your OpenType Fonts (OTF) into WOFF2 web fonts. Our tool runs locally on your device, ensuring complete privacy for your licensed typography.</p>"
+      }
+    ]
+  },
+  "woff2-to-ttf": {
+    sections: [
+      {
+        title: "Extract WOFF2 to TTF",
+        content: "<p>Need to use a web font in your desktop design software like Photoshop or Illustrator? This tool perfectly decompresses WOFF2 files back into standard TTF format, entirely within your browser.</p>"
+      }
+    ]
   }
 };

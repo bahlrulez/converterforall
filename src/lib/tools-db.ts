@@ -375,12 +375,47 @@ export const toolsDatabase = {
     },
     "html-to-pdf": {
       title: "HTML to PDF",
-      description: "Convert webpages in HTML to PDF.",
-      subCategory: "Convert to PDF",
-      inputFormat: "html",
-      outputFormat: "pdf",
-      actionName: "Convert to PDF",
-      acceptedTypes: { "text/html": [".html", ".htm"] }
+      description: "Convert any text back to standard Unicode instantly.",
+      subCategory: "Convert Text",
+      inputFormat: "text",
+      outputFormat: "text",
+      actionName: "Convert to Unicode"
+    },
+    "web-font-converter": {
+      title: "Web Font Converter",
+      description: "Convert TTF, OTF, and WOFF fonts directly in your browser. 100% private, no uploads.",
+      subCategory: "Convert Fonts",
+      inputFormat: "font",
+      outputFormat: "font",
+      actionName: "Convert Font",
+      acceptedTypes: { "font/*": [".ttf", ".otf", ".woff", ".woff2"] }
+    },
+    "ttf-to-woff2": {
+      title: "Convert TTF to WOFF2",
+      description: "Compress your desktop TTF fonts into web-optimized WOFF2 format without losing quality.",
+      subCategory: "Convert Fonts",
+      inputFormat: "ttf",
+      outputFormat: "woff2",
+      actionName: "Convert to WOFF2",
+      acceptedTypes: { "font/ttf": [".ttf"] }
+    },
+    "otf-to-woff2": {
+      title: "Convert OTF to WOFF2",
+      description: "Compress your OTF fonts into web-optimized WOFF2 format completely client-side.",
+      subCategory: "Convert Fonts",
+      inputFormat: "otf",
+      outputFormat: "woff2",
+      actionName: "Convert to WOFF2",
+      acceptedTypes: { "font/otf": [".otf"] }
+    },
+    "woff2-to-ttf": {
+      title: "Convert WOFF2 to TTF",
+      description: "Extract desktop-compatible TTF fonts from web WOFF2 files safely in your browser.",
+      subCategory: "Convert Fonts",
+      inputFormat: "woff2",
+      outputFormat: "ttf",
+      actionName: "Convert to TTF",
+      acceptedTypes: { "font/woff2": [".woff2"] }
     },
 
     // CONVERT FROM PDF

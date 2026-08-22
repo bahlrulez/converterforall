@@ -47,6 +47,7 @@ const VideoCompressor = dynamic(() => import("@/components/tools/video-compresso
 const CompressPdfTool = dynamic(() => import("@/components/tools/compress-pdf").then(m => m.CompressPdfTool), { ssr: false, loading: ToolLoading });
 const ImageToSvgComponent = dynamic(() => import("@/components/tools/image-to-svg").then(m => m.default), { ssr: false, loading: ToolLoading });
 const AudioTrimmerComponent = dynamic(() => import("@/components/tools/audio-trimmer").then(m => m.default), { ssr: false, loading: ToolLoading });
+const WebFontConverterComponent = dynamic(() => import("@/components/tools/web-font-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
 
 interface ToolRendererProps {
   toolSlug: string;
@@ -99,6 +100,7 @@ export function ToolRenderer({
         {(toolSlug === "edit-pdf" || toolSlug === "pdf-editor" || toolSlug === "annotate-pdf" || toolSlug === "sign-pdf") && <PdfEditor />}
         {toolSlug === "image-to-svg" && <ImageToSvgComponent />}
         {(toolSlug === "trim-audio" || toolSlug === "trim-mp3-online" || toolSlug === "cut-audio-free" || toolSlug === "private-audio-trimmer" || toolSlug === "convert-whatsapp-voice-note-to-mp3") && <AudioTrimmerComponent />}
+        {(toolSlug === "web-font-converter" || toolSlug === "ttf-to-woff2" || toolSlug === "otf-to-woff2" || toolSlug === "woff2-to-ttf") && <WebFontConverterComponent />}
         
         {/* Data & Code Tools */}
         {(toolSlug === "jwt-decoder" || toolSlug === "decode-jwt") && <JwtDecoder />}

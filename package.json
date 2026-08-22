@@ -26,6 +26,7 @@
     "clsx": "^2.1.1",
     "docx": "^9.7.1",
     "docx-preview": "^0.4.0",
+    "fonteditor-core": "^2.6.3",
     "heic2any": "^0.0.4",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.14.0",
