@@ -52,14 +52,14 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
       },
       {
         title: "Related Punjabi Font Converters",
-        content: \`
+        content: `
           <ul class="flex flex-col gap-2 list-disc pl-5">
             <li><a href="/satluj-to-unicode" class="text-blue-600 dark:text-blue-400 hover:underline">Satluj to Unicode</a></li>
             <li><a href="/unicode-to-asees" class="text-blue-600 dark:text-blue-400 hover:underline">Unicode to Asees</a></li>
             <li><a href="/unicode-to-anmollipi" class="text-blue-600 dark:text-blue-400 hover:underline">Unicode to AnmolLipi</a></li>
             <li><a href="/unicode-to-raavi" class="text-blue-600 dark:text-blue-400 hover:underline">Unicode to Raavi</a></li>
           </ul>
-        \`
+        `
       }
     ]
   },
