@@ -50,6 +50,27 @@ function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M21 8a10 10 0 1 0 0 8" />
+      <path d="M21 12V8h-4" />
+      <path d="M17 16h4v-4" />
+    </svg>
+  );
+}
+
 export function Header() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -66,7 +87,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Link 
             href="/" 
-            className="flex items-center gap-2" 
+            className="flex items-center gap-2 group" 
             onClick={(e) => {
               if (typeof window !== 'undefined' && window.location.pathname === '/') {
                 e.preventDefault();
@@ -74,8 +95,8 @@ export function Header() {
               }
             }}
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Monitor className="h-5 w-5" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 dark:bg-blue-600 text-white shadow-sm group-hover:bg-blue-700 transition-colors">
+              <LogoIcon className="h-5 w-5" />
             </div>
             <span className="text-xl font-bold tracking-tight text-foreground">ConverterForAll</span>
           </Link>

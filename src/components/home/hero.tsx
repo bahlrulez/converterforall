@@ -24,13 +24,12 @@ export function Hero() {
 
         {/* Hero Title */}
         <h1 className="font-jakarta text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4 sm:mb-6 leading-[1.18] max-w-4xl mx-auto">
-          Free Online File Converter. <br className="hidden sm:inline" />
-          <span className="text-blue-600 dark:text-blue-400">Private. Fast. No Signup.</span>
+          Free Online File &amp; Font Converter.
         </h1>
 
         {/* Hero Subtitle */}
         <p className="mx-auto max-w-xl text-base sm:text-lg text-slate-600 dark:text-slate-400 mb-6 sm:mb-8 leading-relaxed">
-          Convert PDF, Word, images, video and audio files in your browser.
+          Convert PDF, images, video, audio and Indian legacy fonts privately in your browser.
         </p>
 
         {/* Landing Page Tool Search Box */}
@@ -78,7 +77,7 @@ export function Hero() {
               <Gift className="w-4 h-4" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-slate-900 dark:text-white">100% Free Forever</h4>
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white">Free to use</h4>
               <p className="text-[10px] text-slate-500 dark:text-slate-400">No account required</p>
             </div>
           </div>

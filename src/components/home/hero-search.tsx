@@ -6,12 +6,11 @@ import { Search, X, ArrowRight, FileText, Image as ImageIcon, Video, Music, Code
 import { toolsDatabase } from "@/lib/tools-db";
 
 const POPULAR_SHORTCUTS = [
+  { label: "Unicode to Satluj", slug: "unicode-to-satluj" },
   { label: "PDF to Word", slug: "pdf-to-word" },
-  { label: "Compress Video", slug: "video-compressor" },
-  { label: "Remove Background", slug: "remove-background" },
-  { label: "Merge PDF", slug: "merge-pdf" },
-  { label: "HEIC to JPG", slug: "heic-to-jpg" },
+  { label: "JPG to PDF", slug: "jpg-to-pdf" },
   { label: "Compress PDF", slug: "compress-pdf" },
+  { label: "Remove Background", slug: "remove-background" },
   { label: "Kruti Dev to Unicode", slug: "krutidev-to-unicode" },
 ];
 
@@ -99,7 +98,7 @@ export function HeroSearch() {
               setQuery(e.target.value);
               setIsFocused(true);
             }}
-            placeholder="Search 150+ tools (e.g. PDF to Word, Video Compressor, Remove BG)..."
+            placeholder="Search 150+ free tools..."
             className="w-full h-11 sm:h-12 pl-10 pr-24 rounded-2xl bg-white dark:bg-[#0a1228] border-2 border-slate-200/90 dark:border-blue-500/30 text-slate-900 dark:text-white placeholder-slate-400 text-xs sm:text-sm font-medium shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-600 dark:focus:border-blue-400 transition-all"
           />
           {query ? (
