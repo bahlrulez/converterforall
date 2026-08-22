@@ -161,7 +161,7 @@ export function ModernDropzone() {
             onClick={() => setActiveMode('file')}
             className={`px-5 py-2 text-sm font-bold rounded-lg transition-all duration-200 ${
               activeMode === 'file'
-                ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-md ring-1 ring-blue-500/20 dark:ring-blue-400/20'
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
             }`}
           >
@@ -171,7 +171,7 @@ export function ModernDropzone() {
             onClick={() => setActiveMode('text')}
             className={`px-5 py-2 text-sm font-bold rounded-lg transition-all duration-200 ${
               activeMode === 'text'
-                ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-md ring-1 ring-blue-500/20 dark:ring-blue-400/20'
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
             }`}
           >
@@ -388,9 +388,10 @@ export function ModernDropzone() {
       ) : (
         <div className="relative overflow-hidden rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0f172a] shadow-sm p-4 sm:p-6 flex flex-col gap-4 min-h-[270px] sm:min-h-[300px]">
           <textarea
+            autoFocus
             value={pastedText}
             onChange={(e) => setPastedText(e.target.value)}
-            placeholder="Paste your Kruti Dev, Satluj, Preeti or other legacy text here..."
+            placeholder="Paste Text Here... (e.g. Kruti Dev, Satluj, Preeti)"
             className="w-full flex-1 min-h-[150px] resize-none outline-none bg-transparent text-slate-800 dark:text-slate-100 text-lg placeholder:text-slate-400"
           />
           <div className="border-t border-slate-200 dark:border-slate-800 pt-4 flex flex-col gap-3">
