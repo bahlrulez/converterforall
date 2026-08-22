@@ -110,8 +110,9 @@ export default function AudioTrimmerComponent() {
     setTrimStatus("Decoding audio file...");
 
     try {
-      // 1. Decode Audio
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      // 1. Decode Audio (Force 44100Hz for lamejs compatibility)
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      const audioContext = new AudioContext({ sampleRate: 44100 });
       const arrayBuffer = await file.arrayBuffer();
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
@@ -142,20 +143,28 @@ export default function AudioTrimmerComponent() {
       await new Promise(resolve => setTimeout(resolve, 50));
 
       const left = convertBuffer(channels[0]);
-      const right = channels.length > 1 ? convertBuffer(channels[1]) : left;
+      const right = channels.length > 1 ? convertBuffer(channels[1]) : null;
       
       // Dynamically import lamejs
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const lamejs = require('lamejs');
-      const mp3encoder = new lamejs.Mp3Encoder(channels.length, audioBuffer.sampleRate, 192); // 192kbps
+      const numChannels = Math.min(2, channels.length);
+      const mp3encoder = new lamejs.Mp3Encoder(numChannels, audioBuffer.sampleRate, 192); // 192kbps
       
       const mp3Data: Int8Array[] = [];
       const sampleBlockSize = 1152;
       
       for (let i = 0; i < left.length; i += sampleBlockSize) {
         const leftChunk = left.subarray(i, i + sampleBlockSize);
-        const rightChunk = right.subarray(i, i + sampleBlockSize);
-        const mp3buf = mp3encoder.encodeBuffer(leftChunk, rightChunk);
+        let mp3buf;
+        
+        if (numChannels === 1 || !right) {
+          mp3buf = mp3encoder.encodeBuffer(leftChunk);
+        } else {
+          const rightChunk = right.subarray(i, i + sampleBlockSize);
+          mp3buf = mp3encoder.encodeBuffer(leftChunk, rightChunk);
+        }
+        
         if (mp3buf.length > 0) {
           mp3Data.push(mp3buf);
         }
@@ -182,9 +191,9 @@ export default function AudioTrimmerComponent() {
       setIsProcessing(false);
       setTrimStatus(null);
       
-    } catch (err) {
+    } catch (err: any) {
       console.error("Audio processing error:", err);
-      setError("An error occurred while processing the audio. It may be an unsupported codec or too large for the browser memory.");
+      setError(`Error: ${err.message || err.toString()}`);
       setIsProcessing(false);
       setTrimStatus(null);
     }
