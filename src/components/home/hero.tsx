@@ -12,10 +12,10 @@ export function Hero() {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-12 items-start">
           
           {/* Left Column: Text Content */}
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
+          <div className="text-center lg:text-left flex flex-col items-center lg:items-start lg:pt-16">
             <div className="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-800 bg-[#080e22]/80 text-blue-400 text-[11px] sm:text-xs font-semibold backdrop-blur-md mb-4 lg:mb-6">
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
