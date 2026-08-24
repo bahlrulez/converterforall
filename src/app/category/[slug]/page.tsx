@@ -25,6 +25,29 @@ const getIconForTool = (slug: string) => {
     case "excel-to-pdf": return <FileType className="h-6 w-6" />;
     case "html-to-pdf": return <FileType className="h-6 w-6" />;
 
+    // Image Tools
+    case "remove-background": return <ImageIcon className="h-6 w-6" />;
+    case "webp-to-png": 
+    case "webp-to-jpg": 
+    case "jpg-to-png":
+    case "png-to-jpg":
+    case "avif-to-jpeg":
+    case "avif-to-png":
+    case "heic-to-jpg":
+    case "heic-to-png":
+      return <FileType className="h-6 w-6" />;
+    case "compress-jpg":
+    case "compress-png":
+      return <Minimize className="h-6 w-6" />;
+    case "passport-photo-maker": return <ImageIcon className="h-6 w-6" />;
+    case "gif-maker": return <ImageIcon className="h-6 w-6" />;
+    case "image-cropper": return <Scissors className="h-6 w-6" />;
+    case "image-resizer": return <Layout className="h-6 w-6" />;
+    case "svg-to-png":
+    case "svg-to-jpg":
+    case "image-to-svg":
+      return <Combine className="h-6 w-6" />;
+      
     // Developer / Data & Code Tools
     case "jwt-decoder": return <KeyRound className="h-6 w-6" />;
     case "json-formatter": return <Code2 className="h-6 w-6" />;
@@ -110,12 +133,32 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
   });
 
   const groups = Object.keys(groupedTools);
-  const iconColorClass = getIconColorClass(categorySlug);
+  const showGroupHeaders = !(groups.length === 1 && groups[0] === "Other Tools");
 
   const displayTitle = categorySlug === "developer" ? "Data & Code Tools" : `${categorySlug} Tools`;
   const displaySubtitle = categorySlug === "developer"
     ? "Essential, privacy-first developer utilities processed 100% in your browser. Zero cloud transmission."
     : `Everything you need to manage and transform your ${categorySlug} files in one secure, powerful platform.`;
+
+  // Deterministic color assignment for tools
+  const getVariedColorClass = (slug: string) => {
+    const colors = [
+      'from-blue-500 to-cyan-500 text-blue-50 bg-blue-500/10 ring-blue-500/30',
+      'from-purple-500 to-pink-500 text-purple-50 bg-purple-500/10 ring-purple-500/30',
+      'from-emerald-400 to-teal-500 text-emerald-50 bg-emerald-500/10 ring-emerald-500/30',
+      'from-orange-400 to-red-500 text-orange-50 bg-orange-500/10 ring-orange-500/30',
+      'from-indigo-500 to-purple-500 text-indigo-50 bg-indigo-500/10 ring-indigo-500/30',
+      'from-rose-400 to-pink-600 text-rose-50 bg-rose-500/10 ring-rose-500/30',
+      'from-amber-400 to-orange-500 text-amber-50 bg-amber-500/10 ring-amber-500/30',
+      'from-sky-400 to-blue-600 text-sky-50 bg-sky-500/10 ring-sky-500/30'
+    ];
+    let hash = 0;
+    for (let i = 0; i < slug.length; i++) {
+      hash = slug.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % colors.length;
+    return colors[index];
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-background pb-20">
@@ -138,28 +181,36 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
       </div>
 
       {/* Tools Grid Section */}
-      <div className="container mx-auto px-4 max-w-5xl mt-12 md:mt-16">
-        <div className="space-y-16">
+      <div className="container mx-auto px-4 max-w-5xl mt-10 md:mt-12">
+        <div className="space-y-12 md:space-y-16">
           {groups.map((groupName) => (
             <div key={groupName}>
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-xl md:text-2xl font-bold tracking-wider uppercase text-slate-400 dark:text-slate-500">{groupName}</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {groupedTools[groupName].map((tool) => (
-                  <Link 
-                    key={tool.slug}
-                    href={`/${tool.slug}`}
-                    className="group rounded-[20px] bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800/80 p-6 hover:border-blue-500/50 dark:hover:border-blue-500/50 hover:bg-slate-50 dark:hover:bg-[#0f1b3b] shadow-sm hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_0_30px_rgba(37,99,235,0.15)] transition-all duration-300 flex flex-col relative overflow-hidden hover:-translate-y-1"
-                  >
-                    {/* Subtle Gradient Hover Effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/5 dark:from-blue-500/10 via-transparent to-transparent pointer-events-none" />
+              {showGroupHeaders && (
+                <div className="flex items-center justify-between mb-6 md:mb-8">
+                  <h2 className="text-lg md:text-xl font-bold tracking-wider uppercase text-slate-400 dark:text-slate-500">{groupName}</h2>
+                </div>
+              )}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+                {groupedTools[groupName].map((tool) => {
+                  const colorConfig = getVariedColorClass(tool.slug);
+                  // Split the color config back into gradient, text, and bg components for styling
+                  const [gradientFrom, gradientTo, textCol, bgCol, ringCol] = colorConfig.split(' ');
+                  
+                  return (
+                    <Link 
+                      key={tool.slug}
+                      href={`/${tool.slug}`}
+                      className="group flex flex-col items-center text-center rounded-[24px] bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800/80 p-5 hover:border-blue-500/50 dark:hover:border-blue-500/50 shadow-sm hover:shadow-xl dark:shadow-none dark:hover:shadow-[0_0_30px_rgba(37,99,235,0.15)] transition-all duration-300 relative overflow-hidden hover:-translate-y-1"
+                    >
+                      {/* Vibrant background glow on hover */}
+                      <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${gradientFrom} ${gradientTo} pointer-events-none`} />
 
-                    <div className="flex items-center gap-4 mb-4 relative z-10">
-                      <div className={`rounded-xl p-3 transition-colors ${iconColorClass}`}>
+                      {/* Large App-Style Icon */}
+                      <div className={`w-14 h-14 md:w-16 md:h-16 rounded-[18px] mb-4 flex items-center justify-center shadow-sm bg-gradient-to-br ${gradientFrom} ${gradientTo} text-white ring-1 ring-white/20 dark:ring-white/10 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 relative z-10`}>
                         {getIconForTool(tool.slug)}
                       </div>
-                      <h3 className="font-semibold text-[17px] text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+
+                      <h3 className="font-bold text-[14px] md:text-[15px] text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight relative z-10 w-full line-clamp-2">
                         {(() => {
                           let clean = tool.title.replace(/^Convert /i, "");
                           if (clean.includes(" – ")) clean = clean.split(" – ")[0];
@@ -169,13 +220,13 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
                           return clean.trim();
                         })()}
                       </h3>
-                    </div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 relative z-10 flex-grow">{tool.description}</p>
-                    <div className="mt-auto flex items-center text-xs font-bold text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 relative z-10 transition-colors">
-                      Open Tool <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                    </div>
-                  </Link>
-                ))}
+                      
+                      <p className="hidden md:block text-[11px] md:text-xs text-slate-500 dark:text-slate-400 mt-2 line-clamp-2 relative z-10">
+                        {tool.description}
+                      </p>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           ))}
