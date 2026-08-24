@@ -157,6 +157,17 @@ export function Header() {
               <span className="sr-only">Toggle theme</span>
             </Button>
           )}
+
+          <div className="hidden lg:flex items-center gap-1 border-l border-border pl-3 ml-1">
+            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="h-8 w-8 inline-flex items-center justify-center rounded-full text-muted-foreground hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors">
+              <FacebookIcon className="h-4 w-4" />
+              <span className="sr-only">Facebook</span>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="h-8 w-8 inline-flex items-center justify-center rounded-full text-muted-foreground hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-pink-600 transition-colors">
+              <InstagramIcon className="h-4 w-4" />
+              <span className="sr-only">Instagram</span>
+            </a>
+          </div>
           
           <Link 
             href="/#featured-tools" 
