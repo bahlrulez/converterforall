@@ -5,13 +5,13 @@ export const metadata: Metadata = {
   title: "Contact Us | Support & Tool Requests | ConverterForAll",
   description: "Contact the ConverterForAll team for technical support, bug reports, partnership inquiries, or to request new free file conversion tools.",
   alternates: {
-    canonical: "https://converterforall.com/contact",
+    canonical: "https://www.converterforall.com/contact",
   },
   openGraph: {
     title: "Contact ConverterForAll - Support & Feedback",
     description: "Get in touch with our team for converter questions, feature requests, or support. We respond within 24-48 business hours.",
     type: "website",
-    url: "https://converterforall.com/contact",
+    url: "https://www.converterforall.com/contact",
   }
 };
 
@@ -20,13 +20,13 @@ export default function ContactPage() {
     "@context": "https://schema.org",
     "@type": "ContactPage",
     "name": "Contact ConverterForAll",
-    "url": "https://converterforall.com/contact",
+    "url": "https://www.converterforall.com/contact",
     "description": metadata.description,
     "mainEntity": {
       "@type": "Organization",
       "name": "ConverterForAll",
       "email": "officialdeepbahl@gmail.com",
-      "url": "https://converterforall.com",
+      "url": "https://www.converterforall.com",
       "contactPoint": {
         "@type": "ContactPoint",
         "email": "officialdeepbahl@gmail.com",

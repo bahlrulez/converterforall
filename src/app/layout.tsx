@@ -41,9 +41,6 @@ export const metadata: Metadata = {
     "serverless file conversion",
     "100% offline file tools"
   ],
-  alternates: {
-    canonical: '/',
-  },
   authors: [{ name: "ConverterForAll" }],
   openGraph: {
     type: "website",

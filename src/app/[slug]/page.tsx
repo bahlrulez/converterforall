@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `${toolData.tool.title} - Free Online Converter`,
       description: toolData.tool.description,
       type: "website",
-      url: `https://converterforall.com/${resolvedParams.slug}`,
+      url: `https://www.converterforall.com/${resolvedParams.slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: toolData.tool.description,
     },
     alternates: {
-      canonical: `https://converterforall.com/${resolvedParams.slug}`,
+      canonical: `https://www.converterforall.com/${resolvedParams.slug}`,
     }
   };
 }
@@ -76,13 +76,13 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://converterforall.com"
+        "item": "https://www.converterforall.com"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": tool.title,
-        "item": `https://converterforall.com/${toolSlug}`
+        "item": `https://www.converterforall.com/${toolSlug}`
       }
     ]
   };

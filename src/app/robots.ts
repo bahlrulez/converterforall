@@ -7,14 +7,9 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: [
         '/api/', 
-        '/private/',
-        '/_next/static/media/',
-        '/*.woff2$',
-        '/*.woff$',
-        '/*.ttf$',
-        '/*.eot$'
+        '/private/'
       ],
     },
-    sitemap: 'https://converterforall.com/sitemap.xml',
+    sitemap: 'https://www.converterforall.com/sitemap.xml',
   }
 }

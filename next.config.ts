@@ -2,6 +2,25 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["sharp"],
+  async redirects() {
+    return [
+      {
+        source: "/kruti-to-unicode",
+        destination: "/krutidev-to-unicode",
+        permanent: true,
+      },
+      {
+        source: "/unicode-to-ams",
+        destination: "/unicode-to-krutidev",
+        permanent: true,
+      },
+      {
+        source: "/images-to-pdf",
+        destination: "/jpg-to-pdf",
+        permanent: true,
+      }
+    ];
+  },
   async headers() {
     return [
       {
@@ -17,6 +36,15 @@ const nextConfig: NextConfig = {
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+        ],
+      },
+      {
+        source: "/_next/static/(.*)",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow",
+          },
         ],
       },
       {

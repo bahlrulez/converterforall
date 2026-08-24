@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   title: "Blog & File Conversion Guides | 100% Free & Private | ConverterForAll",
   description: "Explore free in-depth guides, PDF workflows, image optimization tutorials, Hindi/Punjabi Unicode conversion tips, and privacy-first tech insights from ConverterForAll.",
   alternates: {
-    canonical: "https://converterforall.com/blog",
+    canonical: "https://www.converterforall.com/blog",
   },
   openGraph: {
     title: "Blog & File Conversion Guides | ConverterForAll",
     description: "Explore free in-depth guides on PDF conversion, background removal, legacy font translation to Unicode, and 100% private local tools.",
     type: "website",
-    url: "https://converterforall.com/blog",
+    url: "https://www.converterforall.com/blog",
   }
 };
 
@@ -27,20 +27,20 @@ export default function BlogIndex() {
     "@context": "https://schema.org",
     "@type": "Blog",
     "name": "ConverterForAll Blog",
-    "url": "https://converterforall.com/blog",
+    "url": "https://www.converterforall.com/blog",
     "description": metadata.description,
     "publisher": {
       "@type": "Organization",
       "name": "ConverterForAll",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://converterforall.com/icon.png"
+        "url": "https://www.converterforall.com/icon.png"
       }
     },
     "blogPost": sortedPosts.map(post => ({
       "@type": "BlogPosting",
       "headline": post.title,
-      "url": `https://converterforall.com/blog/${post.slug}`,
+      "url": `https://www.converterforall.com/blog/${post.slug}`,
       "datePublished": new Date(post.date).toISOString(),
       "description": post.excerpt,
       "author": {

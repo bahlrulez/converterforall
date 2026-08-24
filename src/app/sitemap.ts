@@ -1,9 +1,9 @@
 import { MetadataRoute } from 'next'
-import { getCanonicalToolSlugs } from '@/lib/tools-db'
+import { getCanonicalToolSlugs, toolsDatabase } from '@/lib/tools-db'
 import { getAllBlogSlugs } from '@/lib/blog-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://converterforall.com'
+  const baseUrl = 'https://www.converterforall.com'
   
   // Base routes
   const routes = [
@@ -24,6 +24,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }))
 
+  // Category routes
+  const categoryRoutes = Object.keys(toolsDatabase).map((categorySlug) => ({
+    url: `${baseUrl}/category/${categorySlug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+  }))
+
   // Canonical Tool routes (Only unique primary tools, no duplicate alias spam)
   const toolSlugs = getCanonicalToolSlugs()
   const toolRoutes = toolSlugs.map((slug) => ({
@@ -42,5 +50,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  return [...routes, ...toolRoutes, ...blogRoutes]
+  return [...routes, ...categoryRoutes, ...toolRoutes, ...blogRoutes]
 }

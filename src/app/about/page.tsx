@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   title: "About ConverterForAll | Simple, Free & Privacy-First File Tools",
   description: "Why we started ConverterForAll: Making essential file conversion and editing tools accessible to everyone for free, with 100% on-device privacy.",
   alternates: {
-    canonical: "https://converterforall.com/about",
+    canonical: "https://www.converterforall.com/about",
   },
   openGraph: {
     title: "About ConverterForAll - Why We Started",
     description: "ConverterForAll started with a simple thought: why should basic digital work be so difficult and expensive? Learn our story and mission.",
     type: "website",
-    url: "https://converterforall.com/about",
+    url: "https://www.converterforall.com/about",
   }
 };
 
@@ -38,13 +38,13 @@ export default function AboutPage() {
     "@context": "https://schema.org",
     "@type": "AboutPage",
     "name": "About ConverterForAll",
-    "url": "https://converterforall.com/about",
+    "url": "https://www.converterforall.com/about",
     "description": metadata.description,
     "mainEntity": {
       "@type": "Organization",
       "name": "ConverterForAll",
-      "url": "https://converterforall.com",
-      "logo": "https://converterforall.com/icon.png",
+      "url": "https://www.converterforall.com",
+      "logo": "https://www.converterforall.com/icon.png",
       "description": "Provider of 150+ free, client-side, privacy-focused file conversion and editing tools.",
       "foundingDate": "2026",
       "knowsAbout": ["File Conversion", "WebAssembly In-Browser Processing", "PDF Utilities", "Font Conversion", "Image Optimization"]

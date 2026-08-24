@@ -2,6 +2,7 @@ import { toolsDatabase } from "@/lib/tools-db";
 import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText, Code2, KeyRound, Clock, Table, Database } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 // A simple icon mapper based on the tool slug, relying on parent color class
 const getIconForTool = (slug: string) => {
@@ -42,6 +43,40 @@ const getIconColorClass = (categorySlug: string) => {
   if (categorySlug === 'document') return 'bg-blue-500/10 text-blue-500';
   if (categorySlug === 'developer' || categorySlug === 'data-code') return 'bg-cyan-500/10 text-cyan-500';
   return 'bg-primary/10 text-primary';
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  let categorySlug = resolvedParams.slug;
+
+  if (categorySlug === "data-code" || categorySlug === "data-tools") {
+    categorySlug = "developer";
+  }
+
+  const categoryData = (toolsDatabase as any)[categorySlug];
+  
+  if (!categoryData) {
+    return { title: "Category Not Found" };
+  }
+
+  const displayTitle = categorySlug === "developer" ? "Data & Code Tools" : `${categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1)} Tools`;
+  const displaySubtitle = categorySlug === "developer"
+    ? "Essential, privacy-first developer utilities processed 100% in your browser. Zero cloud transmission."
+    : `Everything you need to manage and transform your ${categorySlug} files in one secure, powerful platform.`;
+
+  return {
+    title: `${displayTitle} - Free Online Utilities | ConverterForAll`,
+    description: displaySubtitle,
+    openGraph: {
+      title: `${displayTitle} - Free Online Utilities`,
+      description: displaySubtitle,
+      type: "website",
+      url: `https://converterforall.com/category/${resolvedParams.slug}`,
+    },
+    alternates: {
+      canonical: `https://converterforall.com/category/${resolvedParams.slug}`,
+    }
+  };
 }
 
 export default async function CategoryPage(props: { params: Promise<{ slug: string }> }) {

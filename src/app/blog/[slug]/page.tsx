@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${post.title} | ConverterForAll Blog`,
     description: post.content.substring(0, 150).replace(/<[^>]+>/g, '') + '...',
     alternates: {
-      canonical: `https://converterforall.com/blog/${resolvedParams.slug}`,
+      canonical: `https://www.converterforall.com/blog/${resolvedParams.slug}`,
     }
   };
 }
@@ -38,24 +38,24 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
     "@type": "Article",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://converterforall.com/blog/${params.slug}`
+      "@id": `https://www.converterforall.com/blog/${params.slug}`
     },
     "headline": post.title,
     "description": excerpt,
-    "image": "https://converterforall.com/icon.png",
+    "image": "https://www.converterforall.com/icon.png",
     "datePublished": new Date(post.date).toISOString(),
     "dateModified": new Date(post.date).toISOString(),
     "author": {
       "@type": "Organization",
       "name": "ConverterForAll Team",
-      "url": "https://converterforall.com"
+      "url": "https://www.converterforall.com"
     },
     "publisher": {
       "@type": "Organization",
       "name": "ConverterForAll",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://converterforall.com/icon.png"
+        "url": "https://www.converterforall.com/icon.png"
       }
     }
   };
