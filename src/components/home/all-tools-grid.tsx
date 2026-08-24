@@ -186,25 +186,27 @@ export function AllToolsGrid() {
     <section id="featured-tools" className="py-12 relative bg-[#030714]">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Top Header & Search Row */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 p-6 rounded-3xl bg-[#080e22]/90 border border-slate-800/80">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-1">
-              All 150+ Conversion Tools
-            </h2>
-            <p className="text-slate-400 text-sm">
-              Search a converter or browse by category
-            </p>
-          </div>
+        <div className="flex flex-col items-center justify-center text-center mb-10 pt-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-3">
+            All 150+ Conversion Tools
+          </h2>
+          <p className="text-slate-400 text-base md:text-lg mb-8 max-w-xl mx-auto">
+            Search our extensive library of free tools or explore by category below.
+          </p>
 
-          {/* Search Input */}
-          <div className="w-full lg:w-80 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+          {/* Huge Search Input */}
+          <div className="w-full max-w-3xl relative group">
+            {/* Glowing background effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 rounded-full blur-md opacity-20 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+            
+            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400 group-focus-within:text-blue-500 transition-colors z-10 pointer-events-none" />
+            
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search converters..."
-              className="w-full h-11 pl-11 pr-4 rounded-full bg-[#0c1630] border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-slate-500 transition-colors"
+              placeholder="Search for any converter (e.g. 'PDF to Word' or 'Compress Image')..."
+              className="w-full h-16 md:h-20 pl-16 pr-6 rounded-full bg-[#080e22]/90 backdrop-blur-xl border-2 border-slate-700/80 text-white placeholder-slate-500 text-base md:text-xl focus:outline-none focus:border-blue-500/70 focus:bg-[#0c1630] focus:shadow-[0_0_40px_rgba(37,99,235,0.15)] transition-all relative z-0"
             />
           </div>
         </div>
