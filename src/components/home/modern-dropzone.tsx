@@ -157,23 +157,23 @@ export function ModernDropzone() {
 
       {/* Premium Segmented Control / Tab Switcher */}
       <div className="flex justify-center mb-4 sm:mb-6 relative z-10">
-        <div className="inline-flex bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl shadow-sm border border-slate-200/60 dark:border-slate-700/60">
+        <div className="inline-flex bg-slate-200/50 dark:bg-slate-900/60 p-1.5 rounded-xl shadow-inner border border-slate-300/50 dark:border-slate-800/80">
           <button
             onClick={() => setActiveMode('file')}
-            className={`px-5 py-2 text-sm font-bold rounded-lg transition-all duration-200 ${
+            className={`px-6 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 ${
               activeMode === 'file'
-                ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-md ring-1 ring-blue-500/20 dark:ring-blue-400/20'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-100'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 scale-95'
             }`}
           >
             Convert Files
           </button>
           <button
             onClick={() => setActiveMode('text')}
-            className={`px-5 py-2 text-sm font-bold rounded-lg transition-all duration-200 ${
+            className={`px-6 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 ${
               activeMode === 'text'
-                ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-md ring-1 ring-blue-500/20 dark:ring-blue-400/20'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-100'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 scale-95'
             }`}
           >
             Convert Text &amp; Fonts
@@ -181,7 +181,8 @@ export function ModernDropzone() {
         </div>
       </div>
 
-      {/* Main Container Box */}
+      {/* Main Container Box with Animation */}
+      <div key={activeMode} className="w-full animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out">
       {activeMode === 'file' ? (
         <div
           {...getRootProps()}
@@ -385,6 +386,7 @@ export function ModernDropzone() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

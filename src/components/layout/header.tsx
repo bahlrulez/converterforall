@@ -91,7 +91,7 @@ export function Header() {
             onClick={(e) => {
               if (typeof window !== 'undefined' && window.location.pathname === '/') {
                 e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.location.reload();
               }
             }}
           >
