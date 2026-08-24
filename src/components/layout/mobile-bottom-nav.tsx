@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, LayoutGrid, UploadCloud, Clock, Heart } from "lucide-react";
+import { Home, LayoutGrid, UploadCloud, FileText, Image as ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -24,17 +24,25 @@ export function MobileBottomNav() {
         
         {/* Floating Action Button for Convert */}
         <div className="relative -top-5 flex flex-col items-center">
-          <Link 
-            href="/#featured-tools" 
+          <button 
+            onClick={() => {
+              const fileInput = document.getElementById('global-file-input');
+              if (fileInput) {
+                fileInput.click();
+              } else {
+                window.location.href = '/';
+              }
+            }}
             className="flex items-center justify-center w-14 h-14 rounded-full bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.5)] border-4 border-[#030714] active:scale-95 transition-transform"
+            aria-label="Upload File"
           >
             <UploadCloud className="w-6 h-6" />
-          </Link>
+          </button>
           <span className="text-[10px] mt-1 text-slate-300 font-medium">Convert</span>
         </div>
         
-        <NavItem href="/recent" icon={Clock} label="Recent" isActive={pathname === "/recent"} />
-        <NavItem href="/favorites" icon={Heart} label="Favorites" isActive={pathname === "/favorites"} />
+        <NavItem href="/category/document" icon={FileText} label="PDF Tools" isActive={pathname === "/category/document"} />
+        <NavItem href="/category/image" icon={ImageIcon} label="Image Tools" isActive={pathname === "/category/image"} />
       </div>
     </div>
   );

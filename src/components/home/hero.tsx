@@ -16,7 +16,7 @@ export function Hero() {
           
           {/* Left Column: Text Content */}
           <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-800 bg-[#080e22]/80 text-blue-400 text-[11px] sm:text-xs font-semibold backdrop-blur-md mb-6">
+            <div className="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-800 bg-[#080e22]/80 text-blue-400 text-[11px] sm:text-xs font-semibold backdrop-blur-md mb-4 lg:mb-6">
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
@@ -24,16 +24,16 @@ export function Hero() {
               <span className="font-bold tracking-tight">150+ FREE BROWSER-BASED TOOLS</span>
             </div>
 
-            <h1 className="font-jakarta text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+            <h1 className="font-jakarta text-[2.1rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-[4.5rem] font-extrabold tracking-tight text-white mb-3 lg:mb-6 mt-2 sm:mt-0">
               Convert Anything.<br />
               Keep It <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Simple.</span>
             </h1>
 
-            <p className="max-w-xl text-base sm:text-lg text-slate-400 mb-8 leading-relaxed">
+            <p className="max-w-xl text-sm sm:text-lg text-slate-400 mb-5 lg:mb-8 leading-relaxed px-2 sm:px-0">
               Free online converters for PDF, images, video, audio, documents and fonts — private, secure and easy to use.
             </p>
 
-            <div className="flex flex-wrap justify-center lg:justify-start gap-6 text-sm">
+            <div className="hidden sm:flex flex-wrap justify-center lg:justify-start gap-6 text-sm mb-2">
               <div className="flex items-center gap-2">
                 <Lock className="w-4 h-4 text-blue-400" />
                 <div className="flex flex-col text-left">

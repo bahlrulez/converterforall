@@ -145,6 +145,7 @@ export function ModernDropzone() {
       {/* Hidden File Input for Format Buttons */}
       <input
         type="file"
+        id="global-file-input"
         ref={fileInputRef}
         className="hidden"
         onChange={(e) => {
