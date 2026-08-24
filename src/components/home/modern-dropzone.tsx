@@ -156,7 +156,7 @@ export function ModernDropzone() {
       />
 
       {/* Premium Segmented Control / Tab Switcher */}
-      <div className="flex justify-center mb-6 relative z-10">
+      <div className="flex justify-center mb-4 sm:mb-6 relative z-10">
         <div className="inline-flex bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl shadow-sm border border-slate-200/60 dark:border-slate-700/60">
           <button
             onClick={() => setActiveMode('file')}
@@ -188,7 +188,7 @@ export function ModernDropzone() {
           className="relative overflow-hidden transition-all duration-300 w-full flex flex-col items-center"
         >
           {!detected ? (
-            <div className="relative flex flex-col items-center justify-center text-center cursor-pointer min-h-[220px] w-full">
+            <div className="relative flex flex-col items-center justify-center text-center cursor-pointer min-h-[170px] sm:min-h-[220px] w-full">
               <input {...getInputProps()} />
 
               <div className="w-14 h-14 rounded-full border-2 border-slate-700/50 bg-[#0c1630] text-slate-300 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 group-hover:border-blue-500/50 group-hover:text-blue-400">

@@ -6,13 +6,13 @@ import { ModernDropzone } from "./modern-dropzone";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden py-8 sm:py-12 md:py-16 bg-[#030714] text-white">
+    <section className="relative overflow-hidden pt-4 pb-12 sm:py-12 md:py-16 bg-[#030714] text-white">
       {/* Background gradients */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-12 items-center">
           
           {/* Left Column: Text Content */}
           <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
@@ -62,7 +62,7 @@ export function Hero() {
           <div className="w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto">
             <div className="relative p-[1px] rounded-3xl bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-transparent shadow-[0_0_40px_rgba(37,99,235,0.15)] group">
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-              <div className="relative rounded-[23px] bg-[#080e22]/95 backdrop-blur-xl border border-slate-800/80 p-8 flex flex-col items-center text-center">
+              <div className="relative rounded-[23px] bg-[#080e22]/95 backdrop-blur-xl border border-slate-800/80 p-5 sm:p-8 flex flex-col items-center text-center">
                 
                 <ModernDropzone />
                 
