@@ -102,65 +102,45 @@ export function Header() {
           </Link>
         </div>
 
-        <nav className="hidden md:flex items-center gap-6 relative h-16">
-          <div 
-            className="relative h-full flex items-center"
-            onMouseEnter={() => setIsToolsOpen(true)}
-            onMouseLeave={() => setIsToolsOpen(false)}
-          >
-            <button 
-              onClick={() => setIsToolsOpen(!isToolsOpen)}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 h-full cursor-pointer"
-            >
-              Tools
-              <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${isToolsOpen ? "-rotate-180 text-primary" : ""}`} />
-            </button>
-            
-            {isToolsOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
-                <ToolsMegaMenu onClose={() => setIsToolsOpen(false)} />
-              </div>
-            )}
-          </div>
-
-          <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            About Us
+        <nav className="hidden lg:flex items-center gap-5 relative h-16">
+          <Link href="/#featured-tools" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            All Tools
           </Link>
-          <Link href="/contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Contact
+          <Link href="/category/document" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            PDF
           </Link>
-          <Link href="/blog" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <Link href="/category/image" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Image
+          </Link>
+          <Link href="/category/video" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Video
+          </Link>
+          <Link href="/category/audio" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Audio
+          </Link>
+          <Link href="/category/document" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Documents
+          </Link>
+          <Link href="/category/fonts" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Fonts & Text
+          </Link>
+          <Link href="/blog" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
             Blog
           </Link>
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="https://www.facebook.com/converterforall"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-blue-600 transition-colors hidden md:inline-flex p-1"
-            title="Follow us on Facebook"
-            aria-label="Follow us on Facebook"
-          >
-            <FacebookIcon className="h-4 w-4" />
-          </Link>
-          <Link
-            href="https://www.instagram.com/converterforall"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-pink-600 transition-colors hidden md:inline-flex p-1"
-            title="Follow us on Instagram"
-            aria-label="Follow us on Instagram"
-          >
-            <InstagramIcon className="h-4 w-4" />
-          </Link>
+          <Button variant="ghost" size="icon" className="rounded-full hidden md:inline-flex h-9 w-9 text-muted-foreground hover:text-foreground">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <span className="sr-only">Search</span>
+          </Button>
+
           {mounted && (
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full hidden md:inline-flex h-8 w-8"
+              className="rounded-full hidden md:inline-flex h-9 w-9 text-muted-foreground hover:text-foreground"
             >
               {theme === "dark" ? (
                 <Moon className="h-4 w-4" />
@@ -170,9 +150,17 @@ export function Header() {
               <span className="sr-only">Toggle theme</span>
             </Button>
           )}
-          <Link href="/#featured-tools" className={cn(buttonVariants({ variant: "default" }), "hidden md:inline-flex rounded-full px-4")}>
-            Convert Your File
+          
+          <Link 
+            href="/#featured-tools" 
+            className={cn(
+              buttonVariants({ variant: "default" }), 
+              "hidden md:inline-flex rounded-full px-5 py-2 font-semibold text-[13px] h-9 transition-all hover:scale-105 active:scale-95 bg-blue-600 hover:bg-blue-700 text-white border-none shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+            )}
+          >
+            Convert File &rarr;
           </Link>
+          
           <Button 
             variant="ghost" 
             size="icon" 

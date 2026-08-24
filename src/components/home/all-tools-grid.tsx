@@ -28,8 +28,10 @@ import {
   Presentation,
   CheckCircle2,
   Code2,
+  ChevronRight,
 } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
+import { cn } from "@/lib/utils";
 
 type CategoryFilter = "all" | "popular" | "developer" | "pdf" | "image" | "video" | "audio" | "document" | "utilities" | "fonts";
 
@@ -181,68 +183,67 @@ export function AllToolsGrid() {
   const displayTools = isExpanded || searchQuery.trim() !== "" ? filteredTools : filteredTools.slice(0, 16);
 
   return (
-    <section id="featured-tools" className="py-20 relative bg-slate-50/50 dark:bg-[#060b19] border-t border-slate-200 dark:border-slate-800/80 transition-colors duration-300">
-      {/* Background ambient lighting */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 dark:from-blue-600/10 dark:via-indigo-600/5 to-transparent blur-3xl pointer-events-none -z-10" />
-
+    <section id="featured-tools" className="py-12 relative bg-[#030714]">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Top Header & Search Row */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 p-6 rounded-3xl bg-[#080e22]/90 border border-slate-800/80">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-3">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>150+ Free File Tools</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
-              All the Tools You Need, <br className="hidden sm:inline" />
-              <span className="text-blue-600 dark:text-blue-400">
-                In One Place.
-              </span>
+            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-1">
+              All 150+ Conversion Tools
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base mt-2 max-w-xl">
-              150+ Free online tools to convert, edit, compress and manipulate files. 100% free, unlimited, and privacy-focused.
+            <p className="text-slate-400 text-sm">
+              Search a converter or browse by category
             </p>
           </div>
 
           {/* Search Input */}
-          <div className="w-full lg:w-96 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-500 dark:text-blue-400 pointer-events-none" />
+          <div className="w-full lg:w-80 relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search 150+ tools (e.g. PDF to Word, JPG, MP4)..."
-              className="w-full h-12 pl-11 pr-4 rounded-xl bg-white dark:bg-[#0c142c] border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
+              placeholder="Search converters..."
+              className="w-full h-11 pl-11 pr-4 rounded-full bg-[#0c1630] border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-slate-500 transition-colors"
             />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md"
-              >
-                Clear
-              </button>
-            )}
           </div>
         </div>
 
-        {/* Category Filter Pills Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
-          {CATEGORY_TABS.map((tab) => {
-            const isActive = activeTab === tab.key && !searchQuery;
+        {/* Category Cards (Replacing Pills) */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+          {[
+            { key: "pdf", label: "PDF Tools", count: "20+ tools", icon: FileText, color: "bg-red-500", shadow: "shadow-[0_0_15px_rgba(239,68,68,0.2)]" },
+            { key: "image", label: "Image Tools", count: "30+ tools", icon: ImageIcon, color: "bg-emerald-500", shadow: "shadow-[0_0_15px_rgba(16,185,129,0.2)]" },
+            { key: "video", label: "Video Tools", count: "25+ tools", icon: Video, color: "bg-orange-500", shadow: "shadow-[0_0_15px_rgba(249,115,22,0.2)]" },
+            { key: "audio", label: "Audio Tools", count: "15+ tools", icon: Music, color: "bg-purple-500", shadow: "shadow-[0_0_15px_rgba(168,85,247,0.2)]" },
+            { key: "document", label: "Document Tools", count: "20+ tools", icon: FileText, color: "bg-blue-500", shadow: "shadow-[0_0_15px_rgba(59,130,246,0.2)]" },
+            { key: "fonts", label: "Fonts & Text", count: "20+ tools", icon: Type, color: "bg-pink-500", shadow: "shadow-[0_0_15px_rgba(236,72,153,0.2)]" }
+          ].map((cat) => {
+            const isActive = activeTab === cat.key && !searchQuery;
             return (
               <button
-                key={tab.key}
+                key={cat.key}
                 onClick={() => {
-                  setActiveTab(tab.key);
+                  setActiveTab(isActive ? "all" : cat.key as CategoryFilter);
                   setSearchQuery("");
                 }}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
-                  isActive
-                    ? "bg-blue-600 text-white shadow-md dark:shadow-[0_0_20px_rgba(37,99,235,0.4)] border border-blue-400/60 scale-[1.02]"
-                    : "bg-white dark:bg-[#0c142c] text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#132044] border border-slate-200 dark:border-slate-800 shadow-sm"
-                }`}
+                className={cn(
+                  "flex items-center justify-between p-3 rounded-2xl border transition-all text-left group",
+                  isActive 
+                    ? "bg-[#0c1630] border-slate-600" 
+                    : "bg-[#080e22]/90 border-slate-800/80 hover:border-slate-700 hover:bg-[#0c1630]"
+                )}
               >
-                {tab.label}
+                <div className="flex items-center gap-3">
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center text-white", cat.color, cat.shadow)}>
+                    <cat.icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-white mb-0.5">{cat.label}</h4>
+                    <p className="text-[10px] text-slate-400">{cat.count}</p>
+                  </div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-slate-400" />
               </button>
             );
           })}
@@ -328,48 +329,7 @@ export function AllToolsGrid() {
           </div>
         )}
 
-        {/* SEO Trust Features Bar */}
-        <div className="mt-16 pt-12 border-t border-slate-200 dark:border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
-              <Shield className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white">100% Private</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Files never leave your device</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 flex items-center justify-center text-amber-600 dark:text-amber-400 shrink-0">
-              <Zap className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white">Lightning Fast</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Instant on-device processing</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
-              <Ban className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white">No Watermarks</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Clean personal & commercial use</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-200 dark:border-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 shrink-0">
-              <Gift className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white">100% Free</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Unlimited file conversions</p>
-            </div>
-          </div>
-        </div>
+        {/* SEO Trust Features Bar -> Removed because it is now standalone */}
       </div>
     </section>
   );

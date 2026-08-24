@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/hero";
+import { PopularConverters } from "@/components/home/popular-converters";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { Features } from "@/components/home/features";
 import { FAQ } from "@/components/home/faq";
@@ -45,7 +46,7 @@ export default function Home() {
         }}
       />
       <Hero />
-      
+      <PopularConverters />
       <HowItWorks />
       
       <AllToolsGrid />

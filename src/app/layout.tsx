@@ -80,6 +80,7 @@ export const metadata: Metadata = {
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 import { CookieConsentProvider } from "@/components/cookie-consent/cookie-context";
 import { CookieBanner } from "@/components/cookie-consent/cookie-banner";
 import { CookieModal } from "@/components/cookie-consent/cookie-modal";
@@ -136,11 +137,12 @@ export default function RootLayout({
             defaultTheme="dark"
             disableTransitionOnChange
           >
-            <Header />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
+            <div className="relative flex min-h-screen flex-col pb-16 md:pb-0">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <MobileBottomNav />
+            </div>
             
             {/* Cookie Consent UI */}
             <CookieBanner />

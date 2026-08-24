@@ -184,55 +184,34 @@ export function ModernDropzone() {
       {activeMode === 'file' ? (
         <div
           {...getRootProps()}
-          className={`relative overflow-hidden rounded-xl border transition-all duration-300 ${
-            isDragActive
-              ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-lg"
-              : "border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-600 bg-white dark:bg-[#0f172a] shadow-sm hover:shadow-md"
-          }`}
+          className="relative overflow-hidden transition-all duration-300 w-full flex flex-col items-center"
         >
-
           {!detected ? (
-            /* IDLE / EMPTY STATE */
-            <div className="relative p-4 sm:p-6 md:p-7 flex flex-col items-center justify-center text-center cursor-pointer min-h-[270px] sm:min-h-[300px]">
+            <div className="relative flex flex-col items-center justify-center text-center cursor-pointer min-h-[220px] w-full">
               <input {...getInputProps()} />
 
-              <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-6">
-                <UploadCloud className="w-8 h-8" />
+              <div className="w-14 h-14 rounded-full border-2 border-slate-700/50 bg-[#0c1630] text-slate-300 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 group-hover:border-blue-500/50 group-hover:text-blue-400">
+                <UploadCloud className="w-6 h-6" />
               </div>
 
               {/* Main Prompt Heading */}
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white mb-4">
                 Drop your file here
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 max-w-sm">
-                We&apos;ll automatically detect the file and suggest the best conversion.
-              </p>
-
-              {/* Action Buttons Row */}
-              <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-md text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors"
-                >
-                  Choose file
-                </button>
-
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handlePasteClick();
-                  }}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-600 transition-colors"
-                >
-                  or paste/drop
-                </button>
+              
+              <div className="flex items-center w-full max-w-[200px] mb-4 opacity-50">
+                <div className="h-px flex-1 bg-slate-600"></div>
+                <span className="px-3 text-[11px] font-medium text-slate-400 uppercase tracking-widest">or</span>
+                <div className="h-px flex-1 bg-slate-600"></div>
               </div>
 
-              {/* Supported Formats */}
-              <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500 tracking-wider">
-                PDF &middot; DOCX &middot; JPG &middot; PNG &middot; MP4 &middot; MP3
-              </p>
+              {/* Action Buttons Row */}
+              <button
+                type="button"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all"
+              >
+                Choose File
+              </button>
             </div>
           ) : (
             /* DETECTED FILE STATE WITH SMART TOOL SELECTOR */
