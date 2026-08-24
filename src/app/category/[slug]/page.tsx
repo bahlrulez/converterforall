@@ -1,5 +1,5 @@
 import { toolsDatabase } from "@/lib/tools-db";
-import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText, Code2, KeyRound, Clock, Table, Database } from "lucide-react";
+import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText, Code2, KeyRound, Clock, Table, Database, Images, FileImage, PictureInPicture, Wand2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -19,14 +19,14 @@ const getIconForTool = (slug: string) => {
     case "ocr-pdf": return <FileText className="h-6 w-6" />;
     case "edit-pdf": return <FileText className="h-6 w-6" />;
     
-    case "jpg-to-pdf": return <ImageIcon className="h-6 w-6" />;
+    case "jpg-to-pdf": return <FileImage className="h-6 w-6" />;
     case "word-to-pdf": return <FileText className="h-6 w-6" />;
     case "powerpoint-to-pdf": return <Layout className="h-6 w-6" />;
     case "excel-to-pdf": return <FileType className="h-6 w-6" />;
     case "html-to-pdf": return <FileType className="h-6 w-6" />;
 
     // Image Tools
-    case "remove-background": return <ImageIcon className="h-6 w-6" />;
+    case "remove-background": return <Wand2 className="h-6 w-6" />;
     case "webp-to-png": 
     case "webp-to-jpg": 
     case "jpg-to-png":
@@ -35,18 +35,20 @@ const getIconForTool = (slug: string) => {
     case "avif-to-png":
     case "heic-to-jpg":
     case "heic-to-png":
-      return <FileType className="h-6 w-6" />;
+    case "pdf-to-jpg":
+    case "pdf-to-png":
+      return <Images className="h-6 w-6" />;
     case "compress-jpg":
     case "compress-png":
       return <Minimize className="h-6 w-6" />;
-    case "passport-photo-maker": return <ImageIcon className="h-6 w-6" />;
-    case "gif-maker": return <ImageIcon className="h-6 w-6" />;
+    case "passport-photo-maker": return <PictureInPicture className="h-6 w-6" />;
+    case "gif-maker": return <Images className="h-6 w-6" />;
     case "image-cropper": return <Scissors className="h-6 w-6" />;
     case "image-resizer": return <Layout className="h-6 w-6" />;
     case "svg-to-png":
     case "svg-to-jpg":
     case "image-to-svg":
-      return <Combine className="h-6 w-6" />;
+      return <FileImage className="h-6 w-6" />;
       
     // Developer / Data & Code Tools
     case "jwt-decoder": return <KeyRound className="h-6 w-6" />;
