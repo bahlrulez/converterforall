@@ -48,6 +48,7 @@ const CompressPdfTool = dynamic(() => import("@/components/tools/compress-pdf").
 const ImageToSvgComponent = dynamic(() => import("@/components/tools/image-to-svg").then(m => m.default), { ssr: false, loading: ToolLoading });
 const AudioTrimmerComponent = dynamic(() => import("@/components/tools/audio-trimmer").then(m => m.default), { ssr: false, loading: ToolLoading });
 const WebFontConverterComponent = dynamic(() => import("@/components/tools/web-font-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
+const OrganizePdfTool = dynamic(() => import("@/components/tools/organize-pdf").then(m => m.OrganizePdfTool), { ssr: false, loading: ToolLoading });
 
 interface ToolRendererProps {
   toolSlug: string;
@@ -96,6 +97,7 @@ export function ToolRenderer({
         {toolSlug === "qr-scanner" && <QrScanner />}
         {(toolSlug === "compress-pdf" || toolSlug === "pdf-compressor" || toolSlug === "reduce-pdf-size") && <CompressPdfTool />}
         {toolSlug === "merge-pdf" && <MergePdfTool />}
+        {(toolSlug === "organize-pdf" || toolSlug === "rotate-pdf" || toolSlug === "reorder-pdf" || toolSlug === "sort-pdf" || toolSlug === "rearrange-pdf") && <OrganizePdfTool />}
         {toolSlug === "screen-recorder" && <ScreenRecorder />}
         {(toolSlug === "edit-pdf" || toolSlug === "pdf-editor" || toolSlug === "annotate-pdf" || toolSlug === "sign-pdf") && <PdfEditor />}
         {toolSlug === "image-to-svg" && <ImageToSvgComponent />}

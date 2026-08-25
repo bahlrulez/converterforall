@@ -223,20 +223,22 @@ export const toolsDatabase = {
     },
     "organize-pdf": {
       title: "Organize PDF",
-      description: "Sort, add and delete PDF pages.",
+      description: "Sort, rotate, duplicate, and delete PDF pages with visual drag-and-drop previews.",
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
       actionName: "Organize PDF",
-      acceptedTypes: { "application/pdf": [".pdf"] }
+      isInteractive: true,
+      acceptedTypes: { "application/pdf": [".pdf"], "image/*": [".jpg", ".jpeg", ".png", ".webp"] }
     },
     "rotate-pdf": {
-      title: "Rotate PDF",
-      description: "Rotate your PDF pages 90, 180, or 270 degrees clockwise.",
+      title: "Rotate PDF Pages",
+      description: "Rotate specific pages or entire PDF documents 90, 180, or 270 degrees.",
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
       actionName: "Rotate PDF",
+      isInteractive: true,
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
     "scan-to-pdf": {

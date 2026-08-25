@@ -126,30 +126,27 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
   "organize-pdf": {
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The Organize PDF tool allows you to rearrange and reorder the pages of an existing PDF document. If pages were scanned in the wrong order or you want to reshuffle sections, this tool lets you reorder pages directly in your browser.</p>"
+        title: "How to rearrange and organize your PDF pages",
+        content: "<p>When you scan multi-page documents or assemble reports, pages often end up out of sequence, upside down, or containing accidental blank duplicates. The Organize PDF tool gives you an interactive visual layout of your entire document so you can drag, drop, rotate, and delete pages directly on your screen.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>You can enter a custom page sequence (for example, '3, 1, 2, 4-6') or reverse the order ('10-1'). The tool restructures the document into the new order and exports the updated PDF locally on your device.</p>"
+        title: "How visual page organization works",
+        content: "<p>Once you select your PDF, thumbnail previews of every page are generated right inside your browser. You can click and drag any card to reorder pages, click the rotate button to fix orientation, or click the trash icon to remove unwanted pages. When you're happy with the layout, click save to export your restructured PDF.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>If a 10-page document was scanned backwards through a document feeder, entering '10-1' flips the page order so the document reads from page 1 to 10 in the correct sequence.</p>"
+        title: "Simple step-by-step guide",
+        content: "<ol><li><strong>Select your PDF:</strong> Drag and drop your file into the tool.</li><li><strong>Preview & Reorder:</strong> Drag thumbnail cards to rearrange page order, or use the move buttons.</li><li><strong>Rotate or Delete:</strong> Use individual page icons to rotate upside-down pages or remove unwanted pages.</li><li><strong>Download:</strong> Click 'Save & Download PDF' to receive your organized document.</li></ol>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your PDF:</strong> Upload the document you want to rearrange.</li><li><strong>Specify Order:</strong> Type the new page order (e.g. '3, 1, 2, 4-10' or '10-1').</li><li><strong>Download:</strong> Save your newly ordered PDF file.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Fixing Scans:</strong> Correcting documents scanned in reverse order.</li><li><strong>Narrative Flow:</strong> Adjusting slide decks so the most important slides appear first.</li><li><strong>Portfolios:</strong> Moving your best work samples to the front of a portfolio PDF.</li></ul>"
+        title: "Practical everyday uses",
+        content: "<ul><li><strong>Correcting Scanned Documents:</strong> Flip pages scanned in reverse order or rotate landscape pages right-side up.</li><li><strong>Pruning Pages:</strong> Delete unnecessary disclaimer pages, cover sheets, or accidental blanks.</li><li><strong>Combining Content:</strong> Add image pages or additional PDFs into your main document and organize everything in one sequence.</li><li><strong>Presentation Handouts:</strong> Move important summary slides to the front of a slide packet.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does this work on mobile phones and computers?</strong><br>A: Yes. It works directly in modern web browsers on macOS, Windows, Linux, iOS, and Android.</p>
-          <p><strong>Q: Is my document kept private?</strong><br>A: Yes. Reordering happens locally inside your browser without uploading to external servers.</p>
+          <p><strong>Q: Can I see what each page contains before rearranging?</strong><br>A: Yes. Every page displays a clear preview card. You can also click 'Zoom Preview' to view any page in full screen.</p>
+          <p><strong>Q: Are my documents uploaded to a remote server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</p>
+          <p><strong>Q: Does reordering reduce the visual quality or text clarity of my PDF?</strong><br>A: No. All original text layers, embedded fonts, and high-resolution images are preserved during page restructuring.</p>
         `
       }
     ]
