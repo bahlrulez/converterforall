@@ -54,7 +54,7 @@ interface SourceDocument {
   file: File;
   name: string;
   size: number;
-  arrayBuffer: ArrayBuffer;
+  fileBytes: Uint8Array;
   numPages: number;
   isImage?: boolean;
 }
@@ -73,7 +73,6 @@ export function OrganizePdfTool() {
   const [exportProgress, setExportProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
-  const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [resultSize, setResultSize] = useState<number>(0);
   const [deletedHistory, setDeletedHistory] = useState<DeletedItem[]>([]);
   const [lastActionMessage, setLastActionMessage] = useState<string | null>(null);
@@ -100,6 +99,15 @@ export function OrganizePdfTool() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
+  // Helper to load pdfjs with robust worker fallback
+  const getPdfJsLib = async () => {
+    const pdfjsLib = await import("pdfjs-dist");
+    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version || "6.2.108"}/build/pdf.worker.min.mjs`;
+    }
+    return pdfjsLib;
+  };
+
   // Check pending file on mount
   useEffect(() => {
     async function checkPending() {
@@ -118,14 +126,9 @@ export function OrganizePdfTool() {
     setIsLoading(true);
     setError(null);
     setResultUrl(null);
-    setResultBlob(null);
 
     try {
-      // Dynamic import of pdfjs-dist
-      const pdfjsLib = await import("pdfjs-dist");
-      if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-      }
+      const pdfjsLib = await getPdfJsLib();
 
       const newDocs: SourceDocument[] = [];
       const newPageItems: PageItem[] = [];
@@ -140,23 +143,26 @@ export function OrganizePdfTool() {
         }
 
         const fileId = "doc_" + Math.random().toString(36).substring(2, 9) + "_" + Date.now();
-        const arrayBuffer = await file.arrayBuffer();
+        const rawBuffer = await file.arrayBuffer();
+        const fileBytes = new Uint8Array(rawBuffer);
 
         if (isPdf) {
           setLoadingText(`Reading document ${fIdx + 1} of ${newFiles.length}: ${file.name}...`);
           
-          const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+          // Pass a cloned slice to avoid buffer detachment
+          const loadingTask = pdfjsLib.getDocument({ data: fileBytes.slice(0) });
           const pdfDoc = await loadingTask.promise;
           const numPages = pdfDoc.numPages;
 
-          newDocs.push({
+          const docEntry: SourceDocument = {
             id: fileId,
             file,
             name: file.name,
             size: file.size,
-            arrayBuffer,
+            fileBytes,
             numPages,
-          });
+          };
+          newDocs.push(docEntry);
 
           // Create page skeleton entries
           for (let pNum = 1; pNum <= numPages; pNum++) {
@@ -168,18 +174,17 @@ export function OrganizePdfTool() {
               originalPageNumber: pNum,
               rotation: 0,
               thumbnailUrl: null,
-              aspectRatio: 0.707, // standard A4 default
+              aspectRatio: 0.707, // standard default
             });
           }
         } else if (isImg) {
-          // Process Image File as a single page
           setLoadingText(`Loading image ${file.name}...`);
           newDocs.push({
             id: fileId,
             file,
             name: file.name,
             size: file.size,
-            arrayBuffer,
+            fileBytes,
             numPages: 1,
             isImage: true,
           });
@@ -211,8 +216,8 @@ export function OrganizePdfTool() {
       setPages(updatedPages);
       setIsLoading(false);
 
-      // Render thumbnails in background
-      renderThumbnails(newDocs, newPageItems);
+      // Render thumbnails immediately page-by-page
+      renderThumbnails(newDocs);
     } catch (err: any) {
       console.error("Failed to load PDF:", err);
       setError(err?.message || "Failed to load the PDF. Please make sure the file is not password-protected or corrupted.");
@@ -221,62 +226,69 @@ export function OrganizePdfTool() {
   };
 
   // Render thumbnail previews for PDF pages
-  const renderThumbnails = async (docsToRender: SourceDocument[], pageItemsToRender: PageItem[]) => {
+  const renderThumbnails = async (docsToRender: SourceDocument[]) => {
     try {
-      const pdfjsLib = await import("pdfjs-dist");
-      if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-      }
+      const pdfjsLib = await getPdfJsLib();
 
       for (const doc of docsToRender) {
         if (doc.isImage) continue;
 
-        const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(doc.arrayBuffer) });
-        const pdfDoc = await loadingTask.promise;
+        try {
+          // Always pass a fresh slice of fileBytes
+          const loadingTask = pdfjsLib.getDocument({ data: doc.fileBytes.slice(0) });
+          const pdfDoc = await loadingTask.promise;
 
-        for (let p = 1; p <= doc.numPages; p++) {
-          try {
-            const page = await pdfDoc.getPage(p);
-            const unscaledViewport = page.getViewport({ scale: 1.0 });
-            const targetWidth = 320; // High resolution retina thumbnail
-            const scale = targetWidth / unscaledViewport.width;
-            const viewport = page.getViewport({ scale });
+          for (let p = 1; p <= doc.numPages; p++) {
+            try {
+              const page = await pdfDoc.getPage(p);
+              const unscaledViewport = page.getViewport({ scale: 1.0 });
+              const targetWidth = Math.min(320, Math.max(160, unscaledViewport.width));
+              const scale = targetWidth / unscaledViewport.width;
+              const viewport = page.getViewport({ scale });
 
-            const canvas = document.createElement("canvas");
-            canvas.width = Math.round(viewport.width);
-            canvas.height = Math.round(viewport.height);
-            const ctx = canvas.getContext("2d", { alpha: false });
+              const canvas = document.createElement("canvas");
+              canvas.width = Math.round(viewport.width);
+              canvas.height = Math.round(viewport.height);
+              const ctx = canvas.getContext("2d", { alpha: false });
 
-            if (ctx) {
-              ctx.fillStyle = "#ffffff";
-              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              if (ctx) {
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-              // @ts-expect-error pdfjs-dist types
-              await page.render({ canvasContext: ctx, viewport }).promise;
+                const renderContext = {
+                  canvasContext: ctx,
+                  viewport: viewport,
+                };
 
-              const thumbUrl = canvas.toDataURL("image/jpeg", 0.85);
-              const ratio = viewport.width / viewport.height;
+                // @ts-expect-error pdfjs-dist types
+                await page.render(renderContext).promise;
 
-              setPages((prev) =>
-                prev.map((item) => {
-                  if (item.fileId === doc.id && item.sourcePageIndex === p - 1) {
-                    return {
-                      ...item,
-                      thumbnailUrl: thumbUrl,
-                      aspectRatio: ratio,
-                    };
-                  }
-                  return item;
-                })
-              );
+                const thumbUrl = canvas.toDataURL("image/jpeg", 0.85);
+                const ratio = viewport.width / viewport.height;
+
+                setPages((prev) =>
+                  prev.map((item) => {
+                    if (item.fileId === doc.id && item.sourcePageIndex === p - 1) {
+                      return {
+                        ...item,
+                        thumbnailUrl: thumbUrl,
+                        aspectRatio: ratio,
+                      };
+                    }
+                    return item;
+                  })
+                );
+              }
+            } catch (pageErr) {
+              console.warn(`Error rendering thumbnail for page ${p}:`, pageErr);
             }
-          } catch (pageErr) {
-            console.warn(`Error rendering thumbnail for page ${p}:`, pageErr);
           }
+        } catch (docErr) {
+          console.error(`Error loading doc ${doc.name} for thumbnails:`, docErr);
         }
       }
     } catch (e) {
-      console.error("Thumbnail rendering error:", e);
+      console.error("Thumbnail rendering engine error:", e);
     }
   };
 
@@ -421,11 +433,9 @@ export function OrganizePdfTool() {
 
   // Reset to original document order
   const handleResetOrder = () => {
-    // Reconstruct all pages from sourceDocs in original order
     const originalPages: PageItem[] = [];
     sourceDocs.forEach((doc) => {
       for (let p = 1; p <= doc.numPages; p++) {
-        // find if we have an existing rendered thumbnail
         const existing = pages.find((pg) => pg.fileId === doc.id && pg.sourcePageIndex === p - 1);
         originalPages.push({
           id: existing?.id || `p_${doc.id}_${p}_${Math.random().toString(36).substring(2, 6)}`,
@@ -542,11 +552,16 @@ export function OrganizePdfTool() {
       const mergedPdf = await PDFDocument.create();
       const loadedPdfLibDocs: Record<string, PDFDocument> = {};
 
-      // Load all distinct source PDFs into pdf-lib
+      // Load all source PDFs cleanly
       for (const doc of sourceDocs) {
         if (!doc.isImage && !loadedPdfLibDocs[doc.id]) {
-          const pdfDoc = await PDFDocument.load(doc.arrayBuffer, { ignoreEncryption: true });
-          loadedPdfLibDocs[doc.id] = pdfDoc;
+          try {
+            const pdfDoc = await PDFDocument.load(doc.fileBytes.slice(0), { ignoreEncryption: true });
+            loadedPdfLibDocs[doc.id] = pdfDoc;
+          } catch (loadErr: any) {
+            console.error(`Failed to load source doc ${doc.name}:`, loadErr);
+            throw new Error(`Failed to parse "${doc.name}" with pdf-lib: ${loadErr?.message || "Unknown error"}`);
+          }
         }
       }
 
@@ -564,7 +579,7 @@ export function OrganizePdfTool() {
           // Embed image page
           const imgArrayBuffer = await item.imageBlob.arrayBuffer();
           let embeddedImg;
-          if (item.imageBlob.type === "image/png") {
+          if (item.imageBlob.type === "image/png" || item.fileName.toLowerCase().endsWith(".png")) {
             embeddedImg = await mergedPdf.embedPng(imgArrayBuffer);
           } else {
             embeddedImg = await mergedPdf.embedJpg(imgArrayBuffer);
@@ -580,7 +595,7 @@ export function OrganizePdfTool() {
           });
 
           if (item.rotation !== 0) {
-            newImgPage.setRotation(degrees(item.rotation));
+            newImgPage.setRotation(degrees((item.rotation + 360) % 360));
           }
         } else {
           // Copy page from source PDF document
@@ -589,9 +604,18 @@ export function OrganizePdfTool() {
             const [copiedPage] = await mergedPdf.copyPages(srcPdf, [item.sourcePageIndex]);
 
             // Calculate combined rotation: original rotation + user added rotation
-            const origRotation = copiedPage.getRotation().angle;
-            const finalRotation = (origRotation + item.rotation) % 360;
-            copiedPage.setRotation(degrees(finalRotation));
+            let origRotation = 0;
+            try {
+              const rotObj = copiedPage.getRotation();
+              if (rotObj && typeof rotObj.angle === "number") {
+                origRotation = rotObj.angle;
+              }
+            } catch (e) {
+              origRotation = 0;
+            }
+
+            const finalRotation = (origRotation + (item.rotation || 0)) % 360;
+            copiedPage.setRotation(degrees((finalRotation + 360) % 360));
 
             mergedPdf.addPage(copiedPage);
           }
@@ -603,7 +627,6 @@ export function OrganizePdfTool() {
       const blob = new Blob([pdfBytes as any], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
 
-      setResultBlob(blob);
       setResultUrl(url);
       setResultSize(pdfBytes.length);
       setExportProgress(100);
@@ -1224,7 +1247,6 @@ export function OrganizePdfTool() {
               size="lg"
               onClick={() => {
                 setResultUrl(null);
-                setResultBlob(null);
               }}
               className="w-full sm:w-auto rounded-xl px-6 border-slate-300 dark:border-slate-700 font-semibold"
             >
@@ -1239,7 +1261,6 @@ export function OrganizePdfTool() {
                 setPages([]);
                 setSourceDocs([]);
                 setResultUrl(null);
-                setResultBlob(null);
                 setDeletedHistory([]);
               }}
               className="w-full sm:w-auto rounded-xl px-6 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
