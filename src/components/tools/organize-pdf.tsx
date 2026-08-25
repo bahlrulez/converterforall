@@ -99,11 +99,11 @@ export function OrganizePdfTool() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
-  // Helper to load pdfjs with robust worker fallback
+  // Helper to load pdfjs with robust local worker
   const getPdfJsLib = async () => {
     const pdfjsLib = await import("pdfjs-dist");
-    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version || "6.2.108"}/build/pdf.worker.min.mjs`;
+    if (typeof window !== "undefined") {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
     }
     return pdfjsLib;
   };

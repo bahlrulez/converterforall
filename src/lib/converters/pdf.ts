@@ -52,8 +52,8 @@ export async function compressPdf(
     const pdfjsLib = await import("pdfjs-dist");
     
     // Configure worker
-    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version || "4.0.379"}/build/pdf.worker.min.mjs`;
+    if (typeof window !== "undefined") {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
     }
 
     const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
