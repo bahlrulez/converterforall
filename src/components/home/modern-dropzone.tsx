@@ -157,10 +157,10 @@ export function ModernDropzone() {
 
       {/* Premium Segmented Control / Tab Switcher */}
       <div className="flex justify-center mb-4 sm:mb-6 relative z-10">
-        <div className="inline-flex bg-slate-200/50 dark:bg-slate-900/60 p-1.5 rounded-xl shadow-inner border border-slate-300/50 dark:border-slate-800/80">
+        <div className="inline-flex bg-slate-200/50 dark:bg-slate-900/60 p-1.5 rounded-xl shadow-inner border border-slate-300/50 dark:border-slate-800/80 w-full sm:w-auto overflow-x-auto no-scrollbar">
           <button
             onClick={() => setActiveMode('file')}
-            className={`px-6 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 ${
+            className={`flex-1 sm:flex-none whitespace-nowrap px-3 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-300 ${
               activeMode === 'file'
                 ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-100'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 scale-95'
@@ -170,7 +170,7 @@ export function ModernDropzone() {
           </button>
           <button
             onClick={() => setActiveMode('text')}
-            className={`px-6 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 ${
+            className={`flex-1 sm:flex-none whitespace-nowrap px-3 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-300 ${
               activeMode === 'text'
                 ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-100'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 scale-95'

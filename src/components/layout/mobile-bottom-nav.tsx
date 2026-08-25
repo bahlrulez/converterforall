@@ -23,22 +23,24 @@ export function MobileBottomNav() {
         <NavItem href="/#featured-tools" icon={LayoutGrid} label="All Tools" isActive={pathname === "/#featured-tools"} />
         
         {/* Floating Action Button for Convert */}
-        <div className="relative -top-5 flex flex-col items-center">
-          <button 
-            onClick={() => {
-              const fileInput = document.getElementById('global-file-input');
-              if (fileInput) {
-                fileInput.click();
-              } else {
-                window.location.href = '/';
-              }
-            }}
-            className="flex items-center justify-center w-14 h-14 rounded-full bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.5)] border-4 border-[#030714] active:scale-95 transition-transform"
-            aria-label="Upload File"
-          >
-            <UploadCloud className="w-6 h-6" />
-          </button>
-          <span className="text-[10px] mt-1 text-slate-300 font-medium">Convert</span>
+        <div className="relative w-16 h-full flex justify-center">
+          <div className="absolute -top-6 flex flex-col items-center">
+            <button 
+              onClick={() => {
+                const fileInput = document.getElementById('global-file-input');
+                if (fileInput) {
+                  fileInput.click();
+                } else {
+                  window.location.href = '/';
+                }
+              }}
+              className="flex items-center justify-center w-14 h-14 rounded-full bg-blue-600 text-white shadow-[0_4px_15px_rgba(37,99,235,0.5)] border-4 border-[#080e22] active:scale-95 transition-transform"
+              aria-label="Upload File"
+            >
+              <UploadCloud className="w-6 h-6" />
+            </button>
+            <span className="text-[10px] mt-1 text-slate-300 font-medium z-10">Convert</span>
+          </div>
         </div>
         
         <NavItem href="/category/document" icon={FileText} label="PDF Tools" isActive={pathname === "/category/document"} />
