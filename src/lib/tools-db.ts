@@ -656,6 +656,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "gif",
       actionName: "Convert to GIF",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
     "video-to-jpg": {
@@ -664,6 +665,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "zip",
       actionName: "Extract to JPGs",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
     "mp4-to-mp3": {
@@ -672,6 +674,7 @@ export const toolsDatabase = {
       inputFormat: "mp4",
       outputFormat: "mp3",
       actionName: "Extract Audio",
+      isInteractive: true,
       acceptedTypes: { "video/mp4": [".mp4"] }
     },
     "video-to-mp4": {
@@ -680,6 +683,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "mp4",
       actionName: "Convert to MP4",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".avi", ".mkv", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
     "video-to-avi": {
@@ -688,6 +692,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "avi",
       actionName: "Convert to AVI",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mkv", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
     "video-to-mkv": {
@@ -696,6 +701,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "mkv",
       actionName: "Convert to MKV",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".avi", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
     "screen-recorder": {
@@ -713,6 +719,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "wmv",
       actionName: "Convert to WMV",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".avi", ".mkv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
     "video-to-mov": {
@@ -721,6 +728,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "mov",
       actionName: "Convert to MOV",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".avi", ".mkv", ".wmv", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
     "video-to-flv": {
@@ -729,6 +737,7 @@ export const toolsDatabase = {
       inputFormat: "video",
       outputFormat: "flv",
       actionName: "Convert to FLV",
+      isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".avi", ".mkv", ".wmv", ".mov", ".webm", ".m4v", ".mpeg"] }
     }
   },

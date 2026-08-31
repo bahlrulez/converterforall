@@ -288,3 +288,161 @@ export const convertVideo = async (
     throw new Error(`FFmpeg error: ${err.message || String(err)}`);
   }
 };
+
+export interface AdvancedVideoConvertOptions {
+  targetFormat: string; // "mp4", "webm", "mov", "mkv", "avi", "gif", "mp3", "wav"
+  preset?: "ultrafast" | "veryfast" | "fast" | "medium";
+  crf?: number;
+  resolution?: "original" | "1080p" | "720p" | "480p" | "360p";
+  startTime?: number;
+  endTime?: number;
+  muteAudio?: boolean;
+  audioBitrate?: "128k" | "192k" | "320k";
+  fps?: number;
+}
+
+export const convertVideoAdvanced = async (
+  file: File,
+  options: AdvancedVideoConvertOptions,
+  onProgress: (progress: number) => void
+): Promise<Blob> => {
+  const targetFormat = (options.targetFormat || 'mp4').toLowerCase();
+  
+  if (targetFormat === 'jpg' || targetFormat === 'jpeg') {
+    return extractFramesWithCanvas(file, options.fps || 1, onProgress);
+  }
+
+  const ffmpegInstance = await loadFfmpeg((p) => {
+    let pct = Math.round(p.progress * 100);
+    if (pct < 0) pct = 0;
+    if (pct > 100) pct = 100;
+    onProgress(pct);
+  });
+
+  const inputExt = file.name.split('.').pop()?.toLowerCase() || 'mp4';
+  const inputName = `input_${Date.now()}.${inputExt}`;
+  const outputName = `converted_${Date.now()}.${targetFormat}`;
+
+  await ffmpegInstance.writeFile(inputName, await fetchFile(file));
+
+  const args: string[] = [];
+
+  // Trimming parameters before input for fast seek
+  if (options.startTime !== undefined && options.startTime > 0) {
+    args.push('-ss', options.startTime.toString());
+  }
+
+  args.push('-i', inputName);
+
+  if (options.endTime !== undefined && options.endTime > 0 && options.startTime !== undefined && options.endTime > options.startTime) {
+    args.push('-t', (options.endTime - options.startTime).toString());
+  } else if (options.endTime !== undefined && options.endTime > 0 && (!options.startTime || options.startTime === 0)) {
+    args.push('-t', options.endTime.toString());
+  }
+
+  // Multi-threaded local decoding/encoding
+  args.push('-threads', '0');
+
+  // Format-specific codec and filter optimization
+  if (targetFormat === 'mp3' || targetFormat === 'wav' || targetFormat === 'ogg') {
+    // Audio extraction
+    args.push('-vn');
+    if (targetFormat === 'mp3') {
+      args.push('-c:a', 'libmp3lame', '-b:a', options.audioBitrate || '192k');
+    }
+  } else if (targetFormat === 'gif') {
+    // High quality animated GIF
+    const scaleFilter = options.resolution === '480p' ? "scale=480:-1:flags=lanczos" : "scale=640:-1:flags=lanczos";
+    args.push('-vf', `fps=${options.fps || 15},${scaleFilter}`);
+  } else {
+    // Video Encoding
+    const filters: string[] = [];
+    if (options.resolution === "1080p") {
+      filters.push("scale='min(1920,iw)':-2");
+    } else if (options.resolution === "720p") {
+      filters.push("scale='min(1280,iw)':-2");
+    } else if (options.resolution === "480p") {
+      filters.push("scale='min(854,iw)':-2");
+    } else if (options.resolution === "360p") {
+      filters.push("scale='min(640,iw)':-2");
+    }
+
+    if (options.fps) {
+      filters.push(`fps=${options.fps}`);
+    }
+
+    if (filters.length > 0) {
+      args.push('-vf', filters.join(','));
+    }
+
+    if (targetFormat === 'mp4') {
+      args.push('-vcodec', 'libx264');
+      args.push('-preset', options.preset || 'ultrafast');
+      args.push('-crf', (options.crf || 23).toString());
+      args.push('-pix_fmt', 'yuv420p');
+      args.push('-movflags', '+faststart');
+
+      if (options.muteAudio) {
+        args.push('-an');
+      } else {
+        args.push('-c:a', 'aac', '-b:a', options.audioBitrate || '128k');
+      }
+    } else if (targetFormat === 'webm') {
+      args.push('-vcodec', 'libvpx');
+      args.push('-crf', (options.crf || 24).toString());
+      args.push('-b:v', '1M');
+      if (options.muteAudio) {
+        args.push('-an');
+      } else {
+        args.push('-c:a', 'libvorbis');
+      }
+    } else if (targetFormat === 'avi') {
+      args.push('-vcodec', 'mpeg4');
+      args.push('-qscale:v', '3');
+      if (options.muteAudio) {
+        args.push('-an');
+      } else {
+        args.push('-c:a', 'libmp3lame');
+      }
+    } else if (targetFormat === 'mov') {
+      args.push('-vcodec', 'libx264', '-preset', options.preset || 'ultrafast', '-crf', (options.crf || 22).toString());
+      if (options.muteAudio) {
+        args.push('-an');
+      } else {
+        args.push('-c:a', 'aac');
+      }
+    } else if (targetFormat === 'mkv') {
+      args.push('-vcodec', 'libx264', '-preset', options.preset || 'ultrafast', '-crf', (options.crf || 22).toString());
+      if (options.muteAudio) {
+        args.push('-an');
+      } else {
+        args.push('-c:a', 'aac');
+      }
+    }
+  }
+
+  args.push(outputName);
+
+  const exitCode = await ffmpegInstance.exec(args);
+
+  if (exitCode !== 0) {
+    throw new Error(`Video conversion failed with FFmpeg exit code ${exitCode}. Please try a different preset or video.`);
+  }
+
+  const data = await ffmpegInstance.readFile(outputName);
+
+  await ffmpegInstance.deleteFile(inputName);
+  await ffmpegInstance.deleteFile(outputName);
+
+  let mimeType = 'video/mp4';
+  if (targetFormat === 'mp3') mimeType = 'audio/mpeg';
+  if (targetFormat === 'wav') mimeType = 'audio/wav';
+  if (targetFormat === 'gif') mimeType = 'image/gif';
+  if (targetFormat === 'webm') mimeType = 'video/webm';
+  if (targetFormat === 'avi') mimeType = 'video/x-msvideo';
+  if (targetFormat === 'mkv') mimeType = 'video/x-matroska';
+  if (targetFormat === 'mov') mimeType = 'video/quicktime';
+  if (targetFormat === 'wmv') mimeType = 'video/x-ms-wmv';
+
+  return new Blob([data as any], { type: mimeType });
+};
