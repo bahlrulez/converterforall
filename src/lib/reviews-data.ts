@@ -209,7 +209,7 @@ export async function getToolReviewStats(toolSlug: string): Promise<ReviewStats>
       });
 
       if (rawDbReviews && rawDbReviews.length > 0) {
-        dbReviews = rawDbReviews.map((r) => ({
+        dbReviews = rawDbReviews.map((r: any) => ({
           id: r.id,
           toolSlug: r.toolSlug,
           rating: r.rating,
@@ -221,7 +221,7 @@ export async function getToolReviewStats(toolSlug: string): Promise<ReviewStats>
           isPublic: r.isPublic,
           status: r.status,
           helpfulCount: r.helpfulCount,
-          createdAt: r.createdAt.toISOString(),
+          createdAt: typeof r.createdAt?.toISOString === "function" ? r.createdAt.toISOString() : new Date().toISOString(),
           verified: true,
         }));
       }
