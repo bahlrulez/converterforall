@@ -58,32 +58,37 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Dropzone Container */}
+          {/* Right Column: Dropzone Container with Heavy Breathing Glow */}
           <div className="w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto">
-            <div className="relative p-[1px] rounded-3xl bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-transparent shadow-[0_0_40px_rgba(37,99,235,0.15)] group">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-              <div className="relative rounded-[23px] bg-[#080e22]/95 backdrop-blur-xl border border-slate-800/80 p-5 sm:p-8 flex flex-col items-center text-center">
-                
-                <ModernDropzone />
-                
-                <p className="text-xs text-slate-400 mt-6 mb-4">Your file stays on your device whenever possible.</p>
-                
-                {/* Supported Formats */}
-                <div className="flex flex-wrap justify-center gap-2 mb-8">
-                  {['PDF', 'DOCX', 'JPG', 'PNG', 'MP4', 'MP3', '...'].map(ext => (
-                    <span key={ext} className="px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-[10px] font-semibold text-slate-300">
-                      {ext}
-                    </span>
-                  ))}
-                </div>
+            <div className="relative hero-dropzone-wrapper group cursor-pointer">
+              {/* Heavy Radiant Ambient Breathing Aura */}
+              <div className="hero-aura-breathe absolute -inset-2.5 rounded-[34px] bg-gradient-to-tr from-blue-600/40 via-indigo-500/35 to-purple-600/40 -z-10" />
+              <div className="hero-aura-breathe absolute -inset-8 rounded-[44px] bg-blue-500/20 blur-3xl -z-20" />
 
-                {/* Features inline */}
-                <div className="w-full flex items-center justify-between border-t border-slate-800/80 pt-5 text-[11px] font-medium text-blue-400">
-                  <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5" /> Secure & Private</span>
-                  <span className="w-px h-3 bg-slate-800" />
-                  <span className="flex items-center gap-1.5 text-slate-400">No Watermarks</span>
-                  <span className="w-px h-3 bg-slate-800" />
-                  <span className="flex items-center gap-1.5 text-slate-400">No Registration</span>
+              <div className="relative p-[1.5px] rounded-3xl bg-gradient-to-br from-blue-500/50 via-indigo-500/30 to-purple-500/40 shadow-[0_10px_40px_rgba(37,99,235,0.2)] transition-colors duration-500">
+                <div className="relative rounded-[22.5px] bg-[#070d20]/95 backdrop-blur-2xl border border-slate-700/60 p-5 sm:p-8 flex flex-col items-center text-center">
+                  
+                  <ModernDropzone />
+                  
+                  <p className="text-xs text-slate-400 mt-6 mb-4 font-medium">Your file stays on your device whenever possible.</p>
+                  
+                  {/* Supported Formats */}
+                  <div className="flex flex-wrap justify-center gap-2 mb-8">
+                    {['PDF', 'DOCX', 'JPG', 'PNG', 'MP4', 'MP3', '...'].map(ext => (
+                      <span key={ext} className="px-3 py-1 rounded-full bg-slate-800/60 border border-slate-700/80 text-[10px] font-semibold text-slate-300 shadow-sm transition-all group-hover:border-slate-600">
+                        {ext}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Features inline */}
+                  <div className="w-full flex items-center justify-between border-t border-slate-800/90 pt-5 text-[11px] font-medium text-blue-400">
+                    <span className="flex items-center gap-1.5 font-semibold"><Shield className="w-3.5 h-3.5 text-blue-400" /> Secure &amp; Private</span>
+                    <span className="w-px h-3 bg-slate-800" />
+                    <span className="flex items-center gap-1.5 text-slate-400 font-semibold">No Watermarks</span>
+                    <span className="w-px h-3 bg-slate-800" />
+                    <span className="flex items-center gap-1.5 text-slate-400 font-semibold">No Registration</span>
+                  </div>
                 </div>
               </div>
             </div>

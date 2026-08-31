@@ -192,12 +192,12 @@ export function ModernDropzone() {
             <div className="relative flex flex-col items-center justify-center text-center cursor-pointer min-h-[170px] sm:min-h-[220px] w-full">
               <input {...getInputProps()} />
 
-              <div className="w-14 h-14 rounded-full border-2 border-slate-700/50 bg-[#0c1630] text-slate-300 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 group-hover:border-blue-500/50 group-hover:text-blue-400">
-                <UploadCloud className="w-6 h-6" />
+              <div className="w-16 h-16 rounded-2xl border border-blue-500/30 bg-gradient-to-tr from-[#0b132b] via-[#0e1b3d] to-[#152756] text-blue-400 flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110 group-hover:border-blue-400 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] group-hover:text-white">
+                <UploadCloud className="w-7 h-7 transition-transform group-hover:-translate-y-0.5" />
               </div>
 
               {/* Main Prompt Heading */}
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white mb-4">
+              <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white mb-4 transition-colors group-hover:text-blue-50">
                 Drop your file here
               </h2>
               
@@ -210,7 +210,7 @@ export function ModernDropzone() {
               {/* Action Buttons Row */}
               <button
                 type="button"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all"
+                className="inline-flex items-center justify-center gap-2 px-9 py-3.5 rounded-xl text-sm font-extrabold text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 shadow-[0_0_25px_rgba(37,99,235,0.5)] group-hover:shadow-[0_0_35px_rgba(37,99,235,0.7)] group-hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
               >
                 Choose File
               </button>
