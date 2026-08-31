@@ -1,13 +1,26 @@
 "use client";
 
-import React from "react";
-import { Sparkles, Shield, Zap, Lock, Infinity as InfinityIcon, Gift, UserX } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { Sparkles, Shield, Zap, Lock, Infinity as InfinityIcon, UserX } from "lucide-react";
 import { ModernDropzone } from "./modern-dropzone";
 
 export function Hero() {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
   return (
     <section className="relative overflow-hidden pt-4 pb-12 sm:py-12 md:py-16 bg-[#030714] text-white">
-      {/* Background gradients */}
+      {/* Soft Background Gradients */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
 
@@ -58,16 +71,45 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Dropzone Container with Heavy Breathing Glow */}
-          <div className="w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto">
-            <div className="relative hero-dropzone-wrapper group cursor-pointer">
-              {/* Heavy Radiant Ambient Breathing Aura */}
-              <div className="hero-aura-breathe absolute -inset-2.5 rounded-[34px] bg-gradient-to-tr from-blue-600/40 via-indigo-500/35 to-purple-600/40 -z-10" />
-              <div className="hero-aura-breathe absolute -inset-8 rounded-[44px] bg-blue-500/20 blur-3xl -z-20" />
+          {/* Right Column: Interactive Spotlight Dropzone Card */}
+          <div className="w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto relative">
+            {/* Pure Circular Ambient Breathing Glow (Zero Square Edge Artifacts) */}
+            <div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-gradient-to-tr from-blue-600/25 via-indigo-600/20 to-purple-600/20 blur-[90px] pointer-events-none -z-10 animate-ambient-breathe" 
+            />
 
-              <div className="relative p-[1.5px] rounded-3xl bg-gradient-to-br from-blue-500/50 via-indigo-500/30 to-purple-500/40 shadow-[0_10px_40px_rgba(37,99,235,0.2)] transition-colors duration-500">
-                <div className="relative rounded-[22.5px] bg-[#070d20]/95 backdrop-blur-2xl border border-slate-700/60 p-5 sm:p-8 flex flex-col items-center text-center">
-                  
+            {/* Main Interactive Spotlight Wrapper */}
+            <div
+              ref={cardRef}
+              onMouseMove={handleMouseMove}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              className="relative rounded-3xl p-[1.5px] transition-all duration-300 ease-out group"
+              style={{
+                background: isHovered
+                  ? `radial-gradient(450px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(96, 165, 250, 0.7), rgba(99, 102, 241, 0.35) 40%, rgba(51, 65, 85, 0.4) 80%)`
+                  : "rgba(51, 65, 85, 0.45)",
+                transform: isHovered ? "translateY(-4px)" : "translateY(0px)",
+                boxShadow: isHovered
+                  ? "0 20px 50px -10px rgba(37, 99, 235, 0.35), 0 0 30px rgba(99, 102, 241, 0.2)"
+                  : "0 10px 30px -10px rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              {/* Inner Card Container with Subtle Moving Spotlight */}
+              <div 
+                className="relative rounded-[22.5px] bg-[#070d20]/95 backdrop-blur-2xl p-5 sm:p-8 flex flex-col items-center text-center overflow-hidden"
+              >
+                {/* Dynamic Inner Surface Spotlight */}
+                {isHovered && (
+                  <div
+                    className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+                    style={{
+                      background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.09), transparent 60%)`,
+                    }}
+                  />
+                )}
+
+                <div className="relative z-10 w-full flex flex-col items-center">
                   <ModernDropzone />
                   
                   <p className="text-xs text-slate-400 mt-6 mb-4 font-medium">Your file stays on your device whenever possible.</p>
