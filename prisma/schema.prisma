@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // NextAuth standard models
@@ -76,3 +75,23 @@ model Conversion {
   @@index([toolId])
   @@index([status])
 }
+
+model ToolReview {
+  id           String   @id @default(cuid())
+  toolSlug     String
+  rating       Int      // 1 to 5
+  userName     String?
+  userEmail    String?
+  feedbackType String?  // "praise", "bug", "quality_issue", "speed_issue", "feature_request"
+  comment      String   @db.Text
+  deviceInfo   String?
+  isPublic     Boolean  @default(true)
+  status       String   @default("approved") // "approved", "pending", "flagged"
+  helpfulCount Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@index([toolSlug])
+  @@index([rating])
+  @@index([createdAt])
+}
+

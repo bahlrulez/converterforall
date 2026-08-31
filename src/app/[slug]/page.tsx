@@ -6,6 +6,8 @@ import { getToolContent } from "@/lib/tool-content";
 import { Metadata } from "next";
 import { ToolRenderer } from "@/components/tools/tool-renderer";
 import { RelatedTools } from "@/components/tools/related-tools";
+import { ToolReviews } from "@/components/tools/tool-reviews";
+import { getToolReviewStats } from "@/lib/reviews-data";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -87,6 +89,9 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     ]
   };
 
+  const contentSections = getToolContent(toolSlug, tool.title, tool.description);
+  const reviewStats = await getToolReviewStats(toolSlug);
+
   // Generate SoftwareApplication Schema
   const softwareAppSchema = {
     "@context": "https://schema.org",
@@ -100,10 +105,15 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": reviewStats.averageRating,
+      "reviewCount": reviewStats.totalReviews,
+      "bestRating": "5",
+      "worstRating": "1"
     }
   };
-
-  const contentSections = getToolContent(toolSlug, tool.title, tool.description);
 
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden py-10">
@@ -179,8 +189,17 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <RelatedTools currentSlug={toolSlug} categorySlug={categorySlug} />
         </div>
 
+        {/* Modern Authentic Tool Reviews & Issue Feedback Section */}
+        <div className="print:hidden">
+          <ToolReviews 
+            toolSlug={toolSlug} 
+            toolTitle={tool.title} 
+            initialStats={reviewStats} 
+          />
+        </div>
+
         {/* Structured SEO Guide & Bento Information Sections */}
-        <div className="space-y-8 print:hidden">
+        <div className="space-y-8 print:hidden mt-12">
           {contentSections.map((section, index) => (
             <div 
               key={index} 
