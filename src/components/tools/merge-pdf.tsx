@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, degrees } from "pdf-lib";
 import { 
   FileDown, 
   UploadCloud, 
@@ -22,7 +22,8 @@ import {
   Info,
   ChevronDown,
   ChevronUp,
-  Power
+  Power,
+  RotateCw
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getPendingFile } from "@/lib/file-transfer";
@@ -32,6 +33,7 @@ interface FileItem {
   file: File;
   previewUrl: string;
   type: 'pdf' | 'word' | 'powerpoint' | 'image';
+  rotation?: number;
 }
 
 type PageSizeType = 'a4' | 'letter' | 'legal' | 'a3' | 'a5' | 'fit_content';
@@ -55,21 +57,29 @@ const MARGIN_POINTS: Record<MarginSizeType, number> = {
   large: 72.0, // ~25.4mm / 1 inch
 };
 
-async function imageToPngBytes(file: File): Promise<ArrayBuffer> {
+async function imageToPngBytes(file: File, rotation: number = 0): Promise<ArrayBuffer> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const url = URL.createObjectURL(file);
     img.onload = () => {
       URL.revokeObjectURL(url);
       const canvas = document.createElement('canvas');
-      canvas.width = img.naturalWidth || img.width;
-      canvas.height = img.naturalHeight || img.height;
+      const origW = img.naturalWidth || img.width;
+      const origH = img.naturalHeight || img.height;
+      const rot = ((rotation % 360) + 360) % 360;
+      const isOrthogonal = rot === 90 || rot === 270;
+
+      canvas.width = isOrthogonal ? origH : origW;
+      canvas.height = isOrthogonal ? origW : origH;
+
       const ctx = canvas.getContext('2d');
       if (!ctx) {
         reject(new Error("Canvas context failed"));
         return;
       }
-      ctx.drawImage(img, 0, 0);
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate((rot * Math.PI) / 180);
+      ctx.drawImage(img, -origW / 2, -origH / 2);
       canvas.toBlob((blob) => {
         if (!blob) {
           reject(new Error("Image blob conversion failed"));
@@ -126,7 +136,8 @@ export default function MergePdfTool() {
           id: Math.random().toString(36).substring(7),
           file: pending,
           previewUrl: URL.createObjectURL(pending),
-          type: detectFileType(pending)
+          type: detectFileType(pending),
+          rotation: 0
         }]);
       }
     }
@@ -138,7 +149,8 @@ export default function MergePdfTool() {
       id: Math.random().toString(36).substring(7),
       file,
       previewUrl: URL.createObjectURL(file),
-      type: detectFileType(file)
+      type: detectFileType(file),
+      rotation: 0
     }));
     setFiles(prev => [...prev, ...newFiles]);
     setSuccessUrl(null);
@@ -161,6 +173,27 @@ export default function MergePdfTool() {
 
   const removeFile = (idToRemove: string) => {
     setFiles(prev => prev.filter(f => f.id !== idToRemove));
+    setSuccessUrl(null);
+  };
+
+  const rotateFile = (idToRotate: string) => {
+    setFiles(prev => prev.map(f => {
+      if (f.id === idToRotate) {
+        return {
+          ...f,
+          rotation: (((f.rotation || 0) + 90) % 360)
+        };
+      }
+      return f;
+    }));
+    setSuccessUrl(null);
+  };
+
+  const rotateAllFiles = () => {
+    setFiles(prev => prev.map(f => ({
+      ...f,
+      rotation: (((f.rotation || 0) + 90) % 360)
+    })));
     setSuccessUrl(null);
   };
 
@@ -207,7 +240,13 @@ export default function MergePdfTool() {
           if (!enableScaling || pageSize === 'fit_content' || applyScope === 'images_only') {
             // Keep native PDF pages 1:1 intact
             const copiedPages = await mergedPdf.copyPages(pdfDoc, pageIndices);
-            copiedPages.forEach(page => mergedPdf.addPage(page));
+            copiedPages.forEach(page => {
+              if (item.rotation) {
+                const curAngle = page.getRotation().angle;
+                page.setRotation(degrees((curAngle + item.rotation) % 360));
+              }
+              mergedPdf.addPage(page);
+            });
           } else {
             // Normalize existing PDF pages to target uniform page size (e.g. A4)
             const [baseW, baseH] = PAGE_SIZE_POINTS[pageSize as Exclude<PageSizeType, 'fit_content'>];
@@ -256,6 +295,9 @@ export default function MergePdfTool() {
                   xScale: scale,
                   yScale: scale,
                 });
+                if (item.rotation) {
+                  page.setRotation(degrees(item.rotation % 360));
+                }
               } else if (fitMode === 'fill') {
                 const scaleX = targetW / origW;
                 const scaleY = targetH / origH;
@@ -266,6 +308,9 @@ export default function MergePdfTool() {
                   xScale: scaleX,
                   yScale: scaleY,
                 });
+                if (item.rotation) {
+                  page.setRotation(degrees(item.rotation % 360));
+                }
               } else {
                 // Original centered
                 const page = mergedPdf.addPage([targetW, targetH]);
@@ -275,6 +320,9 @@ export default function MergePdfTool() {
                   xScale: 1,
                   yScale: 1,
                 });
+                if (item.rotation) {
+                  page.setRotation(degrees(item.rotation % 360));
+                }
               }
             }
           }
@@ -284,7 +332,13 @@ export default function MergePdfTool() {
           const wordPdfBuffer = await wordPdfBlob.arrayBuffer();
           const wordPdfDoc = await PDFDocument.load(wordPdfBuffer);
           const copiedPages = await mergedPdf.copyPages(wordPdfDoc, wordPdfDoc.getPageIndices());
-          copiedPages.forEach(page => mergedPdf.addPage(page));
+          copiedPages.forEach(page => {
+            if (item.rotation) {
+              const curAngle = page.getRotation().angle;
+              page.setRotation(degrees((curAngle + item.rotation) % 360));
+            }
+            mergedPdf.addPage(page);
+          });
         } else if (item.type === 'powerpoint') {
           const { convertPptxToPdf } = await import("@/lib/converters/powerpoint");
           const pptxPdfBlob = await convertPptxToPdf(item.file);
@@ -294,7 +348,13 @@ export default function MergePdfTool() {
 
           if (!enableScaling || pageSize === 'fit_content' || orientation === 'landscape') {
             const copiedPages = await mergedPdf.copyPages(pptxPdfDoc, pageIndices);
-            copiedPages.forEach(page => mergedPdf.addPage(page));
+            copiedPages.forEach(page => {
+              if (item.rotation) {
+                const curAngle = page.getRotation().angle;
+                page.setRotation(degrees((curAngle + item.rotation) % 360));
+              }
+              mergedPdf.addPage(page);
+            });
           } else {
             // Scale and center each PowerPoint slide onto standard Portrait A4 page
             const [baseW, baseH] = PAGE_SIZE_POINTS[pageSize as Exclude<PageSizeType, 'fit_content'>];
@@ -322,6 +382,9 @@ export default function MergePdfTool() {
                 xScale: scale,
                 yScale: scale,
               });
+              if (item.rotation) {
+                page.setRotation(degrees(item.rotation % 360));
+              }
             }
           }
         } else if (item.type === 'image') {
@@ -329,13 +392,18 @@ export default function MergePdfTool() {
           let embeddedImage: any;
           const isJpg = item.file.type === 'image/jpeg' || /\.(jpe?g)$/i.test(item.file.name);
           const isPng = item.file.type === 'image/png' || /\.png$/i.test(item.file.name);
+          const rot = item.rotation || 0;
 
-          if (isJpg) {
+          if (rot % 360 !== 0) {
+            // Render rotated image on canvas to maintain orientation and geometry
+            const pngBytes = await imageToPngBytes(item.file, rot);
+            embeddedImage = await mergedPdf.embedPng(pngBytes);
+          } else if (isJpg) {
             const rawBytes = await item.file.arrayBuffer();
             try {
               embeddedImage = await mergedPdf.embedJpg(rawBytes);
             } catch {
-              const pngBytes = await imageToPngBytes(item.file);
+              const pngBytes = await imageToPngBytes(item.file, 0);
               embeddedImage = await mergedPdf.embedPng(pngBytes);
             }
           } else if (isPng) {
@@ -343,11 +411,11 @@ export default function MergePdfTool() {
             try {
               embeddedImage = await mergedPdf.embedPng(rawBytes);
             } catch {
-              const pngBytes = await imageToPngBytes(item.file);
+              const pngBytes = await imageToPngBytes(item.file, 0);
               embeddedImage = await mergedPdf.embedPng(pngBytes);
             }
           } else {
-            const pngBytes = await imageToPngBytes(item.file);
+            const pngBytes = await imageToPngBytes(item.file, 0);
             embeddedImage = await mergedPdf.embedPng(pngBytes);
           }
 
@@ -472,15 +540,30 @@ export default function MergePdfTool() {
               <div className="flex items-center justify-between border-b border-border/60 pb-3">
                 <div>
                   <h4 className="font-extrabold text-lg text-foreground">Selected Documents ({files.length})</h4>
-                  <p className="text-xs text-muted-foreground">Drag and reorder files into your preferred page sequence.</p>
+                  <p className="text-xs text-muted-foreground">Drag and reorder files, rotate pages, or customize layout below.</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setFiles([])}
-                  className="text-xs text-muted-foreground hover:text-destructive transition-colors font-medium"
-                >
-                  Clear All
-                </button>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <button
+                    type="button"
+                    onClick={rotateAllFiles}
+                    className="text-xs text-muted-foreground hover:text-primary transition-colors font-semibold flex items-center gap-1.5 px-2.5 py-1 rounded-lg hover:bg-muted"
+                    title="Rotate all files 90° clockwise"
+                  >
+                    <RotateCw className="w-3.5 h-3.5" />
+                    <span>Rotate All</span>
+                  </button>
+                  <span className="text-border">|</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFiles([]);
+                      setSuccessUrl(null);
+                    }}
+                    className="text-xs text-muted-foreground hover:text-destructive transition-colors font-medium px-2 py-1 rounded-lg hover:bg-destructive/10"
+                  >
+                    Clear All
+                  </button>
+                </div>
               </div>
               
               {/* Grid of Draggable File Thumbnails */}
@@ -501,33 +584,63 @@ export default function MergePdfTool() {
                       <GripVertical className="w-3.5 h-3.5 text-muted-foreground/60 group-hover:text-foreground transition-colors" />
                     </div>
 
-                    <button 
-                      onClick={() => removeFile(item.id)}
-                      className="absolute top-2 right-2 z-10 bg-destructive/90 hover:bg-destructive text-destructive-foreground rounded-full p-1 opacity-80 group-hover:opacity-100 transition-opacity shadow-sm"
-                      title="Remove file"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
+                    <div className="absolute top-2 right-2 z-10 flex items-center gap-1.5">
+                      <button 
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          rotateFile(item.id);
+                        }}
+                        className="bg-background/90 hover:bg-primary hover:text-primary-foreground text-foreground rounded-full p-1.5 border border-border shadow-sm transition-all hover:scale-110 active:scale-95"
+                        title="Rotate 90° clockwise"
+                      >
+                        <RotateCw className="w-3 h-3" />
+                      </button>
+
+                      <button 
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeFile(item.id);
+                        }}
+                        className="bg-destructive/90 hover:bg-destructive text-destructive-foreground rounded-full p-1.5 shadow-sm transition-all hover:scale-110 active:scale-95"
+                        title="Remove file"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
                     
                     <div className="w-full aspect-[3/4] bg-background rounded-xl border border-border/60 flex items-center justify-center overflow-hidden relative shadow-inner">
-                      {item.type === 'image' ? (
-                        <img src={item.previewUrl} alt={item.file.name} className="w-full h-full object-contain p-1" />
-                      ) : item.type === 'word' ? (
-                        <div className="flex flex-col items-center justify-center text-blue-500 p-2 text-center">
-                          <FileType className="w-10 h-10 mb-1" />
-                          <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-500 border border-blue-500/20">DOCX</span>
+                      <div 
+                        className="w-full h-full flex items-center justify-center transition-transform duration-300 ease-in-out"
+                        style={{ transform: `rotate(${item.rotation || 0}deg)` }}
+                      >
+                        {item.type === 'image' ? (
+                          <img src={item.previewUrl} alt={item.file.name} className="w-full h-full object-contain p-1" />
+                        ) : item.type === 'word' ? (
+                          <div className="flex flex-col items-center justify-center text-blue-500 p-2 text-center">
+                            <FileType className="w-10 h-10 mb-1" />
+                            <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-500 border border-blue-500/20">DOCX</span>
+                          </div>
+                        ) : item.type === 'powerpoint' ? (
+                          <div className="flex flex-col items-center justify-center text-amber-500 p-2 text-center">
+                            <Presentation className="w-10 h-10 mb-1" />
+                            <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-500 border border-amber-500/20">PPTX</span>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-red-500 p-2 text-center">
+                            <FileText className="w-10 h-10 mb-1" />
+                            <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-red-500/10 text-red-500 border border-red-500/20">PDF</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {item.rotation && item.rotation % 360 !== 0 ? (
+                        <div className="absolute bottom-1.5 right-1.5 z-10 px-1.5 py-0.5 rounded bg-primary/90 text-primary-foreground text-[9px] font-black shadow-sm flex items-center gap-0.5 pointer-events-none">
+                          <RotateCw className="w-2.5 h-2.5" />
+                          <span>{item.rotation % 360}°</span>
                         </div>
-                      ) : item.type === 'powerpoint' ? (
-                        <div className="flex flex-col items-center justify-center text-amber-500 p-2 text-center">
-                          <Presentation className="w-10 h-10 mb-1" />
-                          <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-500 border border-amber-500/20">PPTX</span>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center justify-center text-red-500 p-2 text-center">
-                          <FileText className="w-10 h-10 mb-1" />
-                          <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-red-500/10 text-red-500 border border-red-500/20">PDF</span>
-                        </div>
-                      )}
+                      ) : null}
                     </div>
                     
                     <div className="w-full text-center px-1">
