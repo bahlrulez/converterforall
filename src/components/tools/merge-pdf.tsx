@@ -110,6 +110,206 @@ function detectFileType(file: File): 'pdf' | 'word' | 'powerpoint' | 'image' {
   return 'pdf';
 }
 
+// Helper to render and reconstruct pages from encrypted, password-protected, or complex PDFs using pdfjs-dist
+async function reconstructPdfPagesViaPdfjs(
+  file: File,
+  mergedPdf: PDFDocument,
+  options: {
+    enableScaling: boolean;
+    pageSize: PageSizeType;
+    orientation: OrientationType;
+    fitMode: FitModeType;
+    marginPt: number;
+    rotation?: number;
+  },
+  onProgress?: (msg: string) => void
+) {
+  const pdfjsLib = await import("pdfjs-dist");
+  if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+  }
+
+  const rawBuffer = await file.arrayBuffer();
+  const fileBytes = new Uint8Array(rawBuffer);
+
+  let doc: any;
+  try {
+    const loadingTask = pdfjsLib.getDocument({ data: fileBytes.slice(0) });
+    doc = await loadingTask.promise;
+  } catch (err: any) {
+    if (err?.name === "PasswordException" || String(err?.message || "").toLowerCase().includes("password")) {
+      throw new Error(`"${file.name}" is protected with an access password. Please unlock or remove the password before merging.`);
+    }
+    throw new Error(`Could not decode "${file.name}": ${err?.message || "Invalid or unsupported PDF format."}`);
+  }
+
+  const numPages = doc.numPages;
+  for (let p = 1; p <= numPages; p++) {
+    onProgress?.(`Processing page ${p} of ${numPages} from ${file.name}...`);
+    const page = await doc.getPage(p);
+    // Use 2.0 scale for crisp, clean visual rendering
+    const viewport = page.getViewport({ scale: 2.0 });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(viewport.width);
+    canvas.height = Math.round(viewport.height);
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) throw new Error("Canvas rendering context creation failed.");
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    await (page.render({ canvasContext: ctx, viewport } as any) as any).promise;
+
+    const imgDataUrl = canvas.toDataURL("image/jpeg", 0.92);
+    const embeddedImg = await mergedPdf.embedJpg(imgDataUrl);
+
+    const origViewport = page.getViewport({ scale: 1.0 });
+    const origW = origViewport.width;
+    const origH = origViewport.height;
+
+    if (!options.enableScaling || options.pageSize === "fit_content") {
+      const newPage = mergedPdf.addPage([origW, origH]);
+      newPage.drawImage(embeddedImg, { x: 0, y: 0, width: origW, height: origH });
+      if (options.rotation) {
+        newPage.setRotation(degrees(options.rotation % 360));
+      }
+    } else {
+      const [baseW, baseH] = PAGE_SIZE_POINTS[options.pageSize as Exclude<PageSizeType, "fit_content">];
+      let targetW = baseW;
+      let targetH = baseH;
+
+      if (options.orientation === "landscape") {
+        targetW = Math.max(baseW, baseH);
+        targetH = Math.min(baseW, baseH);
+      } else if (options.orientation === "portrait") {
+        targetW = Math.min(baseW, baseH);
+        targetH = Math.max(baseW, baseH);
+      } else {
+        const isLand = origW > origH;
+        targetW = isLand ? Math.max(baseW, baseH) : Math.min(baseW, baseH);
+        targetH = isLand ? Math.min(baseW, baseH) : Math.max(baseW, baseH);
+      }
+
+      const printableW = Math.max(10, targetW - 2 * options.marginPt);
+      const printableH = Math.max(10, targetH - 2 * options.marginPt);
+
+      let drawW = origW;
+      let drawH = origH;
+      let drawX = options.marginPt;
+      let drawY = options.marginPt;
+
+      if (options.fitMode === "fit") {
+        const scale = Math.min(printableW / origW, printableH / origH);
+        drawW = origW * scale;
+        drawH = origH * scale;
+        drawX = options.marginPt + (printableW - drawW) / 2;
+        drawY = options.marginPt + (printableH - drawH) / 2;
+      } else if (options.fitMode === "fill") {
+        drawW = targetW;
+        drawH = targetH;
+        drawX = 0;
+        drawY = 0;
+      } else {
+        if (origW > printableW || origH > printableH) {
+          const scale = Math.min(printableW / origW, printableH / origH);
+          drawW = origW * scale;
+          drawH = origH * scale;
+          drawX = options.marginPt + (printableW - drawW) / 2;
+          drawY = options.marginPt + (printableH - drawH) / 2;
+        } else {
+          drawW = origW;
+          drawH = origH;
+          drawX = Math.max(options.marginPt, (targetW - drawW) / 2);
+          drawY = Math.max(options.marginPt, (targetH - drawH) / 2);
+        }
+      }
+
+      const newPage = mergedPdf.addPage([targetW, targetH]);
+      newPage.drawImage(embeddedImg, { x: drawX, y: drawY, width: drawW, height: drawH });
+      if (options.rotation) {
+        newPage.setRotation(degrees(options.rotation % 360));
+      }
+    }
+
+    page.cleanup();
+    canvas.width = 0;
+    canvas.height = 0;
+  }
+}
+
+// Helper to scale and add copied PDF pages to the merged document natively (without clipping or converting to XObject)
+function appendNativePdfPages(
+  copiedPages: any[],
+  mergedPdf: PDFDocument,
+  options: {
+    enableScaling: boolean;
+    pageSize: PageSizeType;
+    orientation: OrientationType;
+    fitMode: FitModeType;
+    marginPt: number;
+    applyScope: ApplyScopeType;
+    userRotation?: number;
+  }
+) {
+  const [baseW, baseH] = PAGE_SIZE_POINTS[options.pageSize === 'fit_content' ? 'a4' : options.pageSize];
+
+  for (const page of copiedPages) {
+    const rotObj = page.getRotation();
+    const pageRot = (rotObj && typeof rotObj.angle === "number" ? rotObj.angle : 0) % 360;
+    const is90or270 = pageRot === 90 || pageRot === 270;
+    const origW = is90or270 ? page.getHeight() : page.getWidth();
+    const origH = is90or270 ? page.getWidth() : page.getHeight();
+
+    if (!options.enableScaling || options.pageSize === "fit_content" || options.applyScope === "images_only") {
+      if (options.userRotation) {
+        page.setRotation(degrees((pageRot + options.userRotation) % 360));
+      }
+      mergedPdf.addPage(page);
+    } else {
+      let targetW = baseW;
+      let targetH = baseH;
+
+      if (options.orientation === "landscape") {
+        targetW = Math.max(baseW, baseH);
+        targetH = Math.min(baseW, baseH);
+      } else if (options.orientation === "portrait") {
+        targetW = Math.min(baseW, baseH);
+        targetH = Math.max(baseW, baseH);
+      } else {
+        const isLand = origW > origH;
+        targetW = isLand ? Math.max(baseW, baseH) : Math.min(baseW, baseH);
+        targetH = isLand ? Math.min(baseW, baseH) : Math.max(baseW, baseH);
+      }
+
+      const printableW = Math.max(10, targetW - 2 * options.marginPt);
+      const printableH = Math.max(10, targetH - 2 * options.marginPt);
+
+      if (options.fitMode === "fit") {
+        const scale = Math.min(printableW / origW, printableH / origH);
+        page.scale(scale, scale);
+        const curW = is90or270 ? page.getHeight() : page.getWidth();
+        const curH = is90or270 ? page.getWidth() : page.getHeight();
+        const dx = (targetW - curW) / 2;
+        const dy = (targetH - curH) / 2;
+        page.setSize(is90or270 ? targetH : targetW, is90or270 ? targetW : targetH);
+        page.translateContent(dx, dy);
+      } else if (options.fitMode === "fill") {
+        const scaleX = targetW / origW;
+        const scaleY = targetH / origH;
+        page.scale(scaleX, scaleY);
+        page.setSize(is90or270 ? targetH : targetW, is90or270 ? targetW : targetH);
+      }
+
+      if (options.userRotation) {
+        page.setRotation(degrees((pageRot + options.userRotation) % 360));
+      }
+
+      mergedPdf.addPage(page);
+    }
+  }
+}
+
 export default function MergePdfTool() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -230,165 +430,98 @@ export default function MergePdfTool() {
 
       for (let i = 0; i < files.length; i++) {
         const item = files[i];
-        setProcessingStatus(`Processing ${i + 1} of ${files.length}: ${item.file.name}...`);
+        setProcessingStatus(`Processing document ${i + 1} of ${files.length}: ${item.file.name}...`);
 
         if (item.type === 'pdf') {
           const fileBuffer = await item.file.arrayBuffer();
-          const pdfDoc = await PDFDocument.load(fileBuffer, { ignoreEncryption: true });
-          const pageIndices = pdfDoc.getPageIndices();
+          let pdfDoc: PDFDocument | null = null;
+          let isEncrypted = false;
 
-          if (!enableScaling || pageSize === 'fit_content' || applyScope === 'images_only') {
-            // Keep native PDF pages 1:1 intact
-            const copiedPages = await mergedPdf.copyPages(pdfDoc, pageIndices);
-            copiedPages.forEach(page => {
-              if (item.rotation) {
-                const curAngle = page.getRotation().angle;
-                page.setRotation(degrees((curAngle + item.rotation) % 360));
-              }
-              mergedPdf.addPage(page);
-            });
-          } else {
-            // Normalize existing PDF pages to target uniform page size (e.g. A4)
-            const [baseW, baseH] = PAGE_SIZE_POINTS[pageSize as Exclude<PageSizeType, 'fit_content'>];
-            
-            for (const pageIdx of pageIndices) {
-              const srcPage = pdfDoc.getPage(pageIdx);
-              const origW = srcPage.getWidth();
-              const origH = srcPage.getHeight();
-
-              // Calculate target dimensions
-              let targetW = baseW;
-              let targetH = baseH;
-              if (orientation === 'landscape') {
-                targetW = Math.max(baseW, baseH);
-                targetH = Math.min(baseW, baseH);
-              } else if (orientation === 'portrait') {
-                targetW = Math.min(baseW, baseH);
-                targetH = Math.max(baseW, baseH);
-              } else {
-                const isLand = origW > origH;
-                targetW = isLand ? Math.max(baseW, baseH) : Math.min(baseW, baseH);
-                targetH = isLand ? Math.min(baseW, baseH) : Math.max(baseW, baseH);
-              }
-
-              const printableW = Math.max(10, targetW - 2 * marginPt);
-              const printableH = Math.max(10, targetH - 2 * marginPt);
-
-              const embeddedPage = await mergedPdf.embedPage(srcPage);
-
-              let drawW = origW;
-              let drawH = origH;
-              let drawX = marginPt;
-              let drawY = marginPt;
-
-              if (fitMode === 'fit') {
-                const scale = Math.min(printableW / origW, printableH / origH);
-                drawW = origW * scale;
-                drawH = origH * scale;
-                drawX = marginPt + (printableW - drawW) / 2;
-                drawY = marginPt + (printableH - drawH) / 2;
-
-                const page = mergedPdf.addPage([targetW, targetH]);
-                page.drawPage(embeddedPage, {
-                  x: drawX,
-                  y: drawY,
-                  xScale: scale,
-                  yScale: scale,
-                });
-                if (item.rotation) {
-                  page.setRotation(degrees(item.rotation % 360));
-                }
-              } else if (fitMode === 'fill') {
-                const scaleX = targetW / origW;
-                const scaleY = targetH / origH;
-                const page = mergedPdf.addPage([targetW, targetH]);
-                page.drawPage(embeddedPage, {
-                  x: 0,
-                  y: 0,
-                  xScale: scaleX,
-                  yScale: scaleY,
-                });
-                if (item.rotation) {
-                  page.setRotation(degrees(item.rotation % 360));
-                }
-              } else {
-                // Original centered
-                const page = mergedPdf.addPage([targetW, targetH]);
-                page.drawPage(embeddedPage, {
-                  x: (targetW - origW) / 2,
-                  y: (targetH - origH) / 2,
-                  xScale: 1,
-                  yScale: 1,
-                });
-                if (item.rotation) {
-                  page.setRotation(degrees(item.rotation % 360));
-                }
-              }
+          // Check if document has encryption or restrictions
+          try {
+            pdfDoc = await PDFDocument.load(fileBuffer, { ignoreEncryption: false });
+            if (pdfDoc.isEncrypted) {
+              isEncrypted = true;
             }
+          } catch (err) {
+            isEncrypted = true;
+          }
+
+          // If encrypted, use pdfjs-dist to unlock and rasterize high-fidelity pages (never blank!)
+          if (isEncrypted || !pdfDoc) {
+            await reconstructPdfPagesViaPdfjs(
+              item.file,
+              mergedPdf,
+              {
+                enableScaling,
+                pageSize,
+                orientation,
+                fitMode,
+                marginPt,
+                rotation: item.rotation
+              },
+              setProcessingStatus
+            );
+          } else {
+            // Unencrypted PDF: Flatten forms to preserve any filled form fields
+            try {
+              const form = pdfDoc.getForm();
+              if (form) {
+                form.flatten();
+              }
+            } catch {
+              // Proceed safely if form is empty or already flat
+            }
+
+            const pageIndices = pdfDoc.getPageIndices();
+            const copiedPages = await mergedPdf.copyPages(pdfDoc, pageIndices);
+
+            appendNativePdfPages(copiedPages, mergedPdf, {
+              enableScaling,
+              pageSize,
+              orientation,
+              fitMode,
+              marginPt,
+              applyScope,
+              userRotation: item.rotation
+            });
           }
         } else if (item.type === 'word') {
+          setProcessingStatus(`Converting Word document: ${item.file.name}...`);
           const { convertWordToPdf } = await import("@/lib/converters/word");
           const wordPdfBlob = await convertWordToPdf(item.file);
           const wordPdfBuffer = await wordPdfBlob.arrayBuffer();
           const wordPdfDoc = await PDFDocument.load(wordPdfBuffer);
           const copiedPages = await mergedPdf.copyPages(wordPdfDoc, wordPdfDoc.getPageIndices());
-          copiedPages.forEach(page => {
-            if (item.rotation) {
-              const curAngle = page.getRotation().angle;
-              page.setRotation(degrees((curAngle + item.rotation) % 360));
-            }
-            mergedPdf.addPage(page);
+
+          appendNativePdfPages(copiedPages, mergedPdf, {
+            enableScaling,
+            pageSize,
+            orientation,
+            fitMode,
+            marginPt,
+            applyScope,
+            userRotation: item.rotation
           });
         } else if (item.type === 'powerpoint') {
+          setProcessingStatus(`Converting presentation: ${item.file.name}...`);
           const { convertPptxToPdf } = await import("@/lib/converters/powerpoint");
           const pptxPdfBlob = await convertPptxToPdf(item.file);
           const pptxPdfBuffer = await pptxPdfBlob.arrayBuffer();
           const pptxPdfDoc = await PDFDocument.load(pptxPdfBuffer);
-          const pageIndices = pptxPdfDoc.getPageIndices();
+          const copiedPages = await mergedPdf.copyPages(pptxPdfDoc, pptxPdfDoc.getPageIndices());
 
-          if (!enableScaling || pageSize === 'fit_content' || orientation === 'landscape') {
-            const copiedPages = await mergedPdf.copyPages(pptxPdfDoc, pageIndices);
-            copiedPages.forEach(page => {
-              if (item.rotation) {
-                const curAngle = page.getRotation().angle;
-                page.setRotation(degrees((curAngle + item.rotation) % 360));
-              }
-              mergedPdf.addPage(page);
-            });
-          } else {
-            // Scale and center each PowerPoint slide onto standard Portrait A4 page
-            const [baseW, baseH] = PAGE_SIZE_POINTS[pageSize as Exclude<PageSizeType, 'fit_content'>];
-            const targetW = Math.min(baseW, baseH);
-            const targetH = Math.max(baseW, baseH);
-            const printableW = Math.max(10, targetW - 2 * marginPt);
-            const printableH = Math.max(10, targetH - 2 * marginPt);
-
-            for (const pageIdx of pageIndices) {
-              const srcPage = pptxPdfDoc.getPage(pageIdx);
-              const origW = srcPage.getWidth();
-              const origH = srcPage.getHeight();
-
-              const embeddedPage = await mergedPdf.embedPage(srcPage);
-              const scale = Math.min(printableW / origW, printableH / origH);
-              const drawW = origW * scale;
-              const drawH = origH * scale;
-              const drawX = marginPt + (printableW - drawW) / 2;
-              const drawY = marginPt + (printableH - drawH) / 2;
-
-              const page = mergedPdf.addPage([targetW, targetH]);
-              page.drawPage(embeddedPage, {
-                x: drawX,
-                y: drawY,
-                xScale: scale,
-                yScale: scale,
-              });
-              if (item.rotation) {
-                page.setRotation(degrees(item.rotation % 360));
-              }
-            }
-          }
+          appendNativePdfPages(copiedPages, mergedPdf, {
+            enableScaling,
+            pageSize,
+            orientation,
+            fitMode,
+            marginPt,
+            applyScope,
+            userRotation: item.rotation
+          });
         } else if (item.type === 'image') {
-          // Embed image
+          setProcessingStatus(`Embedding image: ${item.file.name}...`);
           let embeddedImage: any;
           const isJpg = item.file.type === 'image/jpeg' || /\.(jpe?g)$/i.test(item.file.name);
           const isPng = item.file.type === 'image/png' || /\.png$/i.test(item.file.name);
@@ -465,11 +598,19 @@ export default function MergePdfTool() {
               drawX = 0;
               drawY = 0;
             } else {
-              // Original size centered
-              drawW = imgW;
-              drawH = imgH;
-              drawX = (targetW - drawW) / 2;
-              drawY = (targetH - drawH) / 2;
+              // Original size centered, guarded so it never spills off-canvas
+              if (imgW > printableW || imgH > printableH) {
+                const scale = Math.min(printableW / imgW, printableH / imgH);
+                drawW = imgW * scale;
+                drawH = imgH * scale;
+                drawX = marginPt + (printableW - drawW) / 2;
+                drawY = marginPt + (printableH - drawH) / 2;
+              } else {
+                drawW = imgW;
+                drawH = imgH;
+                drawX = Math.max(marginPt, (targetW - drawW) / 2);
+                drawY = Math.max(marginPt, (targetH - drawH) / 2);
+              }
             }
 
             const page = mergedPdf.addPage([targetW, targetH]);
@@ -484,7 +625,8 @@ export default function MergePdfTool() {
       }
 
       setProcessingStatus("Generating final unified PDF...");
-      const mergedPdfBytes = await mergedPdf.save();
+      // Save with useObjectStreams: false for universal viewer compatibility
+      const mergedPdfBytes = await mergedPdf.save({ useObjectStreams: false });
       const blob = new Blob([mergedPdfBytes as any], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       setSuccessUrl(url);

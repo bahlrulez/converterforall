@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `${toolData.tool.title} - Free Online Converter`,
       description: toolData.tool.description,
       type: "website",
-      url: `https://www.converterforall.com/${resolvedParams.slug}`,
+      url: `https://www.converterforall.com/${toolData.toolSlug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: toolData.tool.description,
     },
     alternates: {
-      canonical: `https://www.converterforall.com/${resolvedParams.slug}`,
+      canonical: `https://www.converterforall.com/${toolData.toolSlug}`,
     }
   };
 }

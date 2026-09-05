@@ -1,0 +1,531 @@
+{
+  "totalAliases": 87,
+  "missingTargets": [],
+  "aliasChains": [],
+  "selfLoops": [],
+  "canonicalAsAlias": [],
+  "manifest": [
+    {
+      "alias": "kruti-dev-010-to-unicode",
+      "target": "krutidev-to-unicode",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "kruti-dev-to-unicode",
+      "target": "krutidev-to-unicode",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "krutidev-to-mangal",
+      "target": "krutidev-to-unicode",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "kruti-dev-to-mangal",
+      "target": "krutidev-to-unicode",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "kruti-dev-010-to-mangal",
+      "target": "krutidev-to-unicode",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "unicode-to-kruti-dev-010",
+      "target": "unicode-to-krutidev",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "unicode-to-kruti-dev",
+      "target": "unicode-to-krutidev",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "mangal-to-krutidev",
+      "target": "unicode-to-krutidev",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "mangal-to-kruti-dev",
+      "target": "unicode-to-krutidev",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "mangal-to-kruti-dev-010",
+      "target": "unicode-to-krutidev",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "sutonnymj-to-unicode",
+      "target": "bijoy-to-unicode",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "unicode-to-sutonnymj",
+      "target": "unicode-to-bijoy",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "inpage-to-urdu-unicode",
+      "target": "inpage-to-unicode",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "inpage-urdu-to-unicode",
+      "target": "inpage-to-unicode",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "urdu-unicode-to-inpage",
+      "target": "unicode-to-inpage",
+      "targetExists": true,
+      "targetCategory": "fonts"
+    },
+    {
+      "alias": "background-remover",
+      "target": "remove-background",
+      "targetExists": true,
+      "targetCategory": "image"
+    },
+    {
+      "alias": "remove-bg",
+      "target": "remove-background",
+      "targetExists": true,
+      "targetCategory": "image"
+    },
+    {
+      "alias": "webp-to-jpeg",
+      "target": "webp-to-jpg",
+      "targetExists": true,
+      "targetCategory": "image"
+    },
+    {
+      "alias": "image-compressor",
+      "target": "compress-jpg",
+      "targetExists": true,
+      "targetCategory": "image"
+    },
+    {
+      "alias": "screen-recording",
+      "target": "screen-recorder",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "record-screen",
+      "target": "screen-recorder",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "online-screen-recorder",
+      "target": "screen-recorder",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "qr-code-generator",
+      "target": "qr-generator",
+      "targetExists": true,
+      "targetCategory": "utilities"
+    },
+    {
+      "alias": "barcode-creator",
+      "target": "barcode-generator",
+      "targetExists": true,
+      "targetCategory": "utilities"
+    },
+    {
+      "alias": "generate-qr",
+      "target": "qr-generator",
+      "targetExists": true,
+      "targetCategory": "utilities"
+    },
+    {
+      "alias": "generate-barcode",
+      "target": "barcode-generator",
+      "targetExists": true,
+      "targetCategory": "utilities"
+    },
+    {
+      "alias": "compress-video",
+      "target": "video-compressor",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-video-size",
+      "target": "video-compressor",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "reduce-video-size",
+      "target": "video-compressor",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "shrink-video",
+      "target": "video-compressor",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-mov",
+      "target": "compress-mov-video",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-discord-video",
+      "target": "compress-video-for-discord",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-whatsapp-video",
+      "target": "compress-video-for-whatsapp",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-email-video",
+      "target": "compress-video-for-email",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-reels",
+      "target": "compress-video-for-instagram",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-instagram-video",
+      "target": "compress-video-for-instagram",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-facebook-video",
+      "target": "compress-video-for-facebook",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-iphone-video",
+      "target": "compress-video-for-phone",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "compress-android-video",
+      "target": "compress-video-for-phone",
+      "targetExists": true,
+      "targetCategory": "video"
+    },
+    {
+      "alias": "pdf-merger",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "combine-pdf",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "merge-word-to-pdf",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "merge-word-and-pdf",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "combine-word-and-pdf",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "merge-docx-pdf",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "combine-pdf-word",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "resize-pdf",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "scale-pdf",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "pdf-resize",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "pdf-scale",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "resize-pdf-pages",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "scale-pdf-pages",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "pdf-resizer",
+      "target": "merge-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "pdf-compressor",
+      "target": "compress-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "pdf-page-remover",
+      "target": "remove-pages",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "remove-pdf-pages",
+      "target": "remove-pages",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "pdf-page-extractor",
+      "target": "extract-pages",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "extract-pdf-pages",
+      "target": "extract-pages",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "pdf-rotator",
+      "target": "rotate-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "rotate-pdf-pages",
+      "target": "rotate-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "images-to-pdf",
+      "target": "jpg-to-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "image-to-pdf",
+      "target": "jpg-to-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "pdf-editor",
+      "target": "edit-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "annotate-pdf",
+      "target": "edit-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "sign-pdf",
+      "target": "edit-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "online-pdf-editor",
+      "target": "edit-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "ppt-to-pdf",
+      "target": "powerpoint-to-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "pptx-to-pdf",
+      "target": "powerpoint-to-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "convert-powerpoint-to-pdf",
+      "target": "powerpoint-to-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "xls-to-pdf",
+      "target": "excel-to-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "xlsx-to-pdf",
+      "target": "excel-to-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "convert-excel-to-pdf",
+      "target": "excel-to-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "htm-to-pdf",
+      "target": "html-to-pdf",
+      "targetExists": true,
+      "targetCategory": "document"
+    },
+    {
+      "alias": "decode-jwt",
+      "target": "jwt-decoder",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "jwt-parser",
+      "target": "jwt-decoder",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "jwt-validator",
+      "target": "jwt-decoder",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "json-validator",
+      "target": "json-formatter",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "format-json",
+      "target": "json-formatter",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "prettify-json",
+      "target": "json-formatter",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "base64-encode",
+      "target": "base64-encoder-decoder",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "base64-decode",
+      "target": "base64-encoder-decoder",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "base64-converter",
+      "target": "base64-encoder-decoder",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "timestamp-converter",
+      "target": "unix-timestamp-converter",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "epoch-converter",
+      "target": "unix-timestamp-converter",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "epoch-to-date",
+      "target": "unix-timestamp-converter",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "uuid-validator",
+      "target": "uuid-generator",
+      "targetExists": true,
+      "targetCategory": "developer"
+    },
+    {
+      "alias": "guid-generator",
+      "target": "uuid-generator",
+      "targetExists": true,
+      "targetCategory": "developer"
+    }
+  ]
+}

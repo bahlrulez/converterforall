@@ -178,15 +178,38 @@ export async function mergePdfs(files: File[]): Promise<Blob> {
   const mergedPdf = await PDFDocument.create();
 
   for (const file of files) {
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
-    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-    copiedPages.forEach((page) => {
-      mergedPdf.addPage(page);
-    });
+    const isImg = file.type.startsWith("image/") || /\.(jpe?g|png|webp|gif|bmp)$/i.test(file.name);
+    if (isImg) {
+      const arrayBuffer = await file.arrayBuffer();
+      let image;
+      const isPng = file.type === "image/png" || file.name.toLowerCase().endsWith(".png");
+      if (isPng) {
+        image = await mergedPdf.embedPng(arrayBuffer);
+      } else {
+        try {
+          image = await mergedPdf.embedJpg(arrayBuffer);
+        } catch {
+          image = await mergedPdf.embedPng(arrayBuffer);
+        }
+      }
+      const { width, height } = image.scale(1);
+      const page = mergedPdf.addPage([width, height]);
+      page.drawImage(image, { x: 0, y: 0, width, height });
+    } else {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+      try {
+        const form = pdf.getForm();
+        if (form) form.flatten();
+      } catch {}
+      const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+      copiedPages.forEach((page) => {
+        mergedPdf.addPage(page);
+      });
+    }
   }
 
-  const pdfBytes = await mergedPdf.save();
+  const pdfBytes = await mergedPdf.save({ useObjectStreams: false });
   return new Blob([pdfBytes as any], { type: "application/pdf" });
 }
 

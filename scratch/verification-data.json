@@ -1,0 +1,590 @@
+{
+  "aliasReport": [
+    {
+      "aliasSlug": "kruti-dev-to-mangal",
+      "aliasUrl": "https://www.converterforall.com/kruti-dev-to-mangal",
+      "intendedCanonical": "https://www.converterforall.com/krutidev-to-unicode",
+      "currentGeneratedCanonical": "https://www.converterforall.com/kruti-dev-to-mangal",
+      "targetGeneratedCanonical": "https://www.converterforall.com/krutidev-to-unicode"
+    },
+    {
+      "aliasSlug": "pdf-merger",
+      "aliasUrl": "https://www.converterforall.com/pdf-merger",
+      "intendedCanonical": "https://www.converterforall.com/merge-pdf",
+      "currentGeneratedCanonical": "https://www.converterforall.com/pdf-merger",
+      "targetGeneratedCanonical": "https://www.converterforall.com/merge-pdf"
+    }
+  ],
+  "categorizedThinCounts": {
+    "A_trulyThin": 19,
+    "B_shortUsefulUtility": 5,
+    "C_boilerplateHeavy": 18,
+    "D_duplicateNearDuplicate": 43,
+    "E_needsManualReview": 44,
+    "total": 129
+  },
+  "categorizedThinSamples": {
+    "A": [
+      "/remove-pdf-properties",
+      "/png-to-pdf",
+      "/ttf-to-woff2",
+      "/otf-to-woff2",
+      "/woff2-to-ttf",
+      "/convert-whatsapp-voice-note-to-mp3",
+      "/compress-mp4",
+      "/compress-mov-video",
+      "/compress-video-for-whatsapp",
+      "/compress-video-for-email",
+      "/compress-video-for-instagram",
+      "/miles-to-nautical-miles",
+      "/micrometers-to-millimeters",
+      "/nanometers-to-micrometers",
+      "/nautical-miles-to-miles",
+      "/furlongs-to-miles",
+      "/chains-to-meters",
+      "/rods-to-yards",
+      "/leagues-to-miles"
+    ],
+    "B": [
+      "/jwt-decoder",
+      "/json-formatter",
+      "/base64-encoder-decoder",
+      "/unix-timestamp-converter",
+      "/uuid-generator"
+    ],
+    "C": [
+      "/gif-maker",
+      "/image-cropper",
+      "/image-resizer",
+      "/rotate-pdf",
+      "/edit-pdf",
+      "/video-compressor",
+      "/compress-mkv",
+      "/compress-avi",
+      "/compress-webm",
+      "/compress-wmv",
+      "/compress-flv",
+      "/compress-video-for-facebook",
+      "/compress-video-for-phone",
+      "/screen-recorder",
+      "/unicode-normalizer",
+      "/remove-hidden-characters",
+      "/fix-copy-paste-text",
+      "/unicode-text-cleaner"
+    ],
+    "D": [
+      "/webp-to-jpeg",
+      "/screen-recording",
+      "/record-screen",
+      "/online-screen-recorder",
+      "/compress-video",
+      "/compress-video-size",
+      "/reduce-video-size",
+      "/shrink-video",
+      "/compress-mov",
+      "/compress-discord-video"
+    ],
+    "E": [
+      "/webp-to-jpg",
+      "/pdf-to-jpg",
+      "/pdf-to-png",
+      "/heic-to-png",
+      "/compress-png",
+      "/svg-to-png",
+      "/svg-to-jpg",
+      "/image-to-svg",
+      "/remove-pages",
+      "/extract-pages",
+      "/clean-pdf-metadata",
+      "/pdf-privacy-scrubber",
+      "/repair-pdf",
+      "/ocr-pdf",
+      "/jpg-to-pdf",
+      "/web-font-converter",
+      "/mp3-to-wav",
+      "/wav-to-mp3",
+      "/ogg-to-mp3",
+      "/mp3-to-ogg",
+      "/compress-video-for-discord",
+      "/video-to-gif",
+      "/video-to-mp4",
+      "/video-to-avi",
+      "/video-to-mkv",
+      "/video-to-wmv",
+      "/video-to-mov",
+      "/video-to-flv",
+      "/inches-to-centimeters",
+      "/inches-to-millimeters",
+      "/inches-to-feet",
+      "/feet-to-meters",
+      "/feet-to-yards",
+      "/feet-to-inches",
+      "/miles-to-kilometers",
+      "/yards-to-meters",
+      "/meters-to-kilometers",
+      "/centimeters-to-millimeters",
+      "/millimeters-to-inches",
+      "/light-years-to-parsecs",
+      "/gurmukhi-to-shahmukhi",
+      "/shahmukhi-to-gurmukhi",
+      "/json-to-csv",
+      "/csv-to-json"
+    ]
+  },
+  "weakest20": [
+    {
+      "url": "/aps-to-unicode",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: aps to unicode",
+        "category: APS to Unicode"
+      ],
+      "category": "fonts",
+      "toolType": "converter"
+    },
+    {
+      "url": "/asees-to-unicode",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: asees to unicode",
+        "category: Asees to Unicode"
+      ],
+      "category": "fonts",
+      "toolType": "converter"
+    },
+    {
+      "url": "/avif-to-jpeg",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: avif to jpeg",
+        "category: Convert AVIF to JPEG"
+      ],
+      "category": "image",
+      "toolType": "converter"
+    },
+    {
+      "url": "/avif-to-png",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: avif to png",
+        "category: Convert AVIF to PNG"
+      ],
+      "category": "image",
+      "toolType": "converter"
+    },
+    {
+      "url": "/barcode-generator",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: barcode generator",
+        "category: Barcode Generator"
+      ],
+      "category": "utilities",
+      "toolType": "generator"
+    },
+    {
+      "url": "/bijoy-to-unicode",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: bijoy to unicode",
+        "category: Bijoy to Unicode Converter (SutonnyMJ)"
+      ],
+      "category": "fonts",
+      "toolType": "converter"
+    },
+    {
+      "url": "/centimeters-to-millimeters",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: centimeters to millimeters",
+        "category: Centimeters to Millimeters"
+      ],
+      "category": "utilities",
+      "toolType": "converter"
+    },
+    {
+      "url": "/chains-to-meters",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: chains to meters",
+        "category: Chains to Meters"
+      ],
+      "category": "utilities",
+      "toolType": "converter"
+    },
+    {
+      "url": "/chanakya-to-unicode",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: chanakya to unicode",
+        "category: Chanakya to Unicode"
+      ],
+      "category": "fonts",
+      "toolType": "converter"
+    },
+    {
+      "url": "/clean-pdf-metadata",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: clean pdf metadata",
+        "category: PDF Metadata Cleaner (100% Private)"
+      ],
+      "category": "document",
+      "toolType": "editor"
+    },
+    {
+      "url": "/compress-flv",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: compress flv",
+        "category: Compress FLV Video Online – Reduce Flash Video Size"
+      ],
+      "category": "video",
+      "toolType": "compressor"
+    },
+    {
+      "url": "/compress-webm",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: compress webm",
+        "category: Compress WebM Video Online – Optimize WebM Size"
+      ],
+      "category": "video",
+      "toolType": "compressor"
+    },
+    {
+      "url": "/compress-wmv",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: compress wmv",
+        "category: Compress WMV Video Online – Shrink Windows Media Video"
+      ],
+      "category": "video",
+      "toolType": "compressor"
+    },
+    {
+      "url": "/convert-whatsapp-voice-note-to-mp3",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: convert whatsapp voice note to mp3",
+        "category: Convert WhatsApp Voice Notes to MP3 & Trim"
+      ],
+      "category": "audio",
+      "toolType": "converter"
+    },
+    {
+      "url": "/cut-audio-free",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: cut audio free",
+        "category: Cut Audio Files Free Online"
+      ],
+      "category": "audio",
+      "toolType": "converter"
+    },
+    {
+      "url": "/excel-to-pdf",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: excel to pdf",
+        "category: EXCEL to PDF"
+      ],
+      "category": "document",
+      "toolType": "converter"
+    },
+    {
+      "url": "/feet-to-inches",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: feet to inches",
+        "category: Feet to Inches"
+      ],
+      "category": "utilities",
+      "toolType": "converter"
+    },
+    {
+      "url": "/feet-to-meters",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: feet to meters",
+        "category: Feet to Meters"
+      ],
+      "category": "utilities",
+      "toolType": "converter"
+    },
+    {
+      "url": "/feet-to-yards",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: feet to yards",
+        "category: Feet to Yards"
+      ],
+      "category": "utilities",
+      "toolType": "converter"
+    },
+    {
+      "url": "/fix-copy-paste-text",
+      "inboundLinks": 2,
+      "sourcePages": [
+        "homepage: fix copy paste text",
+        "category: Fix Copy/Paste Text"
+      ],
+      "category": "fonts",
+      "toolType": "utility"
+    }
+  ],
+  "dupTitlesCount": 35,
+  "dupTitles": [
+    {
+      "title": "Remove Background | 100% Free & Private Online Tool",
+      "count": 3,
+      "slugs": [
+        "/remove-background",
+        "/background-remover",
+        "/remove-bg"
+      ]
+    },
+    {
+      "title": "Convert WEBP to JPG | 100% Free & Private Online Tool",
+      "count": 2,
+      "slugs": [
+        "/webp-to-jpg",
+        "/webp-to-jpeg"
+      ]
+    },
+    {
+      "title": "Compress JPG | 100% Free & Private Online Tool",
+      "count": 2,
+      "slugs": [
+        "/compress-jpg",
+        "/image-compressor"
+      ]
+    },
+    {
+      "title": "Merge PDF, Word (DOCX), JPG & PNG Online Free | 100% Free & Private Online Tool",
+      "count": 15,
+      "slugs": [
+        "/merge-pdf",
+        "/pdf-merger",
+        "/combine-pdf",
+        "/merge-word-to-pdf",
+        "/merge-word-and-pdf",
+        "/combine-word-and-pdf",
+        "/merge-docx-pdf",
+        "/combine-pdf-word",
+        "/resize-pdf",
+        "/scale-pdf",
+        "/pdf-resize",
+        "/pdf-scale",
+        "/resize-pdf-pages",
+        "/scale-pdf-pages",
+        "/pdf-resizer"
+      ]
+    },
+    {
+      "title": "Remove Pages | 100% Free & Private Online Tool",
+      "count": 3,
+      "slugs": [
+        "/remove-pages",
+        "/pdf-page-remover",
+        "/remove-pdf-pages"
+      ]
+    },
+    {
+      "title": "Extract Pages | 100% Free & Private Online Tool",
+      "count": 3,
+      "slugs": [
+        "/extract-pages",
+        "/pdf-page-extractor",
+        "/extract-pdf-pages"
+      ]
+    },
+    {
+      "title": "Rotate PDF Pages | 100% Free & Private Online Tool",
+      "count": 3,
+      "slugs": [
+        "/rotate-pdf",
+        "/pdf-rotator",
+        "/rotate-pdf-pages"
+      ]
+    },
+    {
+      "title": "Edit PDF Online | 100% Free & Private Online Tool",
+      "count": 5,
+      "slugs": [
+        "/edit-pdf",
+        "/pdf-editor",
+        "/annotate-pdf",
+        "/sign-pdf",
+        "/online-pdf-editor"
+      ]
+    },
+    {
+      "title": "Compress PDF | 100% Free & Private Online Tool",
+      "count": 2,
+      "slugs": [
+        "/compress-pdf",
+        "/pdf-compressor"
+      ]
+    },
+    {
+      "title": "JPG to PDF | 100% Free & Private Online Tool",
+      "count": 3,
+      "slugs": [
+        "/jpg-to-pdf",
+        "/images-to-pdf",
+        "/image-to-pdf"
+      ]
+    },
+    {
+      "title": "POWERPOINT to PDF | 100% Free & Private Online Tool",
+      "count": 4,
+      "slugs": [
+        "/powerpoint-to-pdf",
+        "/ppt-to-pdf",
+        "/pptx-to-pdf",
+        "/convert-powerpoint-to-pdf"
+      ]
+    },
+    {
+      "title": "EXCEL to PDF | 100% Free & Private Online Tool",
+      "count": 4,
+      "slugs": [
+        "/excel-to-pdf",
+        "/xls-to-pdf",
+        "/xlsx-to-pdf",
+        "/convert-excel-to-pdf"
+      ]
+    },
+    {
+      "title": "HTML to PDF | 100% Free & Private Online Tool",
+      "count": 2,
+      "slugs": [
+        "/html-to-pdf",
+        "/htm-to-pdf"
+      ]
+    },
+    {
+      "title": "Free Online Video Compressor – Reduce Video Size (Private & Instant) | 100% Free & Private Online Tool",
+      "count": 5,
+      "slugs": [
+        "/video-compressor",
+        "/compress-video",
+        "/compress-video-size",
+        "/reduce-video-size",
+        "/shrink-video"
+      ]
+    },
+    {
+      "title": "Compress MOV Video Online – Reduce iPhone & Mac MOV Size | 100% Free & Private Online Tool",
+      "count": 2,
+      "slugs": [
+        "/compress-mov-video",
+        "/compress-mov"
+      ]
+    }
+  ],
+  "canonicalTableCount": 154,
+  "canonicalTableHead": [
+    {
+      "rank": 1,
+      "name": "Convert WEBP to PNG",
+      "url": "/webp-to-png",
+      "category": "image",
+      "score": 100,
+      "wordCount": 740,
+      "inbound": 22,
+      "aliasCount": 0
+    },
+    {
+      "rank": 2,
+      "name": "Unicode to DevLys",
+      "url": "/unicode-to-devlys",
+      "category": "fonts",
+      "score": 100,
+      "wordCount": 527,
+      "inbound": 40,
+      "aliasCount": 0
+    },
+    {
+      "rank": 3,
+      "name": "DevLys to Unicode",
+      "url": "/devlys-to-unicode",
+      "category": "fonts",
+      "score": 100,
+      "wordCount": 527,
+      "inbound": 40,
+      "aliasCount": 0
+    },
+    {
+      "rank": 4,
+      "name": "Unicode to Chanakya",
+      "url": "/unicode-to-chanakya",
+      "category": "fonts",
+      "score": 100,
+      "wordCount": 527,
+      "inbound": 6,
+      "aliasCount": 0
+    },
+    {
+      "rank": 5,
+      "name": "AnmolLipi to Unicode",
+      "url": "/anmollipi-to-unicode",
+      "category": "fonts",
+      "score": 100,
+      "wordCount": 527,
+      "inbound": 4,
+      "aliasCount": 0
+    },
+    {
+      "rank": 6,
+      "name": "WORD to PDF",
+      "url": "/word-to-pdf",
+      "category": "document",
+      "score": 100,
+      "wordCount": 520,
+      "inbound": 7,
+      "aliasCount": 0
+    },
+    {
+      "rank": 7,
+      "name": "Camera Measurement Tool",
+      "url": "/camera-measure",
+      "category": "utilities",
+      "score": 100,
+      "wordCount": 462,
+      "inbound": 30,
+      "aliasCount": 0
+    },
+    {
+      "rank": 8,
+      "name": "Convert JPG to PNG",
+      "url": "/jpg-to-png",
+      "category": "image",
+      "score": 100,
+      "wordCount": 385,
+      "inbound": 4,
+      "aliasCount": 0
+    },
+    {
+      "rank": 9,
+      "name": "Remove Background",
+      "url": "/remove-background",
+      "category": "image",
+      "score": 95,
+      "wordCount": 833,
+      "inbound": 28,
+      "aliasCount": 2
+    },
+    {
+      "rank": 10,
+      "name": "Scan to PDF",
+      "url": "/scan-to-pdf",
+      "category": "document",
+      "score": 95,
+      "wordCount": 650,
+      "inbound": 2,
+      "aliasCount": 0
+    }
+  ]
+}

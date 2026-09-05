@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
+import { SLUG_ALIASES } from "./src/lib/tools-db";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["sharp"],
   async redirects() {
-    return [
+    const legacyRedirects = [
       {
         source: "/kruti-to-unicode",
         destination: "/krutidev-to-unicode",
@@ -14,12 +15,15 @@ const nextConfig: NextConfig = {
         destination: "/unicode-to-krutidev",
         permanent: true,
       },
-      {
-        source: "/images-to-pdf",
-        destination: "/jpg-to-pdf",
-        permanent: true,
-      }
     ];
+
+    const aliasRedirects = Object.entries(SLUG_ALIASES).map(([alias, target]) => ({
+      source: `/${alias}`,
+      destination: `/${target}`,
+      permanent: true,
+    }));
+
+    return [...legacyRedirects, ...aliasRedirects];
   },
   async headers() {
     return [
