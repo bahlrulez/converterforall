@@ -511,7 +511,7 @@ export const blogDatabase: Record<string, { title: string, content: string, date
           <li><a href="/extract-pages">PDF Page Extractor</a></li>
           <li><a href="/rotate-pdf">PDF Rotator</a></li>
           <li><a href="/mp4-to-mp3">MP4 to MP3</a></li>
-          <li><a href="/compress-video">Video Compressor</a></li>
+          <li><a href="/video-compressor">Video Compressor</a></li>
           <li><a href="/image-resizer">Image Resizer</a></li>
           <li><a href="/compress-jpg">Image Compressor</a></li>
           <li><a href="/image-cropper">Image Cropper</a></li>

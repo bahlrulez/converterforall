@@ -1,8 +1,11 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | ConverterForAll",
-  description: "Learn how ConverterForAll collects, uses, and protects your personal information.",
+  title: "Privacy Policy - How We Protect Your Data",
+  description: "Learn how ConverterForAll keeps your conversions private with in-browser processing and zero data retention.",
+  alternates: {
+    canonical: "https://www.converterforall.com/privacy",
+  },
 };
 
 export default function PrivacyPolicyPage() {

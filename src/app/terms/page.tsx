@@ -1,8 +1,11 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | ConverterForAll",
-  description: "Terms and conditions for using ConverterForAll.",
+  title: "Terms of Service - Free Online Tools",
+  description: "Terms of service and usage conditions for ConverterForAll free online file tools and converters.",
+  alternates: {
+    canonical: "https://www.converterforall.com/terms",
+  },
 };
 
 export default function TermsOfServicePage() {

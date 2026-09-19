@@ -86,20 +86,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const displayTitle = categorySlug === "developer" ? "Data & Code Tools" : `${categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1)} Tools`;
   const displaySubtitle = categorySlug === "developer"
-    ? "Essential, privacy-first developer utilities processed 100% in your browser. Zero cloud transmission."
-    : `Everything you need to manage and transform your ${categorySlug} files in one secure, powerful platform.`;
+    ? "Essential developer utilities processed directly in your browser. Fast, free, and private."
+    : `Everything you need to manage and convert your ${categorySlug} files in one secure, in-browser toolkit.`;
 
   return {
-    title: `${displayTitle} - Free Online Utilities | ConverterForAll`,
+    title: `${displayTitle} - Free Online Utilities`,
     description: displaySubtitle,
     openGraph: {
-      title: `${displayTitle} - Free Online Utilities`,
+      title: `${displayTitle} - Free Online Utilities | ConverterForAll`,
       description: displaySubtitle,
       type: "website",
-      url: `https://converterforall.com/category/${resolvedParams.slug}`,
+      url: `https://www.converterforall.com/category/${resolvedParams.slug}`,
     },
     alternates: {
-      canonical: `https://converterforall.com/category/${resolvedParams.slug}`,
+      canonical: `https://www.converterforall.com/category/${resolvedParams.slug}`,
     }
   };
 }

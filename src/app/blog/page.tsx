@@ -4,14 +4,14 @@ import { posts } from "@/lib/blog-data";
 import { BlogClient } from "./blog-client";
 
 export const metadata: Metadata = {
-  title: "Blog & File Conversion Guides | 100% Free & Private | ConverterForAll",
-  description: "Explore free in-depth guides, PDF workflows, image optimization tutorials, Hindi/Punjabi Unicode conversion tips, and privacy-first tech insights from ConverterForAll.",
+  title: "Blog & Guides - Everyday File Conversion Tips",
+  description: "Helpful, straightforward guides on working with PDFs, images, Indic fonts, and video files directly in your browser without extra software.",
   alternates: {
     canonical: "https://www.converterforall.com/blog",
   },
   openGraph: {
-    title: "Blog & File Conversion Guides | ConverterForAll",
-    description: "Explore free in-depth guides on PDF conversion, background removal, legacy font translation to Unicode, and 100% private local tools.",
+    title: "Blog & Guides - Everyday File Conversion Tips | ConverterForAll",
+    description: "Helpful guides on working with PDFs, images, Indic fonts, and video files directly in your browser.",
     type: "website",
     url: "https://www.converterforall.com/blog",
   }

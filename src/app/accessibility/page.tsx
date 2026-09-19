@@ -1,8 +1,11 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Accessibility Statement | ConverterForAll",
-  description: "Our commitment to digital accessibility for all users.",
+  title: "Accessibility Statement - Inclusive Digital Tools",
+  description: "Our commitment to ensuring digital accessibility for all users across our web converters and online tools.",
+  alternates: {
+    canonical: "https://www.converterforall.com/accessibility",
+  },
 };
 
 export default function AccessibilityStatementPage() {

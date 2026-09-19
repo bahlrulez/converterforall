@@ -25,21 +25,21 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.converterforall.com"),
   title: {
-    default: "Free Private File Converter | WebGPU, WebGL & In-Browser WASM",
+    default: "Free Online File Converter | Private PDF, Image, Video & Font Tools",
     template: "%s | ConverterForAll"
   },
-  description: "Next-gen client-side file converter powered by WebGPU, WebGL, and WebAssembly. Convert PDFs, images, videos, audio, and Indic fonts locally on your device with zero cloud uploads and total privacy.",
+  description: "Convert PDFs, images, videos, audio, and Indic fonts easily. Most tools run directly in your browser so your files stay on your device, with no registration required.",
   keywords: [
-    "WebGPU file converter",
-    "WebGL image converter",
-    "private file converter",
-    "client-side file converter",
-    "AI background remover WebGPU",
-    "Kruti Dev to Unicode Mangal",
-    "in-browser video compressor",
-    "free PDF converter no upload",
-    "serverless file conversion",
-    "100% offline file tools"
+    "free file converter",
+    "online pdf tools",
+    "private image converter",
+    "in-browser converter",
+    "remove image background",
+    "kruti dev to unicode",
+    "video compressor online",
+    "free pdf merge",
+    "convert docx to pdf",
+    "indic font converter"
   ],
   authors: [{ name: "ConverterForAll" }],
   openGraph: {
@@ -47,8 +47,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://www.converterforall.com",
     siteName: "ConverterForAll",
-    title: "100% Private File Converter — WebGPU & In-Browser WASM Engine",
-    description: "Convert PDFs, images, videos, audio, and regional Indic fonts directly on your device using WebGPU and WebAssembly. Zero cloud uploads, total privacy.",
+    title: "Free Online File Converter | Private PDF, Image, Video & Font Tools",
+    description: "Convert PDFs, images, videos, audio, and Indic fonts directly in your browser. Free, private, and no signup needed.",
     images: [
       {
         url: "/og-image.jpg",
@@ -60,8 +60,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "WebGPU & WASM File Converter: 100% Private, Fast & Free",
-    description: "Convert PDFs, images, videos, and fonts locally on your device using WebGPU hardware acceleration. Zero server uploads.",
+    title: "Free Online File Converter | Private PDF, Image & Video Tools",
+    description: "Convert files directly in your browser without uploading to foreign servers. Free with no daily limits.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -74,6 +74,13 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: "/icon.png",
   },
 };
 
@@ -130,12 +137,13 @@ export default function RootLayout({
         {/* Google Site Verification Placeholder */}
         <meta name="google-site-verification" content="google8e488f91621932b6" />
       </head>
-      <body className={cn(geist.variable, inter.variable, plusJakarta.variable, caveat.variable, "min-h-full flex flex-col font-sans antialiased")}>
+      <body className={cn(geist.variable, inter.variable, plusJakarta.variable, caveat.variable, "min-h-full flex flex-col font-sans antialiased bg-background text-foreground transition-colors duration-200")}>
         <CookieConsentProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
-            disableTransitionOnChange
+            enableSystem={false}
+            disableTransitionOnChange={false}
           >
             <div className="relative flex min-h-screen flex-col pb-16 md:pb-0">
               <Header />

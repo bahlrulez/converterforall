@@ -3,6 +3,7 @@ import { ToolSeoInventoryItem, ToolType, ProcessingType } from "../types";
 import { computeInternalLinkGraph } from "./internal-link-analyzer";
 import { evaluateToolContent } from "./thin-content-detector";
 import { calculateToolSeoScore } from "../scoring/seo-scorer";
+import { getOptimizedToolTitle, getOptimizedToolDescription } from "../metadata";
 
 export function collectSeoInventory(): ToolSeoInventoryItem[] {
   const linkGraph = computeInternalLinkGraph();
@@ -95,8 +96,8 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
 
       // On-page SEO Metadata
       const currentH1 = tool.title || toolSlug;
-      const currentTitle = tool.seoTitle || `${tool.title} | 100% Free & Private Online Tool`;
-      const currentMetaDescription = tool.seoDescription || `${tool.description} Fast, secure, client-side conversion powered by in-browser WebAssembly & WebGPU hardware acceleration.`;
+      const currentTitle = getOptimizedToolTitle(tool, toolSlug);
+      const currentMetaDescription = getOptimizedToolDescription(tool, toolSlug, categorySlug);
       const canonicalUrl = `https://www.converterforall.com/${toolSlug}`;
 
       // Inbound & Outbound Links
@@ -111,7 +112,7 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
       ];
 
       // Structured Data
-      const structuredDataTypes = ["BreadcrumbList", "SoftwareApplication"];
+      const structuredDataTypes = ["BreadcrumbList", "SoftwareApplication", "FAQPage"];
 
       // Scoring
       const scoreResult = calculateToolSeoScore({
@@ -178,11 +179,11 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
     const relatedTools = linkGraph.relatedToolsBySlug[targetSlug] || [];
 
     const currentH1 = targetTool.title || aliasSlug;
-    const currentTitle = targetTool.seoTitle || `${targetTool.title} | 100% Free & Private Online Tool`;
-    const currentMetaDescription = targetTool.seoDescription || `${targetTool.description} Fast, secure, client-side conversion powered by in-browser WebAssembly & WebGPU hardware acceleration.`;
+    const currentTitle = getOptimizedToolTitle(targetTool, targetSlug);
+    const currentMetaDescription = getOptimizedToolDescription(targetTool, targetSlug, categorySlug);
     
-    // In current production code, canonical is self-referential to the alias path!
-    const canonicalUrl = `https://www.converterforall.com/${aliasSlug}`;
+    // Alias routes 301 redirect directly to the target canonical URL
+    const canonicalUrl = `https://www.converterforall.com/${targetSlug}`;
 
     const scoreResult = calculateToolSeoScore({
       title: currentTitle,

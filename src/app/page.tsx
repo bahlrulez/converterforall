@@ -8,7 +8,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: 'https://www.converterforall.com/',
+    canonical: 'https://www.converterforall.com',
   },
 };
 
@@ -24,9 +24,9 @@ export default function Home() {
               {
                 "@type": "WebSite",
                 "@id": "https://www.converterforall.com/#website",
-                "url": "https://www.converterforall.com/",
+                "url": "https://www.converterforall.com",
                 "name": "ConverterForAll",
-                "description": "Next-gen client-side file converter powered by WebGPU, WebGL, and WebAssembly.",
+                "description": "Free, private file converter for PDFs, images, videos, audio, and Indic fonts. Convert files securely in your browser.",
                 "publisher": {
                   "@id": "https://www.converterforall.com/#organization"
                 }

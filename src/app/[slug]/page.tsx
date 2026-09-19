@@ -2,12 +2,13 @@ import { ArrowLeft, ShieldCheck, Zap, Sparkles, CheckCircle2 } from "lucide-reac
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getToolBySlug } from "@/lib/tools-db";
-import { getToolContent } from "@/lib/tool-content";
+import { getToolContent, extractToolFaqs } from "@/lib/tool-content";
 import { Metadata } from "next";
 import { ToolRenderer } from "@/components/tools/tool-renderer";
 import { RelatedTools } from "@/components/tools/related-tools";
 import { ToolReviews } from "@/components/tools/tool-reviews";
 import { getToolReviewStats } from "@/lib/reviews-data";
+import { getOptimizedToolTitle, getOptimizedToolDescription } from "@/lib/seo/metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -17,22 +18,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return { title: "Not Found" };
   }
 
+  const { tool, toolSlug, categorySlug } = toolData;
+  const pageTitle = getOptimizedToolTitle(tool, toolSlug);
+  const pageDescription = getOptimizedToolDescription(tool, toolSlug, categorySlug);
+
   return {
-    title: (toolData.tool as any).seoTitle || `${toolData.tool.title} | 100% Free & Private Online Tool`,
-    description: (toolData.tool as any).seoDescription || `${toolData.tool.description} Fast, secure, client-side conversion powered by in-browser WebAssembly & WebGPU hardware acceleration.`,
+    title: pageTitle,
+    description: pageDescription,
     openGraph: {
-      title: `${toolData.tool.title} - Free Online Converter`,
-      description: toolData.tool.description,
+      title: `${pageTitle} | ConverterForAll`,
+      description: pageDescription,
       type: "website",
-      url: `https://www.converterforall.com/${toolData.toolSlug}`,
+      url: `https://www.converterforall.com/${toolSlug}`,
     },
     twitter: {
       card: "summary_large_image",
-      title: `${toolData.tool.title} - Free Online Converter`,
-      description: toolData.tool.description,
+      title: `${pageTitle} | ConverterForAll`,
+      description: pageDescription,
     },
     alternates: {
-      canonical: `https://www.converterforall.com/${toolData.toolSlug}`,
+      canonical: `https://www.converterforall.com/${toolSlug}`,
     }
   };
 }
@@ -91,9 +96,10 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
   const contentSections = getToolContent(toolSlug, tool.title, tool.description);
   const reviewStats = await getToolReviewStats(toolSlug);
+  const extractedFaqs = extractToolFaqs(contentSections);
 
   // Generate SoftwareApplication Schema
-  const softwareAppSchema = {
+  const softwareAppSchema: Record<string, any> = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": tool.title,
@@ -105,15 +111,35 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "USD"
-    },
-    "aggregateRating": {
+    }
+  };
+
+  // Only include aggregateRating if valid reviews exist (prevents GSC invalid rating errors)
+  if (reviewStats.totalReviews > 0) {
+    softwareAppSchema.aggregateRating = {
       "@type": "AggregateRating",
       "ratingValue": reviewStats.averageRating,
       "reviewCount": reviewStats.totalReviews,
       "bestRating": "5",
       "worstRating": "1"
-    }
-  };
+    };
+  }
+
+  // Generate FAQPage Schema if FAQs exist for enhanced SERP rich snippets
+  const faqSchema = extractedFaqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": extractedFaqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  } : null;
+
+  const isCloudTool = toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf" || toolSlug === "excel-to-pdf";
 
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden py-10">
@@ -124,6 +150,9 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
         {/* Inject JSON-LD Schemas */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
+        {faqSchema && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        )}
 
         {/* Hero Header Section */}
         <div className="mb-10 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
@@ -137,7 +166,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>100% Free &amp; Private On-Device Tool</span>
+            <span>{isCloudTool ? "Free & Private Cloud Conversion" : "Free & Private In-Browser Tool"}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-slate-900 dark:text-white leading-[1.15]">
@@ -152,15 +181,15 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-              <span>Zero Cloud Uploads</span>
+              <span>{isCloudTool ? "In-Memory RAM: Deleted Instantly" : "On-Device Browser Processing"}</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <Zap className="w-3.5 h-3.5 text-amber-500" />
-              <span>WebGPU Hardware Speed</span>
+              <span>Fast &amp; High Fidelity</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
-              <span>Unlimited &amp; Free Forever</span>
+              <span>No Account or Limits</span>
             </span>
           </div>
         </div>

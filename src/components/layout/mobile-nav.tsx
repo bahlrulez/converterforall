@@ -54,7 +54,7 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [activeCategory, setActiveCategory] = useState("popular");
   const [searchQuery, setSearchQuery] = useState("");
@@ -62,6 +62,8 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const isDark = (resolvedTheme || theme) === "dark";
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -285,11 +287,12 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
           <span>Explore All 150+ Tools</span>
         </Link>
         <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          onClick={() => setTheme(isDark ? "light" : "dark")}
           className="h-11 w-11 inline-flex items-center justify-center rounded-xl bg-slate-100 dark:bg-[#0e162e] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
-          aria-label="Toggle theme"
+          aria-label={isDark ? "Switch to Light Mode" : "Switch to Night Mode"}
+          title={isDark ? "Switch to Light Mode" : "Switch to Night Mode"}
         >
-          {theme === "dark" ? <Moon className="h-4 w-4 text-blue-400" /> : <Sun className="h-4 w-4 text-amber-500" />}
+          {isDark ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-700" />}
         </button>
       </div>
     </div>,

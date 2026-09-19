@@ -1,8 +1,11 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cookie Policy | ConverterForAll",
-  description: "Learn how and why ConverterForAll uses cookies.",
+  title: "Cookie Policy - How We Use Local Storage",
+  description: "Learn how and why ConverterForAll uses cookies, local storage, and minimal web analytics.",
+  alternates: {
+    canonical: "https://www.converterforall.com/cookie-policy",
+  },
 };
 
 export default function CookiePolicyPage() {

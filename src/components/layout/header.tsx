@@ -72,7 +72,7 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export function Header() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
@@ -80,6 +80,8 @@ export function Header() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const isDark = (resolvedTheme || theme) === "dark";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
@@ -146,13 +148,15 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="rounded-full hidden md:inline-flex h-9 w-9 text-muted-foreground hover:text-foreground"
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+              className="rounded-full inline-flex h-9 w-9 text-muted-foreground hover:text-foreground transition-all hover:bg-slate-100 dark:hover:bg-slate-800"
+              title={isDark ? "Switch to Light Mode" : "Switch to Night Mode"}
+              aria-label={isDark ? "Switch to Light Mode" : "Switch to Night Mode"}
             >
-              {theme === "dark" ? (
-                <Moon className="h-4 w-4" />
+              {isDark ? (
+                <Sun className="h-4 w-4 text-amber-400 hover:rotate-45 transition-transform duration-200" />
               ) : (
-                <Sun className="h-4 w-4" />
+                <Moon className="h-4 w-4 text-slate-700 hover:-rotate-12 transition-transform duration-200" />
               )}
               <span className="sr-only">Toggle theme</span>
             </Button>

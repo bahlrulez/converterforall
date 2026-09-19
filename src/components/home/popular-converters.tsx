@@ -51,14 +51,14 @@ const POPULAR_TOOLS = [
 
 export function PopularConverters() {
   return (
-    <section className="py-8 bg-[#030714]">
+    <section className="py-8 bg-white dark:bg-[#030714] transition-colors duration-300 border-b border-slate-100 dark:border-slate-800/50">
       <div className="container mx-auto px-4 max-w-7xl">
         
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-white font-bold text-lg flex items-center gap-2">
+          <h3 className="text-slate-900 dark:text-white font-bold text-lg flex items-center gap-2">
             <span className="text-xl">🔥</span> Popular Converters
           </h3>
-          <Link href="/#featured-tools" className="text-sm font-medium text-slate-400 hover:text-white flex items-center gap-1 transition-colors">
+          <Link href="/#featured-tools" className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white flex items-center gap-1 transition-colors">
             View all <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -68,15 +68,15 @@ export function PopularConverters() {
             <Link 
               key={tool.slug}
               href={`/${tool.slug}`}
-              className="flex flex-col min-w-[160px] sm:min-w-[180px] p-4 rounded-2xl bg-[#080e22]/90 border border-slate-800/80 hover:border-slate-700 hover:bg-[#0c1630] transition-all group snap-start"
+              className="flex flex-col min-w-[160px] sm:min-w-[180px] p-4 rounded-2xl bg-slate-50/90 dark:bg-[#080e22]/90 border border-slate-200/90 dark:border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-white dark:hover:bg-[#0c1630] transition-all group snap-start shadow-sm dark:shadow-none"
             >
               <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center text-white mb-3 shadow-lg", tool.color)}>
                 <tool.icon className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-bold text-white mb-1">{tool.title}</h4>
-              <p className="text-[11px] text-slate-400 mb-3 flex-1">{tool.description}</p>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1">{tool.title}</h4>
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 mb-3 flex-1">{tool.description}</p>
               
-              <div className="w-6 h-6 rounded-full bg-slate-800/50 group-hover:bg-blue-600/20 text-slate-500 group-hover:text-blue-400 flex items-center justify-center transition-colors">
+              <div className="w-6 h-6 rounded-full bg-slate-200/80 dark:bg-slate-800/50 group-hover:bg-blue-600/10 dark:group-hover:bg-blue-600/20 text-slate-600 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center justify-center transition-colors">
                 <ArrowRight className="w-3 h-3" />
               </div>
             </Link>

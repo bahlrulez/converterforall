@@ -15,8 +15,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${post.title} | ConverterForAll Blog`,
-    description: post.content.substring(0, 150).replace(/<[^>]+>/g, '') + '...',
+    title: post.title,
+    description: post.content.substring(0, 150).replace(/<[^>]+>/g, '').trim() + '...',
+    openGraph: {
+      title: `${post.title} | ConverterForAll`,
+      description: post.content.substring(0, 150).replace(/<[^>]+>/g, '').trim() + '...',
+      type: "article",
+      url: `https://www.converterforall.com/blog/${resolvedParams.slug}`,
+    },
     alternates: {
       canonical: `https://www.converterforall.com/blog/${resolvedParams.slug}`,
     }

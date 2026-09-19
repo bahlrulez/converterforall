@@ -192,19 +192,19 @@ export function ModernDropzone() {
             <div className="relative flex flex-col items-center justify-center text-center cursor-pointer min-h-[170px] sm:min-h-[220px] w-full">
               <input {...getInputProps()} />
 
-              <div className="w-16 h-16 rounded-2xl border border-blue-500/30 bg-gradient-to-tr from-[#0b132b] via-[#0e1b3d] to-[#152756] text-blue-400 flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110 group-hover:border-blue-400 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] group-hover:text-white">
+              <div className="w-16 h-16 rounded-2xl border border-blue-500/30 bg-gradient-to-tr from-blue-50 to-indigo-100 dark:from-[#0b132b] dark:via-[#0e1b3d] dark:to-[#152756] text-blue-600 dark:text-blue-400 flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110 group-hover:border-blue-400 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] shadow-sm">
                 <UploadCloud className="w-7 h-7 transition-transform group-hover:-translate-y-0.5" />
               </div>
 
               {/* Main Prompt Heading */}
-              <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white mb-4 transition-colors group-hover:text-blue-50">
+              <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white mb-4 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400">
                 Drop your file here
               </h2>
               
-              <div className="flex items-center w-full max-w-[200px] mb-4 opacity-50">
-                <div className="h-px flex-1 bg-slate-600"></div>
-                <span className="px-3 text-[11px] font-medium text-slate-400 uppercase tracking-widest">or</span>
-                <div className="h-px flex-1 bg-slate-600"></div>
+              <div className="flex items-center w-full max-w-[200px] mb-4 opacity-75 dark:opacity-50">
+                <div className="h-px flex-1 bg-slate-300 dark:bg-slate-600"></div>
+                <span className="px-3 text-[11px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-widest">or</span>
+                <div className="h-px flex-1 bg-slate-300 dark:bg-slate-600"></div>
               </div>
 
               {/* Action Buttons Row */}

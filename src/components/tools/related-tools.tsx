@@ -11,34 +11,99 @@ interface RelatedToolsProps {
 }
 
 export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
-  // Extract related tools from the same category + popular cross-category tools
+  // Extract related tools using high-relevance workflow clusters + circular ring linkage
   const relatedList = React.useMemo(() => {
     const list: Array<{ slug: string; title: string; description: string; category: string; badge?: string }> = [];
     const categoryTools = (toolsDatabase as any)[categorySlug] || {};
+    const entries: [string, any][] = Object.entries(categoryTools);
 
-    const badges = ["Popular", "Instant", "100% Free", "Top Pick"];
+    const badges = ["Popular", "Fast & Free", "Top Utility", "Related Tool"];
 
-    // 1. First add tools from same category (excluding current tool)
-    Object.entries(categoryTools).forEach(([slug, tool]: [string, any], idx) => {
-      if (slug !== currentSlug && list.length < 4) {
-        list.push({
-          slug,
-          title: tool.title || slug,
-          description: tool.description || "",
-          category: categorySlug,
-          badge: badges[idx % badges.length],
-        });
+    // 1. High-relevance cluster overrides for core workflow tools
+    const clusters: Record<string, string[]> = {
+      // PDF Core Workflow
+      "merge-pdf": ["split-pdf", "compress-pdf", "organize-pdf", "edit-pdf"],
+      "split-pdf": ["merge-pdf", "compress-pdf", "remove-pages", "extract-pages"],
+      "compress-pdf": ["merge-pdf", "split-pdf", "pdf-to-word", "organize-pdf"],
+      "edit-pdf": ["merge-pdf", "organize-pdf", "compress-pdf", "split-pdf"],
+      "organize-pdf": ["merge-pdf", "split-pdf", "rotate-pdf", "remove-pages"],
+      "word-to-pdf": ["pdf-to-word", "merge-pdf", "excel-to-pdf", "powerpoint-to-pdf"],
+      "pdf-to-word": ["word-to-pdf", "merge-pdf", "compress-pdf", "pdf-to-jpg"],
+      
+      // Image Workflows
+      "remove-background": ["passport-photo-maker", "image-resizer", "compress-jpg", "webp-to-png"],
+      "passport-photo-maker": ["remove-background", "image-resizer", "compress-jpg", "jpg-to-png"],
+      "image-resizer": ["remove-background", "compress-jpg", "compress-png", "passport-photo-maker"],
+      "compress-jpg": ["compress-png", "image-resizer", "jpg-to-pdf", "webp-to-jpg"],
+      "jpg-to-pdf": ["pdf-to-jpg", "merge-pdf", "compress-pdf", "png-to-jpg"],
+      
+      // Font Clusters (Hindi)
+      "krutidev-to-unicode": ["unicode-to-krutidev", "mangal-to-kruti", "chanakya-to-unicode", "unicode-to-chanakya"],
+      "unicode-to-krutidev": ["krutidev-to-unicode", "mangal-to-kruti", "chanakya-to-unicode", "unicode-to-mangal"],
+      "mangal-to-kruti": ["krutidev-to-unicode", "unicode-to-krutidev", "chanakya-to-unicode", "unicode-to-mangal"],
+      
+      // Font Clusters (Bengali)
+      "unicode-to-bijoy": ["bijoy-to-unicode", "krutidev-to-unicode", "avro-to-bijoy", "bijoy-to-avro"],
+      "bijoy-to-unicode": ["unicode-to-bijoy", "avro-to-bijoy", "bijoy-to-avro", "krutidev-to-unicode"],
+      
+      // Font Clusters (Punjabi)
+      "unicode-to-satluj": ["satluj-to-unicode", "asees-to-unicode", "raavi-to-asees", "unicode-to-asees"],
+      "satluj-to-unicode": ["unicode-to-satluj", "asees-to-unicode", "raavi-to-asees", "unicode-to-asees"],
+      "asees-to-unicode": ["unicode-to-asees", "raavi-to-asees", "unicode-to-satluj", "satluj-to-unicode"],
+      "unicode-to-asees": ["asees-to-unicode", "raavi-to-asees", "unicode-to-satluj", "satluj-to-unicode"],
+
+      // Developer Tools
+      "jwt-decoder": ["json-formatter", "base64-encoder-decoder", "uuid-generator", "unix-timestamp-converter"],
+      "json-formatter": ["jwt-decoder", "json-to-csv", "csv-to-json", "base64-encoder-decoder"],
+      "base64-encoder-decoder": ["jwt-decoder", "json-formatter", "uuid-generator", "unix-timestamp-converter"],
+    };
+
+    const targetCluster = clusters[currentSlug];
+    if (targetCluster && targetCluster.length > 0) {
+      for (const slug of targetCluster) {
+        for (const [cat, tools] of Object.entries(toolsDatabase)) {
+          if (slug in (tools as any)) {
+            list.push({
+              slug,
+              title: (tools as any)[slug].title || slug,
+              description: (tools as any)[slug].description || "",
+              category: cat,
+              badge: badges[list.length % badges.length],
+            });
+            break;
+          }
+        }
       }
-    });
+    }
 
-    // 2. If fewer than 4, pull high-utility cross-category recommendations
+    // 2. Circular / Round-Robin linkage across category entries if fewer than 4
+    if (list.length < 4 && entries.length > 1) {
+      const currentIndex = entries.findIndex(([slug]) => slug === currentSlug);
+      const startIndex = currentIndex >= 0 ? currentIndex + 1 : 0;
+
+      for (let i = 0; i < entries.length; i++) {
+        const [slug, tool] = entries[(startIndex + i) % entries.length];
+        if (slug !== currentSlug && !list.some(item => item.slug === slug)) {
+          list.push({
+            slug,
+            title: tool.title || slug,
+            description: tool.description || "",
+            category: categorySlug,
+            badge: badges[list.length % badges.length],
+          });
+          if (list.length >= 4) break;
+        }
+      }
+    }
+
+    // 3. Fallback cross-category if still under 4
     if (list.length < 4) {
-      const fallbackCategories = ["developer", "document", "image", "utilities"];
+      const fallbackCategories = ["document", "image", "developer", "utilities"];
       for (const cat of fallbackCategories) {
         if (cat !== categorySlug) {
           const tools = (toolsDatabase as any)[cat] || {};
           for (const [slug, tool] of Object.entries(tools as any)) {
-            if (slug !== currentSlug && !list.some((i) => i.slug === slug) && list.length < 4) {
+            if (slug !== currentSlug && !list.some((i) => i.slug === slug)) {
               list.push({
                 slug,
                 title: (tool as any).title || slug,
@@ -46,9 +111,11 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
                 category: cat,
                 badge: badges[list.length % badges.length],
               });
+              if (list.length >= 4) break;
             }
           }
         }
+        if (list.length >= 4) break;
       }
     }
 

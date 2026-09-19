@@ -1,8 +1,11 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Disclaimer | ConverterForAll",
-  description: "Legal disclaimer and limitations of liability for using ConverterForAll.",
+  title: "Disclaimer - General Service Information",
+  description: "Legal disclaimer and limitations of liability for using ConverterForAll free utilities and file converters.",
+  alternates: {
+    canonical: "https://www.converterforall.com/disclaimer",
+  },
 };
 
 export default function DisclaimerPage() {

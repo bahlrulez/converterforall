@@ -8,7 +8,7 @@ const features = [
     title: "Your Files Stay Private",
     description: "All conversions happen in your browser.",
     icon: Lock,
-    iconColor: "text-blue-400",
+    iconColor: "text-blue-600 dark:text-blue-400",
     iconBg: "bg-blue-500/10 border-blue-500/20",
     gradientHover: "hover:border-blue-500/50"
   },
@@ -16,7 +16,7 @@ const features = [
     title: "No Daily Limits",
     description: "Convert as much as you want.",
     icon: InfinityIcon,
-    iconColor: "text-purple-400",
+    iconColor: "text-purple-600 dark:text-purple-400",
     iconBg: "bg-purple-500/10 border-purple-500/20",
     gradientHover: "hover:border-purple-500/50"
   },
@@ -24,7 +24,7 @@ const features = [
     title: "No Watermarks",
     description: "Get clean, professional output.",
     icon: Shield,
-    iconColor: "text-pink-400",
+    iconColor: "text-pink-600 dark:text-pink-400",
     iconBg: "bg-pink-500/10 border-pink-500/20",
     gradientHover: "hover:border-pink-500/50"
   },
@@ -32,7 +32,7 @@ const features = [
     title: "No Account Required",
     description: "Open a tool and start converting instantly.",
     icon: Zap,
-    iconColor: "text-emerald-400",
+    iconColor: "text-emerald-600 dark:text-emerald-400",
     iconBg: "bg-emerald-500/10 border-emerald-500/20",
     gradientHover: "hover:border-emerald-500/50"
   }
@@ -40,9 +40,9 @@ const features = [
 
 export function Features() {
   return (
-    <section className="bg-[#030714] py-8">
+    <section className="bg-white dark:bg-[#030714] py-8 transition-colors duration-300">
       <div className="container mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 lg:p-6 rounded-3xl bg-[#080e22]/90 border border-slate-800/80 shadow-2xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 lg:p-6 rounded-3xl bg-slate-50 dark:bg-[#080e22]/90 border border-slate-200/90 dark:border-slate-800/80 shadow-md dark:shadow-2xl">
           {features.map((feature, idx) => (
             <div 
               key={idx}
@@ -57,7 +57,7 @@ export function Features() {
               <h4 className={cn("text-base font-bold mb-2", feature.iconColor)}>
                 {feature.title}
               </h4>
-              <p className="text-xs text-slate-400 leading-relaxed max-w-[200px]">
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed max-w-[200px]">
                 {feature.description}
               </p>
             </div>

@@ -2,13 +2,13 @@ import { Metadata } from "next";
 import { Mail, Clock, Sparkles, Send, ShieldCheck, MessageSquare, Lightbulb, CheckCircle2, HelpCircle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Support & Tool Requests | ConverterForAll",
+  title: "Contact Us - Support & Tool Feedback",
   description: "Contact the ConverterForAll team for technical support, bug reports, partnership inquiries, or to request new free file conversion tools.",
   alternates: {
     canonical: "https://www.converterforall.com/contact",
   },
   openGraph: {
-    title: "Contact ConverterForAll - Support & Feedback",
+    title: "Contact Us - Support & Feedback | ConverterForAll",
     description: "Get in touch with our team for converter questions, feature requests, or support. We respond within 24-48 business hours.",
     type: "website",
     url: "https://www.converterforall.com/contact",

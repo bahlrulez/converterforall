@@ -15,6 +15,96 @@ const nextConfig: NextConfig = {
         destination: "/unicode-to-krutidev",
         permanent: true,
       },
+      {
+        source: "/images-to-pdf",
+        destination: "/jpg-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/about-us",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/contact-us",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/unicode-to-hindi",
+        destination: "/unicode-to-krutidev",
+        permanent: true,
+      },
+      {
+        source: "/unicode-to-mangal",
+        destination: "/unicode-to-krutidev",
+        permanent: true,
+      },
+      {
+        source: "/base64-decoder",
+        destination: "/base64-encoder-decoder",
+        permanent: true,
+      },
+      {
+        source: "/merge-image",
+        destination: "/jpg-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/merge-video",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/webm-to-wmv",
+        destination: "/video-to-wmv",
+        permanent: true,
+      },
+      {
+        source: "/mkv-to-jpg",
+        destination: "/video-to-jpg",
+        permanent: true,
+      },
+      {
+        source: "/m4v-decode",
+        destination: "/video-to-mp4",
+        permanent: true,
+      },
+      {
+        source: "/sample-detector",
+        destination: "/font-detector",
+        permanent: true,
+      },
+      {
+        source: "/unity-to-meters",
+        destination: "/meters-to-kilometers",
+        permanent: true,
+      },
+      {
+        source: "/mp3-to-png",
+        destination: "/category/audio",
+        permanent: true,
+      },
+      {
+        source: "/blog/font-not-download-showing-as-english-in-word",
+        destination: "/blog/kruti-dev-font-showing-as-english-in-word",
+        permanent: true,
+      },
+      {
+        source: "/blog/fix-kruti-dev-font-not-showing-and-convert-to-unicode",
+        destination: "/blog/the-ultimate-guide-to-hindi-and-punjabi-font-conversion",
+        permanent: true,
+      },
+      {
+        source: "/blog/how-to-fix-mangal-font-showing-question-marks-in-ms-word",
+        destination: "/blog/kruti-dev-font-showing-as-english-in-word",
+        permanent: true,
+      },
+      {
+        source: "/blog/free-pdf-merger-no-file-limits",
+        destination: "/blog/free-smallpdf-alternative-no-daily-limits",
+        permanent: true,
+      },
     ];
 
     const aliasRedirects = Object.entries(SLUG_ALIASES).map(([alias, target]) => ({

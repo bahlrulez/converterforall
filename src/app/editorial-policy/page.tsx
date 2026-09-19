@@ -2,8 +2,11 @@ import { Metadata } from "next";
 import { AuthorProfile } from "@/components/shared/author-profile";
 
 export const metadata: Metadata = {
-  title: "Editorial Policy | ConverterForAll",
-  description: "Learn about our commitment to accuracy, quality, and independent content creation.",
+  title: "Editorial Policy - Publishing Standards & Integrity",
+  description: "Learn about our commitment to technical accuracy, independent content creation, and helpful guidance.",
+  alternates: {
+    canonical: "https://www.converterforall.com/editorial-policy",
+  },
 };
 
 export default function EditorialPolicyPage() {

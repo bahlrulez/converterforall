@@ -183,21 +183,21 @@ export function AllToolsGrid() {
   const displayTools = isExpanded || searchQuery.trim() !== "" ? filteredTools : filteredTools.slice(0, 16);
 
   return (
-    <section id="featured-tools" className="py-12 relative bg-[#030714]">
+    <section id="featured-tools" className="py-12 relative bg-slate-50/50 dark:bg-[#030714] transition-colors duration-300">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Top Header & Search Row */}
         <div className="flex flex-col items-center justify-center text-center mb-10 pt-4">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-3">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
             All 150+ Conversion Tools
           </h2>
-          <p className="text-slate-400 text-base md:text-lg mb-8 max-w-xl mx-auto">
+          <p className="text-slate-600 dark:text-slate-400 text-base md:text-lg mb-8 max-w-xl mx-auto">
             Search our extensive library of free tools or explore by category below.
           </p>
 
           {/* Huge Search Input */}
           <div className="w-full max-w-3xl relative group">
             {/* Glowing background effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 rounded-full blur-md opacity-20 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 rounded-full blur-md opacity-10 dark:opacity-20 group-hover:opacity-30 dark:group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
             
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400 group-focus-within:text-blue-500 transition-colors z-10 pointer-events-none" />
             
@@ -206,7 +206,7 @@ export function AllToolsGrid() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search for any converter (e.g. 'PDF to Word' or 'Compress Image')..."
-              className="w-full h-16 md:h-20 pl-16 pr-6 rounded-full bg-[#080e22]/90 backdrop-blur-xl border-2 border-slate-700/80 text-white placeholder-slate-500 text-base md:text-xl focus:outline-none focus:border-blue-500/70 focus:bg-[#0c1630] focus:shadow-[0_0_40px_rgba(37,99,235,0.15)] transition-all relative z-0"
+              className="w-full h-16 md:h-20 pl-16 pr-6 rounded-full bg-white dark:bg-[#080e22]/90 backdrop-blur-xl border-2 border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base md:text-xl focus:outline-none focus:border-blue-500/70 focus:bg-white dark:focus:bg-[#0c1630] focus:shadow-[0_0_40px_rgba(37,99,235,0.15)] shadow-sm transition-all relative z-0"
             />
           </div>
         </div>
@@ -232,8 +232,8 @@ export function AllToolsGrid() {
                 className={cn(
                   "flex items-center justify-between p-3 rounded-2xl border transition-all text-left group",
                   isActive 
-                    ? "bg-[#0c1630] border-slate-600" 
-                    : "bg-[#080e22]/90 border-slate-800/80 hover:border-slate-700 hover:bg-[#0c1630]"
+                    ? "bg-blue-50 dark:bg-[#0c1630] border-blue-500 dark:border-slate-600 shadow-sm" 
+                    : "bg-white dark:bg-[#080e22]/90 border-slate-200/90 dark:border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#0c1630] shadow-sm"
                 )}
               >
                 <div className="flex items-center gap-3">
@@ -241,27 +241,31 @@ export function AllToolsGrid() {
                     <cat.icon className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-white mb-0.5">{cat.label}</h4>
-                    <p className="text-[10px] text-slate-400">{cat.count}</p>
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-0.5">{cat.label}</h4>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">{cat.count}</p>
                   </div>
                 </div>
-                <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-slate-400" />
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-600 dark:text-slate-600 dark:group-hover:text-slate-400" />
               </button>
             );
           })}
         </div>
 
-        {/* 4-Column Modern Tool Cards Grid */}
+        {/* 4-Column Modern Tool Cards Grid - Full DOM presence for complete SEO crawl equity */}
         {filteredTools.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {displayTools.map((tool) => {
+            {filteredTools.map((tool, idx) => {
               const Icon = tool.icon;
+              const isHiddenOnCollapse = !isExpanded && !searchQuery.trim() && idx >= 16;
               return (
                 <Link
                   key={tool.slug}
                   href={`/${tool.slug}`}
                   title={`${tool.title} - Free Online Tool`}
-                  className="group relative flex flex-col p-5 rounded-2xl bg-white dark:bg-[#0a1128]/90 hover:bg-slate-50 dark:hover:bg-[#0f1a3d] border border-slate-200/80 dark:border-slate-800/90 hover:border-blue-400/60 dark:hover:border-blue-500/40 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1"
+                  className={cn(
+                    "group relative flex flex-col p-5 rounded-2xl bg-white dark:bg-[#0a1128]/90 hover:bg-slate-50 dark:hover:bg-[#0f1a3d] border border-slate-200/80 dark:border-slate-800/90 hover:border-blue-400/60 dark:hover:border-blue-500/40 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1",
+                    isHiddenOnCollapse ? "hidden" : "flex"
+                  )}
                 >
                   {/* Subtle hover gradient background */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300 pointer-events-none" />
@@ -299,7 +303,7 @@ export function AllToolsGrid() {
                   <div className="pt-3 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between text-xs relative z-10">
                     <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-medium text-[11px]">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
-                      <span>Free & Fast</span>
+                      <span>Free &amp; Fast</span>
                     </div>
                     <span className="text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-200">
                       <ArrowRight className="w-4 h-4" />
@@ -325,7 +329,7 @@ export function AllToolsGrid() {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-slate-800 dark:text-white bg-white dark:bg-[#0e1733] hover:bg-slate-100 dark:hover:bg-blue-600 border border-slate-200 dark:border-slate-700 hover:border-blue-400 shadow-sm hover:shadow-md transition-all duration-300 active:scale-95"
             >
               <Sparkles className="w-4 h-4 text-blue-500 dark:text-blue-400 group-hover:text-blue-600 dark:group-hover:text-white" />
-              <span>{isExpanded ? "Show Less Tools" : `Explore All ${filteredTools.length}+ Tools`}</span>
+              <span>{isExpanded ? "Show Fewer Tools" : `Explore All ${filteredTools.length}+ Tools`}</span>
               <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "-rotate-90" : "rotate-90"}`} />
             </button>
           </div>

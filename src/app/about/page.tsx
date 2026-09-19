@@ -4,8 +4,8 @@ import { ShieldCheck, Zap, Sparkles, Cpu, Lock, Globe, Heart, CheckCircle2, Arro
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About ConverterForAll | Simple, Free & Privacy-First File Tools",
-  description: "Why we started ConverterForAll: Making essential file conversion and editing tools accessible to everyone for free, with 100% on-device privacy.",
+  title: "About Us - Simple, Free & Private File Tools",
+  description: "Why we started ConverterForAll: Making essential file conversion and editing tools accessible to everyone for free, with in-browser privacy.",
   alternates: {
     canonical: "https://www.converterforall.com/about",
   },
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   const stats = [
     { label: "Essential File Tools", value: "150+", icon: Layers, color: "text-blue-500", bg: "bg-blue-500/10 border-blue-500/20" },
-    { label: "Data Sent to Cloud", value: "0 Bytes", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-500/10 border-emerald-500/20" },
-    { label: "On-Device Processing", value: "100%", icon: Cpu, color: "text-purple-500", bg: "bg-purple-500/10 border-purple-500/20" },
-    { label: "Free for Everyone", value: "Free", icon: Zap, color: "text-amber-500", bg: "bg-amber-500/10 border-amber-500/20" },
+    { label: "Local Processing", value: "Direct in Browser", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-500/10 border-emerald-500/20" },
+    { label: "Data Retention", value: "Zero Storage", icon: Cpu, color: "text-purple-500", bg: "bg-purple-500/10 border-purple-500/20" },
+    { label: "Free for Everyone", value: "No Signup", icon: Zap, color: "text-amber-500", bg: "bg-amber-500/10 border-amber-500/20" },
   ];
 
   const targetAudiences = [
