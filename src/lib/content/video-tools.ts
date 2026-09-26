@@ -1,5 +1,6 @@
-export const videoToolsContent: Record<string, { sections: { title: string, content: string }[] }> = {
+export const videoToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   "mp4-to-mp3": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "What is this converter?",
@@ -28,6 +29,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "mov-to-mp4": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "What is this converter?",
@@ -56,6 +58,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "compress-video": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "What is this tool?",
@@ -84,6 +87,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "video-to-jpg": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "What is this tool?",
@@ -112,6 +116,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "compress-video-for-discord": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "How to Compress Videos for Discord (<25MB)",
@@ -128,6 +133,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "compress-video-for-whatsapp": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Compress Videos for WhatsApp (<16MB)",
@@ -140,6 +146,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "compress-video-for-email": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Compress Large Videos for Email Attachments",
@@ -152,6 +159,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "compress-video-for-instagram": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Compress Video for Instagram Reels & Stories without Blur",
@@ -164,6 +172,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "compress-mov-video": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Compress Apple QuickTime MOV Videos to MP4",
@@ -176,6 +185,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "compress-mp4": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Compress MP4 Videos Online – Fast & 100% Private",
@@ -184,6 +194,45 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       {
         title: "Frequently Asked Questions",
         content: "<p><strong>Q: Is there any quality loss when compressing MP4?</strong><br>A: With our Smart Balanced preset (CRF 26), quality loss is virtually imperceptible on phone screens and computer monitors.</p><p><strong>Q: Are my MP4 files safe?</strong><br>A: Yes. All processing occurs locally in your browser with 0 bytes uploaded to external servers.</p>"
+      }
+    ]
+  },
+  "video-to-mp4": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Convert Video to MP4",
+        content: "<p>Convert any video format (such as AVI, MKV, WMV, MOV, FLV, and WebM) into the standard MP4 format. MP4 is universally supported across smartphones, tablets, smart TVs, and web browsers.</p>"
+      },
+      {
+        title: "How it works",
+        content: "<p>The conversion runs entirely inside your web browser. Your video files are never uploaded to a cloud server, ensuring your personal media remains completely private.</p>"
+      }
+    ]
+  },
+  "compress-video-for-facebook": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Compress Video for Facebook",
+        content: "<p>Optimize video bitrates for fast Facebook uploads while maintaining crisp 1080p clarity. The high quality preset intelligently scales the file size without destructive pixelation.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: Will my video look blurry on Facebook?</strong><br>A: Pre-compressing with our tool bypasses Facebook's aggressive automatic compression, allowing you to retain maximum visual quality.</p>"
+      }
+    ]
+  },
+  "compress-video-for-phone": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Compress Video for Mobile Phones",
+        content: "<p>Compress heavy 4K videos directly on your Android or iPhone browser to free up gigabytes of phone storage. This tool defaults to a 720p recommended preset that is visually indistinguishable from 4K on a standard mobile screen but dramatically reduces file size.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: Does this work on iOS and Android?</strong><br>A: Yes. The compressor uses native browser processing to compress your files locally on both iPhone and Android devices.</p>"
       }
     ]
   }
