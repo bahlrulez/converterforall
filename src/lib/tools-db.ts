@@ -765,6 +765,8 @@ export const toolsDatabase = {
     "camera-measure": {
       title: "Camera Measurement Tool",
       description: "Estimate object dimensions and distances using your device's camera.",
+      seoTitle: "Camera Measurement Tool - Measure Distance with Phone Online",
+      seoDescription: "Estimate physical dimensions and distances of objects online using optical reference scaling with your phone or web camera.",
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
@@ -813,6 +815,8 @@ export const toolsDatabase = {
     "mileage-calculator": {
       title: "Mileage Calculator",
       description: "Calculate your vehicle's exact fuel efficiency and mileage.",
+      seoTitle: "Mileage Calculator - Calculate MPG & Fuel Economy Online",
+      seoDescription: "Calculate your vehicle's MPG, L/100km, and overall fuel efficiency based on distance traveled and fuel consumed.",
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
