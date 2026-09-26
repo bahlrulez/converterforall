@@ -105,6 +105,8 @@ export const toolsDatabase = {
     "passport-photo-maker": {
       title: "Passport Photo Maker",
       description: "Create and crop perfect passport photos online. Supports standard US and International sizes.",
+      seoTitle: "Passport Photo Converter - Convert Photo to Passport Size",
+      seoDescription: "Convert a photo to passport-size photos online. Crop and resize portraits for supported US and international passport and visa photo sizes.",
       inputFormat: "image",
       outputFormat: "jpg",
       actionName: "Make Passport Photo",

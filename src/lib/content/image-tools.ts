@@ -272,8 +272,8 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
   "passport-photo-maker": {
     sections: [
       {
-        title: "What is the Passport Photo Maker?",
-        content: "<p>Our Passport Photo Maker lets you convert portraits and selfies into properly sized passport and visa photos directly in your browser. Whether you need standard 2x2 inch photos (for US passport and Indian Visa/OCI) or 35x45mm photos (for Indian domestic passport, UK, European Schengen, or Australian visas), you can easily crop, frame, and replace background colors to meet official requirements.</p>"
+        title: "Free Online Passport Photo Converter",
+        content: "<p>Our free online passport photo converter takes your existing portrait or selfie and converts it into a perfectly cropped passport or visa photo directly in your browser. Since it processes the image locally on your device, your personal photos are never uploaded to any server. You can convert photos into supported standard 2x2 inch dimensions (for US passport and Indian Visa/OCI) or 35x45mm sizes (for Indian domestic passport, UK, European Schengen, or Australian visas), and replace background colors to meet standard requirements.</p>"
       },
       {
         title: "How does background replacement work?",
