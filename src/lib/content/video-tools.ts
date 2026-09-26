@@ -57,7 +57,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       }
     ]
   },
-  "compress-video": {
+  "video-compressor": {
     disableAutoEnrich: true,
     sections: [
       {

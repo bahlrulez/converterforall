@@ -1,4 +1,5 @@
 import { getToolContent } from "../src/lib/tool-content";
+import { SLUG_ALIASES } from "../src/lib/tools-db";
 
 async function runTests() {
   let passed = true;
@@ -32,8 +33,16 @@ async function runTests() {
     }
   }
 
-  // 1. /compress-video
-  checkContent("compress-video", "Compress Video Size", "Compress video files", 
+  // 1. /compress-video alias check
+  const resolvedSlug = SLUG_ALIASES["compress-video"] || "compress-video";
+  if (resolvedSlug !== "video-compressor") {
+    console.error(`[FAIL] /compress-video did not resolve to video-compressor (resolved to ${resolvedSlug})`);
+    passed = false;
+  } else {
+    console.log(`[PASS] /compress-video correctly resolves to video-compressor`);
+  }
+
+  checkContent(resolvedSlug, "Compress Video Size", "Compress video files", 
     ["reduces video file sizes so they are easier to email"], 
     ["h.264 video and aac audio plays reliably", "understanding containers, codecs"]
   );
