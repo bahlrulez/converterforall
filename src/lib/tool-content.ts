@@ -7,7 +7,7 @@ import { utilitiesToolsContent } from "./content/utilities-tools";
 import { fontToolsContent } from "./content/font-tools";
 import { audioToolsContent } from "./content/audio-tools";
 
-export const toolContent: Record<string, { sections: { title: string, content: string }[] }> = {
+export const toolContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   ...imageToolsContent,
   ...pdfOrganizeContent,
   ...pdfOptimizeContent,
@@ -274,8 +274,11 @@ function enrichContentIfShort(
 
 // Fallback generator for tools that haven't been manually written yet
 export function getToolContent(toolSlug: string, toolTitle: string, toolDescription: string) {
-  // If manual content exists, enrich if short and return
+  // If manual content exists, enrich if short (unless disabled) and return
   if (toolContent[toolSlug]) {
+    if (toolContent[toolSlug].disableAutoEnrich) {
+      return toolContent[toolSlug].sections;
+    }
     return enrichContentIfShort(toolContent[toolSlug].sections, toolSlug, toolTitle);
   }
 
