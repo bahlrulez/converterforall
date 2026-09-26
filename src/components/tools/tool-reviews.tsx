@@ -251,76 +251,88 @@ export function ToolReviews({ toolSlug, toolTitle, initialStats }: ToolReviewsPr
       </div>
 
       {/* Main Review Metrics Breakdown Box */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 my-8 items-center">
-        {/* Overall Score Badge */}
-        <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left p-6 rounded-2xl bg-slate-50 dark:bg-[#070d1e] border border-slate-200/80 dark:border-slate-800/80">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
-            Overall Rating
-          </span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-5xl font-black tracking-tight text-slate-900 dark:text-white">
-              {stats?.averageRating ? stats.averageRating.toFixed(1) : "4.9"}
+      {(!stats || stats.totalReviews === 0) ? (
+        <div className="my-8 p-10 text-center rounded-2xl bg-slate-50/50 dark:bg-[#070d1e]/50 border border-dashed border-slate-200 dark:border-slate-800">
+          <div className="mx-auto w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-3">
+            <Star className="w-5 h-5 text-slate-400" />
+          </div>
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">No reviews yet</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
+            Be the first to share your experience with this tool. Your feedback helps others!
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 my-8 items-center">
+          {/* Overall Score Badge */}
+          <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left p-6 rounded-2xl bg-slate-50 dark:bg-[#070d1e] border border-slate-200/80 dark:border-slate-800/80">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
+              Overall Rating
             </span>
-            <span className="text-xl font-semibold text-slate-400 dark:text-slate-500">/ 5.0</span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-black tracking-tight text-slate-900 dark:text-white">
+                {stats?.averageRating ? stats.averageRating.toFixed(1) : "0.0"}
+              </span>
+              <span className="text-xl font-semibold text-slate-400 dark:text-slate-500">/ 5.0</span>
+            </div>
+
+            <div className="flex items-center gap-1 my-3">
+              {[1, 2, 3, 4, 5].map((star) => {
+                const currentScore = stats?.averageRating ?? 0;
+                const isFilled = star <= Math.floor(currentScore);
+                return (
+                  <Star
+                    key={star}
+                    className={`w-5 h-5 ${
+                      isFilled
+                        ? "text-amber-400 fill-amber-400"
+                        : star - currentScore < 0.8
+                        ? "text-amber-400 fill-amber-400/50"
+                        : "text-slate-300 dark:text-slate-700"
+                    }`}
+                  />
+                );
+              })}
+            </div>
+
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Based on <span className="font-semibold text-slate-800 dark:text-slate-200">{stats?.totalReviews ?? 0} community reviews</span>
+            </p>
+            <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>{stats?.percentRecommended ?? 0}% recommend this converter</span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-1 my-3">
-            {[1, 2, 3, 4, 5].map((star) => {
-              const currentScore = stats?.averageRating || 4.9;
-              const isFilled = star <= Math.floor(currentScore);
+          {/* Rating Star Distribution Bars */}
+          <div className="lg:col-span-8 space-y-2.5">
+            {[5, 4, 3, 2, 1].map((star) => {
+              const count = stats?.distribution?.[star as 1 | 2 | 3 | 4 | 5] ?? 0;
+              const total = stats?.totalReviews ?? 1; // prevent divide by zero
+              const percentage = Math.round((count / total) * 100);
+
               return (
-                <Star
-                  key={star}
-                  className={`w-5 h-5 ${
-                    isFilled
-                      ? "text-amber-400 fill-amber-400"
-                      : star - currentScore < 0.8
-                      ? "text-amber-400 fill-amber-400/50"
-                      : "text-slate-300 dark:text-slate-700"
-                  }`}
-                />
+                <div key={star} className="flex items-center gap-3 text-xs sm:text-sm">
+                  <div className="flex items-center gap-1 w-12 text-slate-700 dark:text-slate-300 font-medium shrink-0">
+                    <span>{star}</span>
+                    <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                  </div>
+
+                  <div className="flex-1 h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-500"
+                      style={{ width: `${percentage}%` }}
+                    />
+                  </div>
+
+                  <span className="w-12 text-right text-slate-500 dark:text-slate-400 font-medium text-xs">
+                    {percentage}%
+                  </span>
+                </div>
               );
             })}
           </div>
-
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            Based on <span className="font-semibold text-slate-800 dark:text-slate-200">{stats?.totalReviews || 24} community reviews</span>
-          </p>
-          <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>{stats?.percentRecommended || 98}% recommend this converter</span>
-          </div>
         </div>
-
-        {/* Rating Star Distribution Bars */}
-        <div className="lg:col-span-8 space-y-2.5">
-          {[5, 4, 3, 2, 1].map((star) => {
-            const count = stats?.distribution?.[star as 1 | 2 | 3 | 4 | 5] || (star === 5 ? 18 : star === 4 ? 4 : star === 3 ? 1 : 0);
-            const total = stats?.totalReviews || 24;
-            const percentage = Math.round((count / total) * 100);
-
-            return (
-              <div key={star} className="flex items-center gap-3 text-xs sm:text-sm">
-                <div className="flex items-center gap-1 w-12 text-slate-700 dark:text-slate-300 font-medium shrink-0">
-                  <span>{star}</span>
-                  <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                </div>
-
-                <div className="flex-1 h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-500"
-                    style={{ width: `${percentage}%` }}
-                  />
-                </div>
-
-                <span className="w-12 text-right text-slate-500 dark:text-slate-400 font-medium text-xs">
-                  {percentage}%
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      )}
 
       {/* Interactive Review & Issue Submission Form */}
       {isFormOpen && (
