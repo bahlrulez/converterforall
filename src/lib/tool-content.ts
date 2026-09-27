@@ -110,7 +110,9 @@ const lengthFactors: Record<string, number> = {
   'Centimeters': 0.01,
   'Meters': 1,
   'Kilometers': 1000,
-  'Nautical-miles': 1852
+  'Nautical miles': 1852,
+  'Nanometers': 0.000000001,
+  'Micrometers': 0.000001
 };
 
 
@@ -324,11 +326,36 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       </div>`;
     }
 
+    let introText = `<p>Converting between ${fromUnit} and ${toUnit} is an everyday task in home improvement, carpentry, architectural drafting, 3D printing, travel planning, and school projects. Because different countries and industries alternate between Imperial and Metric standards, keeping track of precise decimal conversion factors in your head can easily lead to rounding errors.</p>`;
+    let situationsHtml = `<ul>
+            <li><strong>DIY and Home Renovations:</strong> Measuring furniture dimensions, lumber sizes, curtains, or flooring spaces where product packaging lists measurements in ${fromUnit} while your tape measure uses ${toUnit}.</li>
+            <li><strong>Online Shopping and Sizing:</strong> Checking clothing size charts, shoe lengths, or tech accessories sold by international retailers.</li>
+            <li><strong>Architecture and Blueprints:</strong> Reviewing building plans, engineering schematics, or CAD files formatted in alternative measurement units.</li>
+            <li><strong>Science and Education:</strong> Solving physics, geometry, or geography homework problems requiring precise metric or customary conversions.</li>
+          </ul>`;
+
+    if (toolSlug === "nanometers-to-micrometers" || toolSlug === "micrometers-to-nanometers") {
+      introText = `<p>Nanometers (nm) and micrometers (µm) are microscopic units of length primarily used in scientific research, semiconductor manufacturing, optics, and microbiology. Because these units represent distances far smaller than what the human eye can see, they are essential for describing wavelengths of light, cellular structures, and microchip transistors.</p>`;
+      situationsHtml = `<ul>
+            <li><strong>Scientific Research:</strong> Measuring cellular structures, bacteria, and microscopic organisms in biology.</li>
+            <li><strong>Semiconductor Engineering:</strong> Calculating the scale of transistors and microchip fabrication processes.</li>
+            <li><strong>Optics and Photonics:</strong> Describing the wavelengths of the visible light spectrum and other electromagnetic waves.</li>
+            <li><strong>Materials Science:</strong> Working with nanotechnology and molecular-scale structures.</li>
+          </ul>`;
+    } else if (toolSlug === "nautical-miles-to-miles" || toolSlug === "miles-to-nautical-miles") {
+      introText = `<p>Nautical miles and standard statute miles are distinct units of distance commonly encountered in aviation and marine navigation. While a standard mile is based on historical land measurements, a nautical mile is based on the Earth's circumference and is equal to one minute of latitude. This makes nautical miles the international standard for sea and air travel.</p>`;
+      situationsHtml = `<ul>
+            <li><strong>Marine Navigation:</strong> Calculating distances for shipping routes, sailing, and maritime operations using nautical charts.</li>
+            <li><strong>Aviation:</strong> Flight planning and determining distances between airports using standard aviation metrics.</li>
+            <li><strong>Geography and Mapping:</strong> Converting international maritime borders and territorial waters to familiar land measurements.</li>
+          </ul>`;
+    }
+
     return [
       {
         title: `How to convert ${fromUnit} to ${toUnit}`,
         content: `
-          <p>Converting between ${fromUnit} and ${toUnit} is an everyday task in home improvement, carpentry, architectural drafting, 3D printing, travel planning, and school projects. Because different countries and industries alternate between Imperial and Metric standards, keeping track of precise decimal conversion factors in your head can easily lead to rounding errors.</p>
+          ${introText}
           <p>This calculator handles the mathematical conversion directly in your browser. As you type a number into the input field above, the converted value updates instantly without requiring a page refresh or submitting data to a remote server.</p>
           ${formulaHtml}
         `
@@ -336,12 +363,7 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: "Everyday situations where this conversion matters",
         content: `
-          <ul>
-            <li><strong>DIY and Home Renovations:</strong> Measuring furniture dimensions, lumber sizes, curtains, or flooring spaces where product packaging lists measurements in ${fromUnit} while your tape measure uses ${toUnit}.</li>
-            <li><strong>Online Shopping and Sizing:</strong> Checking clothing size charts, shoe lengths, or tech accessories sold by international retailers.</li>
-            <li><strong>Architecture and Blueprints:</strong> Reviewing building plans, engineering schematics, or CAD files formatted in alternative measurement units.</li>
-            <li><strong>Science and Education:</strong> Solving physics, geometry, or geography homework problems requiring precise metric or customary conversions.</li>
-          </ul>
+          ${situationsHtml}
         `
       },
       {

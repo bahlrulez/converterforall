@@ -904,6 +904,9 @@ export const toolsDatabase = {
     "nanometers-to-micrometers": {
       title: "Nanometers to Micrometers",
       description: "Convert Nanometers to Micrometers instantly with our free length converter.",
+      seoTitle: "Nanometers to Micrometers Converter (nm to µm)",
+      seoDescription: "Convert nanometers (nm) to micrometers (µm) instantly. Free, private, online length converter for scientific and engineering calculations.",
+      relatedTools: ["micrometers-to-millimeters"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "light-years-to-parsecs": {
@@ -914,6 +917,9 @@ export const toolsDatabase = {
     "nautical-miles-to-miles": {
       title: "Nautical Miles to Miles",
       description: "Convert Nautical Miles to Miles instantly with our free length converter.",
+      seoTitle: "Nautical Miles to Miles Converter (nmi to mi)",
+      seoDescription: "Convert nautical miles to standard statute miles instantly. Free, private, online length converter for aviation and marine navigation.",
+      relatedTools: ["miles-to-nautical-miles", "furlongs-to-miles", "leagues-to-miles"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "furlongs-to-miles": {
