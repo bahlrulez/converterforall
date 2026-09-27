@@ -106,31 +106,19 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
   "avif-to-jpeg": {
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The AVIF to JPEG converter turns modern AVIF images into standard JPEG format. AVIF is a newer image format with great compression efficiency, but some older programs, devices, and websites cannot open it yet. This tool converts your AVIF files into standard JPEGs so you can use them anywhere.</p>"
+        title: "Why convert AVIF to JPEG?",
+        content: "<p>AVIF is a highly efficient next-generation image format that offers incredible compression and quality. However, many legacy software applications, older operating systems, and some content management systems still do not fully support AVIF. Converting your AVIF images to the universal JPEG format ensures maximum compatibility across all devices, email clients, and upload portals.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>Your browser decodes the AVIF file locally and re-encodes the image into the standard JPEG format. Because decoding and encoding happen on your local device, no files are uploaded to a remote server.</p>"
-      },
-      {
-        title: "Examples",
-        content: "<p>If you download an image from a modern website saved as an AVIF file, you might find that older versions of Word or Photoshop refuse to open it. Converting it to a standard JPEG allows you to insert it into documents and share it without compatibility issues.</p>"
-      },
-      {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your AVIF:</strong> Drag and drop your file into the box.</li><li><strong>Local Conversion:</strong> Your browser decodes and converts the image.</li><li><strong>Download:</strong> Click download to save your new JPEG file.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Software Compatibility:</strong> Making web assets usable in older versions of Word, PowerPoint, and photo editors.</li><li><strong>Social Media Sharing:</strong> Converting AVIF files into standard JPEGs for platforms that do not yet support AVIF.</li><li><strong>Printing:</strong> Preparing images for photo print kiosks that require standard JPG files.</li></ul>"
+        title: "Fast, Private AVIF to JPG Conversion",
+        content: "<p>This AVIF to JPEG converter runs completely in your browser using modern WebAssembly. This means your images are never uploaded to a remote server. You avoid slow upload times, waiting in queues, and risking the privacy of your personal photos.</p>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Why would I convert AVIF to JPEG?</strong><br>A: For compatibility with older software, photo editors, or websites that do not yet support AVIF files.</p>
-          <p><strong>Q: Does AVIF support transparency?</strong><br>A: Yes, but because JPEG does not support transparency, transparent areas are filled with white during conversion.</p>
-          <p><strong>Q: Is this AVIF converter private?</strong><br>A: Yes. The file is processed locally in your browser's memory without external server uploads.</p>
+          <p><strong>Q: Does converting AVIF to JPEG reduce quality?</strong><br>A: JPEG is a lossy format, meaning some image data is discarded during conversion. Our converter uses conservative compression settings to minimize visible artifacts and balance image clarity.</p>
+          <p><strong>Q: Will my image's transparent background be preserved?</strong><br>A: No. The JPEG format does not support transparency. Any transparent areas in your AVIF will be automatically filled with a solid color (usually white) during conversion. If you need to keep transparency, use our AVIF to PNG converter instead.</p>
+          <p><strong>Q: Are there any file size limits?</strong><br>A: Because processing happens locally on your device, there is no fixed server upload limit. However, processing very large images is constrained by your browser's allocated memory and device resources.</p>
         `
       }
     ]
@@ -138,38 +126,19 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
   "avif-to-png": {
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The AVIF to PNG converter transforms modern AVIF images into standard PNG format while preserving transparent backgrounds. This makes transparent web assets usable in graphic design tools and older software that cannot yet open AVIF files.</p>"
+        title: "Why convert AVIF to PNG?",
+        content: "<p>AVIF is an excellent modern format that supports both high compression and alpha-channel transparency. However, you may need to open the image in design software or upload it to a platform that doesn't yet support AVIF. Converting AVIF to PNG allows you to retain the original image's transparent background while guaranteeing universal compatibility across all editing tools and browsers.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>Your browser decodes the AVIF image and encodes it into the standard PNG format, maintaining transparency and full image detail without sending files to external servers.</p>"
-      },
-      {
-        title: "Examples",
-        content: "<p>If you download a transparent graphic in AVIF format and your video editor or design program rejects it, converting it to PNG gives you a compatible file with its transparent background intact.</p>"
-      },
-      {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your AVIF:</strong> Drag your file into the box.</li><li><strong>Conversion:</strong> The browser processes the image locally.</li><li><strong>Download:</strong> Click download to save your PNG file.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Design Compatibility:</strong> Ensuring transparent graphics can be opened in Photoshop, Illustrator, and Canva.</li><li><strong>Video Overlays:</strong> Creating compatible transparent overlays for video editing software.</li></ul>"
+        title: "Private Browser-Based AVIF to PNG Conversion",
+        content: "<p>Unlike cloud-based conversion services, our AVIF to PNG tool processes your images locally on your device. Your files are never uploaded to the internet, ensuring complete privacy for sensitive graphics, logos, and personal photos.</p>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will my image lose quality during AVIF to PNG conversion?</strong><br>A: No. PNG is a lossless format. Our converter extracts the exact pixel data from the AVIF and saves it as a PNG, ensuring absolutely zero generation loss or degradation.</p>
-          <p><strong>Q: Will the converter preserve my transparent background?</strong><br>A: Yes! Unlike converting to a JPEG, converting an AVIF to a PNG perfectly preserves the alpha channel, meaning your transparent backgrounds will remain fully transparent.</p>
-          <p><strong>Q: Why is the new PNG file so much larger than the AVIF?</strong><br>A: AVIF uses incredibly advanced, modern lossy compression algorithms. PNG is an older, lossless format. Consequently, the PNG file requires significantly more data to store the exact same image detail.</p>
-          <p><strong>Q: Is it safe to process confidential designs with this tool?</strong><br>A: Completely. The conversion takes place exclusively on your local device. Your files are never uploaded to a server, guaranteeing 100% privacy.</p>
-          <p><strong>Q: Do I need a specific browser to convert AVIF files?</strong><br>A: You need a modern browser that natively supports AVIF decoding, such as recent versions of Google Chrome, Mozilla Firefox, or Microsoft Edge.</p>
-          <p><strong>Q: Can I use this AVIF converter on a mobile phone?</strong><br>A: Yes, as long as your mobile browser is up-to-date and supports AVIF decoding natively.</p>
-          <p><strong>Q: Does AVIF to PNG conversion take a long time?</strong><br>A: Not at all. Because it avoids server uploads and downloads, the local processing usually takes less than a second.</p>
-          <p><strong>Q: Will this remove HDR data from the AVIF?</strong><br>A: Yes, standard PNG formats do not support the advanced High Dynamic Range (HDR) color profiles found in some AVIF files, so the colors will be tonemapped to standard RGB space.</p>
-          <p><strong>Q: Can I convert an animated AVIF to an animated PNG?</strong><br>A: Currently, this tool will extract and convert only the first frame of an animated AVIF sequence.</p>
-          <p><strong>Q: Are there any watermarks added to the downloaded PNG?</strong><br>A: None at all. Our tool provides clean, watermark-free conversions entirely for free.</p>
+          <p><strong>Q: Will converting to PNG preserve my image's transparency?</strong><br>A: Yes. Unlike JPEG, the PNG format fully supports alpha transparency. If your original AVIF contains a transparent background, the PNG will retain those transparent areas.</p>
+          <p><strong>Q: Is PNG better than AVIF?</strong><br>A: PNG is a lossless, widely supported format, making it ideal for editing and design work. However, PNG files are typically much larger than AVIF files. AVIF is better for web delivery, while PNG is better for broad compatibility and lossless editing.</p>
+          <p><strong>Q: Are my files uploaded to your servers?</strong><br>A: No. All conversions happen entirely in your web browser. Your images remain safely on your computer or mobile device.</p>
         `
       }
     ]

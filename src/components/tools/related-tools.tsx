@@ -47,10 +47,16 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       "bijoy-to-unicode": ["unicode-to-bijoy", "avro-to-bijoy", "bijoy-to-avro", "krutidev-to-unicode"],
       
       // Font Clusters (Punjabi)
-      "unicode-to-satluj": ["satluj-to-unicode", "asees-to-unicode", "raavi-to-asees", "unicode-to-asees"],
-      "satluj-to-unicode": ["unicode-to-satluj", "asees-to-unicode", "raavi-to-asees", "unicode-to-asees"],
-      "asees-to-unicode": ["unicode-to-asees", "raavi-to-asees", "unicode-to-satluj", "satluj-to-unicode"],
-      "unicode-to-asees": ["asees-to-unicode", "raavi-to-asees", "unicode-to-satluj", "satluj-to-unicode"],
+      "unicode-to-satluj": ["satluj-to-unicode", "unicode-to-asees", "unicode-to-joy", "unicode-to-gurbani-akhar"],
+      "satluj-to-unicode": ["unicode-to-satluj", "asees-to-unicode", "joy-to-unicode", "raavi-to-unicode"],
+      "asees-to-unicode": ["unicode-to-asees", "satluj-to-unicode", "joy-to-unicode", "gurbani-akhar-to-unicode"],
+      "unicode-to-asees": ["asees-to-unicode", "unicode-to-satluj", "unicode-to-joy", "unicode-to-raavi"],
+      "joy-to-unicode": ["unicode-to-joy", "satluj-to-unicode", "asees-to-unicode", "raavi-to-unicode"],
+      "unicode-to-joy": ["joy-to-unicode", "unicode-to-satluj", "unicode-to-asees", "unicode-to-raavi"],
+      "gurbani-akhar-to-unicode": ["unicode-to-gurbani-akhar", "satluj-to-unicode", "asees-to-unicode", "raavi-to-unicode"],
+      "unicode-to-gurbani-akhar": ["gurbani-akhar-to-unicode", "unicode-to-satluj", "unicode-to-joy", "unicode-to-raavi"],
+      "raavi-to-unicode": ["unicode-to-raavi", "satluj-to-unicode", "asees-to-unicode", "joy-to-unicode"],
+      "unicode-to-raavi": ["raavi-to-unicode", "unicode-to-satluj", "unicode-to-asees", "unicode-to-gurbani-akhar"],
 
       // Developer Tools
       "jwt-decoder": ["json-formatter", "base64-encoder-decoder", "uuid-generator", "unix-timestamp-converter"],
