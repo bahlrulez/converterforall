@@ -3,6 +3,8 @@ export const toolsDatabase = {
     "remove-background": {
       title: "Remove Background",
       description: "Instantly remove the background from any image using advanced on-device AI.",
+      seoTitle: "Free AI Background Remover - Remove Backgrounds Online",
+      seoDescription: "Remove image backgrounds instantly using on-device AI. Extract subjects from photos to create transparent backgrounds securely in your browser.",
       inputFormat: "image",
       outputFormat: "png",
       actionName: "Remove Background",
@@ -87,6 +89,8 @@ export const toolsDatabase = {
     "compress-jpg": {
       title: "Compress JPG",
       description: "Reduce JPG file size while preserving maximum visual quality using our in-browser compressor.",
+      seoTitle: "Compress JPG - Reduce Image File Size Online",
+      seoDescription: "Compress JPG and JPEG images online. Reduce file size for faster loading while maintaining visual quality securely in your browser.",
       inputFormat: "jpg",
       outputFormat: "jpg",
       actionName: "Compress JPG",
@@ -96,6 +100,8 @@ export const toolsDatabase = {
     "compress-png": {
       title: "Compress PNG",
       description: "Reduce PNG file size with our advanced browser-based compression engine.",
+      seoTitle: "Compress PNG - Reduce PNG File Size Online",
+      seoDescription: "Compress your PNG images online. Reduce PNG file size while maintaining image quality with our free browser-based compression tool.",
       inputFormat: "png",
       outputFormat: "png",
       actionName: "Compress PNG",
@@ -296,6 +302,8 @@ export const toolsDatabase = {
     "compress-pdf": {
       title: "Compress PDF",
       description: "Reduce file size while optimizing for maximal PDF quality.",
+      seoTitle: "Compress PDF - Reduce PDF File Size Online",
+      seoDescription: "Compress PDF documents online. Reduce PDF file size for easier sharing and uploading without losing readability.",
       subCategory: "Optimize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
@@ -1080,6 +1088,7 @@ export const SLUG_ALIASES: Record<string, string> = {
   "urdu-unicode-to-inpage": "unicode-to-inpage",
 
   // Image & Utility Aliases
+  "png-to-svg": "image-to-svg",
   "background-remover": "remove-background",
   "remove-bg": "remove-background",
   "webp-to-jpeg": "webp-to-jpg",
