@@ -112,7 +112,10 @@ const lengthFactors: Record<string, number> = {
   'Kilometers': 1000,
   'Nautical miles': 1852,
   'Nanometers': 0.000000001,
-  'Micrometers': 0.000001
+  'Micrometers': 0.000001,
+  'Leagues': 4828.032,
+  'Light years': 9460730472580800,
+  'Parsecs': 30856775814913670
 };
 
 
@@ -348,6 +351,20 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
             <li><strong>Marine Navigation:</strong> Calculating distances for shipping routes, sailing, and maritime operations using nautical charts.</li>
             <li><strong>Aviation:</strong> Flight planning and determining distances between airports using standard aviation metrics.</li>
             <li><strong>Geography and Mapping:</strong> Converting international maritime borders and territorial waters to familiar land measurements.</li>
+          </ul>`;
+    } else if (toolSlug === "light-years-to-parsecs" || toolSlug === "parsecs-to-light-years") {
+      introText = `<p>Light years and parsecs are astronomical units of distance used to measure the vast expanses of the universe. While a light year is the distance light travels in one Julian year, a parsec (parallax of one arcsecond) is based on the geometry of Earth's orbit and is the standard unit favored by professional astronomers and astrophysicists.</p>`;
+      situationsHtml = `<ul>
+            <li><strong>Astronomy and Astrophysics:</strong> Measuring distances to stars, galaxies, and galaxy clusters.</li>
+            <li><strong>Space Exploration:</strong> Calculating theoretical travel times for interstellar missions.</li>
+            <li><strong>Science Fiction and Literature:</strong> Understanding the scale of cosmic events and distances in popular media.</li>
+          </ul>`;
+    } else if (toolSlug === "leagues-to-miles" || toolSlug === "miles-to-leagues") {
+      introText = `<p>The league is an ancient unit of length, originally defined as the distance a person could walk in an hour. While it is rarely used in modern formal contexts, it frequently appears in historical texts, literature, and geography. Converting leagues to miles helps contextualize these classical measurements in modern terms.</p>`;
+      situationsHtml = `<ul>
+            <li><strong>Literature and History:</strong> Understanding distances in classic novels like "Twenty Thousand Leagues Under the Sea".</li>
+            <li><strong>Historical Geography:</strong> Interpreting ancient maps and historical travel logs.</li>
+            <li><strong>Tabletop RPGs and Fantasy:</strong> Calculating travel times in fantasy world-building and games.</li>
           </ul>`;
     }
 

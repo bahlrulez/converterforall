@@ -16,7 +16,10 @@ export const toolsDatabase = {
     },
     "webp-to-png": {
       title: "Convert WEBP to PNG",
+      seoTitle: "WEBP to PNG Converter - Convert Web Images to PNG Free",
       description: "Fast, secure, and high-quality WEBP to PNG image conversion.",
+      seoDescription: "Convert WEBP images to standard PNG format online. Keep transparency intact with fast, secure, and free client-side image conversion.",
+      relatedTools: ["webp-to-jpg", "compress-png", "image-resizer", "png-to-jpg"],
       inputFormat: "webp",
       outputFormat: "png",
       acceptedTypes: { "image/webp": [".webp"] }
@@ -37,7 +40,10 @@ export const toolsDatabase = {
     },
     "pdf-to-png": {
       title: "Convert PDF to PNG",
+      seoTitle: "PDF to PNG Converter - Extract PDF Pages as Images",
       description: "Convert PDF document pages to clear PNG images.",
+      seoDescription: "Convert PDF documents into high-quality transparent PNG images online. Extract every page of your PDF as a separate picture securely.",
+      relatedTools: ["png-to-pdf", "pdf-to-jpg", "split-pdf", "merge-pdf"],
       inputFormat: "pdf",
       outputFormat: "png",
       acceptedTypes: { "application/pdf": [".pdf"] }
@@ -84,7 +90,10 @@ export const toolsDatabase = {
     },
     "heic-to-png": {
       title: "Convert HEIC to PNG",
+      seoTitle: "HEIC to PNG Converter - Convert Apple Photos Online",
       description: "Convert Apple HEIC photos to high-quality transparent PNG format for free.",
+      seoDescription: "Convert iPhone HEIC images to standard transparent PNG format. Fast, free, and secure online image conversion without uploading.",
+      relatedTools: ["heic-to-jpg", "png-to-jpg", "compress-png", "image-resizer"],
       inputFormat: "heic",
       outputFormat: "png",
       actionName: "Convert to PNG",
@@ -141,7 +150,9 @@ export const toolsDatabase = {
     },
     "image-resizer": {
       title: "Image Resizer",
+      seoTitle: "Image Resizer - Resize Photos & Pictures Online Free",
       description: "Resize photos and graphics to custom pixel dimensions with high quality.",
+      seoDescription: "Resize JPG, PNG, and WebP images to exact pixel dimensions. Fast, free, and private client-side image resizing without quality loss.",
       inputFormat: "image",
       outputFormat: "jpg",
       actionName: "Resize Image",
@@ -149,7 +160,10 @@ export const toolsDatabase = {
     },
     "svg-to-png": {
       title: "Convert SVG to PNG",
+      seoTitle: "SVG to PNG Converter - Rasterize Vectors Online Free",
       description: "Convert SVG vector graphics to crisp, transparent PNG images online with 100% privacy.",
+      seoDescription: "Convert SVG vector graphics to high-resolution transparent PNG images online. 100% private, fast client-side rasterization.",
+      relatedTools: ["png-to-svg", "image-resizer", "compress-png", "webp-to-png"],
       inputFormat: "svg",
       outputFormat: "png",
       actionName: "Convert to PNG",
@@ -255,7 +269,10 @@ export const toolsDatabase = {
     },
     "scan-to-pdf": {
       title: "Scan to PDF",
+      seoTitle: "Scan to PDF - Free Mobile PDF Scanner Online",
       description: "Capture document scans and turn them into PDFs.",
+      seoDescription: "Use your device camera to scan receipts, documents, and notes into professional PDF files instantly without downloading any apps.",
+      relatedTools: ["merge-pdf", "compress-pdf", "jpg-to-pdf", "ocr-pdf"],
       subCategory: "Organize PDF",
       inputFormat: "image",
       outputFormat: "pdf",
@@ -379,7 +396,10 @@ export const toolsDatabase = {
     },
     "excel-to-pdf": {
       title: "EXCEL to PDF",
+      seoTitle: "Excel to PDF Converter - Convert XLS/XLSX to PDF Free",
       description: "Make EXCEL spreadsheets easy to read by converting them to PDF.",
+      seoDescription: "Convert Microsoft Excel spreadsheets (XLS, XLSX) to PDF documents online for free. Preserve table formatting and layout securely.",
+      relatedTools: ["word-to-pdf", "powerpoint-to-pdf", "merge-pdf", "compress-pdf"],
       subCategory: "Convert to PDF",
       inputFormat: "excel",
       outputFormat: "pdf",
@@ -832,7 +852,9 @@ export const toolsDatabase = {
     },
     "fuel-calculator": {
       title: "Fuel Cost Calculator",
+      seoTitle: "Trip Fuel Cost Calculator - Calculate Gas Cost Online",
       description: "Calculate your estimated fuel cost and required fuel volume for a trip.",
+      seoDescription: "Calculate the exact fuel cost and gas volume required for your trip or daily commute based on distance, fuel efficiency, and price.",
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
