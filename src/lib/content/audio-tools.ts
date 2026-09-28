@@ -63,8 +63,62 @@ export const audioToolsContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
+  },
+  "mp3-to-ogg": getAudioConverterContent("Convert MP3 to OGG", "Convert standard MP3 audio files to the highly efficient OGG Vorbis format.", "mp3", "ogg"),
+  "ogg-to-mp3": getAudioConverterContent("Convert OGG to MP3", "Convert OGG Vorbis audio files to universally compatible MP3 format.", "ogg", "mp3"),
+  "mp3-to-wav": getAudioConverterContent("Convert MP3 to WAV", "Convert compressed MP3 audio into uncompressed, lossless WAV format for editing.", "mp3", "wav"),
+  "wav-to-mp3": getAudioConverterContent("Convert WAV to MP3", "Compress large, lossless WAV audio files into small, easily shareable MP3 format.", "wav", "mp3"),
+  "mp4-to-mp3": {
+    sections: [
+      {
+        title: "Extract Audio from Video (MP4 to MP3)",
+        content: "<p>Instantly extract the audio track from any MP4 video and save it as a high-quality MP3 file. Because the extraction happens directly in your browser using local processing, you don't have to upload massive video files to a server, saving you time and bandwidth.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <div itemscope itemtype="https://schema.org/FAQPage">
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+              <h3 itemprop="name">Is my video uploaded to a server?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">No! We use WebAssembly (WASM) to extract the audio track completely locally inside your browser. Your private videos never leave your device.</p>
+              </div>
+            </div>
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="mt-4">
+              <h3 itemprop="name">Does converting MP4 to MP3 reduce the audio quality?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">Our tool extracts the original audio stream (often AAC or MP3 inside the MP4 container) and ensures the highest possible quality for the resulting MP3 file, typically at 192kbps to 320kbps depending on the source.</p>
+              </div>
+            </div>
+          </div>
+        `
+      }
+    ]
   }
 };
+
+function getAudioConverterContent(title: string, description: string, fromExt: string, toExt: string) {
+  return {
+    sections: [
+      {
+        title: title,
+        content: `<p>${description} Our online converter runs directly in your web browser, meaning your audio files are processed locally on your device. There is no software to install and your private recordings or songs are never uploaded to a cloud server.</p>`
+      },
+      {
+        title: "100% Client-Side Privacy",
+        content: `<p>Most online audio converters require you to upload your files to a remote server. This raises privacy concerns and takes unnecessary time. Our tool is entirely <strong>client-side</strong>. The ${fromExt.toUpperCase()} decoding and ${toExt.toUpperCase()} encoding happen exclusively within your device's memory.</p>`
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Is there a file size limit?</strong><br>A: Because processing happens locally on your device, there are no strict server limits. The only limit is your device's available memory.</p>
+          <p><strong>Q: Does it cost money?</strong><br>A: No. It is completely free with unlimited conversions.</p>
+          <p><strong>Q: Are my recordings secure?</strong><br>A: Completely. The tool never connects to a backend server to upload your file. It is highly secure and private.</p>
+        `
+      }
+    ]
+  };
+}
 
 function getAudioTrimmerContent(title: string, description: string) {
   return {

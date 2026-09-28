@@ -125,11 +125,12 @@ export const toolsDatabase = {
       title: "Passport Photo Maker",
       description: "Create and crop perfect passport photos online. Supports standard US and International sizes.",
       seoTitle: "Passport Photo Converter - Convert Photo to Passport Size",
-      seoDescription: "Convert a photo to passport-size photos online. Crop and resize portraits for supported US and international passport and visa photo sizes.",
+      seoDescription: "Convert a photo to passport-size photos online. Crop and resize portraits for supported US and international passport and visa photo sizes. Free AI background removal.",
       inputFormat: "image",
       outputFormat: "jpg",
       actionName: "Make Passport Photo",
       isInteractive: true,
+      relatedTools: ["image-resizer", "image-cropper", "compress-jpg", "camera-measure"],
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     },
     "gif-maker": {
@@ -474,6 +475,7 @@ export const toolsDatabase = {
       inputFormat: "mp4",
       outputFormat: "mp3",
       actionName: "Extract Audio",
+      relatedTools: ["trim-audio", "video-to-mp4", "compress-video", "mp3-to-wav"],
       acceptedTypes: { "video/mp4": [".mp4"] }
     },
     "mp3-to-wav": {
@@ -482,6 +484,7 @@ export const toolsDatabase = {
       inputFormat: "mp3",
       outputFormat: "wav",
       actionName: "Convert to WAV",
+      relatedTools: ["wav-to-mp3", "mp3-to-ogg", "trim-audio", "mp4-to-mp3"],
       acceptedTypes: { "audio/mpeg": [".mp3"] }
     },
     "wav-to-mp3": {
@@ -490,6 +493,7 @@ export const toolsDatabase = {
       inputFormat: "wav",
       outputFormat: "mp3",
       actionName: "Convert to MP3",
+      relatedTools: ["mp3-to-wav", "ogg-to-mp3", "trim-audio", "mp4-to-mp3"],
       acceptedTypes: { "audio/wav": [".wav", ".wave"] }
     },
     "ogg-to-mp3": {
@@ -498,6 +502,7 @@ export const toolsDatabase = {
       inputFormat: "ogg",
       outputFormat: "mp3",
       actionName: "Convert to MP3",
+      relatedTools: ["mp3-to-ogg", "wav-to-mp3", "convert-whatsapp-voice-note-to-mp3", "trim-audio"],
       acceptedTypes: { "audio/ogg": [".ogg"] }
     },
     "mp3-to-ogg": {
@@ -506,6 +511,7 @@ export const toolsDatabase = {
       inputFormat: "mp3",
       outputFormat: "ogg",
       actionName: "Convert to OGG",
+      relatedTools: ["ogg-to-mp3", "mp3-to-wav", "convert-whatsapp-voice-note-to-mp3", "trim-audio"],
       acceptedTypes: { "audio/mpeg": [".mp3"] }
     },
     "trim-audio": {
@@ -806,6 +812,7 @@ export const toolsDatabase = {
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
+      relatedTools: ["camera-measure", "inches-to-centimeters", "centimeters-to-inches", "feet-to-yards"],
       acceptedTypes: {}
     },
     "camera-measure": {
@@ -816,6 +823,7 @@ export const toolsDatabase = {
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
+      relatedTools: ["live-ruler", "passport-photo-maker", "nanometers-to-micrometers", "feet-to-yards"],
       acceptedTypes: {}
     },
     "age-calculator": {
