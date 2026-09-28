@@ -88,46 +88,50 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       }
     }
 
-    // 2. Circular / Round-Robin linkage across category entries if fewer than 4
-    if (list.length < 4 && entries.length > 1) {
-      const currentIndex = entries.findIndex(([slug]) => slug === currentSlug);
-      const startIndex = currentIndex >= 0 ? currentIndex + 1 : 0;
+    const hasExplicitRelated = Array.isArray(explicitRelated) && explicitRelated.length > 0;
 
-      for (let i = 0; i < entries.length; i++) {
-        const [slug, tool] = entries[(startIndex + i) % entries.length];
-        if (slug !== currentSlug && !list.some(item => item.slug === slug)) {
-          list.push({
-            slug,
-            title: tool.title || slug,
-            description: tool.description || "",
-            category: categorySlug,
-            badge: badges[list.length % badges.length],
-          });
-          if (list.length >= 4) break;
-        }
-      }
-    }
+    if (!hasExplicitRelated) {
+      // 2. Circular / Round-Robin linkage across category entries if fewer than 4
+      if (list.length < 4 && entries.length > 1) {
+        const currentIndex = entries.findIndex(([slug]) => slug === currentSlug);
+        const startIndex = currentIndex >= 0 ? currentIndex + 1 : 0;
 
-    // 3. Fallback cross-category if still under 4
-    if (list.length < 4) {
-      const fallbackCategories = ["document", "image", "developer", "utilities"];
-      for (const cat of fallbackCategories) {
-        if (cat !== categorySlug) {
-          const tools = (toolsDatabase as any)[cat] || {};
-          for (const [slug, tool] of Object.entries(tools as any)) {
-            if (slug !== currentSlug && !list.some((i) => i.slug === slug)) {
-              list.push({
-                slug,
-                title: (tool as any).title || slug,
-                description: (tool as any).description || "",
-                category: cat,
-                badge: badges[list.length % badges.length],
-              });
-              if (list.length >= 4) break;
-            }
+        for (let i = 0; i < entries.length; i++) {
+          const [slug, tool] = entries[(startIndex + i) % entries.length];
+          if (slug !== currentSlug && !list.some(item => item.slug === slug)) {
+            list.push({
+              slug,
+              title: tool.title || slug,
+              description: tool.description || "",
+              category: categorySlug,
+              badge: badges[list.length % badges.length],
+            });
+            if (list.length >= 4) break;
           }
         }
-        if (list.length >= 4) break;
+      }
+
+      // 3. Fallback cross-category if still under 4
+      if (list.length < 4) {
+        const fallbackCategories = ["document", "image", "developer", "utilities"];
+        for (const cat of fallbackCategories) {
+          if (cat !== categorySlug) {
+            const tools = (toolsDatabase as any)[cat] || {};
+            for (const [slug, tool] of Object.entries(tools as any)) {
+              if (slug !== currentSlug && !list.some((i) => i.slug === slug)) {
+                list.push({
+                  slug,
+                  title: (tool as any).title || slug,
+                  description: (tool as any).description || "",
+                  category: cat,
+                  badge: badges[list.length % badges.length],
+                });
+                if (list.length >= 4) break;
+              }
+            }
+          }
+          if (list.length >= 4) break;
+        }
       }
     }
 
