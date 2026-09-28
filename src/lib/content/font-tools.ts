@@ -203,32 +203,40 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
   "zawgyi-to-unicode": {
     sections: [
       {
-        title: "Zawgyi to Unicode Converter – Myanmar Font Converter",
-        content: "<p>Convert legacy <strong>Myanmar Zawgyi font</strong> text to standard <strong>Myanmar Unicode</strong> format to read older documents, posts, and archives on modern devices.</p>"
+        title: "Zawgyi to Unicode Converter",
+        content: "<p>Instantly convert legacy <strong>Myanmar Zawgyi font</strong> text to the international standard <strong>Myanmar Unicode</strong> format. Since Zawgyi uses a non-standard character encoding, copying and pasting Zawgyi text onto modern smartphones or operating systems often results in unreadable characters or broken text rendering. This tool translates the underlying characters so they display perfectly on any Unicode-compliant device.</p>"
       },
       {
         title: "Why Convert Zawgyi to Unicode?",
-        content: "<ul><li><strong>Standard Support:</strong> Unicode is supported natively by Android, iOS, Windows, and web search engines.</li><li><strong>Searchable Content:</strong> Unicode text is fully indexable and searchable online.</li></ul>"
+        content: "<ul><li><strong>Modern Device Support:</strong> Zawgyi is largely unsupported on modern Android, iOS, and Windows devices without custom font installations. Unicode is supported natively.</li><li><strong>Fix Broken Text:</strong> If you receive a message or download an old document where the Burmese text looks scrambled, converting it to Unicode restores readability.</li><li><strong>Search & Indexing:</strong> Search engines and modern databases require Unicode. Text stored in Zawgyi cannot be accurately searched online.</li></ul>"
       },
       {
-        title: "Frequently Asked Questions (FAQ)",
-        content: `
-          <p><strong>Q: What is the difference between Zawgyi and Myanmar Unicode?</strong><br>A: Zawgyi was an older encoding used before Myanmar script was fully standardized in Unicode. Myanmar Unicode is the official standard recognized across modern platforms.</p>
-        `
+        title: "How to Use This Converter",
+        content: "<ol><li><strong>Paste your text:</strong> Paste the unreadable Zawgyi text into the input box.</li><li><strong>Auto-conversion:</strong> The tool instantly converts the text into standard Myanmar Unicode using your browser.</li><li><strong>Copy and Use:</strong> Copy the corrected text. You can now safely share it on WhatsApp, Facebook, or use it in Microsoft Word.</li></ol>"
+      },
+      {
+        title: "Privacy & Processing",
+        content: "<p>Your text privacy is fully protected. All Zawgyi to Unicode conversion happens locally in your web browser. No data is sent to our servers or stored in the cloud.</p>"
       }
     ]
   },
   "unicode-to-zawgyi": {
     sections: [
       {
-        title: "Unicode to Zawgyi Converter – Myanmar Unicode to Zawgyi",
-        content: "<p>Convert standard <strong>Myanmar Unicode</strong> text into legacy <strong>Zawgyi font</strong> format for older devices and systems.</p>"
+        title: "Unicode to Zawgyi Converter",
+        content: "<p>Instantly convert standard <strong>Myanmar Unicode</strong> text into the legacy <strong>Zawgyi font</strong> format. While Unicode is the modern global standard, many older smartphones, specialized applications, and legacy databases in Myanmar still rely on the Zawgyi encoding. This tool allows you to translate modern text backward so it renders correctly on older systems.</p>"
       },
       {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Why convert Unicode back to Zawgyi?</strong><br>A: Helpful for viewing text on older phones or legacy computers that only have Zawgyi installed.</p>
-        `
+        title: "When Do You Need Zawgyi Conversion?",
+        content: "<ul><li><strong>Legacy Hardware:</strong> Viewing text on older mobile phones or computers that were configured before Myanmar Unicode became the default standard.</li><li><strong>Old Documents:</strong> Inserting modern text into an older Word document, PDF, or design file (like older versions of Adobe PageMaker or Photoshop) that specifically requires the Zawgyi font.</li><li><strong>Specialized Databases:</strong> Updating legacy databases or websites that have not yet migrated to Unicode.</li></ul>"
+      },
+      {
+        title: "How to Use This Converter",
+        content: "<ol><li><strong>Paste your text:</strong> Paste the modern Myanmar Unicode text into the input box.</li><li><strong>Auto-conversion:</strong> The tool instantly converts the text into the Zawgyi encoding structure.</li><li><strong>Copy and Use:</strong> Copy the text and paste it into your legacy application. <em>Note: The text may look broken on your current screen unless you have the Zawgyi font installed, but it will work perfectly on the target legacy device.</em></li></ol>"
+      },
+      {
+        title: "Privacy & Processing",
+        content: "<p>Your text privacy is fully protected. All Unicode to Zawgyi conversion happens locally in your web browser. No data is sent to our servers or stored in the cloud.</p>"
       }
     ]
   },

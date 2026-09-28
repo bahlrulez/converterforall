@@ -1020,8 +1020,8 @@ export const toolsDatabase = {
     "unicode-to-inpage": { title: "Urdu Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
 
     // BURMESE FONT CONVERTERS (ZAWGYI)
-    "zawgyi-to-unicode": { title: "Zawgyi to Unicode Converter", description: "Convert legacy Myanmar Zawgyi font text to international standard Myanmar Unicode.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {} },
-    "unicode-to-zawgyi": { title: "Unicode to Zawgyi Converter", description: "Convert standard Myanmar Unicode text to legacy Zawgyi font format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {} },
+    "zawgyi-to-unicode": { title: "Zawgyi to Unicode Converter - Convert Myanmar Fonts Online", description: "Free online Zawgyi to Unicode text converter. Convert legacy Myanmar Zawgyi font to standard Unicode instantly in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {}, relatedTools: ["unicode-to-zawgyi"] },
+    "unicode-to-zawgyi": { title: "Unicode to Zawgyi Converter - Convert Myanmar Fonts Online", description: "Free online Unicode to Zawgyi text converter. Convert standard Myanmar Unicode to legacy Zawgyi font instantly in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {}, relatedTools: ["zawgyi-to-unicode"] },
 
     "font-detector": { 
       title: "Online Font Detector - Kruti Dev, AnmolLipi & Unicode Identifier", 
