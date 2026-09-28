@@ -122,7 +122,7 @@ import { krutidevToUnicode, unicodeToKrutidev } from './krutidev-converter';
 export function convertHindi(text: string, font: string, direction: 'toUnicode' | 'fromUnicode'): string {
   if (!text) return '';
   
-  if (font === 'krutidev' || font === 'Krutidev') {
+  if (font === 'krutidev' || font === 'Krutidev' || font === 'devlys' || font === 'Devlys' || font === 'devlys-010') {
     if (direction === 'toUnicode') {
       return krutidevToUnicode(text);
     } else {

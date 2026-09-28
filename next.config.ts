@@ -11,11 +11,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/unicode-to-ams",
-        destination: "/unicode-to-krutidev",
-        permanent: true,
-      },
-      {
         source: "/images-to-pdf",
         destination: "/jpg-to-pdf",
         permanent: true,

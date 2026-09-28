@@ -19,14 +19,14 @@ export function generatePunjabiFontContent(profile: FontContentProfile) {
   // Section 1: What this conversion does
   sections.push({
     title: `What does the ${profile.fontName} converter do?`,
-    content: `<p>${profile.description}</p>`
+    content: `<p>${profile.description} This conversion is essential for individuals working with Punjabi literature, regional news publications, and government documentation where maintaining the exact intent of the original language is critical. Legacy fonts were built before modern standards existed, causing them to break on today's devices. Converting them bridges the gap between old typesetting methods and modern digital platforms.</p>`
   });
 
   // Section 2: Use Cases (Only generated if they exist)
   if (profile.primaryUseCases && profile.primaryUseCases.length > 0) {
     sections.push({
       title: `Common Use Cases for ${targetFont}`,
-      content: `<ul class="list-disc pl-5 mt-2 space-y-1">${profile.primaryUseCases.map(uc => `<li>${uc}</li>`).join('')}</ul>`
+      content: `<p>There are many situations where converting between these font formats becomes necessary in everyday workflows:</p><ul class="list-disc pl-5 mt-2 space-y-1">${profile.primaryUseCases.map(uc => `<li>${uc}</li>`).join('')}</ul>`
     });
   }
 
@@ -34,7 +34,7 @@ export function generatePunjabiFontContent(profile: FontContentProfile) {
   if (profile.mappingConsiderations && profile.mappingConsiderations.length > 0) {
     sections.push({
       title: "Font-Specific Mapping Behavior",
-      content: `<ul class="list-disc pl-5 mt-2 space-y-1">${profile.mappingConsiderations.map(mc => `<li>${mc}</li>`).join('')}</ul>`
+      content: `<p>Unlike simple English translation, converting Indian languages requires complex character mapping to ensure phonetic accuracy and visual fidelity:</p><ul class="list-disc pl-5 mt-2 space-y-1">${profile.mappingConsiderations.map(mc => `<li>${mc}</li>`).join('')}</ul>`
     });
   }
 
@@ -42,9 +42,21 @@ export function generatePunjabiFontContent(profile: FontContentProfile) {
   if (profile.compatibilityNotes && profile.compatibilityNotes.length > 0) {
     sections.push({
       title: "Compatibility & Troubleshooting",
-      content: `<ul class="list-disc pl-5 mt-2 space-y-1">${profile.compatibilityNotes.map(cn => `<li>${cn}</li>`).join('')}</ul>`
+      content: `<p>If you are experiencing issues reading or formatting your converted text, keep the following technical considerations in mind:</p><ul class="list-disc pl-5 mt-2 space-y-1">${profile.compatibilityNotes.map(cn => `<li>${cn}</li>`).join('')}</ul>`
     });
   }
+
+  // Section 6: Privacy and Local Processing
+  sections.push({
+    title: "Do You Need to Upload Your Documents?",
+    content: "<p>Most online font converters require you to upload your personal documents or type your sensitive text into cloud servers. We do things differently. This tool runs entirely inside your web browser using your device's local memory. Your text is processed locally on your own computer or smartphone, meaning your private documents are never uploaded to our servers. This ensures complete confidentiality and offline-level security.</p>"
+  });
+
+  // Section 7: Free and Unlimited
+  sections.push({
+    title: "Is This Converter Free to Use?",
+    content: "<p>Yes. You can convert as many paragraphs or documents as you need, completely free of charge. There are no daily usage limits, no hidden waiting queues, and no requirement to create an account or provide an email address. Simply paste your text into the box and receive instant, unlimited conversions.</p>"
+  });
 
   // Section 5: Related Converters
   if (profile.relatedConverters && profile.relatedConverters.length > 0) {
