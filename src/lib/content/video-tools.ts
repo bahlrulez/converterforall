@@ -202,11 +202,19 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "Convert Video to MP4",
-        content: "<p>Convert any video format (such as AVI, MKV, WMV, MOV, FLV, and WebM) into the standard MP4 format. MP4 is universally supported across smartphones, tablets, smart TVs, and web browsers.</p>"
+        content: "<p>Convert almost any video format (such as AVI, MKV, WMV, MOV, FLV, M4V, and WebM) into the standard MP4 format. MP4 is universally supported across smartphones, tablets, smart TVs, and web browsers, making it the best format for compatibility.</p>"
       },
       {
-        title: "How it works",
-        content: "<p>The conversion runs entirely inside your web browser. Your video files are never uploaded to a cloud server, ensuring your personal media remains completely private.</p>"
+        title: "How Browser-Based Conversion Works",
+        content: "<p>The conversion runs entirely inside your web browser using local processing power. Your video files are never uploaded to a cloud server, ensuring your personal media remains completely private. Because processing happens in your browser, files are not subject to a server upload limit, but very large videos may be constrained by available browser memory and device resources.</p>"
+      },
+      {
+        title: "Common Compatibility Uses",
+        content: "<ul><li><strong>Smart TVs & Consoles:</strong> Older MKV or AVI files often fail to play natively. MP4 fixes playback errors.</li><li><strong>Web Uploads:</strong> Websites frequently require MP4 for seamless HTML5 video embedding.</li><li><strong>Apple Devices:</strong> Easily watch FLV or WMV files on iOS without needing a third-party app.</li></ul>"
+      },
+      {
+        title: "Troubleshooting",
+        content: "<p>If the conversion is slow, check your device's battery saver mode. Since this tool uses your local hardware, plugging in laptops or disabling low-power modes on phones can significantly boost conversion speeds. For very large files, leave the browser tab active.</p>"
       }
     ]
   },

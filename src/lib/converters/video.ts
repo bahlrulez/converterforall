@@ -308,7 +308,7 @@ export const convertVideoAdvanced = async (
 ): Promise<Blob> => {
   const targetFormat = (options.targetFormat || 'mp4').toLowerCase();
   
-  if (targetFormat === 'jpg' || targetFormat === 'jpeg') {
+  if (targetFormat === 'jpg' || targetFormat === 'jpeg' || targetFormat === 'zip') {
     return extractFramesWithCanvas(file, options.fps || 1, onProgress);
   }
 

@@ -536,8 +536,14 @@ export const toolsDatabase = {
   },
   "video": {
     "video-compressor": {
-      title: "Free Online Video Compressor – Reduce Video Size (Private & Instant)",
+      title: "Free Online Video Compressor - Reduce Video Size (Private & Instant)",
       description: "Reduce video file sizes (MP4, MOV, WebM) instantly in your browser without uploading to cloud servers. 100% free, private, and no quality loss.",
+      relatedTools: [
+        "compress-mp4",
+        "compress-video-for-discord",
+        "compress-video-for-whatsapp",
+        "video-to-mp4"
+      ],
       inputFormat: "video",
       outputFormat: "mp4",
       actionName: "Compress Video",
@@ -681,6 +687,9 @@ export const toolsDatabase = {
       outputFormat: "zip",
       actionName: "Extract to JPGs",
       isInteractive: true,
+      seoTitle: "Video to JPG Converter: Extract Image Frames as ZIP",
+      seoDescription: "Extract JPG image frames from video and download them as a ZIP file. Choose frame extraction settings and process your video directly in your browser.",
+      relatedTools: ["compress-jpg", "video-to-mp4", "video-compressor", "image-to-svg"],
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
     "mp4-to-mp3": {
@@ -699,6 +708,9 @@ export const toolsDatabase = {
       outputFormat: "mp4",
       actionName: "Convert to MP4",
       isInteractive: true,
+      seoTitle: "Convert Video to MP4 Online (Free & Private)",
+      seoDescription: "Convert AVI, MKV, MOV, and WebM videos to standard MP4 format in your browser. Free online video conversion with local processing.",
+      relatedTools: ["video-to-mov", "video-to-mkv", "video-compressor", "video-to-avi"],
       acceptedTypes: { "video/*": [".avi", ".mkv", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
     "video-to-avi": {
@@ -831,6 +843,7 @@ export const toolsDatabase = {
       description: "Calculate your vehicle's exact fuel efficiency and mileage.",
       seoTitle: "Mileage Calculator - Calculate MPG & Fuel Economy Online",
       seoDescription: "Calculate your vehicle's MPG, L/100km, and overall fuel efficiency based on distance traveled and fuel consumed.",
+      relatedTools: ["fuel-calculator", "miles-to-kilometers"],
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,

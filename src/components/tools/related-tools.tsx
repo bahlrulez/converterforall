@@ -64,9 +64,15 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       "base64-encoder-decoder": ["jwt-decoder", "json-formatter", "uuid-generator", "unix-timestamp-converter"],
     };
 
-    const targetCluster = clusters[currentSlug];
+    const currentTool = categoryTools[currentSlug];
+    const explicitRelated = currentTool?.relatedTools as string[] | undefined;
+    const targetCluster = (explicitRelated && explicitRelated.length > 0) ? explicitRelated : clusters[currentSlug];
+    
     if (targetCluster && targetCluster.length > 0) {
       for (const slug of targetCluster) {
+        if (slug === currentSlug) continue;
+        if (list.some(item => item.slug === slug)) continue;
+        
         for (const [cat, tools] of Object.entries(toolsDatabase)) {
           if (slug in (tools as any)) {
             list.push({

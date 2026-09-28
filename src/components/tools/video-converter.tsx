@@ -88,6 +88,7 @@ export function VideoConverter({ toolSlug = "video-to-mp4", targetFormat: initia
   const [trimEnd, setTrimEnd] = useState<number>(0);
   const [muteAudio, setMuteAudio] = useState(false);
   const [audioBitrate, setAudioBitrate] = useState<"128k" | "192k" | "320k">("192k");
+  const [extractionFps, setExtractionFps] = useState<number>(1);
 
   // Telemetry & Conversion State
   const [status, setStatus] = useState<"idle" | "converting" | "success" | "error">("idle");
@@ -229,9 +230,9 @@ export function VideoConverter({ toolSlug = "video-to-mp4", targetFormat: initia
         resolution: resolution,
         startTime: trimStart > 0 ? trimStart : undefined,
         endTime: trimEnd > 0 && trimEnd < (videoMeta?.duration || 0) ? trimEnd : undefined,
-        muteAudio: muteAudio || outputFormat === "gif",
+        muteAudio: muteAudio || outputFormat === "gif" || outputFormat === "zip",
         audioBitrate: audioBitrate,
-        fps: outputFormat === "gif" ? 15 : undefined,
+        fps: outputFormat === "gif" ? 15 : (outputFormat === "zip" ? extractionFps : undefined),
       };
 
       const convertedBlob = await convertVideoAdvanced(file, options, (p) => {
@@ -492,40 +493,68 @@ export function VideoConverter({ toolSlug = "video-to-mp4", targetFormat: initia
                 </p>
               </div>
 
-              {/* 1. Target Format Selection */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-                  1. Output Format
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {SUPPORTED_FORMATS.map((fmt) => {
-                    const isSelected = outputFormat === fmt.id;
-                    const Icon = fmt.icon;
-                    return (
-                      <button
-                        key={fmt.id}
-                        type="button"
-                        onClick={() => setOutputFormat(fmt.id)}
-                        className={cn(
-                          "p-2.5 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer",
-                          isSelected
-                            ? "bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20"
-                            : "bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-blue-400"
-                        )}
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <Icon className={cn("w-4 h-4", isSelected ? "text-white" : "text-blue-500")} />
-                          {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
-                        </div>
-                        <span className="text-xs font-bold">{fmt.label.split(" ")[0]}</span>
-                      </button>
-                    );
-                  })}
+              {/* 1. Target Format Selection (Hide for ZIP frame extraction) */}
+              {outputFormat !== "zip" && (
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
+                    1. Output Format
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {SUPPORTED_FORMATS.map((fmt) => {
+                      const isSelected = outputFormat === fmt.id;
+                      const Icon = fmt.icon;
+                      return (
+                        <button
+                          key={fmt.id}
+                          type="button"
+                          onClick={() => setOutputFormat(fmt.id)}
+                          className={cn(
+                            "p-2.5 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer",
+                            isSelected
+                              ? "bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20"
+                              : "bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-blue-400"
+                          )}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <Icon className={cn("w-4 h-4", isSelected ? "text-white" : "text-blue-500")} />
+                            {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
+                          </div>
+                          <span className="text-xs font-bold">{fmt.label.split(" ")[0]}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* ZIP Frame Extraction FPS */}
+              {outputFormat === "zip" && (
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 flex items-center justify-between">
+                    <span>Frame Extraction Rate (FPS)</span>
+                    <span className="text-blue-500 font-semibold">{extractionFps} fps</span>
+                  </label>
+                  <div className="px-1">
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="10"
+                      step="0.5"
+                      value={extractionFps}
+                      onChange={(e) => setExtractionFps(parseFloat(e.target.value))}
+                      className="w-full accent-blue-600"
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-2">
+                    {extractionFps < 1 
+                      ? "Extracting 1 frame every 2 seconds." 
+                      : `Extracting ${extractionFps} frame${extractionFps > 1 ? 's' : ''} every second.`}
+                  </p>
+                </div>
+              )}
 
               {/* 2. Speed & Quality Preset */}
-              {outputFormat !== "gif" && outputFormat !== "mp3" && (
+              {outputFormat !== "gif" && outputFormat !== "mp3" && outputFormat !== "zip" && (
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 flex items-center justify-between">
                     <span>2. Speed &amp; GPU Tuning</span>
@@ -566,7 +595,7 @@ export function VideoConverter({ toolSlug = "video-to-mp4", targetFormat: initia
               )}
 
               {/* 3. Resolution Scaling */}
-              {outputFormat !== "mp3" && (
+              {outputFormat !== "mp3" && outputFormat !== "zip" && (
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
                     3. Resolution Scaling
