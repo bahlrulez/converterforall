@@ -1875,6 +1875,11 @@ export const blogDatabase: Record<string, BlogPost> = {
       <p>"But it says 'Secure' and has that little padlock icon," you might say.</p>
       <p>Exactly. HTTPS (that padlock) means the <em>connection</em> between your browser and the website is encrypted so nobody can intercept the file while it travels. But it tells you absolutely nothing about how the server handles your file once it arrives. Is it stored temporarily? Is it backed up? Who has access to the server logs? Are third-party APIs involved in the processing?</p>
       
+      <figure>
+        <img src="/images/blog/stop-uploading-sensitive-files-in-article.jpg" alt="Online converter privacy: sensitive files uploaded to a server versus files processed locally in the browser" loading="lazy" />
+        <figcaption>Where does your file go after you click Upload? Server-based and browser-based conversion work differently.</figcaption>
+      </figure>
+
       <h2>Why Sensitive Files Deserve Extra Caution</h2>
       <p>If you're just converting a random meme or a public presentation, uploading it probably doesn't matter. But sensitive files are different. Ask yourself before hitting upload: <em>Would I hand a physical copy of this document to a stranger on the street?</em></p>
       <p>Sensitive files often include:</p>
