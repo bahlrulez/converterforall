@@ -1876,7 +1876,7 @@ export const blogDatabase: Record<string, BlogPost> = {
       <p>Exactly. HTTPS (that padlock) means the <em>connection</em> between your browser and the website is encrypted so nobody can intercept the file while it travels. But it tells you absolutely nothing about how the server handles your file once it arrives. Is it stored temporarily? Is it backed up? Who has access to the server logs? Are third-party APIs involved in the processing?</p>
       
       <figure>
-        <img src="/images/blog/stop-uploading-sensitive-files-in-article.jpg" alt="Online converter privacy: sensitive files uploaded to a server versus files processed locally in the browser" loading="lazy" />
+        <img src="/images/blog/stop-uploading-sensitive-files-to-online-converters.jpg" alt="Why sensitive files should not be uploaded to online converters" loading="lazy" />
         <figcaption>Where does your file go after you click Upload? Server-based and browser-based conversion work differently.</figcaption>
       </figure>
 
