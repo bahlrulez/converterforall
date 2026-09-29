@@ -6,6 +6,11 @@ import { videoToolsContent } from "./content/video-tools";
 import { utilitiesToolsContent } from "./content/utilities-tools";
 import { fontToolsContent } from "./content/font-tools";
 import { audioToolsContent } from "./content/audio-tools";
+import { lengthToolsContent } from "./content/length-tools";
+import { automotiveToolsContent } from "./content/automotive-tools";
+import { devTextToolsContent } from "./content/dev-text-tools";
+import { devSerializationToolsContent } from "./content/dev-serialization-tools";
+
 
 export const toolContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   ...imageToolsContent,
@@ -16,6 +21,10 @@ export const toolContent: Record<string, { sections: { title: string, content: s
   ...utilitiesToolsContent,
   ...fontToolsContent,
   ...audioToolsContent,
+  ...lengthToolsContent,
+  ...automotiveToolsContent,
+  ...devTextToolsContent,
+  ...devSerializationToolsContent,
   "remove-background": {
     sections: [
       {

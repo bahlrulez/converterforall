@@ -213,7 +213,10 @@ export const toolsDatabase = {
     },
     "presentation-maker": {
       title: "Presentation Maker (PPTX)",
-      description: "Create beautiful PowerPoint presentations instantly in your browser. 100% free and private—no uploads required.",
+      seoTitle: "Online PowerPoint Presentation Maker - Free & No Signup",
+      seoDescription: "Create and download PowerPoint presentations (.pptx) instantly in your browser. 100% free and private—no uploads or signups required.",
+      description: "Create beautiful PowerPoint presentations instantly in your browser. 100% free and private-no uploads required.",
+      relatedTools: ["powerpoint-to-pdf", "word-to-pdf"],
       subCategory: "Create Document",
       inputFormat: "text",
       outputFormat: "pptx",
@@ -797,7 +800,10 @@ export const toolsDatabase = {
   "utilities": {
     "qr-scanner": {
       title: "QR Code Scanner Online",
+      seoTitle: "QR Code Scanner Online - Scan Codes using Camera",
+      seoDescription: "Scan QR codes instantly using your mobile camera, webcam, or by uploading an image. 100% private and secure client-side scanning.",
       description: "Scan QR codes instantly using your mobile camera, webcam, or by uploading an image. 100% private, fast, and completely secure client-side scanning.",
+      relatedTools: ["qr-generator", "barcode-generator"],
       inputFormat: "image",
       outputFormat: "none",
       actionName: "Scan QR Code",
@@ -836,7 +842,10 @@ export const toolsDatabase = {
     },
     "qr-generator": {
       title: "QR Code Generator",
+      seoTitle: "Free QR Code Generator Online - Create Custom QR Codes",
+      seoDescription: "Generate high-quality custom QR codes for URLs and text instantly. Download your static QR code as a PNG file for free.",
       description: "Generate and download custom QR codes for URLs, text, and more instantly.",
+      relatedTools: ["qr-scanner", "barcode-generator"],
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
@@ -844,7 +853,10 @@ export const toolsDatabase = {
     },
     "barcode-generator": {
       title: "Barcode Generator",
+      seoTitle: "Free Barcode Generator Online - Create CODE128 Barcodes",
+      seoDescription: "Create standard 1D CODE128 barcodes instantly. Turn any text or number into a high-resolution scannable barcode graphic for free.",
       description: "Create standard 1D barcodes instantly and download them in high quality.",
+      relatedTools: ["qr-generator", "qr-scanner"],
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
@@ -852,7 +864,10 @@ export const toolsDatabase = {
     },
     "password-generator": {
       title: "Password Generator",
+      seoTitle: "Random Password Generator - Secure Local Utility",
       description: "Generate secure, random, and strong passwords instantly.",
+      seoDescription: "Generate strong, randomized passwords directly in your browser. Customize length up to 64 characters and select symbols, numbers, and case.",
+      relatedTools: ["uuid-generator"],
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
@@ -862,7 +877,8 @@ export const toolsDatabase = {
       title: "Fuel Cost Calculator",
       seoTitle: "Trip Fuel Cost Calculator - Calculate Gas Cost Online",
       description: "Calculate your estimated fuel cost and required fuel volume for a trip.",
-      seoDescription: "Calculate the exact fuel cost and gas volume required for your trip or daily commute based on distance, fuel efficiency, and price.",
+      seoDescription: "Calculate the exact fuel cost and gas volume required for your trip based on distance and fuel efficiency. Free, private, and 100% client-side.",
+      relatedTools: ["mileage-calculator", "miles-to-kilometers", "meters-to-kilometers"],
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
@@ -871,9 +887,9 @@ export const toolsDatabase = {
     "mileage-calculator": {
       title: "Mileage Calculator",
       description: "Calculate your vehicle's exact fuel efficiency and mileage.",
-      seoTitle: "Mileage Calculator - Calculate MPG & Fuel Economy Online",
-      seoDescription: "Calculate your vehicle's MPG, L/100km, and overall fuel efficiency based on distance traveled and fuel consumed.",
-      relatedTools: ["fuel-calculator", "miles-to-kilometers"],
+      seoTitle: "Mileage Calculator - Calculate MPG & km/L Online",
+      seoDescription: "Calculate your vehicle's exact MPG, L/100km, or km/L based on distance traveled and fuel consumed. Free, private, and 100% client-side.",
+      relatedTools: ["fuel-calculator", "miles-to-kilometers", "meters-to-kilometers"],
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
@@ -882,6 +898,9 @@ export const toolsDatabase = {
     "inches-to-centimeters": {
       title: "Inches to Centimeters",
       description: "Convert Inches to Centimeters instantly with our free length converter.",
+      seoTitle: "Inches to Centimeters Converter (in to cm)",
+      seoDescription: "Convert inches (in) to centimeters (cm) instantly. Free, private, online length converter for precise measurements.",
+      relatedTools: ["centimeters-to-millimeters", "camera-measure", "live-ruler"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "inches-to-millimeters": {
@@ -902,6 +921,9 @@ export const toolsDatabase = {
     "feet-to-yards": {
       title: "Feet to Yards",
       description: "Convert Feet to Yards instantly with our free length converter.",
+      seoTitle: "Feet to Yards Converter (ft to yd)",
+      seoDescription: "Convert feet (ft) to yards (yd) instantly. Free, private, online length converter for accurate metric and imperial calculations.",
+      relatedTools: ["yards-to-meters", "feet-to-meters", "feet-to-inches"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "feet-to-inches": {
@@ -927,6 +949,9 @@ export const toolsDatabase = {
     "meters-to-kilometers": {
       title: "Meters to Kilometers",
       description: "Convert Meters to Kilometers instantly with our free length converter.",
+      seoTitle: "Meters to Kilometers Converter (m to km)",
+      seoDescription: "Convert meters (m) to kilometers (km) instantly. Free, private, online distance converter.",
+      relatedTools: ["miles-to-kilometers", "mileage-calculator", "fuel-calculator"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "centimeters-to-millimeters": {
@@ -955,6 +980,9 @@ export const toolsDatabase = {
     "light-years-to-parsecs": {
       title: "Light Years to Parsecs",
       description: "Convert Light Years to Parsecs instantly with our free length converter.",
+      seoTitle: "Light Years to Parsecs Converter (ly to pc)",
+      seoDescription: "Convert light years (ly) to parsecs (pc) instantly. Free, private astronomical distance converter for astrophysics calculations.",
+      relatedTools: ["nanometers-to-micrometers"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "nautical-miles-to-miles": {
@@ -968,6 +996,9 @@ export const toolsDatabase = {
     "furlongs-to-miles": {
       title: "Furlongs to Miles",
       description: "Convert Furlongs to Miles instantly with our free length converter.",
+      seoTitle: "Furlongs to Miles Converter",
+      seoDescription: "Convert furlongs to miles instantly. Free online distance converter for horse racing and historical measurements.",
+      relatedTools: ["miles-to-nautical-miles", "leagues-to-miles"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "chains-to-meters": {
@@ -983,6 +1014,9 @@ export const toolsDatabase = {
     "leagues-to-miles": {
       title: "Leagues to Miles",
       description: "Convert Leagues to Miles instantly with our free length converter.",
+      seoTitle: "Leagues to Miles Converter",
+      seoDescription: "Convert historical leagues to standard miles instantly. Free, private, online distance converter.",
+      relatedTools: ["furlongs-to-miles", "nautical-miles-to-miles"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     }
   },
@@ -1038,16 +1072,67 @@ export const toolsDatabase = {
       converterType: "font-detector", 
       acceptedTypes: {} 
     },
-    "unicode-normalizer": { title: "Unicode Normalizer", description: "Normalize Unicode text to its standard composed form (NFC).", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "normalizer", acceptedTypes: {} },
-    "remove-hidden-characters": { title: "Remove Hidden Characters", description: "Strip out invisible Unicode characters like ZWJ, ZWNJ, and BOM.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "hidden-chars", acceptedTypes: {} },
-    "fix-copy-paste-text": { title: "Fix Copy/Paste Text", description: "Fix broken line breaks and garbled characters from bad PDF copies.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "fix-copy-paste", acceptedTypes: {} },
-    "unicode-text-cleaner": { title: "Unicode Text Cleaner", description: "Remove extra whitespace, zero-width spaces, and unwanted formatting.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "unicode-tools", toolType: "cleaner", acceptedTypes: {} },
+    "unicode-normalizer": {
+      title: "Unicode Normalizer",
+      seoTitle: "Unicode Normalizer (NFC) - Fix Character Encodings",
+      description: "Normalize Unicode text to its standard composed form (NFC).",
+      seoDescription: "Standardize your text with this free, client-side Unicode Normalizer. Converts text to Normalization Form Canonical Composition (NFC).",
+      relatedTools: ["unicode-text-cleaner", "remove-hidden-characters"],
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      converterType: "unicode-tools",
+      toolType: "normalizer",
+      acceptedTypes: {}
+    },
+    "remove-hidden-characters": {
+      title: "Remove Hidden Characters",
+      seoTitle: "Remove Hidden Unicode Characters & Zero-Width Spaces",
+      description: "Strip out invisible Unicode characters like ZWJ, ZWNJ, and BOM.",
+      seoDescription: "Find and remove invisible Unicode artifacts from your text, including Zero-Width Joiners, BOM, and directional marks. Free and 100% private.",
+      relatedTools: ["unicode-text-cleaner", "unicode-normalizer", "fix-copy-paste-text"],
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      converterType: "unicode-tools",
+      toolType: "hidden-chars",
+      acceptedTypes: {}
+    },
+    "fix-copy-paste-text": {
+      title: "Fix Copy/Paste Text",
+      seoTitle: "Fix Copy/Paste Text - Remove Broken PDF Line Breaks",
+      description: "Fix broken line breaks and garbled characters from bad PDF copies.",
+      seoDescription: "Clean up messy text copied from PDFs and documents. Automatically fixes broken line breaks and structural wrapping issues securely in your browser.",
+      relatedTools: ["remove-hidden-characters", "unicode-normalizer"],
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      converterType: "unicode-tools",
+      toolType: "fix-copy-paste",
+      acceptedTypes: {}
+    },
+    "unicode-text-cleaner": {
+      title: "Unicode Text Cleaner",
+      seoTitle: "Unicode Text Cleaner - Fix Whitespace & Formatting",
+      description: "Remove extra whitespace, zero-width spaces, and unwanted formatting.",
+      seoDescription: "Quickly strip inconsistent formatting, excess whitespace, and invisible zero-width artifacts from your text or code. Free, local processing.",
+      relatedTools: ["remove-hidden-characters", "unicode-normalizer"],
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      converterType: "unicode-tools",
+      toolType: "cleaner",
+      acceptedTypes: {}
+    },
   },
 
   "developer": {
     "jwt-decoder": {
       title: "JWT Decoder Online (JSON Web Token)",
+      seoTitle: "JWT Decoder & Parser - Securely Decode JSON Web Tokens Offline",
       description: "Safely decode JWT tokens offline in your browser. View algorithm, headers, payload claims, and expiration dates with zero server transmission.",
+      seoDescription: "Client-side JWT decoder and parser. View JWT header and payload claims securely in your browser. 100% private, no server upload required.",
+      relatedTools: ["base64-encoder-decoder", "json-formatter"],
       subCategory: "Tokens & Security",
       inputFormat: "none",
       outputFormat: "none",
@@ -1057,7 +1142,10 @@ export const toolsDatabase = {
     },
     "json-formatter": {
       title: "JSON Formatter & Validator",
+      seoTitle: "JSON Formatter, Validator & Minifier - Client-Side Auto Repair",
       description: "Prettify, format, validate, minify, and auto-repair broken JSON syntax with real-time error detection and 1-click copy.",
+      seoDescription: "Format, validate, prettify, and minify JSON data directly in your browser. Features auto-repair for trailing commas and quotes. 100% private.",
+      relatedTools: ["json-to-csv", "base64-encoder-decoder"],
       subCategory: "Data Formatting",
       inputFormat: "none",
       outputFormat: "none",
@@ -1067,7 +1155,10 @@ export const toolsDatabase = {
     },
     "json-to-csv": {
       title: "JSON to CSV Converter",
+      seoTitle: "JSON to CSV Converter - Free Client-Side Data Tool",
       description: "Convert JSON arrays and files to CSV format in your browser with live tabular data preview and custom delimiter settings.",
+      seoDescription: "Instantly convert JSON arrays to CSV or parse CSV text back to JSON. Features live table previews and strict browser-side privacy.",
+      relatedTools: ["json-formatter", "base64-encoder-decoder"],
       subCategory: "Data Conversion",
       inputFormat: "none",
       outputFormat: "none",
@@ -1087,7 +1178,10 @@ export const toolsDatabase = {
     },
     "base64-encoder-decoder": {
       title: "Base64 Encoder & Decoder",
+      seoTitle: "Base64 Encoder & Decoder - Fast Local Processing",
       description: "Encode text and files (images, audio, PDF) to Base64 Data URLs, or decode Base64 strings back to readable text and downloadable files.",
+      seoDescription: "Encode text, files, and images to Base64 or decode strings back to plain text securely in your browser. Supports UTF-8 and URL-safe encoding.",
+      relatedTools: ["jwt-decoder", "json-formatter"],
       subCategory: "Encoding & Data",
       inputFormat: "none",
       outputFormat: "none",
@@ -1107,8 +1201,11 @@ export const toolsDatabase = {
     },
     "uuid-generator": {
       title: "UUID Generator & Validator (v4 GUID)",
+      seoTitle: "UUID v4 Generator & Validator - Cryptographically Secure",
       description: "Generate bulk RFC 4122 v4 UUIDs / GUIDs instantly in your browser with uppercase, hyphens, and braces options, plus UUID syntax validator.",
-      subCategory: "Identifiers & Keys",
+      seoDescription: "Generate random, cryptographically secure v4 UUIDs directly in your browser. Includes a UUID syntax validator to inspect versions and variants.",
+      relatedTools: ["password-generator"],
+      subCategory: "Tokens & Security",
       inputFormat: "none",
       outputFormat: "none",
       actionName: "Generate UUID",

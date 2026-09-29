@@ -2,26 +2,32 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
   "presentation-maker": {
     sections: [
       {
-        title: "Online Presentation Maker – Create PowerPoint Slides",
-        content: "<p>Turn your ideas into PowerPoint slides quickly. ConverterForAll’s Presentation Maker lets you structure, edit, and download editable .pptx slide files directly in your web browser with no watermarks or account sign-ups.</p>"
+        title: "Online Presentation Maker – Create PowerPoint Slides in Your Browser",
+        content: "<p>Turn your ideas into a professional slideshow instantly without leaving your browser. ConverterForAll’s Presentation Maker empowers you to structure, organize, and download editable .pptx slide files completely locally. We offer a fast, frictionless experience designed to help you quickly draft presentations, lecture notes, or business pitches with zero watermarks, no account sign-ups, and absolute privacy. You can build up to 12 structured slides and export them seamlessly to Microsoft PowerPoint, Google Slides, or Apple Keynote.</p>"
       },
       {
-        title: "Key Features",
-        content: "<ul><li><strong>In-Browser Processing:</strong> Slides and notes are structured locally in your web browser.</li><li><strong>Standard PPTX Export:</strong> Download standard .pptx files compatible with Microsoft PowerPoint, Google Slides, and Apple Keynote.</li><li><strong>Custom Layouts:</strong> Select from 2 to 12 slides with pre-built title and bullet point layouts.</li><li><strong>No Account Required:</strong> Start creating your slides immediately without an email or login.</li></ul>"
+        title: "How to Use the Presentation Maker",
+        content: "<ol><li><strong>Select Slide Count:</strong> Use the slider to pick exactly how many slides you need for your pitch or lecture.</li><li><strong>Add Titles &amp; Content:</strong> Type or paste your headings, key takeaways, and bullet points directly into the provided text fields.</li><li><strong>Download PPTX:</strong> Click the 'Download PPTX' button to immediately save your presentation file. You can then open it in your preferred presentation software to add themes, images, and complex transitions.</li></ol>"
       },
       {
-        title: "How to Create PPT Slides Online",
-        content: "<ol><li><strong>Select Number of Slides:</strong> Pick how many slides you need.</li><li><strong>Add Titles &amp; Content:</strong> Type or paste your slide headings and bullet points.</li><li><strong>Download &amp; Edit:</strong> Click Download PPTX to save your presentation file. Open it in PowerPoint or Google Slides to polish and present.</li></ol>"
+        title: "How the Tool Works",
+        content: "<p>Behind the scenes, this tool uses a powerful client-side library called <code>pptxgenjs</code> to construct the internal XML structure required for the standard Office Open XML presentation format. This means your text is dynamically assembled into a real <code>.pptx</code> file right on your computer. It is not just generating images; it outputs fully editable text boxes and structured slides.</p>"
       },
       {
-        title: "Who Is This Tool For?",
-        content: "<ul><li><strong>Students &amp; Teachers:</strong> Quickly outline class assignments, presentations, and group project slides.</li><li><strong>Professionals:</strong> Draft meeting outlines, summaries, or talking points on the go.</li></ul>"
+        title: "100% Private and Local Processing",
+        content: "<p>Your privacy is our priority. Unlike cloud-based design platforms that require you to upload your sensitive business strategies or personal notes to their servers, our Presentation Maker runs entirely within your local browser. There are no API calls, no network <code>fetch</code> requests, and absolutely no server uploads. The presentation is generated directly in your device's memory and handed straight to you.</p>"
       },
       {
-        title: "Frequently Asked Questions (FAQ)",
+        title: "Supported Functionality and Limitations",
+        content: "<p>This tool is heavily optimized for speed and structure. It supports generating standard text-based slides, bulleted lists, and basic slide titles across up to 12 slides. However, it is not a full Canva or Microsoft PowerPoint replacement. It does not support cloud collaboration, AI-driven slide generation, template themes, adding images directly from our interface, or complex slide transitions. It is strictly a structural drafting tool designed to get your outline out of your head and into a standard file format as fast as possible.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can I open and edit the file in Microsoft PowerPoint or Google Slides?</strong><br>A: Yes. The tool exports a standard .pptx file that can be opened and edited in PowerPoint, Google Slides, LibreOffice, and Keynote.</p>
-          <p><strong>Q: Does the presentation include watermarks?</strong><br>A: No. Downloaded .pptx files are clean with no watermarks or logos.</p>
+          <p><strong>Q: Can I edit the downloaded file in Microsoft PowerPoint or Google Slides?</strong><br>A: Yes! The tool exports a standard .pptx file that is fully compatible with Microsoft PowerPoint, Google Slides, LibreOffice Impress, and Apple Keynote.</p>
+          <p><strong>Q: Are there any watermarks on the downloaded presentation?</strong><br>A: Absolutely not. The downloaded .pptx files are completely clean with no forced logos, watermarks, or branding.</p>
+          <p><strong>Q: Is my presentation data saved on your servers?</strong><br>A: No. Because we use client-side generation, your text and slide data never leave your computer. We cannot see, store, or access your presentations.</p>
+          <p><strong>Q: Do I need an account to use this?</strong><br>A: No account, email, or subscription is required. You can generate unlimited slides for free.</p>
         `
       }
     ]
@@ -64,34 +70,32 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
   "qr-generator": {
     sections: [
       {
-        title: "What is the QR Code Generator?",
-        content: "<p>The QR Code Generator is a fast, client-side tool that converts any text, URL, email address, or contact information into a scannable 2D barcode (QR Code). It allows you to instantly download a high-resolution PNG of the code for use in marketing materials, business cards, menus, or digital displays.</p>"
+        title: "Free Custom QR Code Generator",
+        content: "<p>Create high-quality, reliable QR codes instantly with the ConverterForAll QR Code Generator. Whether you need to share a website link, a digital restaurant menu, promotional marketing material, or just a secret text message, this tool converts your data into a scannable 2D barcode in milliseconds. Designed for simplicity and reliability, our generator operates entirely within your web browser, allowing you to easily generate and download crisp, static QR codes as PNG images without dealing with annoying subscriptions or hidden fees.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>As you type into the input field, the tool dynamically encodes your text into a standard QR matrix using an advanced mathematical algorithm. It adds built-in error correction (Level H), meaning the QR code can sustain up to 30% damage or obstruction and still be perfectly readable by a scanner.</p>"
+        title: "How to Generate a QR Code",
+        content: "<ol><li><strong>Enter Your Content:</strong> Type or paste your desired URL or plain text into the input box. Be sure to include the full link (e.g., https://example.com) if you want smartphones to open it in a web browser automatically.</li><li><strong>Preview in Real-Time:</strong> As you type, the QR code graphic on the screen will automatically update and re-render to encode your data.</li><li><strong>Test It:</strong> Before downloading, we highly recommend pointing your smartphone's camera at your screen to verify that it scans properly and points to the correct destination.</li><li><strong>Download PNG:</strong> Click the download button to instantly save a high-resolution PNG image file of your new QR code to your device.</li></ol>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Enter your content:</strong> Type or paste your website URL, text message, or data into the input box.</li><li><strong>Preview:</strong> The QR code on the screen will update instantly as you type.</li><li><strong>Test it:</strong> Optionally point your smartphone's camera at the screen to verify it scans correctly.</li><li><strong>Download:</strong> Click the Download button to save a high-quality, crisp PNG image of your QR code to your device.</li></ol>"
+        title: "How the Tool Works",
+        content: "<p>Our generator utilizes the <code>qrcode.react</code> library to dynamically translate your alphanumeric text into a grid of black and white square modules. It mathematically maps your characters into a machine-readable pattern. The tool then draws this pattern onto a scalable vector graphic (SVG), which we carefully convert into a high-resolution, unblurred PNG image using a hidden HTML canvas when you click download.</p>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Restaurants:</strong> Creating touchless digital menus that customers can scan at their tables.</li><li><strong>Marketing:</strong> Adding QR codes to flyers, posters, and billboards to instantly link people to promotional websites.</li><li><strong>Networking:</strong> Putting a link to your LinkedIn profile or portfolio on your physical business cards.</li><li><strong>Event Management:</strong> Generating codes for event ticketing or linking to venue maps.</li></ul>"
+        title: "High Error Correction",
+        content: "<p>To ensure maximum reliability, our tool hardcodes the QR error correction to 'Level H' (High). This means that up to 30% of the QR code's surface area can be missing, covered by a logo, or damaged by wear and tear, and modern smartphone cameras will still be able to successfully scan and reconstruct the data.</p>"
+      },
+      {
+        title: "Supported Functionality and Limitations",
+        content: "<p>This tool is designed to generate standard, static text and URL QR codes quickly. It does not feature complex UI builders for vCards, WiFi network configurations, automated SMS messages, or email drafts. It also does not allow you to change the error correction level or output formats beyond the provided high-resolution PNG.</p>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Do these QR codes ever expire?</strong><br>A: No! We generate "Static" QR codes. The data is hardcoded directly into the visual pattern, meaning as long as your destination URL remains active, the QR code will work forever.</p>
-          <p><strong>Q: Is there a scan limit on my QR codes?</strong><br>A: Absolutely not. Because the codes are static and not routed through our servers, you can scan them infinitely for free.</p>
-          <p><strong>Q: Can I use the generated QR codes for commercial purposes?</strong><br>A: Yes, you retain full rights to the QR codes you generate and can use them freely on commercial products or advertisements.</p>
-          <p><strong>Q: Are my QR codes tracked?</strong><br>A: No. We do not track scans or collect any data on how your QR codes are used. For analytics, you should use tracking tags (like UTM parameters) on your destination URL.</p>
-          <p><strong>Q: Why does the QR code pattern get denser when I type more?</strong><br>A: QR codes consist of a grid of modules. As you add more data, the grid must increase in density to encode all the information.</p>
-          <p><strong>Q: What does the "Level H" error correction mean?</strong><br>A: It stands for High. It means up to 30% of the QR code can be missing, covered, or damaged, and a phone can still successfully read it.</p>
-          <p><strong>Q: Can I put a logo in the center of the QR code?</strong><br>A: Because we use Level H error correction, you can technically take the downloaded PNG and overlay a small logo in the center using an image editor, and it will still scan!</p>
-          <p><strong>Q: What format does the download button provide?</strong><br>A: The tool generates a high-resolution PNG file, which is widely compatible and perfectly crisp for both web and print use.</p>
-          <p><strong>Q: What happens if I type a very long paragraph?</strong><br>A: While QR codes can hold up to 4,000 alphanumeric characters, we recommend keeping it brief (like a URL) to ensure older phone cameras can easily read the dense pattern.</p>
-          <p><strong>Q: Does generating a QR code cost money?</strong><br>A: No, our generator is completely free with no hidden fees or subscriptions.</p>
+          <p><strong>Q: Do these generated QR codes ever expire?</strong><br>A: No! We generate 'Static' QR codes. The destination data is hardcoded directly into the visual pattern, meaning as long as your destination URL remains online, the QR code will work forever.</p>
+          <p><strong>Q: Is there a scan limit on my QR codes?</strong><br>A: Absolutely not. Because the codes are static and processed locally, there are zero scan limits. You can scan them infinitely for free.</p>
+          <p><strong>Q: Are my QR codes tracked by ConverterForAll?</strong><br>A: No. We do not track scans, intercept traffic, or collect any analytics on how your QR codes are used.</p>
+          <p><strong>Q: Why does the QR code pattern get denser when I type a long paragraph?</strong><br>A: As you add more data, the grid must increase in density to physically encode all the characters. We recommend keeping links short to ensure older phone cameras can easily read the code.</p>
         `
       }
     ]
@@ -99,34 +103,32 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
   "barcode-generator": {
     sections: [
       {
-        title: "What is the Barcode Generator?",
-        content: "<p>The Barcode Generator is a professional utility designed to create standard 1D linear barcodes (specifically utilizing the ubiquitous CODE128 format by default). It is perfect for retail, inventory management, warehousing, and personal cataloging, allowing you to instantly turn any alphanumeric string into a scannable graphic.</p>"
+        title: "Free 1D Barcode Generator",
+        content: "<p>The ConverterForAll Barcode Generator is a fast, reliable utility designed to create standard 1D linear barcodes instantly. Specifically utilizing the ubiquitous CODE128 format, this tool is perfect for retail operations, internal inventory management, warehousing, and personal cataloging. It allows you to transform any standard alphanumeric string into a precise, scannable graphic. Operating entirely locally in your web browser, our tool guarantees privacy and speed, enabling you to generate and download high-resolution barcodes for printing without any software installation.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>When you input your data, the tool utilizes a client-side rendering engine to map your characters to the specific line-and-space widths dictated by the barcode symbology standard. It renders this directly onto an HTML Canvas, ensuring pixel-perfect scaling, which can then be exported as a high-resolution image.</p>"
+        title: "How to Use the Barcode Generator",
+        content: "<ol><li><strong>Input Your Data:</strong> Type your inventory number, tracking ID, or alphanumeric string into the text field.</li><li><strong>Live Preview:</strong> The barcode image will automatically generate and update on your screen in real-time as you type, allowing you to instantly verify its appearance.</li><li><strong>Download:</strong> Click the 'Download High-Res PNG' button. We automatically upscale the generated graphic so you receive a crisp, unblurred image file that is perfectly suited for high-DPI label printers.</li></ol>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Input your data:</strong> Type the UPC, EAN, or custom inventory number into the text field.</li><li><strong>Review the Preview:</strong> The barcode image will automatically generate and update on the screen in real-time.</li><li><strong>Download:</strong> Click the 'Download High-Res PNG' button to save a crisp, unblurred image file that is ready for printing on labels.</li></ol>"
+        title: "How the Tool Works",
+        content: "<p>When you input data, the tool utilizes the <code>react-barcode</code> client-side rendering engine to map your text characters to the specific line-and-space widths dictated by the CODE128 symbology standard. It calculates the necessary checksums and renders the strict black-on-white high contrast pattern onto an HTML Canvas, ensuring pixel-perfect scaling.</p>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Retail & Sales:</strong> Generating scannable barcodes for physical products to use with Point-of-Sale (POS) systems.</li><li><strong>Inventory Management:</strong> Labeling warehouse bins or tracking assets and hardware within an organization.</li><li><strong>Libraries & Archives:</strong> Cataloging books, documents, or media with unique scannable identifiers.</li><li><strong>Ticketing:</strong> Adding barcodes to event tickets or vouchers for fast entry scanning.</li></ul>"
+        title: "Supported Functionality and Limitations",
+        content: "<p>By default, this tool strictly generates CODE128 barcodes, which are highly versatile and widely supported by nearly all commercial laser scanners. However, it is important to note the tool's limitations. It does not support selecting multiple barcode formats from the UI, meaning you cannot currently generate EAN-13, UPC-A, ISBN, or specific GS1 retail compliance barcodes. It is intended for internal tracking, general alphanumeric encoding, and systems that accept the robust CODE128 standard.</p>"
+      },
+      {
+        title: "Privacy and Security",
+        content: "<p>Your tracking numbers and inventory data are safe. The entire barcode generation process occurs locally in your browser's memory. We have absolutely zero visibility into the numbers you are converting, and we do not log or transmit your data to any remote servers.</p>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: What type of barcode does this generate?</strong><br>A: By default, this tool generates CODE128 barcodes, which are the industry standard for alphanumeric data and support a wide range of characters.</p>
-          <p><strong>Q: Can standard laser scanners read these downloaded barcodes?</strong><br>A: Yes. As long as you print them cleanly (without stretching the aspect ratio), standard retail and warehouse laser scanners will read them perfectly.</p>
-          <p><strong>Q: Is there a character limit for the barcode?</strong><br>A: Technically, CODE128 can hold a large amount of data, but practically, barcodes longer than 20-30 characters become too wide for most handheld scanners to read.</p>
-          <p><strong>Q: Can I use spaces in my barcode?</strong><br>A: Yes, CODE128 supports spaces, uppercase and lowercase letters, numbers, and most standard punctuation marks.</p>
-          <p><strong>Q: Will my barcode expire?</strong><br>A: No. A barcode is simply a font or a visual representation of text. It never expires.</p>
-          <p><strong>Q: Are my inventory numbers logged on your servers?</strong><br>A: No. Generation happens locally in your browser. We have zero visibility into the data you are converting into barcodes.</p>
-          <p><strong>Q: Why is my downloaded image so large?</strong><br>A: We artificially upscale the generated barcode during the download process (4x scale) to ensure it prints crisply without pixelation on high-DPI label printers.</p>
-          <p><strong>Q: Does the barcode include a check digit?</strong><br>A: Yes, the underlying CODE128 rendering algorithm automatically calculates and inserts the necessary checksum character required by scanners.</p>
-          <p><strong>Q: Can I change the colors of the barcode?</strong><br>A: For maximum scannability, we enforce a strict black-on-white high contrast theme, which is required by most optical scanners.</p>
-          <p><strong>Q: Can I sell products on Amazon using these barcodes?</strong><br>A: To sell commercially on platforms like Amazon, you must purchase official GS1 UPC or EAN codes. Our tool can generate the barcode image for those numbers, but it does not register the numbers for you.</p>
+          <p><strong>Q: Can standard laser scanners read these downloaded barcodes?</strong><br>A: Yes. As long as you print them cleanly on a white background without stretching the aspect ratio, standard retail and warehouse laser scanners will read them perfectly.</p>
+          <p><strong>Q: Can I use spaces or letters in my barcode?</strong><br>A: Yes! Unlike some older formats that only allow numbers, the CODE128 standard supports uppercase letters, lowercase letters, numbers, spaces, and standard punctuation.</p>
+          <p><strong>Q: Does the generated barcode include the required check digit?</strong><br>A: Yes, the underlying rendering algorithm automatically calculates and inserts the necessary checksum character required by laser scanners for successful reads.</p>
+          <p><strong>Q: Can I use this tool to sell products on Amazon?</strong><br>A: To sell commercially on major retail platforms, you typically must purchase official GS1 UPC or EAN codes. Our tool generates CODE128, which is generally used for internal shipping and inventory tracking rather than global retail registration.</p>
         `
       }
     ]
@@ -313,27 +315,32 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
   "qr-scanner": {
     sections: [
       {
-        title: "What is the QR Code Scanner Online?",
-        content: "<p>The QR Code Scanner reads and decodes QR codes directly in your web browser. You can scan QR codes using your device's camera (webcam or smartphone) or by uploading an image containing a QR code.</p>"
+        title: "Secure Online QR Code Scanner",
+        content: "<p>Easily scan, read, and decode QR codes directly in your web browser without downloading any sketchy apps. The ConverterForAll QR Code Scanner is a powerful, lightning-fast utility that allows you to instantly scan codes using your mobile smartphone camera, desktop webcam, or by uploading an image file. Designed for ultimate privacy and speed, it safely decodes website URLs, hidden text, and contact information embedded inside QR codes so you can inspect them securely before visiting any potentially dangerous links.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>The scanner uses a client-side JavaScript engine to read the QR code pattern directly in your browser. Because processing happens on your device, your images and scanned links are not uploaded to remote servers.</p>"
+        title: "How to Use the QR Scanner",
+        content: "<ol><li><strong>Select Your Method:</strong> Choose whether you want to use your device's live camera or upload a static image.</li><li><strong>Live Camera Scanning:</strong> If you are on a smartphone or have a webcam, click 'Start Camera'. Grant your browser permission to access the camera, then hold the QR code in front of the lens. The tool will automatically detect and decode it instantly.</li><li><strong>Image Upload Scanning:</strong> If someone sent you a screenshot of a QR code, switch to the 'Upload Image' tab. Drag and drop the picture into the box, and the tool will extract the data.</li><li><strong>Review Results:</strong> The decoded text or URL will appear on screen. You can safely copy it or click to visit the link.</li></ol>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Choose your method:</strong> Select whether to use your live camera or upload an image file.</li><li><strong>Live Camera:</strong> Point your camera at a QR code until it is detected.</li><li><strong>Upload Image:</strong> Drag and drop a photo or screenshot of a QR code into the upload area.</li><li><strong>View Results:</strong> The tool displays the decoded text or URL so you can copy it or visit the link safely.</li></ol>"
+        title: "How the Tool Works",
+        content: "<p>The scanner leverages the <code>jsQR</code> library and standard HTML5 Canvas technology to analyze video frames and static images. When you use your camera, the browser captures a local video stream and continuously searches the pixels for the distinct alignment squares of a QR code. Once the pattern is identified, it extracts the encoded binary data and translates it back into human-readable text.</p>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Restaurant Menus:</strong> Scan digital menus directly in your browser.</li><li><strong>Wi-Fi Passwords:</strong> Read and copy Wi-Fi passwords encoded in QR codes.</li><li><strong>Link Verification:</strong> Inspect where a QR code URL leads before opening it.</li></ul>"
+        title: "100% Private Local Processing",
+        content: "<p>This QR Scanner is built with absolute privacy in mind. When you grant camera access via <code>navigator.mediaDevices.getUserMedia</code>, the video feed is processed strictly locally inside your web browser. We do not transmit, record, or upload your video stream or your uploaded images to any remote server. Your camera data never leaves your device.</p>"
+      },
+      {
+        title: "Limitations",
+        content: "<p>This tool is specifically optimized for standard 2D QR codes. While highly accurate for QR patterns, it does not currently support Optical Character Recognition (OCR), meaning it cannot read plain text. It also does not store a history of your past scans, nor does it perform automatic cloud lookups to verify if a link is safe. It is up to you to review the decoded URL before clicking it.</p>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is it safe to grant camera permission?</strong><br>A: Yes. Camera access is only used locally by your browser to decode the code. No video stream is recorded or uploaded.</p>
-          <p><strong>Q: Can I scan a QR code from a screenshot?</strong><br>A: Yes! Switch to the 'Upload Image' tab and select your screenshot.</p>
-          <p><strong>Q: Does this scanner work on smartphones?</strong><br>A: Yes, it works on Safari on iOS and Chrome on Android.</p>
+          <p><strong>Q: Is it safe to grant camera permissions to this website?</strong><br>A: Yes. Camera access is strictly required for the browser to see the QR code. The video stream is analyzed locally and never leaves your computer or phone.</p>
+          <p><strong>Q: What should I do if the camera isn't working?</strong><br>A: Ensure that you haven't blocked camera access in your browser settings. On iOS Safari or Android Chrome, you may need to refresh the page and tap 'Allow' when the permission prompt appears.</p>
+          <p><strong>Q: Can I scan a QR code from a screenshot on my phone?</strong><br>A: Yes! Simply save the screenshot to your camera roll, select the 'Upload Image' option in our tool, and pick the screenshot from your gallery.</p>
+          <p><strong>Q: Does this scanner work on desktop computers?</strong><br>A: Absolutely. If you have a webcam attached to your PC or Mac, you can hold a physical QR code up to the lens to scan it.</p>
         `
       }
     ]

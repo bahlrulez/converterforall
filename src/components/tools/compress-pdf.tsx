@@ -440,6 +440,17 @@ export function CompressPdfTool() {
           </div>
         </div>
       )}
+
+      {/* Contextual SEO Link */}
+      <div className="mt-8 text-center">
+        <a 
+          href="/blog/why-is-my-pdf-too-large-how-to-reduce-pdf-size" 
+          className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full"
+        >
+          <FileText className="w-4 h-4" />
+          Read our guide on why PDFs get so large and how to reduce them
+        </a>
+      </div>
     </div>
   );
 }

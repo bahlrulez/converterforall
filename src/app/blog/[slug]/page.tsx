@@ -14,14 +14,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return { title: "Not Found" };
   }
 
+  const excerpt = post.description;
+
   return {
     title: post.title,
-    description: post.content.substring(0, 150).replace(/<[^>]+>/g, '').trim() + '...',
+    description: excerpt,
     openGraph: {
       title: `${post.title} | ConverterForAll`,
-      description: post.content.substring(0, 150).replace(/<[^>]+>/g, '').trim() + '...',
+      description: excerpt,
       type: "article",
       url: `https://www.converterforall.com/blog/${resolvedParams.slug}`,
+      images: post.coverImage ? [{ url: post.coverImage }] : undefined,
     },
     alternates: {
       canonical: `https://www.converterforall.com/blog/${resolvedParams.slug}`,
@@ -37,7 +40,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
     notFound();
   }
 
-  const excerpt = post.content.substring(0, 200).replace(/<[^>]+>/g, '') + '...';
+  const excerpt = post.description;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -48,9 +51,9 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
     },
     "headline": post.title,
     "description": excerpt,
-    "image": "https://www.converterforall.com/icon.png",
+    "image": post.coverImage || "https://www.converterforall.com/icon.png",
     "datePublished": new Date(post.date).toISOString(),
-    "dateModified": new Date(post.date).toISOString(),
+    "dateModified": new Date(post.updatedAt || post.date).toISOString(),
     "author": {
       "@type": "Organization",
       "name": "ConverterForAll Team",
@@ -66,11 +69,40 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
     }
   };
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.converterforall.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://www.converterforall.com/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": post.title,
+        "item": `https://www.converterforall.com/blog/${params.slug}`
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       
       {/* Article Hero */}
@@ -121,49 +153,28 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
         />
         
         {/* Hub-and-Spoke Contextual Tool Card */}
-        {(() => {
-          const lower = (post.title + " " + post.content).toLowerCase();
-          let toolTarget = { slug: "passport-photo-maker", title: "Passport Photo Maker", desc: "Create official biometric passport and ID photos in 1-click on your device." };
-          
-          if (lower.includes("video") && lower.includes("compress")) {
-            toolTarget = { slug: "video-compressor", title: "Free Online Video Compressor", desc: "Reduce MP4, MOV & WebM video size by up to 80% on-device with zero quality loss." };
-          } else if (lower.includes("pdf") && lower.includes("compress")) {
-            toolTarget = { slug: "compress-pdf", title: "Compress PDF Online", desc: "Reduce PDF file size in seconds without quality loss." };
-          } else if (lower.includes("pdf") && (lower.includes("edit") || lower.includes("sign"))) {
-            toolTarget = { slug: "edit-pdf", title: "Free Online PDF Editor", desc: "Annotate, draw, sign, and blackout sensitive PDF records offline." };
-          } else if (lower.includes("pdf")) {
-            toolTarget = { slug: "pdf-to-word", title: "PDF to Word (DOCX)", desc: "Extract clean editable Word documents from any PDF file." };
-          } else if (lower.includes("background") || lower.includes("remove-bg")) {
-            toolTarget = { slug: "remove-background", title: "AI Background Remover", desc: "Automatically isolate subjects and remove image backgrounds with high precision." };
-          } else if (lower.includes("kruti") || lower.includes("mangal") || lower.includes("hindi")) {
-            toolTarget = { slug: "krutidev-to-unicode", title: "Kruti Dev to Unicode Converter", desc: "Convert legacy font typing into standard Unicode Hindi instantly." };
-          } else if (lower.includes("jwt") || lower.includes("token")) {
-            toolTarget = { slug: "jwt-decoder", title: "JWT Token Decoder", desc: "Safely decode JWT headers and payload claims without sending data to servers." };
-          }
-
-          return (
-            <div className="mt-12 p-6 sm:p-7 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-32 bg-blue-500/20 blur-3xl pointer-events-none" />
-              
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 relative z-10">
-                <div className="space-y-1.5">
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                    ⚡ Live Interactive Tool
-                  </div>
-                  <h4 className="text-lg sm:text-xl font-bold tracking-tight text-white">{toolTarget.title}</h4>
-                  <p className="text-xs text-slate-300 max-w-md leading-relaxed">{toolTarget.desc}</p>
+        {post.relatedTool && (
+          <div className="mt-12 p-6 sm:p-7 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-32 bg-blue-500/20 blur-3xl pointer-events-none" />
+            
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 relative z-10">
+              <div className="space-y-1.5">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                  ⚡ Live Interactive Tool
                 </div>
-                
-                <Link
-                  href={`/${toolTarget.slug}`}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-md shadow-blue-500/20 transition-all shrink-0 active:scale-95"
-                >
-                  <span>Launch Tool Free →</span>
-                </Link>
+                <h4 className="text-lg sm:text-xl font-bold tracking-tight text-white">{post.relatedTool.title}</h4>
+                <p className="text-xs text-slate-300 max-w-md leading-relaxed">{post.relatedTool.desc}</p>
               </div>
+              
+              <Link
+                href={`/${post.relatedTool.slug}`}
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-md shadow-blue-500/20 transition-all shrink-0 active:scale-95"
+              >
+                <span>Launch Tool Free →</span>
+              </Link>
             </div>
-          );
-        })()}
+          </div>
+        )}
 
         {/* Global Conversion CTA Banner */}
         <div className="mt-8 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-6">

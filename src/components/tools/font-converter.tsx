@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowLeftRight, Copy, ClipboardPaste, Trash2, Download, Printer, Share2, Undo2, Redo2, Check } from "lucide-react";
+import { ArrowLeftRight, Copy, ClipboardPaste, Trash2, Download, Printer, Share2, Undo2, Redo2, Check, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { convertHindi } from "@/lib/fonts/hindi-mappings";
 import { convertPunjabi } from "@/lib/fonts/punjabi-mappings";
@@ -283,6 +283,17 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
 
         </div>
 
+      </div>
+
+      {/* Contextual SEO Link */}
+      <div className="mt-8 text-center">
+        <a 
+          href="/blog/kruti-dev-font-showing-as-english-in-word" 
+          className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full"
+        >
+          <FileText className="w-4 h-4" />
+          Is Kruti Dev showing as English in MS Word? Read our troubleshooting guide
+        </a>
       </div>
     </div>
   );
