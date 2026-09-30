@@ -298,7 +298,21 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     );
   }
 
-  const isCompressPdf = category === "document" && toolSlug === "compress-pdf";
+  const hasOptions = 
+    (category === "document" && toolSlug === "compress-pdf") ||
+    (category === "image" && toolSlug === "remove-background") ||
+    (category === "image" && (toolSlug === "compress-jpg" || toolSlug === "compress-png")) ||
+    isPageSelector ||
+    (toolSlug === "video-to-jpg");
+
+  const isSafeForAutoProcess = 
+    (category === "document" && toolSlug === "compress-pdf") ||
+    (category === "image" && toolSlug === "remove-background") ||
+    (category === "image" && (toolSlug === "compress-jpg" || toolSlug === "compress-png")) ||
+    (toolSlug === "video-to-jpg");
+
+  const autoProcessOnDrop = isSafeForAutoProcess;
+
   return (
     <FileUploader 
       toolSlug={toolSlug}
@@ -315,6 +329,8 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
       }
       allowCamera={category === "image"}
       isDynamicBackgroundRemoval={toolSlug === "remove-background"}
+      configureBeforeUpload={hasOptions}
+      autoProcessOnDrop={autoProcessOnDrop}
     />
   );
 }

@@ -30,7 +30,7 @@ import {
   Code2,
   ChevronRight,
 } from "lucide-react";
-import { toolsDatabase } from "@/lib/tools-db";
+import { toolsDatabase, Tool } from "@/lib/tools-db";
 import { cn } from "@/lib/utils";
 
 type CategoryFilter = "all" | "popular" | "developer" | "pdf" | "image" | "video" | "audio" | "document" | "utilities" | "fonts";
@@ -61,66 +61,43 @@ const CATEGORY_TABS: { key: CategoryFilter; label: string }[] = [
   { key: "fonts", label: "Fonts" },
 ];
 
-function getToolMeta(slug: string, category: string, tool: any): { icon: any; iconBg: string; iconColor: string; badge: string; isPopular: boolean } {
-  const lowerSlug = slug.toLowerCase();
-  
-  if (category === "developer" || lowerSlug.includes("jwt") || lowerSlug.includes("json") || lowerSlug.includes("base64") || lowerSlug.includes("uuid") || lowerSlug.includes("timestamp")) {
-    return { icon: Code2, iconBg: "bg-cyan-500/15 border-cyan-500/30", iconColor: "text-cyan-400", badge: "Data & Code", isPopular: lowerSlug.includes("jwt") || lowerSlug.includes("json") };
+function getIconComponent(iconName: string) {
+  switch(iconName) {
+    case "Code2": return Code2;
+    case "Eraser": return Eraser;
+    case "Camera": return Camera;
+    case "FileStack": return FileStack;
+    case "Scissors": return Scissors;
+    case "Zap": return Zap;
+    case "Lock": return Lock;
+    case "Unlock": return Unlock;
+    case "Image": return ImageIcon;
+    case "FileText": return FileText;
+    case "Presentation": return Presentation;
+    case "FileSpreadsheet": return FileSpreadsheet;
+    case "FileCode": return FileCode;
+    case "Video": return Video;
+    case "Music": return Music;
+    case "Type": return Type;
+    case "Wrench": default: return Wrench;
   }
-  
-  if (lowerSlug.includes("remove-bg") || lowerSlug.includes("remove-background")) {
-    return { icon: Eraser, iconBg: "bg-purple-500/15 border-purple-500/30", iconColor: "text-purple-400", badge: "AI Magic", isPopular: true };
+}
+
+function getThemeStyles(theme?: string) {
+  switch(theme) {
+    case "cyan": return { iconBg: "bg-cyan-500/15 border-cyan-500/30", iconColor: "text-cyan-400" };
+    case "purple": return { iconBg: "bg-purple-500/15 border-purple-500/30", iconColor: "text-purple-400" };
+    case "amber": return { iconBg: "bg-amber-500/15 border-amber-500/30", iconColor: "text-amber-400" };
+    case "orange": return { iconBg: "bg-orange-500/15 border-orange-500/30", iconColor: "text-orange-400" };
+    case "pink": return { iconBg: "bg-pink-500/15 border-pink-500/30", iconColor: "text-pink-400" };
+    case "teal": return { iconBg: "bg-teal-500/15 border-teal-500/30", iconColor: "text-teal-400" };
+    case "yellow": return { iconBg: "bg-yellow-500/15 border-yellow-500/30", iconColor: "text-yellow-400" };
+    case "blue": return { iconBg: "bg-blue-500/15 border-blue-500/30", iconColor: "text-blue-400" };
+    case "red": return { iconBg: "bg-red-500/15 border-red-500/30", iconColor: "text-red-400" };
+    case "emerald": return { iconBg: "bg-emerald-500/15 border-emerald-500/30", iconColor: "text-emerald-400" };
+    case "sky": return { iconBg: "bg-sky-500/15 border-sky-500/30", iconColor: "text-sky-400" };
+    case "slate": default: return { iconBg: "bg-slate-500/15 border-slate-500/30", iconColor: "text-slate-400" };
   }
-  if (lowerSlug.includes("passport")) {
-    return { icon: Camera, iconBg: "bg-amber-500/15 border-amber-500/30", iconColor: "text-amber-400", badge: "Popular", isPopular: true };
-  }
-  if (lowerSlug.includes("merge")) {
-    return { icon: FileStack, iconBg: "bg-orange-500/15 border-orange-500/30", iconColor: "text-orange-400", badge: "Popular", isPopular: true };
-  }
-  if (lowerSlug.includes("split") || lowerSlug.includes("remove-pages") || lowerSlug.includes("extract")) {
-    return { icon: Scissors, iconBg: "bg-pink-500/15 border-pink-500/30", iconColor: "text-pink-400", badge: "Popular", isPopular: true };
-  }
-  if (lowerSlug.includes("compress")) {
-    return { icon: Zap, iconBg: "bg-amber-500/15 border-amber-500/30", iconColor: "text-amber-400", badge: "Optimize", isPopular: true };
-  }
-  if (lowerSlug.includes("protect") || lowerSlug.includes("lock")) {
-    return { icon: Lock, iconBg: "bg-teal-500/15 border-teal-500/30", iconColor: "text-teal-400", badge: "Security", isPopular: false };
-  }
-  if (lowerSlug.includes("unlock")) {
-    return { icon: Unlock, iconBg: "bg-yellow-500/15 border-yellow-500/30", iconColor: "text-yellow-400", badge: "Security", isPopular: false };
-  }
-  if (lowerSlug.includes("heic")) {
-    return { icon: ImageIcon, iconBg: "bg-amber-500/15 border-amber-500/30", iconColor: "text-amber-400", badge: "Apple Photo", isPopular: true };
-  }
-  if (lowerSlug.includes("word") || lowerSlug.includes("docx")) {
-    return { icon: FileText, iconBg: "bg-blue-500/15 border-blue-500/30", iconColor: "text-blue-400", badge: "Popular", isPopular: true };
-  }
-  if (lowerSlug.includes("powerpoint") || lowerSlug.includes("ppt")) {
-    return { icon: Presentation, iconBg: "bg-red-500/15 border-red-500/30", iconColor: "text-red-400", badge: "Office", isPopular: false };
-  }
-  if (lowerSlug.includes("excel") || lowerSlug.includes("xls")) {
-    return { icon: FileSpreadsheet, iconBg: "bg-emerald-500/15 border-emerald-500/30", iconColor: "text-emerald-400", badge: "Office", isPopular: false };
-  }
-  if (lowerSlug.includes("html")) {
-    return { icon: FileCode, iconBg: "bg-orange-500/15 border-orange-500/30", iconColor: "text-orange-400", badge: "Web", isPopular: false };
-  }
-  if (category === "document" || lowerSlug.includes("pdf")) {
-    return { icon: FileText, iconBg: "bg-red-500/15 border-red-500/30", iconColor: "text-red-400", badge: "Document", isPopular: lowerSlug.includes("jpg-to-pdf") || lowerSlug.includes("png-to-pdf") };
-  }
-  if (category === "image") {
-    return { icon: ImageIcon, iconBg: "bg-emerald-500/15 border-emerald-500/30", iconColor: "text-emerald-400", badge: "Image", isPopular: lowerSlug.includes("webp") || lowerSlug.includes("jpg") };
-  }
-  if (category === "video") {
-    return { icon: Video, iconBg: "bg-purple-500/15 border-purple-500/30", iconColor: "text-purple-400", badge: "Video", isPopular: lowerSlug.includes("mp4") };
-  }
-  if (category === "audio") {
-    return { icon: Music, iconBg: "bg-sky-500/15 border-sky-500/30", iconColor: "text-sky-400", badge: "Audio", isPopular: lowerSlug.includes("mp3") };
-  }
-  if (category === "fonts") {
-    return { icon: Type, iconBg: "bg-cyan-500/15 border-cyan-500/30", iconColor: "text-cyan-400", badge: "Font", isPopular: false };
-  }
-  
-  return { icon: Wrench, iconBg: "bg-slate-500/15 border-slate-500/30", iconColor: "text-slate-400", badge: "Tool", isPopular: false };
 }
 
 export function AllToolsGrid() {
@@ -132,19 +109,19 @@ export function AllToolsGrid() {
   const allToolsList: ToolItem[] = useMemo(() => {
     const list: ToolItem[] = [];
     Object.entries(toolsDatabase).forEach(([catKey, tools]) => {
-      Object.entries(tools as any).forEach(([slug, tool]: any) => {
-        const meta = getToolMeta(slug, catKey, tool);
+      (Object.entries(tools) as [string, Tool][]).forEach(([slug, tool]) => {
+        const themeStyles = getThemeStyles(tool.theme);
         list.push({
           slug,
           title: tool.title || slug,
           description: tool.description || `Convert and process ${slug} files easily and privately in your browser.`,
           category: catKey,
           subCategory: tool.subCategory,
-          icon: meta.icon,
-          iconBg: meta.iconBg,
-          iconColor: meta.iconColor,
-          badge: meta.badge,
-          isPopular: meta.isPopular,
+          icon: getIconComponent(tool.iconName || "Settings"),
+          iconBg: themeStyles.iconBg,
+          iconColor: themeStyles.iconColor,
+          badge: tool.badge,
+          isPopular: tool.isPopular || false,
         });
       });
     });

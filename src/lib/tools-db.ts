@@ -1,6 +1,27 @@
-export const toolsDatabase = {
+export interface Tool {
+  theme?: string;
+  iconName?: string;
+  badge?: string;
+  isPopular?: boolean;
+  title: string;
+  description: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  inputFormat?: string;
+  outputFormat?: string;
+  actionName?: string;
+  acceptedTypes?: Record<string, string[]>;
+  subCategory?: string;
+  isInteractive?: boolean;
+  converterType?: string;
+  fontCategory?: string;
+  relatedTools?: string[];
+  toolType?: string;
+}
+
+export const toolsDatabase: Record<string, Record<string, Tool>> = {
   "image": {
-    "remove-background": {
+    "remove-background": { theme: "purple", iconName: "Eraser", badge: "AI Magic", isPopular: true,
       title: "Remove Background",
       description: "Instantly remove the background from any image using advanced on-device AI.",
       seoTitle: "Free AI Background Remover - Remove Backgrounds Online",
@@ -14,7 +35,7 @@ export const toolsDatabase = {
         "image/webp": [".webp"]
       }
     },
-    "webp-to-png": {
+    "webp-to-png": { theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert WEBP to PNG",
       seoTitle: "WEBP to PNG Converter - Convert Web Images to PNG Free",
       description: "Fast, secure, and high-quality WEBP to PNG image conversion.",
@@ -24,21 +45,21 @@ export const toolsDatabase = {
       outputFormat: "png",
       acceptedTypes: { "image/webp": [".webp"] }
     },
-    "webp-to-jpg": {
+    "webp-to-jpg": { theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert WEBP to JPG",
       description: "Fast, secure, and high-quality WEBP to JPG image conversion.",
       inputFormat: "webp",
       outputFormat: "jpg",
       acceptedTypes: { "image/webp": [".webp"] }
     },
-    "pdf-to-jpg": {
+    "pdf-to-jpg": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Convert PDF to JPG",
       description: "Convert PDF document pages to high-quality JPG images.",
       inputFormat: "pdf",
       outputFormat: "jpg",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "pdf-to-png": {
+    "pdf-to-png": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Convert PDF to PNG",
       seoTitle: "PDF to PNG Converter - Extract PDF Pages as Images",
       description: "Convert PDF document pages to clear PNG images.",
@@ -48,21 +69,21 @@ export const toolsDatabase = {
       outputFormat: "png",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "jpg-to-png": {
+    "jpg-to-png": { theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert JPG to PNG",
       description: "Convert your JPG images to PNG format instantly.",
       inputFormat: "jpg",
       outputFormat: "png",
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"] }
     },
-    "png-to-jpg": {
+    "png-to-jpg": { theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert PNG to JPG",
       description: "Convert your PNG images to JPG format instantly.",
       inputFormat: "png",
       outputFormat: "jpg",
       acceptedTypes: { "image/png": [".png"] }
     },
-    "avif-to-jpeg": {
+    "avif-to-jpeg": { theme: "emerald", iconName: "Image", badge: "Image",
       title: "Convert AVIF to JPEG",
       seoTitle: "AVIF to JPEG Converter | Convert AVIF Images to JPG Online",
       description: "Convert AVIF next-gen images to standard JPEG.",
@@ -71,7 +92,7 @@ export const toolsDatabase = {
       outputFormat: "jpeg",
       acceptedTypes: { "image/avif": [".avif"] }
     },
-    "avif-to-png": {
+    "avif-to-png": { theme: "emerald", iconName: "Image", badge: "Image",
       title: "Convert AVIF to PNG",
       seoTitle: "AVIF to PNG Converter | Convert AVIF with Transparency",
       description: "Convert AVIF images to transparent PNG.",
@@ -80,7 +101,7 @@ export const toolsDatabase = {
       outputFormat: "png",
       acceptedTypes: { "image/avif": [".avif"] }
     },
-    "heic-to-jpg": {
+    "heic-to-jpg": { theme: "amber", iconName: "Image", badge: "Apple Photo", isPopular: true,
       title: "Convert HEIC to JPG",
       description: "Convert Apple iPhone HEIC and HEIF photos to universal JPG online for free.",
       inputFormat: "heic",
@@ -88,7 +109,7 @@ export const toolsDatabase = {
       actionName: "Convert to JPG",
       acceptedTypes: { "image/heic": [".heic"], "image/heif": [".heif"] }
     },
-    "heic-to-png": {
+    "heic-to-png": { theme: "amber", iconName: "Image", badge: "Apple Photo", isPopular: true,
       title: "Convert HEIC to PNG",
       seoTitle: "HEIC to PNG Converter - Convert Apple Photos Online",
       description: "Convert Apple HEIC photos to high-quality transparent PNG format for free.",
@@ -99,7 +120,7 @@ export const toolsDatabase = {
       actionName: "Convert to PNG",
       acceptedTypes: { "image/heic": [".heic"], "image/heif": [".heif"] }
     },
-    "compress-jpg": {
+    "compress-jpg": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress JPG",
       description: "Reduce JPG file size while preserving maximum visual quality using our in-browser compressor.",
       seoTitle: "Compress JPG - Reduce Image File Size Online",
@@ -110,7 +131,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"] }
     },
-    "compress-png": {
+    "compress-png": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress PNG",
       description: "Reduce PNG file size with our advanced browser-based compression engine.",
       seoTitle: "Compress PNG - Reduce PNG File Size Online",
@@ -121,7 +142,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "image/png": [".png"] }
     },
-    "passport-photo-maker": {
+    "passport-photo-maker": { theme: "amber", iconName: "Camera", badge: "Popular", isPopular: true,
       title: "Passport Photo Maker",
       description: "Create and crop perfect passport photos online. Supports standard US and International sizes.",
       seoTitle: "Passport Photo Converter - Convert Photo to Passport Size",
@@ -133,7 +154,7 @@ export const toolsDatabase = {
       relatedTools: ["image-resizer", "image-cropper", "compress-jpg", "camera-measure"],
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     },
-    "gif-maker": {
+    "gif-maker": { theme: "emerald", iconName: "Image", badge: "Image",
       title: "GIF Maker",
       description: "Convert and create animated GIFs from images and photos online for free.",
       inputFormat: "image",
@@ -141,7 +162,7 @@ export const toolsDatabase = {
       actionName: "Make GIF",
       acceptedTypes: { "image/*": [".jpg", ".jpeg", ".png", ".webp", ".avif"] }
     },
-    "image-cropper": {
+    "image-cropper": { theme: "emerald", iconName: "Image", badge: "Image",
       title: "Image Cropper",
       description: "Crop photos and images to exact dimensions and custom aspect ratios.",
       inputFormat: "image",
@@ -149,7 +170,7 @@ export const toolsDatabase = {
       actionName: "Crop Image",
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     },
-    "image-resizer": {
+    "image-resizer": { theme: "emerald", iconName: "Image", badge: "Image",
       title: "Image Resizer",
       seoTitle: "Image Resizer - Resize Photos & Pictures Online Free",
       description: "Resize photos and graphics to custom pixel dimensions with high quality.",
@@ -159,7 +180,7 @@ export const toolsDatabase = {
       actionName: "Resize Image",
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     },
-    "svg-to-png": {
+    "svg-to-png": { theme: "emerald", iconName: "Image", badge: "Image",
       title: "Convert SVG to PNG",
       seoTitle: "SVG to PNG Converter - Rasterize Vectors Online Free",
       description: "Convert SVG vector graphics to crisp, transparent PNG images online with 100% privacy.",
@@ -170,7 +191,7 @@ export const toolsDatabase = {
       actionName: "Convert to PNG",
       acceptedTypes: { "image/svg+xml": [".svg"] }
     },
-    "svg-to-jpg": {
+    "svg-to-jpg": { theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert SVG to JPG",
       description: "Convert SVG vector files to standard JPG photos online for free.",
       inputFormat: "svg",
@@ -178,7 +199,7 @@ export const toolsDatabase = {
       actionName: "Convert to JPG",
       acceptedTypes: { "image/svg+xml": [".svg"] }
     },
-    "image-to-svg": {
+    "image-to-svg": { theme: "emerald", iconName: "Image", badge: "Image",
       title: "Image to SVG Vector Converter",
       description: "Convert pixel images (PNG, JPG, WEBP) to scalable vector graphics (SVG) instantly. 100% private.",
       inputFormat: "image",
@@ -194,7 +215,7 @@ export const toolsDatabase = {
   },
   "document": {
     // ORGANIZE PDF
-    "merge-pdf": {
+    "merge-pdf": { theme: "orange", iconName: "FileStack", badge: "Popular", isPopular: true,
       title: "Merge PDF, Word (DOCX), JPG & PNG Online Free",
       description: "Combine multiple PDF documents, Microsoft Word files (DOCX/DOC), and images (JPG, PNG, WebP) into one unified PDF for free. 100% private, on-device merging.",
       subCategory: "Organize PDF",
@@ -211,7 +232,7 @@ export const toolsDatabase = {
         "image/webp": [".webp"]
       }
     },
-    "presentation-maker": {
+    "presentation-maker": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Presentation Maker (PPTX)",
       seoTitle: "Online PowerPoint Presentation Maker - Free & No Signup",
       seoDescription: "Create and download PowerPoint presentations (.pptx) instantly in your browser. 100% free and private—no uploads or signups required.",
@@ -224,7 +245,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "split-pdf": {
+    "split-pdf": { theme: "pink", iconName: "Scissors", badge: "Popular", isPopular: true,
       title: "Split PDF",
       description: "Extract pages from your PDF or save each page as a separate PDF.",
       subCategory: "Organize PDF",
@@ -233,7 +254,7 @@ export const toolsDatabase = {
       actionName: "Split PDF",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "remove-pages": {
+    "remove-pages": { theme: "pink", iconName: "Scissors", badge: "Popular", isPopular: true,
       title: "Remove Pages",
       description: "Delete unnecessary pages from your PDF.",
       subCategory: "Organize PDF",
@@ -242,7 +263,7 @@ export const toolsDatabase = {
       actionName: "Remove Pages",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "extract-pages": {
+    "extract-pages": { theme: "pink", iconName: "Scissors", badge: "Popular", isPopular: true,
       title: "Extract Pages",
       description: "Pull specific pages out of your PDF document.",
       subCategory: "Organize PDF",
@@ -251,7 +272,7 @@ export const toolsDatabase = {
       actionName: "Extract Pages",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "organize-pdf": {
+    "organize-pdf": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Organize PDF",
       description: "Sort, rotate, duplicate, and delete PDF pages with visual drag-and-drop previews.",
       subCategory: "Organize PDF",
@@ -261,7 +282,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "application/pdf": [".pdf"], "image/*": [".jpg", ".jpeg", ".png", ".webp"] }
     },
-    "rotate-pdf": {
+    "rotate-pdf": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Rotate PDF Pages",
       description: "Rotate specific pages or entire PDF documents 90, 180, or 270 degrees.",
       subCategory: "Organize PDF",
@@ -271,7 +292,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "scan-to-pdf": {
+    "scan-to-pdf": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Scan to PDF",
       seoTitle: "Scan to PDF - Free Mobile PDF Scanner Online",
       description: "Capture document scans and turn them into PDFs.",
@@ -283,7 +304,7 @@ export const toolsDatabase = {
       actionName: "Create PDF",
       acceptedTypes: { "image/*": [".jpg", ".png", ".jpeg"] }
     },
-    "clean-pdf-metadata": {
+    "clean-pdf-metadata": { theme: "red", iconName: "FileText", badge: "Document",
       title: "PDF Metadata Cleaner (100% Private)",
       description: "Scrub hidden author names, dates, and software tracks from your PDF files directly in your browser.",
       subCategory: "Organize PDF",
@@ -292,7 +313,7 @@ export const toolsDatabase = {
       actionName: "Scrub Metadata",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "remove-pdf-properties": {
+    "remove-pdf-properties": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Remove PDF Document Properties",
       description: "Instantly delete all hidden properties, tracking data, and author information from PDF documents.",
       subCategory: "Organize PDF",
@@ -301,7 +322,7 @@ export const toolsDatabase = {
       actionName: "Remove Properties",
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "pdf-privacy-scrubber": {
+    "pdf-privacy-scrubber": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Secure PDF Privacy Scrubber",
       description: "Ensure document confidentiality by erasing invisible EXIF data and metadata from PDFs without uploading to any server.",
       subCategory: "Organize PDF",
@@ -312,7 +333,7 @@ export const toolsDatabase = {
     },
 
     // EDIT & ANNOTATE PDF
-    "edit-pdf": {
+    "edit-pdf": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Edit PDF Online",
       description: "Add text, shapes, freehand drawings, highlights, redactions, and digital signatures to your PDF for free in your browser.",
       subCategory: "Edit PDF",
@@ -324,7 +345,7 @@ export const toolsDatabase = {
     },
 
     // OPTIMIZE PDF
-    "compress-pdf": {
+    "compress-pdf": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress PDF",
       description: "Reduce file size while optimizing for maximal PDF quality.",
       seoTitle: "Compress PDF - Reduce PDF File Size Online",
@@ -336,7 +357,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "repair-pdf": {
+    "repair-pdf": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Repair PDF",
       description: "Fix a damaged or corrupted PDF document.",
       subCategory: "Optimize PDF",
@@ -346,7 +367,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
-    "ocr-pdf": {
+    "ocr-pdf": { theme: "red", iconName: "FileText", badge: "Document",
       title: "OCR PDF",
       description: "Make text in scanned PDFs searchable and selectable.",
       subCategory: "Optimize PDF",
@@ -358,7 +379,7 @@ export const toolsDatabase = {
     },
 
     // CONVERT TO PDF
-    "jpg-to-pdf": {
+    "jpg-to-pdf": { theme: "red", iconName: "FileText", badge: "Document", isPopular: true,
       title: "JPG to PDF",
       description: "Convert JPG images to high-quality PDF documents online for free.",
       subCategory: "Convert to PDF",
@@ -367,7 +388,7 @@ export const toolsDatabase = {
       actionName: "Convert to PDF",
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"] }
     },
-    "png-to-pdf": {
+    "png-to-pdf": { theme: "red", iconName: "FileText", badge: "Document", isPopular: true,
       title: "PNG to PDF",
       description: "Convert PNG images with transparent backgrounds to PDF documents for free.",
       subCategory: "Convert to PDF",
@@ -376,7 +397,7 @@ export const toolsDatabase = {
       actionName: "Convert to PDF",
       acceptedTypes: { "image/png": [".png"] }
     },
-    "word-to-pdf": {
+    "word-to-pdf": { theme: "blue", iconName: "FileText", badge: "Popular", isPopular: true,
       title: "WORD to PDF",
       description: "Make DOC and DOCX files easy to read by converting them to PDF.",
       subCategory: "Convert to PDF",
@@ -386,7 +407,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "application/msword": [".doc", ".docx"], "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"] }
     },
-    "powerpoint-to-pdf": {
+    "powerpoint-to-pdf": { theme: "red", iconName: "Presentation", badge: "Office",
       title: "POWERPOINT to PDF",
       description: "Make PPT and PPTX slideshows easy to view by converting them to PDF.",
       subCategory: "Convert to PDF",
@@ -398,7 +419,7 @@ export const toolsDatabase = {
         "application/vnd.openxmlformats-officedocument.presentationml.presentation": [".pptx"]
       }
     },
-    "excel-to-pdf": {
+    "excel-to-pdf": { theme: "emerald", iconName: "FileSpreadsheet", badge: "Office",
       title: "EXCEL to PDF",
       seoTitle: "Excel to PDF Converter - Convert XLS/XLSX to PDF Free",
       description: "Make EXCEL spreadsheets easy to read by converting them to PDF.",
@@ -413,7 +434,7 @@ export const toolsDatabase = {
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"]
       }
     },
-    "html-to-pdf": {
+    "html-to-pdf": { theme: "orange", iconName: "FileCode", badge: "Web",
       title: "HTML to PDF",
       description: "Convert HTML files and web pages to high-quality PDF documents online for free.",
       subCategory: "Convert to PDF",
@@ -422,7 +443,7 @@ export const toolsDatabase = {
       actionName: "Convert to PDF",
       acceptedTypes: { "text/html": [".html", ".htm"] }
     },
-    "web-font-converter": {
+    "web-font-converter": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Web Font Converter",
       description: "Convert TTF, OTF, and WOFF fonts directly in your browser. 100% private, no uploads.",
       subCategory: "Convert Fonts",
@@ -431,7 +452,7 @@ export const toolsDatabase = {
       actionName: "Convert Font",
       acceptedTypes: { "font/*": [".ttf", ".otf", ".woff", ".woff2"] }
     },
-    "ttf-to-woff2": {
+    "ttf-to-woff2": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Convert TTF to WOFF2",
       description: "Compress your desktop TTF fonts into web-optimized WOFF2 format without losing quality.",
       subCategory: "Convert Fonts",
@@ -440,7 +461,7 @@ export const toolsDatabase = {
       actionName: "Convert to WOFF2",
       acceptedTypes: { "font/ttf": [".ttf"] }
     },
-    "otf-to-woff2": {
+    "otf-to-woff2": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Convert OTF to WOFF2",
       description: "Compress your OTF fonts into web-optimized WOFF2 format completely client-side.",
       subCategory: "Convert Fonts",
@@ -449,7 +470,7 @@ export const toolsDatabase = {
       actionName: "Convert to WOFF2",
       acceptedTypes: { "font/otf": [".otf"] }
     },
-    "woff2-to-ttf": {
+    "woff2-to-ttf": { theme: "red", iconName: "FileText", badge: "Document",
       title: "Convert WOFF2 to TTF",
       description: "Extract desktop-compatible TTF fonts from web WOFF2 files safely in your browser.",
       subCategory: "Convert Fonts",
@@ -460,7 +481,7 @@ export const toolsDatabase = {
     },
 
     // CONVERT FROM PDF
-    "pdf-to-word": {
+    "pdf-to-word": { theme: "blue", iconName: "FileText", badge: "Popular", isPopular: true,
       title: "PDF to WORD",
       description: "Easily convert your PDF files into editable DOCX Word documents.",
       subCategory: "Convert from PDF",
@@ -472,7 +493,7 @@ export const toolsDatabase = {
     }
   },
   "audio": {
-    "mp4-to-mp3": {
+    "mp4-to-mp3": { theme: "sky", iconName: "Music", badge: "Audio", isPopular: true,
       title: "Convert MP4 to MP3",
       description: "Extract high-quality audio from your MP4 videos.",
       inputFormat: "mp4",
@@ -481,7 +502,7 @@ export const toolsDatabase = {
       relatedTools: ["trim-audio", "video-to-mp4", "compress-video", "mp3-to-wav"],
       acceptedTypes: { "video/mp4": [".mp4"] }
     },
-    "mp3-to-wav": {
+    "mp3-to-wav": { theme: "sky", iconName: "Music", badge: "Audio", isPopular: true,
       title: "Convert MP3 to WAV",
       description: "Convert compressed MP3 audio to lossless WAV format.",
       inputFormat: "mp3",
@@ -490,7 +511,7 @@ export const toolsDatabase = {
       relatedTools: ["wav-to-mp3", "mp3-to-ogg", "trim-audio", "mp4-to-mp3"],
       acceptedTypes: { "audio/mpeg": [".mp3"] }
     },
-    "wav-to-mp3": {
+    "wav-to-mp3": { theme: "sky", iconName: "Music", badge: "Audio", isPopular: true,
       title: "Convert WAV to MP3",
       description: "Compress lossless WAV audio into MP3 format.",
       inputFormat: "wav",
@@ -499,7 +520,7 @@ export const toolsDatabase = {
       relatedTools: ["mp3-to-wav", "ogg-to-mp3", "trim-audio", "mp4-to-mp3"],
       acceptedTypes: { "audio/wav": [".wav", ".wave"] }
     },
-    "ogg-to-mp3": {
+    "ogg-to-mp3": { theme: "sky", iconName: "Music", badge: "Audio", isPopular: true,
       title: "Convert OGG to MP3",
       description: "Convert OGG Vorbis audio files to standard MP3.",
       inputFormat: "ogg",
@@ -508,7 +529,7 @@ export const toolsDatabase = {
       relatedTools: ["mp3-to-ogg", "wav-to-mp3", "convert-whatsapp-voice-note-to-mp3", "trim-audio"],
       acceptedTypes: { "audio/ogg": [".ogg"] }
     },
-    "mp3-to-ogg": {
+    "mp3-to-ogg": { theme: "sky", iconName: "Music", badge: "Audio", isPopular: true,
       title: "Convert MP3 to OGG",
       description: "Convert standard MP3 audio files to OGG format.",
       inputFormat: "mp3",
@@ -517,7 +538,7 @@ export const toolsDatabase = {
       relatedTools: ["ogg-to-mp3", "mp3-to-wav", "convert-whatsapp-voice-note-to-mp3", "trim-audio"],
       acceptedTypes: { "audio/mpeg": [".mp3"] }
     },
-    "trim-audio": {
+    "trim-audio": { theme: "sky", iconName: "Music", badge: "Audio",
       title: "Audio Trimmer & Cutter (MP3, WAV, OGG)",
       description: "Trim, cut, and split audio files directly in your browser. 100% private, no uploads.",
       inputFormat: "audio",
@@ -526,7 +547,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "audio/*": [".mp3", ".wav", ".ogg", ".m4a", ".aac"] }
     },
-    "trim-mp3-online": {
+    "trim-mp3-online": { theme: "sky", iconName: "Music", badge: "Audio", isPopular: true,
       title: "Free MP3 Cutter & Trimmer Online",
       description: "Cut and trim MP3 files online instantly. No file size limits, no watermarks, completely private.",
       inputFormat: "audio",
@@ -535,7 +556,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "audio/mpeg": [".mp3"] }
     },
-    "cut-audio-free": {
+    "cut-audio-free": { theme: "sky", iconName: "Music", badge: "Audio",
       title: "Cut Audio Files Free Online",
       description: "Easily slice and cut audio clips, songs, and recordings for free directly on your device.",
       inputFormat: "audio",
@@ -544,7 +565,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "audio/*": [".mp3", ".wav", ".ogg", ".m4a", ".aac"] }
     },
-    "private-audio-trimmer": {
+    "private-audio-trimmer": { theme: "sky", iconName: "Music", badge: "Audio",
       title: "Private Audio Trimmer (No Server Uploads)",
       description: "A highly secure, 100% client-side audio cutter. Your voice notes and recordings never leave your device.",
       inputFormat: "audio",
@@ -553,7 +574,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "audio/*": [".mp3", ".wav", ".ogg", ".m4a", ".aac"] }
     },
-    "convert-whatsapp-voice-note-to-mp3": {
+    "convert-whatsapp-voice-note-to-mp3": { theme: "sky", iconName: "Music", badge: "Audio", isPopular: true,
       title: "Convert WhatsApp Voice Notes to MP3 & Trim",
       description: "Upload your WhatsApp voice notes (.ogg or .opus) to trim dead space and convert them into standard MP3 files.",
       inputFormat: "audio",
@@ -564,7 +585,7 @@ export const toolsDatabase = {
     }
   },
   "video": {
-    "video-compressor": {
+    "video-compressor": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Free Online Video Compressor - Reduce Video Size (Private & Instant)",
       description: "Reduce video file sizes (MP4, MOV, WebM) instantly in your browser without uploading to cloud servers. 100% free, private, and no quality loss.",
       relatedTools: [
@@ -581,7 +602,7 @@ export const toolsDatabase = {
     },
 
     // FORMAT-SPECIFIC VIDEO COMPRESSORS
-    "compress-mp4": {
+    "compress-mp4": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress MP4 Video Online – Reduce MP4 Size Free (Private)",
       description: "Reduce MP4 file size online without losing quality. 100% client-side compression on your device with no uploads required.",
       inputFormat: "mp4",
@@ -590,7 +611,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/mp4": [".mp4"] }
     },
-    "compress-mov-video": {
+    "compress-mov-video": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress MOV Video Online – Reduce iPhone & Mac MOV Size",
       description: "Compress Apple QuickTime MOV videos into lightweight, web-optimized MP4 files without quality loss.",
       inputFormat: "mov",
@@ -599,7 +620,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/quicktime": [".mov"] }
     },
-    "compress-mkv": {
+    "compress-mkv": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress MKV Video Online – Reduce MKV File Size",
       description: "Compress high-definition MKV movie and video files to compact MP4 size for easy sharing and streaming.",
       inputFormat: "mkv",
@@ -608,7 +629,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/x-matroska": [".mkv"] }
     },
-    "compress-avi": {
+    "compress-avi": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress AVI Video Online – Convert & Shrink AVI Files",
       description: "Shrink heavy uncompressed AVI video files into modern lightweight MP4 files instantly.",
       inputFormat: "avi",
@@ -617,7 +638,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/x-msvideo": [".avi"] }
     },
-    "compress-webm": {
+    "compress-webm": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress WebM Video Online – Optimize WebM Size",
       description: "Optimize and compress WebM HTML5 videos for faster website loading speeds and lower bandwidth.",
       inputFormat: "webm",
@@ -626,7 +647,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/webm": [".webm"] }
     },
-    "compress-wmv": {
+    "compress-wmv": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress WMV Video Online – Shrink Windows Media Video",
       description: "Compress legacy Windows Media Video (WMV) files into ultra-compatible compact MP4 videos.",
       inputFormat: "wmv",
@@ -635,7 +656,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/x-ms-wmv": [".wmv"] }
     },
-    "compress-flv": {
+    "compress-flv": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress FLV Video Online – Reduce Flash Video Size",
       description: "Compress and modernize Flash video files into lightweight MP4 video streams.",
       inputFormat: "flv",
@@ -646,7 +667,7 @@ export const toolsDatabase = {
     },
 
     // PLATFORM & INTENT-SPECIFIC VIDEO COMPRESSORS
-    "compress-video-for-discord": {
+    "compress-video-for-discord": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress Video for Discord (<25MB) – Free Online Compressor",
       description: "Compress video files to fit under Discord's 25MB free upload limit automatically without ruining video quality.",
       inputFormat: "video",
@@ -655,7 +676,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
-    "compress-video-for-whatsapp": {
+    "compress-video-for-whatsapp": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress Video for WhatsApp (<16MB) – Reduce Video Size Free",
       description: "Shrink long or HD videos under WhatsApp's 16MB limit for instant sharing without compression stutter.",
       inputFormat: "video",
@@ -664,7 +685,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
-    "compress-video-for-email": {
+    "compress-video-for-email": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress Video for Email Attachment – Under 20MB/25MB Free",
       description: "Easily compress large videos to fit inside Gmail and Outlook 25MB email attachment limits.",
       inputFormat: "video",
@@ -673,7 +694,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
-    "compress-video-for-instagram": {
+    "compress-video-for-instagram": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress Video for Instagram & Reels – Keep 1080p HD Quality",
       description: "Compress videos for Instagram Stories, Reels, and Feed without the blur or pixelation caused by Instagram's auto-compression.",
       inputFormat: "video",
@@ -682,7 +703,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
-    "compress-video-for-facebook": {
+    "compress-video-for-facebook": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress Video for Facebook – Fast Upload & HD Quality",
       description: "Optimize video bitrates for fast Facebook uploads while maintaining crisp 1080p clarity.",
       inputFormat: "video",
@@ -691,7 +712,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
-    "compress-video-for-phone": {
+    "compress-video-for-phone": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress Video for Phone (Android & iPhone) – Free & Private",
       description: "Compress videos directly on your Android or iPhone browser to free up gigabytes of phone storage.",
       inputFormat: "video",
@@ -700,7 +721,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
-    "video-to-gif": {
+    "video-to-gif": { theme: "purple", iconName: "Video", badge: "Video",
       title: "Video to GIF Converter",
       description: "Convert video clips and movies to lightweight animated GIFs.",
       inputFormat: "video",
@@ -709,7 +730,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
-    "video-to-jpg": {
+    "video-to-jpg": { theme: "purple", iconName: "Video", badge: "Video",
       title: "Video to JPG Sequence",
       description: "Extract frames from your video into a sequence of JPG images.",
       inputFormat: "video",
@@ -721,7 +742,7 @@ export const toolsDatabase = {
       relatedTools: ["compress-jpg", "video-to-mp4", "video-compressor", "image-to-svg"],
       acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm"] }
     },
-    "mp4-to-mp3": {
+    "mp4-to-mp3": { theme: "purple", iconName: "Video", badge: "Video", isPopular: true,
       title: "Convert MP4 to MP3",
       description: "Extract high-quality audio from your MP4 videos.",
       inputFormat: "mp4",
@@ -730,7 +751,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/mp4": [".mp4"] }
     },
-    "video-to-mp4": {
+    "video-to-mp4": { theme: "purple", iconName: "Video", badge: "Video", isPopular: true,
       title: "Convert to MP4",
       description: "Convert any video format to standard MP4 format.",
       inputFormat: "video",
@@ -742,7 +763,7 @@ export const toolsDatabase = {
       relatedTools: ["video-to-mov", "video-to-mkv", "video-compressor", "video-to-avi"],
       acceptedTypes: { "video/*": [".avi", ".mkv", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
-    "video-to-avi": {
+    "video-to-avi": { theme: "purple", iconName: "Video", badge: "Video",
       title: "Convert to AVI",
       description: "Convert any video format to AVI format.",
       inputFormat: "video",
@@ -751,7 +772,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".mkv", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
-    "video-to-mkv": {
+    "video-to-mkv": { theme: "purple", iconName: "Video", badge: "Video",
       title: "Convert to MKV",
       description: "Convert any video format to MKV format.",
       inputFormat: "video",
@@ -760,7 +781,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".avi", ".wmv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
-    "screen-recorder": {
+    "screen-recorder": { theme: "purple", iconName: "Video", badge: "Video",
       title: "Online Screen Recorder",
       description: "Record your desktop, application window, or browser tab with audio for free. 100% private and in-browser.",
       inputFormat: "none",
@@ -769,7 +790,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "video-to-wmv": {
+    "video-to-wmv": { theme: "purple", iconName: "Video", badge: "Video",
       title: "Convert to WMV",
       description: "Convert any video format to WMV format.",
       inputFormat: "video",
@@ -778,7 +799,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".avi", ".mkv", ".mov", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
-    "video-to-mov": {
+    "video-to-mov": { theme: "purple", iconName: "Video", badge: "Video",
       title: "Convert to MOV",
       description: "Convert any video format to Apple MOV format.",
       inputFormat: "video",
@@ -787,7 +808,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: { "video/*": [".mp4", ".avi", ".mkv", ".wmv", ".flv", ".webm", ".m4v", ".mpeg"] }
     },
-    "video-to-flv": {
+    "video-to-flv": { theme: "purple", iconName: "Video", badge: "Video",
       title: "Convert to FLV",
       description: "Convert any video format to FLV format.",
       inputFormat: "video",
@@ -798,7 +819,7 @@ export const toolsDatabase = {
     }
   },
   "utilities": {
-    "qr-scanner": {
+    "qr-scanner": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "QR Code Scanner Online",
       seoTitle: "QR Code Scanner Online - Scan Codes using Camera",
       seoDescription: "Scan QR codes instantly using your mobile camera, webcam, or by uploading an image. 100% private and secure client-side scanning.",
@@ -812,7 +833,7 @@ export const toolsDatabase = {
         "image/*": [".jpg", ".jpeg", ".png", ".webp"]
       }
     },
-    "live-ruler": {
+    "live-ruler": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Live CM Ruler",
       description: "Measure real-world objects using your screen. Automatic calibration for CM and Inches.",
       inputFormat: "none",
@@ -821,7 +842,7 @@ export const toolsDatabase = {
       relatedTools: ["camera-measure", "inches-to-centimeters", "centimeters-to-inches", "feet-to-yards"],
       acceptedTypes: {}
     },
-    "camera-measure": {
+    "camera-measure": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Camera Measurement Tool",
       description: "Estimate object dimensions and distances using your device's camera.",
       seoTitle: "Camera Measurement Tool - Measure Distance with Phone Online",
@@ -832,7 +853,7 @@ export const toolsDatabase = {
       relatedTools: ["live-ruler", "passport-photo-maker", "nanometers-to-micrometers", "feet-to-yards"],
       acceptedTypes: {}
     },
-    "age-calculator": {
+    "age-calculator": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Age Calculator",
       description: "Calculate your exact age in years, months, and days from your date of birth.",
       inputFormat: "none",
@@ -840,7 +861,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "qr-generator": {
+    "qr-generator": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "QR Code Generator",
       seoTitle: "Free QR Code Generator Online - Create Custom QR Codes",
       seoDescription: "Generate high-quality custom QR codes for URLs and text instantly. Download your static QR code as a PNG file for free.",
@@ -851,7 +872,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "barcode-generator": {
+    "barcode-generator": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Barcode Generator",
       seoTitle: "Free Barcode Generator Online - Create CODE128 Barcodes",
       seoDescription: "Create standard 1D CODE128 barcodes instantly. Turn any text or number into a high-resolution scannable barcode graphic for free.",
@@ -862,7 +883,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "password-generator": {
+    "password-generator": { theme: "blue", iconName: "FileText", badge: "Popular", isPopular: true,
       title: "Password Generator",
       seoTitle: "Random Password Generator - Secure Local Utility",
       description: "Generate secure, random, and strong passwords instantly.",
@@ -873,7 +894,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "fuel-calculator": {
+    "fuel-calculator": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Fuel Cost Calculator",
       seoTitle: "Trip Fuel Cost Calculator - Calculate Gas Cost Online",
       description: "Calculate your estimated fuel cost and required fuel volume for a trip.",
@@ -884,7 +905,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "mileage-calculator": {
+    "mileage-calculator": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Mileage Calculator",
       description: "Calculate your vehicle's exact fuel efficiency and mileage.",
       seoTitle: "Mileage Calculator - Calculate MPG & km/L Online",
@@ -895,7 +916,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "inches-to-centimeters": {
+    "inches-to-centimeters": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Inches to Centimeters",
       description: "Convert Inches to Centimeters instantly with our free length converter.",
       seoTitle: "Inches to Centimeters Converter (in to cm)",
@@ -903,22 +924,22 @@ export const toolsDatabase = {
       relatedTools: ["centimeters-to-millimeters", "camera-measure", "live-ruler"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "inches-to-millimeters": {
+    "inches-to-millimeters": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Inches to Millimeters",
       description: "Convert Inches to Millimeters instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "inches-to-feet": {
+    "inches-to-feet": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Inches to Feet",
       description: "Convert Inches to Feet instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "feet-to-meters": {
+    "feet-to-meters": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Feet to Meters",
       description: "Convert Feet to Meters instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "feet-to-yards": {
+    "feet-to-yards": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Feet to Yards",
       description: "Convert Feet to Yards instantly with our free length converter.",
       seoTitle: "Feet to Yards Converter (ft to yd)",
@@ -926,27 +947,27 @@ export const toolsDatabase = {
       relatedTools: ["yards-to-meters", "feet-to-meters", "feet-to-inches"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "feet-to-inches": {
+    "feet-to-inches": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Feet to Inches",
       description: "Convert Feet to Inches instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "miles-to-kilometers": {
+    "miles-to-kilometers": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Miles to Kilometers",
       description: "Convert Miles to Kilometers instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "miles-to-nautical-miles": {
+    "miles-to-nautical-miles": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Miles to Nautical Miles",
       description: "Convert Miles to Nautical Miles instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "yards-to-meters": {
+    "yards-to-meters": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Yards to Meters",
       description: "Convert Yards to Meters instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "meters-to-kilometers": {
+    "meters-to-kilometers": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Meters to Kilometers",
       description: "Convert Meters to Kilometers instantly with our free length converter.",
       seoTitle: "Meters to Kilometers Converter (m to km)",
@@ -954,22 +975,22 @@ export const toolsDatabase = {
       relatedTools: ["miles-to-kilometers", "mileage-calculator", "fuel-calculator"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "centimeters-to-millimeters": {
+    "centimeters-to-millimeters": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Centimeters to Millimeters",
       description: "Convert Centimeters to Millimeters instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "millimeters-to-inches": {
+    "millimeters-to-inches": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Millimeters to Inches",
       description: "Convert Millimeters to Inches instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "micrometers-to-millimeters": {
+    "micrometers-to-millimeters": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Micrometers to Millimeters",
       description: "Convert Micrometers to Millimeters instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "nanometers-to-micrometers": {
+    "nanometers-to-micrometers": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Nanometers to Micrometers",
       description: "Convert Nanometers to Micrometers instantly with our free length converter.",
       seoTitle: "Nanometers to Micrometers Converter (nm to µm)",
@@ -977,7 +998,7 @@ export const toolsDatabase = {
       relatedTools: ["micrometers-to-millimeters"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "light-years-to-parsecs": {
+    "light-years-to-parsecs": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Light Years to Parsecs",
       description: "Convert Light Years to Parsecs instantly with our free length converter.",
       seoTitle: "Light Years to Parsecs Converter (ly to pc)",
@@ -985,7 +1006,7 @@ export const toolsDatabase = {
       relatedTools: ["nanometers-to-micrometers"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "nautical-miles-to-miles": {
+    "nautical-miles-to-miles": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Nautical Miles to Miles",
       description: "Convert Nautical Miles to Miles instantly with our free length converter.",
       seoTitle: "Nautical Miles to Miles Converter (nmi to mi)",
@@ -993,7 +1014,7 @@ export const toolsDatabase = {
       relatedTools: ["miles-to-nautical-miles", "furlongs-to-miles", "leagues-to-miles"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "furlongs-to-miles": {
+    "furlongs-to-miles": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Furlongs to Miles",
       description: "Convert Furlongs to Miles instantly with our free length converter.",
       seoTitle: "Furlongs to Miles Converter",
@@ -1001,17 +1022,17 @@ export const toolsDatabase = {
       relatedTools: ["miles-to-nautical-miles", "leagues-to-miles"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "chains-to-meters": {
+    "chains-to-meters": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Chains to Meters",
       description: "Convert Chains to Meters instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "rods-to-yards": {
+    "rods-to-yards": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Rods to Yards",
       description: "Convert Rods to Yards instantly with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
-    "leagues-to-miles": {
+    "leagues-to-miles": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Leagues to Miles",
       description: "Convert Leagues to Miles instantly with our free length converter.",
       seoTitle: "Leagues to Miles Converter",
@@ -1021,49 +1042,49 @@ export const toolsDatabase = {
     }
   },
   "fonts": {
-    "unicode-to-krutidev": { title: "Unicode (Mangal) to Kruti Dev Converter", description: "Convert standard Unicode Hindi text (Mangal font) to legacy Kruti Dev 010 font format for typing tests, PageMaker, and printing.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "krutidev-to-unicode": { title: "Kruti Dev to Unicode / Mangal Font Converter", description: "Convert legacy Kruti Dev 010 font text to standard Unicode (Mangal font) Hindi instantly for government exams, CPCT, WhatsApp, and Word.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "unicode-to-chanakya": { title: "Unicode to Chanakya", description: "Convert Unicode Hindi text to Chanakya font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "chanakya-to-unicode": { title: "Chanakya to Unicode", description: "Convert Chanakya font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "unicode-to-shusha": { title: "Unicode to Shusha", description: "Convert Unicode Hindi text to Shusha font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "shusha-to-unicode": { title: "Shusha to Unicode", description: "Convert Shusha font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "unicode-to-aps": { title: "Unicode to APS", description: "Convert Unicode Hindi text to APS font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "aps-to-unicode": { title: "APS to Unicode", description: "Convert APS font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "unicode-to-shreelipi": { title: "Unicode to Shree Lipi", description: "Convert Unicode Hindi text to Shree Lipi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "shreelipi-to-unicode": { title: "Shree Lipi to Unicode", description: "Convert Shree Lipi font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-krutidev": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode (Mangal) to Kruti Dev Converter", description: "Convert standard Unicode Hindi text (Mangal font) to legacy Kruti Dev 010 font format for typing tests, PageMaker, and printing.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "krutidev-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Kruti Dev to Unicode / Mangal Font Converter", description: "Convert legacy Kruti Dev 010 font text to standard Unicode (Mangal font) Hindi instantly for government exams, CPCT, WhatsApp, and Word.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-chanakya": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Chanakya", description: "Convert Unicode Hindi text to Chanakya font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "chanakya-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Chanakya to Unicode", description: "Convert Chanakya font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-shusha": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Shusha", description: "Convert Unicode Hindi text to Shusha font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "shusha-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Shusha to Unicode", description: "Convert Shusha font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-aps": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to APS", description: "Convert Unicode Hindi text to APS font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "aps-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "APS to Unicode", description: "Convert APS font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-shreelipi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Shree Lipi", description: "Convert Unicode Hindi text to Shree Lipi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "shreelipi-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Shree Lipi to Unicode", description: "Convert Shree Lipi font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     
-    "unicode-to-anmollipi": { title: "Unicode to AnmolLipi", description: "Convert Unicode Punjabi text to AnmolLipi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "anmollipi-to-unicode": { title: "AnmolLipi to Unicode", description: "Convert AnmolLipi font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "unicode-to-asees": { title: "Unicode to Asees", seoTitle: "Unicode to Asees Font Converter | Type Punjabi in Asees", seoDescription: "Convert standard Unicode Punjabi text into the Asees font instantly. Free online converter for PageMaker and traditional Punjabi typing.", description: "Convert Unicode Punjabi text to Asees font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "asees-to-unicode": { title: "Asees to Unicode", seoTitle: "Asees to Unicode Converter | Fix Punjabi Font Online", seoDescription: "Convert legacy Asees Punjabi font to standard Unicode text. Fix broken Asees text for WhatsApp, websites, and mobile devices.", description: "Convert Asees font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "unicode-to-joy": { title: "Unicode to Joy", seoTitle: "Unicode to Joy Font Converter | Type Punjabi in Joy", seoDescription: "Convert standard Unicode Punjabi text to Joy font. Free online tool for publishers and designers needing legacy Punjabi font formats.", description: "Convert Unicode Punjabi text to Joy font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "joy-to-unicode": { title: "Joy to Unicode", seoTitle: "Joy to Unicode Converter | Online Punjabi Font Converter", seoDescription: "Convert legacy Joy Punjabi font to standard Unicode text instantly. Copy and paste your text to fix broken Punjabi fonts for Word, websites, and WhatsApp.", description: "Convert Joy font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "unicode-to-satluj": { title: "Unicode to Satluj", seoTitle: "Unicode to Satluj Converter | Online Punjabi Font Converter", seoDescription: "Convert Unicode Punjabi text into Satluj font instantly for PageMaker and CorelDraw printing. Fast, accurate, and runs privately in your browser.", description: "Convert Unicode Punjabi text to Satluj font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "satluj-to-unicode": { title: "Satluj to Unicode", seoTitle: "Satluj to Unicode Converter | Fix Punjabi Font Online", seoDescription: "Convert Satluj font text to standard Unicode Punjabi instantly. Fix broken Satluj text to make it readable on phones, websites, and social media.", description: "Convert Satluj font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "unicode-to-gurbani-akhar": { title: "Unicode to Gurbani Akhar", seoTitle: "Unicode to Gurbani Akhar Converter | Online Punjabi Tool", seoDescription: "Convert standard Unicode Punjabi text into the Gurbani Akhar font. Fast, free, and private conversion for typing and document preparation.", description: "Convert Unicode Punjabi text to Gurbani Akhar font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "gurbani-akhar-to-unicode": { title: "Gurbani Akhar to Unicode", seoTitle: "Gurbani Akhar to Unicode Converter | Punjabi Font Fix", seoDescription: "Convert legacy Gurbani Akhar font text into standard Unicode Punjabi. Free online tool to easily share religious and traditional Punjabi texts across all devices.", description: "Convert Gurbani Akhar font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "unicode-to-raavi": { title: "Unicode to Raavi", seoTitle: "Unicode to Raavi Font Converter | Type Punjabi in Raavi", seoDescription: "Convert standard Unicode Punjabi text into Raavi font format. Fast and private online Punjabi font conversion tool.", description: "Convert Unicode Punjabi text to Raavi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "raavi-to-unicode": { title: "Raavi to Unicode", seoTitle: "Raavi to Unicode Converter | Online Punjabi Font Fix", seoDescription: "Convert Raavi Punjabi font to standard Unicode text. Our free converter fixes Raavi text formatting issues instantly in your browser.", description: "Convert Raavi font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "gurmukhi-to-shahmukhi": { title: "Gurmukhi to Shahmukhi", description: "Convert Gurmukhi script to Shahmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "shahmukhi-to-gurmukhi": { title: "Shahmukhi to Gurmukhi", description: "Convert Shahmukhi script to Gurmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-anmollipi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to AnmolLipi", description: "Convert Unicode Punjabi text to AnmolLipi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "anmollipi-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "AnmolLipi to Unicode", description: "Convert AnmolLipi font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-asees": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Asees", seoTitle: "Unicode to Asees Font Converter | Type Punjabi in Asees", seoDescription: "Convert standard Unicode Punjabi text into the Asees font instantly. Free online converter for PageMaker and traditional Punjabi typing.", description: "Convert Unicode Punjabi text to Asees font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "asees-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Asees to Unicode", seoTitle: "Asees to Unicode Converter | Fix Punjabi Font Online", seoDescription: "Convert legacy Asees Punjabi font to standard Unicode text. Fix broken Asees text for WhatsApp, websites, and mobile devices.", description: "Convert Asees font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-joy": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Joy", seoTitle: "Unicode to Joy Font Converter | Type Punjabi in Joy", seoDescription: "Convert standard Unicode Punjabi text to Joy font. Free online tool for publishers and designers needing legacy Punjabi font formats.", description: "Convert Unicode Punjabi text to Joy font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "joy-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Joy to Unicode", seoTitle: "Joy to Unicode Converter | Online Punjabi Font Converter", seoDescription: "Convert legacy Joy Punjabi font to standard Unicode text instantly. Copy and paste your text to fix broken Punjabi fonts for Word, websites, and WhatsApp.", description: "Convert Joy font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-satluj": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Satluj", seoTitle: "Unicode to Satluj Converter | Online Punjabi Font Converter", seoDescription: "Convert Unicode Punjabi text into Satluj font instantly for PageMaker and CorelDraw printing. Fast, accurate, and runs privately in your browser.", description: "Convert Unicode Punjabi text to Satluj font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "satluj-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Satluj to Unicode", seoTitle: "Satluj to Unicode Converter | Fix Punjabi Font Online", seoDescription: "Convert Satluj font text to standard Unicode Punjabi instantly. Fix broken Satluj text to make it readable on phones, websites, and social media.", description: "Convert Satluj font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-gurbani-akhar": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Gurbani Akhar", seoTitle: "Unicode to Gurbani Akhar Converter | Online Punjabi Tool", seoDescription: "Convert standard Unicode Punjabi text into the Gurbani Akhar font. Fast, free, and private conversion for typing and document preparation.", description: "Convert Unicode Punjabi text to Gurbani Akhar font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "gurbani-akhar-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Gurbani Akhar to Unicode", seoTitle: "Gurbani Akhar to Unicode Converter | Punjabi Font Fix", seoDescription: "Convert legacy Gurbani Akhar font text into standard Unicode Punjabi. Free online tool to easily share religious and traditional Punjabi texts across all devices.", description: "Convert Gurbani Akhar font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-raavi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Raavi", seoTitle: "Unicode to Raavi Font Converter | Type Punjabi in Raavi", seoDescription: "Convert standard Unicode Punjabi text into Raavi font format. Fast and private online Punjabi font conversion tool.", description: "Convert Unicode Punjabi text to Raavi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "raavi-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Raavi to Unicode", seoTitle: "Raavi to Unicode Converter | Online Punjabi Font Fix", seoDescription: "Convert Raavi Punjabi font to standard Unicode text. Our free converter fixes Raavi text formatting issues instantly in your browser.", description: "Convert Raavi font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "gurmukhi-to-shahmukhi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Gurmukhi to Shahmukhi", description: "Convert Gurmukhi script to Shahmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "shahmukhi-to-gurmukhi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Shahmukhi to Gurmukhi", description: "Convert Shahmukhi script to Gurmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
 
     // NEPALI FONT CONVERTERS
-    "preeti-to-unicode": { title: "Preeti to Unicode Converter", description: "Convert Nepali Preeti legacy font text to standard universal Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
-    "unicode-to-preeti": { title: "Unicode to Preeti Converter", description: "Convert standard Nepali Unicode text to traditional Preeti font format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
+    "preeti-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Preeti to Unicode Converter", description: "Convert Nepali Preeti legacy font text to standard universal Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
+    "unicode-to-preeti": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Preeti Converter", description: "Convert standard Nepali Unicode text to traditional Preeti font format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
 
     // BENGALI FONT CONVERTERS (BIJOY / SUTONNYMJ)
-    "bijoy-to-unicode": { title: "Bijoy to Unicode Converter (SutonnyMJ)", description: "Convert legacy Bijoy SutonnyMJ Bengali text to standard Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
-    "unicode-to-bijoy": { title: "Unicode to Bijoy Converter (SutonnyMJ)", description: "Convert Unicode Bengali text to legacy Bijoy SutonnyMJ format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
+    "bijoy-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Bijoy to Unicode Converter (SutonnyMJ)", description: "Convert legacy Bijoy SutonnyMJ Bengali text to standard Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
+    "unicode-to-bijoy": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Bijoy Converter (SutonnyMJ)", description: "Convert Unicode Bengali text to legacy Bijoy SutonnyMJ format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
 
     // URDU FONT CONVERTERS (INPAGE & URDU UNICODE)
-    "inpage-to-unicode": { title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
-    "unicode-to-inpage": { title: "Urdu Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    "inpage-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    "unicode-to-inpage": { theme: "cyan", iconName: "Type", badge: "Font", title: "Urdu Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
 
     // BURMESE FONT CONVERTERS (ZAWGYI)
-    "zawgyi-to-unicode": { title: "Zawgyi to Unicode Converter - Convert Myanmar Fonts Online", description: "Free online Zawgyi to Unicode text converter. Convert legacy Myanmar Zawgyi font to standard Unicode instantly in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {}, relatedTools: ["unicode-to-zawgyi"] },
-    "unicode-to-zawgyi": { title: "Unicode to Zawgyi Converter - Convert Myanmar Fonts Online", description: "Free online Unicode to Zawgyi text converter. Convert standard Myanmar Unicode to legacy Zawgyi font instantly in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {}, relatedTools: ["zawgyi-to-unicode"] },
+    "zawgyi-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Zawgyi to Unicode Converter - Convert Myanmar Fonts Online", description: "Free online Zawgyi to Unicode text converter. Convert legacy Myanmar Zawgyi font to standard Unicode instantly in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {}, relatedTools: ["unicode-to-zawgyi"] },
+    "unicode-to-zawgyi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Zawgyi Converter - Convert Myanmar Fonts Online", description: "Free online Unicode to Zawgyi text converter. Convert standard Myanmar Unicode to legacy Zawgyi font instantly in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {}, relatedTools: ["zawgyi-to-unicode"] },
 
-    "font-detector": { 
+    "font-detector": { theme: "cyan", iconName: "Type", badge: "Font", 
       title: "Online Font Detector - Kruti Dev, AnmolLipi & Unicode Identifier", 
       description: "Free online font detector to instantly identify Hindi (Kruti Dev, DevLys, Chanakya) and Punjabi (AnmolLipi, Asees) legacy fonts vs Unicode text with 1-click conversion.", 
       inputFormat: "none", 
@@ -1072,7 +1093,7 @@ export const toolsDatabase = {
       converterType: "font-detector", 
       acceptedTypes: {} 
     },
-    "unicode-normalizer": {
+    "unicode-normalizer": { theme: "cyan", iconName: "Type", badge: "Font",
       title: "Unicode Normalizer",
       seoTitle: "Unicode Normalizer (NFC) - Fix Character Encodings",
       description: "Normalize Unicode text to its standard composed form (NFC).",
@@ -1085,7 +1106,7 @@ export const toolsDatabase = {
       toolType: "normalizer",
       acceptedTypes: {}
     },
-    "remove-hidden-characters": {
+    "remove-hidden-characters": { theme: "cyan", iconName: "Type", badge: "Font",
       title: "Remove Hidden Characters",
       seoTitle: "Remove Hidden Unicode Characters & Zero-Width Spaces",
       description: "Strip out invisible Unicode characters like ZWJ, ZWNJ, and BOM.",
@@ -1098,7 +1119,7 @@ export const toolsDatabase = {
       toolType: "hidden-chars",
       acceptedTypes: {}
     },
-    "fix-copy-paste-text": {
+    "fix-copy-paste-text": { theme: "cyan", iconName: "Type", badge: "Font",
       title: "Fix Copy/Paste Text",
       seoTitle: "Fix Copy/Paste Text - Remove Broken PDF Line Breaks",
       description: "Fix broken line breaks and garbled characters from bad PDF copies.",
@@ -1111,7 +1132,7 @@ export const toolsDatabase = {
       toolType: "fix-copy-paste",
       acceptedTypes: {}
     },
-    "unicode-text-cleaner": {
+    "unicode-text-cleaner": { theme: "cyan", iconName: "Type", badge: "Font",
       title: "Unicode Text Cleaner",
       seoTitle: "Unicode Text Cleaner - Fix Whitespace & Formatting",
       description: "Remove extra whitespace, zero-width spaces, and unwanted formatting.",
@@ -1127,7 +1148,7 @@ export const toolsDatabase = {
   },
 
   "developer": {
-    "jwt-decoder": {
+    "jwt-decoder": { theme: "cyan", iconName: "Code2", badge: "Data & Code", isPopular: true,
       title: "JWT Decoder Online (JSON Web Token)",
       seoTitle: "JWT Decoder & Parser - Securely Decode JSON Web Tokens Offline",
       description: "Safely decode JWT tokens offline in your browser. View algorithm, headers, payload claims, and expiration dates with zero server transmission.",
@@ -1140,7 +1161,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "json-formatter": {
+    "json-formatter": { theme: "cyan", iconName: "Code2", badge: "Data & Code", isPopular: true,
       title: "JSON Formatter & Validator",
       seoTitle: "JSON Formatter, Validator & Minifier - Client-Side Auto Repair",
       description: "Prettify, format, validate, minify, and auto-repair broken JSON syntax with real-time error detection and 1-click copy.",
@@ -1153,7 +1174,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "json-to-csv": {
+    "json-to-csv": { theme: "cyan", iconName: "Code2", badge: "Data & Code", isPopular: true,
       title: "JSON to CSV Converter",
       seoTitle: "JSON to CSV Converter - Free Client-Side Data Tool",
       description: "Convert JSON arrays and files to CSV format in your browser with live tabular data preview and custom delimiter settings.",
@@ -1166,7 +1187,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "csv-to-json": {
+    "csv-to-json": { theme: "cyan", iconName: "Code2", badge: "Data & Code", isPopular: true,
       title: "CSV to JSON Converter",
       description: "Convert CSV spreadsheets and text into structured JSON arrays and objects instantly on your device with 100% privacy.",
       subCategory: "Data Conversion",
@@ -1176,7 +1197,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "base64-encoder-decoder": {
+    "base64-encoder-decoder": { theme: "cyan", iconName: "Code2", badge: "Data & Code",
       title: "Base64 Encoder & Decoder",
       seoTitle: "Base64 Encoder & Decoder - Fast Local Processing",
       description: "Encode text and files (images, audio, PDF) to Base64 Data URLs, or decode Base64 strings back to readable text and downloadable files.",
@@ -1189,7 +1210,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "unix-timestamp-converter": {
+    "unix-timestamp-converter": { theme: "cyan", iconName: "Code2", badge: "Data & Code",
       title: "Unix Timestamp Converter (Epoch to Date)",
       description: "Convert Unix epoch timestamps in seconds and milliseconds to human-readable dates and vice versa with live epoch clock.",
       subCategory: "Time & Date",
@@ -1199,7 +1220,7 @@ export const toolsDatabase = {
       isInteractive: true,
       acceptedTypes: {}
     },
-    "uuid-generator": {
+    "uuid-generator": { theme: "cyan", iconName: "Code2", badge: "Data & Code",
       title: "UUID Generator & Validator (v4 GUID)",
       seoTitle: "UUID v4 Generator & Validator - Cryptographically Secure",
       description: "Generate bulk RFC 4122 v4 UUIDs / GUIDs instantly in your browser with uppercase, hyphens, and braces options, plus UUID syntax validator.",

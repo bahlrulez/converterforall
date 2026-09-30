@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, Download, Wand2, Minimize2, CheckCircle2, AlertCircle, Trash2, FileText, Upload, Lock } from "lucide-react";
+import { PrivacyBadge } from "@/components/tools/shared/privacy-badge";
 import { cn } from "@/lib/utils";
 
 const SAMPLE_JSON = `{
@@ -108,12 +109,7 @@ export function JsonFormatter() {
     <div className="w-full max-w-5xl mx-auto space-y-5">
       
       {/* Privacy Guarantee Header */}
-      <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-semibold backdrop-blur-md shadow-sm">
-        <Lock className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
-        <div>
-          <span className="font-bold">100% In-Browser Execution:</span> Your JSON data is formatted, validated, and processed entirely on your device.
-        </div>
-      </div>
+      <PrivacyBadge level="client-only" />
 
       {/* Main Studio Card */}
       <div className="p-4 sm:p-6 rounded-3xl bg-white dark:bg-[#080e22] border border-slate-200 dark:border-slate-800 shadow-xl space-y-4">

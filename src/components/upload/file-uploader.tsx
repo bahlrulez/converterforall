@@ -10,6 +10,8 @@ import { BgRemovalEditor } from "@/components/tools/bg-removal-editor";
 import heic2any from "heic2any";
 import { getPendingFile } from "@/lib/file-transfer";
 
+import { PrivacyBadge, type PrivacyLevel } from "@/components/tools/shared/privacy-badge";
+
 interface FileUploaderProps {
   onProcessFile: (file: File, onProgress?: (progress: number) => void) => Promise<{ blob: Blob, filename: string }>;
   acceptedTypes?: Record<string, string[]>;
@@ -18,9 +20,23 @@ interface FileUploaderProps {
   allowCamera?: boolean;
   isDynamicBackgroundRemoval?: boolean;
   toolSlug?: string;
+  privacyLevel?: PrivacyLevel;
+  configureBeforeUpload?: boolean;
+  autoProcessOnDrop?: boolean;
 }
 
-export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Process File", optionsRenderer, allowCamera = false, isDynamicBackgroundRemoval = false, toolSlug }: FileUploaderProps) {
+export function FileUploader({ 
+  onProcessFile, 
+  acceptedTypes, 
+  actionLabel = "Process File", 
+  optionsRenderer, 
+  allowCamera = false, 
+  isDynamicBackgroundRemoval = false, 
+  toolSlug, 
+  privacyLevel = "general",
+  configureBeforeUpload = false,
+  autoProcessOnDrop = false
+}: FileUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "converting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -30,6 +46,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
   const [progress, setProgress] = useState(0);
   const [isEditingBg, setIsEditingBg] = useState(false);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const isProcessingRef = useRef(false);
 
   // Auto-consume transferred pending file and auto-start execution
   useEffect(() => {
@@ -59,19 +76,27 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
 
   const handleCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
       setStatus("idle");
       setErrorMsg("");
+      if (autoProcessOnDrop) {
+        executeProcess(selectedFile);
+      }
     }
   };
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
-      setFile(acceptedFiles[0]);
+      const droppedFile = acceptedFiles[0];
+      setFile(droppedFile);
       setStatus("idle");
       setErrorMsg("");
+      if (autoProcessOnDrop) {
+        executeProcess(droppedFile);
+      }
     }
-  }, []);
+  }, [autoProcessOnDrop, configureBeforeUpload]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -80,6 +105,8 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
   });
 
   const executeProcess = async (targetFile: File) => {
+    if (isProcessingRef.current) return;
+    isProcessingRef.current = true;
     setStatus("uploading");
     try {
       setStatus("converting");
@@ -97,6 +124,8 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
     } catch (err: any) {
       setStatus("error");
       setErrorMsg(err.message || "An unexpected error occurred.");
+    } finally {
+      isProcessingRef.current = false;
     }
   };
 
@@ -120,6 +149,11 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
 
   return (
     <div className="w-full max-w-2xl mx-auto mt-8">
+      {configureBeforeUpload && optionsRenderer && (
+        <div className="mb-6 rounded-2xl border bg-card p-6 shadow-sm">
+          {optionsRenderer(status !== "idle")}
+        </div>
+      )}
       {!file ? (
         <div className="flex flex-col gap-4">
           <div
@@ -214,7 +248,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
             </div>
           )}
 
-          {optionsRenderer && status === "idle" && (
+          {!configureBeforeUpload && optionsRenderer && status === "idle" && (
             <div className="mt-6 border-t pt-4">
               {optionsRenderer(status !== "idle")}
             </div>
@@ -320,20 +354,7 @@ export function FileUploader({ onProcessFile, acceptedTypes, actionLabel = "Proc
             {status === "success" && (
               <>
                 {/* Visual Post-Conversion Privacy Trust Confirmation Badge */}
-                <div className="w-full mb-3 p-3.5 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/30 flex items-center gap-3 text-left animate-in fade-in slide-in-from-bottom-2 duration-300">
-                  <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
-                    <ShieldCheck className="w-4 h-4" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
-                      <span>100% On-Device Conversion Complete</span>
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                    </p>
-                    <p className="text-[11px] text-emerald-600/90 dark:text-emerald-400/90">
-                      Processed securely on your device's CPU/GPU • 0 bytes uploaded to external servers
-                    </p>
-                  </div>
-                </div>
+                <PrivacyBadge level={privacyLevel} className="mb-3" />
 
                 <Button onClick={reset} variant="outline" className="w-full sm:w-auto">
                   Convert Another File
