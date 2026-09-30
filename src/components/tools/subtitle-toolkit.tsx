@@ -7,82 +7,91 @@ import { parseSubtitle, compileSubtitle, detectSubtitleFormat, cleanupSubtitle, 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertCircle, FileText, CheckCircle2 } from "lucide-react";
 
+type DetectionStatus = "idle" | "detecting" | "detected" | "failed";
+
 export function SubtitleToolkit() {
+  const [detectionStatus, setDetectionStatus] = useState<DetectionStatus>("idle");
   const [sourceFormat, setSourceFormat] = useState<SubtitleFormat | null>(null);
   const [targetFormat, setTargetFormat] = useState<SubtitleFormat | 'KEEP'>('KEEP');
-  
+
   const [shiftMs, setShiftMs] = useState<number>(0);
   const [removeEmpty, setRemoveEmpty] = useState<boolean>(true);
   const [stripHtml, setStripHtml] = useState<boolean>(false);
   const [stripAss, setStripAss] = useState<boolean>(true); // True by default since ASS is lossy
-  
+
   const [parsedFile, setParsedFile] = useState<SubtitleFile | null>(null);
   const [validation, setValidation] = useState<SubtitleValidation | null>(null);
-  
+
   const handleFileSelect = useCallback(async (file: File | null) => {
     if (!file) {
+      setDetectionStatus("idle");
       setParsedFile(null);
       setSourceFormat(null);
       setValidation(null);
       return;
     }
-    
+
+    setDetectionStatus("detecting");
+
     try {
       const text = await file.text();
       const detected = detectSubtitleFormat(text, file.name);
-      
+
       if (detected) {
         setSourceFormat(detected);
         const parsed = parseSubtitle(text, detected);
         setParsedFile(parsed);
         setValidation(validateSubtitle(parsed));
+        setDetectionStatus("detected");
       } else {
         setSourceFormat(null);
         setParsedFile(null);
         setValidation(null);
+        setDetectionStatus("failed");
       }
     } catch (e) {
       console.error(e);
       setSourceFormat(null);
       setParsedFile(null);
       setValidation(null);
+      setDetectionStatus("failed");
     }
   }, []);
 
   const processFile = async (file: File, onProgress?: (p: number) => void): Promise<{ blob: Blob, filename: string }> => {
     if (onProgress) onProgress(10);
-    
+
     const text = await file.text();
     // Use manually overridden source format if auto-detect failed (UI allowing override is below)
-    const formatToParse = sourceFormat; 
-    
+    const formatToParse = sourceFormat;
+
     if (!formatToParse) {
       throw new Error("Could not detect the subtitle format. Please select it manually.");
     }
-    
+
     if (onProgress) onProgress(30);
     const parsed = parseSubtitle(text, formatToParse);
-    
+
     if (onProgress) onProgress(50);
     // Cleanup
     let processed = cleanupSubtitle(parsed, removeEmpty, stripHtml, stripAss);
-    
+
     // Shift
     if (shiftMs !== 0) {
       processed = shiftTimestamps(processed, shiftMs);
     }
-    
+
     if (onProgress) onProgress(80);
     // Compile
     const finalFormat = targetFormat === 'KEEP' ? (formatToParse === 'ASS' ? 'SRT' : formatToParse) : targetFormat;
     const outputText = compileSubtitle(processed, finalFormat);
-    
+
     if (onProgress) onProgress(100);
-    
+
     const originalName = file.name.replace(/\.[^/.]+$/, "");
     const filename = `${originalName}.${finalFormat.toLowerCase()}`;
     const blob = new Blob([outputText], { type: "text/plain;charset=utf-8" });
-    
+
     return { blob, filename };
   };
 
@@ -107,13 +116,13 @@ export function SubtitleToolkit() {
                 </span>
               )}
             </div>
-            
+
             {sourceFormat === 'ASS' && (
               <div className="bg-yellow-50 dark:bg-yellow-950/30 text-yellow-800 dark:text-yellow-200 p-3 rounded-lg text-xs mt-2 border border-yellow-200 dark:border-yellow-900/50">
                 <strong>Notice:</strong> ASS/SSA styling and positioning are not preserved when converting to standard subtitle formats. Only dialogue text and timing are retained.
               </div>
             )}
-            
+
             {/* Preview of first 3 cues */}
             <div className="mt-3 border rounded-lg bg-background overflow-hidden">
               <div className="bg-muted px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground border-b">
@@ -131,7 +140,7 @@ export function SubtitleToolkit() {
           </div>
         )}
 
-        {!sourceFormat && parsedFile === null && (
+        {detectionStatus === "failed" && (
           <div className="bg-destructive/5 text-destructive p-4 rounded-xl border border-destructive/20 flex items-start gap-3 text-sm">
              <AlertCircle className="w-5 h-5 mt-0.5 shrink-0" />
              <div>
@@ -176,11 +185,11 @@ export function SubtitleToolkit() {
             <div className="pt-2">
               <label className="text-base font-medium">Shift Timing (ms)</label>
               <p className="text-sm text-muted-foreground mb-3 mt-1">Adjust sync globally. E.g., 500 delays by half a second. -500 makes it earlier.</p>
-              <input 
-                type="number" 
-                value={shiftMs} 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setShiftMs(parseInt(e.target.value) || 0)} 
-                disabled={disabled} 
+              <input
+                type="number"
+                value={shiftMs}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setShiftMs(parseInt(e.target.value) || 0)}
+                disabled={disabled}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="0"
               />
@@ -191,7 +200,7 @@ export function SubtitleToolkit() {
             <div>
               <label className="text-base font-medium">Cleanup Options</label>
               <p className="text-sm text-muted-foreground mb-3 mt-1">Select optional cleanup operations.</p>
-              
+
               <div className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <input type="checkbox" id="removeEmpty" checked={removeEmpty} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRemoveEmpty(e.target.checked)} disabled={disabled} className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
