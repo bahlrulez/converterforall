@@ -819,6 +819,15 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     }
   },
   "utilities": {
+    "subtitle-converter": { theme: "cyan", iconName: "Type", badge: "Text & Code", isPopular: true,
+      title: "Subtitle Converter & Toolkit",
+      seoTitle: "Subtitle Converter - Convert, Shift & Cleanup SRT/VTT Files Free",
+      description: "Free client-side subtitle toolkit. Convert SRT, VTT, SBV, and ASS formats. Fix subtitle timing, shift sync, renumber cues, and clean tags securely in your browser.",
+      inputFormat: "txt",
+      outputFormat: "txt",
+      isInteractive: true,
+      acceptedTypes: { "text/plain": [".srt", ".vtt", ".sbv", ".ass", ".ssa", ".txt"] }
+    },
     "qr-scanner": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "QR Code Scanner Online",
       seoTitle: "QR Code Scanner Online - Scan Codes using Camera",

@@ -23,6 +23,7 @@ interface FileUploaderProps {
   privacyLevel?: PrivacyLevel;
   configureBeforeUpload?: boolean;
   autoProcessOnDrop?: boolean;
+  onFileSelect?: (file: File | null) => void;
 }
 
 export function FileUploader({ 
@@ -35,7 +36,8 @@ export function FileUploader({
   toolSlug, 
   privacyLevel = "general",
   configureBeforeUpload = false,
-  autoProcessOnDrop = false
+  autoProcessOnDrop = false,
+  onFileSelect
 }: FileUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "converting" | "success" | "error">("idle");
@@ -78,6 +80,7 @@ export function FileUploader({
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
+      if (onFileSelect) onFileSelect(selectedFile);
       setStatus("idle");
       setErrorMsg("");
       if (autoProcessOnDrop) {
@@ -90,6 +93,7 @@ export function FileUploader({
     if (acceptedFiles.length > 0) {
       const droppedFile = acceptedFiles[0];
       setFile(droppedFile);
+      if (onFileSelect) onFileSelect(droppedFile);
       setStatus("idle");
       setErrorMsg("");
       if (autoProcessOnDrop) {
@@ -139,6 +143,7 @@ export function FileUploader({
       URL.revokeObjectURL(downloadUrl);
     }
     setFile(null);
+    if (onFileSelect) onFileSelect(null);
     setStatus("idle");
     setErrorMsg("");
     setDownloadUrl(null);
