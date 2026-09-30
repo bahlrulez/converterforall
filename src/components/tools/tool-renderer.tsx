@@ -45,6 +45,7 @@ const TimestampConverter = dynamic(() => import("@/components/tools/timestamp-co
 const UuidGenerator = dynamic(() => import("@/components/tools/uuid-generator").then(m => m.UuidGenerator), { ssr: false, loading: ToolLoading });
 const VideoCompressor = dynamic(() => import("@/components/tools/video-compressor").then(m => m.VideoCompressor), { ssr: false, loading: ToolLoading });
 const VideoConverter = dynamic(() => import("@/components/tools/video-converter").then(m => m.VideoConverter), { ssr: false, loading: ToolLoading });
+const SubtitleToolkit = dynamic(() => import("@/components/tools/subtitle-toolkit").then(m => m.SubtitleToolkit), { ssr: false, loading: ToolLoading });
 const CompressPdfTool = dynamic(() => import("@/components/tools/compress-pdf").then(m => m.CompressPdfTool), { ssr: false, loading: ToolLoading });
 const ImageToSvgComponent = dynamic(() => import("@/components/tools/image-to-svg").then(m => m.default), { ssr: false, loading: ToolLoading });
 const AudioTrimmerComponent = dynamic(() => import("@/components/tools/audio-trimmer").then(m => m.default), { ssr: false, loading: ToolLoading });
@@ -114,6 +115,7 @@ export function ToolRenderer({
         {(toolSlug === "base64-encoder-decoder" || toolSlug === "base64-encode" || toolSlug === "base64-decode" || toolSlug === "base64-converter") && <Base64Converter />}
         {(toolSlug === "unix-timestamp-converter" || toolSlug === "timestamp-converter" || toolSlug === "epoch-converter") && <TimestampConverter />}
         {(toolSlug === "uuid-generator" || toolSlug === "uuid-validator" || toolSlug === "guid-generator") && <UuidGenerator />}
+        {toolSlug === "subtitle-converter" && <SubtitleToolkit />}
       </>
     );
   }
