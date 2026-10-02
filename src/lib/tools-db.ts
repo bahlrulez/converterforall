@@ -585,6 +585,17 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     }
   },
   "video": {
+    "video-caption-generator": { theme: "red", iconName: "Type", badge: "AI Magic", isPopular: true,
+      title: "AI Caption Studio - Auto Generate Video Subtitles",
+      description: "Automatically transcribe and generate styled video captions right in your browser using local AI.",
+      seoTitle: "AI Caption Studio - Auto Generate Subtitles Online for Free",
+      seoDescription: "Automatically generate, edit, and burn stylized captions into your video. 100% private in-browser AI tool.",
+      inputFormat: "video",
+      outputFormat: "mp4",
+      actionName: "Generate Captions",
+      isInteractive: true,
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm", ".avi"] }
+    },
     "video-compressor": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Free Online Video Compressor - Reduce Video Size (Private & Instant)",
       description: "Reduce video file sizes (MP4, MOV, WebM) instantly in your browser without uploading to cloud servers. 100% free, private, and no quality loss.",
