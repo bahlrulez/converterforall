@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { CaptionStudio } from "@/components/tools/caption-studio/CaptionStudio";
-import { Header } from "@/components/layout/header";
 
 export const metadata: Metadata = {
   title: "AI Video Caption Generator - Add Subtitles to Video Free",
@@ -10,7 +9,6 @@ export const metadata: Metadata = {
 export default function VideoCaptionGeneratorPage() {
   return (
     <main className="min-h-screen flex flex-col bg-background">
-      <Header />
       <div className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8">
         <div className="mb-8 max-w-3xl">
           <h1 className="text-3xl font-bold tracking-tight mb-2">AI Caption Studio</h1>
