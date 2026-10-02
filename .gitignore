@@ -41,3 +41,12 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+
+# Bundled workers
+public/workers/
+
+# Local tools and tests
+puppeteer-profile/
+scratch/
+test-*.js
+error-screenshot.png

@@ -3,6 +3,24 @@ import { SLUG_ALIASES } from "./src/lib/tools-db";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["sharp"],
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "onnxruntime-node$": false,
+    };
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      path: false,
+      crypto: false,
+      https: false,
+      http: false,
+      stream: false,
+      zlib: false,
+    };
+    return config;
+  },
+  turbopack: {},
   async redirects() {
     const legacyRedirects = [
       {
@@ -116,7 +134,7 @@ const nextConfig: NextConfig = {
         source: "/:slug(compress-video|video-to-jpg|mp4-to-mp3|mov-to-mp4|video-to-mp4|video-to-avi|video-to-mkv|video-to-wmv|video-to-mov|video-to-flv|mp3-to-wav|wav-to-mp3|ogg-to-mp3|mp3-to-ogg)",
         headers: [
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
+          { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },
         ],
       },
       {
@@ -134,6 +152,18 @@ const nextConfig: NextConfig = {
             key: "X-Robots-Tag",
             value: "noindex, nofollow",
           },
+          {
+            key: "Cross-Origin-Resource-Policy",
+            value: "cross-origin",
+          },
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "credentialless",
+          },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
+          },
         ],
       },
       {
@@ -141,7 +171,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://www.googletagmanager.com https://www.clarity.ms https://pagead2.googlesyndication.com https://partner.googleadservices.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' blob: data: https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; font-src 'self' data: https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co; frame-ancestors 'none'; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; media-src 'self' blob: data:; connect-src 'self' blob: data: https://www.google-analytics.com https://region1.google-analytics.com https://*.clarity.ms https://pagead2.googlesyndication.com https://*.doubleclick.net https://unpkg.com https://static.imgly.com https://staticimgly.com; worker-src 'self' blob: data: https://unpkg.com https://staticimgly.com;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://www.googletagmanager.com https://www.clarity.ms https://pagead2.googlesyndication.com https://partner.googleadservices.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' blob: data: https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; font-src 'self' data: https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co; frame-ancestors 'none'; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; media-src 'self' blob: data:; connect-src 'self' blob: data: https://huggingface.co https://*.huggingface.co https://*.hf.co https://www.google-analytics.com https://region1.google-analytics.com https://*.clarity.ms https://pagead2.googlesyndication.com https://*.doubleclick.net https://unpkg.com https://static.imgly.com https://staticimgly.com https://cdn.jsdelivr.net; worker-src 'self' blob: data: https://unpkg.com https://staticimgly.com https://huggingface.co https://*.huggingface.co https://*.hf.co https://cdn.jsdelivr.net;",
           },
           {
             key: "X-DNS-Prefetch-Control",
