@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   ArrowLeft, 
   Sparkles, 
@@ -12,23 +13,30 @@ import {
   Download, 
   Clock, 
   Layers, 
-  HelpCircle 
+  HelpCircle,
+  FileVideo,
+  Check,
+  Languages,
+  Sliders,
+  Move,
+  Film,
+  ArrowRight
 } from "lucide-react";
 import { CaptionStudio } from "@/components/tools/caption-studio/CaptionStudio";
 
 export const metadata: Metadata = {
-  title: "AI Video Caption Generator - Add Subtitles to Video Free",
-  description: "Automatically transcribe and burn Devanagari Hindi captions directly onto your videos. Runs entirely in your browser using on-device WebGPU AI with zero upload lag.",
+  title: "AI Video Caption Generator – Add Captions to Videos Free",
+  description: "Automatically turn spoken words into timed captions, edit the text, style it, and export a captioned MP4 directly from your browser.",
   openGraph: {
-    title: "AI Video Caption Generator - Add Subtitles to Video Free | ConverterForAll",
-    description: "Automatically generate Devanagari Hindi captions and burn animated subtitles to your reels and shorts. Runs on-device with WebGPU.",
+    title: "AI Video Caption Generator – Add Captions to Videos Free | ConverterForAll",
+    description: "Automatically turn spoken words into timed captions, edit the text, style it, and export a captioned MP4 directly from your browser.",
     type: "website",
     url: "https://www.converterforall.com/video-caption-generator",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Video Caption Generator - Add Subtitles to Video Free | ConverterForAll",
-    description: "Automatically generate Devanagari Hindi captions and burn animated subtitles to your reels and shorts.",
+    title: "AI Video Caption Generator – Add Captions to Videos Free | ConverterForAll",
+    description: "Automatically turn spoken words into timed captions, edit the text, style it, and export a captioned MP4 directly from your browser.",
   },
   alternates: {
     canonical: "https://www.converterforall.com/video-caption-generator",
@@ -57,56 +65,16 @@ const breadcrumbSchema = {
 const softwareAppSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "AI Video Caption Generator",
+  "name": "Free AI Video Caption Generator",
   "operatingSystem": "All",
   "applicationCategory": "MultimediaApplication",
   "browserRequirements": "Requires JavaScript, HTML5, and a modern browser with WebGPU or WebAssembly support.",
-  "description": "Generate Devanagari Hindi captions and subtitles directly on your device. Burn styled captions onto 9:16 and 16:9 videos with in-browser WebGPU processing.",
+  "description": "Automatically turn spoken words into timed captions, edit the text, style it, and export a captioned MP4 directly from your browser.",
   "offers": {
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "USD"
   }
-};
-
-const faqs = [
-  {
-    question: "Do my video files get uploaded to your servers to generate captions?",
-    answer: "No. The speech recognition model runs directly inside your browser using WebGPU. Your video file stays on your computer the entire time and is not sent to any cloud server."
-  },
-  {
-    question: "Why does the speech recognition engine take a moment on the first visit?",
-    answer: "On your first use, your browser downloads the Whisper speech recognition weights and compiles them into your graphics card (WebGPU) memory. After this one-time initial download, the model is cached locally in your browser storage so subsequent runs start much faster."
-  },
-  {
-    question: "How do I make sure Devanagari Hindi text renders without broken characters?",
-    answer: "Standard desktop editors frequently misrender Devanagari conjuncts (matras and halant characters) when burned into video frames. Our Caption Studio includes embedded Google Devanagari fonts (such as Poppins, Noto Sans Devanagari, and Rozha One) with native UTF-8 shaping so all Hindi vowels and compound letters display correctly."
-  },
-  {
-    question: "Can I adjust caption timing or fix misspelled words before exporting?",
-    answer: "Yes. Every caption segment has an interactive text editor and timestamp controls. You can edit any word, click on a caption to jump video playback to that exact moment, split long sentences into shorter phrases, or merge short fragments."
-  },
-  {
-    question: "Why is there a 60-second limit on videos?",
-    answer: "Because video decoding, audio speech recognition, canvas rendering, and MP4 re-encoding all happen directly in your browser tab, 60 seconds is the optimal duration to prevent browser tab memory exhaustion on phones and laptops. For social reels, TikToks, and YouTube Shorts, 15 to 60 seconds is the standard duration."
-  },
-  {
-    question: "Are there watermarks or hidden export fees?",
-    answer: "No. All videos export in full resolution with your chosen caption styling, with zero watermarks, no account registration, and no daily export limits."
-  }
-];
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqs.map(faq => ({
-    "@type": "Question",
-    "name": faq.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": faq.answer
-    }
-  }))
 };
 
 const stylePresets = [
@@ -179,16 +147,58 @@ const stylePresets = [
   }
 ];
 
+const qaItems = [
+  {
+    question: "What is a video caption generator?",
+    answer: "A video caption generator is a tool that analyzes the audio track of your video, converts spoken dialogue into written text, and calculates precise timestamps for when each phrase should appear and disappear on screen. Caption Studio takes this process a step further by letting you edit the text, choose font and color presets, and burn the resulting subtitles directly into an exported MP4 video."
+  },
+  {
+    question: "How do I add captions to a video?",
+    answer: "Choose any video file up to 60 seconds (or click 'Try with sample reel' above). The tool automatically transcribes the audio into timed subtitle blocks. You can then review the text, click any segment to adjust phrasing or timing, pick a styling preset like Reels Bold, and click 'Export MP4 Video' to save your captioned clip."
+  },
+  {
+    question: "Can I add Hindi captions to a video?",
+    answer: "Yes. The current verified workflow is tailored for Hindi speech recognition and Devanagari script output. It uses embedded Unicode fonts (including Poppins and Noto Sans Devanagari) so Hindi vowels and compound letters display with correct grammatical shaping."
+  },
+  {
+    question: "Can I edit captions after they are generated?",
+    answer: "Yes. Automatic speech recognition can occasionally misinterpret words, especially with background music, accents, or fast speech. The interactive editor sidebar lets you click any caption, edit the text, split long lines across multiple timestamps, or merge short fragments together before rendering."
+  },
+  {
+    question: "Can I change the caption style?",
+    answer: "Yes. You can switch between built-in styling presets—including high-energy Reels Bold with yellow active word highlights, clean minimal subtitles, karaoke-style color highlighters, and classic cinematic typography. You can also customize font size, colors, borders, and drag the text on the preview screen to position it safely within vertical safe zones."
+  },
+  {
+    question: "Are the captions burned into the video?",
+    answer: "Yes. When you click Export MP4, the browser uses an internal canvas renderer and WebCodecs pipeline to draw the styled captions directly onto each video frame. The resulting MP4 has permanent 'burned-in' subtitles that display automatically on any device, social platform, or media player without requiring viewers to turn on closed captions."
+  },
+  {
+    question: "Does the video need to be uploaded to a server?",
+    answer: "No. Caption Studio is designed for browser-based processing. Your video is processed locally in the browser rather than being sent to a remote video-rendering backend. Video decoding, speech recognition, and MP4 multiplexing happen on your device. The only network requests made are the initial one-time download of the AI model weights and web fonts from public CDNs."
+  },
+  {
+    question: "Is the AI caption generator free?",
+    answer: "Yes. There is no account registration, no subscription fee, no daily usage caps, and no watermark added to your finished video."
+  },
+  {
+    question: "Does it work for Reels and Shorts?",
+    answer: "Yes. The studio supports vertical 9:16 formats used for Instagram Reels, YouTube Shorts, and TikTok, as well as landscape 16:9 and square 1:1 videos. You can also turn on the 'Show Reels/TikTok Safe Zones' overlay in the preview to make sure your subtitles don't get covered by on-screen icons or captions."
+  },
+  {
+    question: "Why can AI captions contain mistakes?",
+    answer: "Speech recognition systems convert sound waves into text by predicting the most likely words based on acoustic patterns. Background noise, fast speech, overlapping voices, strong accents, uncommon names, and colloquial slang can lead to misheard words. Because of this, Caption Studio provides an easy-to-use editor so you can quickly review and correct any words before final export."
+  }
+];
+
 export default function VideoCaptionGeneratorPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden py-10">
       {/* Top Ambient Atmosphere Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[380px] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
-      {/* Structured Data Scripts */}
+      {/* Structured Data: SoftwareApplication & BreadcrumbList */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Navigation & Header Section */}
@@ -207,11 +217,11 @@ export default function VideoCaptionGeneratorPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-slate-900 dark:text-white leading-[1.15]">
-            AI Video Caption Generator
+            Free AI Video Caption Generator
           </h1>
           
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed mb-6">
-            Automatically transcribe spoken Hindi into accurate Devanagari subtitles and burn animated, reel-ready captions directly onto your video using in-browser AI.
+            Automatically turn spoken words into timed captions, edit the text, style it, and export a captioned MP4 directly from your browser.
           </p>
 
           {/* Trust Highlights Strip */}
@@ -235,7 +245,7 @@ export default function VideoCaptionGeneratorPage() {
           </div>
         </div>
 
-        {/* Flagship Interactive Tool Container */}
+        {/* PRIMARY TOOL AREA: Remains Above the Fold */}
         <div className="relative mb-16">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[95%] max-w-5xl h-[85%] blur-[90px] opacity-25 dark:opacity-15 pointer-events-none">
             <div className="w-full h-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-500 rounded-full" />
@@ -246,174 +256,480 @@ export default function VideoCaptionGeneratorPage() {
           </div>
         </div>
 
-        {/* Style Presets Visual Showcase */}
-        <div className="mb-16">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
-              Popular Caption Styles Built-In
+        {/* 1. FIRST SEO CONTENT SECTION: Add captions without typing every line */}
+        <section className="mb-16 max-w-4xl mx-auto">
+          <div className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-sm">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+              Add captions to your video without typing every line
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
-              Pick from tested visual presets or customize fonts, colors, borders, and position to fit your brand.
-            </p>
-          </div>
+            <div className="space-y-4 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+              <p>
+                Typing out subtitles line by line while constantly pausing playback and checking timestamps is one of the most tedious parts of video editing. If you create short clips for social media or explainers, spending twenty minutes syncing subtitles for a thirty-second clip is frustrating.
+              </p>
+              <p>
+                This auto caption generator changes that workflow. When you load your video, the browser extracts the audio track and runs on-device speech recognition to produce synchronized caption segments automatically. Instead of starting from a blank page, you start with a fully populated timeline.
+              </p>
+              <p>
+                From there, you can review the generated text in the sidebar, edit any phrasing that needs adjustment, select a visual style that matches your video, and export an MP4 with burned-in subtitles. Everything happens directly on your device, with no server wait times or third-party watermarks.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {stylePresets.map((preset) => (
-              <div 
-                key={preset.name}
-                className="flex flex-col justify-between rounded-2xl bg-white dark:bg-[#0a1128]/90 border border-slate-200/90 dark:border-slate-800/90 p-5 shadow-sm hover:shadow-md transition-all duration-200"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold text-slate-900 dark:text-white">{preset.name}</span>
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${preset.badgeClass}`}>
-                      {preset.tagline}
-                    </span>
-                  </div>
-
-                  <div className={`${preset.cardBg} rounded-xl p-4 mb-4 flex items-center justify-center min-h-[90px] border border-white/10`}>
-                    {preset.sampleRender}
-                  </div>
+            {/* Original UI Screenshots Showcase */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 pt-8 border-t border-slate-100 dark:border-slate-800">
+              <div className="space-y-2">
+                <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900 aspect-video flex items-center justify-center">
+                  <Image 
+                    src="/images/caption-studio/reels-caption-preview.jpg" 
+                    alt="9:16 vertical video preview showing burned-in Devanagari Hindi captions in Reels Bold style"
+                    width={480}
+                    height={270}
+                    className="object-contain w-full h-full"
+                  />
                 </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
+                  9:16 vertical video preview with burned-in Devanagari Hindi captions
+                </p>
+              </div>
 
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
-                  <span>Font: {preset.font}</span>
-                  <span className="text-blue-500 font-medium">Included</span>
+              <div className="space-y-2">
+                <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900 aspect-video flex items-center justify-center">
+                  <Image 
+                    src="/images/caption-studio/highlight-caption-preview.jpg" 
+                    alt="16:9 video frame showing active word highlighting for karaoke-style subtitle pacing"
+                    width={480}
+                    height={270}
+                    className="object-contain w-full h-full"
+                  />
                 </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
+                  Active word-by-word subtitle pacing with customizable highlight styles
+                </p>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 3-Pillar Feature Bento */}
-        <div className="mb-16">
-          <div className="text-center max-w-2xl mx-auto mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
-              Engineered for Speed, Privacy, and Control
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
-              Everything happens locally inside your browser tab without server queues or upload limits.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm">
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-5 border border-blue-500/20">
-                <Cpu className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                On-Device Speech Recognition
-              </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Powered by Transformers.js and WebGPU. Speech is transcribed directly inside your browser so your personal video files never leave your device.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-5 border border-indigo-500/20">
-                <Layers className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Word-by-Word Timing &amp; Editor
-              </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Fine-tune every subtitle chunk. Click any phrase to seek video playback instantly, adjust start and end times, or auto-split long sentences for fast-paced reels.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-sm">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-5 border border-emerald-500/20">
-                <Download className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Hardware-Rendered MP4 Export
-              </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Burns styled captions into frames with native font shaping and re-encodes synchronized MP4 video right in your browser tab with no watermarks.
-              </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* 3-Step How It Works Guide */}
-        <div className="mb-16 bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-8 sm:p-12 shadow-sm">
+        {/* 2. HOW IT WORKS: 5 Simple Steps */}
+        <section className="mb-16 bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-8 sm:p-12 shadow-sm max-w-5xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
-              How to Add Captions in 3 Simple Steps
+              How to add captions to a video
             </h2>
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
-              No account required. Just drop your clip, tweak your captions, and download.
+              A straightforward five-step process to generate, polish, and export captioned videos.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold flex items-center justify-center text-lg mb-4 shadow-lg shadow-blue-500/25">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center text-sm mb-3 shadow-md shadow-blue-500/25">
                 1
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-                Select or Drop Video
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">
+                Upload your video
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Choose any MP4, WebM, or MOV video up to 60 seconds. You can also click &ldquo;Try with sample reel&rdquo; to test features immediately.
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Drop your MP4, WebM, or MOV video (up to 60 seconds) into the upload area or select it from your device.
               </p>
             </div>
 
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white font-bold flex items-center justify-center text-lg mb-4 shadow-lg shadow-indigo-500/25">
+            <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white font-bold flex items-center justify-center text-sm mb-3 shadow-md shadow-indigo-500/25">
                 2
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-                Review &amp; Style Captions
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">
+                Generate captions
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Check Devanagari Hindi text accuracy, select a preset like Reels Bold, and drag subtitles to your preferred vertical safe zone.
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                The on-device speech engine analyzes the audio and generates timestamped subtitle lines automatically.
               </p>
             </div>
 
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-bold flex items-center justify-center text-lg mb-4 shadow-lg shadow-emerald-500/25">
+            <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-sky-600 text-white font-bold flex items-center justify-center text-sm mb-3 shadow-md shadow-sky-500/25">
                 3
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-                Export Clean MP4 Video
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">
+                Edit the text
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Click Export MP4. Your browser renders burned-in captions with synchronized audio and downloads the captioned file automatically.
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Review lines in the editor. Fix proper nouns or slang, split long sentences, and adjust start/end timestamps.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-purple-600 text-white font-bold flex items-center justify-center text-sm mb-3 shadow-md shadow-purple-500/25">
+                4
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">
+                Style and position
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Choose a style preset like Reels Bold or Minimal, adjust font size, and drag subtitles to your preferred safe zone.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white font-bold flex items-center justify-center text-sm mb-3 shadow-md shadow-emerald-500/25">
+                5
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">
+                Export the MP4
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Click Export MP4. Your browser renders burned-in captions and downloads your finished video with audio intact.
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Real Authentic FAQs Section */}
-        <div className="max-w-4xl mx-auto mb-14">
+        {/* 3. HINDI VIDEO CAPTIONS SECTION */}
+        <section className="mb-16 max-w-4xl mx-auto">
+          <div className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-sm">
+            <div className="flex items-center gap-2 text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full mb-3 w-fit border border-blue-500/20">
+              <Languages className="w-3.5 h-3.5" />
+              <span>Hindi &amp; Devanagari Support</span>
+            </div>
+            
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+              Hindi video captions without manual typing
+            </h2>
+            
+            <div className="space-y-4 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+              <p>
+                Creating Hindi subtitles manually is often harder than working in English. Typing Devanagari script on standard desktop keyboards requires specialized input tools, and many standard video editors do not handle Devanagari complex script rendering properly—resulting in broken conjuncts, misplaced matras, and disjointed halant characters.
+              </p>
+              <p>
+                The verified workflow in Caption Studio recognizes spoken Hindi and transcribes it directly into properly formatted Devanagari Unicode text. It includes embedded Google Devanagari fonts (such as Poppins, Noto Sans Devanagari, and Mukta) so that conjuncts and vowels render accurately when burned into video frames.
+              </p>
+              <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 text-xs sm:text-sm text-amber-900 dark:text-amber-200 leading-relaxed">
+                <strong>Helpful Tip for Accurate Subtitles:</strong> Automatic speech recognition is a major time-saver, but it is not infallible. We recommend reviewing generated Hindi text specifically for proper names, uncommon terminology, colloquial slang, and sections with loud background music. You can quickly edit any word in the sidebar before exporting.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 4. PRIVACY / LOCAL PROCESSING SECTION */}
+        <section className="mb-16 max-w-4xl mx-auto">
+          <div className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-sm">
+            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full mb-3 w-fit border border-emerald-500/20">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Architecture &amp; Privacy</span>
+            </div>
+
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+              Built for browser-based privacy and local processing
+            </h2>
+
+            <div className="space-y-4 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+              <p>
+                Caption Studio is designed for browser-based processing. Your video is processed locally in the browser rather than being sent to a remote video-rendering backend.
+              </p>
+              <p>
+                Traditional online captioning tools require uploading your entire video file to their remote servers, which takes time on slower connections and raises privacy concerns for personal or unreleased media. Here, audio extraction, speech-to-text inference, canvas subtitle drawing, and MP4 re-encoding all happen inside your browser tab using WebGPU and WebAssembly.
+              </p>
+              <p>
+                The only network requests made by this tool are the initial on-demand downloads of the AI speech model files and web font assets from public CDNs. Once downloaded, those model weights remain cached locally in your browser storage so subsequent captioning sessions begin immediately without re-downloading.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. REAL FEATURES SECTION */}
+        <section className="mb-16 max-w-5xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
+              Real features built into Caption Studio
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
+              Every feature listed below is fully implemented and ready to use in your browser today.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="p-5 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3">
+                <Cpu className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5">
+                Automatic Speech-to-Caption
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Transcribes spoken dialogue directly from your audio track into structured subtitle blocks.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3">
+                <Clock className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5">
+                Timed Caption Lines
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Each subtitle chunk carries precise start and end timestamps synchronized with video playback.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-3">
+                <FileVideo className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5">
+                Editable Caption Text
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Click any line to correct spelling, adjust phrasing, split long sentences, or merge fragments.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3">
+                <Languages className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5">
+                Hindi &amp; Devanagari Rendering
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Embedded Unicode fonts preserve proper letter shaping, conjuncts, and vowel placement.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3">
+                <Palette className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5">
+                Caption Styling Presets
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Select from Reels Bold, Minimal Clean, Highlighter, Cinematic, and Box Contrast presets.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-3">
+                <Move className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5">
+                Interactive Positioning
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Drag subtitle text directly on the preview to position it above bottom buttons and platform overlays.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-3">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5">
+                Browser-Based Processing
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                All video and audio decoding runs locally on your computer with WebGPU acceleration.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-3">
+                <Download className="w-5 h-5" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5">
+                Burned-In MP4 Export
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Produces a ready-to-share MP4 video with hardcoded subtitles and preserved audio quality.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. SOCIAL VIDEO USE CASES SECTION */}
+        <section className="mb-16 max-w-4xl mx-auto">
+          <div className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-sm">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+              Useful for short-form social video formats
+            </h2>
+            <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
+              Many social media users watch videos with the sound off or in noisy environments. Adding visible subtitles makes spoken content easier to follow across a variety of common formats:
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">Instagram Reels &amp; Stories</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">9:16 vertical videos with clear, high-contrast captions placed in the middle safe area.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">YouTube Shorts &amp; TikTok</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Fast-paced short-form clips where active word highlights help viewers keep up with speech.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">Talking-Head Videos &amp; Explainers</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Educational clips where clear text reinforces complex points and terminology.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">Interviews &amp; Hindi Quote Videos</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Podcast excerpts, interview soundbites, and inspirational quote clips formatted in Devanagari.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 7. CONTEXTUAL INTERNAL LINKS SECTION */}
+        <section className="mb-16 max-w-4xl mx-auto">
+          <div className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
+              Related tools for video and audio workflows
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-6">
+              Explore other helpful browser utilities on ConverterForAll to prepare or convert your media files:
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <Link 
+                href="/mp4-to-mp3" 
+                className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center justify-between">
+                    <span>MP4 to MP3</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-0.5" />
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Extract clean audio from your MP4 video clips before transcription.
+                  </p>
+                </div>
+                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open converter →</span>
+              </Link>
+
+              <Link 
+                href="/video-compressor" 
+                className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center justify-between">
+                    <span>Video Compressor</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-0.5" />
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Reduce oversized video file sizes locally while keeping resolution crisp.
+                  </p>
+                </div>
+                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open compressor →</span>
+              </Link>
+
+              <Link 
+                href="/subtitle-converter" 
+                className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center justify-between">
+                    <span>Subtitle Converter</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-0.5" />
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Convert between SRT, VTT, and SBV subtitle formats without losing timing.
+                  </p>
+                </div>
+                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open converter →</span>
+              </Link>
+
+              <Link 
+                href="/compress-mp4" 
+                className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center justify-between">
+                    <span>Compress MP4</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-0.5" />
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Quickly compress large MP4 files to fit within upload size limits.
+                  </p>
+                </div>
+                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open compressor →</span>
+              </Link>
+
+              <Link 
+                href="/unicode-to-krutidev" 
+                className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center justify-between">
+                    <span>Unicode to Krutidev</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-0.5" />
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Convert modern Unicode Hindi text into legacy Krutidev font format.
+                  </p>
+                </div>
+                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open converter →</span>
+              </Link>
+
+              <Link 
+                href="/category/video" 
+                className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center justify-between">
+                    <span>All Video Tools</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-0.5" />
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Browse our full suite of free video format conversion and editing tools.
+                  </p>
+                </div>
+                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Browse catalog →</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* 8. Q&A SECTION: Questions about video captions */}
+        <section className="max-w-4xl mx-auto mb-14">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full mb-3 border border-blue-500/20">
               <HelpCircle className="w-3.5 h-3.5" />
-              <span>Frequently Asked Questions</span>
+              <span>Questions &amp; Answers</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Questions About Video Captioning
+              Questions about video captions
             </h2>
           </div>
 
           <div className="space-y-4">
-            {faqs.map((faq, index) => (
+            {qaItems.map((item, index) => (
               <div 
                 key={index}
                 className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-sm"
               >
                 <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 flex items-start gap-2">
                   <span className="text-blue-600 dark:text-blue-400 shrink-0">Q:</span>
-                  <span>{faq.question}</span>
+                  <span>{item.question}</span>
                 </h3>
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed pl-6">
-                  {faq.answer}
+                  {item.answer}
                 </p>
               </div>
             ))}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
