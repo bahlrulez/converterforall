@@ -145,38 +145,38 @@ export function AIProcessingCard({
 
   return (
     <div 
-      className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+      className={`rounded-3xl border transition-all duration-300 overflow-hidden ${
         isError
           ? 'border-destructive/40 bg-destructive/5'
           : isInitializing
-          ? 'border-primary/40 bg-card shadow-sm ring-1 ring-primary/20'
+          ? 'border-blue-500/50 bg-white/90 dark:bg-[#0a1128]/95 backdrop-blur-xl shadow-xl shadow-blue-500/5 ring-1 ring-blue-500/20'
           : isTranscribing
-          ? 'border-primary/40 bg-card shadow-sm ring-1 ring-primary/20'
+          ? 'border-blue-500/50 bg-white/90 dark:bg-[#0a1128]/95 backdrop-blur-xl shadow-xl shadow-blue-500/5 ring-1 ring-blue-500/20'
           : isReady
-          ? 'border-emerald-500/30 bg-card shadow-sm'
-          : 'border-border bg-card'
+          ? 'border-emerald-500/30 bg-white/90 dark:bg-[#0a1128]/95 backdrop-blur-xl shadow-xl'
+          : 'border-slate-200/90 dark:border-slate-800/80 bg-white/70 dark:bg-[#070d1e]/85 backdrop-blur-xl shadow-lg'
       }`}
       aria-live="polite"
       aria-atomic="true"
     >
-      <div className="p-5 sm:p-6 space-y-4">
+      <div className="p-6 sm:p-7 space-y-4">
         {/* Top Header Row */}
         <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3.5">
             {isError ? (
-              <div className="h-10 w-10 rounded-xl bg-destructive/10 text-destructive flex items-center justify-center shrink-0">
+              <div className="h-11 w-11 rounded-2xl bg-destructive/10 text-destructive flex items-center justify-center shrink-0 shadow-sm">
                 <AlertCircle className="h-5 w-5" />
               </div>
             ) : isReady ? (
-              <div className="h-10 w-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <div className="h-11 w-11 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-sm">
                 <CheckCircle2 className="h-5 w-5" />
               </div>
             ) : isInitializing || isTranscribing ? (
-              <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 motion-safe:animate-pulse motion-reduce:animate-none">
+              <div className="h-11 w-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/25 motion-safe:animate-pulse motion-reduce:animate-none">
                 <Sparkles className="h-5 w-5 motion-safe:animate-spin motion-reduce:animate-none [animation-duration:6s]" />
               </div>
             ) : (
-              <div className="h-10 w-10 rounded-xl bg-muted text-muted-foreground flex items-center justify-center shrink-0">
+              <div className="h-11 w-11 rounded-2xl bg-gradient-to-tr from-blue-600/20 to-indigo-600/20 dark:from-blue-600/30 dark:to-indigo-600/30 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 border border-blue-500/20">
                 <Cpu className="h-5 w-5" />
               </div>
             )}
@@ -244,7 +244,7 @@ export function AIProcessingCard({
 
             {/* Accessible Smooth Progress Bar with Monotonic Guarantee */}
             <div 
-              className="w-full bg-muted/80 rounded-full h-3 overflow-hidden relative"
+              className="w-full bg-slate-200/80 dark:bg-slate-800/80 rounded-full h-3 overflow-hidden relative shadow-inner"
               role="progressbar"
               aria-valuenow={displayedPercent}
               aria-valuemin={0}
@@ -253,7 +253,7 @@ export function AIProcessingCard({
               aria-valuetext={`${displayedPercent}% - ${stageLabel}`}
             >
               <div 
-                className={`h-full bg-primary rounded-full transition-all duration-300 ease-out ${
+                className={`h-full bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 rounded-full transition-all duration-300 ease-out shadow-sm ${
                   displayedPercent === 0 ? 'w-1/12 motion-safe:animate-pulse motion-reduce:animate-none' : ''
                 }`}
                 style={{ width: `${Math.max(displayedPercent, displayedPercent === 0 ? 0 : 2)}%` }}
