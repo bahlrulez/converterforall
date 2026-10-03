@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { CaptionChunk } from '@/lib/caption-studio/types';
+import { CaptionChunk, WorkerState } from '@/lib/caption-studio/types';
 import { StyleSettings } from '@/lib/caption-studio/style-types';
 import { FONT_OPTIONS, PRESETS } from '@/lib/caption-studio/presets';
 
@@ -18,6 +18,7 @@ interface EditorSidebarProps {
   globalStyle?: StyleSettings;
   onStyleChange?: (style: StyleSettings) => void;
   onPresetSelect?: (presetName: string) => void;
+  workerState?: WorkerState;
 }
 
 export function EditorSidebar({
@@ -34,7 +35,8 @@ export function EditorSidebar({
   disabled,
   globalStyle,
   onStyleChange,
-  onPresetSelect
+  onPresetSelect,
+  workerState
 }: EditorSidebarProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [cursorPos, setCursorPos] = useState<{ id: string, index: number } | null>(null);
@@ -124,8 +126,53 @@ export function EditorSidebar({
             </button>
           </div>
           {captions.length === 0 ? (
-            <div className="text-sm text-muted-foreground text-center py-8">
-              No captions available.
+            <div className="flex flex-col items-center justify-center py-12 px-4 text-center rounded-xl border border-dashed border-border/80 bg-muted/20 my-2">
+              {workerState === 'INITIALIZING' ? (
+                <>
+                  <div className="flex items-center gap-1.5 mb-4 h-8" aria-hidden="true">
+                    <span className="w-1.5 h-6 bg-primary/40 rounded-full motion-safe:animate-pulse [animation-delay:0ms]" />
+                    <span className="w-1.5 h-8 bg-primary/70 rounded-full motion-safe:animate-pulse [animation-delay:150ms]" />
+                    <span className="w-1.5 h-5 bg-primary rounded-full motion-safe:animate-pulse [animation-delay:300ms]" />
+                    <span className="w-1.5 h-7 bg-primary/70 rounded-full motion-safe:animate-pulse [animation-delay:450ms]" />
+                    <span className="w-1.5 h-4 bg-primary/40 rounded-full motion-safe:animate-pulse [animation-delay:600ms]" />
+                  </div>
+                  <h4 className="text-sm font-semibold text-foreground mb-1">
+                    Your captions will appear here
+                  </h4>
+                  <p className="text-xs text-muted-foreground max-w-xs">
+                    AI is preparing the speech model...
+                  </p>
+                </>
+              ) : workerState === 'TRANSCRIBING' ? (
+                <>
+                  <div className="flex items-center gap-1.5 mb-4 h-8" aria-hidden="true">
+                    <span className="w-1.5 h-5 bg-primary/50 rounded-full motion-safe:animate-bounce [animation-delay:0ms]" />
+                    <span className="w-1.5 h-8 bg-primary rounded-full motion-safe:animate-bounce [animation-delay:150ms]" />
+                    <span className="w-1.5 h-6 bg-primary/70 rounded-full motion-safe:animate-bounce [animation-delay:300ms]" />
+                    <span className="w-1.5 h-7 bg-primary rounded-full motion-safe:animate-bounce [animation-delay:450ms]" />
+                    <span className="w-1.5 h-4 bg-primary/50 rounded-full motion-safe:animate-bounce [animation-delay:600ms]" />
+                  </div>
+                  <h4 className="text-sm font-semibold text-foreground mb-1">
+                    Transcribing audio...
+                  </h4>
+                  <p className="text-xs text-muted-foreground max-w-xs">
+                    Generating Devanagari Hindi timestamps with AI...
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="w-12 h-10 border border-border/80 rounded-lg p-2 flex flex-col justify-center gap-1 mb-3 opacity-60" aria-hidden="true">
+                    <div className="h-1 bg-muted-foreground/30 rounded w-full" />
+                    <div className="h-1 bg-muted-foreground/30 rounded w-2/3" />
+                  </div>
+                  <h4 className="text-sm font-medium text-foreground mb-1">
+                    Your captions will appear here
+                  </h4>
+                  <p className="text-xs text-muted-foreground max-w-xs">
+                    Select a video to automatically generate captions.
+                  </p>
+                </>
+              )}
             </div>
           ) : (
             captions.map((caption, idx) => {

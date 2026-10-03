@@ -13,6 +13,7 @@ import { StyleSettings, PositionSettings } from '@/lib/caption-studio/style-type
 import { DEFAULT_STYLE, DEFAULT_POSITION } from '@/lib/caption-studio/caption-renderer';
 import { PRESETS } from '@/lib/caption-studio/presets';
 import { useFontLoader } from '@/lib/caption-studio/useFontLoader';
+import { AIProcessingCard } from './AIProcessingCard';
 
 export function CaptionStudio() {
   const [capabilities, setCapabilities] = useState<any>(null);
@@ -159,25 +160,39 @@ export function CaptionStudio() {
     };
   };
 
-  const getStatusText = () => {
-    if (error) return <span className="text-destructive font-medium">Error: {error}</span>;
-    switch (workerState) {
-      case 'IDLE': return "AI engine is ready when you select a video.";
-      case 'INITIALIZING': 
-        if (initProgress) {
-          if (initProgress.status === 'download' || initProgress.status === 'progress') {
-            const pct = initProgress.progress ? Math.round(initProgress.progress) + '%' : '';
-            return `Downloading AI model... ${initProgress.file || ''} ${pct}`;
-          } else if (initProgress.status === 'done' || initProgress.status === 'ready') {
-            return "Loading model into WebGPU...";
-          }
-          return `Preparing AI model: ${initProgress.status}...`;
-        }
-        return "Preparing AI model (this may take a minute on first load)...";
-      case 'READY': return "AI Engine Ready. Please upload a video.";
-      case 'TRANSCRIBING': return "Transcribing Hindi audio... Please wait.";
-      case 'ERROR': return "An error occurred with the AI Engine.";
-      default: return "";
+  const handleRetryAI = async () => {
+    setError(null);
+    setInitProgress(null);
+    if (asrClientRef.current) {
+      asrClientRef.current.terminate();
+    }
+    const client = new ASRClient();
+    asrClientRef.current = client;
+    client.initialize(
+      (state) => setWorkerState(state),
+      (result) => {
+        setTranscriptionResult(result);
+        const newCaptions = segmentCaptions(result.words);
+        const deepCopy = JSON.parse(JSON.stringify(newCaptions));
+        setCaptions(newCaptions);
+        setAiOriginalCaptions(deepCopy);
+        setUndoStack([]);
+        setRedoStack([]);
+        setWorkerState('READY');
+      },
+      (err) => setError(err),
+      (progress) => setInitProgress(progress)
+    );
+
+    try {
+      await client.prepare();
+      if (videoFile) {
+        setWorkerState('TRANSCRIBING');
+        const pcm = await extractAudioFromVideo(videoFile);
+        client.transcribe(pcm);
+      }
+    } catch (err: any) {
+      setError(err.message || String(err));
     }
   };
 
@@ -458,19 +473,19 @@ export function CaptionStudio() {
 
   return (
     <div className="flex flex-col max-w-4xl mx-auto p-4 space-y-6">
-      <div className="bg-muted p-4 rounded-lg flex items-center justify-between border">
-        <div>
-          <h2 className="text-lg font-bold">AI Status</h2>
-          <p className="text-sm text-muted-foreground whitespace-pre-wrap">{getStatusText()}</p>
-        </div>
-        <div className="text-xs space-y-1 text-right text-muted-foreground hidden sm:block">
-          <p>WebGPU: {capabilities?.webgpu ? "✅" : "❌"}</p>
-          <p>WebWorker: {capabilities?.worker ? "✅" : "❌"}</p>
-          <p>Privacy: Local Processing</p>
-        </div>
-      </div>
+      <AIProcessingCard 
+        workerState={workerState}
+        initProgress={initProgress}
+        error={error}
+        capabilities={capabilities}
+        onRetry={handleRetryAI}
+      />
 
-      <div className="border-2 border-dashed border-border rounded-xl p-12 text-center bg-card">
+      <div className={`border-2 border-dashed rounded-xl p-10 text-center transition-all ${
+        workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING'
+          ? 'border-primary/30 bg-muted/20 opacity-75'
+          : 'border-border hover:border-primary/50 bg-card'
+      }`}>
         <input 
           type="file" 
           accept="video/mp4,video/quicktime,video/webm" 
@@ -481,12 +496,26 @@ export function CaptionStudio() {
         />
         <label 
           htmlFor="video-upload" 
-          className={`cursor-pointer inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 ${workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING' ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`inline-flex items-center justify-center rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 h-11 px-6 py-2 shadow-sm ${
+            workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING' 
+              ? 'opacity-60 cursor-not-allowed bg-muted text-muted-foreground pointer-events-none' 
+              : 'cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90'
+          }`}
         >
-          {videoFile ? "Choose Another Video" : "Select Video (Max 60s)"}
+          {workerState === 'INITIALIZING' 
+            ? "Preparing AI Engine..." 
+            : workerState === 'TRANSCRIBING'
+            ? "Processing Video..."
+            : videoFile 
+            ? "Choose Another Video" 
+            : "Select Video (Max 60s)"}
         </label>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Select a video to start. First-time AI setup may take a little while.
+        <p className="mt-2 text-xs sm:text-sm text-muted-foreground">
+          {workerState === 'INITIALIZING'
+            ? "Please wait while the AI speech model prepares on this device."
+            : workerState === 'TRANSCRIBING'
+            ? "Transcribing your audio using WebGPU acceleration."
+            : "Supports MP4, WebM, and MOV up to 60 seconds. Processed 100% locally."}
         </p>
       </div>
 
@@ -569,6 +598,7 @@ export function CaptionStudio() {
                 <EditorSidebar 
                   captions={captions}
                   activeCaptionId={activeCaptionId}
+                  workerState={workerState}
                   onCaptionClick={handleCaptionClick}
                   onCaptionEdit={handleCaptionEdit}
                   onCaptionBlur={handleCaptionBlur}
