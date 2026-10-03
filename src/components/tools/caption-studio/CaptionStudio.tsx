@@ -11,7 +11,8 @@ import { VideoPreview } from './VideoPreview';
 import { ExportProgress, ExportWorkerRequest, ExportWorkerResponse } from '@/lib/caption-studio/export-utils';
 import { StyleSettings, PositionSettings } from '@/lib/caption-studio/style-types';
 import { DEFAULT_STYLE, DEFAULT_POSITION } from '@/lib/caption-studio/caption-renderer';
-import { PRESETS } from '@/lib/caption-studio/presets';
+import { PRESETS, applyPreset } from '@/lib/caption-studio/presets';
+import { SUPPORTED_LANGUAGES, normalizeLanguageCode } from '@/lib/caption-studio/language';
 import { useFontLoader } from '@/lib/caption-studio/useFontLoader';
 import { AIProcessingCard } from './AIProcessingCard';
 import { 
@@ -27,8 +28,12 @@ import {
   FileVideo, 
   Sparkles, 
   ArrowRight,
-  Download
+  Download,
+  FileText,
+  Globe,
+  AlertCircle
 } from 'lucide-react';
+import { generateSrt, generateVtt, getSubtitleFilename, downloadSubtitleFile } from '@/lib/caption-studio/subtitle-export';
 
 export function CaptionStudio() {
   const [capabilities, setCapabilities] = useState<any>(null);
@@ -52,14 +57,15 @@ export function CaptionStudio() {
   // Phase 2: Styling and Positioning
   const [globalStyle, setGlobalStyle] = useState<StyleSettings>(DEFAULT_STYLE);
   const [globalPosition, setGlobalPosition] = useState<PositionSettings>(DEFAULT_POSITION);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('auto');
   const { loadFontStack, fontPayloads } = useFontLoader();
 
-  // Load preset from localStorage on mount
+  // Load preset and language from localStorage on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem('captionStudioPreset');
       if (saved && PRESETS[saved]) {
-        setGlobalStyle(PRESETS[saved]);
+        setGlobalStyle(applyPreset(DEFAULT_STYLE, saved));
         loadFontStack(PRESETS[saved].fontFamily);
       } else {
         loadFontStack(DEFAULT_STYLE.fontFamily);
@@ -67,6 +73,13 @@ export function CaptionStudio() {
     } catch (e) {
       loadFontStack(DEFAULT_STYLE.fontFamily);
     }
+
+    try {
+      const savedLang = localStorage.getItem('captionStudioLanguage');
+      if (savedLang) {
+        setSelectedLanguage(normalizeLanguageCode(savedLang));
+      }
+    } catch (e) {}
   }, []);
 
   // When globalStyle changes, load fonts if they changed
@@ -104,9 +117,22 @@ export function CaptionStudio() {
         setRedoStack([]);
         setWorkerState('READY');
       },
-      (err) => setError(err),
+      (err) => {
+        setError(err);
+        setWorkerState('READY');
+      },
       (progress) => setInitProgress(progress)
     );
+
+    if (typeof window !== 'undefined') {
+      (window as any).__captionStudioTest = {
+        setCaptions: (c: CaptionChunk[]) => {
+          setCaptions(c);
+          setAiOriginalCaptions(JSON.parse(JSON.stringify(c)));
+          setWorkerState('READY');
+        }
+      };
+    }
 
     return () => {
       client.terminate();
@@ -114,6 +140,9 @@ export function CaptionStudio() {
       if (exportWorkerRef.current) {
         exportWorkerRef.current.terminate();
         exportWorkerRef.current = null;
+      }
+      if (typeof window !== 'undefined') {
+        delete (window as any).__captionStudioTest;
       }
     };
   }, []);
@@ -128,6 +157,12 @@ export function CaptionStudio() {
 
   const processVideoFile = async (file: File) => {
     if (!file) return;
+    if (workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING') return;
+
+    if (!file.type.startsWith('video/') && !/\.(mp4|webm|mov|m4v)$/i.test(file.name)) {
+      setError("Please choose a supported video file in MP4, WebM, or MOV format.");
+      return;
+    }
 
     setError(null);
     setTranscriptionResult(null);
@@ -143,8 +178,14 @@ export function CaptionStudio() {
     tempVideo.src = url;
     
     tempVideo.onloadedmetadata = async () => {
+      if (!Number.isFinite(tempVideo.duration) || tempVideo.duration <= 0.2) {
+        setError("This video is too short or empty (under 0.2 seconds). Please choose a video with speech or audio.");
+        URL.revokeObjectURL(url);
+        return;
+      }
+
       if (tempVideo.duration > 60) {
-        setError("For this version, videos must be 60 seconds or less to prevent browser crashes.");
+        setError(`This video is ${Math.round(tempVideo.duration)} seconds long. In-browser AI transcription currently supports videos up to 60 seconds to ensure reliable device performance.`);
         URL.revokeObjectURL(url);
         return;
       }
@@ -154,16 +195,11 @@ export function CaptionStudio() {
       setVideoUrl(url);
 
       try {
-        if (workerState === 'IDLE' || workerState === 'INITIALIZING') {
-          await asrClientRef.current?.prepare();
-        }
-        if (asrClientRef.current && (asrClientRef.current as any).state === 'ERROR') {
-            throw new Error("AI Engine failed to initialize.");
-        }
+        await asrClientRef.current?.prepare();
         
         setWorkerState('TRANSCRIBING');
         const pcm = await extractAudioFromVideo(file);
-        asrClientRef.current?.transcribe(pcm);
+        asrClientRef.current?.transcribe(pcm, selectedLanguage);
       } catch (err: any) {
         setError(err.message || String(err));
         setWorkerState('READY');
@@ -171,9 +207,31 @@ export function CaptionStudio() {
     };
     
     tempVideo.onerror = () => {
-      setError("Failed to load video metadata. The file might be corrupted or unsupported.");
+      setError("Could not read this video. The file might be corrupted or encoded in an unsupported format. Please try another video.");
       URL.revokeObjectURL(url);
     };
+  };
+
+  const handleLanguageChange = async (newLang: string) => {
+    const norm = normalizeLanguageCode(newLang);
+    setSelectedLanguage(norm);
+    try {
+      localStorage.setItem('captionStudioLanguage', norm);
+    } catch (e) {}
+
+    if (videoFile && workerState === 'READY' && exportProgress === null) {
+      if (captions.length > 0) {
+        commitHistory(captions);
+      }
+      try {
+        setWorkerState('TRANSCRIBING');
+        const pcm = await extractAudioFromVideo(videoFile);
+        asrClientRef.current?.transcribe(pcm, norm);
+      } catch (err: any) {
+        setError(err.message || String(err));
+        setWorkerState('READY');
+      }
+    }
   };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -244,7 +302,10 @@ export function CaptionStudio() {
         setRedoStack([]);
         setWorkerState('READY');
       },
-      (err) => setError(err),
+      (err) => {
+        setError(err);
+        setWorkerState('READY');
+      },
       (progress) => setInitProgress(progress)
     );
 
@@ -253,7 +314,7 @@ export function CaptionStudio() {
       if (videoFile) {
         setWorkerState('TRANSCRIBING');
         const pcm = await extractAudioFromVideo(videoFile);
-        client.transcribe(pcm);
+        client.transcribe(pcm, selectedLanguage);
       }
     } catch (err: any) {
       setError(err.message || String(err));
@@ -504,7 +565,7 @@ export function CaptionStudio() {
   };
 
   const handleExport = async () => {
-    if (!videoFile || captions.length === 0) return;
+    if (!videoFile || captions.length === 0 || exportProgress !== null) return;
     
     if (releaseAI && asrClientRef.current) {
       asrClientRef.current.terminate();
@@ -560,6 +621,36 @@ export function CaptionStudio() {
     } as ExportWorkerRequest);
   };
 
+  const handleDownloadSrt = () => {
+    try {
+      if (captions.length === 0) return;
+      const srtContent = generateSrt(captions);
+      if (!srtContent) {
+        setError('No caption lines available to export.');
+        return;
+      }
+      const filename = getSubtitleFilename(videoFile?.name || 'captions', 'srt');
+      downloadSubtitleFile(srtContent, filename, 'text/srt');
+    } catch (err: any) {
+      setError(err?.message || 'Failed to download SRT file');
+    }
+  };
+
+  const handleDownloadVtt = () => {
+    try {
+      if (captions.length === 0) return;
+      const vttContent = generateVtt(captions);
+      if (!vttContent || vttContent.trim() === 'WEBVTT') {
+        setError('No caption lines available to export.');
+        return;
+      }
+      const filename = getSubtitleFilename(videoFile?.name || 'captions', 'vtt');
+      downloadSubtitleFile(vttContent, filename, 'text/vtt');
+    } catch (err: any) {
+      setError(err?.message || 'Failed to download VTT file');
+    }
+  };
+
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024 * 1024) {
       return `${(bytes / 1024).toFixed(1)} KB`;
@@ -588,6 +679,28 @@ export function CaptionStudio() {
         capabilities={capabilities}
         onRetry={handleRetryAI}
       />
+
+      {/* Actionable Error / Alert Banner */}
+      {error && (
+        <div 
+          role="alert" 
+          className="flex items-start gap-3 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-300 text-sm leading-relaxed shadow-sm"
+        >
+          <AlertCircle className="w-5 h-5 shrink-0 text-rose-500 mt-0.5" />
+          <div className="flex-1">
+            <span className="font-semibold block mb-0.5">Notice</span>
+            <span>{error}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setError(null)}
+            className="text-xs px-2.5 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 transition-colors font-medium shrink-0"
+            aria-label="Dismiss notification"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
 
       {/* Upload State: Modern interactive dropzone when no video is loaded */}
       {!videoUrl ? (
@@ -624,6 +737,28 @@ export function CaptionStudio() {
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mb-6 leading-relaxed max-w-md">
               Drag and drop your video file here, or click below. Speech is recognized and timed on your device using on-device AI.
             </p>
+
+            {/* Language Selection Control */}
+            <div className="flex items-center justify-center gap-2 mb-6 px-4 py-2 rounded-2xl bg-white/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 shadow-sm backdrop-blur-md">
+              <Globe className="w-4 h-4 text-blue-500 shrink-0" />
+              <label htmlFor="transcription-language-select" className="text-xs font-semibold text-slate-700 dark:text-slate-200">
+                Spoken Language:
+              </label>
+              <select
+                id="transcription-language-select"
+                aria-label="Spoken video audio language"
+                value={selectedLanguage}
+                onChange={(e) => handleLanguageChange(e.target.value)}
+                disabled={workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING'}
+                className="text-xs font-semibold py-1 px-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer disabled:opacity-50"
+              >
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code}>
+                    {lang.label}{lang.nativeLabel && lang.nativeLabel !== lang.label ? ` (${lang.nativeLabel})` : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             {/* CTAs: Browse Video + Try Sample */}
             <div className="flex flex-col sm:flex-row items-center gap-3 mb-8 w-full sm:w-auto">
@@ -690,7 +825,29 @@ export function CaptionStudio() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <div className="flex items-center gap-2 w-full sm:w-auto justify-end flex-wrap">
+              {/* Language Selector in Toolbar */}
+              <div className="flex items-center gap-1.5 bg-slate-100/90 dark:bg-slate-800/90 rounded-xl px-2.5 py-1.5 border border-slate-200/80 dark:border-slate-700/80 text-xs">
+                <Globe className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                <label htmlFor="toolbar-language-select" className="text-[11px] font-semibold text-slate-600 dark:text-slate-300 sr-only sm:not-sr-only">
+                  Language:
+                </label>
+                <select
+                  id="toolbar-language-select"
+                  aria-label="Spoken audio language"
+                  value={selectedLanguage}
+                  onChange={(e) => handleLanguageChange(e.target.value)}
+                  disabled={workerState === 'TRANSCRIBING' || exportProgress !== null}
+                  className="text-xs font-semibold bg-transparent text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer pr-1"
+                  title="Spoken audio language for AI transcription"
+                >
+                  {SUPPORTED_LANGUAGES.map((lang) => (
+                    <option key={lang.code} value={lang.code} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                      {lang.label}{lang.nativeLabel && lang.nativeLabel !== lang.label ? ` (${lang.nativeLabel})` : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
               {captions.length > 0 && (
                 <>
                   <button 
@@ -740,7 +897,7 @@ export function CaptionStudio() {
           {/* 2-Column Studio: Left Video Preview + Export, Right Editor Sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             {/* Left Column: Video Preview & Export CTA */}
-            <div className="lg:col-span-6 sticky top-4 flex flex-col gap-4">
+            <div className="lg:col-span-6 lg:sticky lg:top-4 flex flex-col gap-4">
               <div className="bg-white/80 dark:bg-[#0a1128]/80 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 rounded-3xl p-4 sm:p-5 shadow-xl">
                 <VideoPreview 
                   videoUrl={videoUrl}
@@ -772,6 +929,41 @@ export function CaptionStudio() {
                       </>
                     )}
                   </button>
+
+                  {/* Subtitle Files Export Row */}
+                  <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800">
+                    <div className="flex items-center justify-between mb-2 px-0.5">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                        Subtitle files
+                      </span>
+                      <span className="text-[11px] text-slate-400">
+                        Instant (No re-encoding)
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <button
+                        onClick={handleDownloadSrt}
+                        disabled={captions.length === 0 || exportProgress !== null}
+                        aria-label="Download SRT subtitle file"
+                        className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all active:scale-[0.99] disabled:opacity-50"
+                        title="Download standard SubRip (.srt) subtitle file"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-blue-500" />
+                        <span>Download SRT</span>
+                      </button>
+
+                      <button
+                        onClick={handleDownloadVtt}
+                        disabled={captions.length === 0 || exportProgress !== null}
+                        aria-label="Download VTT subtitle file"
+                        className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900/90 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all active:scale-[0.99] disabled:opacity-50"
+                        title="Download WebVTT (.vtt) subtitle file"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-indigo-500" />
+                        <span>Download VTT</span>
+                      </button>
+                    </div>
+                  </div>
 
                   {process.env.NODE_ENV === 'development' && (
                     <label className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 p-2.5 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
@@ -825,7 +1017,8 @@ export function CaptionStudio() {
                   }}
                   onPresetSelect={(presetName) => {
                     if (PRESETS[presetName]) {
-                      setGlobalStyle(PRESETS[presetName]);
+                      const updated = applyPreset(globalStyle, presetName);
+                      setGlobalStyle(updated);
                       localStorage.setItem('captionStudioPreset', presetName);
                     }
                   }}

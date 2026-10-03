@@ -13,7 +13,17 @@ export async function extractAudioFromVideo(file: File): Promise<Float32Array> {
   const ctx = new AudioContextClass({ sampleRate: targetSampleRate });
   
   try {
-    const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+    let audioBuffer: AudioBuffer;
+    try {
+      audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+    } catch (decodeErr: any) {
+      console.error('Audio decode error:', decodeErr);
+      throw new Error('Could not find or decode an audio track in this video. Please ensure your video contains spoken audio or sound.');
+    }
+
+    if (!audioBuffer || audioBuffer.numberOfChannels === 0 || audioBuffer.length === 0) {
+      throw new Error('This video contains no audio data to transcribe.');
+    }
     
     // In many browsers, providing sampleRate to the constructor resamples it correctly.
     // However, if the output sampleRate isn't 16000, we'd need an explicit resampler.

@@ -49,7 +49,7 @@ export interface CaptionChunk {
 
 export type WorkerMessage =
   | { type: 'INITIALIZE' }
-  | { type: 'TRANSCRIBE'; pcm: Float32Array }
+  | { type: 'TRANSCRIBE'; pcm: Float32Array; language?: string }
   | { type: 'CANCEL' }
   | { type: 'TERMINATE' };
 

@@ -85,8 +85,11 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   if (!videoDecoderConfig) throw new Error('Could not get video decoder config');
   currentStage = 'DECODER_CONFIG_LOADED';
 
-  const width = videoDecoderConfig.codedWidth || 1920;
-  const height = videoDecoderConfig.codedHeight || 1080;
+  const rawWidth = videoDecoderConfig.codedWidth || 1920;
+  const rawHeight = videoDecoderConfig.codedHeight || 1080;
+  // Ensure dimensions are even (divisible by 2) for H.264 hardware encoders
+  const width = Math.max(2, Math.floor(rawWidth / 2) * 2);
+  const height = Math.max(2, Math.floor(rawHeight / 2) * 2);
 
   // Verify WebCodecs Encoder Support
   const encoderConfig: VideoEncoderConfig = {
@@ -100,7 +103,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
 
   const support = await VideoEncoder.isConfigSupported(encoderConfig);
   if (!support.supported) {
-    throw new Error(`VideoEncoder config not supported for ${width}x${height}`);
+    throw new Error(`Your browser hardware encoder does not support encoding at ${width}x${height}. Please check your browser hardware acceleration settings.`);
   }
   currentStage = 'ENCODER_CREATED';
 
@@ -172,7 +175,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     const timestampSec = frameToRender.timestamp / 1_000_000;
     const activeCaption = captions.find(c => timestampSec >= c.start && timestampSec <= c.end);
     if (activeCaption) {
-      renderCaptionToCanvas(ctx, activeCaption, width, height, style, position);
+      renderCaptionToCanvas(ctx, activeCaption, width, height, style, position, timestampSec);
     }
 
     if (!Number.isFinite(frameToRender.timestamp)) {
