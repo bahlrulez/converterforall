@@ -101,14 +101,14 @@ export class ASRClient {
     });
   }
 
-  public transcribe(pcm: Float32Array, language?: string) {
+  public transcribe(pcm: Float32Array) {
     if (this.state !== 'READY') {
       if (this.errorCallback) this.errorCallback('Engine is not ready or is busy transcribing.');
       return;
     }
     
     // Transfer ownership of the ArrayBuffer to avoid copying large memory
-    this.worker?.postMessage({ type: 'TRANSCRIBE', pcm, language }, [pcm.buffer]);
+    this.worker?.postMessage({ type: 'TRANSCRIBE', pcm }, [pcm.buffer]);
   }
 
   public terminate() {

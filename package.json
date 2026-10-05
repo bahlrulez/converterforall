@@ -9,8 +9,6 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
-    "test": "npx tsx --test tests/*.test.ts",
-    "typecheck": "tsc --noEmit",
     "dev:worker": "esbuild src/workers/caption-export.worker.ts --bundle --outfile=public/workers/caption-export.worker.js --format=esm --target=es2022 --watch"
   },
   "dependencies": {

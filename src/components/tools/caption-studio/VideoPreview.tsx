@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+﻿import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { CaptionChunk } from '@/lib/caption-studio/types';
 import { renderCaptionToCanvas } from '@/lib/caption-studio/caption-renderer';
 import { StyleSettings, PositionSettings } from '@/lib/caption-studio/style-types';
@@ -44,7 +44,7 @@ export function VideoPreview({
       const activeCaption = captions.find(c => currentTime >= c.start && currentTime <= c.end);
 
       if (activeCaption && video.videoWidth > 0 && video.videoHeight > 0) {
-        renderCaptionToCanvas(ctx, activeCaption, canvas.width, canvas.height, globalStyle, globalPosition, currentTime);
+        renderCaptionToCanvas(ctx, activeCaption, canvas.width, canvas.height, globalStyle, globalPosition);
       }
 
       // Draw Center Snap Guides if dragging

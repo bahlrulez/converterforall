@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { CaptionChunk, WorkerState } from '@/lib/caption-studio/types';
 import { StyleSettings } from '@/lib/caption-studio/style-types';
-import { FONT_OPTIONS, PRESETS, CURATED_PRESET_NAMES } from '@/lib/caption-studio/presets';
+import { FONT_OPTIONS, PRESETS } from '@/lib/caption-studio/presets';
 
 interface EditorSidebarProps {
   captions: CaptionChunk[];
@@ -194,7 +194,6 @@ export function EditorSidebar({
                         type="number" 
                         step="0.1"
                         min="0"
-                        aria-label="Caption start time"
                         className="w-16 bg-transparent border-b border-dashed border-transparent hover:border-muted-foreground focus:border-primary focus:outline-none p-0 text-center"
                         defaultValue={caption.start.toFixed(1)}
                         onBlur={(e) => handleTimeBlur(caption.id, 'start', e.target.value, caption.start)}
@@ -205,7 +204,6 @@ export function EditorSidebar({
                         type="number" 
                         step="0.1"
                         min="0"
-                        aria-label="Caption end time"
                         className="w-16 bg-transparent border-b border-dashed border-transparent hover:border-muted-foreground focus:border-primary focus:outline-none p-0 text-center"
                         defaultValue={caption.end.toFixed(1)}
                         onBlur={(e) => handleTimeBlur(caption.id, 'end', e.target.value, caption.end)}
@@ -241,16 +239,14 @@ export function EditorSidebar({
                       <button 
                         onClick={(e) => handleSplitClick(e, caption.id, caption.text)}
                         disabled={!cursorPos || cursorPos.id !== caption.id || cursorPos.index === 0 || cursorPos.index === caption.text.length}
-                        aria-label="Split caption at cursor"
-                        className="min-h-[32px] inline-flex items-center justify-center text-xs px-2.5 py-1 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 disabled:opacity-50"
+                        className="text-[10px] px-2 py-1 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 disabled:opacity-50"
                       >
                         Split
                       </button>
                       {idx < captions.length - 1 && (
                         <button 
                           onClick={(e) => { e.stopPropagation(); onMergeNext?.(caption.id); }}
-                          aria-label="Merge with next caption"
-                          className="min-h-[32px] inline-flex items-center justify-center text-xs px-2.5 py-1 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80"
+                          className="text-[10px] px-2 py-1 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80"
                         >
                           Merge Next
                         </button>
@@ -258,8 +254,7 @@ export function EditorSidebar({
                       <div className="flex-1"></div>
                       <button 
                         onClick={(e) => { e.stopPropagation(); onDelete?.(caption.id); }}
-                        aria-label="Delete caption"
-                        className="min-h-[32px] inline-flex items-center justify-center text-xs px-2.5 py-1 text-destructive hover:bg-destructive/10 rounded"
+                        className="text-[10px] px-2 py-1 text-destructive hover:bg-destructive/10 rounded"
                       >
                         Delete
                       </button>
@@ -272,92 +267,22 @@ export function EditorSidebar({
         </div>
       )}
 
-      {/* Style & Preset Customizer Tab */}
       {activeTab === 'STYLE' && globalStyle && (
         <div className="flex-1 overflow-y-auto space-y-6 pr-2 scrollbar-thin pb-10">
           
           <div className="space-y-3">
             <label className="text-sm font-semibold">Presets</label>
             <div className="grid grid-cols-2 gap-2">
-              {CURATED_PRESET_NAMES.map(preset => (
+              {Object.keys(PRESETS).map(preset => (
                 <button
                   key={preset}
                   onClick={() => onPresetSelect && onPresetSelect(preset)}
-                  aria-label={`Apply ${preset} caption preset`}
-                  className="min-h-[40px] px-3 py-2 text-xs bg-muted border rounded-md hover:bg-accent hover:text-accent-foreground text-left font-medium transition-colors"
+                  className="px-3 py-2 text-xs bg-muted border rounded-md hover:bg-accent hover:text-accent-foreground text-left font-medium"
                 >
                   {preset}
                 </button>
               ))}
             </div>
-          </div>
-
-          <div className="space-y-3 p-3 rounded-xl bg-muted/40 border">
-            <div className="flex items-center justify-between">
-              <div>
-                <label className="text-sm font-semibold flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    id="active-word-highlight-toggle"
-                    aria-label="Toggle active word highlighting"
-                    checked={Boolean(globalStyle.activeWordHighlight)}
-                    onChange={e => updateStyle({ activeWordHighlight: e.target.checked })}
-                    className="rounded text-primary focus:ring-primary w-4 h-4 cursor-pointer"
-                  />
-                  <span>Active Word Highlighting</span>
-                </label>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
-                  Visually highlights each spoken word in sync with video audio
-                </p>
-              </div>
-            </div>
-
-            {globalStyle.activeWordHighlight && (
-              <div className="grid grid-cols-2 gap-3 pt-2 border-t">
-                <div>
-                  <label className="text-xs text-muted-foreground block mb-1">Highlight Color</label>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="color"
-                      aria-label="Active word highlight color"
-                      value={globalStyle.activeWordColor || '#FFDE59'}
-                      onChange={e => updateStyle({ activeWordColor: e.target.value })}
-                      className="h-8 w-8 rounded cursor-pointer"
-                    />
-                    <input
-                      type="text"
-                      aria-label="Active word highlight hex code"
-                      value={globalStyle.activeWordColor || '#FFDE59'}
-                      onChange={e => updateStyle({ activeWordColor: e.target.value })}
-                      className="w-20 text-xs px-1.5 py-1 border rounded"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-xs text-muted-foreground block mb-1">Word Background</label>
-                  <div className="flex gap-2 items-center">
-                    <input
-                      type="color"
-                      aria-label="Active word box color"
-                      value={globalStyle.activeWordBackgroundColor?.startsWith('#') ? globalStyle.activeWordBackgroundColor : '#000000'}
-                      onChange={e => updateStyle({ activeWordBackgroundColor: e.target.value })}
-                      className="h-8 w-8 rounded cursor-pointer"
-                      disabled={!globalStyle.activeWordBackgroundColor}
-                    />
-                    <button
-                      onClick={() => updateStyle({
-                        activeWordBackgroundColor: globalStyle.activeWordBackgroundColor ? undefined : '#000000'
-                      })}
-                      aria-label={globalStyle.activeWordBackgroundColor ? 'Remove background box' : 'Add background box'}
-                      className="min-h-[32px] text-xs px-2.5 py-1 bg-secondary rounded hover:bg-secondary/80 text-secondary-foreground"
-                    >
-                      {globalStyle.activeWordBackgroundColor ? 'Remove' : 'Add Box'}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
           <hr />

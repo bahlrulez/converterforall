@@ -1,6 +1,5 @@
 import { CaptionChunk } from './types';
 import { StyleSettings, PositionSettings } from './style-types';
-import { getActiveWordIndex } from './active-word';
 
 export function roundRect(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
@@ -54,8 +53,7 @@ export function renderCaptionToCanvas(
   videoWidth: number,
   videoHeight: number,
   style: StyleSettings,
-  position: PositionSettings,
-  currentTime?: number
+  position: PositionSettings
 ) {
   if (!caption.text) return;
   const text = caption.text.trim();
@@ -91,37 +89,30 @@ export function renderCaptionToCanvas(
   const offsetX = videoHeight * style.shadowOffsetX;
   const offsetY = videoHeight * style.shadowOffsetY;
 
-  // 3. Word-wrap calculation with per-word token tracking
-  interface LineData {
-    text: string;
-    wordIndices: number[];
-  }
-  const lines: LineData[] = [];
-  let currentLineText = words[0] || '';
-  let currentLineWordIndices: number[] = [0];
+  // 3. Word-wrap calculation
+  const lines: string[] = [];
+  let currentLine = words[0] || '';
 
   for (let i = 1; i < words.length; i++) {
     const word = words[i];
-    const testLine = currentLineText + ' ' + word;
+    const testLine = currentLine + ' ' + word;
     const metrics = ctx.measureText(testLine);
     
     if (metrics.width > maxTextWidth) {
-      lines.push({ text: currentLineText, wordIndices: currentLineWordIndices });
-      currentLineText = word;
-      currentLineWordIndices = [i];
+      lines.push(currentLine);
+      currentLine = word; 
     } else {
-      currentLineText = testLine;
-      currentLineWordIndices.push(i);
+      currentLine = testLine;
     }
   }
-  if (currentLineText) {
-    lines.push({ text: currentLineText, wordIndices: currentLineWordIndices });
+  if (currentLine) {
+    lines.push(currentLine);
   }
 
   // 4. Compute Bounding Box
   let blockWidth = 0;
-  for (const lineObj of lines) {
-    const w = ctx.measureText(lineObj.text).width;
+  for (const line of lines) {
+    const w = ctx.measureText(line).width;
     if (w > blockWidth) blockWidth = w;
   }
   
@@ -161,44 +152,11 @@ export function renderCaptionToCanvas(
 
   // 6. Draw Text
   const startY = centerY - (blockHeight / 2) + (fontSizePx / 2);
-
-  // Active-word determination
-  const hasValidTime = typeof currentTime === 'number';
-  const shouldHighlight = Boolean(
-    style.activeWordHighlight &&
-    hasValidTime &&
-    caption.words &&
-    caption.words.length > 0
-  );
-  const rawActiveWordIdx = (shouldHighlight && typeof currentTime === 'number')
-    ? getActiveWordIndex(caption.words, currentTime)
-    : -1;
-
-  let effectiveActiveWordIdx = rawActiveWordIdx;
-  if (rawActiveWordIdx >= 0 && caption.words && caption.words[rawActiveWordIdx]) {
-    if (caption.words.length !== words.length) {
-      const activeRawWord = caption.words[rawActiveWordIdx].word.trim().replace(/[.,?!।]/g, '');
-      const foundIdx = words.findIndex((w, idx) => {
-        const cleanW = w.trim().replace(/[.,?!।]/g, '');
-        return cleanW === activeRawWord && Math.abs(idx - rawActiveWordIdx) <= 2;
-      });
-      if (foundIdx !== -1) {
-        effectiveActiveWordIdx = foundIdx;
-      } else if (rawActiveWordIdx < words.length) {
-        effectiveActiveWordIdx = rawActiveWordIdx;
-      } else {
-        effectiveActiveWordIdx = -1;
-      }
-    }
-  }
-
-  const isNeon = style.shadowBlur > 0 && style.shadowOffsetX === 0 && style.shadowOffsetY === 0 && style.outlineWidth < 0.01;
-
+  
   for (let i = 0; i < lines.length; i++) {
-    const lineObj = lines[i];
-    const line = lineObj.text;
+    const line = lines[i];
     const drawY = startY + (i * lineSpacingPx);
-
+    
     let drawX = centerX;
     if (style.textAlign === 'left') {
       drawX = boxX + paddingPx;
@@ -206,137 +164,41 @@ export function renderCaptionToCanvas(
       drawX = boxX + boxWidth - paddingPx;
     }
 
-    const hasActiveWord = shouldHighlight && effectiveActiveWordIdx !== -1 && lineObj.wordIndices.includes(effectiveActiveWordIdx);
+    const isNeon = style.shadowBlur > 0 && style.shadowOffsetX === 0 && style.shadowOffsetY === 0 && style.outlineWidth < 0.01;
 
-    if (!hasActiveWord) {
-      // Existing rendering path: identical to original
-      // Outline
-      if (strokeWidthPx > 0) {
-        ctx.strokeStyle = style.outlineColor;
-        ctx.lineWidth = strokeWidthPx;
-        ctx.lineJoin = 'round';
-        ctx.strokeText(line, drawX, drawY);
-      }
+    // Outline
+    if (strokeWidthPx > 0) {
+      ctx.strokeStyle = style.outlineColor;
+      ctx.lineWidth = strokeWidthPx;
+      ctx.lineJoin = 'round';
+      ctx.strokeText(line, drawX, drawY);
+    }
 
-      // Shadow / Glow
-      if (blurPx > 0 || offsetX !== 0 || offsetY !== 0) {
-        ctx.save();
-        ctx.shadowColor = style.shadowColor;
-        ctx.shadowBlur = blurPx;
-        ctx.shadowOffsetX = offsetX;
-        ctx.shadowOffsetY = offsetY;
-        
-        if (isNeon) {
-          ctx.fillStyle = style.textColor;
-          ctx.fillText(line, drawX, drawY);
-          ctx.fillText(line, drawX, drawY);
-        } else {
-          ctx.fillStyle = style.textColor;
-          ctx.fillText(line, drawX, drawY);
-        }
-        ctx.restore();
-      }
-
-      // Main Fill
-      if (!isNeon) {
+    // Shadow / Glow
+    if (blurPx > 0 || offsetX !== 0 || offsetY !== 0) {
+      ctx.save();
+      ctx.shadowColor = style.shadowColor;
+      ctx.shadowBlur = blurPx;
+      ctx.shadowOffsetX = offsetX;
+      ctx.shadowOffsetY = offsetY;
+      
+      if (isNeon) {
+        // Two-pass glow for Neon
+        ctx.fillStyle = style.textColor;
+        ctx.fillText(line, drawX, drawY);
+        ctx.fillText(line, drawX, drawY);
+      } else {
+        // Normal shadow
         ctx.fillStyle = style.textColor;
         ctx.fillText(line, drawX, drawY);
       }
-    } else {
-      // Active-word highlighting path: render word tokens on this line with active styling
-      const lineWidth = ctx.measureText(line).width;
-      let lineStartX = centerX - (lineWidth / 2);
-      if (style.textAlign === 'left') {
-        lineStartX = boxX + paddingPx;
-      } else if (style.textAlign === 'right') {
-        lineStartX = boxX + boxWidth - paddingPx - lineWidth;
-      }
+      ctx.restore();
+    }
 
-      const prevAlign = ctx.textAlign;
-      ctx.textAlign = 'left';
-
-      // Measure word positions using line prefixes to guarantee sub-pixel positioning matches the intact line
-      const lineWords: { text: string; idx: number; x: number; width: number }[] = [];
-      let currentPrefix = '';
-      for (let j = 0; j < lineObj.wordIndices.length; j++) {
-        const wIdx = lineObj.wordIndices[j];
-        const word = words[wIdx];
-        const prefixWidth = j === 0 ? 0 : ctx.measureText(currentPrefix).width;
-        const wordWidth = ctx.measureText(word).width;
-        lineWords.push({
-          text: word,
-          idx: wIdx,
-          x: lineStartX + prefixWidth,
-          width: wordWidth
-        });
-        currentPrefix += word + ' ';
-      }
-
-      // 1. Draw active word background box if activeWordBackgroundColor is set
-      if (style.activeWordBackgroundColor) {
-        for (const item of lineWords) {
-          if (item.idx === effectiveActiveWordIdx) {
-            ctx.save();
-            ctx.fillStyle = style.activeWordBackgroundColor;
-            const padX = fontSizePx * 0.12;
-            const padY = fontSizePx * 0.08;
-            roundRect(
-              ctx,
-              item.x - padX,
-              drawY - (fontSizePx / 2) - padY,
-              item.width + (padX * 2),
-              fontSizePx + (padY * 2),
-              radiusPx > 0 ? radiusPx * 0.75 : fontSizePx * 0.12
-            );
-            ctx.fill();
-            ctx.restore();
-          }
-        }
-      }
-
-      // 2. Draw outlines for all words on the line
-      if (strokeWidthPx > 0) {
-        ctx.strokeStyle = style.outlineColor;
-        ctx.lineWidth = strokeWidthPx;
-        ctx.lineJoin = 'round';
-        for (const item of lineWords) {
-          ctx.strokeText(item.text, item.x, drawY);
-        }
-      }
-
-      // 3. Draw shadow/glow pass
-      if (blurPx > 0 || offsetX !== 0 || offsetY !== 0) {
-        ctx.save();
-        ctx.shadowColor = style.shadowColor;
-        ctx.shadowBlur = blurPx;
-        ctx.shadowOffsetX = offsetX;
-        ctx.shadowOffsetY = offsetY;
-
-        for (const item of lineWords) {
-          const wordColor = (item.idx === effectiveActiveWordIdx)
-            ? (style.activeWordColor || '#FFDE59')
-            : style.textColor;
-          ctx.fillStyle = wordColor;
-          ctx.fillText(item.text, item.x, drawY);
-          if (isNeon) {
-            ctx.fillText(item.text, item.x, drawY);
-          }
-        }
-        ctx.restore();
-      }
-
-      // 4. Main Fill (if not neon)
-      if (!isNeon) {
-        for (const item of lineWords) {
-          const wordColor = (item.idx === effectiveActiveWordIdx)
-            ? (style.activeWordColor || '#FFDE59')
-            : style.textColor;
-          ctx.fillStyle = wordColor;
-          ctx.fillText(item.text, item.x, drawY);
-        }
-      }
-
-      ctx.textAlign = prevAlign;
+    // Main Fill (if not already filled by Neon pass)
+    if (!isNeon) {
+      ctx.fillStyle = style.textColor;
+      ctx.fillText(line, drawX, drawY);
     }
   }
 }

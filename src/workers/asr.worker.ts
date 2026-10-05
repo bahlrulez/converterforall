@@ -57,16 +57,11 @@ self.addEventListener('message', async (e: MessageEvent<WorkerMessage>) => {
       try {
         self.postMessage({ type: 'TRANSCRIBING' });
         
-        const generateOptions: any = {
+        const result = await transcriber(msg.pcm, {
+          language: 'hindi',
           task: 'transcribe',
           return_timestamps: 'word'
-        };
-
-        if (msg.language && msg.language !== 'auto') {
-          generateOptions.language = msg.language;
-        }
-
-        const result = await transcriber(msg.pcm, generateOptions);
+        });
 
         self.postMessage({ 
           type: 'RESULT', 

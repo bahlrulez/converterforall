@@ -1,4 +1,4 @@
-export interface StyleSettings {
+﻿export interface StyleSettings {
   fontFamily: string;
   fontSize: number; // Normalized (video-relative, e.g., 0.05)
   textColor: string;
@@ -14,9 +14,6 @@ export interface StyleSettings {
   backgroundRadius: number; // Normalized
   textAlign: CanvasTextAlign;
   lineHeight: number; // Multiplier, e.g., 1.3
-  activeWordHighlight?: boolean;
-  activeWordColor?: string;
-  activeWordBackgroundColor?: string;
 }
 
 export interface PositionSettings {

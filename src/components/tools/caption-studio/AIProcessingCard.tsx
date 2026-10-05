@@ -28,7 +28,7 @@ export function AIProcessingCard({
   const [activeFile, setActiveFile] = useState<string>('');
   const prevWorkerStateRef = React.useRef<WorkerState>(workerState);
 
-  const isError = workerState === 'ERROR';
+  const isError = workerState === 'ERROR' || Boolean(error);
   const isInitializing = workerState === 'INITIALIZING';
   const isTranscribing = workerState === 'TRANSCRIBING';
   const isReady = workerState === 'READY';
