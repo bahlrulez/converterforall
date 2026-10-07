@@ -35,6 +35,22 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
         "image/webp": [".webp"]
       }
     },
+    "image-to-text": { theme: "emerald", iconName: "FileText", badge: "AI Magic", isPopular: true,
+      title: "Image to Text (OCR)",
+      description: "Extract text from images (JPG, PNG, WebP) instantly using client-side AI. 100% private.",
+      seoTitle: "Image to Text Converter - Free Online OCR & Text Extractor",
+      seoDescription: "Extract text from pictures and images instantly. Free, fast, and 100% private in-browser OCR tool. Copy or download extracted text.",
+      inputFormat: "image",
+      outputFormat: "text",
+      actionName: "Extract Text",
+      isInteractive: true,
+      relatedTools: ["ocr-pdf", "jpg-to-pdf", "image-resizer"],
+      acceptedTypes: { 
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"],
+        "image/webp": [".webp"]
+      }
+    },
     "webp-to-png": { theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert WEBP to PNG",
       seoTitle: "WEBP to PNG Converter - Convert Web Images to PNG Free",

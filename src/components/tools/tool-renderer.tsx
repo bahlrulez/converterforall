@@ -48,6 +48,7 @@ const VideoConverter = dynamic(() => import("@/components/tools/video-converter"
 const SubtitleToolkit = dynamic(() => import("@/components/tools/subtitle-toolkit").then(m => m.SubtitleToolkit), { ssr: false, loading: ToolLoading });
 const CompressPdfTool = dynamic(() => import("@/components/tools/compress-pdf").then(m => m.CompressPdfTool), { ssr: false, loading: ToolLoading });
 const ImageToSvgComponent = dynamic(() => import("@/components/tools/image-to-svg").then(m => m.default), { ssr: false, loading: ToolLoading });
+const ImageToTextTool = dynamic(() => import("@/components/tools/image-to-text").then(m => m.default), { ssr: false, loading: ToolLoading });
 const AudioTrimmerComponent = dynamic(() => import("@/components/tools/audio-trimmer").then(m => m.default), { ssr: false, loading: ToolLoading });
 const WebFontConverterComponent = dynamic(() => import("@/components/tools/web-font-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
 const OrganizePdfTool = dynamic(() => import("@/components/tools/organize-pdf").then(m => m.OrganizePdfTool), { ssr: false, loading: ToolLoading });
@@ -104,6 +105,7 @@ export function ToolRenderer({
         {toolSlug === "screen-recorder" && <ScreenRecorder />}
         {(toolSlug === "edit-pdf" || toolSlug === "pdf-editor" || toolSlug === "annotate-pdf" || toolSlug === "sign-pdf") && <PdfEditor />}
         {toolSlug === "image-to-svg" && <ImageToSvgComponent />}
+        {toolSlug === "image-to-text" && <ImageToTextTool />}
         {(toolSlug === "trim-audio" || toolSlug === "trim-mp3-online" || toolSlug === "cut-audio-free" || toolSlug === "private-audio-trimmer" || toolSlug === "convert-whatsapp-voice-note-to-mp3") && <AudioTrimmerComponent />}
         {(toolSlug === "web-font-converter" || toolSlug === "ttf-to-woff2" || toolSlug === "otf-to-woff2" || toolSlug === "woff2-to-ttf") && <WebFontConverterComponent />}
         
