@@ -28,7 +28,7 @@ import {
   X,
   Palette
 } from "lucide-react";
-import { PDFDocument, rgb, degrees } from "pdf-lib";
+import { PDFDocument, rgb, degrees, PDFName, PDFDict } from "pdf-lib";
 import { cn } from "@/lib/utils";
 
 type ToolMode = "select" | "text" | "draw" | "highlight" | "rectangle" | "redact" | "signature" | "stamp";
@@ -92,6 +92,7 @@ export function PdfEditor() {
   const [zoom, setZoom] = useState<number>(1.0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isExporting, setIsExporting] = useState<boolean>(false);
+  const [showRedactionWarning, setShowRedactionWarning] = useState<boolean>(false);
   const [fileName, setFileName] = useState<string>("document.pdf");
 
   // Active Tool & Style State
@@ -138,7 +139,7 @@ export function PdfEditor() {
       const pdfjsLib = await import("pdfjs-dist");
       pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
-      const loadingTask = pdfjsLib.getDocument({ data: bytes });
+      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(bytes) });
       const pdf = await loadingTask.promise;
       setNumPages(pdf.numPages);
       setCurrentPage(1);
@@ -167,7 +168,7 @@ export function PdfEditor() {
         const pdfjsLib = await import("pdfjs-dist");
         pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
-        const loadingTask = pdfjsLib.getDocument({ data: pdfBytes });
+        const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(pdfBytes) });
         const pdf = await loadingTask.promise;
         const page = await pdf.getPage(currentPage);
 
@@ -478,83 +479,176 @@ export function PdfEditor() {
       setIsExporting(true);
       const pdfDoc = await PDFDocument.load(pdfBytes);
       const pages = pdfDoc.getPages();
+      
+      // Clear metadata for privacy
+      pdfDoc.setTitle("");
+      pdfDoc.setAuthor("");
+      pdfDoc.setSubject("");
+      pdfDoc.setKeywords([]);
+      pdfDoc.setProducer("ConverterForAll Redactor");
+      pdfDoc.setCreator("ConverterForAll");
+
+      // Load pdfjsLib once if we need to rasterize any page
+      let pdfjsLib: any = null;
+      let pdfjsDoc: any = null;
+      const hasAnyRedaction = shapeAnnotations.some(s => s.type === "redact");
+      
+      if (hasAnyRedaction) {
+        pdfjsLib = await import("pdfjs-dist");
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+        const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(pdfBytes) });
+        pdfjsDoc = await loadingTask.promise;
+      }
 
       for (let pIdx = 0; pIdx < pages.length; pIdx++) {
         const pageNum = pIdx + 1;
         const page = pages[pIdx];
         const { width, height } = page.getSize();
-
-        // 1. Draw Text Annotations
-        const pageTexts = textAnnotations.filter((t) => t.page === pageNum);
-        for (const t of pageTexts) {
-          const hex = t.color.replace("#", "");
-          const r = parseInt(hex.substring(0, 2), 16) / 255 || 0;
-          const g = parseInt(hex.substring(2, 4), 16) / 255 || 0;
-          const b = parseInt(hex.substring(4, 6), 16) / 255 || 0;
-
-          const targetX = (t.x / 100) * width;
-          // Invert y because pdf-lib coordinates start from bottom-left
-          const targetY = height - (t.y / 100) * height - t.fontSize;
-
-          page.drawText(t.text, {
-            x: targetX,
-            y: targetY,
-            size: t.fontSize,
-            color: rgb(r, g, b),
-          });
-        }
-
-        // 2. Draw Shapes & Redactions
+        
         const pageShapes = shapeAnnotations.filter((s) => s.page === pageNum);
-        for (const s of pageShapes) {
-          const hex = s.color.replace("#", "");
-          const r = parseInt(hex.substring(0, 2), 16) / 255 || 0;
-          const g = parseInt(hex.substring(2, 4), 16) / 255 || 0;
-          const b = parseInt(hex.substring(4, 6), 16) / 255 || 0;
+        const hasRedaction = pageShapes.some(s => s.type === "redact");
 
-          const targetX = (s.x / 100) * width;
-          const targetW = (s.w / 100) * width;
-          const targetH = (s.h / 100) * height;
-          const targetY = height - (s.y / 100) * height - targetH;
+        if (hasRedaction && pdfjsDoc) {
+          // TRUE IRREVERSIBLE REDACTION: Rasterize the entire page
+          const pdfjsPage = await pdfjsDoc.getPage(pageNum);
+          const scale = 3.0; // High quality scale
+          const viewport = pdfjsPage.getViewport({ scale });
+          
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          if (!ctx) continue;
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          
+          await pdfjsPage.render({ canvasContext: ctx, viewport }).promise;
+          
+          // Draw annotations directly on the rasterized canvas
+          const pageTexts = textAnnotations.filter((t) => t.page === pageNum);
+          for (const t of pageTexts) {
+            ctx.font = `${t.isBold ? 'bold ' : ''}${t.fontSize * scale}px sans-serif`;
+            ctx.fillStyle = t.color;
+            ctx.textBaseline = "top";
+            const targetX = (t.x / 100) * canvas.width;
+            const targetY = (t.y / 100) * canvas.height;
+            ctx.fillText(t.text, targetX, targetY);
+          }
 
-          if (s.type === "redact" || s.fill) {
-            page.drawRectangle({
+          for (const s of pageShapes) {
+            ctx.fillStyle = s.color;
+            ctx.strokeStyle = s.color;
+            ctx.lineWidth = 2 * scale;
+            const targetX = (s.x / 100) * canvas.width;
+            const targetY = (s.y / 100) * canvas.height;
+            const targetW = (s.w / 100) * canvas.width;
+            const targetH = (s.h / 100) * canvas.height;
+            if (s.type === "redact" || s.fill) {
+              ctx.fillRect(targetX, targetY, targetW, targetH);
+            } else {
+              ctx.strokeRect(targetX, targetY, targetW, targetH);
+            }
+          }
+
+          const pageSigs = signatureAnnotations.filter((sig) => sig.page === pageNum);
+          for (const sig of pageSigs) {
+            const img = new Image();
+            img.src = sig.dataUrl;
+            await new Promise((resolve) => {
+              img.onload = resolve;
+              img.onerror = resolve;
+            });
+            const targetX = (sig.x / 100) * canvas.width;
+            const targetY = (sig.y / 100) * canvas.height;
+            const targetW = (sig.w / 100) * canvas.width;
+            const targetH = (sig.h / 100) * canvas.height;
+            ctx.drawImage(img, targetX, targetY, targetW, targetH);
+          }
+
+          // Convert to PNG and replace page in pdf-lib
+          const pngDataUrl = canvas.toDataURL("image/png");
+          const pngImage = await pdfDoc.embedPng(pngDataUrl);
+          
+          pdfDoc.removePage(pIdx);
+          const newPage = pdfDoc.insertPage(pIdx, [width, height]);
+          newPage.drawImage(pngImage, {
+            x: 0,
+            y: 0,
+            width: width,
+            height: height
+          });
+          
+        } else {
+          // NORMAL EXPORT: Keep vector format and draw annotations
+          // 1. Draw Text Annotations
+          const pageTexts = textAnnotations.filter((t) => t.page === pageNum);
+          for (const t of pageTexts) {
+            const hex = t.color.replace("#", "");
+            const r = parseInt(hex.substring(0, 2), 16) / 255 || 0;
+            const g = parseInt(hex.substring(2, 4), 16) / 255 || 0;
+            const b = parseInt(hex.substring(4, 6), 16) / 255 || 0;
+
+            const targetX = (t.x / 100) * width;
+            // Invert y because pdf-lib coordinates start from bottom-left
+            const targetY = height - (t.y / 100) * height - t.fontSize;
+
+            page.drawText(t.text, {
               x: targetX,
               y: targetY,
-              width: targetW,
-              height: targetH,
+              size: t.fontSize,
               color: rgb(r, g, b),
             });
-          } else {
-            page.drawRectangle({
-              x: targetX,
-              y: targetY,
-              width: targetW,
-              height: targetH,
-              borderColor: rgb(r, g, b),
-              borderWidth: 2,
-            });
           }
-        }
 
-        // 3. Draw Signatures & Stamps
-        const pageSigs = signatureAnnotations.filter((sig) => sig.page === pageNum);
-        for (const sig of pageSigs) {
-          try {
-            const pngImage = await pdfDoc.embedPng(sig.dataUrl);
-            const targetX = (sig.x / 100) * width;
-            const targetW = (sig.w / 100) * width;
-            const targetH = (sig.h / 100) * height;
-            const targetY = height - (sig.y / 100) * height - targetH;
+          // 2. Draw Shapes & Redactions
+          for (const s of pageShapes) {
+            const hex = s.color.replace("#", "");
+            const r = parseInt(hex.substring(0, 2), 16) / 255 || 0;
+            const g = parseInt(hex.substring(2, 4), 16) / 255 || 0;
+            const b = parseInt(hex.substring(4, 6), 16) / 255 || 0;
 
-            page.drawImage(pngImage, {
-              x: targetX,
-              y: targetY,
-              width: targetW,
-              height: targetH,
-            });
-          } catch (sigErr) {
-            console.warn("Failed to embed signature:", sigErr);
+            const targetX = (s.x / 100) * width;
+            const targetW = (s.w / 100) * width;
+            const targetH = (s.h / 100) * height;
+            const targetY = height - (s.y / 100) * height - targetH;
+
+            if (s.type === "redact" || s.fill) {
+              page.drawRectangle({
+                x: targetX,
+                y: targetY,
+                width: targetW,
+                height: targetH,
+                color: rgb(r, g, b),
+              });
+            } else {
+              page.drawRectangle({
+                x: targetX,
+                y: targetY,
+                width: targetW,
+                height: targetH,
+                borderColor: rgb(r, g, b),
+                borderWidth: 2,
+              });
+            }
+          }
+
+          // 3. Draw Signatures & Stamps
+          const pageSigs = signatureAnnotations.filter((sig) => sig.page === pageNum);
+          for (const sig of pageSigs) {
+            try {
+              const pngImage = await pdfDoc.embedPng(sig.dataUrl);
+              const targetX = (sig.x / 100) * width;
+              const targetW = (sig.w / 100) * width;
+              const targetH = (sig.h / 100) * height;
+              const targetY = height - (sig.y / 100) * height - targetH;
+
+              page.drawImage(pngImage, {
+                x: targetX,
+                y: targetY,
+                width: targetW,
+                height: targetH,
+              });
+            } catch (sigErr) {
+              console.warn("Failed to embed signature:", sigErr);
+            }
           }
         }
       }
@@ -572,6 +666,55 @@ export function PdfEditor() {
       alert("Failed to export edited PDF. Please try again.");
     } finally {
       setIsExporting(false);
+    }
+  };
+
+  const initiateExport = async () => {
+    if (!pdfBytes) return;
+    const hasAnyRedaction = shapeAnnotations.some(s => s.type === "redact");
+    
+    if (hasAnyRedaction) {
+      try {
+        setIsExporting(true); // show loader during check
+        const pdfDoc = await PDFDocument.load(pdfBytes);
+        let hasAttachments = false;
+        
+        // 1. Check Document Level EmbeddedFiles in Names catalog
+        const names = pdfDoc.catalog.get(PDFName.of('Names'));
+        if (names instanceof PDFDict && names.get(PDFName.of('EmbeddedFiles'))) {
+          hasAttachments = true;
+        }
+
+        // 2. Check Page Level FileAttachment annotations
+        const pages = pdfDoc.getPages();
+        for (const p of pages) {
+          const annots = p.node.Annots();
+          if (annots) {
+            for (let i = 0; i < annots.size(); i++) {
+              const annotRef = annots.get(i);
+              const annot = pdfDoc.context.lookup(annotRef);
+              if (annot instanceof PDFDict && annot.get(PDFName.of('Subtype')) === PDFName.of('FileAttachment')) {
+                hasAttachments = true;
+                break;
+              }
+            }
+          }
+          if (hasAttachments) break;
+        }
+
+        setIsExporting(false);
+
+        if (hasAttachments) {
+          window.alert("This PDF contains embedded attachments. Secure redaction cannot continue because these attachments may still contain sensitive information. Remove the attachments from the source PDF and try again.");
+          return;
+        }
+      } catch (err) {
+        console.error("Failed to parse PDF for attachment check", err);
+        setIsExporting(false);
+      }
+      setShowRedactionWarning(true);
+    } else {
+      handleExportPdf();
     }
   };
 
@@ -758,7 +901,7 @@ export function PdfEditor() {
               </div>
 
               <Button
-                onClick={handleExportPdf}
+                onClick={initiateExport}
                 disabled={isExporting}
                 className="h-9 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-500/20"
               >
@@ -1022,6 +1165,32 @@ export function PdfEditor() {
         </div>
       )}
 
+      {showRedactionWarning && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-[#0a1128] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+              <EyeOff className="w-5 h-5 text-rose-500" /> Confirm Secure Redaction
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+              The original content of pages containing redactions is replaced by a flattened rendered representation, so the original redacted text is no longer retained as selectable page content.
+            </p>
+            <div className="flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setShowRedactionWarning(false)} className="rounded-xl font-bold border-slate-200 dark:border-slate-700">
+                Cancel
+              </Button>
+              <Button 
+                onClick={() => {
+                  setShowRedactionWarning(false);
+                  handleExportPdf();
+                }} 
+                className="rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold"
+              >
+                Accept & Export
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};

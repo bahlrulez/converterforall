@@ -198,7 +198,7 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Why scrub metadata?",
-        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Our PDF Metadata Cleaner strips all this hidden data (Title, Author, Subject, Keywords, Creator, and Producer tags) so your file is completely anonymized.</p>"
+        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Selected document metadata is cleared, while Creator/Producer are normalized to ConverterForAll.</p>"
       },
       {
         title: "100% Client-Side Privacy",
@@ -214,7 +214,7 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Why scrub metadata?",
-        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Our PDF Metadata Cleaner strips all this hidden data (Title, Author, Subject, Keywords, Creator, and Producer tags) so your file is completely anonymized.</p>"
+        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Selected document metadata is cleared, while Creator/Producer are normalized to ConverterForAll.</p>"
       },
       {
         title: "100% Client-Side Privacy",
@@ -230,7 +230,7 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
       },
       {
         title: "Why scrub metadata?",
-        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Our PDF Metadata Cleaner strips all this hidden data (Title, Author, Subject, Keywords, Creator, and Producer tags) so your file is completely anonymized.</p>"
+        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Selected document metadata is cleared, while Creator/Producer are normalized to ConverterForAll.</p>"
       },
       {
         title: "100% Client-Side Privacy",
