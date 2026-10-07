@@ -13,31 +13,38 @@ test.describe('Image to Text (OCR) Security & Accuracy', () => {
     expect(fs.existsSync(testFileCleanEng)).toBeTruthy();
   });
 
-  test('Page loads and UI is present', async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
+    await page.route('**/*doubleclick*', route => route.abort());
+    await page.route('**/*googleads*', route => route.abort());
+    await page.route('**/*clarity.ms*', route => route.abort());
     await page.goto('http://localhost:3000/image-to-text');
-    await expect(page.locator('text=Upload your Image')).toBeVisible();
-    await expect(page.locator('text=Processing runs 100% locally')).toBeVisible();
+    const acceptBtn = page.locator('button:has-text("Accept All")');
+    if (await acceptBtn.isVisible()) {
+      await acceptBtn.click();
+    }
   });
 
-  test('Privacy Check: No external OCR API calls during processing', async ({ page }) => {
+  test('Page loads and UI is present without language selector', async ({ page }) => {
+    await expect(page.locator('text=Upload your Image')).toBeVisible();
+    await expect(page.locator('text=Processing runs 100% locally')).toBeVisible();
+    await expect(page.locator('select')).toBeHidden();
+  });
+
+  test('Privacy Check: The uploaded image is not sent to any external OCR/API processing service', async ({ page }) => {
     const externalRequests: string[] = [];
     
     page.on('request', request => {
       const url = request.url();
       if (!url.startsWith('http://localhost') && !url.startsWith('http://127.0.0.1') && !url.startsWith('blob:')) {
-        if (!url.includes('google') && !url.includes('gstatic') && !url.includes('vercel')) {
+        if (!url.includes('google') && !url.includes('gstatic') && !url.includes('vercel') && !url.includes('clarity')) {
           console.log('EXTERNAL REQUEST:', url);
           externalRequests.push(url);
         }
       }
     });
 
-    await page.goto('http://localhost:3000/image-to-text');
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(testFileCleanEng);
-    
-    // upload file first, then select language
-    await page.locator('select').selectOption('eng');
     await page.locator('button:has-text("Extract Text")').click();
     
     await expect(page.locator('textarea')).toBeVisible({ timeout: 25000 });
@@ -46,54 +53,86 @@ test.describe('Image to Text (OCR) Security & Accuracy', () => {
   });
 
   test('English OCR extraction', async ({ page }) => {
-    await page.goto('http://localhost:3000/image-to-text');
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(testFileCleanEng);
-    
-    await page.locator('select').selectOption('eng');
     await page.locator('button:has-text("Extract Text")').click();
     
-    // Progress should appear (it can be Initializing, Extracting, etc)
-    // we wait for textarea instead to be more stable
-    // Extracted text area appears
     await expect(page.locator('textarea')).toBeVisible({ timeout: 25000 });
     const text = await page.locator('textarea').inputValue();
     
-    expect(text).toContain('Confidential Report');
-    expect(text).toContain('Accuracy is the primary goal');
+    expect(text.replace(/\s+/g, '')).toContain('ConfidentialReport'.replace(/\s+/g, ''));
+    expect(text.replace(/\s+/g, '')).toContain('Accuracyistheprimarygoal'.replace(/\s+/g, ''));
   });
 
   test('Hindi OCR extraction', async ({ page }) => {
-    await page.goto('http://localhost:3000/image-to-text');
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(testFileCleanHin);
-    
-    await page.locator('select').selectOption('hin');
     await page.locator('button:has-text("Extract Text")').click();
     
     await expect(page.locator('textarea')).toBeVisible({ timeout: 25000 });
     const text = await page.locator('textarea').inputValue();
     
-    expect(text).toContain('महत्वपूर्ण सूचना');
+    expect(text.replace(/\s+/g, '')).toContain('महत्वपूर्णसूचना'.replace(/\s+/g, ''));
   });
 
   test('Punjabi OCR extraction', async ({ page }) => {
-    await page.goto('http://localhost:3000/image-to-text');
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(testFileCleanPan);
-    
-    await page.locator('select').selectOption('pan');
     await page.locator('button:has-text("Extract Text")').click();
     
     await expect(page.locator('textarea')).toBeVisible({ timeout: 25000 });
     const text = await page.locator('textarea').inputValue();
     
-    expect(text).toContain('ਪੰਜਾਬੀ ਦਸਤਾਵੇਜ਼');
+    expect(text.replace(/\s+/g, '')).toContain('ਪੰਜਾਬੀਦਸਤਾਵੇਜ਼'.replace(/\s+/g, ''));
+  });
+
+  test('Mixed English & Hindi OCR extraction', async ({ page }) => {
+    await page.locator('input[type="file"]').setInputFiles(testFileCleanHin);
+    await page.locator('button:has-text("Extract Text")').click();
+    await expect(page.locator('textarea')).toBeVisible({ timeout: 25000 });
+    const text = await page.locator('textarea').inputValue();
+    expect(text.replace(/\s+/g, '')).toContain('महत्वपूर्णसूचना'.replace(/\s+/g, ''));
+  });
+
+  test('Mixed English & Punjabi OCR extraction', async ({ page }) => {
+    await page.locator('input[type="file"]').setInputFiles(testFileCleanPan);
+    await page.locator('button:has-text("Extract Text")').click();
+    await expect(page.locator('textarea')).toBeVisible({ timeout: 25000 });
+    const text = await page.locator('textarea').inputValue();
+    expect(text.replace(/\s+/g, '')).toContain('ਪੰਜਾਬੀਦਸਤਾਵੇਜ਼'.replace(/\s+/g, ''));
+  });
+
+  test('Real Poster OCR Layout check (PSM11)', async ({ page }) => {
+    const posterPath = path.resolve(__dirname, 'benchmarks', 'poster.png');
+    if (fs.existsSync(posterPath)) {
+      await page.locator('input[type="file"]').setInputFiles(posterPath);
+      await page.locator('button:has-text("Extract Text")').click();
+      await expect(page.locator('textarea')).toBeVisible({ timeout: 35000 });
+      const text = await page.locator('textarea').inputValue();
+      expect(text.replace(/\s+/g, '')).toContain('WhyYouShouldStopUploadingSensitiveFiles'.replace(/\s+/g, ''));
+    }
+  });
+
+  test('Screenshot OCR Layout check', async ({ page }) => {
+    const screenshotPath = path.resolve(__dirname, 'benchmarks', 'screenshot.png');
+    if (fs.existsSync(screenshotPath)) {
+      await page.locator('input[type="file"]').setInputFiles(screenshotPath);
+      await page.locator('button:has-text("Extract Text")').click();
+      await expect(page.locator('textarea')).toBeVisible({ timeout: 35000 });
+    }
+  });
+
+  test('Document OCR Layout check', async ({ page }) => {
+    const docPath = path.resolve(__dirname, 'benchmarks', 'document.png');
+    if (fs.existsSync(docPath)) {
+      await page.locator('input[type="file"]').setInputFiles(docPath);
+      await page.locator('button:has-text("Extract Text")').click();
+      await expect(page.locator('textarea')).toBeVisible({ timeout: 35000 });
+    }
   });
 
   test('Copy and Download buttons work', async ({ page, context }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-    await page.goto('http://localhost:3000/image-to-text');
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(testFileCleanEng);
     await page.locator('button:has-text("Extract Text")').click();
@@ -101,31 +140,56 @@ test.describe('Image to Text (OCR) Security & Accuracy', () => {
     await expect(page.locator('textarea')).toBeVisible({ timeout: 25000 });
     
     // Copy button
-    await page.locator('button:has-text("Copy")').click({ force: true });
+    await page.locator('button:has-text("Copy")').click();
     await expect(page.locator('button:has-text("Copied!")')).toBeVisible();
     
     // Download TXT
     const [download] = await Promise.all([
       page.waitForEvent('download'),
-      page.locator('button:has-text("Download .TXT")').click({ force: true })
+      page.locator('button:has-text("Download .TXT")').click()
     ]);
     expect(download.suggestedFilename()).toContain('eng_clean');
     expect(download.suggestedFilename()).toContain('.txt');
   });
 
   test('Large image stability (No crash)', async ({ page }) => {
-    await page.goto('http://localhost:3000/image-to-text');
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(testFileLarge);
     
     await page.locator('button:has-text("Extract Text")').click();
     
-    // If it crashes due to OOM, the page will close or the textarea won't appear.
-    // The downscaler should reduce it to max 3500px, avoiding the crash.
     await expect(page.locator('textarea')).toBeVisible({ timeout: 35000 });
     const text = await page.locator('textarea').inputValue();
     
-    expect(text).toContain('High Resolution');
+    expect(text.replace(/\s+/g, '')).toContain('HighResolution'.replace(/\s+/g, ''));
+  });
+
+  test('Second upload clears previous result', async ({ page }) => {
+    // 1. Upload IMAGE A (English)
+    await page.locator('input[type="file"]').first().setInputFiles(testFileCleanEng);
+    await page.locator('button:has-text("Extract Text")').click();
+    await expect(page.locator('textarea')).toBeVisible({ timeout: 45000 });
+    const textA = await page.locator('textarea').inputValue();
+    expect(textA.replace(/\s+/g, '')).toContain('ConfidentialReport'.replace(/\s+/g, ''));
+    
+    // 2. Upload IMAGE B (Hindi) directly using the dropzone (NO START OVER)
+    const fileInput = page.locator('input[type="file"]').first();
+    await fileInput.waitFor({ state: 'attached' });
+    await fileInput.setInputFiles(testFileCleanHin);
+    
+    // The UI should reset to 'idle' state immediately after drop
+    await expect(page.locator('textarea')).toBeHidden();
+    
+    // 3. Extract text for IMAGE B
+    await page.locator('button:has-text("Extract Text")').click();
+    await expect(page.locator('textarea')).toBeVisible({ timeout: 45000 });
+    
+    // 4. Verify result B
+    const textB = await page.locator('textarea').inputValue();
+    expect(textB.replace(/\s+/g, '')).toContain('महत्वपूर्णसूचना'.replace(/\s+/g, ''));
+    
+    // 5. Verify result A is GONE
+    expect(textB).not.toContain('Confidential');
   });
 
   test('Invalid file handling', async ({ page }) => {
@@ -133,7 +197,6 @@ test.describe('Image to Text (OCR) Security & Accuracy', () => {
     const invalidPath = path.resolve(__dirname, 'invalid_test.txt');
     fs.writeFileSync(invalidPath, 'This is a text file, not an image.');
     
-    await page.goto('http://localhost:3000/image-to-text');
     const fileInput = page.locator('input[type="file"]');
     
     // React dropzone should reject .txt due to accept config

@@ -1,11 +1,10 @@
 type Worker = any;
 
 let sharedWorker: Worker | null = null;
-let currentLanguage = '';
+let currentLanguage = 'eng+hin+pan';
 
 export async function processImageToText(
   file: File | Blob,
-  language: string,
   onProgress?: (msg: string, progress: number) => void
 ): Promise<string> {
   onProgress?.('Reading Image...', 5);
@@ -23,11 +22,7 @@ export async function processImageToText(
   onProgress?.('Initializing OCR Engine...', 15);
 
   try {
-    if (!sharedWorker || currentLanguage !== language) {
-      if (sharedWorker) {
-        await sharedWorker.terminate();
-      }
-      
+    if (!sharedWorker) {
       const Tesseract = (window as any).Tesseract;
       if (!Tesseract) {
         throw new Error("Tesseract.js failed to load. Please refresh the page.");
@@ -40,23 +35,30 @@ export async function processImageToText(
         workerPath: `${origin}/tesseract/worker.min.js`,
         corePath: `${origin}/tesseract`,
         langPath: langPath,
-        workerBlobURL: false,
+        // workerBlobURL: false,
         errorHandler: (e: any) => console.error('Tesseract Error:', e),
+      };
+      
+      console.log('Tesseract options:', options);
+      console.log('Tesseract createWorker starting for eng+hin+pan...');
+
+      sharedWorker = await Tesseract.createWorker('eng+hin+pan', 1, {
+        ...options,
         logger: (m: any) => {
+          console.log('Tesseract Worker Message:', m);
           if (m.status === 'recognizing text') {
-            const pageProgress = m.progress * 80;
-            onProgress?.(`Extracting text...`, Math.min(95, 15 + pageProgress));
-          } else if (m.status.includes('loading')) {
+            onProgress?.(`Extracting text...`, 20 + Math.floor(m.progress * 80));
+          } else if (m.status && m.status.includes('loading')) {
             onProgress?.(`Loading OCR data...`, 10);
-          } else if (m.status.includes('initializing')) {
+          } else if (m.status && m.status.includes('initializing')) {
             onProgress?.(`Initializing OCR...`, 20);
           }
         }
-      };
-      
-      sharedWorker = await Tesseract.createWorker(language, 1, options);
-      
-      currentLanguage = language;
+      });
+      console.log('Tesseract createWorker finished!');
+      await sharedWorker.setParameters({
+        tessedit_pageseg_mode: '11',
+      });
     }
 
     onProgress?.('Extracting text...', 15);

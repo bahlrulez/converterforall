@@ -15,7 +15,6 @@ export default function ImageToTextTool() {
   const [progressValue, setProgressValue] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   const [extractedText, setExtractedText] = useState<string | null>(null);
-  const [language, setLanguage] = useState("eng");
   const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
@@ -91,14 +90,14 @@ export default function ImageToTextTool() {
     URL.revokeObjectURL(a.href);
   };
 
-  const handleProcess = async () => {
+  const handleProcess = async () => { console.log('HANDLE PROCESS STARTED'); 
     if (!file) return;
     setStatus("processing");
     setProgressMsg("Initializing engines...");
     setProgressValue(5);
     
     try {
-      const text = await processImageToText(file, language, (msg, val) => {
+      const text = await processImageToText(file, (msg, val) => {
         setProgressMsg(msg);
         setProgressValue(val);
       });
@@ -144,7 +143,16 @@ export default function ImageToTextTool() {
   }
 
   return (
-    <div className="bg-muted/30 rounded-3xl p-6 border border-border shadow-sm flex flex-col gap-6">
+    <div {...getRootProps()} className="bg-muted/30 rounded-3xl p-6 border border-border shadow-sm flex flex-col gap-6 relative">
+      <input {...getInputProps()} />
+      {isDragActive && (
+        <div className="absolute inset-0 z-50 bg-background/80 backdrop-blur-sm border-2 border-primary border-dashed rounded-3xl flex items-center justify-center">
+          <div className="text-center">
+            <Upload className="h-12 w-12 text-primary mx-auto mb-4" />
+            <h3 className="text-xl font-bold">Drop new image to extract</h3>
+          </div>
+        </div>
+      )}
       <Script src="/tesseract/tesseract.min.js" strategy="lazyOnload" />
       <div className="rounded-2xl border bg-card p-6 shadow-sm">
         <div className="flex items-center justify-between">
@@ -177,18 +185,11 @@ export default function ImageToTextTool() {
           </div>
         )}
 
-        {status === "idle" && (
-          <div className="mt-6 border-t pt-4">
-            <label className="text-sm font-medium mb-2 block text-muted-foreground">Image Text Language</label>
-            <select 
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className="w-full h-12 px-4 rounded-xl border bg-background text-foreground mb-4"
-            >
-              <option value="eng">English</option>
-              <option value="hin">Hindi</option>
-              <option value="pan">Punjabi</option>
-            </select>
+        {status === "idle" && file && (
+          <div className="mt-6 border-t pt-4 flex justify-end">
+            <Button onClick={handleProcess} className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
+              Extract Text
+            </Button>
           </div>
         )}
 
@@ -207,14 +208,6 @@ export default function ImageToTextTool() {
             <p className="text-xs text-muted-foreground mt-3 text-center">
               Please do not close this tab. OCR processing may take some time depending on your device.
             </p>
-          </div>
-        )}
-
-        {status === "idle" && (
-          <div className="mt-6 border-t pt-4 flex justify-end">
-            <Button onClick={handleProcess} className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
-              Extract Text
-            </Button>
           </div>
         )}
       </div>
