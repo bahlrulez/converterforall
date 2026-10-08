@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import { Sparkles, Shield, Zap, Lock, Infinity as InfinityIcon, UserX } from "lucide-react";
 import { ModernDropzone } from "./modern-dropzone";
+import Link from "next/link";
 
 export function Hero() {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -34,40 +35,25 @@ export function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
               </span>
-              <span className="font-bold tracking-tight">150+ FREE BROWSER-BASED TOOLS</span>
+              <span className="font-bold tracking-tight">NO UPLOADS. 100% PRIVATE.</span>
             </div>
 
             <h1 className="font-jakarta text-[2.1rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-[4.5rem] font-extrabold tracking-tight text-slate-900 dark:text-white mb-3 lg:mb-6 mt-2 sm:mt-0">
-              Convert Anything.<br />
-              Keep It <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-blue-600">Simple.</span>
+              Fast, Private,<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-blue-600">In-Browser Utilities.</span>
             </h1>
 
             <p className="max-w-xl text-sm sm:text-lg text-slate-600 dark:text-slate-400 mb-5 lg:mb-8 leading-relaxed px-2 sm:px-0">
-              Free online converters for PDF, images, video, audio, documents and fonts — private, secure and easy to use.
+              Zero uploads to external servers. High-performance regional font converters, Sarkari exam photo tools, and privacy-first file utilities.
             </p>
 
-            <div className="hidden sm:flex flex-wrap justify-center lg:justify-start gap-6 text-sm mb-2">
-              <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                <div className="flex flex-col text-left">
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">Private Processing</span>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Your files stay on your device</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <InfinityIcon className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                <div className="flex flex-col text-left">
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">No Limits</span>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400">Convert as much as you need</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <UserX className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <div className="flex flex-col text-left">
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">No Sign Up</span>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400">100% free to use</span>
-                </div>
-              </div>
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-4 text-sm mb-2 w-full px-4 sm:px-0">
+              <Link href="/exam-photo-resizer" className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all shadow-lg hover:shadow-blue-500/25 active:scale-95 w-full sm:w-auto">
+                <span className="text-lg">🎯</span> Sarkari Exam Suite
+              </Link>
+              <Link href="/font-text-fixer" className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white dark:bg-[#0e1733] hover:bg-slate-50 dark:hover:bg-[#152145] text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 font-semibold transition-all shadow-sm hover:shadow-md active:scale-95 w-full sm:w-auto">
+                <span className="text-lg">🇮🇳</span> Regional Font Auto-Fixer
+              </Link>
             </div>
           </div>
 
