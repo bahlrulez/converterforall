@@ -107,7 +107,7 @@ export function Header() {
         <nav className="hidden lg:flex items-center gap-5 relative h-16">
           {/* All Tools Mega Menu Dropdown Wrapper */}
           <div className="group/mega flex h-full items-center">
-            <Link href="/#featured-tools" className="flex items-center gap-1 text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors py-2">
+            <Link href="/tools" className="flex items-center gap-1 text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors py-2">
               All Tools <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover/mega:rotate-180 transition-transform duration-200" />
             </Link>
             

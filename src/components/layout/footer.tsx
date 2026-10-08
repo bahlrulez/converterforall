@@ -101,6 +101,7 @@ export function Footer() {
               Company &amp; Legal
             </h3>
             <ul className="space-y-2 text-xs">
+              <li><Link href="/tools" className="hover:text-blue-600 dark:hover:text-blue-400 font-bold transition-colors text-blue-600 dark:text-blue-400">All Tools Directory</Link></li>
               <li><Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</Link></li>
               <li><Link href="/blog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog &amp; Guides</Link></li>
               <li><Link href="/contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact Us</Link></li>

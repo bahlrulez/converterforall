@@ -1,7 +1,7 @@
 import { ArrowLeft, ShieldCheck, Zap, Sparkles, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getToolBySlug } from "@/lib/tools-db";
+import { getToolBySlug, getCanonicalToolSlugs } from "@/lib/tools-db";
 import { getToolContent, extractToolFaqs } from "@/lib/tool-content";
 import { Metadata } from "next";
 import { ToolRenderer } from "@/components/tools/tool-renderer";
@@ -9,6 +9,12 @@ import { RelatedTools } from "@/components/tools/related-tools";
 import { ToolReviews } from "@/components/tools/tool-reviews";
 import { getToolReviewStats } from "@/lib/reviews-data";
 import { getOptimizedToolTitle, getOptimizedToolDescription } from "@/lib/seo/metadata";
+
+export async function generateStaticParams() {
+  return getCanonicalToolSlugs().map((slug) => ({
+    slug,
+  }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;

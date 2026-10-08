@@ -473,18 +473,23 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
 
   // 3. Video Conversion & Compression Tools
   if (toolSlug.includes("video") || toolSlug.includes("mp4") || toolSlug.includes("mov") || toolSlug.includes("avi") || toolSlug.includes("mkv") || toolSlug.includes("webm") || toolSlug.includes("flv") || toolSlug.includes("wmv")) {
+    const parts = toolSlug.split("-to-");
+    const fromFormat = parts.length === 2 ? parts[0].toUpperCase() : "video";
+    const toFormat = parts.length === 2 ? parts[1].toUpperCase() : "optimized format";
+    const isConversion = parts.length === 2;
+
     return [
       {
-        title: `What is this video tool?`,
+        title: isConversion ? `Why convert ${fromFormat} to ${toFormat}?` : `What does ${toolTitle} do?`,
         content: `
-          <p>${toolDescription} Digital video files come in dozens of containers and codec combinations. A video recorded on an iPhone (MOV) might not play on an older smart TV, while large camera recordings can be far too heavy to send over email, Discord, or WhatsApp.</p>
-          <p>This tool solves playback and file size problems by converting or compressing video data directly in your browser. You get clean, universally playable videos without dealing with complicated command-line parameters or watermarks.</p>
+          <p>${toolDescription} Digital video files come in dozens of containers and codec combinations. A video recorded on a phone (${fromFormat === 'video' ? 'like MOV or WebM' : fromFormat}) might not play on an older smart TV, while large camera recordings can be far too heavy to send over email, Discord, or WhatsApp.</p>
+          <p>This tool solves playback and file size problems by converting or compressing video data directly in your browser. ${isConversion ? `By converting to ${toFormat}, you get a clean, universally playable video` : 'You get clean, universally playable videos'} without dealing with complicated command-line parameters or watermarks.</p>
         `
       },
       {
         title: "Understanding containers, codecs, and compression",
         content: `
-          <p>A video file is like a digital box (the container, such as MP4 or MKV) holding video frames, audio tracks, and subtitles. The actual pictures inside are compressed using codecs like H.264, VP9, or AV1. When you need to share a clip on social media, using standard H.264 video with AAC audio inside an MP4 container guarantees playback across nearly every smartphone, browser, and media player.</p>
+          <p>A video file is like a digital box (the container, such as ${isConversion && toFormat !== 'optimized format' ? toFormat : 'MP4 or MKV'}) holding video frames, audio tracks, and subtitles. The actual pictures inside are compressed using codecs like H.264, VP9, or AV1. When you need to share a clip on social media, using standard H.264 video with AAC audio inside an MP4 container guarantees playback across nearly every smartphone, browser, and media player.</p>
           <p>Our processing optimizes compression bitrates and resolutions so your video loses minimal visual fidelity while significantly reducing file size.</p>
         `
       },
@@ -492,17 +497,17 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
         title: "How to use this video utility",
         content: `
           <ol>
-            <li><strong>Select your video:</strong> Drag and drop your video file into the box above, or click to browse files on your computer or phone.</li>
-            <li><strong>Adjust settings (if desired):</strong> Choose your target format, resolution, or compression preset.</li>
+            <li><strong>Select your video:</strong> Drag and drop your ${fromFormat !== 'video' ? fromFormat : 'video'} file into the box above, or click to browse files on your computer or phone.</li>
+            <li><strong>Adjust settings (if desired):</strong> Choose your target resolution or compression preset for the ${toFormat} output.</li>
             <li><strong>Process and Download:</strong> Start the processing and save your optimized video file directly to your storage.</li>
           </ol>
         `
       },
       {
-        title: "Practical everyday use cases",
+        title: `Everyday use cases for ${toolTitle}`,
         content: `
           <ul>
-            <li><strong>Messaging &amp; Chat Apps:</strong> Shrinking 4K phone clips down to under 25MB or 16MB for hassle-free sharing on WhatsApp, Discord, or Gmail.</li>
+            <li><strong>Messaging &amp; Chat Apps:</strong> Shrinking 4K ${fromFormat !== 'video' ? fromFormat : 'phone'} clips down to under 25MB or 16MB for hassle-free sharing on WhatsApp, Discord, or Gmail.</li>
             <li><strong>Website Speed:</strong> Optimizing background website videos and product demos so web pages load quickly for visitors.</li>
             <li><strong>Device Storage:</strong> Freeing up gigabytes of storage on phones, laptops, and USB drives by compressing bulky screen captures and drone footage.</li>
           </ul>
@@ -511,10 +516,10 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will compressing my video make it blurry?</strong><br>A: Our compression presets use adaptive rate control to preserve high visual clarity in important areas like faces and text while trimming redundant background data.</p>
+          <p><strong>Q: Will compressing my ${fromFormat !== 'video' ? fromFormat : 'video'} make it blurry?</strong><br>A: Our compression presets use adaptive rate control to preserve high visual clarity in important areas like faces and text while trimming redundant background data.</p>
           <p><strong>Q: Are my personal videos uploaded to a cloud server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</p>
-          <p><strong>Q: Is there any watermark added to my video?</strong><br>A: Never. All files produced by ConverterForAll are clean, watermark-free, and ready for school, work, or social media.</p>
-          <p><strong>Q: Can I use this tool on a mobile browser?</strong><br>A: Yes, modern mobile browsers like Chrome on Android and Safari on iOS support these tools smoothly.</p>
+          <p><strong>Q: Is there any watermark added to my ${toFormat !== 'optimized format' ? toFormat : 'video'}?</strong><br>A: Never. All files produced by ConverterForAll are clean, watermark-free, and ready for school, work, or social media.</p>
+          <p><strong>Q: Can I use ${toolTitle} on a mobile browser?</strong><br>A: Yes, modern mobile browsers like Chrome on Android and Safari on iOS support these tools smoothly.</p>
         `
       }
     ];
@@ -522,66 +527,76 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
 
   // 4. Audio Tools (MP3, WAV, OGG, Audio Trimmer)
   if (toolSlug.includes("audio") || toolSlug.includes("mp3") || toolSlug.includes("wav") || toolSlug.includes("ogg") || toolSlug.includes("voice")) {
+    const parts = toolSlug.split("-to-");
+    const fromFormat = parts.length === 2 ? parts[0].toUpperCase() : "audio";
+    const toFormat = parts.length === 2 ? parts[1].toUpperCase() : "audio";
+    const isConversion = parts.length === 2;
+
     return [
       {
-        title: `Why convert or edit audio with this tool?`,
+        title: isConversion ? `Why convert ${fromFormat} to ${toFormat}?` : `Why use ${toolTitle}?`,
         content: `
           <p>${toolDescription} Audio recordings come from many sources—smartphones, voice memos, digital audio workstations, podcasts, and cameras. Uncompressed WAV files offer studio quality but can easily be hundreds of megabytes, making them difficult to share. Conversely, proprietary formats like WhatsApp voice notes or Apple M4A files sometimes fail to open in older car audio systems or video editors.</p>
-          <p>This utility enables you to convert, trim, or re-encode your sound files with zero software installation and complete privacy.</p>
+          <p>This utility enables you to ${isConversion ? `convert your ${fromFormat} into ${toFormat}` : 'trim, edit, or re-encode your sound files'} with zero software installation and complete privacy.</p>
         `
       },
       {
         title: "Understanding audio bitrates and sample rates",
         content: `
-          <p>Audio quality is determined by two main factors: bitrate (measured in kilobits per second) and sample rate (usually 44.1 kHz for music or 48 kHz for video audio). A standard 128 kbps or 192 kbps MP3 provides clear speech and music reproduction while keeping the file lightweight. Studio workflows requiring lossless preservation rely on uncompressed 16-bit or 24-bit WAV formats.</p>
+          <p>Audio quality is determined by two main factors: bitrate (measured in kilobits per second) and sample rate (usually 44.1 kHz for music or 48 kHz for video audio). A standard 128 kbps or 192 kbps ${toFormat !== 'audio' ? toFormat : 'MP3'} provides clear speech and music reproduction while keeping the file lightweight. Studio workflows requiring lossless preservation rely on uncompressed 16-bit or 24-bit WAV formats.</p>
         `
       },
       {
-        title: "Step-by-step audio instructions",
+        title: `Step-by-step ${toolTitle} instructions`,
         content: `
           <ol>
-            <li><strong>Load your audio:</strong> Select your audio or video file from your device.</li>
-            <li><strong>Configure output:</strong> Choose your preferred audio format or adjust trim boundaries if cutting a specific clip.</li>
-            <li><strong>Export audio:</strong> Click download to receive your high-quality sound file immediately.</li>
+            <li><strong>Load your audio:</strong> Select your ${fromFormat !== 'audio' ? fromFormat : 'sound'} or video file from your device.</li>
+            <li><strong>Configure output:</strong> ${isConversion ? `Confirm ${toFormat} as your output` : 'Adjust trim boundaries or settings'} if cutting a specific clip.</li>
+            <li><strong>Export audio:</strong> Click download to receive your high-quality ${toFormat !== 'audio' ? toFormat : 'sound'} file immediately.</li>
           </ol>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can I extract audio from a video file?</strong><br>A: Yes! Tools like MP4 to MP3 read the audio stream directly from your video and save it as a standalone audio track.</p>
-          <p><strong>Q: Are my voice memos and sound files kept private?</strong><br>A: Yes. Most of our tools run directly inside your browser so your documents stay on your device. Your sound files are processed locally on your hardware.</p>
-          <p><strong>Q: What bitrate is used for converted MP3 files?</strong><br>A: We encode at standard 192 kbps to 320 kbps bitrates to ensure crisp, balanced sound without muffling highs or distorting bass.</p>
-          <p><strong>Q: Do I need an account to download my converted audio?</strong><br>A: No account, email, or subscription is ever required.</p>
+          <p><strong>Q: Can I extract ${toFormat !== 'audio' ? toFormat : 'audio'} from a video file?</strong><br>A: Yes! Tools like MP4 to MP3 read the audio stream directly from your video and save it as a standalone audio track.</p>
+          <p><strong>Q: Are my ${fromFormat !== 'audio' ? fromFormat : 'voice'} memos and sound files kept private?</strong><br>A: Yes. Most of our tools run directly inside your browser so your documents stay on your device. Your sound files are processed locally on your hardware.</p>
+          <p><strong>Q: What bitrate is used for converted ${toFormat !== 'audio' ? toFormat : 'MP3'} files?</strong><br>A: We encode at standard 192 kbps to 320 kbps bitrates to ensure crisp, balanced sound without muffling highs or distorting bass.</p>
+          <p><strong>Q: Do I need an account to download my ${toFormat !== 'audio' ? toFormat : 'converted'} audio?</strong><br>A: No account, email, or subscription is ever required.</p>
         `
       }
     ];
   }
 
   // 5. Image Tools (Compressors, Format Converters, Cropper, Resizer, SVG)
-  if (toolSlug.includes("image") || toolSlug.includes("jpg") || toolSlug.includes("png") || toolSlug.includes("webp") || toolSlug.includes("heic") || toolSlug.includes("avif") || toolSlug.includes("gif") || toolSlug.includes("svg") || toolSlug.includes("compress")) {
+  if (toolSlug.includes("image") || toolSlug.includes("jpg") || toolSlug.includes("png") || toolSlug.includes("webp") || toolSlug.includes("heic") || toolSlug.includes("avif") || toolSlug.includes("gif") || toolSlug.includes("svg") || toolSlug.includes("compress") || toolSlug.includes("passport")) {
+    const parts = toolSlug.split("-to-");
+    const fromFormat = parts.length === 2 ? parts[0].toUpperCase() : "image";
+    const toFormat = parts.length === 2 ? parts[1].toUpperCase() : "image";
+    const isConversion = parts.length === 2;
+
     return [
       {
-        title: `What does this image tool do?`,
+        title: isConversion ? `How to convert ${fromFormat} to ${toFormat} online` : `What does ${toolTitle} do?`,
         content: `
-          <p>${toolDescription} High-resolution cameras, smartphones, and graphic software generate images in a wide range of formats—from modern space-saving WEBP and AVIF files to standard JPGs, transparent PNGs, and scalable SVGs. However, many job application portals, government upload forms, and email clients still enforce strict image format and file size limits (such as requiring JPGs under 200KB).</p>
-          <p>This tool helps you adjust, convert, crop, or compress your images so they meet your exact requirements without sacrificing image sharpness.</p>
+          <p>${toolDescription} High-resolution cameras, smartphones, and graphic software generate images in a wide range of formats—from modern space-saving WEBP and AVIF files to standard JPGs, transparent PNGs, and scalable SVGs. However, many job application portals, government upload forms, and email clients still enforce strict image format and file size limits.</p>
+          <p>This tool helps you ${isConversion ? `quickly convert your ${fromFormat} images into the ${toFormat} format` : 'adjust, crop, or compress your images'} so they meet your exact requirements without sacrificing image sharpness.</p>
         `
       },
       {
         title: "How in-browser image processing works",
         content: `
-          <p>Rather than sending your personal photos across the internet to an unknown server, our image tools utilize the HTML5 Canvas API and modern WebAssembly codecs directly in your browser. When you drop an image onto the page, your browser decodes the pixel grid into memory, performs the requested resizing, background removal, or format re-encoding, and produces the output file instantly.</p>
+          <p>Rather than sending your personal photos across the internet to an unknown server, our ${toFormat !== 'image' ? toFormat : 'image'} tools utilize the HTML5 Canvas API and modern WebAssembly codecs directly in your browser. When you drop an image onto the page, your browser decodes the pixel grid into memory, performs the requested ${isConversion ? 'format re-encoding' : 'resizing or compression'}, and produces the output file instantly.</p>
           <p>This ensures you never have to wait in an upload queue, and your private photos remain strictly on your own computer or phone.</p>
         `
       },
       {
-        title: "Step-by-step image processing guide",
+        title: `Step-by-step ${toolTitle} guide`,
         content: `
           <ol>
-            <li><strong>Select your picture:</strong> Drag your image into the drop zone or click to open your file picker.</li>
-            <li><strong>Adjust options:</strong> Set your target dimensions, quality sliders, or cropping box if needed.</li>
-            <li><strong>Save your image:</strong> Click the download button to save the converted, optimized image to your device.</li>
+            <li><strong>Select your picture:</strong> Drag your ${fromFormat !== 'image' ? fromFormat : 'image'} into the drop zone or click to open your file picker.</li>
+            <li><strong>Adjust options:</strong> ${isConversion ? `Confirm ${toFormat} output settings` : 'Set your target dimensions, quality sliders, or cropping box if needed.'}</li>
+            <li><strong>Save your image:</strong> Click the download button to save the ${toFormat !== 'image' ? toFormat : 'optimized'} image to your device.</li>
           </ol>
         `
       },
@@ -598,9 +613,9 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does compressing an image reduce its physical resolution?</strong><br>A: Not unless you choose to resize it. Visual compression works by trimming imperceptible color data while keeping pixel dimensions unchanged.</p>
-          <p><strong>Q: Does PNG support transparent backgrounds?</strong><br>A: Yes. PNG supports an alpha channel for transparency. Converting to JPG will automatically replace transparent areas with a solid white background.</p>
-          <p><strong>Q: Are my photos private and secure?</strong><br>A: Yes. Most of our tools run directly inside your browser so your documents stay on your device. We never store, copy, or transmit your images.</p>
+          <p><strong>Q: Does compressing a ${fromFormat !== 'image' ? fromFormat : 'photo'} reduce its physical resolution?</strong><br>A: Not unless you choose to resize it. Visual compression works by trimming imperceptible color data while keeping pixel dimensions unchanged.</p>
+          <p><strong>Q: Does ${toFormat === 'PNG' ? 'PNG' : 'this format'} support transparent backgrounds?</strong><br>A: ${toFormat === 'PNG' || fromFormat === 'PNG' ? 'Yes. PNG supports an alpha channel for transparency. Converting to JPG will automatically replace transparent areas with a solid white background.' : 'JPG does not support transparency. If you need a transparent background, convert to PNG instead.'}</p>
+          <p><strong>Q: Are my ${fromFormat !== 'image' ? fromFormat : 'personal'} photos private and secure?</strong><br>A: Yes. Most of our tools run directly inside your browser so your documents stay on your device. We never store, copy, or transmit your images.</p>
           <p><strong>Q: Can I convert multiple images at once?</strong><br>A: Yes, batch processing is supported for our core image tools so you can process photos in bulk.</p>
         `
       }
@@ -609,28 +624,30 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
 
   // 6. PDF & Document Tools (Organize, Merge, Split, Rotate, Clean Metadata, Repair)
   if (toolSlug.includes("pdf") || toolSlug.includes("word") || toolSlug.includes("powerpoint") || toolSlug.includes("excel") || toolSlug.includes("pages") || toolSlug.includes("metadata")) {
+    const isPdfTool = toolSlug.includes("pdf");
+
     return [
       {
-        title: `Why use this document tool?`,
+        title: `Why use ${toolTitle}?`,
         content: `
-          <p>${toolDescription} PDF files are the global standard for contracts, academic papers, tax filings, and business proposals because they look identical across every computer and mobile operating system. However, editing, reorganizing, or cleaning PDFs often requires expensive subscription software.</p>
+          <p>${toolDescription} ${isPdfTool ? 'PDF files are the global standard for contracts, academic papers, tax filings, and business proposals because they look identical across every computer and mobile operating system.' : 'Documents often need to be converted to ensure they look identical across every computer and mobile operating system.'} However, editing, reorganizing, or converting these documents often requires expensive subscription software.</p>
           <p>This utility gives you full control over your documents—allowing you to extract, rearrange, rotate, clean, or convert pages without costly licenses or complicated menus.</p>
         `
       },
       {
         title: "How document manipulation works safely in your browser",
         content: `
-          <p>When working with confidential documents like signed agreements, bank statements, or medical records, privacy is non-negotiable. Our PDF tools leverage client-side PDF parsing engines directly in your browser. The tool inspects the document structure, modifies page trees, updates metadata dictionaries, and saves a brand-new PDF directly onto your storage drive.</p>
+          <p>When working with confidential documents like signed agreements, bank statements, or medical records, privacy is non-negotiable. Our ${isPdfTool ? 'PDF' : 'document'} tools leverage client-side parsing engines directly in your browser. The tool inspects the document structure, modifies page trees, updates metadata dictionaries, and saves a brand-new file directly onto your storage drive.</p>
           <p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</p>
         `
       },
       {
-        title: "Step-by-step document guide",
+        title: `Step-by-step ${toolTitle} guide`,
         content: `
           <ol>
-            <li><strong>Select your document:</strong> Drag and drop your PDF or document into the upload box.</li>
-            <li><strong>Perform your changes:</strong> Select pages to remove, rotate upside-down scans, or configure output options.</li>
-            <li><strong>Download the result:</strong> Save your newly organized or converted PDF file immediately.</li>
+            <li><strong>Select your document:</strong> Drag and drop your ${isPdfTool ? 'PDF' : 'document'} into the upload box.</li>
+            <li><strong>Perform your changes:</strong> Select pages to remove, reorganize content, or configure output options.</li>
+            <li><strong>Download the result:</strong> Save your newly organized or converted file immediately.</li>
           </ol>
         `
       },
@@ -640,14 +657,14 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
           <ul>
             <li><strong>Fixing Scanned Documents:</strong> Rotating pages that were scanned sideways or upside down before emailing them to clients.</li>
             <li><strong>Removing Confidential Pages:</strong> Stripping unnecessary appendices, private financial sheets, or blank pages before sharing.</li>
-            <li><strong>Scrubbing Document Properties:</strong> Removing hidden metadata, author names, creation software history, and timestamps from public PDF files.</li>
+            <li><strong>Scrubbing Document Properties:</strong> Removing hidden metadata, author names, creation software history, and timestamps from public files.</li>
           </ul>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can I process password-protected PDF files?</strong><br>A: If a PDF is protected with an owner password, enter the password when prompted to unlock it for organizing or conversion.</p>
+          <p><strong>Q: Can I process password-protected ${isPdfTool ? 'PDF' : 'document'} files?</strong><br>A: If a file is protected with an owner password, enter the password when prompted to unlock it for organizing or conversion.</p>
           <p><strong>Q: Will hyperlinks and text remain selectable?</strong><br>A: Yes. Page manipulation operations preserve existing vector text, selectable paragraphs, and internal document bookmarks.</p>
           <p><strong>Q: Are my confidential contracts stored on any server?</strong><br>A: No. Your documents are processed in local browser memory and are never uploaded or retained.</p>
           <p><strong>Q: Are there any file size limits?</strong><br>A: Since processing runs in your browser, limits depend on your device's available memory. Most documents up to 100MB process smoothly.</p>
@@ -658,25 +675,29 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
 
   // 7. Developer, Data & Code Utilities (JWT, JSON, CSV, Base64, UUID, Timestamps)
   if (toolSlug.includes("jwt") || toolSlug.includes("json") || toolSlug.includes("csv") || toolSlug.includes("base64") || toolSlug.includes("uuid") || toolSlug.includes("timestamp")) {
+    const parts = toolSlug.split("-to-");
+    const isConversion = parts.length === 2;
+    const fromType = isConversion ? parts[0].toUpperCase() : toolTitle.split(" ")[0];
+
     return [
       {
-        title: `What is this developer utility?`,
+        title: `What is ${toolTitle}?`,
         content: `
-          <p>${toolDescription} In modern web development, data engineering, and system administration, engineers constantly handle encoded strings, serialization payloads, authentication tokens, and standardized timestamps. Pasting sensitive authentication tokens or database records into arbitrary online formatters exposes API secrets, user IDs, and proprietary data to third-party logs.</p>
+          <p>${toolDescription} In modern web development, data engineering, and system administration, engineers constantly handle encoded strings, serialization payloads, authentication tokens, and standardized timestamps. Pasting sensitive ${fromType} payloads into arbitrary online formatters exposes API secrets, user IDs, and proprietary data to third-party logs.</p>
           <p>This developer tool runs 100% locally in your web browser. No queries, tokens, or records are ever sent over the network.</p>
         `
       },
       {
         title: "Why client-side execution matters for security",
         content: `
-          <p>When inspecting JSON Web Tokens (JWTs) or debugging Base64-encoded credentials, security best practices dictate that secrets must never leave your workstation. Because this tool executes entirely within your browser's sandboxed JavaScript runtime, you can safely parse tokens, format JSON data, and convert CSV datasets even while disconnected from the internet.</p>
+          <p>When inspecting JSON Web Tokens (JWTs) or debugging ${fromType}-encoded credentials, security best practices dictate that secrets must never leave your workstation. Because this tool executes entirely within your browser's sandboxed JavaScript runtime, you can safely parse tokens, format data, and convert datasets even while disconnected from the internet.</p>
         `
       },
       {
-        title: "Step-by-step guide",
+        title: `Step-by-step ${toolTitle} guide`,
         content: `
           <ol>
-            <li><strong>Paste your input:</strong> Paste your raw JSON, Base64 string, token, or timestamp into the editor.</li>
+            <li><strong>Paste your input:</strong> Paste your raw ${fromType} string, token, or timestamp into the editor.</li>
             <li><strong>Instant parsing:</strong> The tool formats, validates, or translates your data immediately with syntax highlighting.</li>
             <li><strong>Copy output:</strong> Click the copy button to copy the validated result straight to your clipboard.</li>
           </ol>
@@ -685,7 +706,7 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does this tool transmit my tokens or data to an external API?</strong><br>A: No. Zero network requests are made with your data. Processing happens exclusively in your browser.</p>
+          <p><strong>Q: Does ${toolTitle} transmit my tokens or data to an external API?</strong><br>A: No. Zero network requests are made with your data. Processing happens exclusively in your browser.</p>
           <p><strong>Q: Can I use this tool offline?</strong><br>A: Yes! Once the page is loaded, the processing logic operates completely offline without internet connectivity.</p>
           <p><strong>Q: Does it validate syntax errors?</strong><br>A: Yes. If a payload contains malformed syntax, the tool highlights the exact error line and provides clear feedback.</p>
           <p><strong>Q: Is this tool free for commercial and enterprise developers?</strong><br>A: Yes. All utilities on ConverterForAll are free with no subscriptions or quotas.</p>
@@ -697,20 +718,20 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
   // 8. General & Utility Tools Fallback (Calculators, Generators, Cleaners)
   return [
     {
-      title: `What is this tool?`,
+      title: `What is ${toolTitle}?`,
       content: `
-        <p>${toolDescription} We built this utility to solve everyday digital tasks directly inside your web browser. There is no software to install, no accounts to register, and no paywalls to navigate.</p>
+        <p>${toolDescription} We built ${toolTitle} to solve everyday digital tasks directly inside your web browser. There is no software to install, no accounts to register, and no paywalls to navigate.</p>
         <p>Whether you need to compute values, clean up formatted text, or generate assets for a project, this utility provides reliable, instant results directly on your device.</p>
       `
     },
     {
-      title: "How it works",
+      title: `How ${toolTitle} works`,
       content: `
         <p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download. This eliminates waiting in server queues and keeps your personal workflow private and efficient.</p>
       `
     },
     {
-      title: "Step-by-step instructions",
+      title: `Step-by-step instructions for ${toolTitle}`,
       content: `
         <ol>
           <li><strong>Provide your input:</strong> Enter your values, text, or file into the tool above.</li>
@@ -722,10 +743,10 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
     {
       title: "Frequently Asked Questions",
       content: `
-        <p><strong>Q: Do I have to pay to use this tool?</strong><br>A: No. ConverterForAll utilities are completely free to use with no daily usage caps.</p>
+        <p><strong>Q: Do I have to pay to use ${toolTitle}?</strong><br>A: No. ConverterForAll utilities are completely free to use with no daily usage caps.</p>
         <p><strong>Q: Do I need to create an account?</strong><br>A: No. We believe basic everyday computer utilities should be open and accessible without forcing you to sign up, give away an email, or remember passwords.</p>
         <p><strong>Q: Are my inputs or files saved?</strong><br>A: Never. Most tools run locally on your device in your browser's memory, ensuring your data remains under your control.</p>
-        <p><strong>Q: Does this tool work on mobile phones?</strong><br>A: Yes, all tools are responsive and work smoothly across modern mobile and desktop web browsers.</p>
+        <p><strong>Q: Does ${toolTitle} work on mobile phones?</strong><br>A: Yes, all tools are responsive and work smoothly across modern mobile and desktop web browsers.</p>
       `
     }
   ];

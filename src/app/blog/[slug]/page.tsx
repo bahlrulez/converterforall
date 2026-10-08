@@ -4,7 +4,13 @@ import { ArrowLeft, Clock, Tag, ChevronRight } from "lucide-react";
 import { Metadata } from "next";
 import { AuthorProfile } from "@/components/shared/author-profile";
 
-import { blogDatabase } from "@/lib/blog-data";
+import { blogDatabase, getAllBlogSlugs } from "@/lib/blog-data";
+
+export async function generateStaticParams() {
+  return getAllBlogSlugs().map((slug) => ({
+    slug,
+  }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
