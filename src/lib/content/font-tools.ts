@@ -49,6 +49,89 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     ]
   },
 
+  // CHANAKYA TO UNICODE CONVERTER
+  "chanakya-to-unicode": {
+    sections: [
+      {
+        title: "Chanakya to Unicode & Mangal Font Converter",
+        content: "<p>Convert legacy <strong>Walkman-Chanakya</strong> font text into universal <strong>Unicode Hindi (Mangal font)</strong> instantly in your browser. This tool is critical for Hindi print journalists, newspaper editors, and publishers who work with traditional PageMaker or Adobe InDesign workflows but need to copy text for web publishing, Word documents, or WhatsApp without it showing up as random English letters.</p>"
+      },
+      {
+        title: "Why Use This Tool?",
+        content: "<ul><li><strong>Web and Mobile Readability:</strong> Legacy Chanakya fonts are not supported on smartphones or most websites. Converting to Unicode ensures anyone can read the text anywhere.</li><li><strong>Correct Matra & Ligature Placement:</strong> Unlike simple character replacement, this advanced converter strictly enforces typographic rules, repositioning Chhoti-ee matras (ि), half-characters, and compound conjuncts (like क्ष, त्र, ज्ञ) to their correct Unicode sequence.</li><li><strong>100% Private:</strong> The conversion runs entirely client-side on your device. Your unpublished news articles and drafts are never sent to a server.</li></ul>"
+      },
+      {
+        title: "Chanakya vs Kruti Dev vs Mangal (Unicode)",
+        content: `
+          <div class="overflow-x-auto my-4">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Font Name</th>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Encoding Type</th>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Primary Use Case</th>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Web/Mobile Friendly?</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr>
+                  <td class="px-4 py-3 font-semibold">Walkman-Chanakya</td>
+                  <td class="px-4 py-3">Legacy ASCII (8-bit)</td>
+                  <td class="px-4 py-3">Print Media, InDesign, Newspapers</td>
+                  <td class="px-4 py-3 text-red-600 font-bold">No</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-semibold">Kruti Dev 010</td>
+                  <td class="px-4 py-3">Legacy ASCII (8-bit)</td>
+                  <td class="px-4 py-3">Govt Exams, Official Typing</td>
+                  <td class="px-4 py-3 text-red-600 font-bold">No</td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-gray-800/50">
+                  <td class="px-4 py-3 font-semibold">Mangal (Unicode)</td>
+                  <td class="px-4 py-3">Universal Unicode</td>
+                  <td class="px-4 py-3">Websites, MS Word, Social Media</td>
+                  <td class="px-4 py-3 text-green-600 font-bold">Yes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        title: "Frequently Asked Questions (FAQ)",
+        content: `
+          <p><strong>Q: My Chhoti-ee (ि) matras are showing up on the wrong side of the letter. How do I fix it?</strong><br>A: Legacy fonts like Chanakya often force typists to type the 'f' key (for the matra) before the consonant for visual display. Our converter automatically detects this and shifts the matra to its correct logical position for Unicode.</p>
+          <p><strong>Q: Can I use this for Walkman Chanakya 901 or 905?</strong><br>A: Yes. The underlying keyboard mapping for the Walkman Chanakya family is standard across most weights and styles, so the conversion will work perfectly.</p>
+        `
+      }
+    ]
+  },
+
+  // UNICODE TO CHANAKYA CONVERTER
+  "unicode-to-chanakya": {
+    sections: [
+      {
+        title: "Unicode to Chanakya Font Converter",
+        content: "<p>Convert modern <strong>Unicode Hindi text (Mangal font)</strong> into the legacy <strong>Walkman-Chanakya font</strong> format online. This utility is designed specifically for DTP operators, book publishers, and newspaper designers who need to import modern web text back into Adobe PageMaker or InDesign templates that rely on traditional Chanakya typography.</p>"
+      },
+      {
+        title: "How to Use Unicode Hindi in Adobe InDesign using Chanakya",
+        content: "<ol><li><strong>Copy Unicode Text:</strong> Copy your modern Hindi text from MS Word, a website, or an email.</li><li><strong>Paste and Convert:</strong> Paste the text into the left panel of this tool. It will instantly convert to Chanakya encoding.</li><li><strong>Copy the Output:</strong> The output will look like random English symbols (e.g., <i>vkt dh rktk [kcj</i>) — this is normal! Copy this output.</li><li><strong>Paste into InDesign:</strong> Paste the symbols into your DTP software. Highlight the text and change the font family to <strong>'Walkman-Chanakya'</strong>. The text will instantly transform into perfect Hindi.</li></ol>"
+      },
+      {
+        title: "Troubleshooting Common Errors",
+        content: "<p>If you see broken characters in your design software after conversion, ensure you have the <strong>Walkman-Chanakya</strong> font file (.ttf) installed on your system. Unlike Unicode fonts, legacy fonts are not pre-installed on Windows or macOS. Additionally, ensure you haven't accidentally set your design software's dictionary to auto-correct the 'English' gibberish before applying the font.</p>"
+      },
+      {
+        title: "Frequently Asked Questions (FAQ)",
+        content: `
+          <p><strong>Q: Why does the output look like English gibberish?</strong><br>A: Chanakya is a legacy font that works by 'hijacking' English characters and replacing their visual appearance with Hindi glyphs. The gibberish is the exact sequence of English keystrokes needed to generate the Hindi words.</p>
+          <p><strong>Q: Does this converter reverse the visual order of matras correctly?</strong><br>A: Yes. Our conversion engine specifically reverses the Unicode logical order back into the visual-typing order required by legacy software, including repositioning the Chhoti-ee matra and Reph.</p>
+        `
+      }
+    ]
+  },
+
   "font-detector": {
     sections: [
       {

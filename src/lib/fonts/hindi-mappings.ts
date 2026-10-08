@@ -118,6 +118,7 @@ export const hindiMappings: Record<string, FontMap> = {
 };
 
 import { krutidevToUnicode, unicodeToKrutidev } from './krutidev-converter';
+import { chanakyaToUnicode, unicodeToChanakya } from './chanakya-converter';
 
 export function convertHindi(text: string, font: string, direction: 'toUnicode' | 'fromUnicode'): string {
   if (!text) return '';
@@ -127,6 +128,14 @@ export function convertHindi(text: string, font: string, direction: 'toUnicode' 
       return krutidevToUnicode(text);
     } else {
       return unicodeToKrutidev(text);
+    }
+  }
+
+  if (font === 'chanakya' || font === 'Chanakya' || font === 'walkman-chanakya') {
+    if (direction === 'toUnicode') {
+      return chanakyaToUnicode(text);
+    } else {
+      return unicodeToChanakya(text);
     }
   }
 
