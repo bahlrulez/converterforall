@@ -10,6 +10,7 @@ import { lengthToolsContent } from "./content/length-tools";
 import { automotiveToolsContent } from "./content/automotive-tools";
 import { devTextToolsContent } from "./content/dev-text-tools";
 import { devSerializationToolsContent } from "./content/dev-serialization-tools";
+import { examToolsContent } from "./content/exam-tools";
 
 
 export const toolContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
@@ -25,6 +26,7 @@ export const toolContent: Record<string, { sections: { title: string, content: s
   ...automotiveToolsContent,
   ...devTextToolsContent,
   ...devSerializationToolsContent,
+  ...examToolsContent,
   "remove-background": {
     sections: [
       {

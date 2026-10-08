@@ -1269,8 +1269,24 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       isInteractive: true,
       acceptedTypes: {}
     }
+  },
+  "exam": {
+    "exam-photo-resizer": { theme: "blue", iconName: "Scan", badge: "New", isPopular: true,
+      title: "Exam Photo & Signature Resizer",
+      description: "Crop and compress photos and signatures exactly to SSC, UPSC, and IBPS portal requirements.",
+      seoTitle: "Exam Photo & Signature Resizer - Crop for SSC, UPSC, IBPS",
+      seoDescription: "Easily crop and compress your passport photo and signature to exact KB sizes and dimensions required by SSC, UPSC, IBPS, and other Indian government exams.",
+      inputFormat: "image",
+      outputFormat: "jpg",
+      actionName: "Resize Photo",
+      isInteractive: true,
+      acceptedTypes: { 
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"],
+        "image/webp": [".webp"]
+      }
+    }
   }
-
 };
 
 // SEO & Routing Slug Aliases (Resolves alternative URLs without duplicate cards in directories)

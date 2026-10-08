@@ -52,6 +52,7 @@ const ImageToTextTool = dynamic(() => import("@/components/tools/image-to-text")
 const AudioTrimmerComponent = dynamic(() => import("@/components/tools/audio-trimmer").then(m => m.default), { ssr: false, loading: ToolLoading });
 const WebFontConverterComponent = dynamic(() => import("@/components/tools/web-font-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
 const OrganizePdfTool = dynamic(() => import("@/components/tools/organize-pdf").then(m => m.OrganizePdfTool), { ssr: false, loading: ToolLoading });
+const ExamPhotoResizer = dynamic(() => import("@/components/tools/exam-photo-resizer").then(m => m.ExamPhotoResizer), { ssr: false, loading: ToolLoading });
 
 interface ToolRendererProps {
   toolSlug: string;
@@ -88,6 +89,7 @@ export function ToolRenderer({
         {tool.converterType === "font-detector" && <FontDetector />}
         {tool.converterType === "unicode-tools" && <UnicodeTools toolType={tool.toolType} />}
         {toolSlug === "passport-photo-maker" && <PassportMaker />}
+        {toolSlug === "exam-photo-resizer" && <ExamPhotoResizer />}
         {toolSlug === "compress-pdf" && <CompressPdfTool />}
         {(toolSlug === "clean-pdf-metadata" || toolSlug === "remove-pdf-properties" || toolSlug === "pdf-privacy-scrubber") && <PdfMetadataCleanerComponent />}
         {toolSlug === "ocr-pdf" && <OcrPdfTool />}

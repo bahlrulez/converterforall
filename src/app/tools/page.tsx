@@ -84,7 +84,7 @@ export default function AllToolsPage() {
         <div className="space-y-16">
           {categories.map((categorySlug) => {
             const categoryData = toolsDatabase[categorySlug];
-            const displayCategoryName = categorySlug === "developer" ? "Data & Code Tools" : `${categorySlug} Tools`;
+            const displayCategoryName = categorySlug === "developer" ? "Data & Code Tools" : categorySlug === "exam" ? "Exam & Document Tools" : `${categorySlug} Tools`;
             
             return (
               <div key={categorySlug}>
