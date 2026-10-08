@@ -160,6 +160,65 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     ]
   },
 
+  "font-text-fixer": {
+    sections: [
+      {
+        title: "Font Text Fixer – Auto-Detect & Repair Garbled Text",
+        content: "<p>Have you ever copied text from an old PDF or Word document only to see random, unreadable characters like <code>çÝæÌðÕ</code> or <code>dÃkrh</code>? Our <strong>Font Text Fixer</strong> uses advanced heuristic detection to automatically identify the corrupted font (whether it's Hindi Kruti Dev, Walkman-Chanakya, or Punjabi Asees) and instantly repairs it into readable, modern <strong>Unicode</strong> text.</p>"
+      },
+      {
+        title: "How to Identify & Repair Corrupted Hindi and Punjabi Fonts",
+        content: "<ol><li><strong>Copy the Garbled Text:</strong> Copy the unreadable text from your PDF, Word document, or website.</li><li><strong>Paste into the Fixer:</strong> Paste the text into the left box of our tool.</li><li><strong>Auto-Detection & Repair:</strong> Our engine will analyze character clusters, detect the original font encoding, and instantly generate clean Unicode text on the right.</li><li><strong>Download or Copy:</strong> You can edit the fixed text if needed, then copy it to your clipboard or download it as a <code>.txt</code> file.</li></ol>"
+      },
+      {
+        title: "Common Garbled Font Patterns",
+        content: `
+          <div class="overflow-x-auto my-4">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">If your text looks like this...</th>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">It's probably this font:</th>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Language</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr>
+                  <td class="px-4 py-3 font-mono text-xs">vkt dh rktk [kcj, çÝæÌðÕ</td>
+                  <td class="px-4 py-3 font-semibold">Kruti Dev / DevLys</td>
+                  <td class="px-4 py-3">Hindi</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-mono text-xs">dÃkrh, Z, f, b, c</td>
+                  <td class="px-4 py-3 font-semibold">Walkman-Chanakya</td>
+                  <td class="px-4 py-3">Hindi</td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-gray-800/50">
+                  <td class="px-4 py-3 font-mono text-xs">dÃk, ih, iB, ¿</td>
+                  <td class="px-4 py-3 font-semibold">Asees / Joy</td>
+                  <td class="px-4 py-3">Punjabi (Gurmukhi)</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-mono text-xs">Asdfghjkl</td>
+                  <td class="px-4 py-3 font-semibold">AnmolLipi</td>
+                  <td class="px-4 py-3">Punjabi (Gurmukhi)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        title: "Frequently Asked Questions (FAQ)",
+        content: `
+          <p><strong>Q: Why does my text look like random English letters?</strong><br>A: Before Unicode became standard, typists used "legacy fonts" that mapped regional characters directly onto English keyboard keys. When you view this text without the specific font installed, your device just shows the underlying English letters.</p>
+          <p><strong>Q: What if the auto-detection gets it wrong?</strong><br>A: Sometimes short snippets of text don't contain enough unique characters to auto-detect perfectly. You can use the <strong>Manual Override</strong> dropdown menu above the text box to force the tool to use a specific font converter.</p>
+          <p><strong>Q: Is my document data sent to a server?</strong><br>A: No. All heuristic detection and text conversion happens 100% locally in your web browser. Your text is never uploaded to any cloud server.</p>
+        `
+      }
+    ]
+  },
+
   // NEPALI PREETI CONVERTER
   "preeti-to-unicode": {
     sections: [

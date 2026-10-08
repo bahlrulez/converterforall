@@ -53,7 +53,7 @@ const AudioTrimmerComponent = dynamic(() => import("@/components/tools/audio-tri
 const WebFontConverterComponent = dynamic(() => import("@/components/tools/web-font-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
 const OrganizePdfTool = dynamic(() => import("@/components/tools/organize-pdf").then(m => m.OrganizePdfTool), { ssr: false, loading: ToolLoading });
 const ExamPhotoResizer = dynamic(() => import("@/components/tools/exam-photo-resizer").then(m => m.ExamPhotoResizer), { ssr: false, loading: ToolLoading });
-
+const FontTextFixer = dynamic(() => import("@/components/tools/font-text-fixer").then(m => m.FontTextFixer), { ssr: false, loading: ToolLoading });
 interface ToolRendererProps {
   toolSlug: string;
   categorySlug: string;
@@ -87,6 +87,7 @@ export function ToolRenderer({
         {tool.converterType === "length" && <LengthConverter defaultFrom={defaultFrom} defaultTo={defaultTo} />}
         {tool.converterType === "font" && <FontConverter defaultFrom={defaultFontFrom} defaultTo={defaultFontTo} category={tool.fontCategory} />}
         {tool.converterType === "font-detector" && <FontDetector />}
+        {toolSlug === "font-text-fixer" && <FontTextFixer />}
         {tool.converterType === "unicode-tools" && <UnicodeTools toolType={tool.toolType} />}
         {toolSlug === "passport-photo-maker" && <PassportMaker />}
         {toolSlug === "exam-photo-resizer" && <ExamPhotoResizer />}

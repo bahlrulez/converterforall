@@ -1129,6 +1129,17 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       converterType: "font-detector", 
       acceptedTypes: {} 
     },
+    "font-text-fixer": { theme: "cyan", iconName: "Wand2", badge: "AI Magic", isPopular: true,
+      title: "Font Text Fixer - Auto-Detect & Repair Garbled Text",
+      seoTitle: "Font Text Fixer - Auto-Detect & Repair Garbled Hindi & Punjabi Fonts",
+      description: "Automatically detect and repair corrupted regional text (like çÝæÌðÕ) into readable Unicode. Fixes broken Kruti Dev, Chanakya, and Asees fonts instantly.",
+      seoDescription: "Fix garbled Hindi and Punjabi text without knowing the original font. Our Font Text Fixer auto-detects Kruti Dev, Chanakya, and Asees and converts to readable Unicode.",
+      inputFormat: "none",
+      outputFormat: "none",
+      isInteractive: true,
+      converterType: "font-text-fixer",
+      acceptedTypes: {}
+    },
     "unicode-normalizer": { theme: "cyan", iconName: "Type", badge: "Font",
       title: "Unicode Normalizer",
       seoTitle: "Unicode Normalizer (NFC) - Fix Character Encodings",
