@@ -54,6 +54,7 @@ const WebFontConverterComponent = dynamic(() => import("@/components/tools/web-f
 const OrganizePdfTool = dynamic(() => import("@/components/tools/organize-pdf").then(m => m.OrganizePdfTool), { ssr: false, loading: ToolLoading });
 const ExamPhotoResizer = dynamic(() => import("@/components/tools/exam-photo-resizer").then(m => m.ExamPhotoResizer), { ssr: false, loading: ToolLoading });
 const FontTextFixer = dynamic(() => import("@/components/tools/font-text-fixer").then(m => m.FontTextFixer), { ssr: false, loading: ToolLoading });
+const PhotoNameDateStamper = dynamic(() => import("@/components/tools/photo-name-date-stamper").then(m => m.PhotoNameDateStamper), { ssr: false, loading: ToolLoading });
 interface ToolRendererProps {
   toolSlug: string;
   categorySlug: string;
@@ -91,6 +92,7 @@ export function ToolRenderer({
         {tool.converterType === "unicode-tools" && <UnicodeTools toolType={tool.toolType} />}
         {toolSlug === "passport-photo-maker" && <PassportMaker />}
         {toolSlug === "exam-photo-resizer" && <ExamPhotoResizer />}
+        {toolSlug === "photo-name-date-stamper" && <PhotoNameDateStamper />}
         {toolSlug === "compress-pdf" && <CompressPdfTool />}
         {(toolSlug === "clean-pdf-metadata" || toolSlug === "remove-pdf-properties" || toolSlug === "pdf-privacy-scrubber") && <PdfMetadataCleanerComponent />}
         {toolSlug === "ocr-pdf" && <OcrPdfTool />}

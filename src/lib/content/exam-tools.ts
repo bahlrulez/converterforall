@@ -74,5 +74,25 @@ export const examToolsContent: Record<string, { sections: { title: string, conte
         `
       }
     ]
+  },
+  "photo-name-date-stamper": {
+    sections: [
+      {
+        title: "Which Exams Require Name and Date on Photo?",
+        content: "<p>Many Indian government job portals strictly require candidates to upload a passport-size photograph with their <strong>Name and Date of Photograph (DOP)</strong> printed at the bottom. Failure to follow this rule is one of the most common reasons for application rejection.</p><p>Major exams enforcing this rule include:</p><ul><li><strong>SSC (Staff Selection Commission):</strong> CGL, CHSL, MTS, GD Constable</li><li><strong>Defense & Police:</strong> CISF, CRPF, State Police recruitment</li><li><strong>UPSC:</strong> NDA, CDS (always verify the latest notification)</li><li><strong>Railway Recruitment Board (RRB)</strong></li></ul>"
+      },
+      {
+        title: "Rules for Valid Date of Photograph (DOP)",
+        content: "<p>When stamping the date on your photo, keep these strict guidelines in mind to prevent rejection:</p><ul><li><strong>3-Month Rule:</strong> The Date of Photograph (DOP) printed on the image must not be older than 3 months from the date of publication of the exam notification.</li><li><strong>Format:</strong> While DD/MM/YYYY is standard and widely accepted, always check if the specific exam notification requests a different format.</li><li><strong>Legibility:</strong> The text must be clearly visible. Our tool ensures this by letting you choose a solid white or black strip to contrast with the text.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Will my photo lose quality when I add the name and date?</strong><br>A: No. Our tool processes the image directly in your browser and outputs a high-resolution JPEG without unnecessary compression.</p>
+          <p><strong>Q: What if I need to compress the photo to 50 KB after stamping?</strong><br>A: After downloading your stamped photo, you can use our <a href="/exam-photo-resizer" class="text-blue-600 hover:underline">Exam Photo Resizer</a> to crop and compress it to the exact KB limits required by portals like SSC or UPSC.</p>
+          <p><strong>Q: Is it safe to upload my photo here?</strong><br>A: Yes! This tool works 100% client-side. Your photo is processed securely within your own web browser and is never uploaded to our servers.</p>
+        `
+      }
+    ]
   }
 };

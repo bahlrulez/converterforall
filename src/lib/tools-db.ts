@@ -1282,6 +1282,21 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     }
   },
   "exam": {
+    "photo-name-date-stamper": { theme: "blue", iconName: "Camera", badge: "New", isPopular: true,
+      title: "Name and Date of Photo Stamper for Sarkari Exams",
+      description: "Quickly stamp your Name and Date of Photograph (DOP) on passport photos for SSC, Police, and Defense exams.",
+      seoTitle: "Name and Date of Photo Stamper - Free Tool for Sarkari Exams",
+      seoDescription: "Stamp candidate name and date of photo (DOP) on passport photos for SSC, State Police, and Defense exams online for free.",
+      inputFormat: "image",
+      outputFormat: "jpg",
+      actionName: "Stamp Photo",
+      isInteractive: true,
+      acceptedTypes: { 
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"],
+        "image/webp": [".webp"]
+      }
+    },
     "exam-photo-resizer": { theme: "blue", iconName: "Scan", badge: "New", isPopular: true,
       title: "Exam Photo & Signature Resizer",
       description: "Crop and compress photos and signatures exactly to SSC, UPSC, and IBPS portal requirements.",
