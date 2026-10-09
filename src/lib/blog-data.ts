@@ -1916,9 +1916,93 @@ export const blogDatabase: Record<string, BlogPost> = {
       <p>"Anytime."</p>
     `
   },
+  "sarkari-exam-photo-signature-guidelines-rules": {
+    description: "Official guidelines for resizing photos to 20-50KB, adding Name & Date of Photo (DOP), removing signature shadows under 20KB, and compressing marksheet PDFs under 100KB.",
+    title: "Sarkari Exam Photo, Signature & Marksheet Guidelines: Dimensions, KB Limits & DOP Rules (SSC, UPSC, State PSC)",
+    date: "October 9, 2026",
+    category: "Guides & Tutorials",
+    content: `
+      <h2>Official Photo & Signature Dimension Table</h2>
+      <p>Applying for Indian government exams requires strict adherence to photo and signature guidelines. Below are the official dimensions and KB limits for major portals:</p>
+      <ul>
+        <li><strong>SSC (CGL, CHSL, MTS, GD):</strong> Photo: 20-50 KB (3.5x4.5 cm). Signature: 10-20 KB (4.0x2.0 cm).</li>
+        <li><strong>UPSC (CSE, NDA):</strong> Photo & Signature: 20-300 KB. Minimum 350x350 px.</li>
+        <li><strong>IBPS (PO, Clerk):</strong> Photo: 20-50 KB (200x230 px). Signature: 10-20 KB (140x60 px).</li>
+        <li><strong>Railway RRB:</strong> Photo: 20-50 KB. Signature: 10-40 KB.</li>
+        <li><strong>State Police/PSC:</strong> Generally 20-50 KB for photos and 10-20 KB for signatures.</li>
+      </ul>
+
+      <h2>Why Are Photos & Signatures Rejected?</h2>
+      <p>Application rejection due to bad photos is incredibly common. The main reasons include:</p>
+      <ul>
+        <li><strong>Missing Name and DOP:</strong> SSC and Police exams often require a white strip at the bottom containing your Name and Date of Photograph (DOP).</li>
+        <li><strong>Grey Shadows on Signatures:</strong> Phone cameras capture grey/yellow shadows on paper. Exam portals require a pure white background and crisp ink.</li>
+        <li><strong>Live Webcam Mismatches:</strong> Ensure your uploaded photo matches your live webcam capture during the exam.</li>
+        <li><strong>Incorrect File Sizes:</strong> Files must fall strictly within the KB limits. Being 1 KB over or under will result in an upload error.</li>
+      </ul>
+
+      <h2>Step-by-Step Resolution (Free In-Browser Tools)</h2>
+      <p>You don't need Photoshop to fix these issues. You can use our specialized free tools to prepare your documents instantly inside your browser:</p>
+      <ul>
+        <li><a href="/exam-photo-resizer">Exam Photo Resizer</a>: Crop and compress photos to exact pixel and strict KB bounds (20-50 KB).</li>
+        <li><a href="/photo-name-date-stamper">Name & Date of Photo (DOP) Stamper</a>: Automatically add the required white Name and DOP strip to your passport photo.</li>
+        <li><a href="/exam-signature-resizer">Signature Whitener & Resizer</a>: Remove grey paper shadows from mobile photos and compress signatures strictly between 10-20 KB.</li>
+        <li><a href="/compress-pdf-100kb">100KB PDF Marksheet Compressor</a>: Compress educational certificates and marksheets under 100KB or 200KB without making text illegible.</li>
+      </ul>
+      
+      <h2>Frequently Asked Questions</h2>
+      <p><strong>Q: Does the Date of Photo (DOP) have to be recent?</strong><br>A: Yes. Most exams mandate that the photo should not be older than 3 months from the notification date.</p>
+      <p><strong>Q: Can I use a blue pen for my signature?</strong><br>A: While most exams prefer black ink, blue ink is generally accepted unless specifically prohibited in the notification. Use our Signature Whitener to preserve the blue ink while cleaning the background.</p>
+    `
+  },
+  "how-to-fix-garbled-kruti-dev-chanakya-asees-font": {
+    description: "Step-by-step tutorial on repairing corrupted Hindi and Punjabi regional legacy fonts copied from old PDFs, Word files, and PageMaker layouts into standard UTF-8 Unicode.",
+    title: "How to Fix Broken & Garbled Kruti Dev, Chanakya, and Asees Fonts in Word & InDesign",
+    date: "October 9, 2026",
+    category: "Conversion Guides",
+    content: `
+      <h2>Why Do Legacy Fonts Break?</h2>
+      <p>If you've ever copied text from an old Hindi PDF, an old Microsoft Word document, or a PageMaker file, you might have pasted it only to see garbled English characters like <em>"d&grave;f"</em> or <em>"vki"</em>. This happens due to an encoding mismatch.</p>
+      <p>Legacy fonts like Kruti Dev, Chanakya, and Asees use 8-bit ANSI encoding. They remap English keystrokes to Hindi or Punjabi glyphs. Modern software, browsers, and mobile phones use standard UTF-8 Unicode. When modern software tries to read the old 8-bit text, it displays the underlying English characters instead.</p>
+
+      <h2>Kruti Dev vs. Walkman-Chanakya</h2>
+      <p>There are two major typing layouts used in India:</p>
+      <ul>
+        <li><strong>Remington Typewriter Layout (Kruti Dev / Devlys):</strong> Widely used in government offices and typing exams.</li>
+        <li><strong>Publishing/Prepress Layout (Walkman-Chanakya):</strong> Widely used by newspapers, publishers, and DTP operators in Adobe InDesign and PageMaker.</li>
+      </ul>
+      <p>Converting between these requires mapping the specific legacy glyphs to universal Unicode characters.</p>
+
+      <h2>How to Auto-Detect and Convert Garbled Text in 1 Click</h2>
+      <p>You can instantly fix broken Hindi and Punjabi text using our free conversion tools:</p>
+      <ul>
+        <li><a href="/font-text-fixer">Regional Font Auto-Fixer</a>: Paste your broken text and let our AI automatically detect the legacy font and convert it to readable Unicode.</li>
+        <li><a href="/krutidev-to-unicode">Kruti Dev to Unicode Converter</a>: Specifically convert Kruti Dev or Devlys text from old government documents to Unicode.</li>
+        <li><a href="/chanakya-to-unicode">Chanakya to Unicode Converter</a>: Fix text copied from PageMaker or InDesign files using Walkman-Chanakya.</li>
+      </ul>
+
+      <h2>Frequently Asked Questions</h2>
+      <p><strong>Q: Will my formatting be preserved after conversion?</strong><br>A: Clipboard formatting like bold, italics, or font sizes may be lost during pure text conversion. The converters output clean Unicode plain text which you can format natively in Word or InDesign using fonts like Mangal or Nirmala UI.</p>
+      <p><strong>Q: I need to paste the text back into an old PageMaker file, can I convert Unicode back to Kruti Dev?</strong><br>A: Yes! Our tools support two-way conversion. Just use the <em>Unicode to Kruti Dev</em> option to convert standard text back into the legacy layout.</p>
+    `
+  }
 };
 
 export const posts = [
+  {
+    slug: "sarkari-exam-photo-signature-guidelines-rules",
+    title: "Sarkari Exam Photo, Signature & Marksheet Guidelines: Dimensions, KB Limits & DOP Rules (SSC, UPSC, State PSC)",
+    date: "October 9, 2026",
+    excerpt: "Official guidelines for resizing photos to 20-50KB, adding Name & Date of Photo (DOP), removing signature shadows under 20KB, and compressing marksheet PDFs under 100KB.",
+    category: "Guides & Tutorials"
+  },
+  {
+    slug: "how-to-fix-garbled-kruti-dev-chanakya-asees-font",
+    title: "How to Fix Broken & Garbled Kruti Dev, Chanakya, and Asees Fonts in Word & InDesign",
+    date: "October 9, 2026",
+    excerpt: "Step-by-step tutorial on repairing corrupted Hindi and Punjabi regional legacy fonts copied from old PDFs, Word files, and PageMaker layouts into standard UTF-8 Unicode.",
+    category: "Conversion Guides"
+  },
     {
       slug: "why-you-should-stop-uploading-sensitive-files-to-online-converters",
       title: "Why You Should Stop Uploading Sensitive Files to Online Converters",
