@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Type, Settings, Shield, Image as ImageIcon, Eraser, FileText, Camera, Scan, FileJson, FileArchive } from "lucide-react";
+import { ArrowRight, Type, Settings, Shield, Image as ImageIcon, Eraser, FileText, Camera, Scan, FileJson, FileArchive, Wand2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Reusable component for Hub Cards
@@ -105,42 +105,50 @@ export function SpecializedHubs() {
         <div className="space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-bold uppercase tracking-wider mb-3">
-                <span className="text-sm">✍️</span> Typography
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-xs font-bold uppercase tracking-wider mb-3">
+                <span className="text-sm">✒️</span> Regional Tools
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                 Indian Typography &amp; Publishing Suite
               </h2>
             </div>
-            <Link href="/category/fonts" className="text-sm font-medium text-slate-500 hover:text-orange-600 dark:text-slate-400 dark:hover:text-orange-400 flex items-center gap-1 transition-colors">
+            <Link href="/category/fonts" className="text-sm font-medium text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 flex items-center gap-1 transition-colors">
               View all font tools <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <HubCard 
               href="/font-text-fixer"
-              title="Font Text Fixer"
-              description="Instantly detect and repair garbled Hindi and Punjabi text (Kruti Dev, Chanakya, Asees) copied from old PDFs and Word files."
-              tag="Auto-Detect • Repair"
-              icon={Settings}
-              colorClass="bg-orange-500"
-            />
-            <HubCard 
-              href="/chanakya-to-unicode"
-              title="Walkman-Chanakya ⇄ Unicode"
-              description="Two-way converter designed for Hindi newspaper editors and DTP operators with complex conjunct and matra support."
-              tag="InDesign • PageMaker"
-              icon={Type}
-              colorClass="bg-red-500"
+              title="Regional Font Auto-Fixer"
+              description="Automatically detects and converts broken Hindi or Punjabi text into standard readable Unicode."
+              tag="AI Detection"
+              icon={Wand2}
+              colorClass="bg-violet-600"
             />
             <HubCard 
               href="/krutidev-to-unicode"
-              title="Kruti Dev ⇄ Unicode"
-              description="Convert legacy Remington Hindi font to standard UTF-8 Mangal Unicode effortlessly."
-              tag="Court Typists • Tests"
+              title="Kruti Dev to Unicode"
+              description="Instantly convert legacy Kruti Dev / Devlys 010 text from Word or PDFs into standard Hindi Unicode."
+              tag="Hindi"
               icon={Type}
-              colorClass="bg-amber-500"
+              colorClass="bg-indigo-600"
+            />
+            <HubCard 
+              href="/chanakya-to-unicode"
+              title="Chanakya to Unicode"
+              description="Fix Walkman-Chanakya text copied from Adobe InDesign or PageMaker into web-friendly Unicode."
+              tag="Publishing"
+              icon={FileText}
+              colorClass="bg-purple-600"
+            />
+            <HubCard 
+              href="/asees-to-unicode"
+              title="Asees to Unicode (Raavi)"
+              description="Convert legacy Asees Punjabi text into standard Unicode (Raavi) for PSSSB and Punjab typing tests."
+              tag="Punjabi"
+              icon={Type}
+              colorClass="bg-fuchsia-600"
             />
           </div>
         </div>

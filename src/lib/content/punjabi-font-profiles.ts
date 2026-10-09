@@ -146,22 +146,23 @@ const punjabiProfiles: FontContentProfile[] = [
     slug: "asees-to-unicode",
     fontName: "Asees",
     direction: "to-unicode",
-    description: "Converts text typed using the Asees keyboard layout into standard Gurmukhi Unicode.",
+    description: "Converts text typed using the legacy Asees keyboard layout into standard Gurmukhi Unicode (Raavi font). Specifically designed for candidates preparing for PSSSB, Punjab Police, and High Court typing tests.",
     primaryUseCases: [
-      "Migrating documents typed using the non-standard Asees typewriter key mapping for Unicode compatibility.",
-      "Submitting offline typed documents to modern online portals.",
-      "Sharing Asees-encoded files with users on mobile devices."
+      "Converting practice paragraphs from Asees into standard Unicode to verify typing accuracy for PSSSB and state exams.",
+      "Migrating old government documents typed in Asees into modern, searchable Unicode (Raavi) text.",
+      "Fixing garbled Punjabi text on mobile devices and WhatsApp by converting the legacy ASCII encoding into universal UTF-8."
     ],
     mappingConsiderations: [
-      "Asees utilizes a specific typewriter-style key mapping distinct from Satluj or Joy.",
-      "The converter accurately maps Asees-specific conjuncts to their standard Unicode equivalents."
+      "Asees utilizes a specific typewriter-style key mapping where matras like Sihari ('f') are typed before the consonant. This tool automatically repositions them correctly for Unicode rendering.",
+      "Handles all complex Pairi characters (Pairi Rara, Pairi Haha, Pairi Vava), Bindis, Tippis, and Addaks with precise typographical mapping."
     ],
     compatibilityNotes: [
-      "If your document displays question marks (???) or square boxes on another computer, it is missing the Asees .ttf file. Convert to Unicode to make the document universally readable."
+      "Converted text will automatically render in Raavi, Mangal, or Nirmala UI depending on your Windows/Mac system defaults.",
+      "Toggle the 'Convert digits' option if you specifically need standard English numbers (0-9) converted to traditional Gurmukhi numerals (੦-੯)."
     ],
     relatedConverters: [
-      { slug: "satluj-to-unicode", name: "Satluj to Unicode" },
-      { slug: "unicode-to-gurbani-akhar", name: "Unicode to Gurbani Akhar" }
+      { slug: "unicode-to-asees", name: "Unicode to Asees" },
+      { slug: "satluj-to-unicode", name: "Satluj to Unicode" }
     ]
   },
   {
