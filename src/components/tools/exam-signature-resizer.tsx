@@ -400,6 +400,22 @@ export function ExamSignatureResizer() {
                   onCropChange={setCrop}
                   onCropComplete={onCropComplete}
                   onZoomChange={setZoom}
+                  showGrid={true}
+                />
+              </div>
+
+              <div className="space-y-2 bg-background p-3 rounded-xl border">
+                <div className="flex justify-between">
+                  <span className="text-sm font-medium">🔍 Zoom: {zoom.toFixed(1)}x</span>
+                </div>
+                <input
+                  type="range"
+                  value={zoom}
+                  min={1}
+                  max={3}
+                  step={0.1}
+                  onChange={(e) => setZoom(Number(e.target.value))}
+                  className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
                 />
               </div>
               
