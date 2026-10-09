@@ -20,15 +20,22 @@ export function AseesToUnicode() {
     result = result.replace(/\bfeskp\b/g, "ਕਿਤਾਬ");
     result = result.replace(/\bfszz\b/g, "ਤਿੰਨ");
 
-    // 2. Multi-Character & Conjunct Replacements
-    result = result.replace(/au/g, 'ਉ');
-    result = result.replace(/aU/g, 'ਊ');
-    result = result.replace(/nk/g, 'ਆ');
-    result = result.replace(/nh/g, 'ਈ');
-    result = result.replace(/eh/g, 'ਈ');
-    result = result.replace(/eo/g, 'ਏ');
-    result = result.replace(/ew/g, 'ਐ');
+    // 1.5. Standalone Vowel Composition for "ਇ"
+    result = result.replace(/f[Je]/g, 'ਇ');
+    result = result.replace(/[Je]f/g, 'ਇ');
 
+    // Word stems
+    result = result.replace(/fPnko|fgnko/g, 'ਪਿਆਰ');
+
+    // 2. Multi-Character & Conjunct Replacements
+    result = result.replace(/au|a\[/g, 'ਉ');
+    result = result.replace(/aU|a\]/g, 'ਊ');
+    result = result.replace(/nk/g, 'ਆ');
+    result = result.replace(/nh|eh|Jh/g, 'ਈ');
+    result = result.replace(/e\/|J\//g, 'ਏ');
+    result = result.replace(/e\?|J\?/g, 'ਐ');
+    result = result.replace(/E\}|E\"/g, 'ਔ');
+    result = result.replace(/En|E/g, 'ਓ');
     // Pairi bindi characters
     result = result.replace(/La/g, 'ਲ਼');
     result = result.replace(/sa/g, 'ਸ਼');
