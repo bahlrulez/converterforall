@@ -79,8 +79,8 @@ export function CompressPdf100kb() {
       
       const overheadBytes = 5000;
       let targetMaxBytes = (targetKb * 1024) - overheadBytes;
-      if (targetKb === 100) targetMaxBytes = 92 * 1024;
-      if (targetKb === 200) targetMaxBytes = 188 * 1024;
+      if (targetKb === 100) targetMaxBytes = 85 * 1024;
+      if (targetKb === 200) targetMaxBytes = 175 * 1024;
       
       // Allow down to 3KB per page to force aggressive compression on large PDFs
       const targetBytesPerPage = Math.max(3000, targetMaxBytes / numPages);
@@ -93,8 +93,9 @@ export function CompressPdf100kb() {
       if (numPages >= 12 && targetKb <= 100) baseScale = 0.6;
 
       let finalBlob: Blob | null = null;
+      let qualityCeiling = 0.95;
 
-      for (let attempt = 1; attempt <= 3; attempt++) {
+      for (let attempt = 1; attempt <= 5; attempt++) {
         const newPdfDoc = await PDFDocument.create();
 
         for (let pageNum = 1; pageNum <= numPages; pageNum++) {
@@ -122,7 +123,7 @@ export function CompressPdf100kb() {
 
             // Binary search for optimal JPEG quality per page
             let low = 0.1;
-            let high = attempt === 1 ? 0.95 : (attempt === 2 ? 0.7 : 0.5);
+            let high = qualityCeiling;
             let bestBlob: Blob | null = null;
             let bestQuality = 0.1;
             const maxIterations = 5;
@@ -167,7 +168,8 @@ export function CompressPdf100kb() {
           break; // Success
         } else {
           // If we failed, reduce scale aggressively for the next attempt
-          baseScale = baseScale * 0.85;
+          baseScale = baseScale * 0.8;
+          qualityCeiling = Math.max(0.4, qualityCeiling * 0.85);
         }
       }
       
