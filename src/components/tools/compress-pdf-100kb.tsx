@@ -17,6 +17,7 @@ export function CompressPdf100kb() {
   
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [previewDataUrl, setPreviewDataUrl] = useState<string | null>(null);
   
   const [stats, setStats] = useState<{ origSize: number; newSize: number } | null>(null);
 
@@ -27,6 +28,7 @@ export function CompressPdf100kb() {
       setFile(e.target.files[0]);
       setResultBlob(null);
       setResultUrl(null);
+      setPreviewDataUrl(null);
       setStats(null);
     }
   };
@@ -77,16 +79,15 @@ export function CompressPdf100kb() {
       
       const overheadBytes = 5000;
       const totalTargetBytes = targetKb * 1024;
-      const targetBytesPerPage = Math.max(15000, (totalTargetBytes - overheadBytes) / numPages);
+      // Allow down to 3KB per page to force aggressive compression on large PDFs
+      const targetBytesPerPage = Math.max(3000, (totalTargetBytes - overheadBytes) / numPages);
 
-      // Adjust scale dynamically based on page count and strict limits
+      // Adjust scale dynamically based on page count and strict limits to ensure large files hit the target
       let baseScale = 1.6;
-      if (numPages >= 3 && targetKb <= 150) {
-        baseScale = 1.2;
-      }
-      if (numPages >= 5 && targetKb <= 100) {
-        baseScale = 1.0;
-      }
+      if (numPages >= 3 && targetKb <= 200) baseScale = 1.2;
+      if (numPages >= 5 && targetKb <= 150) baseScale = 1.0;
+      if (numPages >= 8 && targetKb <= 100) baseScale = 0.8;
+      if (numPages >= 12 && targetKb <= 100) baseScale = 0.6;
 
       for (let pageNum = 1; pageNum <= numPages; pageNum++) {
         setProgress(Math.round((pageNum / numPages) * 80));
@@ -106,6 +107,10 @@ export function CompressPdf100kb() {
 
           // @ts-expect-error pdfjs-dist mismatch
           await page.render({ canvasContext: ctx, viewport }).promise;
+
+          if (pageNum === 1) {
+            setPreviewDataUrl(canvas.toDataURL("image/jpeg", 0.8));
+          }
 
           // Binary search for optimal JPEG quality per page
           let low = 0.1;
@@ -286,9 +291,18 @@ export function CompressPdf100kb() {
                   </div>
                 )}
                 
-                <div className="flex-1 border border-border rounded-lg overflow-hidden bg-background mb-4 relative min-h-[300px]">
-                  {resultUrl && (
-                    <iframe src={`${resultUrl}#toolbar=0&navpanes=0`} className="w-full h-full absolute inset-0 border-none" title="PDF Preview" />
+                <div className="flex-1 border border-border rounded-lg overflow-hidden bg-background mb-4 relative min-h-[300px] flex items-center justify-center p-4">
+                  {previewDataUrl && (
+                    <>
+                      <div className="absolute top-0 left-0 right-0 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-xs font-semibold text-center py-1.5 border-b border-emerald-200 dark:border-emerald-800 z-10">
+                        📄 Page 1 Document Preview (Ready to Download)
+                      </div>
+                      <img 
+                        src={previewDataUrl} 
+                        alt="Compressed PDF Page 1 Preview" 
+                        className="max-h-[350px] w-auto mx-auto rounded shadow-md object-contain mt-6" 
+                      />
+                    </>
                   )}
                 </div>
 
