@@ -47,6 +47,7 @@ const VideoCompressor = dynamic(() => import("@/components/tools/video-compresso
 const VideoConverter = dynamic(() => import("@/components/tools/video-converter").then(m => m.VideoConverter), { ssr: false, loading: ToolLoading });
 const SubtitleToolkit = dynamic(() => import("@/components/tools/subtitle-toolkit").then(m => m.SubtitleToolkit), { ssr: false, loading: ToolLoading });
 const CompressPdfTool = dynamic(() => import("@/components/tools/compress-pdf").then(m => m.CompressPdfTool), { ssr: false, loading: ToolLoading });
+const CompressPdf100kb = dynamic(() => import("@/components/tools/compress-pdf-100kb").then(m => m.CompressPdf100kb), { ssr: false, loading: ToolLoading });
 const ImageToSvgComponent = dynamic(() => import("@/components/tools/image-to-svg").then(m => m.default), { ssr: false, loading: ToolLoading });
 const ImageToTextTool = dynamic(() => import("@/components/tools/image-to-text").then(m => m.default), { ssr: false, loading: ToolLoading });
 const AudioTrimmerComponent = dynamic(() => import("@/components/tools/audio-trimmer").then(m => m.default), { ssr: false, loading: ToolLoading });
@@ -94,6 +95,7 @@ export function ToolRenderer({
         {toolSlug === "exam-photo-resizer" && <ExamPhotoResizer />}
         {toolSlug === "photo-name-date-stamper" && <PhotoNameDateStamper />}
         {toolSlug === "compress-pdf" && <CompressPdfTool />}
+        {toolSlug === "compress-pdf-100kb" && <CompressPdf100kb />}
         {(toolSlug === "clean-pdf-metadata" || toolSlug === "remove-pdf-properties" || toolSlug === "pdf-privacy-scrubber") && <PdfMetadataCleanerComponent />}
         {toolSlug === "ocr-pdf" && <OcrPdfTool />}
         {toolSlug === "repair-pdf" && <RepairPdfTool />}

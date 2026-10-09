@@ -1311,6 +1311,19 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
         "image/png": [".png"],
         "image/webp": [".webp"]
       }
+    },
+    "compress-pdf-100kb": { theme: "blue", iconName: "FileArchive", badge: "New", isPopular: true,
+      title: "Compress PDF below 100KB",
+      description: "Strictly compress educational certificates and marksheets under 100KB or 200KB for government job portals.",
+      seoTitle: "Compress PDF under 100KB - Free Marksheet Compressor",
+      seoDescription: "Easily compress your educational certificates, marksheets, and PDFs below 100KB or 200KB for SSC, UPSC, and State PSC online application forms.",
+      inputFormat: "pdf",
+      outputFormat: "pdf",
+      actionName: "Compress PDF",
+      isInteractive: true,
+      acceptedTypes: { 
+        "application/pdf": [".pdf"]
+      }
     }
   }
 };

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Type, Settings, Shield, Image as ImageIcon, Eraser, FileText, Camera, Scan, FileJson } from "lucide-react";
+import { ArrowRight, Type, Settings, Shield, Image as ImageIcon, Eraser, FileText, Camera, Scan, FileJson, FileArchive } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Reusable component for Hub Cards
@@ -65,7 +65,7 @@ export function SpecializedHubs() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
             <HubCard 
               href="/exam-photo-resizer"
               title="Exam Photo & Signature Resizer"
@@ -81,6 +81,14 @@ export function SpecializedHubs() {
               tag="Police • Defense • SSC"
               icon={Camera}
               colorClass="bg-indigo-600"
+            />
+            <HubCard 
+              href="/compress-pdf-100kb"
+              title="100KB PDF Marksheet Compressor"
+              description="Strictly compress educational certificates and PDFs under 100KB/200KB without losing text clarity."
+              tag="UPSC • PSC • NTA"
+              icon={FileArchive}
+              colorClass="bg-sky-600"
             />
           </div>
         </div>

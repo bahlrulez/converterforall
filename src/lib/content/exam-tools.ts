@@ -94,5 +94,63 @@ export const examToolsContent: Record<string, { sections: { title: string, conte
         `
       }
     ]
+  },
+  "compress-pdf-100kb": {
+    sections: [
+      {
+        title: "How to compress marksheets and caste certificates below 100KB without losing text clarity",
+        content: "<p>Government job portals enforce strict PDF size constraints. When you use generic online PDF compressors, they often blur the text to hit the tiny size limits, making critical details like your roll number, marks, and name completely unreadable. This leads to instant application rejection. Our specialized 100KB Marksheet Compressor uses adaptive client-side scaling. It renders each page sharply in your browser and carefully tests dozens of compression levels per second to strictly stay under 100KB (or your custom limit) while maximizing text clarity.</p>"
+      },
+      {
+        title: "Standard Portal PDF Size Limits",
+        content: `
+          <div class="overflow-x-auto my-4">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Exam Portal</th>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Document Type</th>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Size Limit</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr>
+                  <td class="px-4 py-3 font-semibold">SSC (CGL, CHSL, MTS)</td>
+                  <td class="px-4 py-3">Certificates / Marksheets</td>
+                  <td class="px-4 py-3">Max 100 KB</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-semibold">UPSC (NDA, CDS, Civil)</td>
+                  <td class="px-4 py-3">Photo ID &amp; Documents</td>
+                  <td class="px-4 py-3">Max 200 KB</td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-gray-800/50">
+                  <td class="px-4 py-3 font-semibold">State PSCs</td>
+                  <td class="px-4 py-3">Caste &amp; Income Certs</td>
+                  <td class="px-4 py-3">Typically 100 KB - 200 KB</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-semibold">NTA (CUET, JEE)</td>
+                  <td class="px-4 py-3">Category Certificates</td>
+                  <td class="px-4 py-3">Max 300 KB</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        title: "Common Reasons Government Portals Reject Uploaded Document PDFs",
+        content: "<p>Avoid these critical mistakes when uploading educational or category certificates: <strong>Unreadable Text:</strong> The examiner must be able to read your roll number, issue date, and authority signature clearly. <strong>Wrong Format:</strong> Uploading a JPEG when a PDF is strictly requested (or vice-versa). <strong>Password Protection:</strong> Never upload a locked or password-protected PDF (like an e-Aadhar) as the portal system cannot verify it. <strong>File Size Too Big:</strong> Exceeding the strict KB limit will usually cause the form upload to instantly fail.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Are my sensitive marksheets and caste certificates uploaded to your servers?</strong><br>A: No. We strictly use 100% private client-side processing for this tool. Your PDFs never leave your browser, ensuring complete privacy and security for your sensitive personal data.</p>
+          <p><strong>Q: Why is the target preset strict?</strong><br>A: Portals like SSC have a hard limit of 100 KB. Generic compressors might output 102 KB, forcing you to try again. Our tool enforces a hard ceiling so the output is guaranteed to be accepted.</p>
+          <p><strong>Q: What if I have a 10-page PDF to compress under 100KB?</strong><br>A: 100KB is very tiny. For multi-page PDFs, our engine automatically steps down the resolution to fit the constraint. However, squeezing 10 pages into 100KB will naturally result in blurry text. We recommend extracting only the required pages using a <a href="/extract-pages" class="text-blue-600 hover:underline">PDF page extractor</a> before compression.</p>
+        `
+      }
+    ]
   }
 };
