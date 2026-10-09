@@ -78,9 +78,12 @@ export function CompressPdf100kb() {
       const newPdfDoc = await PDFDocument.create();
       
       const overheadBytes = 5000;
-      const totalTargetBytes = targetKb * 1024;
+      let targetMaxBytes = (targetKb * 1024) - overheadBytes;
+      if (targetKb === 100) targetMaxBytes = 92 * 1024;
+      if (targetKb === 200) targetMaxBytes = 188 * 1024;
+      
       // Allow down to 3KB per page to force aggressive compression on large PDFs
-      const targetBytesPerPage = Math.max(3000, (totalTargetBytes - overheadBytes) / numPages);
+      const targetBytesPerPage = Math.max(3000, targetMaxBytes / numPages);
 
       // Adjust scale dynamically based on page count and strict limits to ensure large files hit the target
       let baseScale = 1.6;
@@ -89,75 +92,90 @@ export function CompressPdf100kb() {
       if (numPages >= 8 && targetKb <= 100) baseScale = 0.8;
       if (numPages >= 12 && targetKb <= 100) baseScale = 0.6;
 
-      for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-        setProgress(Math.round((pageNum / numPages) * 80));
-        setProgressMsg(`Optimizing page ${pageNum} of ${numPages}...`);
+      let finalBlob: Blob | null = null;
 
-        const page = await pdfDoc.getPage(pageNum);
-        const viewport = page.getViewport({ scale: baseScale });
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        const newPdfDoc = await PDFDocument.create();
 
-        const canvas = document.createElement("canvas");
-        canvas.width = Math.round(viewport.width);
-        canvas.height = Math.round(viewport.height);
-        const ctx = canvas.getContext("2d", { alpha: false });
+        for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+          setProgress(Math.round((pageNum / numPages) * 80));
+          setProgressMsg(attempt > 1 ? `Retrying compression (Attempt ${attempt})... Page ${pageNum}` : `Optimizing page ${pageNum} of ${numPages}...`);
 
-        if (ctx) {
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          const page = await pdfDoc.getPage(pageNum);
+          const viewport = page.getViewport({ scale: baseScale });
 
-          // @ts-expect-error pdfjs-dist mismatch
-          await page.render({ canvasContext: ctx, viewport }).promise;
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.round(viewport.width);
+          canvas.height = Math.round(viewport.height);
+          const ctx = canvas.getContext("2d", { alpha: false });
 
-          if (pageNum === 1) {
-            setPreviewDataUrl(canvas.toDataURL("image/jpeg", 0.8));
-          }
+          if (ctx) {
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-          // Binary search for optimal JPEG quality per page
-          let low = 0.1;
-          let high = 0.95;
-          let bestBlob: Blob | null = null;
-          let bestQuality = 0.1;
-          const maxIterations = 5;
+            // @ts-expect-error pdfjs-dist mismatch
+            await page.render({ canvasContext: ctx, viewport }).promise;
 
-          for (let i = 0; i < maxIterations; i++) {
-            const mid = (low + high) / 2;
-            const blob = await getBlob(canvas, mid);
-            if (blob.size <= targetBytesPerPage) {
-              bestBlob = blob;
-              bestQuality = mid;
-              low = mid; // Try higher quality
-            } else {
-              high = mid; // Need lower quality
+            if (pageNum === 1 && attempt === 1) {
+              setPreviewDataUrl(canvas.toDataURL("image/jpeg", 0.8));
             }
+
+            // Binary search for optimal JPEG quality per page
+            let low = 0.1;
+            let high = attempt === 1 ? 0.95 : (attempt === 2 ? 0.7 : 0.5);
+            let bestBlob: Blob | null = null;
+            let bestQuality = 0.1;
+            const maxIterations = 5;
+
+            for (let i = 0; i < maxIterations; i++) {
+              const mid = (low + high) / 2;
+              const blob = await getBlob(canvas, mid);
+              if (blob.size <= targetBytesPerPage) {
+                bestBlob = blob;
+                bestQuality = mid;
+                low = mid; // Try higher quality
+              } else {
+                high = mid; // Need lower quality
+              }
+            }
+
+            if (!bestBlob) {
+              bestBlob = await getBlob(canvas, 0.1);
+            }
+
+            const imgBytes = await bestBlob.arrayBuffer();
+            const embeddedImage = await newPdfDoc.embedJpg(imgBytes);
+            const origViewport = page.getViewport({ scale: 1.0 });
+
+            const newPage = newPdfDoc.addPage([origViewport.width, origViewport.height]);
+            newPage.drawImage(embeddedImage, {
+              x: 0,
+              y: 0,
+              width: origViewport.width,
+              height: origViewport.height,
+            });
           }
+        }
 
-          if (!bestBlob) {
-            bestBlob = await getBlob(canvas, 0.1);
-          }
+        setProgress(95);
+        setProgressMsg("Assembling compressed PDF...");
 
-          const imgBytes = await bestBlob.arrayBuffer();
-          const embeddedImage = await newPdfDoc.embedJpg(imgBytes);
-          const origViewport = page.getViewport({ scale: 1.0 });
-
-          const newPage = newPdfDoc.addPage([origViewport.width, origViewport.height]);
-          newPage.drawImage(embeddedImage, {
-            x: 0,
-            y: 0,
-            width: origViewport.width,
-            height: origViewport.height,
-          });
+        const compressedBytes = await newPdfDoc.save({ useObjectStreams: true });
+        finalBlob = new Blob([compressedBytes as any], { type: "application/pdf" });
+        
+        if (finalBlob.size <= targetMaxBytes) {
+          break; // Success
+        } else {
+          // If we failed, reduce scale aggressively for the next attempt
+          baseScale = baseScale * 0.85;
         }
       }
-
-      setProgress(95);
-      setProgressMsg("Assembling compressed PDF...");
-
-      const compressedBytes = await newPdfDoc.save({ useObjectStreams: true });
-      const blob = new Blob([compressedBytes as any], { type: "application/pdf" });
       
-      setResultBlob(blob);
-      setResultUrl(URL.createObjectURL(blob));
-      setStats({ origSize: file.size, newSize: blob.size });
+      if (finalBlob) {
+        setResultBlob(finalBlob);
+        setResultUrl(URL.createObjectURL(finalBlob));
+        setStats({ origSize: file.size, newSize: finalBlob.size });
+      }
       
       setProgress(100);
       setProgressMsg("Done!");
@@ -278,17 +296,31 @@ export function CompressPdf100kb() {
             ) : (
               <div className="flex flex-col flex-1 h-full">
                 {stats && (
-                  <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 p-4 rounded-xl mb-4 flex justify-between items-center text-emerald-900 dark:text-emerald-100">
-                    <div>
-                      <p className="text-sm font-semibold mb-0.5">Compression Successful!</p>
-                      <p className="text-xs opacity-90">{formatSize(stats.origSize)} &rarr; <strong className="font-bold">{formatSize(stats.newSize)}</strong></p>
+                  stats.newSize <= targetKb * 1024 ? (
+                    <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 p-4 rounded-xl mb-4 flex justify-between items-center text-emerald-900 dark:text-emerald-100">
+                      <div>
+                        <p className="text-sm font-semibold mb-0.5 flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> Valid for Portal Upload (&lt; {targetKb} KB)</p>
+                        <p className="text-xs opacity-90">{formatSize(stats.origSize)} &rarr; <strong className="font-bold">{formatSize(stats.newSize)}</strong></p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                          {Math.round(((stats.origSize - stats.newSize) / stats.origSize) * 100)}% smaller
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
-                        {Math.round(((stats.origSize - stats.newSize) / stats.origSize) * 100)}% smaller
-                      </p>
+                  ) : (
+                    <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 p-4 rounded-xl mb-4 flex justify-between items-center text-amber-900 dark:text-amber-100">
+                      <div>
+                        <p className="text-sm font-semibold mb-0.5 flex items-center gap-1">⚠️ Exceeds Limit - Try Custom Target</p>
+                        <p className="text-xs opacity-90">{formatSize(stats.origSize)} &rarr; <strong className="font-bold">{formatSize(stats.newSize)}</strong></p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-bold text-amber-700 dark:text-amber-400">
+                          {Math.round(((stats.origSize - stats.newSize) / stats.origSize) * 100)}% smaller
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  )
                 )}
                 
                 <div className="flex-1 border border-border rounded-lg overflow-hidden bg-background mb-4 relative min-h-[300px] flex items-center justify-center p-4">
