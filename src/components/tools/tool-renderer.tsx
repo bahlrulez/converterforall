@@ -56,6 +56,7 @@ const OrganizePdfTool = dynamic(() => import("@/components/tools/organize-pdf").
 const ExamPhotoResizer = dynamic(() => import("@/components/tools/exam-photo-resizer").then(m => m.ExamPhotoResizer), { ssr: false, loading: ToolLoading });
 const FontTextFixer = dynamic(() => import("@/components/tools/font-text-fixer").then(m => m.FontTextFixer), { ssr: false, loading: ToolLoading });
 const PhotoNameDateStamper = dynamic(() => import("@/components/tools/photo-name-date-stamper").then(m => m.PhotoNameDateStamper), { ssr: false, loading: ToolLoading });
+const ExamSignatureResizer = dynamic(() => import("@/components/tools/exam-signature-resizer").then(m => m.ExamSignatureResizer), { ssr: false, loading: ToolLoading });
 interface ToolRendererProps {
   toolSlug: string;
   categorySlug: string;
@@ -93,6 +94,7 @@ export function ToolRenderer({
         {tool.converterType === "unicode-tools" && <UnicodeTools toolType={tool.toolType} />}
         {toolSlug === "passport-photo-maker" && <PassportMaker />}
         {toolSlug === "exam-photo-resizer" && <ExamPhotoResizer />}
+        {toolSlug === "exam-signature-resizer" && <ExamSignatureResizer />}
         {toolSlug === "photo-name-date-stamper" && <PhotoNameDateStamper />}
         {toolSlug === "compress-pdf" && <CompressPdfTool />}
         {toolSlug === "compress-pdf-100kb" && <CompressPdf100kb />}

@@ -95,6 +95,64 @@ export const examToolsContent: Record<string, { sections: { title: string, conte
       }
     ]
   },
+  "exam-signature-resizer": {
+    sections: [
+      {
+        title: "How to scan and clean signature for government exam forms using phone camera",
+        content: "<p>Government exam portals frequently reject applications due to poor signature quality. A common mistake is taking a photo of a signature on a slightly grey or yellow piece of paper with poor lighting. Our tool allows you to upload a regular smartphone photo of your signature, and it automatically removes the grey paper shadows, converting the background to pure white while making the pen ink darker and crisper.</p><p><strong>Steps:</strong><br>1. Sign on a clean, unlined white paper with a blue or black ballpoint/gel pen.<br>2. Take a clear photo near a window for natural light.<br>3. Upload it here, crop the signature tightly.<br>4. Adjust the Paper Whitener slider until the background is pure white.<br>5. Download the strictly compressed (10KB–20KB) ready-to-upload file.</p>"
+      },
+      {
+        title: "Official Signature Dimensions Table",
+        content: `
+          <div class="overflow-x-auto my-4">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Exam Portal</th>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Size Limit</th>
+                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Dimensions (Pixels / CM)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tr>
+                  <td class="px-4 py-3 font-semibold">SSC (CGL, CHSL, GD, MTS)</td>
+                  <td class="px-4 py-3">10 KB &ndash; 20 KB</td>
+                  <td class="px-4 py-3">4.0 cm x 2.0 cm (Approx 140x60 px)</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-semibold">UPSC</td>
+                  <td class="px-4 py-3">20 KB &ndash; 300 KB</td>
+                  <td class="px-4 py-3">Min 350x350 px (1:1 Ratio usually accepted)</td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-gray-800/50">
+                  <td class="px-4 py-3 font-semibold">IBPS (Banking)</td>
+                  <td class="px-4 py-3">10 KB &ndash; 20 KB</td>
+                  <td class="px-4 py-3">140 x 60 pixels</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-semibold">Railway RRB</td>
+                  <td class="px-4 py-3">10 KB &ndash; 40 KB (Varies)</td>
+                  <td class="px-4 py-3">140 x 60 pixels (Standard 3:1)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        title: "Common Signature Rejection Reasons",
+        content: "<ul><li><strong>Grey/Dark Backgrounds:</strong> Shadows from mobile flashes or poor room lighting cause the paper to look grey. This is the #1 rejection reason. Our Paper Whitener fixes this instantly.</li><li><strong>Blurry / Pixelated Image:</strong> Signing too small and then stretching the crop causes pixelation. Always sign largely on the paper.</li><li><strong>Wrong Ink Color:</strong> Most exams mandate Blue or Black ink. Red or green ink is strictly prohibited.</li><li><strong>File Size Too Large/Small:</strong> The file must fall precisely within the KB brackets (e.g., exactly between 10 KB and 20 KB). Our compressor guarantees this output.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Is my signature uploaded to your server?</strong><br>A: No. Your signature is processed entirely on your own device (client-side in your web browser). It is never sent to our servers, ensuring 100% privacy and security.</p>
+          <p><strong>Q: What is the difference between 'Black & White' and 'Preserve Blue' ink modes?</strong><br>A: Black & White mode converts the entire signature to grayscale, darkening the ink to black and forcing the paper to white. Preserve Blue mode retains the blue color of a ballpoint/gel pen while still pushing the grey paper shadows to pure white.</p>
+          <p><strong>Q: Why does the signature look slightly lower quality after processing?</strong><br>A: Squeezing a high-resolution phone photo into a strict 20KB or 10KB limit requires aggressive JPEG compression. The file will look slightly artifacted, but this is expected and perfectly acceptable for official government portals.</p>
+        `
+      }
+    ]
+  },
   "compress-pdf-100kb": {
     sections: [
       {

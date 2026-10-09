@@ -65,7 +65,7 @@ export function SpecializedHubs() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <HubCard 
               href="/exam-photo-resizer"
               title="Exam Photo & Signature Resizer"
@@ -81,6 +81,14 @@ export function SpecializedHubs() {
               tag="Police • Defense • SSC"
               icon={Camera}
               colorClass="bg-indigo-600"
+            />
+            <HubCard 
+              href="/exam-signature-resizer"
+              title="Signature Whitener & Resizer"
+              description="Remove grey paper shadows from phone photos and compress signatures to strict 10KB–20KB bounds."
+              tag="SSC • IBPS • State"
+              icon={Eraser}
+              colorClass="bg-violet-600"
             />
             <HubCard 
               href="/compress-pdf-100kb"

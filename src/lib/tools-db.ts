@@ -1312,6 +1312,21 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
         "image/webp": [".webp"]
       }
     },
+    "exam-signature-resizer": { theme: "blue", iconName: "Eraser", badge: "New", isPopular: true,
+      title: "Signature Whitener & Resizer",
+      description: "Remove grey paper shadows from phone photos and compress signatures to strict 10KB–20KB bounds.",
+      seoTitle: "Signature Whitener & Resizer - Convert Phone Photo to Clean Signature",
+      seoDescription: "Clean up grey paper shadows from signature photos and compress strictly under 10KB-20KB for SSC, UPSC, and IBPS portal uploads.",
+      inputFormat: "image",
+      outputFormat: "jpg",
+      actionName: "Clean Signature",
+      isInteractive: true,
+      acceptedTypes: { 
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"],
+        "image/webp": [".webp"]
+      }
+    },
     "compress-pdf-100kb": { theme: "blue", iconName: "FileArchive", badge: "New", isPopular: true,
       title: "Compress PDF below 100KB",
       description: "Strictly compress educational certificates and marksheets under 100KB or 200KB for government job portals.",
