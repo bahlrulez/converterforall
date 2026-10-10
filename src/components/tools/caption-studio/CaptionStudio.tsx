@@ -775,18 +775,33 @@ export function CaptionStudio() {
                   <button
                     onClick={handleExport}
                     disabled={exportProgress !== null}
-                    className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 hover:from-blue-700 hover:via-indigo-700 hover:to-sky-700 text-white font-bold py-3.5 px-6 rounded-2xl flex items-center justify-center gap-2.5 shadow-xl shadow-blue-500/25 transition-all active:scale-[0.99] disabled:opacity-50"
+                    className="relative overflow-hidden w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 hover:from-blue-700 hover:via-indigo-700 hover:to-sky-700 text-white font-bold py-3.5 px-6 rounded-2xl flex flex-col items-center justify-center min-h-[56px] shadow-xl shadow-blue-500/25 transition-all active:scale-[0.99] disabled:opacity-90 disabled:active:scale-100"
                   >
                     {exportProgress ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-b-transparent"></div>
-                        <span>Exporting MP4... ({exportProgress.status})</span>
+                        <div 
+                           className="absolute inset-0 bg-blue-800 transition-all duration-300 ease-out z-0"
+                           style={{ width: `${exportProgress.progress || 0}%` }}
+                        />
+                        <div className="absolute inset-0 bg-white/10 animate-pulse z-0" />
+                        
+                        <div className="relative z-10 flex flex-col items-center gap-1 w-full">
+                          <div className="flex items-center justify-center gap-2">
+                             <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-b-transparent"></div>
+                             <span>{exportProgress.stage || 'Exporting MP4...'} {exportProgress.progress ? `${exportProgress.progress}%` : ''}</span>
+                          </div>
+                          {exportProgress.currentFrame !== undefined && exportProgress.totalFrames !== undefined && exportProgress.totalFrames > 0 && (
+                            <div className="text-xs text-white/80 font-medium">
+                              Frame {exportProgress.currentFrame} / {exportProgress.totalFrames}
+                            </div>
+                          )}
+                        </div>
                       </>
                     ) : (
-                      <>
+                      <div className="flex items-center justify-center gap-2">
                         <Download className="w-4 h-4" />
                         <span>Export MP4 Video</span>
-                      </>
+                      </div>
                     )}
                   </button>
 

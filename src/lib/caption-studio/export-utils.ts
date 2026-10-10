@@ -6,6 +6,9 @@ export type ExportStatus = 'PREPARING' | 'DECODING' | 'RENDERING' | 'ENCODING' |
 export interface ExportProgress {
   status: ExportStatus;
   progress?: number; // Optional numeric progress (0 to 100)
+  currentFrame?: number;
+  totalFrames?: number;
+  stage?: string;
   message?: string;
   error?: string;
 }

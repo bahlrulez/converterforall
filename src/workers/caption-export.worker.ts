@@ -260,6 +260,15 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
 
   let fallbackAttempted = false;
   let fallbackPromise: Promise<void> | null = null;
+  
+  let currentFrame = 0;
+  let totalFrames = 1000;
+  try {
+    const durationSec = (await input.getDurationFromMetadata()) || (captions.length > 0 ? captions[captions.length - 1].end : 0);
+    if (durationSec > 0) {
+      totalFrames = Math.max(1, Math.round(durationSec * (encoderConfig.framerate || 30)));
+    }
+  } catch(e) {}
 
   const onDecoderOutput = (frame: VideoFrame) => {
     currentStage = 'FIRST_FRAME_RECEIVED';
@@ -267,6 +276,17 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
       if (encodeError) {
         frame.close();
         return;
+      }
+
+      currentFrame++;
+      if (currentFrame % 5 === 0 || currentFrame === totalFrames) {
+        reportProgress({
+          status: 'RENDERING',
+          progress: Math.min(100, Math.round((currentFrame / Math.max(1, totalFrames)) * 100)),
+          currentFrame,
+          totalFrames,
+          stage: 'Rendering captions...'
+        });
       }
 
       if (pendingFrame) {
