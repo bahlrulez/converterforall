@@ -163,8 +163,12 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   let firstEncode = true;
 
   let pendingFrame: VideoFrame | null = null;
+  let decoder: VideoDecoder | null = null;
+  let encoder: VideoEncoder | null = null;
+  let watchdog: any = null;
 
-  const processFrame = (frameToRender: VideoFrame, calculatedDuration: number) => {
+  try {
+    const processFrame = (frameToRender: VideoFrame, calculatedDuration: number) => {
     currentStage = 'CANVAS_RENDER';
     ctx.clearRect(0, 0, width, height);
     ctx.drawImage(frameToRender, 0, 0, width, height);
@@ -188,12 +192,12 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     });
 
     currentStage = 'ENCODE_CALL';
-    encoder.encode(newFrame);
+    if (encoder) encoder.encode(newFrame);
     newFrame.close();
   };
 
   currentStage = 'VIDEO_DECODER_CREATED';
-  const encoder = new VideoEncoder({
+  encoder = new VideoEncoder({
     output: async (chunk: EncodedVideoChunk, metadata: EncodedVideoChunkMetadata | undefined) => {
       currentStage = 'ENCODE_OUTPUT';
       try {
@@ -254,11 +258,14 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   currentStage = 'ENCODER_CONFIGURED';
   encoder.configure(encoderConfig);
 
-  const decoder = new VideoDecoder({
+  decoder = new VideoDecoder({
     output: (frame: VideoFrame) => {
       currentStage = 'FIRST_FRAME_RECEIVED';
       try {
-        if (encodeError) return;
+        if (encodeError) {
+          frame.close();
+          return;
+        }
 
         if (pendingFrame) {
             let duration = frame.timestamp - pendingFrame.timestamp;
@@ -292,38 +299,63 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     if (decodeError) throw decodeError;
     if (encodeError) throw encodeError;
 
+    let waitStart = Date.now();
+    while (decoder && encoder && (decoder.decodeQueueSize > 8 || encoder.encodeQueueSize > 8)) {
+      if (decodeError) throw decodeError;
+      if (encodeError) throw encodeError;
+      if (Date.now() - waitStart > 15000) {
+        throw new Error("Export stalled: no progress for 15 seconds.");
+      }
+      await new Promise(resolve => {
+        let done = false;
+        const finish = () => {
+          if (!done) {
+            done = true;
+            if (decoder && (decoder as any).removeEventListener) (decoder as any).removeEventListener('dequeue', finish);
+            if (encoder && (encoder as any).removeEventListener) (encoder as any).removeEventListener('dequeue', finish);
+            clearTimeout(timeout);
+            resolve(null);
+          }
+        };
+        if (decoder && (decoder as any).addEventListener) (decoder as any).addEventListener('dequeue', finish);
+        if (encoder && (encoder as any).addEventListener) (encoder as any).addEventListener('dequeue', finish);
+        const timeout = setTimeout(finish, 100);
+      });
+    }
+
     if (currentStage === 'FIRST_PACKET_READ') {
        currentStage = 'FIRST_DECODE_CALL';
     }
 
-    decoder.decode(new EncodedVideoChunk({
-      type: packet.type === 'key' ? 'key' : 'delta',
-      timestamp: packet.timestamp * 1_000_000, // Mediabunny seconds to WebCodecs microseconds
-      duration: (packet.duration || 0) * 1_000_000,
-      data: packet.data
-    }));
+    if (decoder) {
+      decoder.decode(new EncodedVideoChunk({
+        type: packet.type === 'key' ? 'key' : 'delta',
+        timestamp: packet.timestamp * 1_000_000, // Mediabunny seconds to WebCodecs microseconds
+        duration: (packet.duration || 0) * 1_000_000,
+        data: packet.data
+      }));
+    }
   }
 
   reportProgress({ status: 'FINALIZING' });
 
-  const watchdog = setTimeout(() => {
+  watchdog = setTimeout(() => {
     self.postMessage({
       type: 'ERROR',
       error: `Export failed [Stage: ${currentStage}]: FINALIZATION_TIMEOUT (60s exceeded)`
     } as ExportWorkerResponse);
   }, 60000);
 
-  try {
-    currentStage = 'ENCODER_FLUSH_START';
-    await decoder.flush();
-    if (pendingFrame) {
+  currentStage = 'ENCODER_FLUSH_START';
+  if (decoder) await decoder.flush();
+  if (pendingFrame) {
        const pf = pendingFrame as any;
        let duration = pf.duration && pf.duration > 0 ? pf.duration : Math.round(1_000_000 / (encoderConfig.framerate || 30));
        processFrame(pendingFrame, duration);
        pf.close();
        pendingFrame = null;
     }
-    await encoder.flush();
+    if (encoder) await encoder.flush();
     currentStage = 'ENCODER_FLUSH_DONE';
     
     currentStage = 'VIDEO_SOURCE_CLOSE_START';
@@ -358,6 +390,16 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     
     reportProgress({ status: 'DONE', progress: 100 });
   } finally {
-    clearTimeout(watchdog);
+    if (watchdog) clearTimeout(watchdog);
+    if (pendingFrame) {
+      try { (pendingFrame as any).close(); } catch (e) {}
+      pendingFrame = null;
+    }
+    if (decoder && decoder.state !== 'closed') {
+      try { decoder.close(); } catch (e) {}
+    }
+    if (encoder && encoder.state !== 'closed') {
+      try { encoder.close(); } catch (e) {}
+    }
   }
 }

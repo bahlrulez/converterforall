@@ -27,7 +27,9 @@ import {
   FileVideo, 
   Sparkles, 
   ArrowRight,
-  Download
+  Download,
+  AlertCircle,
+  RefreshCw
 } from 'lucide-react';
 
 export function CaptionStudio() {
@@ -40,6 +42,8 @@ export function CaptionStudio() {
   const [captions, setCaptions] = useState<CaptionChunk[]>([]);
   const [activeCaptionId, setActiveCaptionId] = useState<string | null>(null);
   const [exportProgress, setExportProgress] = useState<ExportProgress | null>(null);
+  const [exportError, setExportError] = useState<string | null>(null);
+  const [showExportErrorDetails, setShowExportErrorDetails] = useState<boolean>(false);
   const [initProgress, setInitProgress] = useState<any>(null);
   const [releaseAI, setReleaseAI] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -137,6 +141,8 @@ export function CaptionStudio() {
     setRedoStack([]);
     setActiveCaptionId(null);
     setExportProgress(null);
+    setExportError(null);
+    setShowExportErrorDetails(false);
 
     const url = URL.createObjectURL(file);
     const tempVideo = document.createElement('video');
@@ -506,6 +512,9 @@ export function CaptionStudio() {
   const handleExport = async () => {
     if (!videoFile || captions.length === 0) return;
     
+    setExportError(null);
+    setShowExportErrorDetails(false);
+
     if (releaseAI && asrClientRef.current) {
       asrClientRef.current.terminate();
       asrClientRef.current = null;
@@ -540,13 +549,13 @@ export function CaptionStudio() {
         URL.revokeObjectURL(a.href);
         setTimeout(() => setExportProgress(null), 3000);
       } else if (res.type === 'ERROR') {
-        setError(res.error || 'Export failed');
+        setExportError(res.error || 'Export failed');
         setExportProgress(null);
       }
     };
     
     worker.onerror = (e) => {
-      setError(`Worker error: ${e.message}`);
+      setExportError(`Worker error: ${e.message}`);
       setExportProgress(null);
     };
 
@@ -772,6 +781,41 @@ export function CaptionStudio() {
                       </>
                     )}
                   </button>
+
+                  {exportError && (
+                    <div className="p-4 bg-destructive/5 border border-destructive/40 rounded-2xl space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm font-semibold text-destructive flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4" />
+                          <span>Export Failed</span>
+                        </div>
+                        <button
+                          onClick={handleExport}
+                          className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          Retry Export
+                        </button>
+                      </div>
+                      <p className="text-xs text-slate-600 dark:text-slate-400">
+                        Try again, close other heavy apps, or use Chrome or Edge.
+                      </p>
+                      <div className="text-xs border border-slate-200/50 dark:border-slate-700/50 rounded-lg p-2.5 bg-white/50 dark:bg-black/20">
+                        <button
+                          type="button"
+                          onClick={() => setShowExportErrorDetails(!showExportErrorDetails)}
+                          className="text-xs font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 flex items-center gap-1"
+                        >
+                          {showExportErrorDetails ? "Hide technical error details" : "Show technical error details"}
+                        </button>
+                        {showExportErrorDetails && (
+                          <p className="mt-2 text-destructive font-mono text-[11px] break-words whitespace-pre-wrap">
+                            {exportError}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {process.env.NODE_ENV === 'development' && (
                     <label className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 p-2.5 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
