@@ -24,20 +24,35 @@ self.addEventListener('message', async (e: MessageEvent<WorkerMessage>) => {
 
         // Exact configuration for the chosen whisper turbo timestamped model
         console.log('TRANSFORMERS SCRIPT: calling pipeline...');
-        transcriber = await pipeline(
-          'automatic-speech-recognition',
-          'onnx-community/whisper-large-v3-turbo_timestamped',
-          {
-            device: 'webgpu',
-            dtype: {
-              encoder_model: 'q4f16',
-              decoder_model_merged: 'q4f16'
-            },
-            progress_callback: (progress: any) => {
-              self.postMessage({ type: 'PROGRESS', progress });
+        try {
+          transcriber = await pipeline(
+            'automatic-speech-recognition',
+            'onnx-community/whisper-large-v3-turbo_timestamped',
+            {
+              device: 'webgpu',
+              dtype: {
+                encoder_model: 'q4f16',
+                decoder_model_merged: 'q4f16'
+              },
+              progress_callback: (progress: any) => {
+                self.postMessage({ type: 'PROGRESS', progress });
+              }
             }
-          }
-        );
+          );
+        } catch (webgpuErr) {
+          console.warn("WebGPU initialization failed, falling back to WASM:", webgpuErr);
+          transcriber = await pipeline(
+            'automatic-speech-recognition',
+            'onnx-community/whisper-large-v3-turbo_timestamped',
+            {
+              device: 'wasm',
+              dtype: 'q8',
+              progress_callback: (progress: any) => {
+                self.postMessage({ type: 'PROGRESS', progress });
+              }
+            }
+          );
+        }
         console.log('TRANSFORMERS SCRIPT: pipeline call finished successfully');
         
         isInitializing = false;
@@ -60,7 +75,9 @@ self.addEventListener('message', async (e: MessageEvent<WorkerMessage>) => {
         const result = await transcriber(msg.pcm, {
           language: 'hindi',
           task: 'transcribe',
-          return_timestamps: 'word'
+          return_timestamps: 'word',
+          chunk_length_s: 30,
+          stride_length_s: 5
         });
 
         self.postMessage({ 

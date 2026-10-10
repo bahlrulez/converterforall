@@ -515,12 +515,8 @@ export function CaptionStudio() {
     setExportError(null);
     setShowExportErrorDetails(false);
 
-    if (releaseAI && asrClientRef.current) {
-      asrClientRef.current.terminate();
-      asrClientRef.current = null;
-      setWorkerState('IDLE');
-      await new Promise(r => setTimeout(r, 1000));
-    }
+    // WebGPU Context Preservation: Do NOT terminate the AI here.
+    // It will be terminated inside the worker message handler on DONE or ERROR.
 
     if (exportWorkerRef.current) {
       exportWorkerRef.current.terminate();
@@ -548,9 +544,21 @@ export function CaptionStudio() {
         document.body.removeChild(a);
         URL.revokeObjectURL(a.href);
         setTimeout(() => setExportProgress(null), 3000);
+        
+        if (releaseAI && asrClientRef.current) {
+          asrClientRef.current.terminate();
+          asrClientRef.current = null;
+          setWorkerState('IDLE');
+        }
       } else if (res.type === 'ERROR') {
         setExportError(res.error || 'Export failed');
         setExportProgress(null);
+        
+        if (releaseAI && asrClientRef.current) {
+          asrClientRef.current.terminate();
+          asrClientRef.current = null;
+          setWorkerState('IDLE');
+        }
       }
     };
     

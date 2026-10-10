@@ -258,32 +258,73 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   currentStage = 'ENCODER_CONFIGURED';
   encoder.configure(encoderConfig);
 
-  decoder = new VideoDecoder({
-    output: (frame: VideoFrame) => {
-      currentStage = 'FIRST_FRAME_RECEIVED';
-      try {
-        if (encodeError) {
-          frame.close();
-          return;
-        }
+  let fallbackAttempted = false;
+  let fallbackPromise: Promise<void> | null = null;
 
-        if (pendingFrame) {
-            let duration = frame.timestamp - pendingFrame.timestamp;
-            if (duration <= 0) {
-                duration = pendingFrame.duration && pendingFrame.duration > 0 ? pendingFrame.duration : Math.round(1_000_000 / (encoderConfig.framerate || 30));
-            }
-            processFrame(pendingFrame, duration);
-            pendingFrame.close();
-        }
-        pendingFrame = frame;
-      } catch (err: any) {
-        decodeError = new Error(`Frame handling Error [${currentStage}]: ${err?.message}`);
+  const onDecoderOutput = (frame: VideoFrame) => {
+    currentStage = 'FIRST_FRAME_RECEIVED';
+    try {
+      if (encodeError) {
         frame.close();
+        return;
       }
-    },
-    error: (err) => { 
-      decodeError = new Error(`VIDEO_DECODER_ERROR [${currentStage}]: ${err?.name} - ${err?.message} - ${err?.toString()}`); 
+
+      if (pendingFrame) {
+          let duration = frame.timestamp - pendingFrame.timestamp;
+          if (duration <= 0) {
+              duration = pendingFrame.duration && pendingFrame.duration > 0 ? pendingFrame.duration : Math.round(1_000_000 / (encoderConfig.framerate || 30));
+          }
+          processFrame(pendingFrame, duration);
+          pendingFrame.close();
+      }
+      pendingFrame = frame;
+    } catch (err: any) {
+      decodeError = new Error(`Frame handling Error [${currentStage}]: ${err?.message}`);
+      frame.close();
     }
+  };
+
+  const onDecoderError = (err: any) => { 
+    if (!fallbackAttempted && (err?.name === 'EncodingError' || err?.message?.includes('Decoding err'))) {
+      fallbackAttempted = true;
+      console.warn("Decoding error detected. Re-instantiating decoder with prefer-software fallback.");
+      
+      if (decoder && decoder.state !== 'closed') {
+          try { decoder.close(); } catch(e) {}
+      }
+      
+      decoder = new VideoDecoder({
+          output: onDecoderOutput,
+          error: onDecoderError
+      });
+      
+      videoDecoderConfig.hardwareAcceleration = 'prefer-software';
+      fallbackPromise = VideoDecoder.isConfigSupported(videoDecoderConfig).then(async support => {
+          if (support.supported) {
+              decoder!.configure(videoDecoderConfig);
+              if (typeof (videoTrack as any).seek === 'function') {
+                  await (videoTrack as any).seek(0);
+              } else if (typeof (input as any).seek === 'function') {
+                  await (input as any).seek(0);
+              } else {
+                  console.warn("Could not find seek() method to reset demuxer");
+              }
+          } else {
+              decodeError = new Error("Software decoding fallback config not supported");
+          }
+      }).catch(e => {
+          decodeError = new Error("Software fallback failed: " + e.message);
+      }).finally(() => {
+          fallbackPromise = null;
+      });
+      return;
+    }
+    decodeError = new Error(`VIDEO_DECODER_ERROR [${currentStage}]: ${err?.name} - ${err?.message} - ${err?.toString()}`); 
+  };
+
+  decoder = new VideoDecoder({
+    output: onDecoderOutput,
+    error: onDecoderError
   });
 
   currentStage = 'DECODER_CONFIGURED';
@@ -293,6 +334,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
 
   const videoSink = new EncodedPacketSink(videoTrack);
   for await (const packet of videoSink.packets()) {
+    if (fallbackPromise) await fallbackPromise;
     if (currentStage !== 'FIRST_DECODE_CALL') {
        currentStage = 'FIRST_PACKET_READ';
     }
