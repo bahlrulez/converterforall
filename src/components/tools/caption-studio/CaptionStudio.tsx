@@ -92,12 +92,12 @@ export function CaptionStudio() {
   // Sync fullscreen state
   useEffect(() => {
     const handleFsChange = () => {
-      const el = document.fullscreenElement ||
+      const isFs = Boolean(
+        document.fullscreenElement ||
         (document as any).webkitFullscreenElement ||
         (document as any).mozFullScreenElement ||
-        (document as any).msFullscreenElement;
-      const target = previewContainerRef.current;
-      const isFs = Boolean(el && (el === target || target?.contains(el)));
+        (document as any).msFullscreenElement
+      );
       setIsFullscreen(isFs);
     };
 

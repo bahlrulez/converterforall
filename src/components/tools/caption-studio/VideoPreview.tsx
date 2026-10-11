@@ -41,12 +41,19 @@ export function VideoPreview({
   isTranscribing = false
 }: VideoPreviewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const innerStageRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
   
-  const [internalIsFullscreen, setInternalIsFullscreen] = useState(false);
-  const isFullscreen = externalIsFullscreen !== undefined ? externalIsFullscreen : internalIsFullscreen;
+  // Directly track fullscreen state synchronized to browser state
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    if (externalIsFullscreen !== undefined) {
+      setIsFullscreen(externalIsFullscreen);
+    }
+  }, [externalIsFullscreen]);
 
   const [showSafeZones, setShowSafeZones] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -76,11 +83,8 @@ export function VideoPreview({
     ? 'Decoding Neural Phonemes...' 
     : 'Generating Timed Captions...';
 
-  // Consolidated fullscreen toggle function checking previewContainerRef or wrapperRef
+  // Consolidated fullscreen toggle function checking containerRef / previewContainerRef / wrapperRef
   const handleFullscreenToggle = useCallback(() => {
-    const container = previewContainerRef?.current || wrapperRef.current;
-    if (!container) return;
-
     const isCurrentlyFs = Boolean(
       document.fullscreenElement || 
       (document as any).webkitFullscreenElement ||
@@ -90,7 +94,7 @@ export function VideoPreview({
 
     if (isCurrentlyFs) {
       if (document.exitFullscreen) {
-        document.exitFullscreen().catch((err) => console.error(err));
+        document.exitFullscreen().catch((err) => console.error('Exit fullscreen error:', err));
       } else if ((document as any).webkitExitFullscreen) {
         (document as any).webkitExitFullscreen();
       } else if ((document as any).mozCancelFullScreen) {
@@ -99,8 +103,11 @@ export function VideoPreview({
         (document as any).msExitFullscreen();
       }
     } else {
+      const container = containerRef.current || previewContainerRef?.current || wrapperRef.current;
+      if (!container) return;
+
       if (container.requestFullscreen) {
-        container.requestFullscreen().catch((err) => console.error(err));
+        container.requestFullscreen().catch((err) => console.error('Fullscreen request error:', err));
       } else if ((container as any).webkitRequestFullscreen) {
         (container as any).webkitRequestFullscreen();
       } else if ((container as any).mozRequestFullScreen) {
@@ -113,7 +120,7 @@ export function VideoPreview({
 
   // Calculate actual displayed video dimensions inside the letterboxed container
   const updateVideoRect = useCallback(() => {
-    const container = previewContainerRef?.current || wrapperRef.current;
+    const container = containerRef.current || previewContainerRef?.current || wrapperRef.current;
     const video = videoRef.current;
     if (!container || !video || !video.videoWidth || !video.videoHeight) {
       return;
@@ -150,7 +157,34 @@ export function VideoPreview({
     });
   }, [previewContainerRef, videoRef]);
 
-  // Keep videoRect synchronized on metadata load, container resize, and fullscreen events
+  // Synchronize fullscreen state and force layout recalculation
+  const handleFsChange = useCallback(() => {
+    const isFs = Boolean(
+      document.fullscreenElement ||
+      (document as any).webkitFullscreenElement ||
+      (document as any).mozFullScreenElement ||
+      (document as any).msFullscreenElement
+    );
+    setIsFullscreen(isFs);
+
+    // Reset videoRect immediately on state change when exiting to prevent stale fullscreen dimensions
+    if (!isFs) {
+      setVideoRect(null);
+    }
+
+    // Immediately trigger a layout recalculation and follow up on post-transition frames
+    requestAnimationFrame(() => {
+      updateVideoRect();
+    });
+    setTimeout(() => {
+      updateVideoRect();
+    }, 50);
+    setTimeout(() => {
+      updateVideoRect();
+    }, 150);
+  }, [updateVideoRect]);
+
+  // Keep videoRect continuously synchronized on metadata load, container resize, and fullscreen events
   useEffect(() => {
     updateVideoRect();
 
@@ -162,7 +196,7 @@ export function VideoPreview({
       video.addEventListener('resize', updateVideoRect);
     }
 
-    const container = previewContainerRef?.current || wrapperRef.current;
+    const container = containerRef.current || previewContainerRef?.current || wrapperRef.current;
     let ro: ResizeObserver | null = null;
     if (container && typeof ResizeObserver !== 'undefined') {
       ro = new ResizeObserver(() => {
@@ -172,6 +206,7 @@ export function VideoPreview({
     }
 
     window.addEventListener('resize', updateVideoRect);
+    window.addEventListener('orientationchange', updateVideoRect);
 
     return () => {
       if (video) {
@@ -182,25 +217,13 @@ export function VideoPreview({
       }
       if (ro) ro.disconnect();
       window.removeEventListener('resize', updateVideoRect);
+      window.removeEventListener('orientationchange', updateVideoRect);
     };
   }, [videoUrl, updateVideoRect, previewContainerRef, videoRef, isFullscreen]);
 
   // Sync fullscreen state & Hijack native video requestFullscreen
   useEffect(() => {
-    const handleFsChange = () => {
-      const el = document.fullscreenElement ||
-        (document as any).webkitFullscreenElement ||
-        (document as any).mozFullScreenElement ||
-        (document as any).msFullscreenElement;
-      const target = previewContainerRef?.current || wrapperRef.current;
-      const isFs = Boolean(el && (el === target || target?.contains(el)));
-      setInternalIsFullscreen(isFs);
-
-      // Re-measure bounding boxes as fullscreen transitions finalize
-      requestAnimationFrame(updateVideoRect);
-      setTimeout(updateVideoRect, 50);
-      setTimeout(updateVideoRect, 150);
-    };
+    handleFsChange();
 
     document.addEventListener('fullscreenchange', handleFsChange);
     document.addEventListener('webkitfullscreenchange', handleFsChange);
@@ -208,7 +231,7 @@ export function VideoPreview({
     document.addEventListener('MSFullscreenChange', handleFsChange);
 
     const video = videoRef.current;
-    const container = previewContainerRef?.current || wrapperRef.current;
+    const container = containerRef.current || previewContainerRef?.current || wrapperRef.current;
     let origRequestFs: any = null;
     let origWebkitRequestFs: any = null;
     let origWebkitEnterFs: any = null;
@@ -242,7 +265,7 @@ export function VideoPreview({
         if (origWebkitEnterFs) (video as any).webkitEnterFullscreen = origWebkitEnterFs;
       }
     };
-  }, [previewContainerRef, videoRef, updateVideoRect, handleFullscreenToggle]);
+  }, [previewContainerRef, videoRef, handleFsChange, handleFullscreenToggle]);
 
   // Keyboard shortcut: 'f' or 'F' toggles fullscreen when not typing
   useEffect(() => {
@@ -334,7 +357,7 @@ export function VideoPreview({
   };
 
   const updatePosition = (e: React.PointerEvent) => {
-    const stage = innerStageRef.current || wrapperRef.current || previewContainerRef?.current;
+    const stage = innerStageRef.current || containerRef.current || previewContainerRef?.current || wrapperRef.current;
     if (!stage) return;
     const stageRect = stage.getBoundingClientRect();
     if (stageRect.width === 0 || stageRect.height === 0) return;
@@ -359,6 +382,7 @@ export function VideoPreview({
       {/* Outer Preview Container Wrapping Video Stage, Safe Zones, and Controls */}
       <div 
         ref={(el) => {
+          (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
           (wrapperRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
           if (previewContainerRef) {
             (previewContainerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
@@ -383,21 +407,31 @@ export function VideoPreview({
           }
         }}
       >
-        {/* Absolute Video Rect Container strictly aligned to rendered video dimensions */}
+        {/* Absolute Video Rect Container strictly aligned to rendered video dimensions in fullscreen, and bounded in normal view */}
         <div
           ref={innerStageRef}
           className="relative flex items-center justify-center overflow-hidden"
-          style={videoRect ? {
-            position: 'absolute',
-            left: `${videoRect.left}px`,
-            top: `${videoRect.top}px`,
-            width: `${videoRect.width}px`,
-            height: `${videoRect.height}px`,
-          } : {
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-          }}
+          style={
+            isFullscreen && videoRect ? {
+              position: 'absolute',
+              left: `${videoRect.left}px`,
+              top: `${videoRect.top}px`,
+              width: `${videoRect.width}px`,
+              height: `${videoRect.height}px`,
+            } : videoRect ? {
+              position: 'relative',
+              width: `${videoRect.width}px`,
+              height: `${videoRect.height}px`,
+              maxWidth: '100%',
+              maxHeight: '100%',
+            } : {
+              position: 'relative',
+              width: '100%',
+              height: '100%',
+              maxWidth: '100%',
+              maxHeight: '100%',
+            }
+          }
         >
           <video 
             ref={videoRef}
