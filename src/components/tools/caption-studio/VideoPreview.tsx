@@ -103,7 +103,7 @@ export function VideoPreview({
         (document as any).msExitFullscreen();
       }
     } else {
-      const container = containerRef.current || previewContainerRef?.current || wrapperRef.current;
+      const container = previewContainerRef?.current || wrapperRef.current || containerRef.current;
       if (!container) return;
 
       if (container.requestFullscreen) {
@@ -532,19 +532,18 @@ export function VideoPreview({
 
         {/* Custom Fullscreen Overlay Button */}
         <div 
-          className={`absolute top-3 right-3 z-[10000] transition-opacity duration-200 ${
-            isHovering || isFullscreen ? 'opacity-100' : 'opacity-0 md:opacity-75 hover:opacity-100'
-          }`}
+          className="absolute top-3 right-3 z-[10000] pointer-events-auto"
         >
           <button
             type="button"
             onClick={(e) => {
+              e.preventDefault();
               e.stopPropagation();
               handleFullscreenToggle();
             }}
             title={isFullscreen ? 'Exit Full Screen (Esc / F)' : 'Enter Full Screen (F)'}
             aria-label={isFullscreen ? 'Exit Full Screen' : 'Enter Full Screen'}
-            className="p-2 rounded-lg bg-black/60 hover:bg-black/90 text-white backdrop-blur-md border border-white/20 shadow-lg transition-transform active:scale-95 flex items-center justify-center pointer-events-auto cursor-pointer"
+            className="p-2 rounded-lg bg-black/60 hover:bg-black/90 text-white backdrop-blur-md border border-white/20 shadow-lg transition-transform active:scale-95 flex items-center justify-center cursor-pointer"
           >
             {isFullscreen ? (
               <Minimize className="w-4 h-4 text-white" />
@@ -572,7 +571,11 @@ export function VideoPreview({
           </span>
           <button
             type="button"
-            onClick={handleFullscreenToggle}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleFullscreenToggle();
+            }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 shadow-sm transition-colors active:scale-95 cursor-pointer"
             title={isFullscreen ? 'Exit Full Screen (Esc / F)' : 'Enter Full Screen (F)'}
           >
