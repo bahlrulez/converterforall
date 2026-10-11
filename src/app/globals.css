@@ -259,3 +259,39 @@
 .animate-ambient-breathe {
   animation: smooth-ambient-breathe 5s ease-in-out infinite;
 }
+
+/* ==========================================================================
+   Full-screen Caption Visibility & Responsive Scaling
+   Ensures subtitle overlay persists and scales cleanly in native fullscreen
+   ========================================================================== */
+:fullscreen .caption-overlay {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  font-size: clamp(24px, 4vw, 56px); /* scale text proportionally in fullscreen */
+}
+
+:-webkit-full-screen .caption-overlay {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  font-size: clamp(24px, 4vw, 56px);
+}
+
+/* For canvas caption overlays, keep full frame 1:1 scaling while retaining top-layer z-index */
+:fullscreen canvas.caption-overlay,
+:-webkit-full-screen canvas.caption-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  transform: none;
+  object-fit: contain;
+  z-index: 9999;
+}

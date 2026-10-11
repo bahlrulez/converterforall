@@ -29,7 +29,9 @@ import {
   ArrowRight,
   Download,
   AlertCircle,
-  RefreshCw
+  RefreshCw,
+  Maximize,
+  Minimize
 } from 'lucide-react';
 
 export function CaptionStudio() {
@@ -81,8 +83,46 @@ export function CaptionStudio() {
   const asrClientRef = useRef<ASRClient | null>(null);
   const exportWorkerRef = useRef<Worker | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const previewContainerRef = useRef<HTMLDivElement | null>(null);
   const commitTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  // Sync fullscreen state
+  useEffect(() => {
+    const handleFsChange = () => {
+      const isFs = document.fullscreenElement === previewContainerRef.current ||
+        (document as any).webkitFullscreenElement === previewContainerRef.current;
+      setIsFullscreen(Boolean(isFs));
+    };
+
+    document.addEventListener('fullscreenchange', handleFsChange);
+    document.addEventListener('webkitfullscreenchange', handleFsChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFsChange);
+      document.removeEventListener('webkitfullscreenchange', handleFsChange);
+    };
+  }, []);
+
+  const toggleFullscreen = () => {
+    const container = previewContainerRef.current;
+    if (!container) return;
+
+    if (!document.fullscreenElement && !(document as any).webkitFullscreenElement) {
+      if (container.requestFullscreen) {
+        container.requestFullscreen().catch(err => console.error(err));
+      } else if ((container as any).webkitRequestFullscreen) {
+        (container as any).webkitRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(err => console.error(err));
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      }
+    }
+  };
 
   const getOrInitASRClient = (): ASRClient | null => {
     if (asrClientRef.current) return asrClientRef.current;
@@ -777,10 +817,13 @@ export function CaptionStudio() {
                   videoUrl={videoUrl}
                   captions={captions}
                   videoRef={videoRef}
+                  previewContainerRef={previewContainerRef}
                   onTimeUpdate={handleTimeUpdate}
                   globalStyle={globalStyle}
                   globalPosition={globalPosition}
                   onPositionChange={setGlobalPosition}
+                  isFullscreen={isFullscreen}
+                  onToggleFullscreen={toggleFullscreen}
                 />
               </div>
 
