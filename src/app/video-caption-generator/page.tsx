@@ -24,24 +24,26 @@ import {
   Edit3,
   Video
 } from "lucide-react";
-import { CaptionStudio } from "@/components/tools/caption-studio/CaptionStudio";
+import { CaptionStudio } from "@/components/tools/caption-studio/DynamicCaptionStudio";
 
 export const metadata: Metadata = {
-  title: "Free Video Caption Generator – AI Subtitles in Hindi, English & More",
-  description: "Free AI video caption and subtitle generator. Upload a video, automatically generate Hindi, English and supported-language captions, edit the text, and export a captioned MP4 for Reels, TikTok, YouTube and Facebook.",
+  title: "Free AI Video Subtitle Generator – Auto Caption Hindi English",
+  description: "Free AI video subtitle generator to auto caption Hindi English and social clips. Generate timed subtitles in your browser, edit text, customize fonts, and export captioned MP4s without watermarks.",
+  alternates: {
+    canonical: "https://www.converterforall.com/video-caption-generator",
+  },
   openGraph: {
-    title: "Free Video Caption Generator – AI Subtitles in Hindi, English & More | ConverterForAll",
-    description: "Free AI video caption and subtitle generator. Upload a video, automatically generate Hindi, English and supported-language captions, edit the text, and export a captioned MP4 for Reels, TikTok, YouTube and Facebook.",
+    title: "Free AI Video Subtitle Generator – Auto Caption Hindi English",
+    description: "Free AI video subtitle generator to auto caption Hindi English and social clips. Generate timed subtitles in your browser, edit text, customize fonts, and export captioned MP4s without watermarks.",
     type: "website",
     url: "https://www.converterforall.com/video-caption-generator",
+    siteName: "ConverterForAll",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Video Caption Generator – AI Subtitles in Hindi, English & More | ConverterForAll",
-    description: "Free AI video caption and subtitle generator. Upload a video, automatically generate Hindi, English and supported-language captions, edit the text, and export a captioned MP4 for Reels, TikTok, YouTube and Facebook.",
-  },
-  alternates: {
-    canonical: "https://www.converterforall.com/video-caption-generator",
+    title: "Free AI Video Subtitle Generator – Auto Caption Hindi English",
+    description: "Free AI video subtitle generator to auto caption Hindi English and social clips in your browser without watermarks.",
   }
 };
 
@@ -67,11 +69,12 @@ const breadcrumbSchema = {
 const softwareAppSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Free AI Video Caption & Subtitle Generator",
+  "name": "Free AI Video Subtitle Generator – Auto Caption Hindi English",
   "operatingSystem": "All",
   "applicationCategory": "MultimediaApplication",
   "browserRequirements": "Requires JavaScript, HTML5, and a modern browser with WebGPU or WebAssembly support.",
   "description": "Upload your video for free, automatically generate timed captions and subtitles, edit the words, style them, and export a finished video for Instagram, TikTok, YouTube, Facebook and more.",
+  "url": "https://www.converterforall.com/video-caption-generator",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -151,6 +154,18 @@ const stylePresets = [
 
 const qaList = [
   {
+    question: "Is it free?",
+    answer: "Yes. Caption Studio is completely free to use. There are no paid subscriptions, no account or email required, no hidden credit cards, and no watermark added to your exported videos."
+  },
+  {
+    question: "Does it upload files to a server?",
+    answer: "No. Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download. Caption Studio runs video decoding, speech recognition, and MP4 encoding locally on your computer."
+  },
+  {
+    question: "What languages are supported?",
+    answer: "Caption Studio supports automatic speech recognition for Hindi (rendering in accurate Devanagari script), English, and conversational code-mixed speech (Hinglish). The underlying Whisper engine also supports multilingual transcription, and you can edit any words directly in the sidebar editor before exporting."
+  },
+  {
     question: "What is a free video caption generator?",
     answer: "A free video caption generator is a tool that analyzes the audio track of your video, transcribes spoken words into written text, and calculates synchronized timestamps for every phrase. Caption Studio runs directly in your browser, allowing you to edit the text, customize colors and fonts, and download an MP4 video with hardcoded captions without requiring paid subscriptions or accounts."
   },
@@ -169,10 +184,6 @@ const qaList = [
   {
     question: "Can I generate English captions automatically?",
     answer: "Yes. The underlying Whisper speech model transcribes spoken English clearly, as well as code-mixed speech (Hinglish) commonly spoken in modern social videos. You can review and adjust any English or mixed-language words in the text editor before exporting."
-  },
-  {
-    question: "Does the caption generator support other languages?",
-    answer: "The underlying Whisper Large v3 Turbo engine is architected for multilingual speech recognition across multiple supported languages. Hindi and English are the primary verified languages in the current studio interface. For other spoken languages, review the transcribed text carefully in the editor to ensure proper wording before rendering."
   },
   {
     question: "Can I use this for Instagram Reels?",
@@ -199,14 +210,6 @@ const qaList = [
     answer: "Yes. When you export, the browser uses an internal canvas renderer to draw the styled captions directly onto each video frame. The resulting MP4 file contains 'burned-in' subtitles that display automatically on all devices without needing separate .srt subtitle files."
   },
   {
-    question: "Do I need to upload my video to a server?",
-    answer: "No. Caption processing is designed to run in your browser, so your video can be processed on your device instead of being uploaded to a remote video-rendering service. The video decoding and MP4 encoding run locally. The only network requests made are the initial one-time download of speech model files and web fonts from public CDNs."
-  },
-  {
-    question: "Is the video caption generator really free?",
-    answer: "Yes. The tool is free to use with no account sign-up, no monthly fees, and no watermark added to your exported videos."
-  },
-  {
     question: "How long can the uploaded video be?",
     answer: "Videos can be up to 60 seconds long. Because all audio decoding, neural speech inference, canvas rendering, and MP4 multiplexing run directly inside your browser tab, 60 seconds is the tested maximum duration to prevent browser tab memory limits from being exceeded."
   },
@@ -216,15 +219,29 @@ const qaList = [
   }
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": qaList.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
 export default function VideoCaptionGeneratorPage() {
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden py-10">
       {/* Top Ambient Atmosphere Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[380px] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
-      {/* Structured Data: SoftwareApplication & BreadcrumbList */}
+      {/* Structured Data: SoftwareApplication, FAQPage & BreadcrumbList */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Navigation & Header Section */}

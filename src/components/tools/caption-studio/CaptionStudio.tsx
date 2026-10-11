@@ -84,18 +84,20 @@ export function CaptionStudio() {
   const commitTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
+  const getOrInitASRClient = (): ASRClient | null => {
+    if (asrClientRef.current) return asrClientRef.current;
+
     const caps = checkBrowserCapabilities();
     setCapabilities(caps);
 
     if (!isASRReady(caps)) {
       setError("Your browser does not support the required AI features (WebGPU, WebWorkers, or AudioContext).");
-      return;
+      return null;
     }
 
     const client = new ASRClient();
     asrClientRef.current = client;
-    
+
     client.initialize(
       (state) => setWorkerState(state),
       (result) => {
@@ -112,9 +114,23 @@ export function CaptionStudio() {
       (progress) => setInitProgress(progress)
     );
 
+    return client;
+  };
+
+  useEffect(() => {
+    const caps = checkBrowserCapabilities();
+    setCapabilities(caps);
+
+    if (!isASRReady(caps)) {
+      setError("Your browser does not support the required AI features (WebGPU, WebWorkers, or AudioContext).");
+      return;
+    }
+
     return () => {
-      client.terminate();
-      asrClientRef.current = null;
+      if (asrClientRef.current) {
+        asrClientRef.current.terminate();
+        asrClientRef.current = null;
+      }
       if (exportWorkerRef.current) {
         exportWorkerRef.current.terminate();
         exportWorkerRef.current = null;
@@ -160,16 +176,20 @@ export function CaptionStudio() {
       setVideoUrl(url);
 
       try {
-        if (workerState === 'IDLE' || workerState === 'INITIALIZING') {
-          await asrClientRef.current?.prepare();
+        const client = getOrInitASRClient();
+        if (!client) {
+          throw new Error("Your browser does not support the required AI features (WebGPU, WebWorkers, or AudioContext).");
         }
-        if (asrClientRef.current && (asrClientRef.current as any).state === 'ERROR') {
-            throw new Error("AI Engine failed to initialize.");
+        if (workerState === 'IDLE' || workerState === 'INITIALIZING') {
+          await client.prepare();
+        }
+        if ((client as any).state === 'ERROR') {
+          throw new Error("AI Engine failed to initialize.");
         }
         
         setWorkerState('TRANSCRIBING');
         const pcm = await extractAudioFromVideo(file);
-        asrClientRef.current?.transcribe(pcm);
+        client.transcribe(pcm);
       } catch (err: any) {
         setError(err.message || String(err));
         setWorkerState('READY');
@@ -185,6 +205,7 @@ export function CaptionStudio() {
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      getOrInitASRClient();
       processVideoFile(file);
     }
     e.target.value = '';
@@ -193,6 +214,7 @@ export function CaptionStudio() {
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    getOrInitASRClient();
     if (workerState !== 'INITIALIZING' && workerState !== 'TRANSCRIBING') {
       setIsDragging(true);
     }
@@ -208,6 +230,7 @@ export function CaptionStudio() {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
+    getOrInitASRClient();
     if (workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING') return;
     const file = e.dataTransfer.files?.[0];
     if (file && (file.type.startsWith('video/') || /\.(mp4|webm|mov|m4v)$/i.test(file.name))) {
@@ -218,6 +241,7 @@ export function CaptionStudio() {
   };
 
   const handleLoadSample = async () => {
+    getOrInitASRClient();
     if (workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING') return;
     try {
       const response = await fetch('/assets/sample-reel.mp4');
@@ -235,24 +259,10 @@ export function CaptionStudio() {
     setInitProgress(null);
     if (asrClientRef.current) {
       asrClientRef.current.terminate();
+      asrClientRef.current = null;
     }
-    const client = new ASRClient();
-    asrClientRef.current = client;
-    client.initialize(
-      (state) => setWorkerState(state),
-      (result) => {
-        setTranscriptionResult(result);
-        const newCaptions = segmentCaptions(result.words);
-        const deepCopy = JSON.parse(JSON.stringify(newCaptions));
-        setCaptions(newCaptions);
-        setAiOriginalCaptions(deepCopy);
-        setUndoStack([]);
-        setRedoStack([]);
-        setWorkerState('READY');
-      },
-      (err) => setError(err),
-      (progress) => setInitProgress(progress)
-    );
+    const client = getOrInitASRClient();
+    if (!client) return;
 
     try {
       await client.prepare();
@@ -612,6 +622,8 @@ export function CaptionStudio() {
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
+          onPointerEnter={() => getOrInitASRClient()}
+          onFocusCapture={() => getOrInitASRClient()}
           className={`relative group rounded-3xl border-2 transition-all duration-300 p-8 sm:p-14 text-center overflow-hidden ${
             isDragging 
               ? 'border-blue-500 bg-blue-500/10 shadow-2xl shadow-blue-500/20 scale-[1.01]' 
@@ -646,6 +658,7 @@ export function CaptionStudio() {
             <div className="flex flex-col sm:flex-row items-center gap-3 mb-8 w-full sm:w-auto">
               <label 
                 htmlFor="video-upload" 
+                onPointerDown={() => getOrInitASRClient()}
                 className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl text-sm font-semibold transition-all duration-200 h-12 px-8 shadow-lg shadow-blue-600/25 ${
                   workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING' 
                     ? 'opacity-60 cursor-not-allowed bg-slate-300 dark:bg-slate-800 text-slate-500 pointer-events-none' 
@@ -659,6 +672,7 @@ export function CaptionStudio() {
               <button
                 type="button"
                 onClick={handleLoadSample}
+                onPointerDown={() => getOrInitASRClient()}
                 disabled={workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING'}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl text-sm font-medium transition-all duration-200 h-12 px-6 bg-white dark:bg-[#0e1738] text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 border border-slate-200/90 dark:border-slate-700/80 shadow-sm hover:shadow"
               >
