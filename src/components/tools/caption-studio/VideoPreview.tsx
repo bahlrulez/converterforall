@@ -66,17 +66,14 @@ export function VideoPreview({
 
   // Fullscreen toggle handler
   const toggleFullscreen = useCallback(async () => {
-    if (externalToggleFullscreen) {
-      externalToggleFullscreen();
-      return;
-    }
-
-    const container = containerRef.current;
+    const container = previewContainerRef?.current || containerRef.current;
     if (!container) return;
 
     const isCurrentlyFs = Boolean(
       document.fullscreenElement || 
-      (document as any).webkitFullscreenElement
+      (document as any).webkitFullscreenElement ||
+      (document as any).mozFullScreenElement ||
+      (document as any).msFullscreenElement
     );
 
     if (!isCurrentlyFs) {
@@ -85,6 +82,8 @@ export function VideoPreview({
           await container.requestFullscreen();
         } else if ((container as any).webkitRequestFullscreen) {
           await (container as any).webkitRequestFullscreen();
+        } else if ((container as any).mozRequestFullScreen) {
+          await (container as any).mozRequestFullScreen();
         } else if ((container as any).msRequestFullscreen) {
           await (container as any).msRequestFullscreen();
         }
@@ -97,6 +96,8 @@ export function VideoPreview({
           await document.exitFullscreen();
         } else if ((document as any).webkitExitFullscreen) {
           await (document as any).webkitExitFullscreen();
+        } else if ((document as any).mozCancelFullScreen) {
+          await (document as any).mozCancelFullScreen();
         } else if ((document as any).msExitFullscreen) {
           await (document as any).msExitFullscreen();
         }
@@ -104,18 +105,24 @@ export function VideoPreview({
         console.error('Exit fullscreen error:', err);
       }
     }
-  }, [containerRef, externalToggleFullscreen]);
+  }, [containerRef, previewContainerRef]);
 
   // Sync fullscreen state & Hijack native video requestFullscreen
   useEffect(() => {
     const handleFsChange = () => {
-      const isFs = document.fullscreenElement === containerRef.current ||
-        (document as any).webkitFullscreenElement === containerRef.current;
-      setInternalIsFullscreen(Boolean(isFs));
+      const el = document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement;
+      const target = containerRef.current || previewContainerRef?.current;
+      const isFs = Boolean(el && (el === target || target?.contains(el)));
+      setInternalIsFullscreen(isFs);
     };
 
     document.addEventListener('fullscreenchange', handleFsChange);
     document.addEventListener('webkitfullscreenchange', handleFsChange);
+    document.addEventListener('mozfullscreenchange', handleFsChange);
+    document.addEventListener('MSFullscreenChange', handleFsChange);
 
     const video = videoRef.current;
     const container = containerRef.current;
@@ -133,6 +140,10 @@ export function VideoPreview({
           return container.requestFullscreen(options);
         } else if ((container as any).webkitRequestFullscreen) {
           return (container as any).webkitRequestFullscreen();
+        } else if ((container as any).mozRequestFullScreen) {
+          return (container as any).mozRequestFullScreen();
+        } else if ((container as any).msRequestFullscreen) {
+          return (container as any).msRequestFullscreen();
         } else if (origRequestFs) {
           return origRequestFs(options);
         }
@@ -150,13 +161,15 @@ export function VideoPreview({
     return () => {
       document.removeEventListener('fullscreenchange', handleFsChange);
       document.removeEventListener('webkitfullscreenchange', handleFsChange);
+      document.removeEventListener('mozfullscreenchange', handleFsChange);
+      document.removeEventListener('MSFullscreenChange', handleFsChange);
       if (video) {
         if (origRequestFs) video.requestFullscreen = origRequestFs;
         if (origWebkitRequestFs) (video as any).webkitRequestFullscreen = origWebkitRequestFs;
         if (origWebkitEnterFs) (video as any).webkitEnterFullscreen = origWebkitEnterFs;
       }
     };
-  }, [containerRef, videoRef]);
+  }, [containerRef, previewContainerRef, videoRef]);
 
   // Keyboard shortcut: 'f' or 'F' toggles fullscreen when not typing
   useEffect(() => {
@@ -326,7 +339,18 @@ export function VideoPreview({
         <canvas 
           ref={canvasRef}
           className="caption-overlay absolute inset-0 w-full h-full object-contain pointer-events-none z-[9999]"
-          style={{ position: 'absolute', zIndex: 9999 }}
+          style={{ 
+            position: 'absolute', 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0, 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'contain', 
+            pointerEvents: 'none', 
+            zIndex: 9999 
+          }}
           aria-hidden="true"
         />
 

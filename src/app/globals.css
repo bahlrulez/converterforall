@@ -261,8 +261,8 @@
 }
 
 /* ==========================================================================
-   Full-screen Caption Visibility & Responsive Scaling
-   Ensures subtitle overlay persists and scales cleanly in native fullscreen
+   Full-screen Caption Visibility & Exact Relative Video Frame Pinning
+   Ensures subtitle overlay persists and stays strictly aligned over video rect
    ========================================================================== */
 :fullscreen #video-preview-wrapper,
 :-webkit-full-screen #video-preview-wrapper,
@@ -275,29 +275,24 @@
   border: none !important;
 }
 
+/* Pinned strictly with inset-0 w-full h-full object-contain pointer-events-none z-[9999] */
 :fullscreen .caption-overlay,
 :-webkit-full-screen .caption-overlay,
-[data-fullscreen="true"] .caption-overlay {
-  position: absolute !important;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999 !important;
-  font-size: clamp(24px, 4vw, 56px); /* scale text proportionally in fullscreen */
-}
-
-/* For canvas caption overlays, keep full frame 1:1 scaling while retaining top-layer z-index */
+[data-fullscreen="true"] .caption-overlay,
 :fullscreen canvas.caption-overlay,
 :-webkit-full-screen canvas.caption-overlay,
 [data-fullscreen="true"] canvas.caption-overlay {
   position: absolute !important;
   inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  bottom: 0 !important;
-  left: 0 !important;
   transform: none !important;
   object-fit: contain !important;
+  pointer-events: none !important;
   z-index: 9999 !important;
 }
 

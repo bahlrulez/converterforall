@@ -92,16 +92,24 @@ export function CaptionStudio() {
   // Sync fullscreen state
   useEffect(() => {
     const handleFsChange = () => {
-      const isFs = document.fullscreenElement === previewContainerRef.current ||
-        (document as any).webkitFullscreenElement === previewContainerRef.current;
-      setIsFullscreen(Boolean(isFs));
+      const el = document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement;
+      const target = previewContainerRef.current;
+      const isFs = Boolean(el && (el === target || target?.contains(el)));
+      setIsFullscreen(isFs);
     };
 
     document.addEventListener('fullscreenchange', handleFsChange);
     document.addEventListener('webkitfullscreenchange', handleFsChange);
+    document.addEventListener('mozfullscreenchange', handleFsChange);
+    document.addEventListener('MSFullscreenChange', handleFsChange);
     return () => {
       document.removeEventListener('fullscreenchange', handleFsChange);
       document.removeEventListener('webkitfullscreenchange', handleFsChange);
+      document.removeEventListener('mozfullscreenchange', handleFsChange);
+      document.removeEventListener('MSFullscreenChange', handleFsChange);
     };
   }, []);
 
@@ -109,17 +117,32 @@ export function CaptionStudio() {
     const container = previewContainerRef.current;
     if (!container) return;
 
-    if (!document.fullscreenElement && !(document as any).webkitFullscreenElement) {
+    const isCurrentlyFs = Boolean(
+      document.fullscreenElement ||
+      (document as any).webkitFullscreenElement ||
+      (document as any).mozFullScreenElement ||
+      (document as any).msFullscreenElement
+    );
+
+    if (!isCurrentlyFs) {
       if (container.requestFullscreen) {
         container.requestFullscreen().catch(err => console.error(err));
       } else if ((container as any).webkitRequestFullscreen) {
         (container as any).webkitRequestFullscreen();
+      } else if ((container as any).mozRequestFullScreen) {
+        (container as any).mozRequestFullScreen();
+      } else if ((container as any).msRequestFullscreen) {
+        (container as any).msRequestFullscreen();
       }
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen().catch(err => console.error(err));
       } else if ((document as any).webkitExitFullscreen) {
         (document as any).webkitExitFullscreen();
+      } else if ((document as any).mozCancelFullScreen) {
+        (document as any).mozCancelFullScreen();
+      } else if ((document as any).msExitFullscreen) {
+        (document as any).msExitFullscreen();
       }
     }
   };
@@ -664,7 +687,7 @@ export function CaptionStudio() {
           onDrop={handleDrop}
           onPointerEnter={() => getOrInitASRClient()}
           onFocusCapture={() => getOrInitASRClient()}
-          className={`relative group rounded-3xl border-2 transition-all duration-300 p-8 sm:p-14 text-center overflow-hidden ${
+          className={`relative group rounded-3xl border-2 transition-all duration-300 p-5 sm:p-8 md:p-10 text-center overflow-hidden ${
             isDragging 
               ? 'border-blue-500 bg-blue-500/10 shadow-2xl shadow-blue-500/20 scale-[1.01]' 
               : workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING'
@@ -678,28 +701,28 @@ export function CaptionStudio() {
 
           <div className="relative z-10 flex flex-col items-center max-w-xl mx-auto">
             {/* Gradient Upload Icon */}
-            <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-6 shadow-xl transition-all duration-300 ${
+            <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 shadow-xl transition-all duration-300 ${
               isDragging
                 ? 'bg-gradient-to-tr from-blue-500 to-indigo-500 text-white scale-110 shadow-blue-500/30'
                 : 'bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-blue-500/25 group-hover:scale-105 group-hover:shadow-blue-500/35'
             }`}>
-              <UploadCloud className="w-10 h-10 motion-safe:group-hover:-translate-y-0.5 transition-transform" />
+              <UploadCloud className="w-7 h-7 sm:w-8 sm:h-8 motion-safe:group-hover:-translate-y-0.5 transition-transform" />
             </div>
 
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
+            <h3 className="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight mb-1.5">
               {isDragging ? "Drop your video right here" : "Choose a video to caption"}
             </h3>
 
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mb-6 leading-relaxed max-w-md">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-4 sm:mb-5 leading-relaxed max-w-md">
               Drag and drop your video file here, or click below. Speech is recognized and timed on your device using on-device AI.
             </p>
 
             {/* CTAs: Browse Video + Try Sample */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 mb-8 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 mb-4 sm:mb-5 w-full sm:w-auto">
               <label 
                 htmlFor="video-upload" 
                 onPointerDown={() => getOrInitASRClient()}
-                className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl text-sm font-semibold transition-all duration-200 h-12 px-8 shadow-lg shadow-blue-600/25 ${
+                className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-200 h-10 sm:h-11 px-6 sm:px-8 shadow-lg shadow-blue-600/25 ${
                   workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING' 
                     ? 'opacity-60 cursor-not-allowed bg-slate-300 dark:bg-slate-800 text-slate-500 pointer-events-none' 
                     : 'cursor-pointer bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 active:scale-[0.98]'
@@ -714,7 +737,7 @@ export function CaptionStudio() {
                 onClick={handleLoadSample}
                 onPointerDown={() => getOrInitASRClient()}
                 disabled={workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING'}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl text-sm font-medium transition-all duration-200 h-12 px-6 bg-white dark:bg-[#0e1738] text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 border border-slate-200/90 dark:border-slate-700/80 shadow-sm hover:shadow"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-medium transition-all duration-200 h-10 sm:h-11 px-5 sm:px-6 bg-white dark:bg-[#0e1738] text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 border border-slate-200/90 dark:border-slate-700/80 shadow-sm hover:shadow"
               >
                 <Play className="w-3.5 h-3.5 fill-current text-blue-500" />
                 <span>Try with sample reel</span>
@@ -722,16 +745,16 @@ export function CaptionStudio() {
             </div>
 
             {/* Format Badges & Constraints */}
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs text-slate-500 dark:text-slate-400">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 font-medium">
+            <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 font-medium">
                 <Film className="w-3.5 h-3.5 text-blue-500" />
                 MP4, WebM, MOV
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 font-medium">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 font-medium">
                 <Clock className="w-3.5 h-3.5 text-amber-500" />
                 Up to 60 seconds
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 font-medium">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 font-medium">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
                 Never leaves device
               </span>

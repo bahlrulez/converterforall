@@ -234,9 +234,9 @@ const faqSchema = {
 
 export default function VideoCaptionGeneratorPage() {
   return (
-    <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden py-6 sm:py-8">
+    <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden py-4 sm:py-6">
       {/* Top Ambient Atmosphere Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[320px] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[280px] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
       {/* Structured Data: SoftwareApplication, FAQPage & BreadcrumbList */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
@@ -245,56 +245,56 @@ export default function VideoCaptionGeneratorPage() {
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Navigation & Header Section */}
-        <div className="mb-6 sm:mb-8 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
+        <div className="mb-3 sm:mb-4 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
           <Link 
             href="/" 
-            className="inline-flex items-center text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-4 transition-all bg-white dark:bg-[#0a1128]/80 px-3.5 py-1.5 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
+            className="inline-flex items-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-2 transition-all bg-white dark:bg-[#0a1128]/80 px-3 py-1 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
           >
-            <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
+            <ArrowLeft className="mr-1.5 h-3 w-3" />
             <span>Back to All 150+ Tools</span>
           </Link>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-3 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-2 shadow-sm">
+            <Sparkles className="w-3 h-3" />
             <span>Free On-Device AI Caption &amp; Subtitle Studio</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight mb-3 text-slate-900 dark:text-white leading-[1.15]">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-white leading-[1.15]">
             Free AI Video Caption &amp; Subtitle Generator
           </h1>
           
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed mb-4">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed mb-3">
             Upload your video for free, automatically generate timed captions and subtitles, edit the words, style them, and export a finished video for Instagram, TikTok, YouTube, Facebook and more.
           </p>
 
           {/* Compact Verified Trust Highlights Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] text-slate-600 dark:text-slate-400 font-medium">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <CheckCircle2 className="w-3 h-3 text-blue-500" />
               <span>Free to use</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <Sparkles className="w-3 h-3 text-amber-500" />
               <span>AI-powered captions</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <Languages className="w-3.5 h-3.5 text-indigo-500" />
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <Languages className="w-3 h-3 text-indigo-500" />
               <span>Hindi + English + more</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <Cpu className="w-3.5 h-3.5 text-emerald-500" />
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+              <Cpu className="w-3 h-3 text-emerald-500" />
               <span>Browser-based processing</span>
             </span>
           </div>
         </div>
 
         {/* PRIMARY TOOL AREA: Kept Prominently Above the Fold */}
-        <div className="relative mb-6">
+        <div className="relative mb-5">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[95%] max-w-5xl h-[85%] blur-[90px] opacity-25 dark:opacity-15 pointer-events-none">
             <div className="w-full h-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-500 rounded-full" />
           </div>
 
-          <div className="bg-white/90 dark:bg-[#080e22]/95 backdrop-blur-xl rounded-3xl p-3 sm:p-5 md:p-6 border border-slate-200/90 dark:border-slate-800 shadow-2xl relative z-10">
+          <div className="bg-white/90 dark:bg-[#080e22]/95 backdrop-blur-xl rounded-3xl p-3 sm:p-4 md:p-5 border border-slate-200/90 dark:border-slate-800 shadow-2xl relative z-10">
             <CaptionStudio />
           </div>
         </div>
