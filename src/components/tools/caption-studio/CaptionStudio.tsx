@@ -740,28 +740,28 @@ export function CaptionStudio() {
         </div>
       ) : (
         /* Video Loaded State: Sleek Header Toolbar & 2-Column Editor Studio */
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4">
           {/* Top Video Toolbar */}
-          <div className="bg-white/80 dark:bg-[#0a1128]/80 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 border border-blue-500/20">
-                <FileVideo className="w-5 h-5" />
+          <div className="bg-white/80 dark:bg-[#0a1128]/80 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 rounded-xl p-2.5 sm:p-3 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+            <div className="flex items-center gap-2.5 w-full sm:w-auto min-w-0">
+              <div className="w-9 h-9 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 border border-blue-500/20">
+                <FileVideo className="w-4 h-4" />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-sm font-semibold text-slate-900 dark:text-white truncate">
+                <div className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white truncate">
                   {videoFile?.name || 'Selected Video'}
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5 truncate">
                   {videoFile && <span>{formatFileSize(videoFile.size)}</span>}
                   <span>•</span>
-                  <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-                    {captions.length > 0 ? `${captions.length} captions generated` : 'Processing...'}
+                  <span className="text-emerald-600 dark:text-emerald-400 font-medium truncate">
+                    {captions.length > 0 ? `${captions.length} captions generated` : 'Processing speech...'}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <div className="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-end shrink-0">
               {captions.length > 0 && (
                 <>
                   <button 
@@ -800,19 +800,20 @@ export function CaptionStudio() {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={workerState === 'TRANSCRIBING' || exportProgress !== null}
-                className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm transition-colors disabled:opacity-40 ml-2"
+                className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 sm:px-3 py-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm transition-colors disabled:opacity-40"
               >
                 <Video className="w-3.5 h-3.5 text-blue-500" />
-                <span>Choose Another Video</span>
+                <span className="hidden sm:inline">Choose Another Video</span>
+                <span className="sm:hidden">Change</span>
               </button>
             </div>
           </div>
 
           {/* 2-Column Studio: Left Video Preview + Export, Right Editor Sidebar */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-start">
             {/* Left Column: Video Preview & Export CTA */}
-            <div className="lg:col-span-6 sticky top-4 flex flex-col gap-4">
-              <div className="bg-white/80 dark:bg-[#0a1128]/80 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 rounded-3xl p-4 sm:p-5 shadow-xl">
+            <div className="lg:col-span-6 sticky top-3 flex flex-col gap-2.5">
+              <div className="bg-white/80 dark:bg-[#0a1128]/80 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 rounded-2xl p-2.5 sm:p-3.5 shadow-md">
                 <VideoPreview 
                   videoUrl={videoUrl}
                   captions={captions}
@@ -824,15 +825,16 @@ export function CaptionStudio() {
                   onPositionChange={setGlobalPosition}
                   isFullscreen={isFullscreen}
                   onToggleFullscreen={toggleFullscreen}
+                  isTranscribing={workerState === 'TRANSCRIBING'}
                 />
               </div>
 
               {captions.length > 0 && (
-                <div className="space-y-3">
+                <div className="sticky bottom-2 z-20 space-y-2 bg-white/95 dark:bg-[#0a1128]/95 backdrop-blur-md p-2 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xl">
                   <button
                     onClick={handleExport}
                     disabled={exportProgress !== null}
-                    className="relative overflow-hidden w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 hover:from-blue-700 hover:via-indigo-700 hover:to-sky-700 text-white font-bold py-3.5 px-6 rounded-2xl flex flex-col items-center justify-center min-h-[56px] shadow-xl shadow-blue-500/25 transition-all active:scale-[0.99] disabled:opacity-90 disabled:active:scale-100"
+                    className="relative overflow-hidden w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 hover:from-blue-700 hover:via-indigo-700 hover:to-sky-700 text-white font-bold py-2.5 sm:py-3 px-5 rounded-xl flex flex-col items-center justify-center min-h-[48px] shadow-lg shadow-blue-500/20 transition-all active:scale-[0.99] disabled:opacity-90 disabled:active:scale-100"
                   >
                     {exportProgress ? (
                       <>
@@ -912,18 +914,63 @@ export function CaptionStudio() {
             </div>
 
             {/* Right Column: Editor Sidebar */}
-            <div className="lg:col-span-6 bg-white/80 dark:bg-[#0a1128]/80 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xl">
+            <div className="lg:col-span-6 bg-white/80 dark:bg-[#0a1128]/80 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 rounded-2xl p-3 sm:p-5 shadow-md">
               {workerState === 'TRANSCRIBING' ? (
-                <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/25 mb-4 animate-pulse">
-                    <Sparkles className="w-7 h-7 motion-safe:animate-spin [animation-duration:6s]" />
+                <div className="flex flex-col items-center justify-center py-10 sm:py-14 px-4 text-center relative overflow-hidden rounded-2xl bg-slate-50/50 dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800">
+                  {/* Subtle Background Glow Aura */}
+                  <div className="absolute w-56 h-56 rounded-full bg-gradient-to-tr from-blue-500/15 via-indigo-500/10 to-purple-500/15 blur-3xl pointer-events-none -z-10 animate-pulse" />
+
+                  {/* Pulsing AI Sparkle Badge */}
+                  <div className="relative mb-3.5">
+                    <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-400 opacity-70 blur-sm animate-pulse" />
+                    <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-blue-500/25 border border-white/20">
+                      <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 motion-safe:animate-spin [animation-duration:8s] text-white" />
+                    </div>
                   </div>
-                  <h4 className="text-base font-semibold text-slate-900 dark:text-white mb-1">
-                    Recognizing speech &amp; timestamps
+
+                  <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-1">
+                    AI Analyzing Audio &amp; Timestamps
                   </h4>
-                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed">
-                    Whisper is transcribing audio on your device using WebGPU hardware acceleration...
+                  <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed mb-4">
+                    Whisper neural speech engine is transcribing audio on your device using WebGPU hardware acceleration.
                   </p>
+
+                  {/* Dynamic Animated Soundwave Equalizer */}
+                  <div className="flex items-center justify-center gap-1.5 h-7 sm:h-8 mb-4" aria-hidden="true">
+                    {[30, 60, 95, 50, 100, 70, 85, 45, 90, 65, 35].map((h, i) => (
+                      <span
+                        key={i}
+                        className="w-1.5 bg-gradient-to-t from-blue-600 via-indigo-500 to-sky-400 rounded-full animate-soundwave"
+                        style={{
+                          height: `${h}%`,
+                          animationDelay: `${(i * 100) % 750}ms`,
+                          animationDuration: '1.1s'
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Interactive 3-Step Progress Indicators */}
+                  <div className="w-full max-w-xs space-y-1.5 text-left mb-3.5">
+                    <div className="flex items-center gap-2 p-2 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 shadow-sm text-xs">
+                      <div className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold">✓</div>
+                      <span className="font-medium text-slate-800 dark:text-slate-200">1. Audio Track Decoded</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 shadow-sm text-xs">
+                      <div className="w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center text-[8px] animate-spin">●</div>
+                      <span className="font-semibold text-blue-700 dark:text-blue-300">2. Neural Speech Recognition Active</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 rounded-xl bg-white/50 dark:bg-slate-850/40 border border-slate-200/50 dark:border-slate-800 text-xs opacity-60">
+                      <div className="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 flex items-center justify-center text-[10px] font-bold">3</div>
+                      <span className="text-slate-500 dark:text-slate-400">3. Timed Caption Segmentation</span>
+                    </div>
+                  </div>
+
+                  {/* Privacy Guarantee Reassurance */}
+                  <div className="inline-flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800/60 px-3 py-1 rounded-full border border-slate-200/60 dark:border-slate-700/60">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Zero uploads • Completely private on-device</span>
+                  </div>
                 </div>
               ) : (
                 <EditorSidebar 

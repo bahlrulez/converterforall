@@ -93,8 +93,8 @@ export function EditorSidebar({
   };
 
   return (
-    <div className="flex flex-col h-full h-96 sm:h-[500px]">
-      <div className="flex items-center gap-2 pb-3 border-b mb-3">
+    <div className="flex flex-col h-full min-h-[360px] sm:min-h-[400px] max-h-[50vh]">
+      <div className="flex items-center gap-2 pb-2.5 border-b mb-2.5">
         <button 
           onClick={() => setActiveTab('EDIT')} 
           className={`flex-1 py-1.5 text-sm font-semibold rounded-md transition-colors ${activeTab === 'EDIT' ? 'bg-primary text-primary-foreground' : 'bg-muted hover:bg-muted/80'}`}

@@ -264,34 +264,56 @@
    Full-screen Caption Visibility & Responsive Scaling
    Ensures subtitle overlay persists and scales cleanly in native fullscreen
    ========================================================================== */
-:fullscreen .caption-overlay {
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  font-size: clamp(24px, 4vw, 56px); /* scale text proportionally in fullscreen */
+:fullscreen #video-preview-wrapper,
+:-webkit-full-screen #video-preview-wrapper,
+[data-fullscreen="true"]#video-preview-wrapper {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  background-color: #000000 !important;
+  border-radius: 0 !important;
+  border: none !important;
 }
 
-:-webkit-full-screen .caption-overlay {
-  position: absolute;
+:fullscreen .caption-overlay,
+:-webkit-full-screen .caption-overlay,
+[data-fullscreen="true"] .caption-overlay {
+  position: absolute !important;
   bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 9999;
-  font-size: clamp(24px, 4vw, 56px);
+  z-index: 9999 !important;
+  font-size: clamp(24px, 4vw, 56px); /* scale text proportionally in fullscreen */
 }
 
 /* For canvas caption overlays, keep full frame 1:1 scaling while retaining top-layer z-index */
 :fullscreen canvas.caption-overlay,
-:-webkit-full-screen canvas.caption-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  bottom: 0;
-  left: 0;
-  transform: none;
-  object-fit: contain;
-  z-index: 9999;
+:-webkit-full-screen canvas.caption-overlay,
+[data-fullscreen="true"] canvas.caption-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  transform: none !important;
+  object-fit: contain !important;
+  z-index: 9999 !important;
+}
+
+/* AI Speech Recognition Soundwave Animation */
+@keyframes soundwave-pulse {
+  0%, 100% {
+    transform: scaleY(0.2);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.animate-soundwave {
+  animation: soundwave-pulse 1.1s ease-in-out infinite;
+  transform-origin: center;
 }

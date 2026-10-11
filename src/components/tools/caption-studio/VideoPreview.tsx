@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { CaptionChunk } from '@/lib/caption-studio/types';
 import { renderCaptionToCanvas } from '@/lib/caption-studio/caption-renderer';
 import { StyleSettings, PositionSettings } from '@/lib/caption-studio/style-types';
-import { Maximize, Minimize } from 'lucide-react';
+import { Maximize, Minimize, Sparkles } from 'lucide-react';
 
 interface VideoPreviewProps {
   videoUrl: string;
@@ -15,6 +15,7 @@ interface VideoPreviewProps {
   previewContainerRef?: React.RefObject<HTMLDivElement | null>;
   isFullscreen?: boolean;
   onToggleFullscreen?: () => void;
+  isTranscribing?: boolean;
 }
 
 export function VideoPreview({ 
@@ -27,7 +28,8 @@ export function VideoPreview({
   onPositionChange,
   previewContainerRef,
   isFullscreen: externalIsFullscreen,
-  onToggleFullscreen: externalToggleFullscreen
+  onToggleFullscreen: externalToggleFullscreen,
+  isTranscribing = false
 }: VideoPreviewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const internalContainerRef = useRef<HTMLDivElement>(null);
@@ -40,6 +42,27 @@ export function VideoPreview({
   const [showSafeZones, setShowSafeZones] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+
+  // Cycling step indicator for engaging AI feedback during transcription
+  const [activeStep, setActiveStep] = useState(1);
+  useEffect(() => {
+    if (!isTranscribing) {
+      setActiveStep(1);
+      return;
+    }
+    const timer1 = setTimeout(() => setActiveStep(2), 2200);
+    const timer2 = setTimeout(() => setActiveStep(3), 5200);
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, [isTranscribing]);
+
+  const stepText = activeStep === 1 
+    ? 'AI Analyzing Audio Streams...' 
+    : activeStep === 2 
+    ? 'Decoding Neural Phonemes...' 
+    : 'Generating Timed Captions...';
 
   // Fullscreen toggle handler
   const toggleFullscreen = useCallback(async () => {
@@ -270,10 +293,12 @@ export function VideoPreview({
       {/* Dedicated Preview Container Wrapping Video, Canvas Caption Overlay, Safe Zones, and Controls */}
       <div 
         ref={containerRef as React.RefObject<HTMLDivElement>}
+        id="video-preview-wrapper"
+        data-fullscreen={isFullscreen}
         className={`relative w-full overflow-hidden bg-black touch-none flex items-center justify-center transition-all ${
           isFullscreen 
-            ? 'fixed inset-0 w-screen h-screen max-h-screen rounded-none border-none z-[99999]' 
-            : 'aspect-video md:aspect-[9/16] max-h-[60vh] rounded-lg border'
+            ? 'w-full h-full max-h-none rounded-none border-none' 
+            : 'aspect-video md:aspect-[9/16] max-h-[42vh] sm:max-h-[46vh] rounded-xl border border-slate-800 shadow-inner'
         }`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
@@ -290,7 +315,7 @@ export function VideoPreview({
         <video 
           ref={videoRef}
           src={videoUrl} 
-          controls={!isDragging} // disable controls while dragging
+          controls={!isDragging && !isTranscribing} // disable controls while dragging or transcribing
           controlsList="nofullscreen" // hide native fullscreen button
           onTimeUpdate={onTimeUpdate}
           className="w-full h-full object-contain pointer-events-auto"
@@ -301,8 +326,66 @@ export function VideoPreview({
         <canvas 
           ref={canvasRef}
           className="caption-overlay absolute inset-0 w-full h-full object-contain pointer-events-none z-[9999]"
+          style={{ position: 'absolute', zIndex: 9999 }}
           aria-hidden="true"
         />
+
+        {/* Engaging Animated AI Speech Recognition Status Overlay */}
+        {isTranscribing && (
+          <div className="absolute inset-0 z-30 flex flex-col items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md select-none text-center">
+            {/* Ambient Pulsing Aura */}
+            <div className="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-gradient-to-tr from-blue-600/35 via-indigo-500/25 to-purple-600/35 blur-2xl animate-pulse pointer-events-none -z-10" />
+
+            {/* Glowing Center AI Sparkle Badge */}
+            <div className="relative mb-3">
+              <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-sky-400 opacity-75 blur-sm animate-pulse" />
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-sky-600 text-white flex items-center justify-center shadow-xl shadow-blue-500/30 border border-white/20">
+                <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 motion-safe:animate-spin [animation-duration:8s] text-white" />
+              </div>
+            </div>
+
+            {/* Pulsing Animated Soundwave Equalizer */}
+            <div className="flex items-center justify-center gap-1 sm:gap-1.5 h-7 sm:h-8 mb-2.5" aria-hidden="true">
+              {[35, 65, 95, 55, 100, 75, 90, 45, 80, 60, 40].map((h, idx) => (
+                <span
+                  key={idx}
+                  className="w-1 sm:w-1.5 bg-gradient-to-t from-blue-500 via-indigo-400 to-sky-300 rounded-full animate-soundwave"
+                  style={{
+                    height: `${h}%`,
+                    animationDelay: `${(idx * 110) % 800}ms`,
+                    animationDuration: '1.1s'
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Phased Step Indicator */}
+            <div className="space-y-1 max-w-xs px-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-400/30 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping inline-block" />
+                <span>{stepText}</span>
+              </div>
+              <p className="text-[11px] text-slate-300/90 leading-tight">
+                Whisper AI is recognizing speech &amp; timestamps on your device.
+              </p>
+            </div>
+
+            {/* Step Progression Indicators */}
+            <div className="flex items-center gap-1.5 sm:gap-2 mt-2.5 text-[10px] text-slate-400 font-medium">
+              <span className={`px-2 py-0.5 rounded-full ${activeStep >= 1 ? 'bg-blue-600/40 text-blue-200 border border-blue-400/40 font-semibold' : 'bg-white/5 text-slate-500'}`}>
+                1. Audio Extraction
+              </span>
+              <span>→</span>
+              <span className={`px-2 py-0.5 rounded-full ${activeStep >= 2 ? 'bg-blue-600/40 text-blue-200 border border-blue-400/40 font-semibold' : 'bg-white/5 text-slate-500'}`}>
+                2. Neural Speech
+              </span>
+              <span>→</span>
+              <span className={`px-2 py-0.5 rounded-full ${activeStep >= 3 ? 'bg-blue-600/40 text-blue-200 border border-blue-400/40 font-semibold' : 'bg-white/5 text-slate-500'}`}>
+                3. Captions
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Safe Zones Overlay */}
         {showSafeZones && (
