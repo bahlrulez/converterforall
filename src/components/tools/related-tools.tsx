@@ -24,23 +24,38 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       // PDF Core Workflow
       "merge-pdf": ["split-pdf", "compress-pdf", "organize-pdf", "edit-pdf"],
       "split-pdf": ["merge-pdf", "compress-pdf", "remove-pages", "extract-pages"],
-      "compress-pdf": ["merge-pdf", "split-pdf", "pdf-to-word", "organize-pdf"],
+      "compress-pdf": ["compress-pdf-100kb", "merge-pdf", "split-pdf", "pdf-to-word"],
       "edit-pdf": ["merge-pdf", "organize-pdf", "compress-pdf", "split-pdf"],
       "organize-pdf": ["merge-pdf", "split-pdf", "rotate-pdf", "remove-pages"],
       "word-to-pdf": ["pdf-to-word", "merge-pdf", "excel-to-pdf", "powerpoint-to-pdf"],
       "pdf-to-word": ["word-to-pdf", "merge-pdf", "compress-pdf", "pdf-to-jpg"],
+      "pdf-to-jpg": ["pdf-to-png", "pdf-to-word", "jpg-to-pdf", "merge-pdf"],
+      "pdf-to-png": ["pdf-to-jpg", "pdf-to-word", "png-to-pdf", "merge-pdf"],
       
+      // Sarkari Exam Tools Workflow
+      "exam-photo-resizer": ["photo-name-date-stamper", "exam-signature-resizer", "compress-pdf-100kb", "image-dpi-converter"],
+      "photo-name-date-stamper": ["exam-photo-resizer", "exam-signature-resizer", "passport-photo-maker", "image-dpi-converter"],
+      "exam-signature-resizer": ["exam-photo-resizer", "photo-name-date-stamper", "compress-pdf-100kb", "image-dpi-converter"],
+      "compress-pdf-100kb": ["exam-photo-resizer", "compress-pdf", "exam-signature-resizer", "scan-to-pdf"],
+      "image-dpi-converter": ["exam-photo-resizer", "exam-signature-resizer", "passport-photo-maker", "image-resizer"],
+
       // Image Workflows
       "remove-background": ["passport-photo-maker", "image-resizer", "compress-jpg", "webp-to-png"],
-      "passport-photo-maker": ["remove-background", "image-resizer", "compress-jpg", "jpg-to-png"],
-      "image-resizer": ["remove-background", "compress-jpg", "compress-png", "passport-photo-maker"],
+      "passport-photo-maker": ["photo-name-date-stamper", "exam-photo-resizer", "remove-background", "image-resizer"],
+      "image-resizer": ["exam-photo-resizer", "passport-photo-maker", "remove-background", "compress-jpg"],
       "compress-jpg": ["compress-png", "image-resizer", "jpg-to-pdf", "webp-to-jpg"],
       "jpg-to-pdf": ["pdf-to-jpg", "merge-pdf", "compress-pdf", "png-to-jpg"],
       
-      // Font Clusters (Hindi)
-      "krutidev-to-unicode": ["unicode-to-krutidev", "mangal-to-kruti", "chanakya-to-unicode", "unicode-to-chanakya"],
-      "unicode-to-krutidev": ["krutidev-to-unicode", "mangal-to-kruti", "chanakya-to-unicode", "unicode-to-mangal"],
-      "mangal-to-kruti": ["krutidev-to-unicode", "unicode-to-krutidev", "chanakya-to-unicode", "unicode-to-mangal"],
+      // Font Clusters (Hindi & Text Fixes)
+      "krutidev-to-unicode": ["unicode-to-krutidev", "chanakya-to-unicode", "font-text-fixer", "asees-to-unicode"],
+      "unicode-to-krutidev": ["krutidev-to-unicode", "unicode-to-chanakya", "font-text-fixer", "unicode-to-asees"],
+      "chanakya-to-unicode": ["unicode-to-chanakya", "krutidev-to-unicode", "font-text-fixer", "unicode-normalizer"],
+      "unicode-to-chanakya": ["chanakya-to-unicode", "unicode-to-krutidev", "font-text-fixer", "krutidev-to-unicode"],
+      "font-text-fixer": ["krutidev-to-unicode", "chanakya-to-unicode", "asees-to-unicode", "unicode-normalizer"],
+      "unicode-normalizer": ["font-text-fixer", "remove-hidden-characters", "fix-copy-paste-text", "unicode-text-cleaner"],
+      "remove-hidden-characters": ["unicode-normalizer", "font-text-fixer", "fix-copy-paste-text", "unicode-text-cleaner"],
+      "fix-copy-paste-text": ["font-text-fixer", "unicode-normalizer", "remove-hidden-characters", "unicode-text-cleaner"],
+      "unicode-text-cleaner": ["fix-copy-paste-text", "unicode-normalizer", "font-text-fixer", "remove-hidden-characters"],
       
       // Font Clusters (Bengali)
       "unicode-to-bijoy": ["bijoy-to-unicode", "krutidev-to-unicode", "avro-to-bijoy", "bijoy-to-avro"],
@@ -49,14 +64,18 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       // Font Clusters (Punjabi)
       "unicode-to-satluj": ["satluj-to-unicode", "unicode-to-asees", "unicode-to-joy", "unicode-to-gurbani-akhar"],
       "satluj-to-unicode": ["unicode-to-satluj", "asees-to-unicode", "joy-to-unicode", "raavi-to-unicode"],
-      "asees-to-unicode": ["unicode-to-asees", "satluj-to-unicode", "joy-to-unicode", "gurbani-akhar-to-unicode"],
-      "unicode-to-asees": ["asees-to-unicode", "unicode-to-satluj", "unicode-to-joy", "unicode-to-raavi"],
+      "asees-to-unicode": ["unicode-to-asees", "font-text-fixer", "krutidev-to-unicode", "satluj-to-unicode"],
+      "unicode-to-asees": ["asees-to-unicode", "font-text-fixer", "unicode-to-satluj", "unicode-to-joy"],
       "joy-to-unicode": ["unicode-to-joy", "satluj-to-unicode", "asees-to-unicode", "raavi-to-unicode"],
       "unicode-to-joy": ["joy-to-unicode", "unicode-to-satluj", "unicode-to-asees", "unicode-to-raavi"],
       "gurbani-akhar-to-unicode": ["unicode-to-gurbani-akhar", "satluj-to-unicode", "asees-to-unicode", "raavi-to-unicode"],
       "unicode-to-gurbani-akhar": ["gurbani-akhar-to-unicode", "unicode-to-satluj", "unicode-to-joy", "unicode-to-raavi"],
       "raavi-to-unicode": ["unicode-to-raavi", "satluj-to-unicode", "asees-to-unicode", "joy-to-unicode"],
       "unicode-to-raavi": ["raavi-to-unicode", "unicode-to-satluj", "unicode-to-asees", "unicode-to-gurbani-akhar"],
+
+      // Video Workflows
+      "video-compressor": ["compress-mp4", "compress-video-for-discord", "compress-video-for-whatsapp", "video-to-mp4"],
+      "compress-mp4": ["video-compressor", "compress-video-for-discord", "compress-mov-video", "mp4-to-mp3"],
 
       // Developer Tools
       "jwt-decoder": ["json-formatter", "base64-encoder-decoder", "uuid-generator", "unix-timestamp-converter"],

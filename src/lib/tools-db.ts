@@ -59,32 +59,22 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       relatedTools: ["webp-to-jpg", "compress-png", "image-resizer", "png-to-jpg"],
       inputFormat: "webp",
       outputFormat: "png",
+      isInteractive: true,
+      actionName: "Convert to PNG",
       acceptedTypes: { "image/webp": [".webp"] }
     },
     "webp-to-jpg": { theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert WEBP to JPG",
+      seoTitle: "WEBP to JPG Converter - Convert Web Images to JPG Free",
       description: "Fast, secure, and high-quality WEBP to JPG image conversion.",
+      seoDescription: "Convert WEBP images to standard JPG format online. Fast, secure, and free client-side image conversion.",
       inputFormat: "webp",
       outputFormat: "jpg",
+      isInteractive: true,
+      actionName: "Convert to JPG",
       acceptedTypes: { "image/webp": [".webp"] }
     },
-    "pdf-to-jpg": { theme: "red", iconName: "FileText", badge: "Document",
-      title: "Convert PDF to JPG",
-      description: "Convert PDF document pages to high-quality JPG images.",
-      inputFormat: "pdf",
-      outputFormat: "jpg",
-      acceptedTypes: { "application/pdf": [".pdf"] }
-    },
-    "pdf-to-png": { theme: "red", iconName: "FileText", badge: "Document",
-      title: "Convert PDF to PNG",
-      seoTitle: "PDF to PNG Converter - Extract PDF Pages as Images",
-      description: "Convert PDF document pages to clear PNG images.",
-      seoDescription: "Convert PDF documents into high-quality transparent PNG images online. Extract every page of your PDF as a separate picture securely.",
-      relatedTools: ["png-to-pdf", "pdf-to-jpg", "split-pdf", "merge-pdf"],
-      inputFormat: "pdf",
-      outputFormat: "png",
-      acceptedTypes: { "application/pdf": [".pdf"] }
-    },
+
     "jpg-to-png": { theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert JPG to PNG",
       description: "Convert your JPG images to PNG format instantly.",
@@ -497,6 +487,30 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     },
 
     // CONVERT FROM PDF
+    "pdf-to-jpg": { theme: "red", iconName: "FileText", badge: "Document", isPopular: true,
+      title: "Convert PDF to JPG",
+      description: "Convert PDF document pages to high-quality JPG images.",
+      seoTitle: "PDF to JPG Converter - Convert PDF Pages to JPG Images Online",
+      seoDescription: "Convert PDF document pages to high-quality JPG images directly in your browser. 100% private, free, and fast on-device processing.",
+      subCategory: "Convert from PDF",
+      relatedTools: ["pdf-to-png", "pdf-to-word", "split-pdf", "compress-pdf"],
+      inputFormat: "pdf",
+      outputFormat: "jpg",
+      actionName: "Convert to JPG",
+      acceptedTypes: { "application/pdf": [".pdf"] }
+    },
+    "pdf-to-png": { theme: "red", iconName: "FileText", badge: "Document",
+      title: "Convert PDF to PNG",
+      seoTitle: "PDF to PNG Converter - Extract PDF Pages as Images",
+      description: "Convert PDF document pages to clear PNG images.",
+      seoDescription: "Convert PDF documents into high-quality transparent PNG images online. Extract every page of your PDF as a separate picture securely.",
+      subCategory: "Convert from PDF",
+      relatedTools: ["png-to-pdf", "pdf-to-jpg", "split-pdf", "merge-pdf"],
+      inputFormat: "pdf",
+      outputFormat: "png",
+      actionName: "Convert to PNG",
+      acceptedTypes: { "application/pdf": [".pdf"] }
+    },
     "pdf-to-word": { theme: "blue", iconName: "FileText", badge: "Popular", isPopular: true,
       title: "PDF to WORD",
       description: "Easily convert your PDF files into editable DOCX Word documents.",
@@ -1338,6 +1352,20 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       isInteractive: true,
       acceptedTypes: { 
         "application/pdf": [".pdf"]
+      }
+    },
+    "image-dpi-converter": { theme: "emerald", iconName: "Image", badge: "Sarkari", isPopular: true,
+      title: "Image DPI Converter",
+      description: "Change image DPI to 200 DPI or 300 DPI instantly for Sarkari exam photos and documents.",
+      seoTitle: "Image DPI Converter (200 / 300 DPI) - Free Online Tool",
+      seoDescription: "Change image DPI to 200 DPI or 300 DPI instantly for Sarkari exam photos and documents.",
+      inputFormat: "image",
+      outputFormat: "image",
+      actionName: "Change DPI",
+      isInteractive: true,
+      acceptedTypes: { 
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"]
       }
     }
   }

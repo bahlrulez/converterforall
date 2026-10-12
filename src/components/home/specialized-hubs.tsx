@@ -4,6 +4,21 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, Type, Settings, Shield, Image as ImageIcon, Eraser, FileText, Camera, Scan, FileJson, FileArchive, Wand2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { TOOLS } from "@/config/tools";
+
+const SARKARI_CARDS = [
+  { id: 'exam-photo-resizer', tag: "SSC • UPSC • IBPS", icon: Scan, colorClass: "bg-blue-600" },
+  { id: 'photo-name-date-stamper', tag: "Police • Defense • SSC", icon: Camera, colorClass: "bg-indigo-600" },
+  { id: 'exam-signature-resizer', tag: "SSC • IBPS • State", icon: Eraser, colorClass: "bg-violet-600" },
+  { id: 'compress-pdf-100kb', tag: "UPSC • PSC • NTA", icon: FileArchive, colorClass: "bg-sky-600" }
+];
+
+const TYPOGRAPHY_CARDS = [
+  { id: 'font-text-fixer', tag: "AI Detection", icon: Wand2, colorClass: "bg-violet-600" },
+  { id: 'krutidev-to-unicode', tag: "Hindi", icon: Type, colorClass: "bg-indigo-600" },
+  { id: 'chanakya-to-unicode', tag: "Publishing", icon: FileText, colorClass: "bg-purple-600" },
+  { id: 'asees-to-unicode', tag: "Punjabi", icon: Type, colorClass: "bg-fuchsia-600" }
+];
 
 // Reusable component for Hub Cards
 function HubCard({ href, title, description, tag, icon: Icon, colorClass }: { href: string; title: string; description: string; tag: string; icon: React.ElementType; colorClass: string }) {
@@ -66,38 +81,21 @@ export function SpecializedHubs() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <HubCard 
-              href="/exam-photo-resizer"
-              title="Exam Photo & Signature Resizer"
-              description="Crop and compress photos and signatures to exact pixel and strict KB bounds (20KB–50KB) with instant client-side validation."
-              tag="SSC • UPSC • IBPS"
-              icon={Scan}
-              colorClass="bg-blue-600"
-            />
-            <HubCard 
-              href="/photo-name-date-stamper"
-              title="Name & Date of Photo (DOP) Stamper"
-              description="Add the required white name and capture date strip to passport photos. No Photoshop required."
-              tag="Police • Defense • SSC"
-              icon={Camera}
-              colorClass="bg-indigo-600"
-            />
-            <HubCard 
-              href="/exam-signature-resizer"
-              title="Signature Whitener & Resizer"
-              description="Remove grey paper shadows from phone photos and compress signatures to strict 10KB–20KB bounds."
-              tag="SSC • IBPS • State"
-              icon={Eraser}
-              colorClass="bg-violet-600"
-            />
-            <HubCard 
-              href="/compress-pdf-100kb"
-              title="100KB PDF Marksheet Compressor"
-              description="Strictly compress educational certificates and PDFs under 100KB/200KB without losing text clarity."
-              tag="UPSC • PSC • NTA"
-              icon={FileArchive}
-              colorClass="bg-sky-600"
-            />
+            {SARKARI_CARDS.map(card => {
+              const tool = TOOLS[card.id];
+              if (!tool) return null;
+              return (
+                <HubCard 
+                  key={card.id}
+                  href={tool.path}
+                  title={tool.name}
+                  description={tool.description}
+                  tag={card.tag}
+                  icon={card.icon}
+                  colorClass={card.colorClass}
+                />
+              );
+            })}
           </div>
         </div>
 
@@ -118,38 +116,21 @@ export function SpecializedHubs() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <HubCard 
-              href="/font-text-fixer"
-              title="Regional Font Auto-Fixer"
-              description="Automatically detects and converts broken Hindi or Punjabi text into standard readable Unicode."
-              tag="AI Detection"
-              icon={Wand2}
-              colorClass="bg-violet-600"
-            />
-            <HubCard 
-              href="/krutidev-to-unicode"
-              title="Kruti Dev to Unicode"
-              description="Instantly convert legacy Kruti Dev / Devlys 010 text from Word or PDFs into standard Hindi Unicode."
-              tag="Hindi"
-              icon={Type}
-              colorClass="bg-indigo-600"
-            />
-            <HubCard 
-              href="/chanakya-to-unicode"
-              title="Chanakya to Unicode"
-              description="Fix Walkman-Chanakya text copied from Adobe InDesign or PageMaker into web-friendly Unicode."
-              tag="Publishing"
-              icon={FileText}
-              colorClass="bg-purple-600"
-            />
-            <HubCard 
-              href="/asees-to-unicode"
-              title="Asees to Unicode (Raavi)"
-              description="Convert legacy Asees Punjabi text into standard Unicode (Raavi) for PSSSB and Punjab typing tests."
-              tag="Punjabi"
-              icon={Type}
-              colorClass="bg-fuchsia-600"
-            />
+            {TYPOGRAPHY_CARDS.map(card => {
+              const tool = TOOLS[card.id];
+              if (!tool) return null;
+              return (
+                <HubCard 
+                  key={card.id}
+                  href={tool.path}
+                  title={tool.name}
+                  description={tool.description}
+                  tag={card.tag}
+                  icon={card.icon}
+                  colorClass={card.colorClass}
+                />
+              );
+            })}
           </div>
         </div>
 

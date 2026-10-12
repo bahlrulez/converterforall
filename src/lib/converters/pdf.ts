@@ -340,3 +340,141 @@ export async function splitPdf(file: File): Promise<Blob> {
   const zipBlob = await zip.generateAsync({ type: "blob" });
   return new Blob([zipBlob], { type: "application/zip" });
 }
+
+export interface ConvertPdfToImagesResult {
+  blob: Blob;
+  isZip: boolean;
+  pageCount: number;
+}
+
+export async function convertPdfToImages(
+  file: File,
+  format: "jpg" | "png" = "jpg",
+  onProgress?: (progress: number, message?: string) => void
+): Promise<ConvertPdfToImagesResult> {
+  if (typeof window === "undefined") {
+    throw new Error("Client-side PDF rendering must execute in the browser.");
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+
+  if (onProgress) onProgress(10, "Loading PDF document...");
+
+  // Dynamic import of pdfjs-dist
+  const pdfjsLib = await import("pdfjs-dist");
+  if (typeof window !== "undefined") {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+  }
+
+  const loadingTask = pdfjsLib.getDocument({
+    data: new Uint8Array(arrayBuffer),
+    cMapUrl: "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/cmaps/",
+    cMapPacked: true,
+  });
+
+  const pdfDoc = await loadingTask.promise;
+  const numPages = pdfDoc.numPages;
+
+  if (numPages === 0) {
+    throw new Error("The selected PDF document contains no pages.");
+  }
+
+  const isPng = format === "png";
+  const mimeType = isPng ? "image/png" : "image/jpeg";
+  const quality = isPng ? undefined : 0.92;
+  const scale = 2.0; // Crisp retina resolution (~150-200 DPI)
+
+  const pageBlobs: Blob[] = [];
+
+  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+    const percent = Math.round(15 + (pageNum / numPages) * 75);
+    if (onProgress) onProgress(percent, `Rendering page ${pageNum} of ${numPages}...`);
+
+    const page = await pdfDoc.getPage(pageNum);
+    const viewport = page.getViewport({ scale });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(viewport.width);
+    canvas.height = Math.round(viewport.height);
+    const ctx = canvas.getContext("2d", { alpha: isPng });
+
+    if (!ctx) {
+      throw new Error("Canvas 2D context is not supported in this browser.");
+    }
+
+    // Always fill white background for JPG or crisp document view
+    if (!isPng) {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // @ts-expect-error pdfjs-dist types
+    await page.render({ canvasContext: ctx, viewport }).promise;
+
+    const pageBlob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob(
+        (b) => {
+          if (b) resolve(b);
+          else reject(new Error(`Failed to render page ${pageNum} to image.`));
+        },
+        mimeType,
+        quality
+      );
+    });
+
+    pageBlobs.push(pageBlob);
+
+    // Free memory
+    try {
+      page.cleanup();
+    } catch {}
+  }
+
+  const lastDotIndex = file.name.lastIndexOf(".");
+  const baseName = lastDotIndex !== -1 ? file.name.substring(0, lastDotIndex) : (file.name || "converted_file");
+
+  // Single page: Return image blob directly without zipping
+  if (numPages === 1) {
+    if (onProgress) onProgress(100, "Done!");
+    return {
+      blob: pageBlobs[0],
+      isZip: false,
+      pageCount: 1,
+    };
+  }
+
+  // Multi-page PDF: Bundle all pages into a clean ZIP archive
+  if (onProgress) onProgress(95, "Packaging pages into ZIP archive...");
+  const zip = new JSZip();
+  const padLength = String(numPages).length;
+
+  for (let i = 0; i < pageBlobs.length; i++) {
+    const pageNumStr = String(i + 1).padStart(padLength, "0");
+    const imgFilename = `${baseName}_page_${pageNumStr}.${format}`;
+    zip.file(imgFilename, pageBlobs[i]);
+  }
+
+  const zipBlob = await zip.generateAsync({ type: "blob" });
+  if (onProgress) onProgress(100, "Done!");
+
+  return {
+    blob: new Blob([zipBlob], { type: "application/zip" }),
+    isZip: true,
+    pageCount: numPages,
+  };
+}
+
+export async function pdfToJpg(
+  file: File,
+  onProgress?: (progress: number, message?: string) => void
+): Promise<ConvertPdfToImagesResult> {
+  return convertPdfToImages(file, "jpg", onProgress);
+}
+
+export async function pdfToPng(
+  file: File,
+  onProgress?: (progress: number, message?: string) => void
+): Promise<ConvertPdfToImagesResult> {
+  return convertPdfToImages(file, "png", onProgress);
+}
+

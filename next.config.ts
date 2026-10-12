@@ -29,18 +29,33 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/images-to-pdf",
-        destination: "/jpg-to-pdf",
+        source: "/chanakya-to-unicode-page",
+        destination: "/chanakya-to-unicode",
         permanent: true,
       },
       {
-        source: "/about-us",
-        destination: "/about",
+        source: "/krutidev-to-unicode-page",
+        destination: "/krutidev-to-unicode",
         permanent: true,
       },
       {
-        source: "/contact-us",
-        destination: "/contact",
+        source: "/asees-font-to-unicode",
+        destination: "/asees-to-unicode",
+        permanent: true,
+      },
+      {
+        source: "/punjabi-unicode",
+        destination: "/asees-to-unicode",
+        permanent: true,
+      },
+      {
+        source: "/punjabi-font-converter",
+        destination: "/asees-to-unicode",
+        permanent: true,
+      },
+      {
+        source: "/font-converter",
+        destination: "/krutidev-to-unicode",
         permanent: true,
       },
       {
@@ -54,8 +69,88 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/base64-decoder",
-        destination: "/base64-encoder-decoder",
+        source: "/unicode-to-mangal-font",
+        destination: "/unicode-to-krutidev",
+        permanent: true,
+      },
+      {
+        source: "/unicode-to-urdu",
+        destination: "/unicode-to-inpage",
+        permanent: true,
+      },
+      {
+        source: "/unicode-to-bambini",
+        destination: "/unicode-to-krutidev",
+        permanent: true,
+      },
+      {
+        source: "/unicode-to-word",
+        destination: "/unicode-to-krutidev",
+        permanent: true,
+      },
+      {
+        source: "/unicode-to-pdf",
+        destination: "/unicode-to-krutidev",
+        permanent: true,
+      },
+      {
+        source: "/convert-tamil-to-unicode",
+        destination: "/krutidev-to-unicode",
+        permanent: true,
+      },
+      {
+        source: "/py-to-unicode",
+        destination: "/bijoy-to-unicode",
+        permanent: true,
+      },
+      {
+        source: "/merge-font-files",
+        destination: "/font-text-fixer",
+        permanent: true,
+      },
+      {
+        source: "/remove-extra-spaces",
+        destination: "/unicode-normalizer",
+        permanent: true,
+      },
+      {
+        source: "/remove-special-characters",
+        destination: "/unicode-text-cleaner",
+        permanent: true,
+      },
+      {
+        source: "/increase-font-size",
+        destination: "/font-text-fixer",
+        permanent: true,
+      },
+      {
+        source: "/decrease-font-size",
+        destination: "/font-text-fixer",
+        permanent: true,
+      },
+      {
+        source: "/fancy-copy-paste-font",
+        destination: "/category/fonts",
+        permanent: true,
+      },
+      {
+        source: "/unicode-logo-maker",
+        destination: "/category/fonts",
+        permanent: true,
+      },
+      {
+        source: "/docx-to-pdf",
+        destination: "/word-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/convert-word-to-pdf",
+        destination: "/word-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/images-to-pdf",
+        destination: "/jpg-to-pdf",
         permanent: true,
       },
       {
@@ -64,8 +159,133 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/face-crop-avatar",
+        destination: "/image-cropper",
+        permanent: true,
+      },
+      {
+        source: "/increase-opacity",
+        destination: "/category/image",
+        permanent: true,
+      },
+      {
+        source: "/html-to-text",
+        destination: "/html-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/convert-video-to-mp4",
+        destination: "/video-to-mp4",
+        permanent: true,
+      },
+      {
+        source: "/convert-video-to-flv",
+        destination: "/video-to-flv",
+        permanent: true,
+      },
+      {
+        source: "/convert-video-to-mov",
+        destination: "/video-to-mov",
+        permanent: true,
+      },
+      {
+        source: "/convert-video-to-webm",
+        destination: "/video-to-wmv",
+        permanent: true,
+      },
+      {
+        source: "/convert-video",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
         source: "/merge-video",
         destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/large-video",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/flip-video",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/crop-audio-mp3",
+        destination: "/trim-audio",
+        permanent: true,
+      },
+      {
+        source: "/base64-decode",
+        destination: "/base64-encoder-decoder",
+        permanent: true,
+      },
+      {
+        source: "/base64-decoder",
+        destination: "/base64-encoder-decoder",
+        permanent: true,
+      },
+      {
+        source: "/base64-encode-decoder",
+        destination: "/base64-encoder-decoder",
+        permanent: true,
+      },
+      {
+        source: "/feet-to-centimeters",
+        destination: "/inches-to-centimeters",
+        permanent: true,
+      },
+      {
+        source: "/light-years-to-meters",
+        destination: "/inches-to-centimeters",
+        permanent: true,
+      },
+      {
+        source: "/meters-to-miles",
+        destination: "/miles-to-kilometers",
+        permanent: true,
+      },
+      {
+        source: "/word-count-checker",
+        destination: "/category/utilities",
+        permanent: true,
+      },
+      {
+        source: "/check-file-integrity",
+        destination: "/category/developer",
+        permanent: true,
+      },
+      {
+        source: "/military-time-calculator",
+        destination: "/age-calculator",
+        permanent: true,
+      },
+      {
+        source: "/compare-two-websites",
+        destination: "/category/developer",
+        permanent: true,
+      },
+      {
+        source: "/compare-two-text-files",
+        destination: "/category/developer",
+        permanent: true,
+      },
+      {
+        source: "/daily-todo-app",
+        destination: "/category/utilities",
+        permanent: true,
+      },
+      {
+        source: "/force-delete",
+        destination: "/category/utilities",
+        permanent: true,
+      },
+      {
+        source: "/color-picker",
+        destination: "/category/utilities",
         permanent: true,
       },
       {
@@ -99,6 +319,21 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/about-us",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/contact-us",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/copy-my-clients-file-conversion-link.com",
+        destination: "/",
+        permanent: true,
+      },
+      {
         source: "/blog/font-not-download-showing-as-english-in-word",
         destination: "/blog/kruti-dev-font-showing-as-english-in-word",
         permanent: true,
@@ -116,6 +351,101 @@ const nextConfig: NextConfig = {
       {
         source: "/blog/free-pdf-merger-no-file-limits",
         destination: "/blog/free-smallpdf-alternative-no-daily-limits",
+        permanent: true,
+      },
+      {
+        source: "/blog/the-ultimate-guide-to-converting-audio-for-social-media",
+        destination: "/blog/how-to-compress-a-video-free-without-losing-quality",
+        permanent: true,
+      },
+      {
+        source: "/blog/the-ultimate-guide-to-video-compression",
+        destination: "/blog/how-to-compress-a-video-free-without-losing-quality",
+        permanent: true,
+      },
+      {
+        source: "/blog/the-ultimate-guide-to-video-compression-free",
+        destination: "/blog/how-to-compress-a-video-free-without-losing-quality",
+        permanent: true,
+      },
+      {
+        source: "/blog/free-act-merge-word-documents",
+        destination: "/blog/how-to-convert-pdf-to-word-free",
+        permanent: true,
+      },
+      {
+        source: "/blog/how-to-trim",
+        destination: "/trim-audio",
+        permanent: true,
+      },
+      {
+        source: "/convert-video-to-mkv",
+        destination: "/video-to-mkv",
+        permanent: true,
+      },
+      {
+        source: "/convert-video-to-avi",
+        destination: "/video-to-avi",
+        permanent: true,
+      },
+      {
+        source: "/convert-video-to-wmv",
+        destination: "/video-to-wmv",
+        permanent: true,
+      },
+      {
+        source: "/centimeters-to-meters",
+        destination: "/meters-to-kilometers",
+        permanent: true,
+      },
+      {
+        source: "/meters-to-centimeters",
+        destination: "/inches-to-centimeters",
+        permanent: true,
+      },
+      {
+        source: "/centimeters-to-inches",
+        destination: "/inches-to-centimeters",
+        permanent: true,
+      },
+      {
+        source: "/blog/word-to-pdf",
+        destination: "/blog/word-to-pdf-formatting-tips",
+        permanent: true,
+      },
+      {
+        source: "/krutidev-010-to-mangal",
+        destination: "/krutidev-to-unicode",
+        permanent: true,
+      },
+      {
+        source: "/case-converter",
+        destination: "/unicode-normalizer",
+        permanent: true,
+      },
+      {
+        source: "/unit-converter-length-to-metric",
+        destination: "/inches-to-centimeters",
+        permanent: true,
+      },
+      {
+        source: "/sutonnymj-to-unicode",
+        destination: "/bijoy-to-unicode",
+        permanent: true,
+      },
+      {
+        source: "/unicode-to-sutonnymj",
+        destination: "/unicode-to-bijoy",
+        permanent: true,
+      },
+      {
+        source: "/image-to-pdf",
+        destination: "/jpg-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/blog/real-time-file-sharing-between-devices-without-the-cloud",
+        destination: "/blog/why-client-side-conversion-is-the-future",
         permanent: true,
       },
     ];

@@ -109,6 +109,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": tool.title,
+    "url": `https://www.converterforall.com/${toolSlug}`,
     "operatingSystem": "All",
     "applicationCategory": "UtilitiesApplication",
     "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -153,7 +154,6 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[350px] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
-        {/* Inject JSON-LD Schemas */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
         {faqSchema && (

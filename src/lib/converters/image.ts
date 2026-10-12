@@ -90,6 +90,16 @@ export async function processImage(file: File, targetFormat: string): Promise<Bl
   if (targetFormat.toLowerCase() === "jpg") mimeType = "image/jpeg";
 
   const fileName = file.name.toLowerCase();
+  const isPdf = fileName.endsWith(".pdf") || file.type === "application/pdf";
+
+  if (isPdf) {
+    // If a PDF is passed to processImage, convert pages using PDF renderer
+    const { convertPdfToImages } = await import("./pdf");
+    const format = targetFormat.toLowerCase() === "png" ? "png" : "jpg";
+    const converted = await convertPdfToImages(file, format);
+    return converted.blob;
+  }
+
   const isHeic = fileName.endsWith(".heic") || fileName.endsWith(".heif") || file.type.includes("heic") || file.type.includes("heif");
 
   if (isHeic) {
@@ -109,7 +119,7 @@ export async function processImage(file: File, targetFormat: string): Promise<Bl
     
     await new Promise<void>((resolve, reject) => {
       img.onload = () => resolve();
-      img.onerror = () => reject(new Error("Failed to load image into canvas."));
+      img.onerror = () => reject(new Error("Unable to read image into canvas. Please ensure the file is a valid image or document."));
       img.src = objectUrl;
     });
 

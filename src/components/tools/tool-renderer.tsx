@@ -58,6 +58,8 @@ const FontTextFixer = dynamic(() => import("@/components/tools/font-text-fixer")
 const PhotoNameDateStamper = dynamic(() => import("@/components/tools/photo-name-date-stamper").then(m => m.PhotoNameDateStamper), { ssr: false, loading: ToolLoading });
 const ExamSignatureResizer = dynamic(() => import("@/components/tools/exam-signature-resizer").then(m => m.ExamSignatureResizer), { ssr: false, loading: ToolLoading });
 const AseesToUnicode = dynamic(() => import("@/components/tools/asees-to-unicode").then(m => m.AseesToUnicode), { ssr: false, loading: ToolLoading });
+const WebpConverter = dynamic(() => import("@/components/tools/webp-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
+const ImageDpiConverter = dynamic(() => import("@/components/tools/image-dpi-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
 interface ToolRendererProps {
   toolSlug: string;
   categorySlug: string;
@@ -97,6 +99,7 @@ export function ToolRenderer({
         {toolSlug === "exam-photo-resizer" && <ExamPhotoResizer />}
         {toolSlug === "exam-signature-resizer" && <ExamSignatureResizer />}
         {toolSlug === "photo-name-date-stamper" && <PhotoNameDateStamper />}
+        {toolSlug === "image-dpi-converter" && <ImageDpiConverter />}
         {toolSlug === "compress-pdf" && <CompressPdfTool />}
         {toolSlug === "compress-pdf-100kb" && <CompressPdf100kb />}
         {toolSlug === "asees-to-unicode" && <AseesToUnicode />}
@@ -107,6 +110,7 @@ export function ToolRenderer({
         {toolSlug === "word-to-pdf" && <WordToPdfTool />}
         {toolSlug === "presentation-maker" && <PresentationMaker />}
         {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
+        {(toolSlug === "webp-to-jpg" || toolSlug === "webp-to-png") && <WebpConverter defaultFormat={toolSlug === "webp-to-png" ? "image/png" : "image/jpeg"} />}
         {(toolSlug === "compress-video" || toolSlug === "video-compressor" || toolSlug.startsWith("compress-video-") || toolSlug.startsWith("compress-mp4") || toolSlug.startsWith("compress-mov") || toolSlug.startsWith("compress-mkv") || toolSlug.startsWith("compress-avi") || toolSlug.startsWith("compress-webm") || toolSlug.startsWith("compress-wmv") || toolSlug.startsWith("compress-flv")) && <VideoCompressor toolSlug={toolSlug} />}
         {(toolSlug.startsWith("video-to-") || toolSlug.startsWith("mov-to-") || toolSlug.startsWith("mkv-to-") || toolSlug.startsWith("avi-to-") || toolSlug.startsWith("webm-to-") || toolSlug.startsWith("flv-to-") || toolSlug.startsWith("wmv-to-") || toolSlug.startsWith("mp4-to-") || toolSlug === "convert-to-mp4" || toolSlug === "convert-video") && <VideoConverter toolSlug={toolSlug} targetFormat={tool.outputFormat} />}
         {toolSlug === "qr-scanner" && <QrScanner />}

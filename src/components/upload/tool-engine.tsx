@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FileUploader } from "./file-uploader";
 import { MultiFileUploader } from "./multi-file-uploader";
 import { processImage, removeImageBackground, BgRemovalQuality, compressImageFile } from "@/lib/converters/image";
-import { compressPdf, imageToPdf, mergePdfs, removePages, extractPages, organizePdf, splitPdf, CompressionPreset } from "@/lib/converters/pdf";
+import { compressPdf, imageToPdf, mergePdfs, removePages, extractPages, organizePdf, splitPdf, convertPdfToImages, CompressionPreset } from "@/lib/converters/pdf";
 import { convertWordToPdf } from "@/lib/converters/word";
 import { convertPptxToPdf } from "@/lib/converters/powerpoint";
 import { convertExcelToPdf } from "@/lib/converters/excel";
@@ -43,7 +43,14 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     let blob: Blob;
     let finalFormat = targetFormat;
 
-    if (category === "image" && toolSlug === "remove-background") {
+    if (toolSlug === "pdf-to-jpg" || toolSlug === "pdf-to-png") {
+      const format = toolSlug === "pdf-to-png" ? "png" : "jpg";
+      const result = await convertPdfToImages(file, format, (p) => {
+        if (onProgress) onProgress(p);
+      });
+      blob = result.blob;
+      finalFormat = result.isZip ? "zip" : format;
+    } else if (category === "image" && toolSlug === "remove-background") {
       blob = await removeImageBackground(file, bgQuality);
     } else if (category === "image" && (toolSlug === "compress-jpg" || toolSlug === "compress-png")) {
       blob = await compressImageFile(file, compressionQuality);
@@ -309,7 +316,9 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     (category === "document" && toolSlug === "compress-pdf") ||
     (category === "image" && toolSlug === "remove-background") ||
     (category === "image" && (toolSlug === "compress-jpg" || toolSlug === "compress-png")) ||
-    (toolSlug === "video-to-jpg");
+    (toolSlug === "video-to-jpg") ||
+    (toolSlug === "pdf-to-jpg") ||
+    (toolSlug === "pdf-to-png");
 
   const autoProcessOnDrop = isSafeForAutoProcess;
 
@@ -327,7 +336,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
         toolSlug === "video-to-jpg" ? renderVideoFpsOptions :
         undefined
       }
-      allowCamera={category === "image"}
+      allowCamera={category === "image" && toolSlug !== "pdf-to-jpg" && toolSlug !== "pdf-to-png"}
       isDynamicBackgroundRemoval={toolSlug === "remove-background"}
       configureBeforeUpload={hasOptions}
       autoProcessOnDrop={autoProcessOnDrop}
