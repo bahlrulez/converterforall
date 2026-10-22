@@ -368,6 +368,7 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
             <li><strong>Top and Bottom (Vertical):</strong> Places Image 1 above Image 2. This layout works best for mobile portrait photos, vertical documents, long paper receipts, and smartphone screenshots.</li>
             <li><strong>Swap Order:</strong> Click the central <strong>Swap Order</strong> (⇄) button at any time to switch the positions of Image 1 and Image 2 without re-uploading either file.</li>
           </ul>
+          <p><strong>Border Padding &amp; Print Margins:</strong> You can apply outer border padding (presets up to 96 px or custom slider up to 200 px) to add uniform border margins around your merged image. This is especially useful when preparing images for physical printing, framing, or trimming. Because padding is applied in digital image pixels, actual physical margins on paper depend on your printer scale and page setup settings.</p>
         `
       },
       {

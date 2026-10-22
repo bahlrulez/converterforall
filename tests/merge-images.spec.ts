@@ -1136,4 +1136,120 @@ test.describe('Merge Two Images into One JPG (/merge-images-to-jpg) Automated Su
     expect(dims.width).toBe(600);
     expect(dims.height).toBe(1300);
   });
+
+  // Test 26: Print-Friendly Border Padding Presets (72px, 96px) and Custom Slider (up to 200px)
+  test('26. Live Browser: print-friendly border padding presets (72px, 96px) and custom slider (up to 200px) update canvas dimensions and uniform background', async ({ page }) => {
+    await page.goto('http://localhost:3005/merge-images-to-jpg');
+
+    await page.evaluate(() => {
+      const makeImg = (w: number, h: number, color: string, name: string): File => {
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d')!;
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, w, h);
+        const dataUrl = c.toDataURL('image/jpeg', 0.9);
+        const byteString = atob(dataUrl.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+        return new File([new Blob([ab], { type: 'image/jpeg' })], name, { type: 'image/jpeg' });
+      };
+
+      const f1 = makeImg(100, 100, '#ff0000', 'boxA.jpg');
+      const f2 = makeImg(100, 100, '#0000ff', 'boxB.jpg');
+      const inputs = document.querySelectorAll('input[type="file"]') as NodeListOf<HTMLInputElement>;
+      const dt1 = new DataTransfer(); dt1.items.add(f1);
+      inputs[0].files = dt1.files; inputs[0].dispatchEvent(new Event('change', { bubbles: true }));
+      const dt2 = new DataTransfer(); dt2.items.add(f2);
+      inputs[1].files = dt2.files; inputs[1].dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    await expect(page.getByText('boxA.jpg')).toBeVisible();
+
+    // Set background to black (#000000) to verify border filling
+    await page.getByRole('button', { name: 'Black' }).click();
+
+    // 1. Test 72px preset in Horizontal layout
+    // Base dimensions: 100 + 100 = 200 width, 100 height (gap = 0)
+    await page.getByRole('button', { name: '72px' }).click();
+    let dims = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      return { width: c.width, height: c.height };
+    });
+    // Expected: Width = 200 + 2 * 72 = 344, Height = 100 + 2 * 72 = 244
+    expect(dims.width).toBe(344);
+    expect(dims.height).toBe(244);
+
+    // Verify all four outer border corners are filled with background color [0, 0, 0]
+    let borderCorners = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      const ctx = c.getContext('2d')!;
+      const topLeft = Array.from(ctx.getImageData(0, 0, 1, 1).data.slice(0, 3));
+      const topRight = Array.from(ctx.getImageData(c.width - 1, 0, 1, 1).data.slice(0, 3));
+      const bottomLeft = Array.from(ctx.getImageData(0, c.height - 1, 1, 1).data.slice(0, 3));
+      const bottomRight = Array.from(ctx.getImageData(c.width - 1, c.height - 1, 1, 1).data.slice(0, 3));
+      const img1Inside = Array.from(ctx.getImageData(72 + 10, 72 + 10, 1, 1).data.slice(0, 3));
+      return { topLeft, topRight, bottomLeft, bottomRight, img1Inside };
+    });
+    expect(borderCorners.topLeft).toEqual([0, 0, 0]);
+    expect(borderCorners.topRight).toEqual([0, 0, 0]);
+    expect(borderCorners.bottomLeft).toEqual([0, 0, 0]);
+    expect(borderCorners.bottomRight).toEqual([0, 0, 0]);
+    // Image 1 inside area should be reddish (JPEG encoded #ff0000)
+    expect(borderCorners.img1Inside[0]).toBeGreaterThan(200);
+
+    // 2. Test 96px preset in Horizontal layout
+    await page.getByRole('button', { name: '96px' }).click();
+    dims = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      return { width: c.width, height: c.height };
+    });
+    // Expected: Width = 200 + 2 * 96 = 392, Height = 100 + 2 * 96 = 292
+    expect(dims.width).toBe(392);
+    expect(dims.height).toBe(292);
+
+    // 3. Test Custom Slider value (150px)
+    const slider = page.locator('#border-padding-slider');
+    await slider.fill('150');
+    dims = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      return { width: c.width, height: c.height };
+    });
+    // Expected: Width = 200 + 2 * 150 = 500, Height = 100 + 2 * 150 = 400
+    expect(dims.width).toBe(500);
+    expect(dims.height).toBe(400);
+
+    // 4. Test Maximum Slider value (200px) in Vertical layout
+    await page.getByRole('button', { name: /Top & Bottom/i }).click();
+    await slider.fill('200');
+    dims = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      return { width: c.width, height: c.height };
+    });
+    // Vertical layout base: Width = 100, Height = 100 + 100 = 200 (gap = 0)
+    // With 200px padding: Width = 100 + 2 * 200 = 500, Height = 200 + 2 * 200 = 600
+    expect(dims.width).toBe(500);
+    expect(dims.height).toBe(600);
+
+    // Verify corners in vertical layout are also filled with background color
+    borderCorners = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      const ctx = c.getContext('2d')!;
+      const topLeft = Array.from(ctx.getImageData(0, 0, 1, 1).data.slice(0, 3));
+      const bottomRight = Array.from(ctx.getImageData(c.width - 1, c.height - 1, 1, 1).data.slice(0, 3));
+      return { topLeft, bottomRight };
+    });
+    expect(borderCorners.topLeft).toEqual([0, 0, 0]);
+    expect(borderCorners.bottomRight).toEqual([0, 0, 0]);
+
+    // 5. Test None / 0px preset resets padding back to 0px
+    await page.getByRole('button', { name: 'None' }).click();
+    dims = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      return { width: c.width, height: c.height };
+    });
+    expect(dims.width).toBe(100);
+    expect(dims.height).toBe(200);
+  });
 });

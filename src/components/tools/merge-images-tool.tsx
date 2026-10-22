@@ -674,26 +674,68 @@ export function MergeImagesTool() {
           {/* 3. Outer Border Padding */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Border Padding: {padding}px
+              <label htmlFor="border-padding-slider" className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                Border Padding: <span className="text-blue-600 dark:text-blue-400 font-mono">{padding}px</span>
               </label>
-            </div>
-            <div className="grid grid-cols-3 gap-1.5">
-              {[0, 12, 24].map((val) => (
+              {padding > 0 && (
                 <button
-                  key={val}
                   type="button"
-                  onClick={() => setPadding(val)}
-                  className={`text-xs font-semibold py-1.5 px-1 rounded-xl border transition-all ${
-                    padding === val
+                  onClick={() => setPadding(0)}
+                  className="text-[11px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 underline cursor-pointer"
+                  title="Reset padding to 0px"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+
+            {/* Presets: None (0px), 12px, 24px, 48px, 72px, 96px */}
+            <div className="grid grid-cols-3 gap-1.5">
+              {[
+                { label: "None", val: 0 },
+                { label: "12px", val: 12 },
+                { label: "24px", val: 24 },
+                { label: "48px", val: 48 },
+                { label: "72px", val: 72 },
+                { label: "96px", val: 96 },
+              ].map((preset) => (
+                <button
+                  key={preset.val}
+                  type="button"
+                  onClick={() => setPadding(preset.val)}
+                  className={`text-xs font-semibold py-1.5 px-1 rounded-xl border transition-all cursor-pointer ${
+                    padding === preset.val
                       ? "border-blue-500 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-bold"
                       : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900"
                   }`}
                 >
-                  {val === 0 ? "None" : `${val}px`}
+                  {preset.label}
                 </button>
               ))}
             </div>
+
+            {/* Custom slider from 0 to 200 px */}
+            <div className="pt-1 space-y-1">
+              <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <span>Custom: {padding}px</span>
+                <span>Max 200px</span>
+              </div>
+              <input
+                id="border-padding-slider"
+                type="range"
+                min={0}
+                max={200}
+                step={1}
+                value={padding}
+                onChange={(e) => setPadding(Number(e.target.value))}
+                className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                aria-label="Custom border padding in pixels"
+              />
+            </div>
+
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight">
+              Padding adds digital pixel margin for trimming/framing; physical print size depends on printer scaling.
+            </p>
           </div>
 
           {/* 4. Background Color (handles transparent PNGs) */}
