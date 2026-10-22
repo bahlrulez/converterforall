@@ -443,10 +443,10 @@ export function MergeImagesTool() {
         </div>
       )}
 
-      {/* Upload Zone / Card Strip */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 relative items-center">
+      {/* Upload Zone / Dual-Card Strip */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
         {/* Slot 1 */}
-        <div data-testid="slot-1" className="flex flex-col bg-slate-50/80 dark:bg-[#070d1e] rounded-2xl p-4 sm:p-5 border border-slate-200/90 dark:border-slate-800 shadow-sm transition-all">
+        <div data-testid="slot-1" className="flex flex-col bg-slate-50/80 dark:bg-[#070d1e] rounded-2xl p-4 sm:p-5 border border-slate-200/90 dark:border-slate-800 shadow-sm transition-all scroll-mt-24">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-blue-500" />
@@ -514,26 +514,8 @@ export function MergeImagesTool() {
           )}
         </div>
 
-        {/* Central Swap Order Button */}
-        <div className="flex items-center justify-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 my-[-8px] md:my-0">
-          <button
-            type="button"
-            onClick={handleSwap}
-            disabled={!slot1 && !slot2}
-            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-full bg-white dark:bg-[#0c1430] border border-slate-300 dark:border-slate-700 shadow-md text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 disabled:opacity-40 transition-all cursor-pointer"
-            title="Swap image positions"
-          >
-            {layout === "horizontal" ? (
-              <ArrowLeftRight className="w-4 h-4 text-blue-500" />
-            ) : (
-              <ArrowUpDown className="w-4 h-4 text-blue-500" />
-            )}
-            <span className="hidden sm:inline">Swap Order</span>
-          </button>
-        </div>
-
         {/* Slot 2 */}
-        <div data-testid="slot-2" className="flex flex-col bg-slate-50/80 dark:bg-[#070d1e] rounded-2xl p-4 sm:p-5 border border-slate-200/90 dark:border-slate-800 shadow-sm transition-all">
+        <div data-testid="slot-2" className="flex flex-col bg-slate-50/80 dark:bg-[#070d1e] rounded-2xl p-4 sm:p-5 border border-slate-200/90 dark:border-slate-800 shadow-sm transition-all scroll-mt-24">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-indigo-500" />
@@ -600,6 +582,24 @@ export function MergeImagesTool() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Central Swap Order Button - Positioned cleanly below the dual upload cards without overlapping either dropzone */}
+      <div className="flex items-center justify-center -mt-2 sm:-mt-1 mb-1">
+        <button
+          type="button"
+          onClick={handleSwap}
+          disabled={!slot1 && !slot2}
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-white dark:bg-[#0c1430] border border-slate-200 dark:border-slate-800 shadow-sm text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer whitespace-nowrap"
+          title="Swap image positions"
+        >
+          {layout === "horizontal" ? (
+            <ArrowLeftRight className="w-4 h-4 text-blue-500" />
+          ) : (
+            <ArrowUpDown className="w-4 h-4 text-blue-500" />
+          )}
+          <span>Swap Order</span>
+        </button>
       </div>
 
       {/* Control Settings Strip */}
