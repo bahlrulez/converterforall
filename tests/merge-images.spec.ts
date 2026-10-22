@@ -1137,8 +1137,8 @@ test.describe('Merge Two Images into One JPG (/merge-images-to-jpg) Automated Su
     expect(dims.height).toBe(1300);
   });
 
-  // Test 26: Print-Friendly Border Padding Presets (72px, 96px) and Custom Slider (up to 200px)
-  test('26. Live Browser: print-friendly border padding presets (72px, 96px) and custom slider (up to 200px) update canvas dimensions and uniform background', async ({ page }) => {
+  // Test 26: Print-Friendly Border Padding Presets (up to 400px) and Custom Slider (up to 400px)
+  test('26. Live Browser: print-friendly border padding presets (up to 400px) and custom slider (up to 400px) update canvas dimensions and uniform background', async ({ page }) => {
     await page.goto('http://localhost:3005/merge-images-to-jpg');
 
     await page.evaluate(() => {
@@ -1209,7 +1209,34 @@ test.describe('Merge Two Images into One JPG (/merge-images-to-jpg) Automated Su
     expect(dims.width).toBe(392);
     expect(dims.height).toBe(292);
 
-    // 3. Test Custom Slider value (150px)
+    // 3. Test 400px preset in Horizontal layout
+    await page.getByRole('button', { name: '400px' }).click();
+    dims = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      return { width: c.width, height: c.height };
+    });
+    // Expected: Width = 200 + 2 * 400 = 1000, Height = 100 + 2 * 400 = 900
+    expect(dims.width).toBe(1000);
+    expect(dims.height).toBe(900);
+
+    // Verify all four outer border corners remain filled with background color [0, 0, 0] at 400px
+    borderCorners = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      const ctx = c.getContext('2d')!;
+      const topLeft = Array.from(ctx.getImageData(0, 0, 1, 1).data.slice(0, 3));
+      const topRight = Array.from(ctx.getImageData(c.width - 1, 0, 1, 1).data.slice(0, 3));
+      const bottomLeft = Array.from(ctx.getImageData(0, c.height - 1, 1, 1).data.slice(0, 3));
+      const bottomRight = Array.from(ctx.getImageData(c.width - 1, c.height - 1, 1, 1).data.slice(0, 3));
+      const img1Inside = Array.from(ctx.getImageData(400 + 10, 400 + 10, 1, 1).data.slice(0, 3));
+      return { topLeft, topRight, bottomLeft, bottomRight, img1Inside };
+    });
+    expect(borderCorners.topLeft).toEqual([0, 0, 0]);
+    expect(borderCorners.topRight).toEqual([0, 0, 0]);
+    expect(borderCorners.bottomLeft).toEqual([0, 0, 0]);
+    expect(borderCorners.bottomRight).toEqual([0, 0, 0]);
+    expect(borderCorners.img1Inside[0]).toBeGreaterThan(200);
+
+    // 4. Test Custom Slider value (150px)
     const slider = page.locator('#border-padding-slider');
     await slider.fill('150');
     dims = await page.evaluate(() => {
@@ -1220,17 +1247,37 @@ test.describe('Merge Two Images into One JPG (/merge-images-to-jpg) Automated Su
     expect(dims.width).toBe(500);
     expect(dims.height).toBe(400);
 
-    // 4. Test Maximum Slider value (200px) in Vertical layout
+    // 5. Test Custom Slider value (250px)
+    await slider.fill('250');
+    dims = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      return { width: c.width, height: c.height };
+    });
+    // Expected: Width = 200 + 2 * 250 = 700, Height = 100 + 2 * 250 = 600
+    expect(dims.width).toBe(700);
+    expect(dims.height).toBe(600);
+
+    borderCorners = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      const ctx = c.getContext('2d')!;
+      const topLeft = Array.from(ctx.getImageData(0, 0, 1, 1).data.slice(0, 3));
+      const bottomRight = Array.from(ctx.getImageData(c.width - 1, c.height - 1, 1, 1).data.slice(0, 3));
+      return { topLeft, bottomRight };
+    });
+    expect(borderCorners.topLeft).toEqual([0, 0, 0]);
+    expect(borderCorners.bottomRight).toEqual([0, 0, 0]);
+
+    // 6. Test Maximum Slider value (400px) in Vertical layout
     await page.getByRole('button', { name: /Top & Bottom/i }).click();
-    await slider.fill('200');
+    await slider.fill('400');
     dims = await page.evaluate(() => {
       const c = document.querySelector('canvas') as HTMLCanvasElement;
       return { width: c.width, height: c.height };
     });
     // Vertical layout base: Width = 100, Height = 100 + 100 = 200 (gap = 0)
-    // With 200px padding: Width = 100 + 2 * 200 = 500, Height = 200 + 2 * 200 = 600
-    expect(dims.width).toBe(500);
-    expect(dims.height).toBe(600);
+    // With 400px padding: Width = 100 + 2 * 400 = 900, Height = 200 + 2 * 400 = 1000
+    expect(dims.width).toBe(900);
+    expect(dims.height).toBe(1000);
 
     // Verify corners in vertical layout are also filled with background color
     borderCorners = await page.evaluate(() => {
@@ -1243,7 +1290,19 @@ test.describe('Merge Two Images into One JPG (/merge-images-to-jpg) Automated Su
     expect(borderCorners.topLeft).toEqual([0, 0, 0]);
     expect(borderCorners.bottomRight).toEqual([0, 0, 0]);
 
-    // 5. Test None / 0px preset resets padding back to 0px
+    // 7. Test Reset button: click Reset to restore 0px
+    const resetBtn = page.getByRole('button', { name: 'Reset' });
+    await expect(resetBtn).toBeVisible();
+    await resetBtn.click();
+    dims = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      return { width: c.width, height: c.height };
+    });
+    expect(dims.width).toBe(100);
+    expect(dims.height).toBe(200);
+
+    // 8. Test None / 0px preset button also resets padding
+    await slider.fill('200');
     await page.getByRole('button', { name: 'None' }).click();
     dims = await page.evaluate(() => {
       const c = document.querySelector('canvas') as HTMLCanvasElement;
@@ -1251,5 +1310,142 @@ test.describe('Merge Two Images into One JPG (/merge-images-to-jpg) Automated Su
     });
     expect(dims.width).toBe(100);
     expect(dims.height).toBe(200);
+  });
+
+  // Test 27: Safety Downscale Math Calculation with Large Print Padding (400px)
+  test('27. Safety Downscale Math with Large Print Padding (400px): scales composite canvas within 8,192 px and 24 MP limits and preserves coordinate offsets', () => {
+    const W1 = 5000, H1 = 4000;
+    const W2 = 5000, H2 = 4000;
+    const G = 50;
+    const P = 400;
+
+    const MAX_DIM = 8192;
+    const MAX_PIXELS = 24_000_000;
+
+    // Horizontal Layout unscaled
+    const unscaledW = P + W1 + G + W2 + P; // 400 + 5000 + 50 + 5000 + 400 = 10850
+    const unscaledH = P + Math.max(H1, H2) + P; // 400 + 4000 + 400 = 4800
+    const unscaledArea = unscaledW * unscaledH; // 52,080,000 (52.08 MP)
+
+    expect(unscaledW).toBe(10850);
+    expect(unscaledH).toBe(4800);
+    expect(unscaledW).toBeGreaterThan(MAX_DIM);
+    expect(unscaledArea).toBeGreaterThan(MAX_PIXELS);
+
+    const scaleSafe = Math.min(
+      1.0,
+      MAX_DIM / unscaledW, // 8192 / 10850 = 0.755023...
+      MAX_DIM / unscaledH, // 8192 / 4800 = 1.706666...
+      Math.sqrt(MAX_PIXELS / unscaledArea) // sqrt(24/52.08) = 0.678844...
+    );
+
+    expect(scaleSafe).toBeCloseTo(0.678844, 4);
+
+    const P_scaled = Math.round(P * scaleSafe); // Math.round(400 * 0.678844) = 272
+    const G_scaled = Math.round(G * scaleSafe); // Math.round(50 * 0.678844) = 34
+    const dw1_scaled = Math.round(W1 * scaleSafe); // Math.round(5000 * 0.678844) = 3394
+    const dh1_scaled = Math.round(H1 * scaleSafe); // Math.round(4000 * 0.678844) = 2715
+    const dw2_scaled = Math.round(W2 * scaleSafe); // 3394
+    const dh2_scaled = Math.round(H2 * scaleSafe); // 2715
+
+    const x1 = P_scaled;
+    const y1 = P_scaled;
+    const x2 = P_scaled + dw1_scaled + G_scaled;
+    const y2 = P_scaled;
+    const finalCanvasW = x2 + dw2_scaled + P_scaled;
+    const finalCanvasH = P_scaled + dh1_scaled + P_scaled;
+    const finalArea = finalCanvasW * finalCanvasH;
+
+    expect(finalCanvasW).toBeLessThanOrEqual(MAX_DIM);
+    expect(finalCanvasH).toBeLessThanOrEqual(MAX_DIM);
+    expect(finalArea).toBeLessThanOrEqual(MAX_PIXELS + 50_000);
+
+    expect(P_scaled).toBe(272);
+    expect(x1).toBe(272);
+    expect(y1).toBe(272);
+    expect(x2).toBe(3700);
+    expect(y2).toBe(272);
+    expect(finalCanvasW).toBe(7366);
+    expect(finalCanvasH).toBe(3259);
+
+    // Vertical Layout with 400px padding
+    const unscaledVertW = P + Math.max(W1, W2) + P; // 400 + 5000 + 400 = 5800
+    const unscaledVertH = P + H1 + G + H2 + P; // 400 + 4000 + 50 + 4000 + 400 = 8850
+    const unscaledVertArea = unscaledVertW * unscaledVertH; // 5800 * 8850 = 51,330,000
+
+    expect(unscaledVertH).toBeGreaterThan(MAX_DIM);
+    expect(unscaledVertArea).toBeGreaterThan(MAX_PIXELS);
+
+    const scaleSafeVert = Math.min(
+      1.0,
+      MAX_DIM / unscaledVertW,
+      MAX_DIM / unscaledVertH, // 8192 / 8850 = 0.925649...
+      Math.sqrt(MAX_PIXELS / unscaledVertArea) // sqrt(24/51.33) = 0.683777...
+    );
+
+    expect(scaleSafeVert).toBeCloseTo(0.683777, 4);
+
+    const P_vert_scaled = Math.round(P * scaleSafeVert); // Math.round(400 * 0.683777) = 274
+    const dw1_vert = Math.round(W1 * scaleSafeVert); // 3419
+    const dh1_vert = Math.round(H1 * scaleSafeVert); // 2735
+    const G_vert = Math.round(G * scaleSafeVert); // 34
+    const dw2_vert = Math.round(W2 * scaleSafeVert); // 3419
+    const dh2_vert = Math.round(H2 * scaleSafeVert); // 2735
+
+    const finalVertW = P_vert_scaled + dw1_vert + P_vert_scaled;
+    const finalVertH = P_vert_scaled + dh1_vert + G_vert + dh2_vert + P_vert_scaled;
+
+    expect(finalVertW).toBeLessThanOrEqual(MAX_DIM);
+    expect(finalVertH).toBeLessThanOrEqual(MAX_DIM);
+    expect(finalVertW * finalVertH).toBeLessThanOrEqual(MAX_PIXELS + 50_000);
+  });
+
+  // Test 28: Live Browser - Safety Downscaling Notice & Adjusted Padding Reporting
+  test('28. Live Browser: safety downscaling notice accurately reports effective border padding when scaled', async ({ page }) => {
+    await page.goto('http://localhost:3005/merge-images-to-jpg');
+
+    await page.evaluate(() => {
+      const makeImg = (w: number, h: number, color: string, name: string): File => {
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d')!;
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, w, h);
+        const dataUrl = c.toDataURL('image/jpeg', 0.9);
+        const byteString = atob(dataUrl.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+        return new File([new Blob([ab], { type: 'image/jpeg' })], name, { type: 'image/jpeg' });
+      };
+
+      // Two 4200x2000 images. Horizontal unscaled with 400px padding:
+      // unscaledW = 400 + 4200 + 0 + 4200 + 400 = 9200 px > 8192 px max!
+      const f1 = makeImg(4200, 2000, '#ff0000', 'wide1.jpg');
+      const f2 = makeImg(4200, 2000, '#0000ff', 'wide2.jpg');
+      const inputs = document.querySelectorAll('input[type="file"]') as NodeListOf<HTMLInputElement>;
+      const dt1 = new DataTransfer(); dt1.items.add(f1);
+      inputs[0].files = dt1.files; inputs[0].dispatchEvent(new Event('change', { bubbles: true }));
+      const dt2 = new DataTransfer(); dt2.items.add(f2);
+      inputs[1].files = dt2.files; inputs[1].dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    await expect(page.getByText('wide1.jpg')).toBeVisible();
+
+    // Click 400px preset
+    await page.getByRole('button', { name: '400px' }).click();
+
+    // Verify downscale banner appears and reports adjusted padding
+    const notice = page.locator('div').filter({ hasText: /Merged resolution safely adjusted/i });
+    await expect(notice.first()).toBeVisible();
+    await expect(notice.first()).toContainText('Effective border padding is adjusted to');
+
+    // Verify canvas dimensions are within 8,192 px max
+    const dims = await page.evaluate(() => {
+      const c = document.querySelector('canvas') as HTMLCanvasElement;
+      return { width: c.width, height: c.height };
+    });
+    expect(dims.width).toBeLessThanOrEqual(8192);
+    expect(dims.height).toBeLessThanOrEqual(8192);
   });
 });

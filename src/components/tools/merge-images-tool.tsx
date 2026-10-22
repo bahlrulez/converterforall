@@ -323,7 +323,10 @@ export function MergeImagesTool() {
         MAX_OUTPUT_DIMENSION / unscaledCanvasH,
         Math.sqrt(MAX_OUTPUT_PIXELS / unscaledArea)
       );
-      setDownscaleNotice(`Merged resolution safely adjusted to fit browser memory limits (${MAX_OUTPUT_DIMENSION} px max).`);
+      const effectivePaddingMsg = P > 0 && Math.round(P * scaleSafe) !== P
+        ? ` Effective border padding is adjusted to ${Math.round(P * scaleSafe)} px.`
+        : "";
+      setDownscaleNotice(`Merged resolution safely adjusted to fit browser memory limits (${MAX_OUTPUT_DIMENSION} px max).${effectivePaddingMsg}`);
     } else {
       setDownscaleNotice(null);
     }
@@ -689,8 +692,8 @@ export function MergeImagesTool() {
               )}
             </div>
 
-            {/* Presets: None (0px), 12px, 24px, 48px, 72px, 96px */}
-            <div className="grid grid-cols-3 gap-1.5">
+            {/* Presets: None (0px), 12px, 24px, 48px, 72px, 96px, 128px, 200px, 300px, 400px */}
+            <div className="grid grid-cols-3 min-[480px]:grid-cols-4 sm:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5 gap-1.5">
               {[
                 { label: "None", val: 0 },
                 { label: "12px", val: 12 },
@@ -698,12 +701,16 @@ export function MergeImagesTool() {
                 { label: "48px", val: 48 },
                 { label: "72px", val: 72 },
                 { label: "96px", val: 96 },
+                { label: "128px", val: 128 },
+                { label: "200px", val: 200 },
+                { label: "300px", val: 300 },
+                { label: "400px", val: 400 },
               ].map((preset) => (
                 <button
                   key={preset.val}
                   type="button"
                   onClick={() => setPadding(preset.val)}
-                  className={`text-xs font-semibold py-1.5 px-1 rounded-xl border transition-all cursor-pointer ${
+                  className={`text-xs font-semibold py-1.5 px-1 rounded-xl border transition-all cursor-pointer text-center whitespace-nowrap ${
                     padding === preset.val
                       ? "border-blue-500 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-bold"
                       : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900"
@@ -714,17 +721,17 @@ export function MergeImagesTool() {
               ))}
             </div>
 
-            {/* Custom slider from 0 to 200 px */}
+            {/* Custom slider from 0 to 400 px */}
             <div className="pt-1 space-y-1">
               <div className="flex items-center justify-between text-[11px] text-slate-400">
                 <span>Custom: {padding}px</span>
-                <span>Max 200px</span>
+                <span>Max 400px</span>
               </div>
               <input
                 id="border-padding-slider"
                 type="range"
                 min={0}
-                max={200}
+                max={400}
                 step={1}
                 value={padding}
                 onChange={(e) => setPadding(Number(e.target.value))}
@@ -734,7 +741,7 @@ export function MergeImagesTool() {
             </div>
 
             <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight">
-              Padding adds digital pixel margin for trimming/framing; physical print size depends on printer scaling.
+              Padding adds digital pixel margin for trimming/framing; physical print size depends on printer scaling (e.g. 400 px at 300 dpi is ~1.33 in / 33.9 mm).
             </p>
           </div>
 
