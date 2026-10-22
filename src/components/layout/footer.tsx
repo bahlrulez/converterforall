@@ -33,10 +33,10 @@ export function Footer() {
             <div className="p-3 rounded-2xl bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white mb-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                <span>Zero-Retention Privacy</span>
+                <span>Transparent Privacy</span>
               </div>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                Most tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.
+                Most tools run locally inside your browser without uploading files. Word-to-PDF and PowerPoint-to-PDF send files to a third-party conversion service (Cloudmersive) in memory; the AI Presentation Maker sends prompts to Google Gemini.
               </p>
             </div>
           </div>
@@ -133,7 +133,17 @@ export function Footer() {
         {/* Popular Category Quick Pills Bar */}
         <div className="mt-12 pt-8 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs">
           <div className="flex flex-wrap items-center gap-2 text-slate-500 dark:text-slate-400">
-            <span className="font-bold text-slate-700 dark:text-slate-300">Quick Tools:</span>
+            <span className="font-bold text-slate-700 dark:text-slate-300">Featured Utilities:</span>
+            <Link href="/krutidev-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-indigo-600 dark:text-indigo-400">Kruti Dev to Unicode</Link>
+            <span>•</span>
+            <Link href="/unicode-to-krutidev" className="hover:text-blue-600 dark:hover:text-blue-400">Unicode to Kruti Dev</Link>
+            <span>•</span>
+            <Link href="/chanakya-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400">Chanakya to Unicode</Link>
+            <span>•</span>
+            <Link href="/asees-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400">Asees to Unicode</Link>
+            <span>•</span>
+            <Link href="/font-text-fixer" className="hover:text-blue-600 dark:hover:text-blue-400">Font &amp; Text Fixer</Link>
+            <span>•</span>
             <Link href="/exam-photo-resizer" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-amber-600 dark:text-amber-400">Exam Photo Resizer</Link>
             <span>•</span>
             <Link href="/photo-name-date-stamper" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-amber-600 dark:text-amber-400">Photo Name &amp; Date</Link>
@@ -142,30 +152,20 @@ export function Footer() {
             <span>•</span>
             <Link href="/compress-pdf-100kb" className="hover:text-blue-600 dark:hover:text-blue-400">Compress PDF 100KB</Link>
             <span>•</span>
-            <Link href="/krutidev-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-indigo-600 dark:text-indigo-400">Kruti Dev to Unicode</Link>
+            <Link href="/image-dpi-converter" className="hover:text-blue-600 dark:hover:text-blue-400">Image DPI Converter</Link>
             <span>•</span>
-            <Link href="/chanakya-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400">Chanakya to Unicode</Link>
-            <span>•</span>
-            <Link href="/asees-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400">Asees to Unicode</Link>
-            <span>•</span>
-            <Link href="/font-text-fixer" className="hover:text-blue-600 dark:hover:text-blue-400">Font &amp; Text Fixer</Link>
-            <span>•</span>
-            <Link href="/video-compressor" className="hover:text-blue-600 dark:hover:text-blue-400">Video Compressor</Link>
-            <span>•</span>
-            <Link href="/edit-pdf" className="hover:text-blue-600 dark:hover:text-blue-400">Edit PDF</Link>
-            <span>•</span>
-            <Link href="/jwt-decoder" className="hover:text-blue-600 dark:hover:text-blue-400">JWT Decoder</Link>
+            <Link href="/video-caption-generator" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-purple-600 dark:text-purple-400">AI Caption Studio</Link>
           </div>
 
           <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium">
             <Cpu className="w-3.5 h-3.5 text-blue-500" />
-            <span>100% In-Browser Privacy Engine</span>
+            <span>Standardized In-Browser Privacy</span>
           </div>
         </div>
 
-        {/* Bottom Copyright & Live Status */}
+        {/* Bottom Copyright & Honest Privacy Phrasing */}
         <div className="mt-8 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
-          <p>© {currentYear} ConverterForAll. All rights reserved. Free, private in-browser conversions.</p>
+          <p>© {currentYear} ConverterForAll. All rights reserved. Free, private browser-based utilities.</p>
           
           <div className="flex items-center gap-4">
             <span className="text-slate-500 dark:text-slate-400">

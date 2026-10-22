@@ -57,7 +57,6 @@ export default function CookiePolicyPage() {
         </p>
         <ul>
           <li><strong>Google Analytics 4 (GA4):</strong> We use GA4 to collect information about how users use our site. GA4 collects data such as your IP address, browser type, pages visited, and time spent on the site. We use this information to compile reports and help us improve the website. The cookies collect information in an anonymous form. Google Analytics uses its own set of cookies (typically starting with `_ga`) to track these metrics.</li>
-          <li><strong>Microsoft Clarity:</strong> We utilize Microsoft Clarity to capture behavioral metrics. This tool helps us understand how you navigate our site through session replays and heatmaps. Clarity uses first-party cookies (such as `_clck` and `_clsk`) to track your session uniquely but anonymously. We use this data strictly for UI/UX improvements to make our converters easier to use.</li>
         </ul>
 
         <h3>3.3 Advertising Cookies (Google AdSense)</h3>

@@ -21,7 +21,8 @@ import {
   Briefcase,
   TrendingUp,
   GraduationCap,
-  Rocket
+  Rocket,
+  ShieldCheck
 } from "lucide-react";
 import pptxgen from "pptxgenjs";
 import { cn } from "@/lib/utils";
@@ -638,9 +639,15 @@ export function PresentationMaker() {
       
       {/* 1. AI Magic Prompt Bar */}
       <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-indigo-500/10 border border-purple-500/20 shadow-md backdrop-blur-md">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-3">
-          <Sparkles className="w-4 h-4" />
-          <span>AI Presentation Generator (Auto-Images &amp; Abstract Designs)</span>
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+            <Sparkles className="w-4 h-4" />
+            <span>AI Presentation Generator (Auto-Images &amp; Abstract Designs)</span>
+          </div>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>AI Outline via Google Gemini; Slides &amp; Export run in your browser</span>
+          </div>
         </div>
         
         <div className="flex flex-col sm:flex-row gap-3 items-center">

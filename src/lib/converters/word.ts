@@ -128,31 +128,35 @@ function renderChartToSvg(chartData: ChartData): string {
   return svg;
 }
 
-export async function convertWordToPdf(file: File): Promise<Blob> {
-  // 1. First attempt high-fidelity server-side conversion if available
-  try {
-    const formData = new FormData();
-    formData.append("file", file);
+export async function convertWordToPdf(file: File, options?: { engine?: "browser" | "cloud" }): Promise<Blob> {
+  const engine = options?.engine ?? "browser";
 
-    const apiRes = await fetch("/api/convert-word-to-pdf", {
-      method: "POST",
-      body: formData,
-    });
+  // 1. Cloud conversion via Cloudmersive (Only executed if user affirmatively opted in)
+  if (engine === "cloud") {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
 
-    if (apiRes.ok) {
-      const contentType = apiRes.headers.get("content-type") || "";
-      if (contentType.includes("application/pdf")) {
-        const blob = await apiRes.blob();
-        if (blob.size > 0) {
-          return blob;
+      const apiRes = await fetch("/api/convert-word-to-pdf", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (apiRes.ok) {
+        const contentType = apiRes.headers.get("content-type") || "";
+        if (contentType.includes("application/pdf")) {
+          const blob = await apiRes.blob();
+          if (blob.size > 0) {
+            return blob;
+          }
         }
       }
+    } catch (apiErr) {
+      console.info("Server API bypass, running client-side engine:", apiErr);
     }
-  } catch (apiErr) {
-    console.info("Server API bypass, running client-side engine:", apiErr);
   }
 
-  // 2. Client-Side High-Precision Engine
+  // 2. Client-Side High-Precision Engine (Default: 0 bytes uploaded to external servers)
   const arrayBuffer = await file.arrayBuffer();
 
   // Extract DrawingML Charts from ZIP

@@ -39,11 +39,20 @@ export const metadata: Metadata = {
     url: "https://www.converterforall.com/video-caption-generator",
     siteName: "ConverterForAll",
     locale: "en_US",
+    images: [
+      {
+        url: "https://www.converterforall.com/og?title=AI%20Video%20Caption%20Studio&cat=Video",
+        width: 1200,
+        height: 630,
+        alt: "Free AI Video Subtitle Generator – ConverterForAll",
+      }
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Free AI Video Subtitle Generator – Auto Caption Hindi English",
     description: "Free AI video subtitle generator to auto caption Hindi English and social clips in your browser without watermarks.",
+    images: ["https://www.converterforall.com/og?title=AI%20Video%20Caption%20Studio&cat=Video"],
   }
 };
 
@@ -159,7 +168,7 @@ const qaList = [
   },
   {
     question: "Does it upload files to a server?",
-    answer: "No. Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download. Caption Studio runs video decoding, speech recognition, and MP4 encoding locally on your computer."
+    answer: "No. Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage. Caption Studio runs video decoding, speech recognition, and MP4 encoding locally on your computer."
   },
   {
     question: "What languages are supported?",

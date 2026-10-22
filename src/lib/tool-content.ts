@@ -186,7 +186,7 @@ function enrichContentIfShort(
         <li><strong>Keep backups:</strong> Always retain a copy of your original document before removing pages, scrubbing metadata, or compressing.</li>
         <li><strong>Page orientation:</strong> If any pages were scanned sideways, rotate them to standard portrait before emailing or submitting.</li>
         <li><strong>Font preservation:</strong> In-browser PDF processing preserves embedded vector fonts so headings and text stay crisp at any zoom level.</li>
-        <li><strong>On-device privacy:</strong> Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</li>
+        <li><strong>Document privacy:</strong> Most of our tools run directly inside your browser so your documents stay on your device. For conversions that use cloud processing (like Word-to-PDF and PowerPoint-to-PDF via Cloudmersive), files are handled in temporary memory without permanent storage on our servers.</li>
       </ul>
     `;
     extraFaq = `
@@ -519,7 +519,7 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
         title: "Frequently Asked Questions",
         content: `
           <p><strong>Q: Will compressing my ${fromFormat !== 'video' ? fromFormat : 'video'} make it blurry?</strong><br>A: Our compression presets use adaptive rate control to preserve high visual clarity in important areas like faces and text while trimming redundant background data.</p>
-          <p><strong>Q: Are my personal videos uploaded to a cloud server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</p>
+          <p><strong>Q: Are my personal videos uploaded to a cloud server?</strong><br>A: Most of our tools run directly inside your browser so your files stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.</p>
           <p><strong>Q: Is there any watermark added to my ${toFormat !== 'optimized format' ? toFormat : 'video'}?</strong><br>A: Never. All files produced by ConverterForAll are clean, watermark-free, and ready for school, work, or social media.</p>
           <p><strong>Q: Can I use ${toolTitle} on a mobile browser?</strong><br>A: Yes, modern mobile browsers like Chrome on Android and Safari on iOS support these tools smoothly.</p>
         `
@@ -640,7 +640,7 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
         title: "How document manipulation works safely in your browser",
         content: `
           <p>When working with confidential documents like signed agreements, bank statements, or medical records, privacy is non-negotiable. Our ${isPdfTool ? 'PDF' : 'document'} tools leverage client-side parsing engines directly in your browser. The tool inspects the document structure, modifies page trees, updates metadata dictionaries, and saves a brand-new file directly onto your storage drive.</p>
-          <p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</p>
+          <p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.</p>
         `
       },
       {
@@ -729,7 +729,7 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
     {
       title: `How ${toolTitle} works`,
       content: `
-        <p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download. This eliminates waiting in server queues and keeps your personal workflow private and efficient.</p>
+        <p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage. This eliminates waiting in server queues and keeps your personal workflow private and efficient.</p>
       `
     },
     {

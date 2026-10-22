@@ -153,7 +153,7 @@ export async function POST(req: Request) {
     const slides = await Promise.all(
       rawSlides.map(async (s: any) => {
         if (s.layout === "split") {
-          const searchKey = s.photoKeyword || `${s.title} ${prompt}`;
+          const searchKey = (s.photoKeyword && typeof s.photoKeyword === "string" && s.photoKeyword.trim()) || (s.title && typeof s.title === "string" && s.title.trim()) || "Professional Architecture";
           const photoBase64 = await fetchRealPhotoBase64(searchKey);
           return {
             ...s,

@@ -78,8 +78,8 @@ export async function getToolReviewStats(toolSlug: string): Promise<ReviewStats>
     // Database query failed or table not yet migrated, fall back smoothly
   }
 
-  // Combine DB reviews and memory reviews
-  const memList = memoryReviews[toolSlug] || [];
+  // Combine DB reviews and memory reviews (only approved status)
+  const memList = (memoryReviews[toolSlug] || []).filter((r) => r.status === "approved");
 
   // Deduplicate by ID
   const allReviewsMap = new Map<string, ReviewItem>();
@@ -137,6 +137,20 @@ export async function getToolReviewStats(toolSlug: string): Promise<ReviewStats>
 }
 
 /**
+ * Sanitize review comment to strip HTML tags and raw URLs
+ */
+function sanitizeReviewComment(text: string): string {
+  if (!text) return "";
+  return text
+    // Strip HTML tags
+    .replace(/<\/?[^>]+(>|$)/g, "")
+    // Strip raw URLs
+    .replace(/(https?:\/\/[^\s]+)/gi, "[link removed]")
+    .replace(/(www\.[^\s]+)/gi, "[link removed]")
+    .trim();
+}
+
+/**
  * Save a new user review / issue report
  */
 export async function saveToolReview(data: {
@@ -149,7 +163,7 @@ export async function saveToolReview(data: {
   deviceInfo?: string;
 }): Promise<ReviewItem> {
   const cleanName = (data.userName || "").trim() || "Community User";
-  const cleanComment = (data.comment || "").trim();
+  const cleanComment = sanitizeReviewComment(data.comment || "");
   const cleanRating = Math.min(5, Math.max(1, Math.round(data.rating || 5)));
   const cleanFeedbackType = data.feedbackType || "worked_great";
 
@@ -163,10 +177,10 @@ export async function saveToolReview(data: {
     comment: cleanComment,
     deviceInfo: data.deviceInfo || null,
     isPublic: true,
-    status: "approved",
+    status: "pending",
     helpfulCount: 0,
     createdAt: new Date().toISOString(),
-    verified: true,
+    verified: false,
   };
 
   // Attempt database insertion if available
@@ -183,7 +197,7 @@ export async function saveToolReview(data: {
           comment: cleanComment,
           deviceInfo: data.deviceInfo || null,
           isPublic: true,
-          status: "approved",
+          status: "pending",
           helpfulCount: 0,
         },
       });

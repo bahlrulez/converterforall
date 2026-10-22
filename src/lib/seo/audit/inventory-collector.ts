@@ -87,7 +87,7 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
         processingLocation = "client-side (WebGPU/AI)";
       } else if (categorySlug === "utilities" || toolType === "calculator" || toolType === "generator") {
         processingLocation = "client-side (Canvas/DOM)";
-      } else if (toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf" || toolSlug === "excel-to-pdf") {
+      } else if (toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf") {
         processingLocation = "hybrid (client-side + ephemeral cloud)";
       }
 

@@ -29,18 +29,6 @@ export const metadata: Metadata = {
     template: "%s | ConverterForAll"
   },
   description: "Convert PDFs, images, videos, audio, and Indic fonts easily. Most tools run directly in your browser so your files stay on your device, with no registration required.",
-  keywords: [
-    "free file converter",
-    "online pdf tools",
-    "private image converter",
-    "in-browser converter",
-    "remove image background",
-    "kruti dev to unicode",
-    "video compressor online",
-    "free pdf merge",
-    "convert docx to pdf",
-    "indic font converter"
-  ],
   authors: [{ name: "ConverterForAll" }],
   openGraph: {
     type: "website",

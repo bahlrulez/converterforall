@@ -10,8 +10,8 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
         content: "<ol><li><strong>Select Files:</strong> Drag and drop your PDFs, Word documents (.docx, .doc), PowerPoint slides (.pptx, .ppt), or images (JPG, PNG) into the box.</li><li><strong>Arrange Sequence:</strong> Drag and reorder file cards into your desired order. You can also turn on auto-scaling for uniform Portrait A4 pages.</li><li><strong>Click 'Merge Files':</strong> The tool combines your files into a single PDF document.</li><li><strong>Download:</strong> Save your complete PDF file directly to your computer or phone.</li></ol>"
       },
       {
-        title: "On-Device Processing for File Privacy",
-        content: "<p>Standard PDF merging and organizing operations run locally on your device via client-side WebAssembly. When complex documents are converted, processing occurs in temporary memory without permanent disk storage, keeping your resumes, tax returns, and agreements private.</p>"
+        title: "In-Browser Processing for File Privacy",
+        content: "<p>PDF, image, Word (.docx), and PowerPoint (.pptx) merging operations run directly in your web browser. Files are processed locally in your device's memory without uploading documents to remote servers.</p>"
       },
       {
         title: "Popular Merging Workflows",
@@ -145,7 +145,7 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
         title: "Frequently Asked Questions",
         content: `
           <p><strong>Q: Can I see what each page contains before rearranging?</strong><br>A: Yes. Every page displays a clear preview card. You can also click 'Zoom Preview' to view any page in full screen.</p>
-          <p><strong>Q: Are my documents uploaded to a remote server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</p>
+          <p><strong>Q: Are my documents uploaded to a remote server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.</p>
           <p><strong>Q: Does reordering reduce the visual quality or text clarity of my PDF?</strong><br>A: No. All original text layers, embedded fonts, and high-resolution images are preserved during page restructuring.</p>
         `
       }

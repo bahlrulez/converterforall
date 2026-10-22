@@ -1591,7 +1591,7 @@ export const blogDatabase: Record<string, BlogPost> = {
         Privacy is an understandable concern when dealing with personal contracts, financial statements, medical files, or resumes.
       </p>
       <p class="text-base text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-        Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download. We do not store user files, require email accounts, or add watermarks.
+        Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage. We do not store user files, require email accounts, or add watermarks.
       </p>
 
       <h2>Frequently Asked Questions (FAQs)</h2>
@@ -1728,7 +1728,7 @@ export const blogDatabase: Record<string, BlogPost> = {
       </div>
 
       <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-6">
-        <em>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</em>
+        <em>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.</em>
       </div>
 
       <h2>How Local File Conversion Works</h2>

@@ -58,8 +58,8 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       "unicode-text-cleaner": ["fix-copy-paste-text", "unicode-normalizer", "font-text-fixer", "remove-hidden-characters"],
       
       // Font Clusters (Bengali)
-      "unicode-to-bijoy": ["bijoy-to-unicode", "krutidev-to-unicode", "avro-to-bijoy", "bijoy-to-avro"],
-      "bijoy-to-unicode": ["unicode-to-bijoy", "avro-to-bijoy", "bijoy-to-avro", "krutidev-to-unicode"],
+      "unicode-to-bijoy": ["bijoy-to-unicode", "krutidev-to-unicode", "font-text-fixer", "preeti-to-unicode"],
+      "bijoy-to-unicode": ["unicode-to-bijoy", "font-text-fixer", "krutidev-to-unicode", "preeti-to-unicode"],
       
       // Font Clusters (Punjabi)
       "unicode-to-satluj": ["satluj-to-unicode", "unicode-to-asees", "unicode-to-joy", "unicode-to-gurbani-akhar"],

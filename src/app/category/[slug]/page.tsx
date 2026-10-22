@@ -59,7 +59,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     points: [
       {
         title: "In-Browser Privacy",
-        desc: "Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.",
+        desc: "Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.",
       },
       {
         title: "Clean Formatting",
@@ -350,6 +350,12 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
   },
 };
 
+export async function generateStaticParams() {
+  return Object.keys(toolsDatabase).map((slug) => ({
+    slug,
+  }));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   let categorySlug = resolvedParams.slug;
@@ -422,7 +428,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
       },
       {
         q: "Are my files uploaded to any servers?",
-        a: "Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.",
+        a: "Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.",
       },
     ],
   };
@@ -622,7 +628,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
                 Standardized In-Browser Privacy
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.
+                Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.
               </p>
             </div>
           </div>

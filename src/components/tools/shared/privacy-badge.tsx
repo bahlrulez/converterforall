@@ -25,8 +25,8 @@ export function PrivacyBadge({ level = "general", className, showAnimation = tru
         };
       case "hybrid":
         return {
-          title: "Secure Cloud Processing",
-          description: "Files are handled in memory and deleted immediately after download.",
+          title: "Cloudmersive Cloud Processing",
+          description: "Processed in temporary memory via Cloudmersive API. No documents are stored on our servers.",
           icon: <ShieldCheck className="w-4 h-4" />,
           colorClass: "bg-blue-500/10 dark:bg-blue-500/15 border-blue-500/30",
           iconBgClass: "bg-blue-500/20 text-blue-600 dark:text-blue-400",

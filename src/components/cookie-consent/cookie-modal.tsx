@@ -41,7 +41,7 @@ export function CookieModal() {
     {
       id: "analytics",
       title: "Analytics",
-      description: "Allow us to use Google Analytics 4 and Microsoft Clarity to understand how you interact with our website, helping us improve the user experience.",
+      description: "Allow us to use Google Analytics 4 to understand how you interact with our website, helping us improve the user experience.",
       required: false,
     },
     {

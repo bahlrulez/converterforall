@@ -36,29 +36,33 @@ interface SlideObject {
   shapes: ShapeItem[];
 }
 
-export async function convertPptxToPdf(file: File): Promise<Blob> {
-  // 1. First attempt high-precision Cloudmersive serverless engine
-  try {
-    const formData = new FormData();
-    formData.append("file", file);
+export async function convertPptxToPdf(file: File, options?: { engine?: "browser" | "cloud" }): Promise<Blob> {
+  const engine = options?.engine ?? "browser";
 
-    const apiRes = await fetch("/api/convert-powerpoint-to-pdf", {
-      method: "POST",
-      body: formData,
-    });
+  // 1. Cloud conversion via Cloudmersive (Only executed if user affirmatively opted in)
+  if (engine === "cloud") {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
 
-    if (apiRes.ok) {
-      const pdfBlob = await apiRes.blob();
-      if (pdfBlob && pdfBlob.size > 200) {
-        console.info(`[PPTX->PDF] Successfully converted via high-precision engine (${pdfBlob.size} bytes)`);
-        return pdfBlob;
+      const apiRes = await fetch("/api/convert-powerpoint-to-pdf", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (apiRes.ok) {
+        const pdfBlob = await apiRes.blob();
+        if (pdfBlob && pdfBlob.size > 200) {
+          console.info(`[PPTX->PDF] Successfully converted via high-precision engine (${pdfBlob.size} bytes)`);
+          return pdfBlob;
+        }
       }
+    } catch (apiErr) {
+      console.warn("[PPTX->PDF] Cloud engine unreachable, activating in-browser renderer:", apiErr);
     }
-  } catch (apiErr) {
-    console.warn("[PPTX->PDF] Cloud engine unreachable, activating in-browser renderer:", apiErr);
   }
 
-  // 2. Client-Side in-browser XML slide renderer fallback
+  // 2. Client-Side in-browser XML slide renderer (Default: 0 bytes uploaded to external servers)
   const arrayBuffer = await file.arrayBuffer();
   const zip = await JSZip.loadAsync(arrayBuffer);
 

@@ -27,12 +27,30 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { toolSlug, rating, comment, userName, userEmail, feedbackType, deviceInfo, action, reviewId } = body;
+    const { toolSlug, rating, comment, userName, userEmail, feedbackType, deviceInfo, action, reviewId, cfa_bot_verify_token, cfa_hp_field_check, formLoadedAt } = body;
 
     // Handle helpful upvotes
     if (action === "helpful" && reviewId && toolSlug) {
       const newCount = await incrementHelpfulCount(reviewId, toolSlug);
       return NextResponse.json({ success: true, helpfulCount: newCount });
+    }
+
+    // Anti-Spam Check 1: Honeypot field (must remain empty, non-autofillable name)
+    const honeypotVal = cfa_bot_verify_token || cfa_hp_field_check;
+    if (honeypotVal && String(honeypotVal).trim().length > 0) {
+      // Silently discard spam submission without notifying the bot
+      return NextResponse.json({
+        success: true,
+        message: "Thanks, your review will appear after approval",
+      }, { status: 201 });
+    }
+
+    // Anti-Spam Check 2: Minimum 3-second human interaction timing check
+    if (!formLoadedAt || typeof formLoadedAt !== "number" || (Date.now() - formLoadedAt < 3000)) {
+      return NextResponse.json(
+        { error: "Submission was too fast. Please take a moment before submitting." },
+        { status: 400 }
+      );
     }
 
     if (!toolSlug) {
@@ -79,7 +97,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: "Thank you! Your feedback has been recorded.",
+        message: "Thanks, your review will appear after approval",
         review: savedReview,
         stats: updatedStats,
       },

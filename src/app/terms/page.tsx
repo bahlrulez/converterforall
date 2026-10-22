@@ -12,13 +12,13 @@ export default function TermsOfServicePage() {
   return (
     <div className="container mx-auto px-4 py-16 max-w-4xl">
       <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">Terms of Service</h1>
-      
+
       <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
         <p><strong>Last Updated: August 1, 2026</strong></p>
-        
+
         <h2>1. Acceptance of Terms</h2>
         <p>
-          Welcome to ConverterForAll. These Terms of Service ("Terms") represent a binding legal agreement between you (the "User", "you", or "your") and ConverterForAll (the "Website", "we", "us", or "our"), owned and operated by Kuldeep Bahl. 
+          Welcome to ConverterForAll. These Terms of Service ("Terms") represent a binding legal agreement between you (the "User", "you", or "your") and ConverterForAll (the "Website", "we", "us", or "our"), owned and operated by Kuldeep Bahl.
         </p>
         <p>
           By accessing, browsing, or using any part of ConverterForAll, including our file converters, calculators, and educational blog content, you acknowledge that you have read, understood, and agree to be bound by these Terms, as well as our Privacy Policy. If you do not agree to these Terms in their entirety, you are strictly prohibited from using this Website and must discontinue use immediately.
@@ -91,7 +91,7 @@ export default function TermsOfServicePage() {
 
         <h2>8. Accuracy of Information and No Professional Advice</h2>
         <p>
-          The calculators, unit converters, and educational content provided on ConverterForAll are intended for general informational and utility purposes only. While we strive to ensure that the mathematical formulas and conversion logic used in our tools are accurate, we make no guarantees regarding their absolute precision. 
+          The calculators, unit converters, and educational content provided on ConverterForAll are intended for general informational and utility purposes only. While we strive to ensure that the mathematical formulas and conversion logic used in our tools are accurate, we make no guarantees regarding their absolute precision.
         </p>
         <p>
           <strong>No Financial or Legal Advice:</strong> If you use our calculators for financial planning, tax estimation, engineering, or medical dosages, you do so entirely at your own risk. The information provided by our tools should never substitute for professional advice from certified accountants, engineers, lawyers, or medical practitioners. We disclaim all liability and responsibility arising from any reliance placed on our tools by you or any other visitor to the Website.
@@ -107,7 +107,7 @@ export default function TermsOfServicePage() {
 
         <h2>10. Advertisements and Analytics</h2>
         <p>
-          ConverterForAll uses third-party analytics platforms, including Google Analytics 4 and Microsoft Clarity, to monitor and analyze web traffic and user behavior. We also display advertisements provided by Google AdSense. 
+          ConverterForAll uses third-party analytics platforms, including Google Analytics 4, to monitor and analyze web traffic and user behavior. We also display advertisements provided by Google AdSense.
         </p>
         <p>
           By using our Website, you acknowledge that these third-party services may utilize cookies, local storage, and other tracking technologies to collect data about your browsing behavior. Your interactions with these advertisements are solely between you and the advertiser. We do not endorse any specific product or service advertised on the Website, and we are not liable for any loss or damage incurred as a result of your dealings with advertisers. For more detailed information on how we handle tracking and advertising, please read our Privacy Policy and Cookie Policy.

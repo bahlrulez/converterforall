@@ -191,7 +191,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       seoTitle: "SVG to PNG Converter - Rasterize Vectors Online Free",
       description: "Convert SVG vector graphics to crisp, transparent PNG images online with 100% privacy.",
       seoDescription: "Convert SVG vector graphics to high-resolution transparent PNG images online. 100% private, fast client-side rasterization.",
-      relatedTools: ["png-to-svg", "image-resizer", "compress-png", "webp-to-png"],
+      relatedTools: ["image-to-svg", "image-resizer", "compress-png", "webp-to-png"],
       inputFormat: "svg",
       outputFormat: "png",
       actionName: "Convert to PNG",
@@ -544,7 +544,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       inputFormat: "mp4",
       outputFormat: "mp3",
       actionName: "Extract Audio",
-      relatedTools: ["trim-audio", "video-to-mp4", "compress-video", "mp3-to-wav"],
+      relatedTools: ["trim-audio", "video-to-mp4", "video-compressor", "mp3-to-wav"],
       acceptedTypes: { "video/mp4": [".mp4"] }
     },
     "mp3-to-wav": { theme: "sky", iconName: "Music", badge: "Audio", isPopular: true,
@@ -904,7 +904,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
-      relatedTools: ["camera-measure", "inches-to-centimeters", "centimeters-to-inches", "feet-to-yards"],
+      relatedTools: ["camera-measure", "inches-to-centimeters", "feet-to-meters", "feet-to-yards"],
       acceptedTypes: {}
     },
     "camera-measure": { theme: "slate", iconName: "Wrench", badge: "Tool",
@@ -1107,10 +1107,10 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     }
   },
   "fonts": {
-    "unicode-to-krutidev": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode (Mangal) to Kruti Dev Converter", description: "Convert standard Unicode Hindi text (Mangal font) to legacy Kruti Dev 010 font format for typing tests, PageMaker, and printing.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "krutidev-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Kruti Dev to Unicode / Mangal Font Converter", description: "Convert legacy Kruti Dev 010 font text to standard Unicode (Mangal font) Hindi instantly for government exams, CPCT, WhatsApp, and Word.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "unicode-to-krutidev": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Kruti Dev Converter", description: "Convert standard Unicode Hindi text (Mangal font) to legacy Kruti Dev 010 font format for PageMaker and printing presses.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "krutidev-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Kruti Dev to Unicode Converter", description: "Convert legacy Kruti Dev 010 font text to standard Unicode (Mangal font) Hindi for Word documents, web forms, and mobile devices.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "unicode-to-chanakya": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Chanakya", seoTitle: "Unicode to Chanakya Font Converter | Online Type for InDesign", seoDescription: "Convert modern Unicode Hindi (Mangal) to legacy Chanakya font. Fast, free online converter for Adobe InDesign, PageMaker, and publishers.", description: "Convert Unicode Hindi text to Chanakya font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "chanakya-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Chanakya to Unicode", seoTitle: "Chanakya to Unicode Font Converter | Fix Hindi Text Online", seoDescription: "Convert legacy Walkman-Chanakya Hindi font to standard Unicode text. Make legacy documents readable on mobile, Word, and WhatsApp instantly.", description: "Convert Chanakya font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
+    "chanakya-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Chanakya to Unicode Converter", description: "Convert legacy Walkman-Chanakya Hindi font text into universal Unicode (Mangal font) for Word, web pages, and mobile devices.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "unicode-to-shusha": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Shusha", description: "Convert Unicode Hindi text to Shusha font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "shusha-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Shusha to Unicode", description: "Convert Shusha font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "unicode-to-aps": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to APS", description: "Convert Unicode Hindi text to APS font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },

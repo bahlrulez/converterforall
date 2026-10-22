@@ -7,8 +7,10 @@ import { useTheme } from "next-themes";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { ToolsMegaMenu } from "./tools-mega-menu";
 import { MobileNav } from "./mobile-nav";
+import { CompactToolNav } from "./compact-tool-nav";
 
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -72,6 +74,7 @@ function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export function Header() {
+  const pathname = usePathname();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -82,14 +85,15 @@ export function Header() {
   }, []);
 
   const isDark = (resolvedTheme || theme) === "dark";
+  const isHomeOrTools = pathname === "/" || pathname === "/tools";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2">
-          <Link 
-            href="/" 
-            className="flex items-center gap-2 group" 
+          <Link
+            href="/"
+            className="flex items-center gap-2 group"
             onClick={(e) => {
               if (typeof window !== 'undefined' && window.location.pathname === '/') {
                 e.preventDefault();
@@ -105,16 +109,22 @@ export function Header() {
         </div>
 
         <nav className="hidden lg:flex items-center gap-5 relative h-16">
-          {/* All Tools Mega Menu Dropdown Wrapper */}
-          <div className="group/mega flex h-full items-center">
-            <Link href="/tools" className="flex items-center gap-1 text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors py-2">
-              All Tools <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover/mega:rotate-180 transition-transform duration-200" />
-            </Link>
-            
-            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 opacity-0 invisible translate-y-2 group-hover/mega:opacity-100 group-hover/mega:visible group-hover/mega:translate-y-0 transition-all duration-300 origin-top">
-              <ToolsMegaMenu onClose={() => setIsToolsOpen(false)} />
+          {isHomeOrTools ? (
+            /* Full Tools Mega Menu Dropdown for Homepage & Tools Directory */
+            <div className="group/mega flex h-full items-center">
+              <Link href="/tools" className="flex items-center gap-1 text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors py-2">
+                All Tools <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover/mega:rotate-180 transition-transform duration-200" />
+              </Link>
+
+              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 opacity-0 invisible translate-y-2 group-hover/mega:opacity-100 group-hover/mega:visible group-hover/mega:translate-y-0 transition-all duration-300 origin-top">
+                <ToolsMegaMenu onClose={() => setIsToolsOpen(false)} />
+              </div>
             </div>
-          </div>
+          ) : (
+            /* Compact Nav on Tool & Content Pages (Links to all Tier A tools without DOM bloat) */
+            <CompactToolNav />
+          )}
+
           <Link href="/category/document" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
             PDF
           </Link>
@@ -127,8 +137,8 @@ export function Header() {
           <Link href="/category/audio" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
             Audio
           </Link>
-          <Link href="/category/document" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
-            Documents
+          <Link href="/category/exam" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Exam
           </Link>
           <Link href="/category/fonts" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
             Fonts & Text
@@ -172,29 +182,29 @@ export function Header() {
               <span className="sr-only">Instagram</span>
             </a>
           </div>
-          
-          <Link 
-            href="/#featured-tools" 
+
+          <Link
+            href="/#featured-tools"
             className={cn(
-              buttonVariants({ variant: "default" }), 
+              buttonVariants({ variant: "default" }),
               "hidden md:inline-flex rounded-full px-5 py-2 font-semibold text-[13px] h-9 transition-all hover:scale-105 active:scale-95 bg-blue-600 hover:bg-blue-700 text-white border-none shadow-[0_0_15px_rgba(37,99,235,0.4)]"
             )}
           >
             Convert File &rarr;
           </Link>
-          
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="md:hidden text-foreground" 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden text-foreground"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
       </div>
-      
+
       {/* Modern Mobile Navigation Drawer */}
       <MobileNav isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </header>

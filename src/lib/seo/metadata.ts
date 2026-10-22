@@ -31,10 +31,10 @@ export const CUSTOM_TOOL_TITLES: Record<string, string> = {
   "compress-mp4": "Compress MP4 - Reduce MP4 Video Size Online",
   "mp4-to-mp3": "MP4 to MP3 - Extract Audio from Video Online Free",
   "audio-trimmer": "Audio Trimmer - Cut & Edit Audio Files Online",
-  "krutidev-to-unicode": "Kruti Dev to Unicode - Hindi Font Converter Online",
-  "unicode-to-krutidev": "Unicode to Kruti Dev - Hindi Font Converter Online",
+  "krutidev-to-unicode": "Kruti Dev to Unicode Converter",
+  "unicode-to-krutidev": "Unicode to Kruti Dev Converter",
   "mangal-to-kruti": "Mangal to Kruti Dev - Hindi Font Converter Online",
-  "chanakya-to-unicode": "Chanakya to Unicode - Hindi Font Converter Online",
+  "chanakya-to-unicode": "Chanakya to Unicode Converter",
   "unicode-to-chanakya": "Unicode to Chanakya - Hindi Font Converter Online",
   "unicode-to-bijoy": "Unicode to Bijoy - Bengali Font Converter Online",
   "bijoy-to-unicode": "Bijoy to Unicode - Bengali Font Converter Online",
@@ -100,7 +100,7 @@ export function getOptimizedToolDescription(tool: any, toolSlug: string, categor
   if (categorySlug === "fonts") {
     suffix = "Convert text accurately with no font distortion. Free and runs in your browser.";
   } else if (categorySlug === "document") {
-    if (toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf" || toolSlug === "excel-to-pdf") {
+    if (toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf") {
       suffix = "Fast conversion with original formatting preserved. Files are handled in memory.";
     } else {
       suffix = "Process documents securely in your browser with no watermarks or accounts.";

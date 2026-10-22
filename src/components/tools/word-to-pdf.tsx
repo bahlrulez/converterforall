@@ -13,12 +13,13 @@ export default function WordToPdfTool() {
   const [progressText, setProgressText] = useState("");
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [fileName, setFileName] = useState("");
+  const [useCloudEngine, setUseCloudEngine] = useState(false);
 
-  const processFile = useCallback(async (targetFile: File) => {
+  const processFile = useCallback(async (targetFile: File, engineMode: "browser" | "cloud" = "browser") => {
     setIsProcessing(true);
-    setProgressText("Converting Word to PDF...");
+    setProgressText(engineMode === "cloud" ? "Converting via Cloudmersive API..." : "Converting Word to PDF in browser...");
     try {
-      const blob = await convertWordToPdf(targetFile);
+      const blob = await convertWordToPdf(targetFile, { engine: engineMode });
       setResultBlob(blob);
       setProgressText("");
     } catch (err: any) {
@@ -61,7 +62,7 @@ export default function WordToPdfTool() {
 
   const handleConvert = async () => {
     if (!file) return;
-    processFile(file);
+    processFile(file, useCloudEngine ? "cloud" : "browser");
   };
 
   const handleDownload = () => {
@@ -94,7 +95,7 @@ export default function WordToPdfTool() {
             Drag and drop a DOCX file here, or click to browse
           </p>
           <p className="text-xs text-muted-foreground max-w-sm">
-            Fast, secure, and 100% private. Processing happens entirely on your device.
+            Default is 100% on-device in-browser conversion. Optional cloud conversion uses Cloudmersive API with no permanent storage on our servers.
           </p>
         </div>
       </div>
@@ -122,6 +123,26 @@ export default function WordToPdfTool() {
           </div>
           
           <h3 className="text-xl font-semibold mb-2 text-center">{file.name}</h3>
+
+          {/* Cloud Opt-In Choice (Unchecked by default) */}
+          <div className="w-full mt-4 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/40 text-left text-xs">
+            <label className="flex items-start gap-2.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={useCloudEngine}
+                onChange={(e) => setUseCloudEngine(e.target.checked)}
+                className="mt-0.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+              />
+              <div className="space-y-0.5">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">
+                  Use Cloud Engine via third-party service (Cloudmersive API)
+                </span>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Default is 100% in-browser on-device conversion. When unchecked, your document never leaves your device. Check this only if you need desktop Microsoft Office layout accuracy.
+                </p>
+              </div>
+            </label>
+          </div>
           
           {isProcessing ? (
             <div className="flex flex-col items-center mt-6">
@@ -129,8 +150,8 @@ export default function WordToPdfTool() {
               <p className="text-muted-foreground animate-pulse">{progressText}</p>
             </div>
           ) : (
-            <Button size="lg" className="w-full mt-6 rounded-xl h-14 text-lg" onClick={handleConvert}>
-              Convert to PDF
+            <Button size="lg" className="w-full mt-4 rounded-xl h-14 text-base font-semibold" onClick={handleConvert}>
+              {useCloudEngine ? "Convert via Cloud Engine (Cloudmersive API)" : "Convert in Browser (On-Device)"}
             </Button>
           )}
           

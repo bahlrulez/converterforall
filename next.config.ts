@@ -94,11 +94,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/convert-tamil-to-unicode",
-        destination: "/krutidev-to-unicode",
-        permanent: true,
-      },
-      {
         source: "/py-to-unicode",
         destination: "/bijoy-to-unicode",
         permanent: true,
@@ -146,11 +141,6 @@ const nextConfig: NextConfig = {
       {
         source: "/convert-word-to-pdf",
         destination: "/word-to-pdf",
-        permanent: true,
-      },
-      {
-        source: "/images-to-pdf",
-        destination: "/jpg-to-pdf",
         permanent: true,
       },
       {
@@ -216,11 +206,6 @@ const nextConfig: NextConfig = {
       {
         source: "/crop-audio-mp3",
         destination: "/trim-audio",
-        permanent: true,
-      },
-      {
-        source: "/base64-decode",
-        destination: "/base64-encoder-decoder",
         permanent: true,
       },
       {
@@ -429,34 +414,25 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/sutonnymj-to-unicode",
-        destination: "/bijoy-to-unicode",
-        permanent: true,
-      },
-      {
-        source: "/unicode-to-sutonnymj",
-        destination: "/unicode-to-bijoy",
-        permanent: true,
-      },
-      {
-        source: "/image-to-pdf",
-        destination: "/jpg-to-pdf",
-        permanent: true,
-      },
-      {
         source: "/blog/real-time-file-sharing-between-devices-without-the-cloud",
         destination: "/blog/why-client-side-conversion-is-the-future",
         permanent: true,
       },
     ];
 
+    const legacyRedirects301 = legacyRedirects.map((r) => ({
+      source: r.source,
+      destination: r.destination,
+      statusCode: 301 as const,
+    }));
+
     const aliasRedirects = Object.entries(SLUG_ALIASES).map(([alias, target]) => ({
       source: `/${alias}`,
       destination: `/${target}`,
-      permanent: true,
+      statusCode: 301 as const,
     }));
 
-    return [...legacyRedirects, ...aliasRedirects];
+    return [...legacyRedirects301, ...aliasRedirects];
   },
   async headers() {
     return [

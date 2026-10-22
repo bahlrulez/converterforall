@@ -29,10 +29,9 @@ export function FontDetector() {
     }
 
     const fontName = result.font.toLowerCase();
-    if (fontName.includes("kruti")) return '/krutidev-to-unicode';
-    if (fontName.includes("anmol")) return '/anmollipi-to-unicode';
-    if (fontName.includes("devlys")) return '/devlys-to-unicode';
+    if (fontName.includes("kruti") || fontName.includes("devlys")) return '/krutidev-to-unicode';
     if (fontName.includes("chanakya")) return '/chanakya-to-unicode';
+    if (fontName.includes("anmol")) return '/anmollipi-to-unicode';
     if (fontName.includes("shusha")) return '/shusha-to-unicode';
     if (fontName.includes("aps")) return '/aps-to-unicode';
     if (fontName.includes("shree")) return '/shreelipi-to-unicode';
@@ -41,9 +40,12 @@ export function FontDetector() {
     if (fontName.includes("satluj")) return '/satluj-to-unicode';
     if (fontName.includes("gurbani")) return '/gurbani-akhar-to-unicode';
     if (fontName.includes("raavi")) return '/raavi-to-unicode';
+    if (fontName.includes("bijoy") || fontName.includes("sutonny")) return '/bijoy-to-unicode';
+    if (fontName.includes("preeti")) return '/preeti-to-unicode';
+    if (fontName.includes("inpage")) return '/inpage-to-unicode';
 
-    const fontSlug = result.font.toLowerCase().replace(/[^a-z0-9]+/g, '');
-    return `/${fontSlug}-to-unicode`;
+    // Safe fallback: route to the universal font & text fixer instead of generating non-existent tool URLs
+    return '/font-text-fixer';
   };
 
   const handleConvertClick = () => {

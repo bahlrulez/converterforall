@@ -25,6 +25,8 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   const [pageSelection, setPageSelection] = useState<string>("");
   const [videoFps, setVideoFps] = useState<number>(1);
   const [compressionQuality, setCompressionQuality] = useState<number>(80);
+  const isPptTool = toolSlug === "powerpoint-to-pdf" || toolSlug === "ppt-to-pdf" || toolSlug === "pptx-to-pdf";
+  const [cloudPptOptIn, setCloudPptOptIn] = useState(false);
 
   // Fix for Next.js SPA navigation wiping out COOP/COEP headers
   useEffect(() => {
@@ -63,7 +65,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     } else if (category === "document" && toolSlug === "word-to-pdf") {
       blob = await convertWordToPdf(file);
     } else if (category === "document" && (toolSlug === "powerpoint-to-pdf" || toolSlug === "ppt-to-pdf" || toolSlug === "pptx-to-pdf")) {
-      blob = await convertPptxToPdf(file);
+      blob = await convertPptxToPdf(file, { engine: cloudPptOptIn ? "cloud" : "browser" });
     } else if (category === "document" && (toolSlug === "excel-to-pdf" || toolSlug === "xlsx-to-pdf")) {
       blob = await convertExcelToPdf(file);
     } else if (category === "document" && toolSlug === "html-to-pdf") {
@@ -295,6 +297,30 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     );
   };
 
+  const renderPptOptions = (disabled?: boolean) => {
+    return (
+      <div className="w-full p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/40 text-left text-xs mb-4">
+        <label className="flex items-start gap-2.5 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={cloudPptOptIn}
+            onChange={(e) => setCloudPptOptIn(e.target.checked)}
+            disabled={disabled}
+            className="mt-0.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+          />
+          <div className="space-y-0.5">
+            <span className="font-semibold text-slate-800 dark:text-slate-200">
+              Use Cloud Engine via third-party service (Cloudmersive API)
+            </span>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+              Default is 100% in-browser on-device conversion. When unchecked, your document never leaves your device. Check this only if you need desktop PowerPoint layout accuracy.
+            </p>
+          </div>
+        </label>
+      </div>
+    );
+  };
+
   if (toolSlug === "merge-pdf") {
     return (
       <MultiFileUploader 
@@ -306,6 +332,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   }
 
   const hasOptions = 
+    isPptTool ||
     (category === "document" && toolSlug === "compress-pdf") ||
     (category === "image" && toolSlug === "remove-background") ||
     (category === "image" && (toolSlug === "compress-jpg" || toolSlug === "compress-png")) ||
@@ -313,22 +340,25 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
     (toolSlug === "video-to-jpg");
 
   const isSafeForAutoProcess = 
-    (category === "document" && toolSlug === "compress-pdf") ||
+    !isPptTool &&
+    ((category === "document" && toolSlug === "compress-pdf") ||
     (category === "image" && toolSlug === "remove-background") ||
     (category === "image" && (toolSlug === "compress-jpg" || toolSlug === "compress-png")) ||
     (toolSlug === "video-to-jpg") ||
     (toolSlug === "pdf-to-jpg") ||
-    (toolSlug === "pdf-to-png");
+    (toolSlug === "pdf-to-png"));
 
   const autoProcessOnDrop = isSafeForAutoProcess;
 
   return (
     <FileUploader 
       toolSlug={toolSlug}
+      privacyLevel={isPptTool ? (cloudPptOptIn ? "hybrid" : "client-only") : (toolSlug === "word-to-pdf" ? "hybrid" : "client-only")}
       onProcessFile={handleProcessFile} 
       acceptedTypes={acceptedTypes} 
-      actionLabel={actionLabel}
+      actionLabel={isPptTool ? (cloudPptOptIn ? "Convert via Cloud Engine (Cloudmersive API)" : "Convert in Browser (On-Device)") : actionLabel}
       optionsRenderer={
+        isPptTool ? renderPptOptions :
         category === "document" && toolSlug === "compress-pdf" ? renderPdfCompressionOptions : 
         category === "image" && toolSlug === "remove-background" ? renderBgRemovalOptions :
         category === "image" && (toolSlug === "compress-jpg" || toolSlug === "compress-png") ? renderImageCompressionOptions :
