@@ -1,6 +1,6 @@
 // Standardized SEO metadata generation for tool pages across ConverterForAll
 
-const CUSTOM_TOOL_TITLES: Record<string, string> = {
+export const CUSTOM_TOOL_TITLES: Record<string, string> = {
   "merge-pdf": "Merge PDF Online - Combine PDF Files Free",
   "split-pdf": "Split PDF - Separate PDF Pages Online Free",
   "compress-pdf": "Compress PDF - Reduce PDF File Size Online",
@@ -54,6 +54,7 @@ const CUSTOM_TOOL_TITLES: Record<string, string> = {
   "ocr-pdf": "OCR PDF - Convert Scanned PDF to Selectable Text",
   "png-to-pdf": "PNG to PDF - Convert PNG Images to PDF Online Free",
   "barcode-generator": "Barcode Generator - Create Custom Barcodes Online Free",
+  "merge-images-to-jpg": "Merge Two Images into One JPG - Free Online Tool",
 };
 
 export function getOptimizedToolTitle(tool: any, toolSlug: string): string {

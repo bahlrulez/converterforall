@@ -217,6 +217,21 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
         "image/png": [".png"],
         "image/webp": [".webp"]
       }
+    },
+    "merge-images-to-jpg": { theme: "blue", iconName: "Layers", badge: "New", isPopular: true,
+      title: "Merge Two Images into One JPG",
+      description: "Combine two JPEG or PNG images into a single high-quality JPG online. Place photos side by side or top and bottom with custom spacing, background, and no distortion.",
+      seoTitle: "Merge Two Images into One JPG - Free Online Tool",
+      seoDescription: "Combine two JPEG or PNG images into a single high-quality JPG online. Place photos side by side or top and bottom with custom spacing, background, and no distortion.",
+      inputFormat: "image",
+      outputFormat: "jpg",
+      actionName: "Merge Images",
+      isInteractive: true,
+      relatedTools: ["compress-jpg", "image-resizer", "jpg-to-png", "png-to-jpg", "exam-photo-resizer", "passport-photo-maker"],
+      acceptedTypes: { 
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/png": [".png"]
+      }
     }
   },
   "document": {
