@@ -652,9 +652,19 @@ export function MergeImagesTool() {
           {/* 2. Spacing / Gap */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                Image Gap: {spacing}px
+              <label htmlFor="image-gap-slider" className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                Image Gap: <span className="text-blue-600 dark:text-blue-400 font-mono">{spacing}px</span>
               </label>
+              {spacing > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setSpacing(0)}
+                  className="text-[11px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 underline cursor-pointer"
+                  title="Reset gap to 0px"
+                >
+                  Reset
+                </button>
+              )}
             </div>
             <div className="grid grid-cols-3 gap-1.5">
               {[0, 12, 24].map((val) => (
@@ -662,7 +672,7 @@ export function MergeImagesTool() {
                   key={val}
                   type="button"
                   onClick={() => setSpacing(val)}
-                  className={`text-xs font-semibold py-1.5 px-1 rounded-xl border transition-all ${
+                  className={`text-xs font-semibold py-1.5 px-1 rounded-xl border transition-all cursor-pointer text-center whitespace-nowrap ${
                     spacing === val
                       ? "border-blue-500 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-bold"
                       : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900"
@@ -671,6 +681,25 @@ export function MergeImagesTool() {
                   {val === 0 ? "Seamless" : `${val}px`}
                 </button>
               ))}
+            </div>
+
+            {/* Custom slider from 0 to 200 px */}
+            <div className="pt-1 space-y-1">
+              <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <span>Custom: {spacing}px</span>
+                <span>Max 200px</span>
+              </div>
+              <input
+                id="image-gap-slider"
+                type="range"
+                min={0}
+                max={200}
+                step={1}
+                value={spacing}
+                onChange={(e) => setSpacing(Number(e.target.value))}
+                className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                aria-label="Custom image gap in pixels"
+              />
             </div>
           </div>
 
