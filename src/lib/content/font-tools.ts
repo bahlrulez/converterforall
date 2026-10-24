@@ -520,32 +520,88 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
   "inpage-to-unicode": {
     sections: [
       {
-        title: "InPage to Unicode Converter – Urdu Font Converter",
-        content: "<p>Convert traditional <strong>InPage Urdu text</strong> into standard <strong>Urdu Unicode</strong> text. Great for bloggers, writers, and students who need to share InPage content on websites, social media, and mobile apps.</p>"
+        title: "InPage-Style Phonetic to Urdu Unicode Converter",
+        content: "<p>Convert <strong>InPage phonetic key sequences</strong> into standard universal <strong>Urdu Unicode</strong> text. If you have text written using standard InPage phonetic keystrokes, this tool turns it into standard Urdu script that you can read, copy, and share across smartphones, websites, and modern word processors.</p>"
       },
       {
-        title: "Features",
-        content: "<ul><li><strong>Nastaliq Character Mapping:</strong> Supports Urdu characters (ٹ, ڈ, ڑ, ں, ے, ھ, چ, پ, ژ, گ, ء, ئ, ؤ).</li><li><strong>Private &amp; In-Browser:</strong> Text is processed locally on your device.</li></ul>"
+        title: "How It Works",
+        content: "<p>InPage's phonetic keyboard assigns Urdu letters to familiar English keys (such as <code>a</code> for Alif, <code>b</code> for Bay, and <code>c</code> for Che). This tool translates those key sequences back into universal Unicode characters. It runs directly inside your browser, so your text is converted locally on your device without being uploaded to any server.</p>"
       },
       {
-        title: "Frequently Asked Questions (FAQ)",
+        title: "Supported Layout Profile & Limitations",
+        content: "<p>This converter implements the standard built-in <strong>InPage Classic Phonetic Keyboard</strong> layout (verified against InPage 2.40 and 3.05). Please note that it does not convert proprietary InPage binary document files (.inp) or 8-bit clipboard bytecodes. Third-party Windows layouts like CRULP/CLE or native Windows Urdu keyboards use different key assignments.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Why can't I directly copy InPage text to mobile apps?</strong><br>A: InPage uses custom encoding that only displays inside InPage software. Converting to standard Unicode lets the text be read on any modern phone or computer.</p>
+          <div itemscope itemtype="https://schema.org/FAQPage">
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+              <h3 itemprop="name">Can I upload an .inp file directly here?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">No. This tool converts phonetic text strings, not binary InPage (.inp) project files. To convert text from an InPage document, open the file in InPage, export or copy your text, and paste the characters here.</p>
+              </div>
+            </div>
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="mt-4">
+              <h3 itemprop="name">Why are English words converted to Urdu characters in this direction?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">Because the converter treats Latin letters as phonetic typing keys. For example, typing \"cat\" translates into چ (c) + ا (a) + ت (t). URLs and email addresses are automatically detected and protected so they stay in English.</p>
+              </div>
+            </div>
+          </div>
         `
+      },
+      {
+        title: "Privacy & Processing",
+        content: "<p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</p>"
       }
     ]
   },
   "unicode-to-inpage": {
     sections: [
       {
-        title: "Unicode to InPage Converter – Urdu Unicode to InPage",
-        content: "<p>Convert modern <strong>Urdu Unicode</strong> text into <strong>InPage</strong> compatible format to format in InPage desktop software for newspaper and book layout.</p>"
+        title: "Urdu Unicode to InPage-Style Phonetic Converter",
+        content: "<p>Convert modern <strong>Urdu Unicode</strong> text into standard <strong>InPage Classic Phonetic Keyboard</strong> key sequences. If you need a reference for how to type an Urdu article in InPage, or want to transcribe Unicode text into phonetic key sequences for typing tools, this converter handles the character mapping for you.</p>"
+      },
+      {
+        title: "How to Use This Converter",
+        content: "<ol><li><strong>Paste your Unicode text:</strong> Enter or paste standard Urdu text into the input box.</li><li><strong>Review the phonetic keys:</strong> The tool generates the corresponding key sequences based on InPage's classic phonetic layout.</li><li><strong>Copy and use:</strong> Copy the output to guide your typing or for editors that accept phonetic input.</li></ol>"
+      },
+      {
+        title: "Important Note on InPage Clipboard Compatibility",
+        content: "<p>Older desktop versions of InPage (such as InPage 2000, 2009, and 3.x) use a proprietary 8-bit internal encoding (CP1252 bytecodes) for direct pasting into text boxes. <strong>Pasting ASCII phonetic output directly via Ctrl+V into an InPage document inserts Latin letters, not Nastaliq Urdu text.</strong> This tool provides the exact key stream according to the official InPage phonetic keyboard layout, but does not generate proprietary clipboard bytecodes.</p>"
+      },
+      {
+        title: "Supported Layout Profile & Narrowed Scope",
+        content: "<p>This converter strictly targets the standard <strong>InPage Classic Built-in Phonetic Keyboard</strong> (verified against InPage 2.40 / 3.05). It does not support auxiliary Quranic Harakaat input modes from InPage 3.6x (which reassign consonant keys to Arabic grammatical abbreviations) or alternative layouts like CRULP/CLE.</p>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: How do I import Unicode Urdu into InPage?</strong><br>A: Paste your Unicode text here, copy the converted output, and paste it into your InPage text boxes.</p>
+          <div itemscope itemtype="https://schema.org/FAQPage">
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+              <h3 itemprop="name">Why doesn't Ctrl+V paste phonetic keys as Urdu in InPage?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">InPage desktop software expects proprietary 8-bit character codes on the Windows clipboard when pasting Nastaliq text. Plain phonetic key sequences (like \"ardw\") are standard Latin characters, so pasting them directly inserts English letters into InPage text frames.</p>
+              </div>
+            </div>
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="mt-4">
+              <h3 itemprop="name">How do Shift keys map to Urdu letters and diacritics?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">In the InPage Classic Phonetic layout, capital letters represent Shift-key combinations. For example, Shift+C (C) types ث, Shift+S (S) types ص, Shift+W (W) types Tashdeed (ّ), Shift+Y (Y) types Zabar (َ), and Shift+P (P) types Pesh (ُ).</p>
+              </div>
+            </div>
+            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="mt-4">
+              <h3 itemprop="name">Are website links and email addresses protected?</h3>
+              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                <p itemprop="text">Yes. Web addresses (http://, https://, www) and email addresses are automatically isolated into protected segments so their Latin characters and punctuation are preserved without being converted.</p>
+              </div>
+            </div>
+          </div>
         `
+      },
+      {
+        title: "Privacy & Processing",
+        content: "<p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</p>"
       }
     ]
   },
