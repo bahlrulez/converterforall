@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Geist, Plus_Jakarta_Sans, Caveat } from "next/font/google";
+import { Inter, Geist, Caveat } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -10,10 +11,11 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
+const plusJakarta = localFont({
+  src: "../fonts/plus-jakarta-sans/PlusJakartaSans-Variable.woff2",
   variable: "--font-jakarta",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  weight: "400 800",
 });
 
 const caveat = Caveat({
