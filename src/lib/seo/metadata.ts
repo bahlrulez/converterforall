@@ -41,6 +41,8 @@ export const CUSTOM_TOOL_TITLES: Record<string, string> = {
   "unicode-to-satluj": "Unicode to Satluj - Punjabi Font Converter Online",
   "asees-to-unicode": "Asees to Unicode - Punjabi Font Converter Online",
   "raavi-to-asees": "Raavi to Asees - Punjabi Font Converter Online",
+  "unicode-to-inpage": "Urdu Unicode to InPage Phonetic Converter",
+  "inpage-to-unicode": "InPage Phonetic to Urdu Unicode Converter",
   "jwt-decoder": "JWT Decoder - Inspect JSON Web Tokens Securely",
   "json-formatter": "JSON Formatter & Validator - Pretty Print JSON Online",
   "json-to-csv": "JSON to CSV - Convert JSON Data to CSV Online",

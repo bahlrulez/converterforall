@@ -520,7 +520,7 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
   "inpage-to-unicode": {
     sections: [
       {
-        title: "InPage-Style Phonetic to Urdu Unicode Converter",
+        title: "Converting InPage Phonetic Text to Urdu Unicode",
         content: "<p>Convert <strong>InPage phonetic key sequences</strong> into standard universal <strong>Urdu Unicode</strong> text. If you have text written using standard InPage phonetic keystrokes, this tool turns it into standard Urdu script that you can read, copy, and share across smartphones, websites, and modern word processors.</p>"
       },
       {
@@ -559,7 +559,7 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
   "unicode-to-inpage": {
     sections: [
       {
-        title: "Urdu Unicode to InPage-Style Phonetic Converter",
+        title: "Converting Urdu Unicode to InPage Phonetic Text",
         content: "<p>Convert modern <strong>Urdu Unicode</strong> text into standard <strong>InPage Classic Phonetic Keyboard</strong> key sequences. If you need a reference for how to type an Urdu article in InPage, or want to transcribe Unicode text into phonetic key sequences for typing tools, this converter handles the character mapping for you.</p>"
       },
       {
