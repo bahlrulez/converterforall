@@ -43,7 +43,7 @@ export function MileageCalculator() {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3 text-primary">
             <Gauge className="h-6 w-6" />
-            <h2 className="text-2xl font-bold">Mileage Calculator</h2>
+            <h2 className="text-2xl font-bold">Calculate Vehicle Fuel Economy</h2>
           </div>
           
           <div className="flex bg-muted rounded-lg p-1">
