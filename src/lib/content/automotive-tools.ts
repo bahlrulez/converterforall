@@ -3,20 +3,24 @@ export const automotiveToolsContent: Record<string, { disableAutoEnrich?: boolea
     disableAutoEnrich: true,
     sections: [
       {
-        title: "How the Mileage Calculator Works",
-        content: "Our mileage calculator determines your vehicle's exact fuel efficiency based on the physical distance you have traveled and the exact amount of fuel consumed during that trip. It performs these arithmetic calculations entirely within your browser for absolute privacy, ensuring your travel data is never uploaded to any server. This tool strictly performs distance-to-fuel ratio calculations and does not provide vehicle diagnostics or emissions estimations."
+        title: "How to Measure Real-World Car Mileage (Tank-to-Tank Method)",
+        content: "To estimate your car's real-world fuel economy rather than relying solely on dashboard displays, use the full-tank method: fill your fuel tank completely, reset your trip odometer to zero, and drive normally. On your next visit to the petrol pump, fill the tank completely once more and note the fuel added (gallons or liters) alongside the distance (in miles or kilometers) on your trip odometer. Inputting these numbers into this calculator gives you a practical real-world fuel economy estimate."
       },
       {
         title: "Calculating MPG (Imperial System)",
-        content: "In the United States and the UK, the standard measurement for fuel efficiency is Miles Per Gallon (MPG). A higher MPG value indicates that your vehicle is more efficient because it can travel further on a single gallon of fuel. The calculator determines this using a simple formula: <code>MPG = Distance (miles) / Fuel Used (gallons)</code>. For example, if you track your trip odometer and find you drove 300 miles, and it takes 12 gallons to fill your tank back up, your efficiency is calculated as 300 divided by 12, resulting in exactly 25.0 MPG."
+        content: "In the United States and the UK, fuel efficiency is commonly expressed in Miles Per Gallon (MPG). A higher MPG number means better fuel economy because you travel further per unit of fuel: <code>MPG = Distance (miles) / Fuel Added (gallons)</code>. For example, driving 300 miles and refilling with 12 gallons of fuel equals 25.0 MPG."
       },
       {
         title: "Calculating L/100km (Metric System)",
-        content: "In regions using the metric system, efficiency is universally measured by the volume of fuel required to travel a fixed distance of 100 kilometers, expressed as Liters per 100km (L/100km). Unlike MPG, a lower L/100km value signifies better fuel efficiency. The formula used is: <code>L/100km = (Fuel Used (liters) / Distance (km)) × 100</code>. For example, if you drove 500 kilometers and consumed 40 liters of fuel, the calculation is (40 / 500) × 100, which equals 8.0 L/100km."
+        content: "In metric regions, fuel consumption is measured by the volume of fuel required to drive 100 kilometers (L/100km). With this standard, a lower number indicates superior fuel efficiency: <code>L/100km = (Fuel Used (liters) / Distance (km)) × 100</code>. For example, using 40 liters of petrol across 500 kilometers equals 8.0 L/100km."
       },
       {
         title: "Understanding km/L Equivalent",
-        content: "For convenience, when operating in metric mode, our calculator also displays the km/L (Kilometers per Liter) equivalent. This metric operates similarly to MPG, where a higher number represents better efficiency. The formula is simply distance in kilometers divided by liters of fuel consumed. All output values are subject to standard decimal rounding for readability, but they rely on precise floating-point JavaScript arithmetic behind the scenes."
+        content: "In many Asian countries including India, drivers measure fuel efficiency in Kilometers per Liter (km/L). Like MPG, higher km/L values signify better fuel economy: <code>km/L = Distance (km) / Fuel Added (liters)</code>. Running the calculation after consecutive refills accounts for real driving conditions like traffic, air conditioning, and highway cruising."
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: Why does calculated mileage differ from the car's dashboard display?</strong><br>A: Dashboard fuel-economy displays are estimates and may differ from pump-based calculations. Their accuracy and calculation methods vary by vehicle and driving conditions. To estimate real-world fuel economy, record the distance travelled between refills (in miles or kilometers) and divide it by the fuel purchased (in gallons or liters). Repeating the measurement over two or three tanks and refilling consistently can provide a more representative average.</p><p><strong>Q: Does city driving significantly reduce fuel economy compared to highway driving?</strong><br>A: Yes. Stop-and-go city traffic requires frequent acceleration from a dead stop, forcing the engine to work harder in lower gears, while highway cruising allows the engine to run at steady, fuel-efficient RPMs.</p><p><strong>Q: Is this calculator private?</strong><br>A: Yes. Most of our tools run directly inside your browser so your travel numbers stay on your device. No calculation inputs are sent across the network.</p>"
       }
     ]
   },
