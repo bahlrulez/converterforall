@@ -17,8 +17,15 @@ export function generatePunjabiFontContent(profile: FontContentProfile) {
   const sections: { title: string, content: string }[] = [];
 
   // Section 1: What this conversion does
+  let section1Title = `What does the ${profile.fontName} converter do?`;
+  if (profile.slug === 'unicode-to-satluj') {
+    section1Title = 'Converting Unicode Punjabi Text to Satluj Font';
+  } else if (profile.slug === 'satluj-to-unicode') {
+    section1Title = 'Converting Satluj Font to Punjabi Unicode Text';
+  }
+
   sections.push({
-    title: `What does the ${profile.fontName} converter do?`,
+    title: section1Title,
     content: `<p>${profile.description} This conversion is essential for individuals working with Punjabi literature, regional news publications, and government documentation where maintaining the exact intent of the original language is critical. Legacy fonts were built before modern standards existed, causing them to break on today's devices. Converting them bridges the gap between old typesetting methods and modern digital platforms.</p>`
   });
 
