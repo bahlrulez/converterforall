@@ -107,10 +107,21 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
       expect(slug in SLUG_ALIASES, `Alias '${slug}' found in sitemap!`).toBeFalsy();
     }
 
-    // Every canonical tool must be in sitemap
+    // Import TIER_C_NOINDEX_SLUGS and unverified slugs to ensure sitemap contains only indexable canonical tools
+    const { TIER_C_NOINDEX_SLUGS } = require('../src/config/sitemap-lastmod');
+    const unverifiedSlugs = new Set([
+      'chanakya-to-unicode',
+      'unicode-to-chanakya',
+      'unicode-to-asees',
+      'unicode-to-joy'
+    ]);
     for (const toolSlug of canonicalSlugs) {
       const expectedUrl = `https://www.converterforall.com/${toolSlug}`;
-      expect(sitemapUrls).toContain(expectedUrl);
+      if (TIER_C_NOINDEX_SLUGS.has(toolSlug) || unverifiedSlugs.has(toolSlug)) {
+        expect(sitemapUrls).not.toContain(expectedUrl);
+      } else {
+        expect(sitemapUrls).toContain(expectedUrl);
+      }
     }
   });
 

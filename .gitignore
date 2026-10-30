@@ -50,3 +50,4 @@ puppeteer-profile/
 scratch/
 test-*.js
 error-screenshot.png
+test-results/

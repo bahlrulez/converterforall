@@ -269,11 +269,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/color-picker",
-        destination: "/category/utilities",
-        permanent: true,
-      },
-      {
         source: "/webm-to-wmv",
         destination: "/video-to-wmv",
         permanent: true,
@@ -416,6 +411,11 @@ const nextConfig: NextConfig = {
       {
         source: "/blog/real-time-file-sharing-between-devices-without-the-cloud",
         destination: "/blog/why-client-side-conversion-is-the-future",
+        permanent: true,
+      },
+      {
+        source: "/blog/why-you-should-stop-uploading-sensitive-files-to-online-converters",
+        destination: "/blog/why-stop-uploading-sensitive-pdfs-to-online-converters",
         permanent: true,
       },
     ];

@@ -47,31 +47,29 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       "jpg-to-pdf": ["pdf-to-jpg", "merge-pdf", "compress-pdf", "png-to-jpg"],
       
       // Font Clusters (Hindi & Text Fixes)
-      "krutidev-to-unicode": ["unicode-to-krutidev", "chanakya-to-unicode", "font-text-fixer", "asees-to-unicode"],
-      "unicode-to-krutidev": ["krutidev-to-unicode", "unicode-to-chanakya", "font-text-fixer", "unicode-to-asees"],
+      "krutidev-to-unicode": ["unicode-to-krutidev", "chanakya-to-unicode", "font-text-fixer", "unicode-normalizer"],
+      "unicode-to-krutidev": ["krutidev-to-unicode", "unicode-to-chanakya", "font-text-fixer", "unicode-normalizer"],
       "chanakya-to-unicode": ["unicode-to-chanakya", "krutidev-to-unicode", "font-text-fixer", "unicode-normalizer"],
       "unicode-to-chanakya": ["chanakya-to-unicode", "unicode-to-krutidev", "font-text-fixer", "krutidev-to-unicode"],
-      "font-text-fixer": ["krutidev-to-unicode", "chanakya-to-unicode", "asees-to-unicode", "unicode-normalizer"],
+      "font-text-fixer": ["krutidev-to-unicode", "unicode-to-krutidev", "unicode-normalizer", "font-detector"],
       "unicode-normalizer": ["font-text-fixer", "remove-hidden-characters", "fix-copy-paste-text", "unicode-text-cleaner"],
       "remove-hidden-characters": ["unicode-normalizer", "font-text-fixer", "fix-copy-paste-text", "unicode-text-cleaner"],
       "fix-copy-paste-text": ["font-text-fixer", "unicode-normalizer", "remove-hidden-characters", "unicode-text-cleaner"],
       "unicode-text-cleaner": ["fix-copy-paste-text", "unicode-normalizer", "font-text-fixer", "remove-hidden-characters"],
       
-      // Font Clusters (Bengali)
+      // Font Clusters (Bengali & Nepali)
       "unicode-to-bijoy": ["bijoy-to-unicode", "krutidev-to-unicode", "font-text-fixer", "preeti-to-unicode"],
       "bijoy-to-unicode": ["unicode-to-bijoy", "font-text-fixer", "krutidev-to-unicode", "preeti-to-unicode"],
+      "preeti-to-unicode": ["unicode-to-preeti", "font-text-fixer", "krutidev-to-unicode", "bijoy-to-unicode"],
+      "unicode-to-preeti": ["preeti-to-unicode", "font-text-fixer", "unicode-to-krutidev", "unicode-to-bijoy"],
       
       // Font Clusters (Punjabi)
-      "unicode-to-satluj": ["satluj-to-unicode", "unicode-to-asees", "unicode-to-joy", "unicode-to-gurbani-akhar"],
-      "satluj-to-unicode": ["unicode-to-satluj", "asees-to-unicode", "joy-to-unicode", "raavi-to-unicode"],
-      "asees-to-unicode": ["unicode-to-asees", "font-text-fixer", "krutidev-to-unicode", "satluj-to-unicode"],
-      "unicode-to-asees": ["asees-to-unicode", "font-text-fixer", "unicode-to-satluj", "unicode-to-joy"],
-      "joy-to-unicode": ["unicode-to-joy", "satluj-to-unicode", "asees-to-unicode", "raavi-to-unicode"],
-      "unicode-to-joy": ["joy-to-unicode", "unicode-to-satluj", "unicode-to-asees", "unicode-to-raavi"],
-      "gurbani-akhar-to-unicode": ["unicode-to-gurbani-akhar", "satluj-to-unicode", "asees-to-unicode", "raavi-to-unicode"],
-      "unicode-to-gurbani-akhar": ["gurbani-akhar-to-unicode", "unicode-to-satluj", "unicode-to-joy", "unicode-to-raavi"],
-      "raavi-to-unicode": ["unicode-to-raavi", "satluj-to-unicode", "asees-to-unicode", "joy-to-unicode"],
-      "unicode-to-raavi": ["raavi-to-unicode", "unicode-to-satluj", "unicode-to-asees", "unicode-to-gurbani-akhar"],
+      "anmollipi-to-unicode": ["unicode-to-anmollipi", "font-text-fixer", "joy-to-unicode", "unicode-to-joy"],
+      "unicode-to-anmollipi": ["anmollipi-to-unicode", "font-text-fixer", "joy-to-unicode", "unicode-to-joy"],
+      "joy-to-unicode": ["unicode-to-joy", "anmollipi-to-unicode", "font-text-fixer", "krutidev-to-unicode"],
+      "unicode-to-joy": ["joy-to-unicode", "unicode-to-anmollipi", "font-text-fixer", "unicode-to-krutidev"],
+      "asees-to-unicode": ["unicode-to-asees", "font-text-fixer", "joy-to-unicode", "anmollipi-to-unicode"],
+      "unicode-to-asees": ["asees-to-unicode", "font-text-fixer", "unicode-to-joy", "unicode-to-anmollipi"],
 
       // Video Workflows
       "video-compressor": ["compress-mp4", "compress-video-for-discord", "compress-video-for-whatsapp", "video-to-mp4"],

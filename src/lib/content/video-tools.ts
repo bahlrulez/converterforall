@@ -65,12 +65,16 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
         content: "<p>Whether you are recording on a smartphone, capturing gameplay on a PC, or saving a screen recording, modern videos are often saved with very high bitrates to capture maximum detail. This results in massive file sizes that are difficult to email, slow to upload to social media, and quickly fill up your hard drive or phone storage. A video compressor reduces the file size by smartly removing redundant visual data while keeping the video clear.</p>"
       },
       {
+        title: "Supported Video Formats and Output",
+        content: "<p>Our video compressor accepts <strong>MP4, MOV, MKV, WebM, and AVI</strong> video files. Regardless of the input format you drop into the compressor, the engine compresses and outputs a lightweight, universally compatible <strong>MP4 (H.264 video with AAC audio)</strong> file. We do not output legacy or container formats like MKV, AVI, WMV, or FLV—standard MP4 ensures your compressed clip plays smoothly on iPhone, Android, Windows, Mac, Discord, WhatsApp, and all web browsers without extra codecs.</p>"
+      },
+      {
         title: "How Does Browser-Based Compression Work?",
         content: "<p>Most video compression websites require you to upload your gigabyte-sized files to their cloud servers, which takes a long time and uses up your internet bandwidth. We do things differently. This tool runs directly inside your web browser using your device's own processor. Your videos are compressed locally on your computer or phone, meaning your personal recordings never leave your device.</p>"
       },
       {
         title: "How to Compress a Video File",
-        content: "<ol><li><strong>Select your video:</strong> Drag and drop your heavy video file (MP4, MOV, WebM, etc.) directly into the browser window.</li><li><strong>Start compression:</strong> The browser will automatically begin shrinking the video using local hardware acceleration.</li><li><strong>Save your video:</strong> Download the newly compressed, lightweight video directly to your device.</li></ol>"
+        content: "<ol><li><strong>Select your video:</strong> Drag and drop your video file (supports MP4, MOV, MKV, WebM, AVI) directly into the browser window.</li><li><strong>Choose compression settings:</strong> Select a target preset (like Discord under 25MB, WhatsApp under 16MB, or custom percentage reduction) and optional resolution scaling.</li><li><strong>Save your MP4:</strong> Download the newly compressed, lightweight MP4 video directly to your device.</li></ol>"
       },
       {
         title: "Will the Compressed Video Look Blurry?",

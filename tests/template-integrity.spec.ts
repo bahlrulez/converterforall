@@ -40,8 +40,6 @@ test.describe('Template Refactoring & Metadata Integrity', () => {
     const tierASlugs = [
       'krutidev-to-unicode',
       'unicode-to-krutidev',
-      'chanakya-to-unicode',
-      'asees-to-unicode',
       'font-text-fixer',
       'exam-photo-resizer',
       'exam-signature-resizer',
@@ -114,6 +112,21 @@ test.describe('Template Refactoring & Metadata Integrity', () => {
       expect(html).not.toContain('to be completed');
       expect(html).not.toContain('placeholder');
     }
+  });
+
+  test('12. /privacy page does not contain square brackets or "YOUR" placeholders outside code/URLs', () => {
+    const privacyFilePath = path.join(process.cwd(), 'src/app/privacy/page.tsx');
+    expect(fs.existsSync(privacyFilePath), 'Privacy policy source file must exist').toBe(true);
+    let text = fs.readFileSync(privacyFilePath, 'utf8');
+
+    // Strip code blocks, inline code, imports, and URLs
+    text = text.replace(/<code>[\s\S]*?<\/code>/g, '');
+    text = text.replace(/href="[^"]*"/g, '');
+    text = text.replace(/import\s+[\s\S]*?from\s+['"][^'"]*['"];?/g, '');
+
+    expect(text).not.toContain('[');
+    expect(text).not.toContain(']');
+    expect(text).not.toMatch(/\bYOUR\b/);
   });
 });
 

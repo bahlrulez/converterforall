@@ -153,8 +153,8 @@ test.describe('Merge Two Images into One JPG (/merge-images-to-jpg) Automated Su
     expect(tool.title).toBe('Merge Two Images into One JPG');
     expect(tool.outputFormat).toBe('jpg');
     expect(tool.isInteractive).toBe(true);
-    expect(tool.acceptedTypes['image/jpeg']).toContain('.jpg');
-    expect(tool.acceptedTypes['image/png']).toContain('.png');
+    expect(tool.acceptedTypes!['image/jpeg']).toContain('.jpg');
+    expect(tool.acceptedTypes!['image/png']).toContain('.png');
 
     // Verify all related tools are active and canonical
     expect(tool.relatedTools).toBeDefined();
@@ -1182,7 +1182,7 @@ test.describe('Merge Two Images into One JPG (/merge-images-to-jpg) Automated Su
     expect(dims.height).toBe(244);
 
     // Verify all four outer border corners are filled with background color [0, 0, 0]
-    let borderCorners = await page.evaluate(() => {
+    let borderCorners: any = await page.evaluate(() => {
       const c = document.querySelector('canvas') as HTMLCanvasElement;
       const ctx = c.getContext('2d')!;
       const topLeft = Array.from(ctx.getImageData(0, 0, 1, 1).data.slice(0, 3));

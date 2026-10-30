@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy - How We Protect Your Data",
-  description: "Learn how ConverterForAll keeps your conversions private with in-browser processing and zero data retention.",
+  description: "Learn how ConverterForAll keeps your conversions private with in-browser processing and zero permanent data retention.",
   alternates: {
     canonical: "https://www.converterforall.com/privacy",
   },
@@ -11,232 +11,269 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-background pb-20">
-      {/* Premium Header Section */}
+      {/* Header Section */}
       <div className="relative overflow-hidden py-16 md:py-24 bg-muted/30 border-b">
-        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25 dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]" />
-        
         <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 capitalize text-foreground">
             Privacy Policy
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Learn how ConverterForAll collects, uses, and protects your personal information.
+            Learn how ConverterForAll processes your files and protects your personal data.
           </p>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-16 max-w-3xl">
         <div className="prose prose-slate dark:prose-invert max-w-none prose-lg prose-headings:font-bold prose-a:text-primary">
-          <p><strong>Last Updated: August 1, 2026</strong></p>
-        
-        <h2>1. Introduction</h2>
-        <p>
-          Welcome to ConverterForAll.
-        </p>
-        <p>
-          Your privacy is important to us, and we are committed to protecting your personal information. This Privacy Policy explains what information we collect, how we use it, and the steps we take to keep it safe whenever you visit or use our website.
-        </p>
-        <p>
-          ConverterForAll was created by Kuldeep Bahl, a Professional Software Engineer with more than 14 years of experience in the technology industry. Our goal is to provide free, fast, and reliable online tools, including file converters, calculators, unit converters, and other useful utilities that anyone can use without creating an account.
-        </p>
-        <p>
-          We believe that privacy should come first. That is why many of our tools work directly inside your web browser. In most cases, your files stay on your device and are never uploaded to our servers.
-        </p>
-        <p>
-          By using ConverterForAll, you agree to this Privacy Policy. If you do not agree with any part of it, please stop using our website.
-        </p>
+          <p><strong>Last Updated: October 30, 2026</strong></p>
 
-        <h2>2. Information We Collect</h2>
-        <p>
-          We believe in collecting only the information that is necessary to provide our services.
-        </p>
-        <p>
-          Most of our tools can be used without signing up or sharing any personal information.
-        </p>
+          <h2>1. Introduction &amp; Operational Jurisdiction</h2>
+          <p>
+            Welcome to <strong>ConverterForAll</strong> (created and operated by Kuldeep Bahl). ConverterForAll is operated from <strong>India</strong>. Our mission is to provide free, high-performance file utilities, text converters, and calculators without forced account creation, paywalls, or intrusive data collection.
+          </p>
+          <p>
+            This Privacy Policy explains how our website functions, what data is processed when you use our tools, and the technical protections in place.
+          </p>
 
-        <h3>Information You Share With Us</h3>
-        <p>
-          You may choose to contact us through our contact form or by email.
-        </p>
-        <p>
-          If you do, we may receive information such as:
-        </p>
-        <ul>
-          <li>Your name</li>
-          <li>Your email address</li>
-          <li>The message you send us</li>
-        </ul>
-        <p>
-          We only use this information to reply to your questions, provide support, or improve our services. We do not sell your personal information or use it for unwanted marketing emails.
-        </p>
+          <h2>2. In-Browser Default Processing Model</h2>
+          <p>
+            ConverterForAll is built on a <strong>client-side first architecture</strong>:
+          </p>
+          <ul>
+            <li>
+              <strong>Default In-Browser Tools (Zero Document Uploads):</strong> Over 95% of tools on ConverterForAll—including image compressors, PDF splitters/organizers, audio trimmers, video converters, calculators, regional Indic font converters, and the <strong>Merge PDF</strong> tool—run directly inside your web browser using HTML5 Canvas, WebAssembly, and modern browser APIs.
+              <br />
+              <em>Merge PDF Tool Note:</em> When merging PDFs with Word (.docx), PowerPoint (.pptx), or image files, all file conversion and merging operations run entirely in your local browser memory on-device. No document files are uploaded to our servers or third-party conversion APIs during the merge workflow.
+            </li>
+            <li>
+              <strong>Word-to-PDF and PowerPoint-to-PDF (In-Browser Default + Optional Cloud Engine):</strong>
+              <br />
+              By default, both Word-to-PDF and PowerPoint-to-PDF convert documents directly on your device inside your browser with <strong>zero file uploads</strong>.
+              <br />
+              For complex documents requiring desktop-grade Microsoft Office layout accuracy, an optional <strong>Cloud Engine</strong> is available via an unchecked-by-default checkbox. When checked by the user, the file is transmitted over encrypted HTTPS to a third-party conversion service (<strong>Cloudmersive API</strong>). When the optional cloud engine is used, files are held in memory only and not written to storage by our code.
+            </li>
+            <li>
+              <strong>AI Presentation Maker:</strong> When generating presentation outlines, the user-typed topic prompt and requested slide count are transmitted to <strong>Google Gemini API</strong>. Slide editing, theme styling, and PPTX file export run entirely on-device inside your browser. <strong>Do not enter personal or confidential information in the prompt.</strong>
+            </li>
+          </ul>
 
-        <h3>Information Collected Automatically</h3>
-        <p>
-          Like most websites, some basic technical information is collected automatically when you visit ConverterForAll.
-        </p>
-        <p>
-          This may include:
-        </p>
-        <ul>
-          <li>Your IP address</li>
-          <li>Browser type and version</li>
-          <li>Device type</li>
-          <li>Operating system</li>
-          <li>Pages you visit</li>
-          <li>Date and time of your visit</li>
-          <li>Website that referred you to us</li>
-        </ul>
-        <p>
-          We use this information to understand how visitors use our website, improve performance, fix technical problems, and keep our services secure.
-        </p>
+          <h2>3. Inventory of Processors &amp; Data Handled</h2>
+          <p>
+            Based strictly on our system's active code, here is the complete inventory of services and infrastructure processors:
+          </p>
 
-        <h2>3. How We Handle Your Files</h2>
-        <p>
-          Since ConverterForAll offers file conversion tools, we know that protecting your files is one of the most important parts of our service.
-        </p>
+          <h3>A. Document Conversion Services</h3>
+          <div className="overflow-x-auto not-prose my-6">
+            <table className="w-full text-sm text-left border rounded-lg overflow-hidden">
+              <thead className="bg-muted text-foreground font-semibold">
+                <tr>
+                  <th className="p-3 border">Processor</th>
+                  <th className="p-3 border">Associated Tools</th>
+                  <th className="p-3 border">Data Transmitted</th>
+                  <th className="p-3 border">Processing &amp; Storage Details</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y text-muted-foreground">
+                <tr>
+                  <td className="p-3 font-semibold text-foreground border">Cloudmersive API</td>
+                  <td className="p-3 border">Word to PDF (<a href="/word-to-pdf" className="text-primary hover:underline">/word-to-pdf</a>), PowerPoint to PDF (<a href="/powerpoint-to-pdf" className="text-primary hover:underline">/powerpoint-to-pdf</a>) <em>(Only when user explicitly checks the Cloud Engine opt-in box)</em></td>
+                  <td className="p-3 border">Uploaded .docx and .pptx binary documents</td>
+                  <td className="p-3 border">Transmitted via encrypted HTTPS multipart/form-data to Cloudmersive conversion endpoints (api.cloudmersive.com). When the optional cloud engine is used, files are held in memory only and not written to storage by our code. Third-party servers operated by Cloudmersive may be located outside India. Processing is governed by the Cloudmersive Privacy Policy.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-sm text-muted-foreground italic">
+            (If the user does not check the Cloud Engine opt-in box, conversion runs 100% locally in the browser with zero network transmission).
+          </p>
 
-        <h3>Browser-Based Processing</h3>
-        <p>
-          Many of our tools work entirely inside your web browser.
-        </p>
-        <p>
-          When you use these tools, your files stay on your own device. They are not uploaded to our servers, and we cannot see or access them. The entire conversion happens locally on your computer or mobile device.
-        </p>
+          <h3>B. Artificial Intelligence &amp; Image Generation Services</h3>
+          <div className="overflow-x-auto not-prose my-6">
+            <table className="w-full text-sm text-left border rounded-lg overflow-hidden">
+              <thead className="bg-muted text-foreground font-semibold">
+                <tr>
+                  <th className="p-3 border">Processor</th>
+                  <th className="p-3 border">Associated Tools</th>
+                  <th className="p-3 border">Data Transmitted</th>
+                  <th className="p-3 border">Processing &amp; Storage Details</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y text-muted-foreground">
+                <tr>
+                  <td className="p-3 font-semibold text-foreground border">Google Gemini API</td>
+                  <td className="p-3 border">AI Presentation Maker (<a href="/presentation-maker" className="text-primary hover:underline">/presentation-maker</a>)</td>
+                  <td className="p-3 border">User-typed topic prompt &amp; requested slide count</td>
+                  <td className="p-3 border">Sent over encrypted HTTPS to Google Gemini (gemini-3.5-flash-lite) to produce a structured slide outline JSON. No user documents or personal files are sent. Google servers may be located outside India. Governed by Google's API Terms. Depending on the plan under which our API access operates, Google may use prompts to improve its services. Do not enter personal or confidential information in the prompt.</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-semibold text-foreground border">Wikimedia Commons API</td>
+                  <td className="p-3 border">AI Presentation Maker (<a href="/presentation-maker" className="text-primary hover:underline">/presentation-maker</a>)</td>
+                  <td className="p-3 border">Short 2-to-4 word slide topic keyword generated by the model (e.g. &quot;Solar Panel Rooftop&quot;)</td>
+                  <td className="p-3 border">Queries public domain educational photography from Wikipedia / Wikimedia Commons. The user's raw prompt is never forwarded.</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-semibold text-foreground border">Pollinations.ai</td>
+                  <td className="p-3 border">AI Presentation Maker (<a href="/presentation-maker" className="text-primary hover:underline">/presentation-maker</a>)</td>
+                  <td className="p-3 border">Short topic keyword generated by the model</td>
+                  <td className="p-3 border">Fallback AI image query used only when Wikimedia has no suitable photograph. The user's raw prompt is never forwarded.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <h3>Server-Based Processing</h3>
-        <p>
-          Some advanced conversions require server processing because they cannot run efficiently inside a browser.
-        </p>
-        <p>
-          In these cases, your file is securely transferred using encrypted HTTPS connections. Your file is used only to complete the requested conversion.
-        </p>
-        <p>
-          Once the conversion is finished and you download the output file, both the original file and the converted file are automatically deleted from our servers.
-        </p>
-        <p>
-          We do not keep copies of your files, review their contents, or use them to train artificial intelligence or machine learning systems.
-        </p>
+          <h3>C. Analytics, Performance &amp; Infrastructure Telemetry</h3>
+          <div className="overflow-x-auto not-prose my-6">
+            <table className="w-full text-sm text-left border rounded-lg overflow-hidden">
+              <thead className="bg-muted text-foreground font-semibold">
+                <tr>
+                  <th className="p-3 border">Processor</th>
+                  <th className="p-3 border">Integration Details</th>
+                  <th className="p-3 border">Data Collected</th>
+                  <th className="p-3 border">Privacy &amp; Consent Controls</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y text-muted-foreground">
+                <tr>
+                  <td className="p-3 font-semibold text-foreground border">Google Analytics 4 (GA4)</td>
+                  <td className="p-3 border">G-49NFK7K9W6 via Google tag (gtag.js) in root layout</td>
+                  <td className="p-3 border">Page views, user-agent details, referring URL, coarse geographical location</td>
+                  <td className="p-3 border">Google Consent Mode v2 Default: The gtag script loads for every visitor with consent denied by default (analytics_storage, ad_storage, ad_user_data, ad_personalization set to &apos;denied&apos;). Limited cookieless pings may be sent to Google before consent is given. Analytics cookies are only set after the user affirmatively accepts the analytics category in our Cookie Banner.</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-semibold text-foreground border">Vercel Web Analytics</td>
+                  <td className="p-3 border">@vercel/analytics package</td>
+                  <td className="p-3 border">Aggregated metrics: page views, referrers, country, device type, and browser</td>
+                  <td className="p-3 border">Telemetry operates without cookies.</td>
+                </tr>
+                <tr>
+                  <td className="p-3 font-semibold text-foreground border">Hosting &amp; Server Access Logs (Vercel)</td>
+                  <td className="p-3 border">Vercel Edge Network Infrastructure</td>
+                  <td className="p-3 border">Visitor IP address, user-agent string, HTTP request path, and timestamp</td>
+                  <td className="p-3 border">Our website is hosted on Vercel&apos;s global edge infrastructure. Vercel automatically records standard server access logs, which include visitor IP addresses, for security, DDoS protection, operational monitoring, and edge routing.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-sm text-muted-foreground italic">
+            (Note: Microsoft Clarity has been completely removed from ConverterForAll; no screen recordings or session replays are captured on any page).
+          </p>
 
-        <h2>4. Cookies and Local Storage</h2>
-        <p>
-          ConverterForAll utilizes cookies and local storage technologies to enhance your user experience and facilitate advertising.
-        </p>
-        <p>
-          <strong>Local Storage:</strong> We use your browser's local storage to save your user interface preferences. For example, if you toggle the website into "Dark Mode," we store a small piece of data locally on your device so that the site remembers your preference the next time you visit. This data never leaves your device.
-        </p>
-        <p>
-          <strong>Cookies:</strong> Cookies are small text files placed on your device by your browser. We use cookies to analyze site traffic, remember your consent preferences, and serve targeted advertisements. For a comprehensive breakdown of exactly which cookies we use, who provides them, and how you can manage them, please review our dedicated Cookie Policy.
-        </p>
+          <h3>D. Advertising Networks</h3>
+          <div className="overflow-x-auto not-prose my-6">
+            <table className="w-full text-sm text-left border rounded-lg overflow-hidden">
+              <thead className="bg-muted text-foreground font-semibold">
+                <tr>
+                  <th className="p-3 border">Network</th>
+                  <th className="p-3 border">Script &amp; Trigger</th>
+                  <th className="p-3 border">Data Collected</th>
+                  <th className="p-3 border">Privacy &amp; Consent Controls</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y text-muted-foreground">
+                <tr>
+                  <td className="p-3 font-semibold text-foreground border">Google AdSense</td>
+                  <td className="p-3 border">pagead2.googlesyndication.com</td>
+                  <td className="p-3 border">Ad request telemetry, IP address, DoubleClick cookie</td>
+                  <td className="p-3 border">Loaded strictly when the user grants advertising consent via our Cookie Preferences dialog. Users can manage or opt out of personalized ads via <a href="https://myadcenter.google.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Google Ads Settings</a>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <h2>5. Analytics and Performance Tracking</h2>
-        <p>
-          To understand how our website is performing and how we can improve our user experience, we utilize third-party analytics services.
-        </p>
-        <p>
-          <strong>Google Analytics 4 (GA4):</strong> We use GA4 to track aggregated, anonymized data about our website traffic. GA4 helps us understand which geographical regions our users are coming from, which tools are the most popular, and how users navigate between pages. GA4 uses cookies to identify unique (but anonymous) users across browsing sessions. We have configured GA4 to respect user privacy and do not pass any personally identifiable information (PII) to Google.
-        </p>
-        <p>
-          <strong>Google Search Console:</strong> We use this tool to monitor our website's presence in Google Search results, identify indexing issues, and see which search queries bring users to our site. This data is aggregated and does not identify individual users.
-        </p>
-        <p>
-          <strong>Microsoft Clarity:</strong> We use Microsoft Clarity to capture how you use and interact with our website through behavioral metrics, heatmaps, and session replay. This helps us identify usability issues, such as buttons that are difficult to click on mobile devices or confusing navigation paths. Website usage data is captured using first and third-party cookies and other tracking technologies. Microsoft Clarity is configured to mask sensitive user input (such as text entered into forms) so that your private information is not recorded in session replays.
-        </p>
+          <h3>E. Database Infrastructure (Tool Reviews &amp; User Feedback)</h3>
+          <div className="overflow-x-auto not-prose my-6">
+            <table className="w-full text-sm text-left border rounded-lg overflow-hidden">
+              <thead className="bg-muted text-foreground font-semibold">
+                <tr>
+                  <th className="p-3 border">Processor</th>
+                  <th className="p-3 border">Associated Feature</th>
+                  <th className="p-3 border">Data Stored</th>
+                  <th className="p-3 border">Processing &amp; Storage Details</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y text-muted-foreground">
+                <tr>
+                  <td className="p-3 font-semibold text-foreground border">Prisma Postgres (Prisma Data Platform)</td>
+                  <td className="p-3 border">Tool rating &amp; feedback form (/api/reviews)</td>
+                  <td className="p-3 border">Star rating (1–5), category tag, review text, user alias, optional user email, and client browser/OS string</td>
+                  <td className="p-3 border">Hosted on Prisma Data Platform&apos;s managed serverless PostgreSQL infrastructure (operated by Prisma Inc.). Connections are encrypted via SSL/TLS. Servers may be located outside India. Visitor IP addresses are neither collected nor stored in this database.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <h2>6. Advertising and Google AdSense</h2>
-        <p>
-          ConverterForAll is completely free to use. To support the ongoing maintenance, server costs, and development of this platform, we display advertisements provided by Google AdSense.
-        </p>
-        <p>
-          Google, as a third-party vendor, uses cookies (specifically the DoubleClick cookie) to serve ads on our site. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their prior visits to ConverterForAll and/or other sites on the Internet. This is known as personalized advertising.
-        </p>
-        <p>
-          These advertising networks automatically receive your IP address when serving ads. They may also use other technologies (such as cookies, JavaScript, or Web Beacons) to measure the effectiveness of their advertisements and to personalize the advertising content that you see. ConverterForAll has no access to or control over these cookies that are used by third-party advertisers.
-        </p>
-        <p>
-          You can opt out of personalized advertising by visiting Google's <a href="https://myadcenter.google.com/" target="_blank" rel="noopener noreferrer">Ads Settings</a>. Alternatively, you can opt out of a third-party vendor's use of cookies for personalized advertising by visiting <a href="https://youradchoices.com/" target="_blank" rel="noopener noreferrer">www.aboutads.info</a>.
-        </p>
+          <h2>4. Tool Feedback, Reviews &amp; Diagnostic Data</h2>
+          <p>
+            When you submit a star rating, issue report, or feedback on any tool page:
+          </p>
+          <ul>
+            <li>
+              <strong>Automatic Diagnostics:</strong> The feedback form automatically detects and includes your general browser and operating system version (<code>deviceInfo</code>, e.g., &quot;Chrome on Windows&quot;, &quot;Safari on iOS&quot;). This is used solely to troubleshoot tool-specific layout or conversion errors.
+            </li>
+            <li>
+              <strong>User-Provided Information:</strong> Star rating (1–5), feedback category tag (e.g., Bug Report, Feature Request), feedback comment, and optional name alias. You may optionally provide an email address if you request a personal reply.
+            </li>
+            <li>
+              <strong>Spam Prevention &amp; Moderation Queue:</strong> To protect community feedback from automated abuse, submissions undergo client-side interaction timing checks and honeypot validation. HTML code and hyperlinks are automatically stripped from comments. Newly submitted reviews enter a moderation queue (<code>status: pending</code>) and are reviewed before being approved for public display.
+            </li>
+            <li>
+              <strong>IP Address Verification:</strong> The reviews API and database do <strong>not</strong> log or store visitor IP addresses or IP hashes.
+            </li>
+            <li>
+              <strong>Retention &amp; Public Display:</strong> Once approved, rating scores, feedback comments, category tags, and name aliases are stored in our database and displayed publicly on the tool page to assist other users. Email addresses remain private and are never published or sold.
+            </li>
+            <li>
+              <strong>Review Deletion &amp; Correction Requests:</strong> You can request the modification or permanent deletion of your submitted review or feedback at any time by emailing <strong>officialdeepbahl@gmail.com</strong> with the tool name and approximate date of submission. Requests are processed within a reasonable time.
+            </li>
+          </ul>
 
-        <h2>7. Data Retention</h2>
-        <p>
-          We retain the personal information we collect only for as long as is necessary for the purpose for which it was collected. 
-        </p>
-        <ul>
-          <li><strong>Files:</strong> As stated, files processed on our servers are deleted immediately after the conversion process completes.</li>
-          <li><strong>Contact Form Inquiries:</strong> If you email us, we will retain your email and our response for a period of up to two years to provide context for future communications and to improve our customer support processes. After this period, the correspondence is securely deleted.</li>
-          <li><strong>Analytics Data:</strong> Anonymized analytics data is retained in accordance with the default retention policies of our analytics providers (e.g., 14 months for GA4 data).</li>
-        </ul>
+          <h2>5. Server Storage &amp; Logging Practices</h2>
+          <ul>
+            <li>
+              <strong>File Storage:</strong> ConverterForAll does not store, archive, or retain any user documents, images, audio, or video files. Files never touch permanent hard drives, databases, or S3/cloud storage buckets on our servers. When the optional cloud engine is used, files are held in memory only and not written to storage by our code.
+            </li>
+            <li>
+              <strong>Serverless Execution Logs:</strong> When using the optional Cloud Engine for Word or PowerPoint conversion, our serverless routes log only the incoming file size in bytes to runtime console logs (e.g., <code>Converting via Cloudmersive API (45210 bytes)...</code>). Filenames, text contents, and personal data are never logged.
+            </li>
+            <li>
+              <strong>AI Prompts:</strong> We do not save or log your presentation prompts or API request bodies to any database or server log files. Do not enter personal or confidential information in the prompt.
+            </li>
+          </ul>
 
-        <h2>8. Children's Privacy</h2>
-        <p>
-          ConverterForAll is a general audience website designed for users who are 13 years of age or older. We do not knowingly collect, request, or maintain personally identifiable information from children under the age of 13. If we become aware that we have inadvertently collected personal information from a child under 13, we will take immediate steps to delete that information from our records. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately.
-        </p>
+          <h2>6. Cookies &amp; Local Storage</h2>
+          <ul>
+            <li>
+              <strong>Local Storage:</strong> Used solely to persist your client-side UI preferences (such as Dark Mode theme) and your cookie consent settings. This data never leaves your device.
+            </li>
+            <li>
+              <strong>Cookies:</strong> Analytics cookies such as <code>_ga</code> are set only after the user accepts analytics; advertising cookies only after they accept advertising. Third-party advertising scripts remain completely blocked and are not loaded until you explicitly grant consent in our Cookie Banner or Cookie Preferences dialog.
+            </li>
+          </ul>
 
-        <h2>9. International Users and Data Transfers</h2>
-        <p>
-          ConverterForAll is hosted in the cloud via Vercel, which utilizes a globally distributed Edge Network. Depending on your location, your requests may be routed through servers located in the United States, Europe, or other regions.
-        </p>
-        <p>
-          If you are accessing our website from the European Union, the United Kingdom, or other regions with laws governing data collection and use that may differ from United States law, please note that you are transferring your personal data to our servers and third-party service providers located globally. By using ConverterForAll, you consent to the transfer, processing, and storage of your information in these global locations. We take steps to ensure that our service providers offer adequate levels of data protection in compliance with applicable laws, such as the General Data Protection Regulation (GDPR).
-        </p>
+          <h2>7. Cross-Border Data Transfers</h2>
+          <p>
+            ConverterForAll is hosted on Vercel&apos;s global edge network. While most operations remain entirely on your local computer, third-party processors utilized for optional features (specifically Cloudmersive API for optional cloud document conversion, Google Gemini for AI presentation generation, and Prisma Data Platform for database hosting) operate servers that may be located outside India. By choosing to use these optional features, you acknowledge that data handled by these services is processed internationally under their applicable privacy terms.
+          </p>
 
-        <h2>10. Your Data Privacy Rights</h2>
-        <p>
-          Depending on your location and applicable laws (such as the GDPR in Europe or the CCPA/CPRA in California), you may have certain rights regarding your personal information:
-        </p>
-        <ul>
-          <li><strong>Right to Access:</strong> You have the right to request a copy of the personal data we hold about you.</li>
-          <li><strong>Right to Rectification:</strong> You have the right to request that we correct any inaccurate or incomplete personal data.</li>
-          <li><strong>Right to Erasure (Right to be Forgotten):</strong> You have the right to request that we delete your personal data, subject to certain exceptions.</li>
-          <li><strong>Right to Restrict Processing:</strong> You have the right to request that we limit the processing of your personal data.</li>
-          <li><strong>Right to Data Portability:</strong> You have the right to receive your personal data in a structured, commonly used, and machine-readable format.</li>
-          <li><strong>Right to Object:</strong> You have the right to object to our processing of your personal data, particularly for direct marketing purposes.</li>
-        </ul>
-        <p>
-          Because we collect minimal personal data and do not maintain user accounts, verifying requests can be challenging. However, if you wish to exercise any of these rights regarding information submitted via our contact form, please email us using the contact information below.
-        </p>
+          <h2>8. Grievance Redressal &amp; Contact Information</h2>
+          <p>
+            ConverterForAll is operated from India. In accordance with the Information Technology Act, 2000 and the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021:
+          </p>
 
-        <h2>11. Data Security</h2>
-        <p>
-          We take the security of your data seriously. ConverterForAll implements a variety of industry-standard security measures to maintain the safety of your information:
-        </p>
-        <ul>
-          <li><strong>HTTPS Encryption:</strong> All traffic between your browser and our servers is encrypted using standard SSL/TLS protocols. This prevents malicious actors from intercepting your files or searches while they are in transit.</li>
-          <li><strong>Ephemeral Storage:</strong> By avoiding persistent storage of user files, we eliminate the primary vector for data breaches. You cannot steal what is not stored.</li>
-          <li><strong>Modern Frameworks:</strong> We utilize the Next.js framework, which provides built-in protections against common web vulnerabilities such as Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF).</li>
-          <li><strong>Security Headers:</strong> We enforce strict HTTP security headers to protect our users from clickjacking and other malicious framing attacks.</li>
-        </ul>
-        <p>
-          While we strive to use commercially acceptable means to protect your personal information and files, we cannot guarantee absolute security. No method of transmission over the Internet, or method of electronic storage, is 100% secure.
-        </p>
+          <h3>Grievance Officer</h3>
+          <ul>
+            <li><strong>Designation / Name:</strong> Kuldeep Bahl</li>
+            <li><strong>Operational Address:</strong> India</li>
+            <li><strong>Email for Privacy Inquiries &amp; Grievances:</strong> officialdeepbahl@gmail.com</li>
+            <li><strong>Response Turnaround:</strong> All privacy questions, data deletion requests, or grievances will be acknowledged and addressed within a reasonable time.</li>
+          </ul>
 
-        <h2>12. Links to Other Websites</h2>
-        <p>
-          Our website, particularly our educational blog posts and tutorials, may contain links to third-party websites or services that are not owned or controlled by ConverterForAll. We provide these links for your convenience and informational purposes only.
-        </p>
-        <p>
-          We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party web sites or services. You acknowledge and agree that ConverterForAll shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods, or services available on or through any such websites or services. We strongly advise you to read the privacy policies of every site you visit.
-        </p>
-
-        <h2>13. Changes to this Privacy Policy</h2>
-        <p>
-          We may update our Privacy Policy from time to time to reflect changes in our practices, technology, or legal requirements. When we make changes, we will revise the "Last Updated" date at the top of this policy.
-        </p>
-        <p>
-          For significant changes that materially affect your rights, we may provide a more prominent notice on our website homepage. We encourage you to review this Privacy Policy periodically to stay informed about how we are protecting your information. Your continued use of ConverterForAll after any modifications indicates your acceptance of the updated policy.
-        </p>
-
-        <h2>14. Contact Information</h2>
-        <p>
-          If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please reach out. We are dedicated to transparency and will do our best to address your inquiries promptly.
-        </p>
-        <p>
-          <strong>Email:</strong> officialdeepbahl@gmail.com
-        </p>
-        <p>
-          <em>This Privacy Policy was written to provide clear, actionable information about your data privacy rights while using ConverterForAll.</em>
-        </p>
+          <h2>9. Updates to This Policy</h2>
+          <p>
+            This Privacy Policy will be updated whenever our operational, technical, or data processing practices change. Any revisions will be posted directly on this page with an updated &quot;Last Updated&quot; date at the top of the policy.
+          </p>
+        </div>
       </div>
-    </div>
     </div>
   );
 }

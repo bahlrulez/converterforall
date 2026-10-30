@@ -7,7 +7,7 @@ import { detectFont, FontDetectionResult } from "@/lib/fonts/font-detector-logic
 import { convertHindi } from "@/lib/fonts/hindi-mappings";
 import { convertPunjabi } from "@/lib/fonts/punjabi-mappings";
 
-type OverrideType = "auto" | "krutidev" | "chanakya" | "shusha" | "devlys" | "asees" | "joy" | "anmollipi";
+type OverrideType = "auto" | "krutidev" | "chanakya" | "devlys" | "asees" | "joy" | "anmollipi";
 
 export function FontTextFixer() {
   const [inputText, setInputText] = useState("");
@@ -163,7 +163,6 @@ export function FontTextFixer() {
             <optgroup label="Hindi Fonts">
               <option value="krutidev">Force Kruti Dev 010</option>
               <option value="chanakya">Force Walkman-Chanakya</option>
-              <option value="shusha">Force Shusha</option>
               <option value="devlys">Force DevLys</option>
             </optgroup>
             <optgroup label="Punjabi Fonts">

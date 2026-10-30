@@ -41,8 +41,6 @@ export const audioToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "trim-mp3-online": getAudioTrimmerContent("Free MP3 Cutter & Trimmer Online", "Cut and trim MP3 files online instantly. No file size limits, no watermarks, completely private."),
-  "cut-audio-free": getAudioTrimmerContent("Cut Audio Files Free Online", "Easily slice and cut audio clips, songs, and recordings for free directly on your device."),
-  "private-audio-trimmer": getAudioTrimmerContent("Private Audio Trimmer (No Server Uploads)", "A highly secure, 100% client-side audio cutter. Your voice notes and recordings never leave your device."),
   "convert-whatsapp-voice-note-to-mp3": {
     sections: [
       {

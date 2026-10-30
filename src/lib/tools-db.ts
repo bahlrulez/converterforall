@@ -326,30 +326,13 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       acceptedTypes: { "image/*": [".jpg", ".png", ".jpeg"] }
     },
     "clean-pdf-metadata": { theme: "red", iconName: "FileText", badge: "Document",
-      title: "PDF Metadata Cleaner (100% Private)",
-      description: "Scrub hidden author names, dates, and software tracks from your PDF files directly in your browser.",
+      title: "PDF Metadata Cleaner (Private & In-Browser)",
+      description: "Scrub hidden author names, creation dates, and software tracks from your PDF files directly in your browser.",
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
       actionName: "Scrub Metadata",
-      acceptedTypes: { "application/pdf": [".pdf"] }
-    },
-    "remove-pdf-properties": { theme: "red", iconName: "FileText", badge: "Document",
-      title: "Remove PDF Document Properties",
-      description: "Instantly delete all hidden properties, tracking data, and author information from PDF documents.",
-      subCategory: "Organize PDF",
-      inputFormat: "pdf",
-      outputFormat: "pdf",
-      actionName: "Remove Properties",
-      acceptedTypes: { "application/pdf": [".pdf"] }
-    },
-    "pdf-privacy-scrubber": { theme: "red", iconName: "FileText", badge: "Document",
-      title: "Secure PDF Privacy Scrubber",
-      description: "Ensure document confidentiality by erasing invisible EXIF data and metadata from PDFs without uploading to any server.",
-      subCategory: "Organize PDF",
-      inputFormat: "pdf",
-      outputFormat: "pdf",
-      actionName: "Scrub PDF Privacy",
+      relatedTools: ["compress-pdf", "edit-pdf", "merge-pdf", "organize-pdf"],
       acceptedTypes: { "application/pdf": [".pdf"] }
     },
 
@@ -601,24 +584,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       isInteractive: true,
       acceptedTypes: { "audio/mpeg": [".mp3"] }
     },
-    "cut-audio-free": { theme: "sky", iconName: "Music", badge: "Audio",
-      title: "Cut Audio Files Free Online",
-      description: "Easily slice and cut audio clips, songs, and recordings for free directly on your device.",
-      inputFormat: "audio",
-      outputFormat: "mp3",
-      actionName: "Cut Audio",
-      isInteractive: true,
-      acceptedTypes: { "audio/*": [".mp3", ".wav", ".ogg", ".m4a", ".aac"] }
-    },
-    "private-audio-trimmer": { theme: "sky", iconName: "Music", badge: "Audio",
-      title: "Private Audio Trimmer (No Server Uploads)",
-      description: "A highly secure, 100% client-side audio cutter. Your voice notes and recordings never leave your device.",
-      inputFormat: "audio",
-      outputFormat: "mp3",
-      actionName: "Securely Trim Audio",
-      isInteractive: true,
-      acceptedTypes: { "audio/*": [".mp3", ".wav", ".ogg", ".m4a", ".aac"] }
-    },
+
     "convert-whatsapp-voice-note-to-mp3": { theme: "sky", iconName: "Music", badge: "Audio", isPopular: true,
       title: "Convert WhatsApp Voice Notes to MP3 & Trim",
       description: "Upload your WhatsApp voice notes (.ogg or .opus) to trim dead space and convert them into standard MP3 files.",
@@ -643,9 +609,12 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     },
     "video-compressor": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Free Online Video Compressor - Reduce Video Size (Private & Instant)",
-      description: "Reduce video file sizes (MP4, MOV, WebM) instantly in your browser without uploading to cloud servers. 100% free, private, and no quality loss.",
+      description: "Compress MP4, MOV, MKV, WebM, and AVI videos in your browser. Outputs lightweight, universally compatible MP4 files without server uploads.",
+      seoTitle: "Free Video Compressor - Reduce Video File Size Online",
+      seoDescription: "Compress MP4, MOV, MKV, WebM, and AVI videos online for free. In-browser compression that outputs web-ready MP4 files with no watermark or file upload.",
       relatedTools: [
         "compress-mp4",
+        "compress-mov-video",
         "compress-video-for-discord",
         "compress-video-for-whatsapp",
         "video-to-mp4"
@@ -654,7 +623,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       outputFormat: "mp4",
       actionName: "Compress Video",
       isInteractive: true,
-      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm", ".avi", ".wmv", ".flv"] }
+      acceptedTypes: { "video/*": [".mp4", ".mov", ".mkv", ".webm", ".avi"] }
     },
 
     // FORMAT-SPECIFIC VIDEO COMPRESSORS
@@ -675,51 +644,6 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       actionName: "Compress MOV",
       isInteractive: true,
       acceptedTypes: { "video/quicktime": [".mov"] }
-    },
-    "compress-mkv": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
-      title: "Compress MKV Video Online – Reduce MKV File Size",
-      description: "Compress high-definition MKV movie and video files to compact MP4 size for easy sharing and streaming.",
-      inputFormat: "mkv",
-      outputFormat: "mp4",
-      actionName: "Compress MKV",
-      isInteractive: true,
-      acceptedTypes: { "video/x-matroska": [".mkv"] }
-    },
-    "compress-avi": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
-      title: "Compress AVI Video Online – Convert & Shrink AVI Files",
-      description: "Shrink heavy uncompressed AVI video files into modern lightweight MP4 files instantly.",
-      inputFormat: "avi",
-      outputFormat: "mp4",
-      actionName: "Compress AVI",
-      isInteractive: true,
-      acceptedTypes: { "video/x-msvideo": [".avi"] }
-    },
-    "compress-webm": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
-      title: "Compress WebM Video Online – Optimize WebM Size",
-      description: "Optimize and compress WebM HTML5 videos for faster website loading speeds and lower bandwidth.",
-      inputFormat: "webm",
-      outputFormat: "mp4",
-      actionName: "Compress WebM",
-      isInteractive: true,
-      acceptedTypes: { "video/webm": [".webm"] }
-    },
-    "compress-wmv": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
-      title: "Compress WMV Video Online – Shrink Windows Media Video",
-      description: "Compress legacy Windows Media Video (WMV) files into ultra-compatible compact MP4 videos.",
-      inputFormat: "wmv",
-      outputFormat: "mp4",
-      actionName: "Compress WMV",
-      isInteractive: true,
-      acceptedTypes: { "video/x-ms-wmv": [".wmv"] }
-    },
-    "compress-flv": { theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
-      title: "Compress FLV Video Online – Reduce Flash Video Size",
-      description: "Compress and modernize Flash video files into lightweight MP4 video streams.",
-      inputFormat: "flv",
-      outputFormat: "mp4",
-      actionName: "Compress FLV",
-      isInteractive: true,
-      acceptedTypes: { "video/x-flv": [".flv"] }
     },
 
     // PLATFORM & INTENT-SPECIFIC VIDEO COMPRESSORS
@@ -972,10 +896,10 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     },
     "mileage-calculator": { theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Mileage Calculator",
-      description: "Calculate your vehicle's fuel efficiency in MPG, L/100km, or km/L using trip distance and fuel used.",
-      seoTitle: "Car Mileage Calculator - MPG & km/L",
-      seoDescription: "Calculate vehicle fuel efficiency in MPG, L/100km, or km/L using trip distance and fuel volume. Simple, private, and runs directly in your browser.",
-      relatedTools: ["fuel-calculator", "miles-to-kilometers"],
+      description: "Calculate your vehicle's exact fuel efficiency and mileage.",
+      seoTitle: "Mileage Calculator - Calculate MPG & km/L Online",
+      seoDescription: "Calculate your vehicle's exact MPG, L/100km, or km/L based on distance traveled and fuel consumed. Free, private, and 100% client-side.",
+      relatedTools: ["fuel-calculator", "miles-to-kilometers", "meters-to-kilometers"],
       inputFormat: "none",
       outputFormat: "none",
       isInteractive: true,
@@ -1111,27 +1035,14 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "krutidev-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Kruti Dev to Unicode Converter", description: "Convert legacy Kruti Dev 010 font text to standard Unicode (Mangal font) Hindi for Word documents, web forms, and mobile devices.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "unicode-to-chanakya": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Chanakya", seoTitle: "Unicode to Chanakya Font Converter | Online Type for InDesign", seoDescription: "Convert modern Unicode Hindi (Mangal) to legacy Chanakya font. Fast, free online converter for Adobe InDesign, PageMaker, and publishers.", description: "Convert Unicode Hindi text to Chanakya font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
     "chanakya-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Chanakya to Unicode Converter", description: "Convert legacy Walkman-Chanakya Hindi font text into universal Unicode (Mangal font) for Word, web pages, and mobile devices.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "unicode-to-shusha": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Shusha", description: "Convert Unicode Hindi text to Shusha font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "shusha-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Shusha to Unicode", description: "Convert Shusha font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "unicode-to-aps": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to APS", description: "Convert Unicode Hindi text to APS font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "aps-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "APS to Unicode", description: "Convert APS font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "unicode-to-shreelipi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Shree Lipi", description: "Convert Unicode Hindi text to Shree Lipi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    "shreelipi-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Shree Lipi to Unicode", description: "Convert Shree Lipi font to Unicode Hindi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "hindi", acceptedTypes: {} },
-    
     "unicode-to-anmollipi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to AnmolLipi", description: "Convert Unicode Punjabi text to AnmolLipi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
     "anmollipi-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "AnmolLipi to Unicode", description: "Convert AnmolLipi font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
     "unicode-to-asees": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Asees", seoTitle: "Unicode to Asees Font Converter | Type Punjabi in Asees", seoDescription: "Convert standard Unicode Punjabi text into the Asees font instantly. Free online converter for PageMaker and traditional Punjabi typing.", description: "Convert Unicode Punjabi text to Asees font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "asees-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Asees to Unicode", seoTitle: "Asees to Unicode Converter (Raavi) | PSSSB Typing Tests", seoDescription: "Convert legacy Asees Punjabi font to standard Unicode (Raavi) text. Fix broken Asees text with correct Sihari and pairi mappings for PSSSB tests and High Court typing.", description: "Convert Asees font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "custom", fontCategory: "punjabi", acceptedTypes: {} },
+    "asees-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Asees to Unicode", seoTitle: "Asees to Unicode Converter (Raavi) | PSSSB Typing Tests", seoDescription: "Convert legacy Asees Punjabi font to standard Unicode (Raavi) text for PSSSB tests and High Court typing.", description: "Convert Asees font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "custom", fontCategory: "punjabi", acceptedTypes: {} },
     "unicode-to-joy": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Joy", seoTitle: "Unicode to Joy Font Converter | Type Punjabi in Joy", seoDescription: "Convert standard Unicode Punjabi text to Joy font. Free online tool for publishers and designers needing legacy Punjabi font formats.", description: "Convert Unicode Punjabi text to Joy font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
     "joy-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Joy to Unicode", seoTitle: "Joy to Unicode Converter | Online Punjabi Font Converter", seoDescription: "Convert legacy Joy Punjabi font to standard Unicode text instantly. Copy and paste your text to fix broken Punjabi fonts for Word, websites, and WhatsApp.", description: "Convert Joy font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "unicode-to-satluj": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Satluj", seoTitle: "Unicode to Satluj Converter", seoDescription: "Convert Unicode Punjabi Gurmukhi text into Satluj font for desktop publishing and printing. Runs directly in your browser without uploads.", description: "Convert Unicode Punjabi text to Satluj font.", relatedTools: ["satluj-to-unicode", "unicode-to-asees", "unicode-to-raavi"], inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "satluj-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Satluj to Unicode", seoTitle: "Satluj to Unicode Converter", seoDescription: "Convert Satluj legacy font text to standard Unicode Punjabi for phones, websites, and Word documents. Free, private, and in-browser.", description: "Convert Satluj font to Unicode Punjabi text.", relatedTools: ["unicode-to-satluj", "asees-to-unicode", "raavi-to-unicode"], inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "unicode-to-gurbani-akhar": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Gurbani Akhar", seoTitle: "Unicode to Gurbani Akhar Converter | Online Punjabi Tool", seoDescription: "Convert standard Unicode Punjabi text into the Gurbani Akhar font. Fast, free, and private conversion for typing and document preparation.", description: "Convert Unicode Punjabi text to Gurbani Akhar font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "gurbani-akhar-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Gurbani Akhar to Unicode", seoTitle: "Gurbani Akhar to Unicode Converter | Punjabi Font Fix", seoDescription: "Convert legacy Gurbani Akhar font text into standard Unicode Punjabi. Free online tool to easily share religious and traditional Punjabi texts across all devices.", description: "Convert Gurbani Akhar font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "unicode-to-raavi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Raavi", seoTitle: "Unicode to Raavi Font Converter | Type Punjabi in Raavi", seoDescription: "Convert standard Unicode Punjabi text into Raavi font format. Fast and private online Punjabi font conversion tool.", description: "Convert Unicode Punjabi text to Raavi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "raavi-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Raavi to Unicode", seoTitle: "Raavi to Unicode Converter | Online Punjabi Font Fix", seoDescription: "Convert Raavi Punjabi font to standard Unicode text. Our free converter fixes Raavi text formatting issues instantly in your browser.", description: "Convert Raavi font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "gurmukhi-to-shahmukhi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Gurmukhi to Shahmukhi", description: "Convert Gurmukhi script to Shahmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
-    "shahmukhi-to-gurmukhi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Shahmukhi to Gurmukhi", description: "Convert Shahmukhi script to Gurmukhi script.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "gurbani-akhar-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Gurbani Akhar to Unicode", seoTitle: "Gurbani Akhar to Unicode Converter | Punjabi Font Fix", seoDescription: "Convert legacy Gurbani Akhar font text into standard Unicode Punjabi.", description: "Convert Gurbani Akhar font to Unicode Punjabi text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
+    "unicode-to-raavi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Raavi", seoTitle: "Unicode to Raavi Font Converter | Type Punjabi in Raavi", seoDescription: "Convert standard Unicode Punjabi text into Raavi font format.", description: "Convert Unicode Punjabi text to Raavi font.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
 
     // NEPALI FONT CONVERTERS
     "preeti-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Preeti to Unicode Converter", description: "Convert Nepali Preeti legacy font text to standard universal Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
@@ -1142,12 +1053,8 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "unicode-to-bijoy": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Bijoy Converter (SutonnyMJ)", description: "Convert Unicode Bengali text to legacy Bijoy SutonnyMJ format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
 
     // URDU FONT CONVERTERS (INPAGE & URDU UNICODE)
-    "inpage-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "InPage-Style Phonetic to Urdu Unicode Converter", seoTitle: "InPage Phonetic to Urdu Unicode Converter", description: "Convert InPage classic phonetic key sequences into standard universal Urdu Unicode text.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {}, relatedTools: ["unicode-to-inpage"] },
-    "unicode-to-inpage": { theme: "cyan", iconName: "Type", badge: "Font", title: "Urdu Unicode to InPage-Style Phonetic Converter", seoTitle: "Urdu Unicode to InPage Phonetic Converter", description: "Convert standard Urdu Unicode text into standard InPage classic phonetic keyboard key sequences.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {}, relatedTools: ["inpage-to-unicode"] },
-
-    // BURMESE FONT CONVERTERS (ZAWGYI)
-    "zawgyi-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Zawgyi to Unicode Converter - Convert Myanmar Fonts Online", description: "Free online Zawgyi to Unicode text converter. Convert legacy Myanmar Zawgyi font to standard Unicode instantly in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {}, relatedTools: ["unicode-to-zawgyi"] },
-    "unicode-to-zawgyi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Zawgyi Converter - Convert Myanmar Fonts Online", description: "Free online Unicode to Zawgyi text converter. Convert standard Myanmar Unicode to legacy Zawgyi font instantly in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "burmese", acceptedTypes: {}, relatedTools: ["zawgyi-to-unicode"] },
+    "inpage-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    "unicode-to-inpage": { theme: "cyan", iconName: "Type", badge: "Font", title: "Urdu Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
 
     "font-detector": { theme: "cyan", iconName: "Type", badge: "Font", 
       title: "Online Font Detector - Kruti Dev, AnmolLipi & Unicode Identifier", 
@@ -1429,6 +1336,11 @@ export const SLUG_ALIASES: Record<string, string> = {
   "reduce-video-size": "video-compressor",
   "shrink-video": "video-compressor",
   "compress-mov": "compress-mov-video",
+  "compress-mkv": "video-compressor",
+  "compress-avi": "video-compressor",
+  "compress-webm": "video-compressor",
+  "compress-wmv": "video-compressor",
+  "compress-flv": "video-compressor",
   "compress-discord-video": "compress-video-for-discord",
   "compress-whatsapp-video": "compress-video-for-whatsapp",
   "compress-email-video": "compress-video-for-email",
@@ -1438,7 +1350,13 @@ export const SLUG_ALIASES: Record<string, string> = {
   "compress-iphone-video": "compress-video-for-phone",
   "compress-android-video": "compress-video-for-phone",
 
+  // Audio Aliases
+  "cut-audio-free": "trim-audio",
+  "private-audio-trimmer": "trim-audio",
+
   // PDF & Office Document Aliases
+  "remove-pdf-properties": "clean-pdf-metadata",
+  "pdf-privacy-scrubber": "clean-pdf-metadata",
   "pdf-merger": "merge-pdf",
   "combine-pdf": "merge-pdf",
   "merge-word-to-pdf": "merge-pdf",

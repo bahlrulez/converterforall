@@ -9,6 +9,7 @@ import { RelatedTools } from "@/components/tools/related-tools";
 import { ToolReviews } from "@/components/tools/tool-reviews";
 import { getToolReviewStats } from "@/lib/reviews-data";
 import { getOptimizedToolTitle, getOptimizedToolDescription } from "@/lib/seo/metadata";
+import { TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
 
 export async function generateStaticParams() {
   return getCanonicalToolSlugs().map((slug) => ({
@@ -19,9 +20,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const toolData = getToolBySlug(resolvedParams.slug);
-
+  
   if (!toolData) {
-    return { title: "Not Found" };
+    return { 
+      title: "Page Not Found",
+      robots: { index: false, follow: false }
+    };
   }
 
   const { tool, toolSlug, categorySlug } = toolData;
@@ -29,10 +33,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const pageDescription = getOptimizedToolDescription(tool, toolSlug, categorySlug);
 
   const ogImageUrl = `https://www.converterforall.com/og/${toolSlug}`;
+  const isNoindex = TIER_C_NOINDEX_SLUGS.has(toolSlug) || TIER_C_NOINDEX_SLUGS.has(resolvedParams.slug);
 
   return {
     title: pageTitle,
     description: pageDescription,
+    robots: isNoindex ? { index: false, follow: true } : undefined,
     openGraph: {
       title: `${pageTitle} | ConverterForAll`,
       description: pageDescription,
@@ -62,7 +68,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ToolPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   const toolData = getToolBySlug(params.slug);
-
+  
   if (!toolData) {
     notFound();
   }
@@ -159,6 +165,31 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
   const isCloudTool = toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf";
   const isPresentationMaker = toolSlug === "presentation-maker";
+  const isFontTool = categorySlug === "fonts";
+  const isRealFontVerified = toolSlug === "krutidev-to-unicode" || toolSlug === "unicode-to-krutidev";
+  const showHighFidelityBadge = !isFontTool || isRealFontVerified;
+
+  const isHeldUnavailableTool = toolSlug === "gurbani-akhar-to-unicode" || toolSlug === "unicode-to-raavi";
+
+  const PUNJABI_EXPERIMENTAL_TOOLS = new Set([
+    "anmollipi-to-unicode",
+    "unicode-to-anmollipi",
+    "joy-to-unicode",
+    "unicode-to-joy",
+    "asees-to-unicode",
+    "unicode-to-asees",
+  ]);
+
+  const UNVERIFIED_FONT_TOOLS = new Set([
+    "chanakya-to-unicode",
+    "unicode-to-chanakya",
+    "preeti-to-unicode",
+    "unicode-to-preeti",
+    "bijoy-to-unicode",
+    "unicode-to-bijoy",
+    "inpage-to-unicode",
+    "unicode-to-inpage",
+  ]);
 
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden py-10">
@@ -174,8 +205,8 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
         {/* Hero Header Section */}
         <div className="mb-10 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
-          <Link
-            href="/"
+          <Link 
+            href="/" 
             className="inline-flex items-center text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-6 transition-all bg-white dark:bg-[#0a1128]/80 px-4 py-2 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
           >
             <ArrowLeft className="mr-2 h-3.5 w-3.5" />
@@ -185,10 +216,10 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
             <Sparkles className="w-3.5 h-3.5" />
             <span>
-              {isCloudTool
-                ? "Cloud Conversion via Cloudmersive (In-Browser Fallback)"
-                : isPresentationMaker
-                ? "In-Browser Slides & PPTX Export (AI via Google Gemini)"
+              {isCloudTool 
+                ? "Cloud Conversion via Cloudmersive (In-Browser Fallback)" 
+                : isPresentationMaker 
+                ? "In-Browser Slides & PPTX Export (AI via Google Gemini)" 
                 : "Free & Private In-Browser Tool"}
             </span>
           </div>
@@ -196,7 +227,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-slate-900 dark:text-white leading-[1.15]">
             {tool.title}
           </h1>
-
+          
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed mb-6">
             {tool.description}
           </p>
@@ -206,17 +237,19 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
               <span>
-                {isCloudTool
-                  ? "Processed via Cloudmersive API (No documents stored on our servers)"
-                  : isPresentationMaker
-                  ? "Slides & Export run locally in browser (AI prompt sent to Google Gemini)"
+                {isCloudTool 
+                  ? "Processed via Cloudmersive API (No documents stored on our servers)" 
+                  : isPresentationMaker 
+                  ? "Slides & Export run locally in browser (AI prompt sent to Google Gemini)" 
                   : "On-Device Browser Processing"}
               </span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <Zap className="w-3.5 h-3.5 text-amber-500" />
-              <span>Fast &amp; High Fidelity</span>
-            </span>
+            {showHighFidelityBadge && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+                <Zap className="w-3.5 h-3.5 text-amber-500" />
+                <span>Fast &amp; High Fidelity</span>
+              </span>
+            )}
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
               <span>No Account or Limits</span>
@@ -231,15 +264,35 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           </div>
 
           <div className={`${(tool as any).isInteractive ? '' : 'bg-white/90 dark:bg-[#080e22]/95 backdrop-blur-xl rounded-3xl p-5 sm:p-10 border border-slate-200/90 dark:border-slate-800 shadow-xl'} relative z-10`}>
-            <ToolRenderer
-              toolSlug={toolSlug}
-              categorySlug={categorySlug}
-              tool={tool}
-              defaultFrom={defaultFrom}
-              defaultTo={defaultTo}
-              defaultFontFrom={defaultFontFrom}
-              defaultFontTo={defaultFontTo}
-            />
+            {PUNJABI_EXPERIMENTAL_TOOLS.has(toolSlug) && (
+              <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-sm flex items-center justify-center text-center gap-2 font-medium">
+                <span className="font-bold text-amber-700 dark:text-amber-400">Notice:</span>
+                <span>Experimental: results may contain errors. Check carefully.</span>
+              </div>
+            )}
+            {UNVERIFIED_FONT_TOOLS.has(toolSlug) && (
+              <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-sm flex items-center justify-center text-center gap-2 font-medium">
+                <span className="font-bold text-amber-700 dark:text-amber-400">Notice:</span>
+                <span>Please check the output before relying on it.</span>
+              </div>
+            )}
+            {isHeldUnavailableTool ? (
+              <div className="p-8 my-4 max-w-xl mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-center">
+                <p className="text-base font-medium text-slate-700 dark:text-slate-300">
+                  This tool is not available yet.
+                </p>
+              </div>
+            ) : (
+              <ToolRenderer
+                toolSlug={toolSlug}
+                categorySlug={categorySlug}
+                tool={tool}
+                defaultFrom={defaultFrom}
+                defaultTo={defaultTo}
+                defaultFontFrom={defaultFontFrom}
+                defaultFontTo={defaultFontTo}
+              />
+            )}
           </div>
         </div>
 
@@ -250,27 +303,27 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
         {/* Modern Authentic Tool Reviews & Issue Feedback Section */}
         <div className="print:hidden">
-          <ToolReviews
-            toolSlug={toolSlug}
-            toolTitle={tool.title}
-            initialStats={reviewStats}
+          <ToolReviews 
+            toolSlug={toolSlug} 
+            toolTitle={tool.title} 
+            initialStats={reviewStats} 
           />
         </div>
 
         {/* Structured SEO Guide & Bento Information Sections */}
         <div className="space-y-8 print:hidden mt-12">
           {contentSections.map((section, index) => (
-            <div
-              key={index}
+            <div 
+              key={index} 
               className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0a1128]/95 border border-slate-200/90 dark:border-slate-800 shadow-sm"
             >
               <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-blue-500" />
                 <span>{section.title}</span>
               </h2>
-              <div
+              <div 
                 className="prose prose-slate dark:prose-invert max-w-none prose-sm sm:prose-base leading-relaxed text-slate-600 dark:text-slate-300"
-                dangerouslySetInnerHTML={{ __html: section.content }}
+                dangerouslySetInnerHTML={{ __html: section.content }} 
               />
             </div>
           ))}

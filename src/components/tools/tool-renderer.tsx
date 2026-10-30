@@ -105,7 +105,7 @@ export function ToolRenderer({
         {toolSlug === "compress-pdf" && <CompressPdfTool />}
         {toolSlug === "compress-pdf-100kb" && <CompressPdf100kb />}
         {toolSlug === "asees-to-unicode" && <AseesToUnicode />}
-        {(toolSlug === "clean-pdf-metadata" || toolSlug === "remove-pdf-properties" || toolSlug === "pdf-privacy-scrubber") && <PdfMetadataCleanerComponent />}
+        {toolSlug === "clean-pdf-metadata" && <PdfMetadataCleanerComponent />}
         {toolSlug === "ocr-pdf" && <OcrPdfTool />}
         {toolSlug === "repair-pdf" && <RepairPdfTool />}
         {toolSlug === "pdf-to-word" && <PdfToWordTool />}
@@ -113,7 +113,7 @@ export function ToolRenderer({
         {toolSlug === "presentation-maker" && <PresentationMaker />}
         {(toolSlug === "compress-jpg" || toolSlug === "compress-png") && <ImageCompressor />}
         {(toolSlug === "webp-to-jpg" || toolSlug === "webp-to-png") && <WebpConverter defaultFormat={toolSlug === "webp-to-png" ? "image/png" : "image/jpeg"} />}
-        {(toolSlug === "compress-video" || toolSlug === "video-compressor" || toolSlug.startsWith("compress-video-") || toolSlug.startsWith("compress-mp4") || toolSlug.startsWith("compress-mov") || toolSlug.startsWith("compress-mkv") || toolSlug.startsWith("compress-avi") || toolSlug.startsWith("compress-webm") || toolSlug.startsWith("compress-wmv") || toolSlug.startsWith("compress-flv")) && <VideoCompressor toolSlug={toolSlug} />}
+        {(toolSlug === "compress-video" || toolSlug === "video-compressor" || toolSlug.startsWith("compress-video-") || toolSlug.startsWith("compress-mp4") || toolSlug.startsWith("compress-mov")) && <VideoCompressor toolSlug={toolSlug} />}
         {(toolSlug.startsWith("video-to-") || toolSlug.startsWith("mov-to-") || toolSlug.startsWith("mkv-to-") || toolSlug.startsWith("avi-to-") || toolSlug.startsWith("webm-to-") || toolSlug.startsWith("flv-to-") || toolSlug.startsWith("wmv-to-") || toolSlug.startsWith("mp4-to-") || toolSlug === "convert-to-mp4" || toolSlug === "convert-video") && <VideoConverter toolSlug={toolSlug} targetFormat={tool.outputFormat} />}
         {toolSlug === "qr-scanner" && <QrScanner />}
         {(toolSlug === "compress-pdf" || toolSlug === "pdf-compressor" || toolSlug === "reduce-pdf-size") && <CompressPdfTool />}
@@ -123,7 +123,7 @@ export function ToolRenderer({
         {(toolSlug === "edit-pdf" || toolSlug === "pdf-editor" || toolSlug === "annotate-pdf" || toolSlug === "sign-pdf") && <PdfEditor />}
         {toolSlug === "image-to-svg" && <ImageToSvgComponent />}
         {toolSlug === "image-to-text" && <ImageToTextTool />}
-        {(toolSlug === "trim-audio" || toolSlug === "trim-mp3-online" || toolSlug === "cut-audio-free" || toolSlug === "private-audio-trimmer" || toolSlug === "convert-whatsapp-voice-note-to-mp3") && <AudioTrimmerComponent />}
+        {(toolSlug === "trim-audio" || toolSlug === "trim-mp3-online" || toolSlug === "convert-whatsapp-voice-note-to-mp3") && <AudioTrimmerComponent />}
         {(toolSlug === "web-font-converter" || toolSlug === "ttf-to-woff2" || toolSlug === "otf-to-woff2" || toolSlug === "woff2-to-ttf") && <WebFontConverterComponent />}
         
         {/* Data & Code Tools */}

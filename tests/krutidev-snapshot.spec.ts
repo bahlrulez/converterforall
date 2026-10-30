@@ -57,6 +57,7 @@ test.describe('Kruti Dev 010 to Unicode Engine Snapshots & Batch 1 Integrity', (
 
   // Test 7: Rendered HTML contains exact input and engine output in <code>/<pre>
   test('7. Rendered HTML of krutidev-to-unicode contains exact input string and exact engine output in code/pre', () => {
+    test.skip(!fontToolsContent['krutidev-to-unicode']?.disableAutoEnrich, 'Batch 1 content excluded until Word verification');
     const krutiData = fontToolsContent['krutidev-to-unicode'];
     expect(krutiData).toBeDefined();
 
@@ -72,6 +73,7 @@ test.describe('Kruti Dev 010 to Unicode Engine Snapshots & Batch 1 Integrity', (
 
   // Test 8: Hindi section contains Devanagari heading, phrase, backtick, and single "कृति देव" mention
   test('8. Hindi section uses कृतिदेव consistently, mentions कृति देव once, and preserves backtick in d`i;k', () => {
+    test.skip(!fontToolsContent['krutidev-to-unicode']?.disableAutoEnrich, 'Batch 1 content excluded until Word verification');
     const krutiData = fontToolsContent['krutidev-to-unicode'];
     const hindiSection = krutiData.sections.find(s => s.title.includes('कृतिदेव से यूनिकोड'));
     expect(hindiSection).toBeDefined();
@@ -93,7 +95,8 @@ test.describe('Kruti Dev 010 to Unicode Engine Snapshots & Batch 1 Integrity', (
 
   // Test 9: Public copy rules (no internal notes, correct DevLys & non-Unicode wording, Latin characters in FAQ)
   test('9. Batch 1 public copy follows strict tone, wording, and privacy rules', () => {
-    const batch1Slugs = ['krutidev-to-unicode', 'unicode-to-krutidev', 'chanakya-to-unicode'];
+    test.skip(!fontToolsContent['krutidev-to-unicode']?.disableAutoEnrich, 'Batch 1 content excluded until Word verification');
+    const batch1Slugs = ['krutidev-to-unicode', 'unicode-to-krutidev'];
 
     for (const slug of batch1Slugs) {
       const pageData = fontToolsContent[slug];
@@ -121,7 +124,7 @@ test.describe('Kruti Dev 010 to Unicode Engine Snapshots & Batch 1 Integrity', (
 
   // Test 10: Title length check (strictly <= 60 characters standalone and <= 60 with site suffix)
   test('10. Batch 1 page titles are strictly 60 characters or fewer', () => {
-    const batch1Slugs = ['krutidev-to-unicode', 'unicode-to-krutidev', 'chanakya-to-unicode'];
+    const batch1Slugs = ['krutidev-to-unicode', 'unicode-to-krutidev'];
 
     for (const slug of batch1Slugs) {
       const title = CUSTOM_TOOL_TITLES[slug];

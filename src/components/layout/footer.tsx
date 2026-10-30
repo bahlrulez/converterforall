@@ -102,8 +102,7 @@ export function Footer() {
             <ul className="space-y-2 text-xs">
               <li><Link href="/krutidev-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold transition-colors">Kruti Dev to Unicode</Link></li>
               <li><Link href="/unicode-to-krutidev" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Unicode to Kruti Dev</Link></li>
-              <li><Link href="/chanakya-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold transition-colors">Chanakya to Unicode</Link></li>
-              <li><Link href="/asees-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold transition-colors">Asees to Unicode</Link></li>
+              <li><Link href="/preeti-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold transition-colors">Preeti to Unicode</Link></li>
               <li><Link href="/bijoy-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Bijoy to Unicode</Link></li>
               <li><Link href="/font-text-fixer" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold transition-colors">Font &amp; Text Fixer</Link></li>
               <li><Link href="/category/fonts" className="hover:text-blue-600 dark:hover:text-blue-400 font-bold transition-colors text-indigo-600 dark:text-indigo-400">All Font Tools →</Link></li>
@@ -137,8 +136,6 @@ export function Footer() {
             <Link href="/krutidev-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-indigo-600 dark:text-indigo-400">Kruti Dev to Unicode</Link>
             <span>•</span>
             <Link href="/unicode-to-krutidev" className="hover:text-blue-600 dark:hover:text-blue-400">Unicode to Kruti Dev</Link>
-            <span>•</span>
-            <Link href="/chanakya-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400">Chanakya to Unicode</Link>
             <span>•</span>
             <Link href="/asees-to-unicode" className="hover:text-blue-600 dark:hover:text-blue-400">Asees to Unicode</Link>
             <span>•</span>

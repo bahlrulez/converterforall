@@ -275,25 +275,25 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Smart AI Video Compression Studio</span>
+              <Cpu className="w-3.5 h-3.5" />
+              <span>In-Browser Video Compressor</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-              Compress Video with Zero Quality Loss
+              Compress Video (MP4, MOV, MKV, WebM, AVI)
             </h2>
             <p className="text-sm text-slate-300 max-w-xl">
-              Reduce video file size by up to 85% directly inside your browser. 100% private with hardware-accelerated processing.
+              Reduce video file size directly inside your browser using WebAssembly. Accepts MP4, MOV, MKV, WebM, and AVI; always outputs universally compatible MP4.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-slate-800/80 border border-slate-700/60 text-emerald-400 text-xs font-semibold shadow-inner">
-              <Zap className="w-4 h-4 text-emerald-400" />
-              <span>WebGPU Hardware Speed</span>
+              <Cpu className="w-4 h-4 text-emerald-400" />
+              <span>WebAssembly Engine</span>
             </div>
             <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-slate-800/80 border border-slate-700/60 text-blue-400 text-xs font-semibold shadow-inner">
               <ShieldCheck className="w-4 h-4 text-blue-400" />
-              <span>100% On-Device</span>
+              <span>On-Device Processing</span>
             </div>
           </div>
         </div>
@@ -318,7 +318,7 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
           <div className="space-y-1.5 max-w-md">
             <h3 className="text-xl font-bold text-white">Drop your video here, or browse files</h3>
             <p className="text-xs sm:text-sm text-slate-400">
-              Supports MP4, MOV, MKV, WebM, AVI • Unlimited file size • Instant local processing
+              Accepts MP4, MOV, MKV, WebM, AVI • Outputs universal MP4 • Instant local processing
             </p>
           </div>
           <Button className="mt-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-600/30">
@@ -650,7 +650,7 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
                 </div>
 
                 <div className="space-y-2 max-w-sm mx-auto">
-                  <h4 className="text-lg font-bold text-white">Transcoding Video on GPU/CPU</h4>
+                  <h4 className="text-lg font-bold text-white">Transcoding Video Locally</h4>
                   <p className="text-xs text-blue-300 font-medium">{statusMessage}</p>
                 </div>
 
@@ -895,66 +895,6 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
               )}
             >
               Compress MOV (iPhone / Mac)
-            </Link>
-
-            <Link
-              href="/compress-mkv"
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border transition-all",
-                toolSlug === "compress-mkv"
-                  ? "bg-blue-600 border-blue-500 text-white font-bold"
-                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
-              )}
-            >
-              Compress MKV
-            </Link>
-
-            <Link
-              href="/compress-webm"
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border transition-all",
-                toolSlug === "compress-webm"
-                  ? "bg-blue-600 border-blue-500 text-white font-bold"
-                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
-              )}
-            >
-              Compress WebM
-            </Link>
-
-            <Link
-              href="/compress-avi"
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border transition-all",
-                toolSlug === "compress-avi"
-                  ? "bg-blue-600 border-blue-500 text-white font-bold"
-                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
-              )}
-            >
-              Compress AVI
-            </Link>
-
-            <Link
-              href="/compress-wmv"
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border transition-all",
-                toolSlug === "compress-wmv"
-                  ? "bg-blue-600 border-blue-500 text-white font-bold"
-                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
-              )}
-            >
-              Compress WMV
-            </Link>
-
-            <Link
-              href="/compress-flv"
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border transition-all",
-                toolSlug === "compress-flv"
-                  ? "bg-blue-600 border-blue-500 text-white font-bold"
-                  : "bg-slate-800/60 border-slate-700/60 text-slate-300 hover:text-white hover:bg-slate-800"
-              )}
-            >
-              Compress FLV
             </Link>
           </div>
         </div>

@@ -419,7 +419,7 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
   }
 
   // 2. Regional Indic & Asian Font Conversion Tools
-  if (toolSlug.includes("-to-") && (toolSlug.includes("unicode") || toolSlug.includes("krutidev") || toolSlug.includes("chanakya") || toolSlug.includes("anmollipi") || toolSlug.includes("asees") || toolSlug.includes("devlys") || toolSlug.includes("shusha") || toolSlug.includes("aps") || toolSlug.includes("shreelipi") || toolSlug.includes("joy") || toolSlug.includes("gurbanilipi") || toolSlug.includes("preeti") || toolSlug.includes("bijoy") || toolSlug.includes("inpage") || toolSlug.includes("zawgyi"))) {
+  if (toolSlug.includes("-to-") && (toolSlug.includes("unicode") || toolSlug.includes("krutidev") || toolSlug.includes("chanakya") || toolSlug.includes("anmollipi") || toolSlug.includes("asees") || toolSlug.includes("devlys") || toolSlug.includes("joy") || toolSlug.includes("preeti") || toolSlug.includes("bijoy") || toolSlug.includes("inpage"))) {
     const parts = toolSlug.split("-to-");
     const formatName = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).replace(/-/g, ' ');
     const fromFont = formatName(parts[0]);
@@ -437,7 +437,7 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
         title: "How legacy font conversion works",
         content: `
           <p>Converting between legacy fonts and modern Unicode is much more complex than simple letter replacement. In Indic scripts like Devanagari, Gurmukhi, and Bengali, vowel modifiers (matras) often appear to the left of the consonant in visual rendering, but must be stored after the consonant in standard Unicode memory order. Similarly, conjunct consonants (half letters) require specialized ligature substitution.</p>
-          <p>Our converter applies dedicated lexical rules directly in your browser to accurately rearrange matras, half-characters, and conjuncts so your original spelling and grammar remain intact.</p>
+          <p>Our converter applies dedicated lexical rules directly in your browser to rearrange matras, half-characters, and conjuncts directly on your device.</p>
         `
       },
       {
