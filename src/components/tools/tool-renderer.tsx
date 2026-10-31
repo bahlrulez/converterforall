@@ -57,7 +57,7 @@ const ExamPhotoResizer = dynamic(() => import("@/components/tools/exam-photo-res
 const FontTextFixer = dynamic(() => import("@/components/tools/font-text-fixer").then(m => m.FontTextFixer), { ssr: false, loading: ToolLoading });
 const PhotoNameDateStamper = dynamic(() => import("@/components/tools/photo-name-date-stamper").then(m => m.PhotoNameDateStamper), { ssr: false, loading: ToolLoading });
 const ExamSignatureResizer = dynamic(() => import("@/components/tools/exam-signature-resizer").then(m => m.ExamSignatureResizer), { ssr: false, loading: ToolLoading });
-const AseesToUnicode = dynamic(() => import("@/components/tools/asees-to-unicode").then(m => m.AseesToUnicode), { ssr: false, loading: ToolLoading });
+
 const WebpConverter = dynamic(() => import("@/components/tools/webp-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
 const ImageDpiConverter = dynamic(() => import("@/components/tools/image-dpi-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
 const MergeImagesTool = dynamic(() => import("@/components/tools/merge-images-tool").then(m => m.MergeImagesTool), { ssr: false, loading: ToolLoading });
@@ -104,7 +104,7 @@ export function ToolRenderer({
         {toolSlug === "merge-images-to-jpg" && <MergeImagesTool />}
         {toolSlug === "compress-pdf" && <CompressPdfTool />}
         {toolSlug === "compress-pdf-100kb" && <CompressPdf100kb />}
-        {toolSlug === "asees-to-unicode" && <AseesToUnicode />}
+
         {toolSlug === "clean-pdf-metadata" && <PdfMetadataCleanerComponent />}
         {toolSlug === "ocr-pdf" && <OcrPdfTool />}
         {toolSlug === "repair-pdf" && <RepairPdfTool />}

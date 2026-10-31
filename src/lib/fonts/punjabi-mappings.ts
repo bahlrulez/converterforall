@@ -175,6 +175,7 @@ const fontNameMap: Record<string, string> = {
   anmollipi: 'AnmolLipi',
   asees: 'Asees',
   joy: 'Joy',
+  satluj: 'Satluj',
   gurbanilipi: 'GurbaniLipi',
   unicode: 'Arial Unicode MS'
 };

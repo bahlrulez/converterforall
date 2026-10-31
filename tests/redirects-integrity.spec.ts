@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import nextConfig from '../next.config';
 import { toolsDatabase, getToolBySlug, SLUG_ALIASES } from '../src/lib/tools-db';
+import { getAllBlogSlugs } from '../src/lib/blog-data';
 import { videoToolsContent } from '../src/lib/content/video-tools';
 import sitemap from '../src/app/sitemap';
 import fs from 'fs';
@@ -35,6 +36,15 @@ test.describe('Redirects and Aliases Integrity', () => {
     },
   ];
 
+  const restoredPunjabiRoutes = [
+    'https://www.converterforall.com/joy-to-unicode',
+    'https://www.converterforall.com/unicode-to-joy',
+    'https://www.converterforall.com/asees-to-unicode',
+    'https://www.converterforall.com/unicode-to-asees',
+    'https://www.converterforall.com/satluj-to-unicode',
+    'https://www.converterforall.com/unicode-to-satluj'
+  ];
+
   test('1. Legacy 5 duplicates return a single 301 redirect to their canonical target in next.config.ts', async () => {
     if (typeof nextConfig.redirects !== 'function') {
       throw new Error('nextConfig.redirects is not a function');
@@ -65,22 +75,44 @@ test.describe('Redirects and Aliases Integrity', () => {
     }
   });
 
-  test('3. No redirect chains: all redirect destinations must be canonical and never redirect again', async () => {
+  test('3. No redirect chains or loops: all redirect destinations must be canonical and never redirect again', async () => {
     if (typeof nextConfig.redirects !== 'function') {
       throw new Error('nextConfig.redirects is not a function');
     }
     const allRedirects = await nextConfig.redirects();
     const sourceSet = new Set(allRedirects.map(r => r.source));
+    const validBlogSlugs = new Set(getAllBlogSlugs());
+    const validCategories = new Set(Object.keys(toolsDatabase));
 
     for (const rule of allRedirects) {
-      // The destination should not be a redirect source (no A -> B -> C chains)
+      // 1. Self-redirect loop check
+      expect(rule.source, `Self-redirect loop detected: ${rule.source}`).not.toBe(rule.destination);
+
+      // 2. Chained redirect check (destination should not be another redirect source)
       expect(sourceSet.has(rule.destination), `Redirect chain detected: ${rule.source} -> ${rule.destination}`).toBeFalsy();
       
-      // Also ensure tool destinations are not aliases in SLUG_ALIASES
+      // 3. Ensure destination is not an alias in SLUG_ALIASES
       const cleanDest = rule.destination.replace(/^\//, '');
       if (!cleanDest.startsWith('blog/') && !cleanDest.startsWith('category/') && cleanDest !== '' && cleanDest !== 'about' && cleanDest !== 'contact') {
         expect(cleanDest in SLUG_ALIASES, `Redirect from ${rule.source} points to alias ${cleanDest}`).toBeFalsy();
       }
+
+      // 4. Ensure destination is valid in the application
+      if (cleanDest === '' || cleanDest === 'about' || cleanDest === 'contact' || cleanDest === 'privacy' || cleanDest === 'terms' || cleanDest === 'tools') {
+        continue;
+      }
+      if (cleanDest.startsWith('category/')) {
+        const cat = cleanDest.replace('category/', '');
+        expect(validCategories.has(cat), `Redirect from ${rule.source} points to missing category '${cat}'`).toBeTruthy();
+        continue;
+      }
+      if (cleanDest.startsWith('blog/')) {
+        const blogSlug = cleanDest.replace('blog/', '');
+        expect(validBlogSlugs.has(blogSlug), `Redirect from ${rule.source} points to missing blog post '${blogSlug}'`).toBeTruthy();
+        continue;
+      }
+      const tool = getToolBySlug(cleanDest);
+      expect(tool, `Redirect from ${rule.source} points to non-existent tool '${cleanDest}'`).not.toBeNull();
     }
   });
 
@@ -124,16 +156,30 @@ test.describe('Redirects and Aliases Integrity', () => {
     expect(compCode).toContain('href="/compress-mov-video"');
   });
 
-  test('5. Sitemap contains 0 redirected URLs and reflects exact updated count', () => {
+  test('5. Sitemap contains 0 redirected URLs, includes all restored Punjabi routes, and URLs are unique', () => {
     const sitemapEntries = sitemap();
     const sitemapUrls = sitemapEntries.map(e => e.url);
 
+    // 1. URLs must be completely unique (no duplicate entries)
+    const uniqueUrls = new Set(sitemapUrls);
+    expect(sitemapUrls.length, `Duplicate URLs found in sitemap! Unique: ${uniqueUrls.size}, Total: ${sitemapUrls.length}`).toBe(uniqueUrls.size);
+
+    // 2. All 10 approved redirect sources must NEVER appear in the sitemap
+    for (const item of legacyFiveRedirects) {
+      const fullUrl = `https://www.converterforall.com${item.source}`;
+      expect(sitemapUrls, `Redirect source '${fullUrl}' must not appear in sitemap`).not.toContain(fullUrl);
+    }
     for (const item of approvedClusterRedirects) {
       const fullUrl = `https://www.converterforall.com${item.source}`;
-      expect(sitemapUrls).not.toContain(fullUrl);
+      expect(sitemapUrls, `Redirect source '${fullUrl}' must not appear in sitemap`).not.toContain(fullUrl);
     }
 
-    // Held tools must remain in sitemap
+    // 3. All six restored Punjabi routes must appear in the sitemap
+    for (const route of restoredPunjabiRoutes) {
+      expect(sitemapUrls, `Restored Punjabi route '${route}' missing from sitemap`).toContain(route);
+    }
+
+    // 4. Held tools and canonical pages must remain in sitemap
     expect(sitemapUrls).toContain('https://www.converterforall.com/trim-mp3-online');
     expect(sitemapUrls).toContain('https://www.converterforall.com/compress-video-for-discord');
     expect(sitemapUrls).toContain('https://www.converterforall.com/compress-mp4');
@@ -142,8 +188,7 @@ test.describe('Redirects and Aliases Integrity', () => {
     expect(sitemapUrls).toContain('https://www.converterforall.com/video-compressor');
     expect(sitemapUrls).toContain('https://www.converterforall.com/blog/why-stop-uploading-sensitive-pdfs-to-online-converters');
 
-    // New sitemap count must be 138 (148 - 9 tools - 1 blog)
-    expect(sitemapEntries.length).toBe(138);
+    // 5. Supplementary inventory count: exactly 144 URLs (138 previous + 6 restored Punjabi routes)
+    expect(sitemapEntries.length).toBe(144);
   });
 });
-

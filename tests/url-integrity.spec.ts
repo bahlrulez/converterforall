@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { toolsDatabase, SLUG_ALIASES, getCanonicalToolSlugs, getToolBySlug } from '../src/lib/tools-db';
-import { TOOLS } from '../src/config/tools';
 import { getAllBlogSlugs } from '../src/lib/blog-data';
+import { convertPunjabi } from '../src/lib/fonts/punjabi-mappings';
+import { PunjabiFontConvertor } from '../src/lib/fonts/punjabi-engine';
 import sitemap from '../src/app/sitemap';
 import fs from 'fs';
 import path from 'path';
@@ -94,7 +95,7 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
     }
   });
 
-  test('5. Sitemap contains only intended, canonical URLs and 0 aliases', () => {
+  test('5. Sitemap contains only intended, canonical URLs and 0 aliases (with restored Punjabi routes)', () => {
     const sitemapEntries = sitemap();
     const sitemapUrls = sitemapEntries.map(e => e.url);
 
@@ -107,17 +108,35 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
       expect(slug in SLUG_ALIASES, `Alias '${slug}' found in sitemap!`).toBeFalsy();
     }
 
-    // Import TIER_C_NOINDEX_SLUGS and unverified slugs to ensure sitemap contains only indexable canonical tools
-    const { TIER_C_NOINDEX_SLUGS } = require('../src/config/sitemap-lastmod');
-    const unverifiedSlugs = new Set([
-      'chanakya-to-unicode',
-      'unicode-to-chanakya',
+    // Verify restored Punjabi routes explicitly appear in sitemap
+    const restoredPunjabiSlugs = [
+      'joy-to-unicode',
+      'unicode-to-joy',
+      'asees-to-unicode',
       'unicode-to-asees',
-      'unicode-to-joy'
+      'satluj-to-unicode',
+      'unicode-to-satluj'
+    ];
+    for (const slug of restoredPunjabiSlugs) {
+      const url = `https://www.converterforall.com/${slug}`;
+      expect(sitemapUrls, `Approved restored route '${url}' must be present in sitemap`).toContain(url);
+    }
+
+    // Genuinely unverified slugs must continue to be excluded
+    const genuinelyUnverifiedSlugs = new Set([
+      'chanakya-to-unicode',
+      'unicode-to-chanakya'
     ]);
+    for (const slug of genuinelyUnverifiedSlugs) {
+      const url = `https://www.converterforall.com/${slug}`;
+      expect(sitemapUrls, `Unverified route '${url}' must be excluded from sitemap`).not.toContain(url);
+    }
+
+    // Import TIER_C_NOINDEX_SLUGS to ensure sitemap contains only indexable canonical tools
+    const { TIER_C_NOINDEX_SLUGS } = require('../src/config/sitemap-lastmod');
     for (const toolSlug of canonicalSlugs) {
       const expectedUrl = `https://www.converterforall.com/${toolSlug}`;
-      if (TIER_C_NOINDEX_SLUGS.has(toolSlug) || unverifiedSlugs.has(toolSlug)) {
+      if (TIER_C_NOINDEX_SLUGS.has(toolSlug) || genuinelyUnverifiedSlugs.has(toolSlug)) {
         expect(sitemapUrls).not.toContain(expectedUrl);
       } else {
         expect(sitemapUrls).toContain(expectedUrl);
@@ -179,5 +198,244 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
     for (const slug of testUnknowns) {
       expect(getToolBySlug(slug)).toBeNull();
     }
+  });
+
+  // =========================================================================
+  // SUITE 10: Focused P0 Punjabi Recovery Tests (Joy, Asees, Satluj)
+  // =========================================================================
+  test.describe('10. P0 Punjabi Recovery Verification (Joy, Asees, Satluj)', () => {
+    const p0Routes = [
+      'joy-to-unicode',
+      'unicode-to-joy',
+      'asees-to-unicode',
+      'unicode-to-asees',
+      'satluj-to-unicode',
+      'unicode-to-satluj'
+    ];
+
+    test('10.1 All six Punjabi routes are registered, canonical, and indexable', () => {
+      const { TIER_C_NOINDEX_SLUGS } = require('../src/config/sitemap-lastmod');
+
+      for (const slug of p0Routes) {
+        const toolData = getToolBySlug(slug);
+        expect(toolData, `Route '${slug}' must resolve in toolsDatabase`).not.toBeNull();
+        expect(toolData?.toolSlug).toBe(slug);
+        expect(toolData?.categorySlug).toBe('fonts');
+        expect(toolData?.tool.fontCategory).toBe('punjabi');
+        expect(canonicalSet.has(slug), `Route '${slug}' must be in canonical tools set`).toBe(true);
+        expect(TIER_C_NOINDEX_SLUGS.has(slug), `Route '${slug}' must not be in TIER_C_NOINDEX_SLUGS`).toBe(false);
+      }
+
+      // Satluj cross-linking checks
+      const satlujToUni = getToolBySlug('satluj-to-unicode');
+      expect(satlujToUni?.tool.relatedTools).toContain('unicode-to-satluj');
+      expect(satlujToUni?.tool.relatedTools).toContain('asees-to-unicode');
+      expect(satlujToUni?.tool.relatedTools).toContain('joy-to-unicode');
+
+      const uniToSatluj = getToolBySlug('unicode-to-satluj');
+      expect(uniToSatluj?.tool.relatedTools).toContain('satluj-to-unicode');
+      expect(uniToSatluj?.tool.relatedTools).toContain('unicode-to-asees');
+      expect(uniToSatluj?.tool.relatedTools).toContain('unicode-to-joy');
+    });
+
+    test('10.2 Character table rule counts and mapping activation', () => {
+      // Satluj character codes: 100 mapping rules
+      const satlujRules = Object.keys((PunjabiFontConvertor as any).satluj || {}).length;
+      expect(satlujRules, 'Satluj mapping table must contain 100 character rules').toBe(100);
+
+      // Joy character codes: 119 mapping rules
+      const joyRules = Object.keys((PunjabiFontConvertor as any).joy || {}).length;
+      expect(joyRules, 'Joy mapping table must contain 119 character rules').toBe(119);
+
+      // Asees character codes: 120 mapping rules
+      const aseesRules = Object.keys((PunjabiFontConvertor as any).asees || {}).length;
+      expect(aseesRules, 'Asees mapping table must contain 120 character rules').toBe(120);
+    });
+
+    test('10.3 Bidirectional round-trip engine fidelity across representative Gurmukhi texts', () => {
+      // Representative test corpus covering vowels, subjoined consonants (pairin), nasalization, and gemination
+      const corpus = [
+        { name: 'Standard Greeting', text: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ' },
+        { name: 'Pairi Rara (Subjoined R)', text: 'ਪ੍ਰੇਮ ਅਤੇ ਪਿਆਰ' },
+        { name: 'Pairi Haha & Vava', text: 'ਪੜ੍ਹਾਈ ਅਤੇ ਸ੍ਵੈਮਾਣ' },
+        { name: 'Tippi & Bindi', text: 'ਗੁਰਮੁਖੀ ਲਿਪੀ ਵਿੱਚ ਸਿੰਘ ਅਤੇ ਕਾਂ' },
+        { name: 'Addak (Gemination)', text: 'ਮਿੱਤਰ ਪਿਆਰੇ ਨੂੰ ਹਾਲ ਮੁਰੀਦਾਂ ਦਾ ਕਹਿਣਾ' },
+        { name: 'Gurmukhi Digits', text: '੧ ੨ ੩ ੪ ੫' }
+      ];
+
+      // Note on encoding standards:
+      // - Satluj uses high-order ANSI/legacy encoding (e.g. ÃÇå ÃÌÆ ÁÕÅñ)
+      // - Joy and Asees use ASCII keyboard layout remapping
+      // Automated tests verify internal engine consistency and round-trip fidelity.
+      const fonts = ['satluj', 'joy', 'asees'];
+
+      for (const font of fonts) {
+        for (const item of corpus) {
+          const encoded = convertPunjabi(item.text, font, 'fromUnicode');
+          expect(encoded.length, `${font} encoded text for '${item.name}' should not be empty`).toBeGreaterThan(0);
+
+          const decoded = convertPunjabi(encoded, font, 'toUnicode');
+          expect(decoded, `${font} round-trip decoded text for '${item.name}' must match input`).toBe(item.text);
+        }
+      }
+
+      // Exact high-order ANSI encoding verification for Satluj
+      const satlujGreetingEncoded = convertPunjabi('ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ', 'satluj', 'fromUnicode');
+      expect(satlujGreetingEncoded, 'Satluj greeting must encode to expected high-order ANSI string').toBe('ÃÇå ÃÌÆ ÁÕÅñ');
+      expect(convertPunjabi('ÃÇå ÃÌÆ ÁÕÅñ', 'satluj', 'toUnicode')).toBe('ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ');
+    });
+
+    test('10.4 Static prerendered HTML contains canonical links, valid title, and zero noindex', () => {
+      for (const slug of p0Routes) {
+        const htmlPath = path.join(process.cwd(), '.next/server/app', `${slug}.html`);
+        expect(fs.existsSync(htmlPath), `Static prerendered HTML file for '/${slug}' must exist`).toBe(true);
+
+        const html = fs.readFileSync(htmlPath, 'utf8');
+
+        // Canonical tag
+        const canonicalTag = `<link rel="canonical" href="https://www.converterforall.com/${slug}"/>`;
+        expect(html, `Prerendered HTML for '/${slug}' must contain correct canonical link`).toContain(canonicalTag);
+
+        // Noindex absence
+        expect(html.includes('content="noindex'), `Prerendered HTML for '/${slug}' must NOT contain noindex`).toBe(false);
+
+        // Trust badge strip
+        expect(html).toContain('On-Device Browser Processing');
+        expect(html).toContain('No Account or Limits');
+
+        // Brand title
+        expect(html).toContain('| ConverterForAll</title>');
+      }
+    });
+
+    test('10.5 Internal links in home, FAQ, search, and blog resolve cleanly to restored Satluj routes', () => {
+      // 1. Dropzone internal links
+      const dropzoneCode = fs.readFileSync(path.resolve(__dirname, '../src/components/home/modern-dropzone.tsx'), 'utf-8');
+      expect(dropzoneCode).toContain('handleTextSubmit(\'unicode-to-satluj\')');
+      expect(dropzoneCode).toContain('handleTextSubmit(\'satluj-to-unicode\')');
+
+      // 2. Hero search
+      const heroCode = fs.readFileSync(path.resolve(__dirname, '../src/components/home/hero-search.tsx'), 'utf-8');
+      expect(heroCode).toContain('slug: "unicode-to-satluj"');
+
+      // 3. Blog data
+      const blogCode = fs.readFileSync(path.resolve(__dirname, '../src/lib/blog-data.ts'), 'utf-8');
+      expect(blogCode).toContain('href="/satluj-to-unicode"');
+
+      // 4. Font profiles
+      const profilesCode = fs.readFileSync(path.resolve(__dirname, '../src/lib/content/punjabi-font-profiles.ts'), 'utf-8');
+      expect(profilesCode).toContain('slug: "satluj-to-unicode"');
+      expect(profilesCode).toContain('slug: "unicode-to-satluj"');
+    });
+
+    test('10.6 Live application interface E2E browser verification across all six Punjabi routes', async ({ page }) => {
+      // Confirm local server is reachable on port 3005 before executing live browser steps
+      let isReachable = false;
+      try {
+        const res = await fetch('http://localhost:3005/satluj-to-unicode');
+        isReachable = res.status === 200;
+      } catch {
+        isReachable = false;
+      }
+
+      // Must genuinely execute during audit verification
+      expect(isReachable, 'Local application server must be running on http://localhost:3005 for genuine E2E verification').toBe(true);
+
+      const liveTestScenarios = [
+        {
+          route: '/satluj-to-unicode',
+          input: 'ÃÇå ÃÌÆ ÁÕÅñ', // Satluj high-order ANSI
+          expectedOutput: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
+          description: 'Satluj High-Order ANSI to Unicode'
+        },
+        {
+          route: '/unicode-to-satluj',
+          input: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
+          expectedOutput: 'ÃÇå ÃÌÆ ÁÕÅñ',
+          description: 'Unicode to Satluj High-Order ANSI'
+        },
+        {
+          route: '/unicode-to-joy',
+          input: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
+          expectedOutput: ';fs ;Ãh nekb',
+          description: 'Unicode to Joy (ASCII with High-Order Pairin Rara)'
+        },
+        {
+          route: '/joy-to-unicode',
+          input: ';fs ;Ãh nekb',
+          expectedOutput: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
+          description: 'Joy to Unicode'
+        },
+        {
+          route: '/asees-to-unicode',
+          input: ';fs ;qh nekb',
+          expectedOutput: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
+          description: 'Full greeting — Asees to Unicode (Primary Acceptance Test)'
+        },
+        {
+          route: '/unicode-to-asees',
+          input: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
+          expectedOutput: ';fs ;qh nekb',
+          description: 'Full greeting — Unicode to Asees'
+        },
+        {
+          route: '/asees-to-unicode',
+          input: 'fgnko',
+          expectedOutput: 'ਪਿਆਰ',
+          description: 'Short word — Asees to Unicode'
+        },
+        {
+          route: '/unicode-to-asees',
+          input: 'ਪਿਆਰ',
+          expectedOutput: 'fgnko',
+          description: 'Short word — Unicode to Asees'
+        }
+      ];
+
+      for (const scenario of liveTestScenarios) {
+        const pageErrors: string[] = [];
+        const consoleErrors: string[] = [];
+        const failedRequests: string[] = [];
+
+        page.on('pageerror', err => pageErrors.push(err.message));
+        page.on('console', msg => {
+          if (msg.type() === 'error') {
+            const text = msg.text();
+            // Filter benign localhost analytics 404
+            if (!text.includes('_vercel/insights') && !text.includes('Failed to load resource')) {
+              consoleErrors.push(text);
+            }
+          }
+        });
+        page.on('requestfailed', req => {
+          const url = req.url();
+          const isThirdPartyTracker = url.includes('google-analytics') || url.includes('googletagmanager') || url.includes('_vercel');
+          if (!isThirdPartyTracker) {
+            failedRequests.push(`${req.method()} ${url}: ${req.failure()?.errorText || 'Unknown error'}`);
+          }
+        });
+
+        const navResponse = await page.goto(`http://localhost:3005${scenario.route}`);
+        expect(navResponse, `Navigation to '${scenario.route}' must return a response`).not.toBeNull();
+        expect(navResponse!.status(), `Route '${scenario.route}' must return HTTP 200`).toBe(200);
+
+        await page.waitForSelector('textarea', { timeout: 10000 });
+        const textareas = page.locator('textarea');
+        expect(await textareas.count(), `Route '${scenario.route}' must render input and output textareas`).toBeGreaterThanOrEqual(2);
+
+        // Fill input textarea
+        await textareas.nth(0).fill(scenario.input);
+        // Wait for React state to process conversion
+        await page.waitForTimeout(400);
+
+        const convertedValue = await textareas.nth(1).inputValue();
+        expect(convertedValue.trim(), `Live converter output on '${scenario.route}' (${scenario.description}) must match expectation`).toBe(scenario.expectedOutput);
+
+        // Assert zero unhandled application exceptions, console errors, or failed page requests
+        expect(pageErrors.length, `Runtime pageerror exceptions on '${scenario.route}': ${pageErrors.join(', ')}`).toBe(0);
+        expect(consoleErrors.length, `Console.error events on '${scenario.route}': ${consoleErrors.join(', ')}`).toBe(0);
+        expect(failedRequests.length, `Failed network requests on '${scenario.route}': ${failedRequests.join(', ')}`).toBe(0);
+      }
+    });
   });
 });
