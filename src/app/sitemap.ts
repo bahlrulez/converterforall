@@ -63,9 +63,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Canonical Tool routes (Exclude Tier C noindexed tools and unverified font tools)
   const unverifiedSlugs = new Set([
     'chanakya-to-unicode',
-    'unicode-to-chanakya',
-    'unicode-to-asees',
-    'unicode-to-joy'
+    'unicode-to-chanakya'
   ])
   const dbSlugs = getCanonicalToolSlugs()
   const configSlugs = Object.values(TOOLS).map(t => t.path.replace(/^\//, ''))

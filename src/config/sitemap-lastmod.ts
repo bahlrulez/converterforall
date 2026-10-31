@@ -35,13 +35,10 @@ export const TIER_C_NOINDEX_TOOL_SLUGS = [
   "unicode-to-anmollipi",
   "unicode-to-shusha",
   "unicode-to-shreelipi",
-  "unicode-to-satluj",
   "shahmukhi-to-gurmukhi",
-  "asees-to-unicode",
   "gurbani-akhar-to-unicode",
   "unicode-to-raavi",
-  "anmollipi-to-unicode",
-  "joy-to-unicode"
+  "anmollipi-to-unicode"
 ] as const;
 
 export const TIER_C_NOINDEX_SLUGS = new Set<string>(TIER_C_NOINDEX_TOOL_SLUGS);
