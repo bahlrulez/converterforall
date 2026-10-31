@@ -367,16 +367,28 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
           description: 'Joy to Unicode'
         },
         {
+          route: '/asees-to-unicode',
+          input: ';fs ;qh nekb',
+          expectedOutput: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
+          description: 'Full greeting — Asees to Unicode (Primary Acceptance Test)'
+        },
+        {
           route: '/unicode-to-asees',
           input: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ',
           expectedOutput: ';fs ;qh nekb',
-          description: 'Unicode to Asees Font (ASCII Keyboard Remapping)'
+          description: 'Full greeting — Unicode to Asees'
         },
         {
           route: '/asees-to-unicode',
           input: 'fgnko',
           expectedOutput: 'ਪਿਆਰ',
-          description: 'Asees to Unicode (PSSSB typing test candidate string)'
+          description: 'Short word — Asees to Unicode'
+        },
+        {
+          route: '/unicode-to-asees',
+          input: 'ਪਿਆਰ',
+          expectedOutput: 'fgnko',
+          description: 'Short word — Unicode to Asees'
         }
       ];
 
