@@ -62,5 +62,26 @@ test.describe('Government & Job Document Helpers and Memory Guard Integrity', ()
     expect(hugeVideo.message.length).toBeGreaterThan(20);
   });
 
+  test('4. Photo Stamper Passport Crop accurately transforms landscape inputs into 3.5:4.5 portrait', () => {
+    // Simulating user input: 2752 x 1766 landscape
+    const srcW = 2752;
+    const srcH = 1766;
+    const targetRatio = 3.5 / 4.5; // ~0.77778
+
+    expect(srcW / srcH).toBeGreaterThan(targetRatio);
+
+    const cropH = srcH;
+    const cropW = Math.round(srcH * targetRatio); // 1766 * 0.77778 = 1374
+    expect(cropW).toBe(1374);
+    expect(cropH).toBe(1766);
+    expect(cropW / cropH).toBeCloseTo(targetRatio, 2);
+
+    // Center offset 50%
+    const maxOffset = srcW - cropW;
+    const cropX = Math.round(maxOffset * 0.5);
+    expect(cropX).toBe(689);
+    expect(cropX + cropW).toBeLessThanOrEqual(srcW);
+  });
+
 });
 

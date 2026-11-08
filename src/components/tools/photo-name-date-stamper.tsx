@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
-import { UploadCloud, Download, Image as ImageIcon, Settings, Sliders, ExternalLink, Calendar, Check, Sparkles } from "lucide-react";
+import { UploadCloud, Download, Image as ImageIcon, Settings, Sliders, ExternalLink, Calendar, Check, Sparkles, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 type StripStyle = "white" | "black";
 type Placement = "overlay" | "add";
+type AspectRatioMode = "passport" | "original";
 
 export function PhotoNameDateStamper() {
   const [imageObj, setImageObj] = useState<HTMLImageElement | null>(null);
@@ -16,9 +17,12 @@ export function PhotoNameDateStamper() {
   
   const [stripStyle, setStripStyle] = useState<StripStyle>("white");
   const [placement, setPlacement] = useState<Placement>("overlay");
+  const [aspectMode, setAspectMode] = useState<AspectRatioMode>("passport");
+  const [cropOffset, setCropOffset] = useState<number>(50); // 50% = centered
   
   const [textScale, setTextScale] = useState(1);
   const [stripHeightRatio, setStripHeightRatio] = useState(0.15); // 15% of height by default
+  const [outputDims, setOutputDims] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -32,6 +36,11 @@ export function PhotoNameDateStamper() {
       const img = new Image();
       img.onload = () => {
         setImageObj(img);
+        // If uploaded photo is landscape (wider than tall), auto-select passport portrait
+        if (img.width > img.height) {
+          setAspectMode("passport");
+          setCropOffset(50);
+        }
       };
       img.src = event.target?.result as string;
     };
@@ -68,16 +77,46 @@ export function PhotoNameDateStamper() {
     const imgW = imageObj.width;
     const imgH = imageObj.height;
     
-    const stripHeight = Math.floor(imgH * stripHeightRatio);
-    const canvasW = imgW;
-    const canvasH = placement === "add" ? imgH + stripHeight : imgH;
+    // Determine source crop rectangle
+    let cropX = 0;
+    let cropY = 0;
+    let cropW = imgW;
+    let cropH = imgH;
+
+    if (aspectMode === "passport") {
+      const targetRatio = 3.5 / 4.5; // Standard 3.5cm x 4.5cm passport ratio (~0.7778)
+      const currentRatio = imgW / imgH;
+
+      if (currentRatio > targetRatio) {
+        // Source image is wider than 3.5:4.5 (e.g. landscape 2752x1766)
+        cropH = imgH;
+        cropW = Math.round(imgH * targetRatio);
+        const maxOffset = imgW - cropW;
+        cropX = Math.round(maxOffset * (cropOffset / 100));
+        cropY = 0;
+      } else {
+        // Source image is taller than 3.5:4.5
+        cropW = imgW;
+        cropH = Math.round(imgW / targetRatio);
+        const maxOffset = imgH - cropH;
+        cropX = 0;
+        cropY = Math.round(maxOffset * (cropOffset / 100));
+      }
+    }
+
+    const stripHeight = Math.floor(cropH * stripHeightRatio);
+    const canvasW = cropW;
+    const canvasH = placement === "add" ? cropH + stripHeight : cropH;
+
+    setOutputDims({ width: canvasW, height: canvasH });
 
     canvas.width = canvasW;
     canvas.height = canvasH;
 
-    ctx.drawImage(imageObj, 0, 0, imgW, imgH);
+    // Draw the cropped photograph onto the target canvas
+    ctx.drawImage(imageObj, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
 
-    const stripY = placement === "add" ? imgH : imgH - stripHeight;
+    const stripY = placement === "add" ? cropH : cropH - stripHeight;
     ctx.fillStyle = stripStyle === "white" ? "#FFFFFF" : "#000000";
     ctx.fillRect(0, stripY, canvasW, stripHeight);
 
@@ -103,7 +142,7 @@ export function PhotoNameDateStamper() {
       }
       ctx.fillText(`DOP: ${formattedDop}`, canvasW / 2, dateY);
     }
-  }, [imageObj, candidateName, dop, stripStyle, placement, textScale, stripHeightRatio]);
+  }, [imageObj, candidateName, dop, stripStyle, placement, aspectMode, cropOffset, textScale, stripHeightRatio]);
 
   const handleDownload = () => {
     const canvas = canvasRef.current;
@@ -152,9 +191,22 @@ export function PhotoNameDateStamper() {
             </label>
             
             {imageObj && (
-              <p className="text-xs text-center text-muted-foreground break-all bg-muted py-1.5 px-3 rounded-lg border">
-                Loaded: {fileName} ({imageObj.width}×{imageObj.height} px)
-              </p>
+              <div className="space-y-2">
+                <p className="text-xs text-center text-muted-foreground break-all bg-muted py-1.5 px-3 rounded-lg border">
+                  Loaded: {fileName} ({imageObj.width}×{imageObj.height} px)
+                </p>
+                {imageObj.width > imageObj.height && (
+                  <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-2.5 text-xs text-amber-600 dark:text-amber-400 flex items-start gap-2">
+                    <Info className="w-4 h-4 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-semibold">Wide / Landscape photo detected!</span>
+                      <p className="text-[11px] mt-0.5 opacity-90">
+                        Exam portals (UPSC, SSC, State) require 3.5cm × 4.5cm vertical passport photos. Passport crop is auto-applied below.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
           </div>
 
@@ -187,6 +239,71 @@ export function PhotoNameDateStamper() {
                 <span className="font-semibold block">State / SSC Format</span>
                 <span className="text-[10px] text-muted-foreground">Added strip below photo</span>
               </button>
+            </div>
+
+            {/* Aspect Ratio & Crop Mode */}
+            <div className="space-y-1.5 pt-2 border-t border-border">
+              <div className="flex items-center justify-between text-xs">
+                <label className="font-semibold text-foreground">Photo Proportions (Aspect Ratio)</label>
+                {aspectMode === "passport" && (
+                  <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                    ✓ 3.5×4.5 cm Passport
+                  </span>
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAspectMode("passport")}
+                  className={`text-xs py-2 px-2.5 rounded-lg font-semibold border transition-all text-left flex flex-col ${
+                    aspectMode === "passport"
+                      ? "bg-primary text-primary-foreground border-primary shadow-xs ring-1 ring-primary/40"
+                      : "bg-background hover:bg-muted border-border"
+                  }`}
+                >
+                  <span className="font-bold">Passport (3.5 × 4.5)</span>
+                  <span className={`text-[10px] font-normal ${aspectMode === "passport" ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                    Govt exam standard
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAspectMode("original")}
+                  className={`text-xs py-2 px-2.5 rounded-lg font-medium border transition-all text-left flex flex-col ${
+                    aspectMode === "original"
+                      ? "bg-primary text-primary-foreground border-primary shadow-xs ring-1 ring-primary/40"
+                      : "bg-background hover:bg-muted border-border"
+                  }`}
+                >
+                  <span className="font-bold">Keep Original</span>
+                  <span className={`text-[10px] font-normal ${aspectMode === "original" ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                    No crop applied
+                  </span>
+                </button>
+              </div>
+
+              {aspectMode === "passport" && imageObj && (imageObj.width / imageObj.height > 3.5 / 4.5) && (
+                <div className="space-y-1.5 pt-2 bg-muted/40 p-2.5 rounded-xl border border-border">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-foreground font-medium text-[11px]">Center Face (Pan Left/Right)</span>
+                    <span className="font-mono text-[11px] font-bold text-primary">{cropOffset}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={cropOffset}
+                    onChange={(e) => setCropOffset(parseInt(e.target.value))}
+                    className="w-full h-1.5 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
+                  />
+                  <div className="flex justify-between text-[9px] text-muted-foreground px-0.5">
+                    <span>← Left</span>
+                    <span>Center (50%)</span>
+                    <span>Right →</span>
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="space-y-3.5 pt-1">
@@ -296,9 +413,20 @@ export function PhotoNameDateStamper() {
         {/* Right Column: Live Stamped Canvas Preview & Download */}
         <div className="w-full lg:w-2/3 flex flex-col gap-4">
           <div className="bg-card border border-border rounded-2xl p-6 shadow-sm flex flex-col items-center">
-            <h3 className="font-semibold text-base mb-4 w-full text-left">Live Stamped Output</h3>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4 w-full">
+              <h3 className="font-semibold text-base">Live Stamped Output</h3>
+              {outputDims.width > 0 && (
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted text-[11px] font-mono border">
+                  <span className="font-bold text-foreground">{outputDims.width} × {outputDims.height} px</span>
+                  <span className="text-muted-foreground">•</span>
+                  <span className={aspectMode === "passport" ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-muted-foreground"}>
+                    {aspectMode === "passport" ? "Passport Portrait (3.5:4.5)" : "Original Ratio"}
+                  </span>
+                </div>
+              )}
+            </div>
             
-            <div className="relative border-4 border-muted rounded-xl overflow-hidden shadow-md max-w-sm w-full bg-muted/40 min-h-[300px] flex items-center justify-center p-2">
+            <div className="relative border-2 border-border/70 rounded-xl overflow-hidden shadow-sm max-w-sm w-full bg-slate-100 dark:bg-slate-900/40 min-h-[300px] flex items-center justify-center p-3">
               {!imageObj ? (
                 <div className="text-center p-6 text-muted-foreground">
                   <ImageIcon className="w-12 h-12 opacity-20 mx-auto mb-2" />
@@ -307,7 +435,7 @@ export function PhotoNameDateStamper() {
               ) : (
                 <canvas 
                   ref={canvasRef} 
-                  className="max-h-[420px] w-auto h-auto object-contain block mx-auto rounded shadow-sm"
+                  className="max-h-[440px] w-auto h-auto object-contain block mx-auto rounded-lg shadow-md border border-border/80"
                 />
               )}
             </div>
