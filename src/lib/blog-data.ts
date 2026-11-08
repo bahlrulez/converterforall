@@ -1927,10 +1927,159 @@ export const blogDatabase: Record<string, BlogPost> = {
       <p><strong>Q: Will my formatting be preserved after conversion?</strong><br>A: Clipboard formatting like bold, italics, or font sizes may be lost during pure text conversion. The converters output clean Unicode plain text which you can format natively in Word or InDesign using fonts like Mangal or Nirmala UI.</p>
       <p><strong>Q: I need to paste the text back into an old PageMaker file, can I convert Unicode back to Kruti Dev?</strong><br>A: Yes! Our tools support two-way conversion. Just use the <em>Unicode to Kruti Dev</em> option to convert standard text back into the legacy layout.</p>
     `
+  },
+  "how-to-add-name-and-date-on-photo-for-ssc-upsc": {
+    description: "Learn how to add candidate name and Date of Photo (DOP) for SSC CGL, CHSL, UPSC, and State exams without Photoshop. Auto-crop to 3.5x4.5cm passport size and keep under 50KB.",
+    relatedTool: {
+      slug: "photo-name-date-stamper",
+      title: "Photo Name and Date Stamper",
+      desc: "Auto-crop photos to 3.5x4.5cm passport proportions and stamp your name with date of photo for free."
+    },
+    title: "How to Add Name and Date on Photo for SSC and UPSC (Without Photoshop)",
+    date: "November 8, 2026",
+    category: "Guides & Tutorials",
+    content: `
+      <p><strong>Avoid the Most Common Reason Sarkari Exam Applications Get Rejected</strong></p>
+      <p>You spend months preparing for government exams like SSC CGL, CHSL, GD Constable, or UPSC Civil Services. You fill out the registration form, enter your educational details, and reach the final upload step: <em>"Upload recent passport photograph with Name and Date of Photo (DOP) clearly printed at the bottom."</em></p>
+      <p>Many candidates simply upload an ordinary phone selfie or a saved portrait without the date. A few weeks later, when the scrutiny list or admit cards are released, they find their form rejected with the status: <strong>"Application Rejected: Invalid Photograph / Missing Date of Photo (DOP)."</strong></p>
+      <p>Finding a photo studio or paying a cyber cafe ₹50 just to add two lines of text to your photo is frustrating, especially when you are applying on your phone right before the application deadline. In this guide, we will walk you through the exact official rules for SSC and UPSC photos, explain why ordinary phone photos often fail portal validation, and show you how to crop and stamp your photo properly in under a minute without using Photoshop.</p>
+
+      <h2>Why Do SSC, UPSC, and State Exam Portals Require Name and Date?</h2>
+      <p>Government recruitment boards introduce strict photo guidelines to maintain fairness and security across millions of applications:</p>
+      <ul>
+        <li><strong>Proof of Freshness:</strong> The photograph must not be older than three months from the notification release date. The printed Date of Photo (DOP) serves as a declared record that the picture represents your current physical appearance.</li>
+        <li><strong>Preventing Identity Mix-ups:</strong> Exam servers process hundreds of thousands of image files simultaneously. Having your full name clearly printed on the photo prevents file mismatches during database processing.</li>
+        <li><strong>Biometric and Exam Center Verification:</strong> On exam day, the invigilator and biometric facial scanners compare your live face against the printed admit card. If an applicant uploads a five-year-old picture from school, facial mismatches can lead to biometric delays or disqualification.</li>
+      </ul>
+
+      <h2>The Widescreen Trap: Why Direct Phone Photos Fail Portal Uploads</h2>
+      <p>The most common mistake candidates make is taking a picture with their smartphone and uploading it directly. Here is why that causes problems:</p>
+      <p>Modern smartphone cameras capture images in <strong>16:9 widescreen or 4:3 landscape mode</strong> (such as 2,752 × 1,766 pixels or 4,000 × 3,000 pixels). However, recruitment portals like SSC, UPSC, IBPS, and State Police boards strictly demand a <strong>vertical 3.5 cm × 4.5 cm passport ratio</strong> (approximately a 7:9 or 3:4 portrait shape).</p>
+      <p>If you add a date strip to an uncropped horizontal picture, one of two things happens:</p>
+      <ol>
+        <li>The recruitment portal's automatic resizer forcefully squishes the wide image into a vertical box, making your face appear unnaturally stretched or distorted.</li>
+        <li>The portal's validation script rejects the file immediately because the aspect ratio does not match the mandatory passport dimensions.</li>
+      </ol>
+      <p>To avoid this, your photo must be cropped to the standard <strong>3.5 cm width × 4.5 cm height</strong> passport proportion before or during the stamping step.</p>
+
+      <h2>Official Photo Specifications at a Glance</h2>
+      <div class="my-6 overflow-x-auto">
+        <table class="w-full text-left border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/60">
+              <th class="p-3 font-semibold">Requirement</th>
+              <th class="p-3 font-semibold">UPSC Standards</th>
+              <th class="p-3 font-semibold">SSC Standards</th>
+              <th class="p-3 font-semibold">State PSCs &amp; Police</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+            <tr>
+              <td class="p-3 font-medium">Dimensions</td>
+              <td class="p-3">3.5 cm × 4.5 cm (350×450 px)</td>
+              <td class="p-3">3.5 cm × 4.5 cm (350×450 px)</td>
+              <td class="p-3">3.5 cm × 4.5 cm (or 200×230 px)</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">File Size Limits</td>
+              <td class="p-3">20 KB to 50 KB (Strict)</td>
+              <td class="p-3">20 KB to 50 KB (Strict)</td>
+              <td class="p-3">20 KB to 100 KB</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">File Format</td>
+              <td class="p-3">JPEG / JPG only</td>
+              <td class="p-3">JPEG / JPG only</td>
+              <td class="p-3">JPEG / JPG only</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">Name Format</td>
+              <td class="p-3">Full Name in CAPITAL letters</td>
+              <td class="p-3">Full Name in CAPITAL letters</td>
+              <td class="p-3">Full Name in CAPITAL letters</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">Date Format</td>
+              <td class="p-3">DOP: DD/MM/YYYY</td>
+              <td class="p-3">DOP: DD/MM/YYYY</td>
+              <td class="p-3">DOP: DD/MM/YYYY</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">Background</td>
+              <td class="p-3">Plain White or Light Gray</td>
+              <td class="p-3">Plain White or Light Gray</td>
+              <td class="p-3">Plain White or Light Cream</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>How to Add Name and Date on Your Photo (Step-by-Step)</h2>
+      <p>You do not need desktop photo editing software or paid mobile apps to get this right. Follow these four simple steps:</p>
+
+      <h3>Step 1: Take or Pick a Suitable Photograph</h3>
+      <ul>
+        <li>Stand facing a window or soft indoor light against a plain white, off-white, or light-colored wall.</li>
+        <li>Keep your head upright, eyes open and looking straight into the camera lens, with a neutral facial expression.</li>
+        <li>Make sure both ears and shoulders are clearly visible. Avoid wearing hats, caps, mufflers, or dark sunglasses. Standard prescription spectacles are allowed if there is no glare on the lenses.</li>
+      </ul>
+
+      <h3>Step 2: Open the Free Photo Stamper Tool</h3>
+      <p>Go to the free <a href="/photo-name-date-stamper">Photo Name and Date Stamper</a> on ConverterForAll.com.</p>
+      <ul>
+        <li>Click <strong>Click to select photo</strong> and upload your picture from your phone gallery or computer.</li>
+        <li>If your camera took a wide horizontal picture, the tool automatically selects <strong>Passport (3.5 × 4.5)</strong> mode. This automatically crops the image to the official 3.5cm × 4.5cm passport shape and centers your face.</li>
+        <li>If your face is slightly off-center, use the <em>Center Face (Pan Left/Right)</em> slider to adjust your position until your head is balanced in the frame.</li>
+      </ul>
+
+      <h3>Step 3: Add Candidate Name and Date of Photo (DOP)</h3>
+      <ul>
+        <li><strong>Candidate Name:</strong> Type your full name exactly as it appears on your 10th Class (Matriculation) mark sheet. The tool automatically converts your name into clean, legible capital letters.</li>
+        <li><strong>Date of Photo (DOP):</strong> Use the date picker or click the quick shortcut buttons (<em>Today</em>, <em>Yesterday</em>, or <em>1 Wk Ago</em>). The date is automatically formatted into official Indian government format (<code>DD/MM/YYYY</code>, for example <code>DOP: 08/11/2026</code>).</li>
+        <li><strong>Choose Strip Placement:</strong>
+          <ul>
+            <li><em>Overlay on Photo (UPSC Format):</em> Places a neat white strip across the bottom 15% of the chest area. This is the standard format preferred by UPSC and SSC.</li>
+            <li><em>Append to Bottom (State / SSC Format):</em> Adds a separate white strip beneath the photo, keeping your entire shirt and chest area untouched.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Step 4: Download and Confirm File Size (20 KB – 50 KB)</h3>
+      <p>Review the live preview under <strong>Live Stamped Output</strong>. Check the output dimensions badge (for example, <code>1374 × 1766 px • Passport Portrait (3.5:4.5)</code>).</p>
+      <p>Click <strong>Download Stamped Photograph</strong> to save the final JPEG file to your phone or computer.</p>
+      <p>If your downloaded photo is larger than 50 KB (which can happen with high-resolution modern phone cameras), you can pass it through our <a href="/exam-photo-resizer">Exam Photo Resizer</a> to compress it to the exact 20 KB – 50 KB range without losing legibility.</p>
+
+      <h2>Important Rules to Keep in Mind</h2>
+      <ul>
+        <li><strong>Never use fake or future dates:</strong> Always use an actual recent date within the last three months. During document verification (DV) before final selection, discrepancies in declarations can lead to disqualification.</li>
+        <li><strong>Do not write with a pen on a printed photo:</strong> Do not print a photo, write your name with a ballpoint pen, and take a photo of it. Exam scanners detect handwritten pen marks as image noise, which frequently triggers rejection flags. Use clean digital typography on a solid background strip.</li>
+        <li><strong>Keep the text legible:</strong> Ensure the text color contrasts strongly with the strip (black text on a white strip is the universally accepted standard).</li>
+      </ul>
+
+      <h2>A Note on Document Privacy</h2>
+      <p>Your passport photo is a personal identity document. Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.</p>
+      <p>When you use the Photo Stamper, your photo is processed on your own phone or computer using standard HTML5 canvas technology. It is never uploaded to an external server or stored in a database, ensuring complete privacy for your official exam documents.</p>
+
+      <h2>Frequently Asked Questions</h2>
+      <p><strong>Q: What happens if my exam portal does not require Name and Date on the photo?</strong><br>A: Some exams (like IBPS Bank exams or certain university entrance tests) ask for an ordinary passport photo without any text strip. In that case, you do not need to stamp a date. You can use our <a href="/exam-photo-resizer">Exam Photo Resizer</a> to crop and compress your photo directly.</p>
+
+      <p><strong>Q: What date should I put on my photo?</strong><br>A: The Date of Photo (DOP) should be the date on which the photo was actually clicked, and it must fall within three months prior to the date of the recruitment notification. Using today's date or a date within the last 1–2 weeks is standard practice for fresh applications.</p>
+
+      <p><strong>Q: Can I use a blue background instead of white?</strong><br>A: While a few private entrance exams accept light blue backgrounds, almost all major government exams (UPSC, SSC, State Police, Railway RRB) explicitly specify a pure white, off-white, or light gray background. If your current photo has a colored or busy room background, you can use our <a href="/remove-background">Background Remover</a> to replace it with clean white.</p>
+
+      <p><strong>Q: Is the date format DD/MM/YYYY or MM/DD/YYYY?</strong><br>A: Indian government application portals exclusively follow the British/Indian standard: <code>DD/MM/YYYY</code> (Day/Month/Year). Our stamper automatically formats your date this way to prevent validation errors.</p>
+    `
   }
 };
 
 export const posts = [
+  {
+    slug: "how-to-add-name-and-date-on-photo-for-ssc-upsc",
+    title: "How to Add Name and Date on Photo for SSC and UPSC (Without Photoshop)",
+    date: "November 8, 2026",
+    excerpt: "Learn how to easily add your candidate name and Date of Photo (DOP) for SSC CGL, CHSL, UPSC, and State Police exam forms without Photoshop. Auto-crop to 3.5x4.5cm and fit strict 20-50KB limits.",
+    category: "Guides & Tutorials"
+  },
   {
     slug: "sarkari-exam-photo-signature-guidelines-rules",
     title: "Sarkari Exam Photo, Signature & Marksheet Guidelines: Dimensions, KB Limits & DOP Rules (SSC, UPSC, State PSC)",
