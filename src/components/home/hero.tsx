@@ -55,21 +55,21 @@ export function Hero() {
             
             {/* Privacy Pill Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/10 text-white text-xs font-semibold backdrop-blur-md mb-5 shadow-sm">
-              <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-              <span className="tracking-tight">100% In-Browser • No Uploads • Complete Privacy</span>
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="tracking-tight">Private by Design • In-Browser Processing • No Signups</span>
             </div>
 
-            {/* Headline (Preserving exact text) */}
-            <h1 className="font-jakarta text-3xl leading-[1.1] sm:text-5xl md:text-6xl lg:text-[4.2rem] font-extrabold tracking-tight text-white mb-4 lg:mb-6">
-              Fast, Private,<br />
+            {/* Headline (SEO-Friendly, Clear & Genuine) */}
+            <h1 className="font-jakarta text-3xl leading-[1.1] sm:text-5xl md:text-6xl lg:text-[4.1rem] font-extrabold tracking-tight text-white mb-4 lg:mb-6">
+              Fast, Private<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-indigo-200 to-purple-300">
-                In-Browser Utilities.
+                Online File &amp; Font Converter.
               </span>
             </h1>
 
-            {/* Subtitle (Preserving exact text) */}
+            {/* Subtitle (Honest, Standardized Privacy Framing) */}
             <p className="max-w-xl text-sm sm:text-base lg:text-lg text-slate-300 mb-6 lg:mb-8 leading-relaxed px-2 sm:px-0 font-normal">
-              Zero uploads to external servers. High-performance regional font converters, Sarkari exam photo tools, and privacy-first file utilities.
+              Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.
             </p>
 
             {/* CTA Buttons (Pill styling matching screenshot) */}
@@ -146,8 +146,8 @@ export function Hero() {
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-white">Your Files Stay Private</h4>
-              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">Processed directly in your browser</p>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Private by Design</h4>
+              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">Most tools run directly on your device</p>
             </div>
           </div>
 
@@ -156,8 +156,8 @@ export function Hero() {
               <Zap className="w-5 h-5 fill-amber-400/20" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-white">Instant &amp; Fast</h4>
-              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">No waiting, zero server queues</p>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Fast &amp; Queue-Free</h4>
+              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">In-browser tools run at device speed</p>
             </div>
           </div>
 
@@ -166,8 +166,8 @@ export function Hero() {
               <InfinityIcon className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-white">Unlimited Conversions</h4>
-              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">Convert as much as you need</p>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Unlimited &amp; Free</h4>
+              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">No daily caps, watermarks, or signups</p>
             </div>
           </div>
 
@@ -176,8 +176,8 @@ export function Hero() {
               <Smartphone className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-white">Works Everywhere</h4>
-              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">Desktop, tablet &amp; mobile ready</p>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Safe Cloud Tasks</h4>
+              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">RAM-only, deleted right after download</p>
             </div>
           </div>
         </div>

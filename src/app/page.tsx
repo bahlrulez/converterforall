@@ -37,7 +37,7 @@ export default function Home() {
                 "@id": "https://www.converterforall.com/#website",
                 "url": "https://www.converterforall.com",
                 "name": "ConverterForAll",
-                "description": "Free, private file converter for PDFs, images, videos, audio, and Indic fonts. Convert files securely in your browser.",
+                "description": "Free online file and font converter for PDFs, images, videos, audio, and Indian regional scripts. Most tools run directly in your browser with zero signups or watermarks.",
                 "publisher": {
                   "@id": "https://www.converterforall.com/#organization"
                 }

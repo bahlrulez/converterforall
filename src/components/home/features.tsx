@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 
 const features = [
   {
-    title: "Your Files Stay Private",
-    description: "All conversions happen in your browser.",
+    title: "Privacy by Design",
+    description: "Most tools run locally in your browser. Cloud tasks are handled in memory and deleted right away.",
     icon: Lock,
     iconColor: "text-blue-600 dark:text-blue-400",
     iconBg: "bg-blue-500/10 border-blue-500/20",
@@ -14,7 +14,7 @@ const features = [
   },
   {
     title: "No Daily Limits",
-    description: "Convert as much as you want.",
+    description: "Convert as many files and documents as you need without artificial paywalls.",
     icon: InfinityIcon,
     iconColor: "text-purple-600 dark:text-purple-400",
     iconBg: "bg-purple-500/10 border-purple-500/20",
@@ -22,7 +22,7 @@ const features = [
   },
   {
     title: "No Watermarks",
-    description: "Get clean, professional output.",
+    description: "Get clean, original quality output with no stamps, banners, or logos.",
     icon: Shield,
     iconColor: "text-pink-600 dark:text-pink-400",
     iconBg: "bg-pink-500/10 border-pink-500/20",
@@ -30,7 +30,7 @@ const features = [
   },
   {
     title: "No Account Required",
-    description: "Open a tool and start converting instantly.",
+    description: "Open any tool and start converting right away without registration.",
     icon: Zap,
     iconColor: "text-emerald-600 dark:text-emerald-400",
     iconBg: "bg-emerald-500/10 border-emerald-500/20",

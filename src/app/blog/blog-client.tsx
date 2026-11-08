@@ -148,7 +148,7 @@ export function BlogClient({ initialPosts }: { initialPosts: Post[] }) {
               </a>
               <div className="flex items-center gap-2 text-xs font-semibold text-blue-100">
                 <ShieldCheck className="w-4 h-4 text-emerald-300" />
-                <span>Zero uploads • 100% Client-Side</span>
+                <span>Private by Design • No Signups Required</span>
               </div>
             </div>
           </div>
