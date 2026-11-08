@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { Sparkles, Shield, Zap, Lock, Infinity as InfinityIcon, UserX } from "lucide-react";
+import { 
+  Sparkles, 
+  ShieldCheck, 
+  Zap, 
+  Infinity as InfinityIcon, 
+  Smartphone,
+  ArrowRight,
+  Layers
+} from "lucide-react";
 import { ModernDropzone } from "./modern-dropzone";
 import Link from "next/link";
 
@@ -20,109 +28,175 @@ export function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden pt-4 pb-12 sm:py-12 md:py-16 bg-slate-50 dark:bg-[#030714] text-slate-900 dark:text-white transition-colors duration-300">
-      {/* Soft Background Gradients */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 dark:bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 dark:bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
+    <section className="relative overflow-hidden pt-8 pb-20 sm:pt-14 sm:pb-28 lg:pt-16 lg:pb-36 bg-[#060b1d] text-white">
+      {/* Cinematic Sunset Mountain Background Image with Fallback Gradients */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-90 dark:opacity-80 transition-opacity"
+        style={{ backgroundImage: "url('/images/hero-sunset-mountains.jpg')" }}
+      />
+
+      {/* Atmospheric Vignette & Color Gradients */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#060b1d]/85 via-[#060b1d]/40 to-[#060b1d]/90 pointer-events-none" />
+      
+      {/* Warm Sunset Radial Glow in the Horizon */}
+      <div 
+        className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full bg-gradient-to-t from-amber-500/25 via-orange-500/15 to-transparent blur-[110px] pointer-events-none" 
+      />
+
+      {/* Subtle Starry Dust Glow at the Top */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/15 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/15 rounded-full blur-[130px] pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Column: Text Content */}
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start lg:pt-16">
-            <div className="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#080e22]/80 text-blue-600 dark:text-blue-400 text-[11px] sm:text-xs font-semibold backdrop-blur-md mb-4 lg:mb-6 shadow-sm">
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-              </span>
-              <span className="font-bold tracking-tight">NO UPLOADS. 100% PRIVATE.</span>
+          {/* Left Column: Heading & CTAs (7 Cols) */}
+          <div className="lg:col-span-7 text-center lg:text-left flex flex-col items-center lg:items-start pt-2 lg:pt-6">
+            
+            {/* Privacy Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/10 text-white text-xs font-semibold backdrop-blur-md mb-5 shadow-sm">
+              <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+              <span className="tracking-tight">100% In-Browser • No Uploads • Complete Privacy</span>
             </div>
 
-            <h1 className="font-jakarta text-[2.1rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-[4.5rem] font-extrabold tracking-tight text-slate-900 dark:text-white mb-3 lg:mb-6 mt-2 sm:mt-0">
+            {/* Headline (Preserving exact text) */}
+            <h1 className="font-jakarta text-3xl leading-[1.1] sm:text-5xl md:text-6xl lg:text-[4.2rem] font-extrabold tracking-tight text-white mb-4 lg:mb-6">
               Fast, Private,<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-blue-600">In-Browser Utilities.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-indigo-200 to-purple-300">
+                In-Browser Utilities.
+              </span>
             </h1>
 
-            <p className="max-w-xl text-sm sm:text-lg text-slate-600 dark:text-slate-400 mb-5 lg:mb-8 leading-relaxed px-2 sm:px-0">
+            {/* Subtitle (Preserving exact text) */}
+            <p className="max-w-xl text-sm sm:text-base lg:text-lg text-slate-300 mb-6 lg:mb-8 leading-relaxed px-2 sm:px-0 font-normal">
               Zero uploads to external servers. High-performance regional font converters, Sarkari exam photo tools, and privacy-first file utilities.
             </p>
 
-            <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-4 text-sm mb-2 w-full px-4 sm:px-0">
-              <Link href="/exam-photo-resizer" className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all shadow-lg hover:shadow-blue-500/25 active:scale-95 w-full sm:w-auto">
-                <span className="text-lg">🎯</span> Sarkari Exam Suite
+            {/* CTA Buttons (Pill styling matching screenshot) */}
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3.5 text-sm w-full px-4 sm:px-0">
+              <Link 
+                href="/exam-photo-resizer" 
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#6366f1] via-[#8b5cf6] to-[#ec4899] hover:brightness-110 text-white font-bold transition-all shadow-[0_0_25px_rgba(139,92,246,0.55)] hover:scale-105 active:scale-95 text-sm sm:text-base"
+              >
+                <span>🎯</span> Sarkari Exam Suite <ArrowRight className="w-4 h-4 ml-0.5" />
               </Link>
-              <Link href="/font-text-fixer" className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white dark:bg-[#0e1733] hover:bg-slate-50 dark:hover:bg-[#152145] text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 font-semibold transition-all shadow-sm hover:shadow-md active:scale-95 w-full sm:w-auto">
-                <span className="text-lg">🇮🇳</span> Regional Font Auto-Fixer
+              
+              <Link 
+                href="/font-text-fixer" 
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/25 hover:border-white/40 backdrop-blur-md font-semibold transition-all shadow-sm hover:scale-105 active:scale-95 text-sm sm:text-base"
+              >
+                <span>🇮🇳</span> Regional Font Auto-Fixer
               </Link>
             </div>
           </div>
 
-          {/* Right Column: Interactive Spotlight Dropzone Card */}
-          <div className="w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto relative">
-            {/* Pure Circular Ambient Breathing Glow (Zero Square Edge Artifacts) */}
+          {/* Right Column: Frosted Glassmorphism Card (5 Cols) */}
+          <div className="lg:col-span-5 w-full max-w-xl mx-auto lg:mx-0 lg:ml-auto relative">
+            {/* Ambient Cyan/Purple Breathing Glow */}
             <div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-gradient-to-tr from-blue-500/15 via-indigo-500/10 to-purple-500/15 dark:from-blue-600/25 dark:via-indigo-600/20 dark:to-purple-600/20 blur-[90px] pointer-events-none -z-10 animate-ambient-breathe" 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-gradient-to-tr from-blue-500/20 via-indigo-500/15 to-purple-500/20 blur-[100px] pointer-events-none -z-10" 
             />
 
-            {/* Main Interactive Spotlight Wrapper */}
+            {/* Glassmorphic Dropzone Card */}
             <div
               ref={cardRef}
               onMouseMove={handleMouseMove}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              className="relative rounded-3xl p-[1.5px] transition-all duration-300 ease-out group"
+              className="relative rounded-3xl p-5 sm:p-7 bg-white/10 dark:bg-black/35 backdrop-blur-2xl border border-white/25 dark:border-white/15 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7),0_0_35px_rgba(99,102,241,0.25)] transition-all duration-300"
               style={{
-                background: isHovered
-                  ? `radial-gradient(450px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(96, 165, 250, 0.7), rgba(99, 102, 241, 0.35) 40%, rgba(148, 163, 184, 0.3) 80%)`
-                  : undefined,
-                transform: isHovered ? "translateY(-4px)" : "translateY(0px)",
                 boxShadow: isHovered
-                  ? "0 20px 50px -10px rgba(37, 99, 235, 0.25), 0 0 30px rgba(99, 102, 241, 0.15)"
-                  : "0 10px 30px -10px rgba(0, 0, 0, 0.1)",
+                  ? "0 30px 70px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(99, 102, 241, 0.35)"
+                  : undefined,
               }}
             >
-              {/* Inner Card Container with Subtle Moving Spotlight */}
-              <div 
-                className="relative rounded-[22.5px] bg-white/95 dark:bg-[#070d20]/95 backdrop-blur-2xl p-5 sm:p-8 flex flex-col items-center text-center overflow-hidden border border-slate-200/90 dark:border-slate-800/80 shadow-xl dark:shadow-2xl transition-colors duration-300"
-              >
-                {/* Dynamic Inner Surface Spotlight */}
-                {isHovered && (
-                  <div
-                    className="absolute inset-0 pointer-events-none transition-opacity duration-300"
-                    style={{
-                      background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.08), transparent 60%)`,
-                    }}
-                  />
-                )}
+              {/* Inner Surface Spotlight on Hover */}
+              {isHovered && (
+                <div
+                  className="absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-3xl"
+                  style={{
+                    background: `radial-gradient(550px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255, 255, 255, 0.08), transparent 60%)`,
+                  }}
+                />
+              )}
 
-                <div className="relative z-10 w-full flex flex-col items-center">
-                  <ModernDropzone />
-                  
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-6 mb-4 font-medium">Your file stays on your device whenever possible.</p>
-                  
-                  {/* Supported Formats */}
-                  <div className="flex flex-wrap justify-center gap-2 mb-8">
-                    {['PDF', 'DOCX', 'JPG', 'PNG', 'MP4', 'MP3', '...'].map(ext => (
-                      <span key={ext} className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-[10px] font-semibold text-slate-600 dark:text-slate-300 shadow-sm transition-all hover:border-slate-400 dark:hover:border-slate-600">
-                        {ext}
-                      </span>
-                    ))}
-                  </div>
+              <div className="relative z-10 w-full flex flex-col items-center">
+                <ModernDropzone />
 
-                  {/* Features inline */}
-                  <div className="w-full flex items-center justify-between border-t border-slate-200 dark:border-slate-800/90 pt-5 text-[11px] font-medium text-blue-600 dark:text-blue-400">
-                    <span className="flex items-center gap-1.5 font-semibold"><Shield className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" /> Secure &amp; Private</span>
-                    <span className="w-px h-3 bg-slate-200 dark:bg-slate-800" />
-                    <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-semibold">No Watermarks</span>
-                    <span className="w-px h-3 bg-slate-200 dark:bg-slate-800" />
-                    <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-semibold">No Registration</span>
-                  </div>
+                {/* Supported Formats Pills */}
+                <div className="flex flex-wrap justify-center gap-1.5 mt-5">
+                  {['PDF', 'DOCX', 'JPG', 'PNG', 'MP4', 'MP3', '...'].map((ext) => (
+                    <span 
+                      key={ext} 
+                      className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[11px] font-semibold text-white/90 backdrop-blur-sm shadow-xs"
+                    >
+                      {ext}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
-
         </div>
+
+        {/* Bottom Trust Features Bar (Horizontal on Dark Landscape) */}
+        <div className="mt-14 sm:mt-20 pt-8 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-blue-400 shadow-xs">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Your Files Stay Private</h4>
+              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">Processed directly in your browser</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-amber-400 shadow-xs">
+              <Zap className="w-5 h-5 fill-amber-400/20" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Instant &amp; Fast</h4>
+              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">No waiting, zero server queues</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-purple-400 shadow-xs">
+              <InfinityIcon className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Unlimited Conversions</h4>
+              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">Convert as much as you need</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-emerald-400 shadow-xs">
+              <Smartphone className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Works Everywhere</h4>
+              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">Desktop, tablet &amp; mobile ready</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Sweeping Organic Wave Transition into the Section Below */}
+      <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none pointer-events-none">
+        <svg 
+          viewBox="0 0 1440 100" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg" 
+          className="relative block w-full h-10 sm:h-16 lg:h-24 text-white dark:text-[#030714] transition-colors"
+          preserveAspectRatio="none"
+        >
+          <path 
+            d="M0,32 C320,80 600,15 960,45 C1200,65 1360,35 1440,30 L1440,100 L0,100 Z" 
+            fill="currentColor" 
+          />
+        </svg>
       </div>
     </section>
   );

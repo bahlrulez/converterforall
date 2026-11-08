@@ -156,26 +156,30 @@ export function ModernDropzone() {
       />
 
       {/* Premium Segmented Control / Tab Switcher */}
-      <div className="flex justify-center mb-4 sm:mb-6 relative z-10">
-        <div className="inline-flex bg-slate-200/50 dark:bg-slate-900/60 p-1.5 rounded-xl shadow-inner border border-slate-300/50 dark:border-slate-800/80 w-full sm:w-auto overflow-x-auto no-scrollbar">
+      <div className="flex justify-center mb-5 relative z-10">
+        <div className="inline-flex bg-black/40 backdrop-blur-md p-1 rounded-2xl border border-white/20 shadow-inner">
           <button
+            type="button"
             onClick={() => setActiveMode('file')}
-            className={`flex-1 sm:flex-none whitespace-nowrap px-3 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-300 ${
+            className={`flex items-center gap-2 px-5 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all duration-200 ${
               activeMode === 'file'
-                ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-100'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 scale-95'
+                ? 'bg-white text-slate-900 shadow-md scale-100'
+                : 'text-white/80 hover:text-white hover:bg-white/10'
             }`}
           >
+            <FileText className="w-3.5 h-3.5" />
             Convert Files
           </button>
           <button
+            type="button"
             onClick={() => setActiveMode('text')}
-            className={`flex-1 sm:flex-none whitespace-nowrap px-3 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-300 ${
+            className={`flex items-center gap-2 px-5 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all duration-200 ${
               activeMode === 'text'
-                ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-100'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 scale-95'
+                ? 'bg-white text-slate-900 shadow-md scale-100'
+                : 'text-white/80 hover:text-white hover:bg-white/10'
             }`}
           >
+            <span className="font-serif font-bold">Aa</span>
             Convert Text &amp; Fonts
           </button>
         </div>
@@ -189,38 +193,35 @@ export function ModernDropzone() {
           className="relative overflow-hidden transition-all duration-300 w-full flex flex-col items-center"
         >
           {!detected ? (
-            <div className="relative flex flex-col items-center justify-center text-center cursor-pointer min-h-[170px] sm:min-h-[220px] w-full">
+            <div className="relative flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px] sm:min-h-[220px] w-full border-2 border-dashed border-white/25 hover:border-white/50 bg-white/5 hover:bg-white/10 rounded-2xl p-7 sm:p-9 transition-all duration-200">
               <input {...getInputProps()} />
 
-              <div className="w-16 h-16 rounded-2xl border border-blue-500/30 bg-gradient-to-tr from-blue-50 to-indigo-100 dark:from-[#0b132b] dark:via-[#0e1b3d] dark:to-[#152756] text-blue-600 dark:text-blue-400 flex items-center justify-center mb-4 transition-all duration-500 group-hover:scale-110 group-hover:border-blue-400 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] shadow-sm">
-                <UploadCloud className="w-7 h-7 transition-transform group-hover:-translate-y-0.5" />
+              <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 text-white flex items-center justify-center mb-3 shadow-md group-hover:scale-105 transition-transform">
+                <UploadCloud className="w-7 h-7 text-white" />
               </div>
 
               {/* Main Prompt Heading */}
-              <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white mb-4 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400">
+              <h2 className="text-lg sm:text-xl font-bold tracking-tight text-white mb-1">
                 Drop your file here
               </h2>
-              
-              <div className="flex items-center w-full max-w-[200px] mb-4 opacity-75 dark:opacity-50">
-                <div className="h-px flex-1 bg-slate-300 dark:bg-slate-600"></div>
-                <span className="px-3 text-[11px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-widest">or</span>
-                <div className="h-px flex-1 bg-slate-300 dark:bg-slate-600"></div>
-              </div>
+              <p className="text-xs text-slate-300 mb-4">
+                or click to choose a file
+              </p>
 
-              {/* Action Buttons Row */}
+              {/* Action Button */}
               <button
                 type="button"
-                className="inline-flex items-center justify-center gap-2 px-9 py-3.5 rounded-xl text-sm font-extrabold text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 shadow-[0_0_25px_rgba(37,99,235,0.5)] group-hover:shadow-[0_0_35px_rgba(37,99,235,0.7)] group-hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-8 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-[0_4px_20px_rgba(99,102,241,0.5)] group-hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
               >
                 Choose File
               </button>
             </div>
           ) : (
             /* DETECTED FILE STATE WITH SMART TOOL SELECTOR */
-            <div className="p-6 sm:p-8 text-left">
+            <div className="p-5 sm:p-6 text-left w-full bg-black/40 rounded-2xl border border-white/15 backdrop-blur-md">
               {/* Top Bar with File Details */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800/80">
-                <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-emerald-600 dark:text-emerald-400">
+              <div className="flex items-center justify-between pb-3 border-b border-white/15">
+                <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-emerald-400">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>File Detected &amp; Analyzed</span>
                 </div>
@@ -367,21 +368,23 @@ export function ModernDropzone() {
           )}
         </div>
       ) : (
-        <div className="relative overflow-hidden rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0f172a] shadow-sm p-4 sm:p-6 flex flex-col gap-4 min-h-[270px] sm:min-h-[300px]">
+        <div className="relative overflow-hidden rounded-2xl border border-white/20 bg-black/40 backdrop-blur-xl shadow-lg p-4 sm:p-6 flex flex-col gap-4 min-h-[270px] sm:min-h-[300px] text-white">
           <textarea
             autoFocus
             value={pastedText}
             onChange={(e) => setPastedText(e.target.value)}
             placeholder="Paste Text Here... (e.g. Kruti Dev, Satluj, Preeti)"
-            className="w-full flex-1 min-h-[150px] resize-none outline-none bg-transparent text-slate-800 dark:text-slate-100 text-lg placeholder:text-slate-400"
+            className="w-full flex-1 min-h-[150px] resize-none outline-none bg-transparent text-white text-base sm:text-lg placeholder:text-slate-400"
           />
-          <div className="border-t border-slate-200 dark:border-slate-800 pt-4 flex flex-col gap-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1"><Sparkles className="w-3.5 h-3.5 text-indigo-500"/> Convert To:</span>
+          <div className="border-t border-white/15 pt-4 flex flex-col gap-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-400"/> Convert To:
+            </span>
             <div className="flex flex-wrap gap-2">
-              <button disabled={!pastedText.trim()} onClick={() => handleTextSubmit('krutidev-to-unicode')} className="px-4 py-2 rounded-lg text-sm font-semibold bg-slate-100 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-blue-900/30 text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 border border-slate-200/90 hover:border-blue-300 dark:border-slate-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Kruti Dev → Unicode</button>
-              <button disabled={!pastedText.trim()} onClick={() => handleTextSubmit('unicode-to-satluj')} className="px-4 py-2 rounded-lg text-sm font-semibold bg-slate-100 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-blue-900/30 text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 border border-slate-200/90 hover:border-blue-300 dark:border-slate-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Unicode → Satluj</button>
-              <button disabled={!pastedText.trim()} onClick={() => handleTextSubmit('preeti-to-unicode')} className="px-4 py-2 rounded-lg text-sm font-semibold bg-slate-100 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-blue-900/30 text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 border border-slate-200/90 hover:border-blue-300 dark:border-slate-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Preeti → Unicode</button>
-              <button disabled={!pastedText.trim()} onClick={() => handleTextSubmit('satluj-to-unicode')} className="px-4 py-2 rounded-lg text-sm font-semibold bg-slate-100 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-blue-900/30 text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 border border-slate-200/90 hover:border-blue-300 dark:border-slate-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Satluj → Unicode</button>
+              <button disabled={!pastedText.trim()} onClick={() => handleTextSubmit('krutidev-to-unicode')} className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Kruti Dev → Unicode</button>
+              <button disabled={!pastedText.trim()} onClick={() => handleTextSubmit('unicode-to-satluj')} className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Unicode → Satluj</button>
+              <button disabled={!pastedText.trim()} onClick={() => handleTextSubmit('preeti-to-unicode')} className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Preeti → Unicode</button>
+              <button disabled={!pastedText.trim()} onClick={() => handleTextSubmit('satluj-to-unicode')} className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Satluj → Unicode</button>
             </div>
           </div>
         </div>

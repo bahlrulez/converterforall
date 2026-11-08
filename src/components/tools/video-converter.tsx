@@ -32,6 +32,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { convertVideoAdvanced, AdvancedVideoConvertOptions } from "@/lib/converters/video";
+import { checkVideoMemoryRisk } from "@/lib/device-memory-guard";
+import { MemoryGuardAlert } from "@/components/ui/memory-guard-alert";
 
 interface VideoMetadata {
   duration: number;
@@ -107,6 +109,8 @@ export function VideoConverter({ toolSlug = "video-to-mp4", targetFormat: initia
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const resultVideoRef = useRef<HTMLVideoElement>(null);
+
+  const memoryRisk = file ? checkVideoMemoryRisk(file.size, videoMeta?.duration) : { risk: "safe" as const, title: "", message: "", dismissible: true };
 
   // Check for GPU & Hardware acceleration support
   useEffect(() => {
@@ -343,6 +347,13 @@ export function VideoConverter({ toolSlug = "video-to-mp4", targetFormat: initia
       {/* Interactive Studio (When file is loaded) */}
       {file && (
         <div className="space-y-6">
+          {memoryRisk.risk !== "safe" && (
+            <MemoryGuardAlert
+              checkResult={memoryRisk}
+              onApplyPreset={(res) => setResolution(res)}
+            />
+          )}
+
           {/* Top Bar with File Name and Reset */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070d1e] border border-slate-200 dark:border-slate-800 shadow-sm">
             <div className="flex items-center gap-3 min-w-0">

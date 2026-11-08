@@ -101,8 +101,8 @@ export function Header() {
               }
             }}
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 dark:bg-blue-600 text-white shadow-sm group-hover:bg-blue-700 transition-colors">
-              <LogoIcon className="h-5 w-5" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white font-black text-base shadow-[0_0_12px_rgba(99,102,241,0.45)] group-hover:scale-105 transition-transform">
+              C
             </div>
             <span className="text-xl font-bold tracking-tight text-foreground">ConverterForAll</span>
           </Link>
@@ -187,7 +187,7 @@ export function Header() {
             href="/#featured-tools"
             className={cn(
               buttonVariants({ variant: "default" }),
-              "hidden md:inline-flex rounded-full px-5 py-2 font-semibold text-[13px] h-9 transition-all hover:scale-105 active:scale-95 bg-blue-600 hover:bg-blue-700 text-white border-none shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+              "hidden md:inline-flex rounded-full px-5 py-2 font-bold text-[13px] h-9 transition-all hover:scale-105 active:scale-95 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:brightness-110 text-white border-none shadow-[0_0_18px_rgba(99,102,241,0.5)]"
             )}
           >
             Convert File &rarr;

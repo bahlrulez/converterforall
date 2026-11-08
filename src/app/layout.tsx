@@ -21,7 +21,7 @@ const plusJakarta = localFont({
 const caveat = Caveat({
   variable: "--font-script",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: "700",
 });
 
 export const metadata: Metadata = {

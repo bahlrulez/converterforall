@@ -30,6 +30,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { compressVideoAdvanced, VideoCompressionOptions } from "@/lib/converters/video";
+import { checkVideoMemoryRisk } from "@/lib/device-memory-guard";
+import { MemoryGuardAlert } from "@/components/ui/memory-guard-alert";
 
 interface VideoMetadata {
   duration: number;
@@ -167,6 +169,8 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
     },
     maxFiles: 1,
   });
+
+  const memoryRisk = file ? checkVideoMemoryRisk(file.size, videoMeta?.duration) : { risk: "safe" as const, title: "", message: "", dismissible: true };
 
   // Calculate dynamic target CRF and estimated size based on preset
   const getCompressionConfig = () => {
@@ -328,7 +332,15 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
         </div>
       ) : (
         /* Video Studio Layout */
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="space-y-6">
+          {file && memoryRisk.risk !== "safe" && (
+            <MemoryGuardAlert
+              checkResult={memoryRisk}
+              onApplyPreset={(res) => setResolution(res)}
+            />
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Column: Video Preview & Metadata (5 Cols) */}
           <div className="lg:col-span-5 space-y-6">
             {/* Video Player Card */}
@@ -759,6 +771,7 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
             )}
           </div>
         </div>
+      </div>
       )}
 
       {/* Internal Linking & Programmatic SEO Preset Navigation Cluster */}
