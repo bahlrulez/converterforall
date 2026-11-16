@@ -1,4 +1,4 @@
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, rgb } from "pdf-lib";
 import JSZip from "jszip";
 
 export type CompressionPreset = "lossless" | "balanced" | "max";
@@ -41,7 +41,7 @@ export async function compressPdf(
   // If structural optimization achieved significant reduction (>30%) and preset is lossless, return it
   if (preset === "lossless" && structuralPdfBytes && structuralPdfBytes.length < arrayBuffer.byteLength * 0.85) {
     if (onProgress) onProgress(100, "Optimization complete!");
-    return new Blob([structuralPdfBytes as any], { type: "application/pdf" });
+    return new Blob([structuralPdfBytes as unknown as BlobPart], { type: "application/pdf" });
   }
 
   // 2. High-Ratio Visual Optimization Engine using pdfjs-dist
@@ -136,12 +136,12 @@ export async function compressPdf(
     }
 
     if (onProgress) onProgress(100, "Done!");
-    return new Blob([bestBytes as any], { type: "application/pdf" });
+    return new Blob([bestBytes as unknown as BlobPart], { type: "application/pdf" });
   } catch (err) {
     console.warn("Visual compression error, falling back to structural compression:", err);
     if (structuralPdfBytes) {
       if (onProgress) onProgress(100, "Done!");
-      return new Blob([structuralPdfBytes as any], { type: "application/pdf" });
+      return new Blob([structuralPdfBytes as unknown as BlobPart], { type: "application/pdf" });
     }
     throw err;
   }
@@ -163,6 +163,15 @@ export async function imageToPdf(file: File): Promise<Blob> {
   const { width, height } = image.scale(1);
   const page = pdfDoc.addPage([width, height]);
   
+  // Explicitly composite transparent PNG regions over an opaque white background
+  page.drawRectangle({
+    x: 0,
+    y: 0,
+    width,
+    height,
+    color: rgb(1, 1, 1),
+  });
+
   page.drawImage(image, {
     x: 0,
     y: 0,
@@ -171,7 +180,7 @@ export async function imageToPdf(file: File): Promise<Blob> {
   });
 
   const pdfBytes = await pdfDoc.save();
-  return new Blob([pdfBytes as any], { type: "application/pdf" });
+  return new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
 }
 
 export async function mergePdfs(files: File[]): Promise<Blob> {
@@ -194,6 +203,13 @@ export async function mergePdfs(files: File[]): Promise<Blob> {
       }
       const { width, height } = image.scale(1);
       const page = mergedPdf.addPage([width, height]);
+      page.drawRectangle({
+        x: 0,
+        y: 0,
+        width,
+        height,
+        color: rgb(1, 1, 1),
+      });
       page.drawImage(image, { x: 0, y: 0, width, height });
     } else {
       const arrayBuffer = await file.arrayBuffer();
@@ -210,7 +226,7 @@ export async function mergePdfs(files: File[]): Promise<Blob> {
   }
 
   const pdfBytes = await mergedPdf.save({ useObjectStreams: false });
-  return new Blob([pdfBytes as any], { type: "application/pdf" });
+  return new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
 }
 
 // Helper to parse page string like "1, 3, 5-8" into an array of 0-indexed page numbers
@@ -252,7 +268,7 @@ export async function removePages(file: File, pagesStr: string): Promise<Blob> {
   }
   
   const pdfBytes = await pdfDoc.save();
-  return new Blob([pdfBytes as any], { type: "application/pdf" });
+  return new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
 }
 
 export async function extractPages(file: File, pagesStr: string): Promise<Blob> {
@@ -269,7 +285,7 @@ export async function extractPages(file: File, pagesStr: string): Promise<Blob> 
   }
   
   const pdfBytes = await newPdf.save();
-  return new Blob([pdfBytes as any], { type: "application/pdf" });
+  return new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
 }
 
 export async function organizePdf(file: File, pagesStr: string): Promise<Blob> {
@@ -315,7 +331,7 @@ export async function organizePdf(file: File, pagesStr: string): Promise<Blob> {
   }
   
   const pdfBytes = await newPdf.save();
-  return new Blob([pdfBytes as any], { type: "application/pdf" });
+  return new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
 }
 
 export async function splitPdf(file: File): Promise<Blob> {

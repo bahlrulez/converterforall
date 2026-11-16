@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ManageCookiesButton } from "@/components/cookie-consent/manage-cookies-button";
-import { ShieldCheck, Sparkles, Cpu, FileText, Image, Type, Award, Code2 } from "lucide-react";
+import { ShieldCheck, Sparkles, Cpu, FileText, Image as ImageIcon, Type, Award, Code2 } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -62,7 +62,7 @@ export function Footer() {
           {/* Col 3: Image & AI Tools */}
           <div className="space-y-3">
             <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
-              <Image className="w-3.5 h-3.5 text-purple-500" />
+              <ImageIcon className="w-3.5 h-3.5 text-purple-500" />
               <span>Image &amp; AI</span>
             </h3>
             <ul className="space-y-2 text-xs">
@@ -116,7 +116,7 @@ export function Footer() {
               <span>Developer &amp; Site</span>
             </h3>
             <ul className="space-y-2 text-xs">
-              <li><Link href="/jwt-decoder" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">JWT Decoder (Offline)</Link></li>
+              <li><Link href="/jwt-decoder" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">JWT Decoder</Link></li>
               <li><Link href="/json-formatter" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">JSON Formatter</Link></li>
               <li><Link href="/tools" className="hover:text-blue-600 dark:hover:text-blue-400 font-bold transition-colors text-blue-600 dark:text-blue-400">All 150+ Tools</Link></li>
               <li><Link href="/blog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog &amp; Guides</Link></li>

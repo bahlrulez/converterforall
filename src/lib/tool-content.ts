@@ -145,24 +145,172 @@ function enrichContentIfShort(
 
   const enriched = [...sections];
 
-  if (totalWords < 200) {
-    enriched.push({
-      title: "Step-by-step usage guide",
-      content: `
-        <ol>
-          <li><strong>Select or paste your input:</strong> Drag your file into the upload zone or paste your text into the editor above.</li>
-          <li><strong>Instant client-side processing:</strong> The tool converts or compresses your data directly inside your browser memory with zero server wait times.</li>
-          <li><strong>Download or copy result:</strong> Save your finalized file or copy the text output straight to your device with 1 click.</li>
-        </ol>
-      `
-    });
+  // Specific classification sets to avoid ambiguous substring matching
+  const FONT_TEXT_TOOL_SLUGS = new Set([
+    "unicode-to-krutidev",
+    "krutidev-to-unicode",
+    "unicode-to-chanakya",
+    "chanakya-to-unicode",
+    "unicode-to-anmollipi",
+    "anmollipi-to-unicode",
+    "unicode-to-asees",
+    "asees-to-unicode",
+    "unicode-to-joy",
+    "joy-to-unicode",
+    "unicode-to-satluj",
+    "satluj-to-unicode",
+    "gurbani-akhar-to-unicode",
+    "unicode-to-raavi",
+    "preeti-to-unicode",
+    "unicode-to-preeti",
+    "bijoy-to-unicode",
+    "unicode-to-bijoy",
+    "inpage-to-unicode",
+    "unicode-to-inpage",
+    "zawgyi-to-unicode",
+    "unicode-to-zawgyi",
+    "font-detector",
+    "font-text-fixer",
+    "unicode-normalizer",
+    "remove-hidden-characters",
+    "fix-copy-paste-text",
+    "unicode-text-cleaner",
+    "mangal-to-kruti",
+    "raavi-to-asees",
+    "sutonnymj-to-unicode",
+    "unicode-to-sutonnymj"
+  ]);
+
+  const WEB_FONT_FILE_SLUGS = new Set([
+    "web-font-converter",
+    "ttf-to-woff2",
+    "otf-to-woff2",
+    "woff2-to-ttf"
+  ]);
+
+  const IMAGE_TO_PDF_SLUGS = new Set([
+    "png-to-pdf",
+    "jpg-to-pdf",
+    "scan-to-pdf"
+  ]);
+
+  const PDF_PAGE_MANAGEMENT_SLUGS = new Set([
+    "remove-pages",
+    "extract-pages",
+    "organize-pdf",
+    "rotate-pdf",
+    "split-pdf",
+    "merge-pdf",
+    "clean-pdf-metadata",
+    "repair-pdf"
+  ]);
+
+  const OFFICE_DOCUMENT_SLUGS = new Set([
+    "word-to-pdf",
+    "powerpoint-to-pdf",
+    "excel-to-pdf",
+    "pdf-to-word",
+    "html-to-pdf"
+  ]);
+
+  const PDF_TO_IMAGE_SLUGS = new Set([
+    "pdf-to-jpg",
+    "pdf-to-png"
+  ]);
+
+  const isUrduInPage = toolSlug === "unicode-to-inpage" || toolSlug === "inpage-to-unicode";
+
+  const isFontTextTool =
+    !isUrduInPage &&
+    (FONT_TEXT_TOOL_SLUGS.has(toolSlug) ||
+      toolSlug.includes("kruti") ||
+      toolSlug.includes("preeti") ||
+      toolSlug.includes("bijoy") ||
+      toolSlug.includes("zawgyi") ||
+      toolSlug.includes("anmol") ||
+      toolSlug.includes("asees") ||
+      toolSlug.includes("satluj") ||
+      toolSlug.includes("chanakya") ||
+      toolSlug.includes("mangal") ||
+      (toolSlug.includes("unicode") && !toolSlug.includes("pdf")));
+
+  const isWebFontFile =
+    WEB_FONT_FILE_SLUGS.has(toolSlug) ||
+    (!isFontTextTool && !isUrduInPage && (toolSlug.includes("woff") || toolSlug.includes("ttf") || toolSlug.includes("otf")));
+
+  const isImageToPdf = IMAGE_TO_PDF_SLUGS.has(toolSlug);
+  const isPdfPageManagement = PDF_PAGE_MANAGEMENT_SLUGS.has(toolSlug);
+  const isOfficeDoc = OFFICE_DOCUMENT_SLUGS.has(toolSlug);
+  const isPdfToImage = PDF_TO_IMAGE_SLUGS.has(toolSlug);
+  const isGeneralPdf = !isFontTextTool && !isUrduInPage && !isWebFontFile && !isImageToPdf && !isPdfPageManagement && !isOfficeDoc && !isPdfToImage && toolSlug.includes("pdf");
+
+  // Prevent duplicate step-by-step guides when an authored guide already exists
+  const hasAuthoredGuide = sections.some((s) =>
+    /step|guide|how to use|how it works|instruction/i.test(s.title)
+  );
+
+  if (totalWords < 200 && !hasAuthoredGuide) {
+    if (isUrduInPage || isFontTextTool) {
+      enriched.push({
+        title: "Step-by-step usage guide",
+        content: `
+          <ol>
+            <li><strong>Paste your source text:</strong> Paste or type your text into the input editor.</li>
+            <li><strong>Instant in-browser conversion:</strong> Characters are converted directly in your browser's local memory without uploading to any server.</li>
+            <li><strong>Copy your result:</strong> Click copy to paste the converted text into your target software or document.</li>
+          </ol>
+        `
+      });
+    } else {
+      enriched.push({
+        title: "Step-by-step usage guide",
+        content: `
+          <ol>
+            <li><strong>Select your file:</strong> Drag your file into the upload zone or choose it from your device.</li>
+            <li><strong>Instant browser processing:</strong> Most of our tools run directly inside your browser so your documents stay on your device.</li>
+            <li><strong>Download your result:</strong> Save your finalized file straight to your device with 1 click.</li>
+          </ol>
+        `
+      });
+    }
   }
 
   let extraFaq = "";
   let tipsTitle = "Tips for best results";
   let tipsContent = "";
 
-  if (toolSlug.includes("woff") || toolSlug.includes("ttf") || toolSlug.includes("otf")) {
+  if (isUrduInPage) {
+    tipsTitle = "Urdu Unicode and InPage compatibility notes";
+    tipsContent = `
+      <p>Important considerations when moving Urdu text between modern applications and InPage desktop software:</p>
+      <ul>
+        <li><strong>InPage Phonetic Layout Compatibility:</strong> The converter translates standard Urdu Unicode into keystroke-accurate phonetic sequences matching the built-in InPage Phonetic keyboard layout (InPage 2.40 and 3.x).</li>
+        <li><strong>Full Urdu Alphabet Support:</strong> Correctly maps Urdu letters including Alif Madda (آ), Bay (ب), Pay (پ), Te (ت), Tte (ٹ), Che (چ), Daal (د), Ddaal (ڈ), Ray (ر), Rray (ڑ), Seen (س), Sheen (ش), Gaaf (گ), Noon Ghunna (ں), Gol Heh (ہ), Do-chashmi He (ھ), Choti Yeh (ی), and Badi Yeh (ے).</li>
+        <li><strong>Hamza &amp; Aerab Handling:</strong> Preserves standalone Hamza (ء), Yeh with Hamza (ئ), Waw with Hamza (ؤ), Heh Goal with Hamza (ۂ), as well as Zabar, Zer, Pesh, Khari Zabar, and Tashdeed diacritics.</li>
+        <li><strong>Punctuation &amp; Links:</strong> Correctly converts Urdu Khatma (۔), Urdu commas (،), and question marks (؟), while automatically isolating and protecting web URLs, email addresses, and numbers from corruption.</li>
+        <li><strong>In-Browser Processing:</strong> All text conversion runs directly in your browser's local memory. Typed text is never uploaded to remote servers.</li>
+      </ul>
+    `;
+    extraFaq = `
+      <p><strong>Q: Why does Unicode Urdu turn into random characters or question marks in InPage?</strong><br>A: Traditional InPage desktop releases use proprietary non-Unicode font encoding tables. Pasting standard Unicode creates character code mismatches. This converter maps modern Unicode characters to InPage's expected character codes so text renders cleanly in InPage text frames.</p>
+      <p><strong>Q: Does this converter preserve web URLs and numbers?</strong><br>A: Yes. URLs, email addresses, and decimal numbers are recognized and preserved untouched without character corruption.</p>
+    `;
+  } else if (isFontTextTool) {
+    tipsTitle = "Typing & font conversion recommendations";
+    tipsContent = `
+      <p>Practical advice when converting legacy typing fonts to modern Unicode:</p>
+      <ul>
+        <li><strong>Verify in Word or Docs:</strong> After converting legacy text (such as Kruti Dev, Preeti, Bijoy, or Zawgyi) to standard Unicode, paste it into MS Word or Google Docs to verify that all vowel matras, accents, and conjuncts display accurately.</li>
+        <li><strong>Official Exams &amp; Portals:</strong> Modern government portals, court typist tests, and educational boards mandate Unicode. Use this converter to standardize your typing.</li>
+        <li><strong>WhatsApp &amp; Mobile:</strong> Unicode text displays correctly on all modern smartphones without installing custom font files.</li>
+        <li><strong>In-Browser Processing:</strong> All text conversions run directly in your browser's memory without any network transmission.</li>
+      </ul>
+    `;
+    extraFaq = `
+      <p><strong>Q: Why does my converted text look different in older software?</strong><br>A: Software created before 2005 often lacks modern Unicode rendering engines. Modern browsers, smartphones, and word processors display Unicode accurately.</p>
+      <p><strong>Q: Is my typed text uploaded or logged?</strong><br>A: No. All text conversions run in your browser's memory without any network transmission.</p>
+    `;
+  } else if (isWebFontFile) {
     tipsTitle = "Web font optimization & @font-face tips";
     tipsContent = `
       <p>Converting desktop font files (TTF/OTF) into modern web fonts (WOFF2) is one of the most effective ways to speed up website load times:</p>
@@ -178,7 +326,22 @@ function enrichContentIfShort(
       <p><strong>Q: Can I convert commercial fonts safely?</strong><br>A: Yes. Because processing occurs entirely in your browser's local memory, your font files are never stored or shared.</p>
       <p><strong>Q: How do I load the converted WOFF2 file in CSS?</strong><br>A: Use <code>@font-face { font-family: 'MyFont'; src: url('myfont.woff2') format('woff2'); font-display: swap; }</code>.</p>
     `;
-  } else if (toolSlug.includes("pdf") || toolSlug.includes("page") || toolSlug.includes("metadata") || toolSlug.includes("document") || toolSlug.includes("word") || toolSlug.includes("powerpoint") || toolSlug.includes("excel")) {
+  } else if (isImageToPdf) {
+    tipsTitle = "Image to PDF conversion recommendations";
+    tipsContent = `
+      <p>To ensure your images convert into clean, professional PDF documents:</p>
+      <ul>
+        <li><strong>Preserve Image Resolution:</strong> Image pixels are embedded directly into the PDF canvas without lossy compression so graphics and scans remain clear.</li>
+        <li><strong>Transparent Backgrounds:</strong> Transparent PNG graphics are placed on a clean white background so text and dark logos stay legible when printed.</li>
+        <li><strong>1:1 Point Dimension Mapping:</strong> In PDF, page dimensions are measured in user-space points (1/72 inch). This tool maps each image pixel 1:1 to one PDF point, preserving your full uncompressed raster resolution without stretching or cropping.</li>
+        <li><strong>Private In-Browser Processing:</strong> Most of our tools run directly inside your browser so your documents stay on your device.</li>
+      </ul>
+    `;
+    extraFaq = `
+      <p><strong>Q: Does converting an image to PDF degrade image quality or downsample pixels?</strong><br>A: No. The image bytes are embedded directly into the PDF document at original resolution using in-browser PDF encoding without lossy recompression.</p>
+      <p><strong>Q: Are my uploaded images sent to an external server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
+    `;
+  } else if (isPdfPageManagement) {
     tipsTitle = "Document best practices & privacy notes";
     tipsContent = `
       <p>When working with official documents, contracts, resumes, or financial filings, keeping layouts intact and files private is essential:</p>
@@ -192,7 +355,49 @@ function enrichContentIfShort(
     extraFaq = `
       <p><strong>Q: Will modifying or converting pages degrade document quality?</strong><br>A: No. Operations like extracting, removing, or reordering pages update the document index without re-compressing existing text layers or high-resolution images.</p>
       <p><strong>Q: Can I process large PDF files on my phone?</strong><br>A: Yes. Because processing occurs locally in your browser's memory, documents up to 50MB–100MB process smoothly on modern smartphones and laptops.</p>
-      <p><strong>Q: Are my confidential files stored on remote servers?</strong><br>A: No. Operations execute in temporary local memory with zero permanent server storage.</p>
+      <p><strong>Q: Are my confidential files stored on remote servers?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
+    `;
+  } else if (isOfficeDoc) {
+    tipsTitle = "Office document conversion tips";
+    tipsContent = `
+      <p>When converting office files into standard PDF documents:</p>
+      <ul>
+        <li><strong>Layout Preservation:</strong> Converting to PDF locks fonts, tables, and margins so recipients see the exact layout regardless of their device.</li>
+        <li><strong>Clean Distribution:</strong> Finalized contracts, resumes, and spreadsheets are protected against accidental edits.</li>
+        <li><strong>Standardized Privacy:</strong> Most of our tools run directly inside your browser so your documents stay on your device. For conversions that use cloud processing (like Word-to-PDF and PowerPoint-to-PDF via Cloudmersive), files are handled in temporary memory without permanent storage on our servers.</li>
+      </ul>
+    `;
+    extraFaq = `
+      <p><strong>Q: Will converting to PDF preserve my fonts and formatting?</strong><br>A: Yes. Converting locks your typography, line breaks, and page layout into fixed-format PDF pages.</p>
+      <p><strong>Q: Are my office files stored on remote servers?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. For tools that use temporary cloud processing (like Word-to-PDF and PowerPoint-to-PDF via Cloudmersive), files are handled in temporary memory without permanent storage on our servers.</p>
+    `;
+  } else if (isPdfToImage) {
+    tipsTitle = "PDF to image export tips";
+    tipsContent = `
+      <p>To get sharp image exports from your PDF documents:</p>
+      <ul>
+        <li><strong>Vector Text Rendering:</strong> Embedded vector text renders cleanly at high resolution during export.</li>
+        <li><strong>Format Selection:</strong> Choose PNG when you need lossless quality and diagram sharpness, or JPG for smaller photo file sizes.</li>
+        <li><strong>Client-Side Security:</strong> Most of our tools run directly inside your browser so your documents stay on your device.</li>
+      </ul>
+    `;
+    extraFaq = `
+      <p><strong>Q: Will extracted images be high resolution?</strong><br>A: Yes. The tool renders each PDF page at high DPI so fine text and diagrams remain sharp.</p>
+      <p><strong>Q: Are my confidential PDFs uploaded to external servers?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
+    `;
+  } else if (isGeneralPdf) {
+    tipsTitle = "PDF optimization & formatting recommendations";
+    tipsContent = `
+      <p>To keep your PDF documents compact, readable, and compliant:</p>
+      <ul>
+        <li><strong>Target File Size:</strong> Use compression options to meet portal limits while preserving readable typography.</li>
+        <li><strong>Embedded Fonts:</strong> Documents preserve vector fonts for clear reading across all PDF viewers.</li>
+        <li><strong>Document Privacy:</strong> Most of our tools run directly inside your browser so your documents stay on your device.</li>
+      </ul>
+    `;
+    extraFaq = `
+      <p><strong>Q: Does compression affect document readability?</strong><br>A: Text layers remain crisp while heavy image streams are optimized to reduce overall file size.</p>
+      <p><strong>Q: Are my PDF files stored on external servers?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
     `;
   } else if (toolSlug.includes("video") || toolSlug.includes("mp4") || toolSlug.includes("mov") || toolSlug.includes("mkv") || toolSlug.includes("avi") || toolSlug.includes("webm") || toolSlug.includes("flv") || toolSlug.includes("wmv")) {
     tipsTitle = "Video compression & playback tips";
@@ -237,22 +442,8 @@ function enrichContentIfShort(
       <p><strong>Q: Why won't my WhatsApp voice note play in my video editor or music player?</strong><br>A: WhatsApp voice notes use the Opus codec inside an OGG container, which many native media players do not support. Converting to MP3 resolves compatibility immediately.</p>
       <p><strong>Q: Are my voice recordings kept private?</strong><br>A: Yes. Your audio files are processed locally on your device and are never uploaded or saved on our servers.</p>
     `;
-  } else if (toolSlug.includes("font") || toolSlug.includes("unicode") || toolSlug.includes("kruti") || toolSlug.includes("preeti") || toolSlug.includes("bijoy") || toolSlug.includes("zawgyi") || toolSlug.includes("inpage") || toolSlug.includes("anmol") || toolSlug.includes("asees")) {
-    tipsTitle = "Typing & font conversion recommendations";
-    tipsContent = `
-      <p>Practical advice when working with regional Indian, Nepali, Bengali, and Burmese fonts:</p>
-      <ul>
-        <li><strong>Verify in Word:</strong> After converting legacy text (such as Kruti Dev, Preeti, Bijoy, or Zawgyi) to standard Unicode, paste it into MS Word or Google Docs to verify that all vowel matras and conjuncts display accurately.</li>
-        <li><strong>Official Exams &amp; Portals:</strong> Modern government portals, court typist tests, and educational boards strictly mandate Unicode. Use this converter to standardize your typing.</li>
-        <li><strong>WhatsApp &amp; Mobile:</strong> Unicode text displays correctly on all smartphones without installing custom font files.</li>
-      </ul>
-    `;
-    extraFaq = `
-      <p><strong>Q: Why does my converted text look different in older software?</strong><br>A: Software created before 2005 often lacks modern Unicode rendering engines. Modern browsers, smartphones, and word processors display Unicode accurately.</p>
-      <p><strong>Q: Is my typed text uploaded or logged?</strong><br>A: No. All text conversions run in your browser's memory without any network transmission.</p>
-    `;
   } else {
-    tipsTitle = "Helpful tips for using this tool";
+    tipsTitle = `Helpful tips for using ${toolTitle}`;
     tipsContent = `
       <p>To get the best results from this utility:</p>
       <ul>

@@ -1,4 +1,5 @@
 export interface Tool {
+  name?: string;
   theme?: string;
   iconName?: string;
   badge?: string;
@@ -1134,10 +1135,10 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
 
   "developer": {
     "jwt-decoder": { theme: "cyan", iconName: "Code2", badge: "Data & Code", isPopular: true,
-      title: "JWT Decoder Online (JSON Web Token)",
-      seoTitle: "JWT Decoder & Parser - Securely Decode JSON Web Tokens Offline",
-      description: "Safely decode JWT tokens offline in your browser. View algorithm, headers, payload claims, and expiration dates with zero server transmission.",
-      seoDescription: "Client-side JWT decoder and parser. View JWT header and payload claims securely in your browser. 100% private, no server upload required.",
+      title: "Browser-Based JWT Decoder & Parser",
+      seoTitle: "Browser-Based JWT Decoder & Parser - Inspect Tokens Securely",
+      description: "Safely decode and inspect JSON Web Tokens directly in your browser. View algorithm headers, payload claims, and token expiration with zero server transmission.",
+      seoDescription: "Client-side JWT decoder and parser. View JWT header and payload claims securely in your browser. In-browser processing with zero server requests.",
       relatedTools: ["base64-encoder-decoder", "json-formatter"],
       subCategory: "Tokens & Security",
       inputFormat: "none",
@@ -1419,7 +1420,7 @@ export function getToolBySlug(slug: string) {
       return {
         categorySlug,
         toolSlug: targetSlug,
-        tool: (categoryTools as any)[targetSlug]
+        tool: (categoryTools as Record<string, Tool>)[targetSlug]
       };
     }
   }

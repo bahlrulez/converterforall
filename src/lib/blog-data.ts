@@ -1836,7 +1836,7 @@ export const blogDatabase: Record<string, BlogPost> = {
             Work with sensitive data and code structures without sending tokens to a third-party website:
           </p>
           <ul class="list-disc pl-6 space-y-1 text-sm text-slate-600 dark:text-slate-300">
-            <li><a href="/jwt-decoder" class="text-blue-600 dark:text-blue-400 font-semibold underline">Offline JWT Decoder</a>: Decode token payloads and expiration times safely.</li>
+            <li><a href="/jwt-decoder" class="text-blue-600 dark:text-blue-400 font-semibold underline">JWT Decoder</a>: Decode token payloads and expiration times safely.</li>
             <li><a href="/json-formatter" class="text-blue-600 dark:text-blue-400 font-semibold underline">Local JSON Formatter</a>: Prettify and validate JSON structures in your browser.</li>
             <li><a href="/base64-encoder-decoder" class="text-blue-600 dark:text-blue-400 font-semibold underline">Base64 Encoder &amp; Decoder</a>: Convert text or binary files without external API calls.</li>
           </ul>

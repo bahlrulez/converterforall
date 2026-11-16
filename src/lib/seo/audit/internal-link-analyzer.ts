@@ -20,7 +20,7 @@ const FOOTER_LINKS: Record<string, string> = {
   "heic-to-jpg": "HEIC to JPG",
   "compress-jpg": "Compress Image",
   "gif-maker": "GIF Maker",
-  "jwt-decoder": "JWT Decoder (Offline)",
+  "jwt-decoder": "JWT Decoder",
   "json-formatter": "JSON Formatter & Validator",
   "json-to-csv": "JSON to CSV Converter",
   "csv-to-json": "CSV to JSON Converter",
@@ -75,7 +75,7 @@ export function computeInternalLinkGraph(): {
 
   // Initialize inbound links for all canonical tools and aliases
   const canonicalSlugs: string[] = [];
-  for (const [categorySlug, categoryTools] of Object.entries(toolsDatabase)) {
+  for (const [, categoryTools] of Object.entries(toolsDatabase)) {
     for (const slug of Object.keys(categoryTools)) {
       canonicalSlugs.push(slug);
       inboundLinks[slug] = [];
@@ -111,13 +111,13 @@ export function computeInternalLinkGraph(): {
   }
 
   // 3. Category Hub Pages (/category/[slug])
-  for (const [categorySlug, categoryTools] of Object.entries(toolsDatabase)) {
-    for (const [slug, tool] of Object.entries(categoryTools as any)) {
+  for (const [, categoryTools] of Object.entries(toolsDatabase)) {
+    for (const [slug, tool] of Object.entries(categoryTools as Record<string, { title?: string }>)) {
       if (inboundLinks[slug]) {
         inboundLinks[slug].push({
           targetSlug: slug,
           targetUrl: `https://www.converterforall.com/${slug}`,
-          anchorText: (tool as any).title || slug,
+          anchorText: tool.title || slug,
           sourceType: "category"
         });
       }
@@ -149,7 +149,7 @@ export function computeInternalLinkGraph(): {
   }
 
   // 6. Blog Articles linking to tools
-  for (const [blogSlug, post] of Object.entries(blogDatabase)) {
+  for (const [, post] of Object.entries(blogDatabase)) {
     const content = post.content || "";
     // Search for href="/..." or href="https://www.converterforall.com/..."
     for (const slug of canonicalSlugs) {
@@ -183,7 +183,7 @@ export function computeInternalLinkGraph(): {
         const fallbacks = ["developer", "document", "image", "utilities"];
         for (const fbCat of fallbacks) {
           if (fbCat !== categorySlug) {
-            const fbTools = Object.keys((toolsDatabase as any)[fbCat] || {});
+            const fbTools = Object.keys((toolsDatabase as Record<string, Record<string, unknown>>)[fbCat] || {});
             for (const fbSlug of fbTools) {
               if (fbSlug !== currentSlug && !related.includes(fbSlug) && related.length < 4) {
                 related.push(fbSlug);

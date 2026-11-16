@@ -45,7 +45,7 @@ export const CUSTOM_TOOL_TITLES: Record<string, string> = {
   "raavi-to-asees": "Raavi to Asees - Punjabi Font Converter Online",
   "unicode-to-inpage": "Urdu Unicode to InPage Phonetic Converter",
   "inpage-to-unicode": "InPage Phonetic to Urdu Unicode Converter",
-  "jwt-decoder": "JWT Decoder - Inspect JSON Web Tokens Securely",
+  "jwt-decoder": "Browser-Based JWT Decoder & Parser - Inspect Tokens Securely",
   "json-formatter": "JSON Formatter & Validator - Pretty Print JSON Online",
   "json-to-csv": "JSON to CSV - Convert JSON Data to CSV Online",
   "csv-to-json": "CSV to JSON - Convert CSV Spreadsheets to JSON",
@@ -61,7 +61,15 @@ export const CUSTOM_TOOL_TITLES: Record<string, string> = {
   "merge-images-to-jpg": "Merge Two Images into One JPG - Free Online Tool",
 };
 
-export function getOptimizedToolTitle(tool: any, toolSlug: string): string {
+export interface ToolMetadataInput {
+  title?: string;
+  name?: string;
+  seoTitle?: string;
+  description?: string;
+  seoDescription?: string;
+}
+
+export function getOptimizedToolTitle(tool: ToolMetadataInput, toolSlug: string): string {
   if (tool.seoTitle) {
     return tool.seoTitle.replace(/\s*\|\s*ConverterForAll$/i, "").trim();
   }
@@ -91,7 +99,7 @@ export function getOptimizedToolTitle(tool: any, toolSlug: string): string {
   return `${clean} - Free Online Tool`;
 }
 
-export function getOptimizedToolDescription(tool: any, toolSlug: string, categorySlug: string): string {
+export function getOptimizedToolDescription(tool: ToolMetadataInput, toolSlug: string, categorySlug: string): string {
   if (tool.seoDescription) return tool.seoDescription;
 
   const desc = (tool.description || "")

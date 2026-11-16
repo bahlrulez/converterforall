@@ -290,9 +290,20 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
         content: "<p>Convert modern <strong>Urdu Unicode</strong> text into <strong>InPage</strong> compatible format to format in InPage desktop software for newspaper and book layout.</p>"
       },
       {
+        title: "Why convert Unicode Urdu to InPage format?",
+        content: "<p>Modern Urdu text written on smartphones, social media, WhatsApp, or Microsoft Word uses international Unicode encoding. However, many printing presses, book publishing houses, and Urdu newspapers still compose layouts using InPage software for its precise Nastaliq typography. Pasting raw Unicode directly into legacy InPage software creates scrambled characters or question marks. This converter maps modern Urdu characters into the specific character encoding expected by InPage.</p>"
+      },
+      {
+        title: "How to use converted text in InPage",
+        content: "<ol><li><strong>Paste your Unicode text:</strong> Paste or type your Urdu text into the input box above.</li><li><strong>Convert:</strong> The tool maps the Urdu characters to InPage's character encoding directly in your browser.</li><li><strong>Copy and Paste:</strong> Copy the converted text, open InPage, create or select a text box, and paste it directly.</li></ol>"
+      },
+      {
         title: "Frequently Asked Questions",
         content: `
+          <p><strong>Q: Why does Unicode Urdu show as question marks or English characters in InPage?</strong><br>A: Older versions of InPage do not support Unicode directly. They use a custom 1-byte character encoding table. Converting your text with this tool translates the character codes so InPage recognizes each Urdu letter properly.</p>
           <p><strong>Q: How do I import Unicode Urdu into InPage?</strong><br>A: Paste your Unicode text here, copy the converted output, and paste it into your InPage text boxes.</p>
+          <p><strong>Q: Does this converter support Nastaliq characters and Urdu ligatures?</strong><br>A: Yes. It properly maps Urdu specific letters including ٹ, ڈ, ڑ, ں, ے, ھ, چ, پ, ژ, گ, as well as hamza and common Urdu aerab marks.</p>
+          <p><strong>Q: Is my typed text private?</strong><br>A: Yes. All text conversion runs locally in your web browser. Nothing is sent to our servers or stored in any database.</p>
         `
       }
     ]

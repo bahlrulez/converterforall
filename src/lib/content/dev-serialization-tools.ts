@@ -19,8 +19,39 @@ export const devSerializationToolsContent: Record<string, { disableAutoEnrich?: 
         content: "It is critical to distinguish between decoding a token and verifying a token. Modifying the decoded payload does not magically create a valid token, because the trailing Signature will no longer match the altered payload. A decoded payload should never be trusted until the token's signature is cryptographically verified on a secure backend server using the appropriate secret or public key. This tool is designed purely for debugging and inspecting token contents locally, not for validating issuer authenticity or audience expiration."
       },
       {
-        title: "100% Client-Side Privacy",
-        content: "Authentication tokens often contain sensitive session identifiers, PII (Personally Identifiable Information), and authorization roles. Pasting live tokens into random internet tools can expose your infrastructure to severe security breaches. We process your token locally using native browser APIs (`atob` and `decodeURIComponent`). If the token is malformed, the decoder will fail safely without sending the broken token anywhere. Your token never leaves your device's memory."
+        title: "Client-Side Privacy & Security",
+        content: "Authentication tokens often contain sensitive session identifiers, authorization roles, and account IDs. Pasting live authentication tokens into third-party servers can expose your application to security risks. We parse your token directly inside your browser using standard JavaScript decoding. The decoded token is held only in your device's local memory and is never logged or transmitted over the network."
+      },
+      {
+        title: "Decoded Token Structure Example",
+        content: `
+          <p>Here is what a typical decoded JSON Web Token looks like after parsing:</p>
+          <pre class="bg-slate-100 dark:bg-slate-900 p-4 rounded-xl text-xs overflow-x-auto font-mono">
+// 1. Header (Algorithm & Token Type)
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+
+// 2. Payload (Claims)
+{
+  "sub": "user_12345",
+  "name": "Alex Johnson",
+  "role": "admin",
+  "iat": 1700000000,
+  "exp": 1700003600
+}
+          </pre>
+        `
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Does this tool verify the JWT signature?</strong><br>A: No. This tool only decodes and parses the Base64URL-encoded header and payload. Verifying a cryptographic signature requires your application's private key or shared secret, which should only be handled on your secure server.</p>
+          <p><strong>Q: Are my tokens or payload claims transmitted across the network?</strong><br>A: No. Decoding runs completely in your browser's local memory using JavaScript. Zero network requests are made with your token.</p>
+          <p><strong>Q: Why is my token expiration marked expired?</strong><br>A: The tool reads the numeric <code>exp</code> (Expiration Time) claim from the payload and compares it against your device's current clock. If the timestamp has passed, the token is flagged as expired.</p>
+          <p><strong>Q: How does Base64URL encoding differ from standard Base64?</strong><br>A: Base64URL replaces <code>+</code> with <code>-</code> and <code>/</code> with <code>_</code>, and removes trailing <code>=</code> padding characters so the string can be safely passed in URL queries and HTTP headers without encoding conflicts.</p>
+        `
       }
     ]
   },
