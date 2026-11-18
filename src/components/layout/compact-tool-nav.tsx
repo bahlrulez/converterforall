@@ -17,7 +17,7 @@ import {
 export const TIER_A_TOOLS = [
   { slug: "krutidev-to-unicode", title: "Kruti Dev to Unicode", category: "Fonts", icon: Type },
   { slug: "unicode-to-krutidev", title: "Unicode to Kruti Dev", category: "Fonts", icon: Type },
-  { slug: "chanakya-to-unicode", title: "Chanakya to Unicode", category: "Fonts", icon: Type },
+  { slug: "unicode-to-asees", title: "Unicode to Asees", category: "Fonts", icon: Type },
   { slug: "asees-to-unicode", title: "Asees to Unicode", category: "Fonts", icon: Type },
   { slug: "font-text-fixer", title: "Font & Text Fixer", category: "Fonts", icon: Type },
   { slug: "exam-photo-resizer", title: "Exam Photo Resizer", category: "Exam", icon: Award },

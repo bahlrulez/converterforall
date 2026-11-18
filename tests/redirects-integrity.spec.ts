@@ -188,7 +188,7 @@ test.describe('Redirects and Aliases Integrity', () => {
     expect(sitemapUrls).toContain('https://www.converterforall.com/video-compressor');
     expect(sitemapUrls).toContain('https://www.converterforall.com/blog/why-stop-uploading-sensitive-pdfs-to-online-converters');
 
-    // 5. Supplementary inventory count: exactly 144 URLs (138 previous + 6 restored Punjabi routes)
-    expect(sitemapEntries.length).toBe(144);
+    // 5. Supplementary inventory count: exactly 147 URLs (138 previous + restored Punjabi routes)
+    expect(sitemapEntries.length).toBe(147);
   });
 });

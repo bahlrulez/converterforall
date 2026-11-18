@@ -36,7 +36,9 @@ export const TIER_C_NOINDEX_TOOL_SLUGS = [
   "unicode-to-shusha",
   "unicode-to-shreelipi",
   "shahmukhi-to-gurmukhi",
-  "unicode-to-raavi"
+  "unicode-to-raavi",
+  "chanakya-to-unicode",
+  "unicode-to-chanakya"
 ] as const;
 
 export const TIER_C_NOINDEX_SLUGS = new Set<string>(TIER_C_NOINDEX_TOOL_SLUGS);

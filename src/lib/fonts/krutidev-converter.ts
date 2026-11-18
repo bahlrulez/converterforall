@@ -5,7 +5,7 @@ export function krutidevToUnicode(text: string): string {
   if (!text) return "";
 
   const array_one = [
-    "ñ", "Q+Z", "sas", "aa", ")Z", "ZZ", "'", "'", "\"", "\"",
+    "ñ", "Q+Z", "sas", "aa", ")Z", "ZZ",
     "å", "ƒ", "„", "…", "†", "‡", "ˆ", "‰", "Š", "‹",
     "¶+", "d+", "[+k", "[+", "x+", "T+", "t+", "M+", "<+", "Q+", ";+", "j+", "u+",
     "Ùk", "Ù", "ä", "–", "—", "é", "™", "=kk", "f=k",
@@ -28,7 +28,7 @@ export function krutidevToUnicode(text: string): string {
   ];
 
   const array_two = [
-    "॰", "QZ+", "sa", "a", "र्द्ध", "Z", "\"", "\"", "'", "'",
+    "॰", "QZ+", "sa", "a", "र्द्ध", "Z",
     "०", "१", "२", "३", "४", "५", "६", "७", "८", "९",
     "फ़्", "क़", "ख़", "ख़्", "ग़", "ज़्", "ज़", "ड़", "ढ़", "फ़", "य़", "ऱ", "ऩ",
     "त्त", "त्त्", "क्त", "दृ", "कृ", "न्न", "न्न्", "=k", "f=",
@@ -104,7 +104,7 @@ export function krutidevToUnicode(text: string): string {
   // Handle reph (Z)
   const set_of_matras = "अ आ इ ई उ ऊ ए ऐ ओ औ ा ि ी ु ू ृ े ै ो ौ ं : ँ ॅ";
   let position_of_R = modified_substring.indexOf("Z");
-  
+
   while (position_of_R > 0) {
     let probable_position_of_half_r = position_of_R - 1;
     let character_at_probable_position_of_half_r = modified_substring.charAt(probable_position_of_half_r);
@@ -143,33 +143,33 @@ export function unicodeToKrutidev(text: string): string {
   while (position_of_f !== -1) {
     const character_left_to_f = modified_substring.charAt(position_of_f - 1);
     modified_substring = modified_substring.replace(character_left_to_f + "ि", "f" + character_left_to_f);
-    
+
     position_of_f = position_of_f - 1;
-    
+
     // Handle conjuncts (move ि before entire conjunct)
     while (modified_substring.charAt(position_of_f - 1) === "्" && position_of_f !== 0) {
       const string_to_be_replaced = modified_substring.charAt(position_of_f - 2) + "्";
       modified_substring = modified_substring.replace(string_to_be_replaced + "f", "f" + string_to_be_replaced);
       position_of_f = position_of_f - 2;
     }
-    
+
     position_of_f = modified_substring.indexOf("ि", position_of_f + 1);
   }
 
   // Handle र् (reph) - move it to after the consonant+matras
   const set_of_matras = "ािीुूृेैोौं:ँॅ";
   let position_of_half_R = modified_substring.indexOf("र्");
-  
+
   while (position_of_half_R > 0) {
     let probable_position_of_Z = position_of_half_R + 2;
     let character_right_to_probable_position_of_Z = modified_substring.charAt(probable_position_of_Z + 1);
-    
+
     // Find non-matra position right to probable_position_of_Z
     while (set_of_matras.indexOf(character_right_to_probable_position_of_Z) !== -1) {
       probable_position_of_Z = probable_position_of_Z + 1;
       character_right_to_probable_position_of_Z = modified_substring.charAt(probable_position_of_Z + 1);
     }
-    
+
     const string_to_be_replaced = modified_substring.substring(
       position_of_half_R + 2,
       probable_position_of_Z + 1
@@ -193,7 +193,6 @@ export function unicodeToKrutidev(text: string): string {
     "ह्न", "ह्य", "हृ", "ह्म", "ह्र", "ह्", "द्द", "क्ष्", "क्ष", "त्र्", "त्र", "ज्ञ",
     "छ्य", "ट्य", "ठ्य", "ड्य", "ढ्य", "द्य", "द्व",
     "श्र", "ट्र", "ड्र", "ढ्र", "छ्र", "क्र", "फ्र", "द्र", "प्र", "ग्र", "रु", "रू",
-    "Z",
     "ओ", "औ", "आ", "अ", "ई", "इ", "उ", "ऊ", "ऐ", "ए", "ऋ",
     "क्", "क", "क्क", "ख्", "ख", "ग्", "ग", "घ्", "घ", "ङ",
     "चै", "च्", "च", "छ", "ज्", "ज", "झ्", "झ", "ञ",
@@ -214,7 +213,6 @@ export function unicodeToKrutidev(text: string): string {
     "à", "á", "â", "ã", "ºz", "º", "í", "{", "{k", "«", "=", "K",
     "Nî", "Vî", "Bî", "Mî", "<î", "|", "}",
     "J", "Vª", "Mª", "<ªª", "Nª", "Ø", "Ý", "æ", "ç", "xz", "#", ":",
-    "Z",
     "vks", "vkS", "vk", "v", "bZ", "b", "m", "Å", ",s", ",", "_",
     "D", "d", "ô", "[", "[k", "X", "x", "?", "?k", "³",
     "pkS", "P", "p", "N", "T", "t", "÷", ">", "¥",
@@ -229,12 +227,8 @@ export function unicodeToKrutidev(text: string): string {
 
   // Replace array elements
   for (let i = 0; i < array_one.length; i++) {
-    if (array_one[i]) {
-      let idx = 0;
-      while (idx !== -1) {
-        modified_substring = modified_substring.replace(array_one[i], array_two[i]);
-        idx = modified_substring.indexOf(array_one[i]);
-      }
+    if (array_one[i] && array_one[i] !== array_two[i]) {
+      modified_substring = modified_substring.split(array_one[i]).join(array_two[i]);
     }
   }
 

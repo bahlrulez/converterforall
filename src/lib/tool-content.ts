@@ -175,7 +175,6 @@ function enrichContentIfShort(
     "remove-hidden-characters",
     "fix-copy-paste-text",
     "unicode-text-cleaner",
-    "mangal-to-kruti",
     "raavi-to-asees",
     "sutonnymj-to-unicode",
     "unicode-to-sutonnymj"
@@ -296,20 +295,43 @@ function enrichContentIfShort(
       <p><strong>Q: Does this converter preserve web URLs and numbers?</strong><br>A: Yes. URLs, email addresses, and decimal numbers are recognized and preserved untouched without character corruption.</p>
     `;
   } else if (isFontTextTool) {
-    tipsTitle = "Typing & font conversion recommendations";
-    tipsContent = `
-      <p>Practical advice when converting legacy typing fonts to modern Unicode:</p>
-      <ul>
-        <li><strong>Verify in Word or Docs:</strong> After converting legacy text (such as Kruti Dev, Preeti, Bijoy, or Zawgyi) to standard Unicode, paste it into MS Word or Google Docs to verify that all vowel matras, accents, and conjuncts display accurately.</li>
-        <li><strong>Official Exams &amp; Portals:</strong> Modern government portals, court typist tests, and educational boards mandate Unicode. Use this converter to standardize your typing.</li>
-        <li><strong>WhatsApp &amp; Mobile:</strong> Unicode text displays correctly on all modern smartphones without installing custom font files.</li>
-        <li><strong>In-Browser Processing:</strong> All text conversions run directly in your browser's memory without any network transmission.</li>
-      </ul>
-    `;
-    extraFaq = `
-      <p><strong>Q: Why does my converted text look different in older software?</strong><br>A: Software created before 2005 often lacks modern Unicode rendering engines. Modern browsers, smartphones, and word processors display Unicode accurately.</p>
-      <p><strong>Q: Is my typed text uploaded or logged?</strong><br>A: No. All text conversions run in your browser's memory without any network transmission.</p>
-    `;
+    const isHindiFont =
+      toolSlug.includes("kruti") ||
+      toolSlug.includes("devlys") ||
+      toolSlug.includes("chanakya") ||
+      toolSlug.includes("mangal");
+
+    if (isHindiFont) {
+      tipsTitle = "Hindi typing & font conversion recommendations";
+      tipsContent = `
+        <p>Practical advice when converting legacy Hindi typing fonts to standard Unicode:</p>
+        <ul>
+          <li><strong>Verify in Word or Docs:</strong> After converting legacy text (such as Kruti Dev or DevLys) to standard Unicode, paste it into MS Word or Google Docs to verify that all Devanagari vowel matras, halants, and conjuncts render accurately.</li>
+          <li><strong>Official Exams &amp; Portals:</strong> Modern government exams (including CPCT, SSC, High Court, and State Police typing tests) mandate standard Mangal Unicode font. Use this converter to standardize your typing passages.</li>
+          <li><strong>WhatsApp &amp; Mobile:</strong> Unicode Devanagari text displays correctly on all modern Android, iPhone, Mac, and Windows devices without installing custom font files.</li>
+          <li><strong>In-Browser Processing:</strong> All text conversions run directly in your browser's local memory. Your typed text is never uploaded to remote servers.</li>
+        </ul>
+      `;
+      extraFaq = `
+        <p><strong>Q: Why does my converted text look different in older software?</strong><br>A: Software created before 2005 often lacks modern Unicode rendering engines. Modern browsers, smartphones, and word processors display Unicode Devanagari accurately.</p>
+        <p><strong>Q: Is my typed text uploaded or logged?</strong><br>A: No. All text conversions run in your browser's memory without any network transmission.</p>
+      `;
+    } else {
+      tipsTitle = "Typing & font conversion recommendations";
+      tipsContent = `
+        <p>Practical advice when converting legacy typing fonts to modern Unicode:</p>
+        <ul>
+          <li><strong>Verify in Word or Docs:</strong> After converting legacy text to standard Unicode, paste it into MS Word or Google Docs to verify that all vowel matras, accents, and conjuncts display accurately.</li>
+          <li><strong>Official Exams &amp; Portals:</strong> Modern government portals, court typist tests, and educational boards mandate Unicode. Use this converter to standardize your typing.</li>
+          <li><strong>WhatsApp &amp; Mobile:</strong> Unicode text displays correctly on all modern smartphones without installing custom font files.</li>
+          <li><strong>In-Browser Processing:</strong> All text conversions run directly in your browser's memory without any network transmission.</li>
+        </ul>
+      `;
+      extraFaq = `
+        <p><strong>Q: Why does my converted text look different in older software?</strong><br>A: Software created before 2005 often lacks modern Unicode rendering engines. Modern browsers, smartphones, and word processors display Unicode accurately.</p>
+        <p><strong>Q: Is my typed text uploaded or logged?</strong><br>A: No. All text conversions run in your browser's memory without any network transmission.</p>
+      `;
+    }
   } else if (isWebFontFile) {
     tipsTitle = "Web font optimization & @font-face tips";
     tipsContent = `

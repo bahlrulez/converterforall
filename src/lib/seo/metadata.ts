@@ -33,7 +33,6 @@ export const CUSTOM_TOOL_TITLES: Record<string, string> = {
   "audio-trimmer": "Audio Trimmer - Cut & Edit Audio Files Online",
   "krutidev-to-unicode": "Kruti Dev to Unicode Converter",
   "unicode-to-krutidev": "Unicode to Kruti Dev Converter",
-  "mangal-to-kruti": "Mangal to Kruti Dev - Hindi Font Converter Online",
   "chanakya-to-unicode": "Chanakya to Unicode Converter",
   "unicode-to-chanakya": "Unicode to Chanakya - Hindi Font Converter Online",
   "unicode-to-bijoy": "Unicode to Bijoy - Bengali Font Converter Online",

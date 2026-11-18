@@ -77,7 +77,7 @@ const SARKARI_CARDS = [
 const TYPOGRAPHY_CARDS = [
   { id: 'font-text-fixer', tag: "AI Detection", icon: Wand2, colorClass: "bg-violet-600" },
   { id: 'krutidev-to-unicode', tag: "Hindi", icon: Type, colorClass: "bg-indigo-600" },
-  { id: 'chanakya-to-unicode', tag: "Publishing", icon: FileText, colorClass: "bg-purple-600" },
+  { id: 'unicode-to-krutidev', tag: "DTP & Print", icon: FileText, colorClass: "bg-purple-600" },
   { id: 'asees-to-unicode', tag: "Punjabi", icon: Type, colorClass: "bg-fuchsia-600" }
 ];
 

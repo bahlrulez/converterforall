@@ -48,8 +48,8 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       "jpg-to-pdf": ["pdf-to-jpg", "merge-pdf", "compress-pdf", "png-to-jpg"],
       
       // Font Clusters (Hindi & Text Fixes)
-      "krutidev-to-unicode": ["unicode-to-krutidev", "chanakya-to-unicode", "font-text-fixer", "unicode-normalizer"],
-      "unicode-to-krutidev": ["krutidev-to-unicode", "unicode-to-chanakya", "font-text-fixer", "unicode-normalizer"],
+      "krutidev-to-unicode": ["unicode-to-krutidev", "font-detector", "font-text-fixer", "unicode-normalizer"],
+      "unicode-to-krutidev": ["krutidev-to-unicode", "font-detector", "font-text-fixer", "unicode-normalizer"],
       "chanakya-to-unicode": ["unicode-to-chanakya", "krutidev-to-unicode", "font-text-fixer", "unicode-normalizer"],
       "unicode-to-chanakya": ["chanakya-to-unicode", "unicode-to-krutidev", "font-text-fixer", "krutidev-to-unicode"],
       "font-text-fixer": ["krutidev-to-unicode", "unicode-to-krutidev", "unicode-normalizer", "font-detector"],

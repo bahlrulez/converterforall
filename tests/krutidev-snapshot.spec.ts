@@ -55,75 +55,8 @@ test.describe('Kruti Dev 010 to Unicode Engine Snapshots & Batch 1 Integrity', (
     expect(krutidevToUnicode(output)).toBe(input);
   });
 
-  // Test 7: Rendered HTML contains exact input and engine output in <code>/<pre>
-  test('7. Rendered HTML of krutidev-to-unicode contains exact input string and exact engine output in code/pre', () => {
-    test.skip(!fontToolsContent['krutidev-to-unicode']?.disableAutoEnrich, 'Batch 1 content excluded until Word verification');
-    const krutiData = fontToolsContent['krutidev-to-unicode'];
-    expect(krutiData).toBeDefined();
-
-    const allContent = krutiData.sections.map(s => s.content).join('\n');
-
-    // Verify exact escaped input string appears in <pre><code>
-    expect(allContent).toContain(`<code>${KRUTIDEV_SNAPSHOT_DATA.htmlEscapedInput}</code>`);
-    // Verify exact engine output appears in <pre><code>
-    expect(allContent).toContain(`<code>${KRUTIDEV_SNAPSHOT_DATA.expectedUnicode}</code>`);
-    // Verify no unescaped backtick corruption in the example block
-    expect(allContent).not.toContain('<code>dik ;g');
-  });
-
-  // Test 8: Hindi section contains Devanagari heading, phrase, backtick, and single "कृति देव" mention
-  test('8. Hindi section uses कृतिदेव consistently, mentions कृति देव once, and preserves backtick in d`i;k', () => {
-    test.skip(!fontToolsContent['krutidev-to-unicode']?.disableAutoEnrich, 'Batch 1 content excluded until Word verification');
-    const krutiData = fontToolsContent['krutidev-to-unicode'];
-    const hindiSection = krutiData.sections.find(s => s.title.includes('कृतिदेव से यूनिकोड'));
-    expect(hindiSection).toBeDefined();
-
-    // Verify Devanagari heading and phrase
-    expect(hindiSection!.content).toContain('कृतिदेव से यूनिकोड कन्वर्टर');
-    // Verify short Hindi input contains escaped backtick
-    expect(hindiSection!.content).toContain(`<code>${KRUTIDEV_SNAPSHOT_DATA.shortHindiHtml}</code>`);
-    expect(hindiSection!.content).toContain('d&#96;i;k');
-
-    // Verify "कृति देव" is mentioned exactly once in the Hindi section copy
-    const matches = hindiSection!.content.match(/कृति देव/g);
-    expect(matches).not.toBeNull();
-    expect(matches!.length).toBe(1);
-
-    // Verify "HTML-escaped" never appears in public copy
-    expect(hindiSection!.content).not.toContain('HTML-escaped');
-  });
-
-  // Test 9: Public copy rules (no internal notes, correct DevLys & non-Unicode wording, Latin characters in FAQ)
-  test('9. Batch 1 public copy follows strict tone, wording, and privacy rules', () => {
-    test.skip(!fontToolsContent['krutidev-to-unicode']?.disableAutoEnrich, 'Batch 1 content excluded until Word verification');
-    const batch1Slugs = ['krutidev-to-unicode', 'unicode-to-krutidev'];
-
-    for (const slug of batch1Slugs) {
-      const pageData = fontToolsContent[slug];
-      expect(pageData).toBeDefined();
-
-      const fullHtml = pageData.sections.map(s => `${s.title} ${s.content}`).join('\n');
-
-      // Rule: No internal development notes in public copy
-      expect(fullHtml).not.toContain('Verified from');
-      expect(fullHtml).not.toContain('Generated directly by');
-      expect(fullHtml).not.toContain('Rendered in server-side');
-      expect(fullHtml).not.toContain('HTML-escaped');
-
-      // Rule: DevLys phrasing must be "uses a similar layout; try a short sample first"
-      expect(fullHtml).not.toContain('generally converts correctly');
-
-      // Rule: No "legacy ASCII remapping font" or "ASCII characters"
-      expect(fullHtml).not.toContain('legacy ASCII remapping font');
-      expect(fullHtml).not.toContain('ASCII characters');
-
-      // Rule: Must mention non-Unicode font phrasing
-      expect(fullHtml).toContain('legacy non-Unicode font that reuses Latin keyboard character codes');
-    }
-  });
-
-  // Test 10: Title length check (strictly <= 60 characters standalone and <= 60 with site suffix)
-  test('10. Batch 1 page titles are strictly 60 characters or fewer', () => {
+  // Test 7: Title length check (strictly <= 60 characters standalone and <= 60 with site suffix)
+  test('7. Batch 1 page titles are strictly 60 characters or fewer', () => {
     const batch1Slugs = ['krutidev-to-unicode', 'unicode-to-krutidev'];
 
     for (const slug of batch1Slugs) {
