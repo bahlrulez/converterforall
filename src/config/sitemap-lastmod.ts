@@ -36,9 +36,7 @@ export const TIER_C_NOINDEX_TOOL_SLUGS = [
   "unicode-to-shusha",
   "unicode-to-shreelipi",
   "shahmukhi-to-gurmukhi",
-  "gurbani-akhar-to-unicode",
-  "unicode-to-raavi",
-  "anmollipi-to-unicode"
+  "unicode-to-raavi"
 ] as const;
 
 export const TIER_C_NOINDEX_SLUGS = new Set<string>(TIER_C_NOINDEX_TOOL_SLUGS);
@@ -179,10 +177,8 @@ export const PAGE_LASTMOD_DATES: Record<string, string> = {
   "/joy-to-unicode": "2026-08-16",
   "/unicode-to-satluj": "2026-08-04",
   "/satluj-to-unicode": "2026-08-04",
-  "/unicode-to-gurbani-akhar": "2026-08-04",
-  "/gurbani-akhar-to-unicode": "2026-08-04",
+  "/gurbani-akhar-to-unicode": "2026-10-09",
   "/unicode-to-raavi": "2026-08-04",
-  "/raavi-to-unicode": "2026-08-04",
   "/gurmukhi-to-shahmukhi": "2026-08-04",
   "/shahmukhi-to-gurmukhi": "2026-08-04",
   "/preeti-to-unicode": "2026-08-16",

@@ -3,6 +3,33 @@ import { generatedPunjabiProfiles } from "./punjabi-font-profiles";
 export const fontToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   ...generatedPunjabiProfiles,
 
+  // UNICODE TO RAAVI (GURMUKHI OPEN-TYPE FONT GUIDE)
+  "unicode-to-raavi": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Understanding Raavi Font and Unicode Gurmukhi",
+        content: "<p><strong>Raavi</strong> is the standard OpenType font developed by Microsoft for displaying Punjabi Gurmukhi on Windows. Unlike older legacy fonts (such as Asees, Satluj, or Joy) which mapped Gurmukhi characters onto English ASCII keystrokes, Raavi natively follows the international Unicode standard. This means that if your Punjabi text is already in Unicode, <strong>no file or text conversion is needed to use Raavi font</strong>.</p>"
+      },
+      {
+        title: "How to Display and Format Unicode Text in Raavi Font",
+        content: "<ol><li><strong>Copy Unicode Text:</strong> Copy your Punjabi text from any website, email, or modern document.</li><li><strong>Paste into Word or Docs:</strong> Paste the text into your document editor.</li><li><strong>Select Font:</strong> Highlight the text and choose <strong>'Raavi'</strong> (or 'Nirmala UI') from your font dropdown menu. The text will render with official OpenType Gurmukhi typography.</li></ol>"
+      },
+      {
+        title: "Converting Older Legacy Fonts to Raavi / Unicode",
+        content: "<p>If you have documents typed in legacy fonts where the text looks like English gibberish without the font installed, you do need to convert them to Unicode. Use our dedicated tools to modernize your text:</p><ul><li><a href=\"/asees-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>Asees to Unicode Converter</strong></a> – For PSSSB typing test passages and government documents.</li><li><a href=\"/satluj-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>Satluj to Unicode Converter</strong></a> – For newspaper archives and PageMaker DTP files.</li><li><a href=\"/joy-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>Joy to Unicode Converter</strong></a> – For legacy Joy font documents.</li><li><a href=\"/anmollipi-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>AnmolLipi to Unicode Converter</strong></a> – For books and university notes typed in AnmolLipi.</li><li><a href=\"/gurbani-akhar-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>Gurbani Akhar to Unicode Converter</strong></a> – For Gurbani hymns and religious publications.</li></ul>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Do I need to convert Unicode text to use Raavi font?</strong><br>A: No. Raavi is an OpenType Unicode font, not an older ASCII font. Unicode Punjabi text already displays directly in Raavi font without requiring any conversion.</p>
+          <p><strong>Q: Why does my Punjabi text show as English letters in Microsoft Word?</strong><br>A: If your text appears as random English characters, it was typed in a legacy non-Unicode font like Asees or Satluj. Converting that text to Unicode using our font converters will allow it to display properly in Raavi font.</p>
+          <p><strong>Q: Is Raavi required for official Punjab government typing tests?</strong><br>A: Yes. Official government typing tests in Punjab (including PSSSB, Punjab Police, and High Court exams) mandate typing in standard Unicode, with Raavi as the standard display font. If you practiced with the legacy Asees layout, use our Asees to Unicode tool to verify your typing accuracy.</p>
+        `
+      }
+    ]
+  },
+
   // KRUTI DEV TO UNICODE / MANGAL CONVERTER
   "krutidev-to-unicode": {
     sections: [

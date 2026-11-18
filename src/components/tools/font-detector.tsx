@@ -39,7 +39,6 @@ export function FontDetector() {
     if (fontName.includes("joy")) return '/joy-to-unicode';
     if (fontName.includes("satluj")) return '/satluj-to-unicode';
     if (fontName.includes("gurbani")) return '/gurbani-akhar-to-unicode';
-    if (fontName.includes("raavi")) return '/raavi-to-unicode';
     if (fontName.includes("bijoy") || fontName.includes("sutonny")) return '/bijoy-to-unicode';
     if (fontName.includes("preeti")) return '/preeti-to-unicode';
     if (fontName.includes("inpage")) return '/inpage-to-unicode';
@@ -85,7 +84,7 @@ export function FontDetector() {
             <div className="text-muted-foreground flex flex-col items-center gap-3">
               <Search className="w-8 h-8 opacity-50" />
               <h3 className="text-xl font-semibold">Unknown Font</h3>
-              <p className="max-w-md text-sm">We couldn't confidently identify this font. It might be standard English, mixed text, or an unsupported legacy font.</p>
+              <p className="max-w-md text-sm">We couldn&apos;t confidently identify this font. It might be standard English, mixed text, or an unsupported legacy font.</p>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-4 w-full">

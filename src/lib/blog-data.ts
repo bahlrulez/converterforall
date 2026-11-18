@@ -454,8 +454,8 @@ export const blogDatabase: Record<string, BlogPost> = {
       <p>Simply paste your Satluj text into the converter. The tool converts it directly into Unicode Punjabi, which you can then copy and use in Microsoft Word, Google Docs, websites, WhatsApp, social media and modern mobile devices.</p>
 
       <h2>Other Legacy Punjabi Fonts</h2>
-      <p>Joy, Asees, Gurbani Akhar, Raavi, Satluj, and AnmolLipi aren't the only fonts that cause formatting issues. If you have old typing files written in other formats, the same principles apply. Converting them to standard Unicode is the easiest way to make the text readable again.</p>
-      <p>You can instantly fix these files using our dedicated free tools, such as the <a href="/joy-to-unicode">Joy to Unicode Converter</a>, <a href="/asees-to-unicode">Asees to Unicode Converter</a>, <a href="/gurbani-akhar-to-unicode">Gurbani Akhar to Unicode Converter</a>, and <a href="/raavi-to-unicode">Raavi to Unicode Converter</a>.</p>
+      <p>Joy, Asees, Gurbani Akhar, Satluj, and AnmolLipi are legacy fonts that often cause formatting issues. If you have old typing files written in these formats, converting them to standard Unicode (which displays natively in fonts like Raavi or Nirmala UI) is the easiest way to make the text readable again.</p>
+      <p>You can instantly fix these files using our dedicated free tools, such as the <a href="/joy-to-unicode">Joy to Unicode Converter</a>, <a href="/asees-to-unicode">Asees to Unicode Converter</a>, <a href="/anmollipi-to-unicode">AnmolLipi to Unicode Converter</a>, and <a href="/gurbani-akhar-to-unicode">Gurbani Akhar to Unicode Converter</a>.</p>
 
       <h2>What Is the Difference Between Old Fonts and Unicode?</h2>
       <p>The easiest way to understand the difference is to think about how your phone reads text.</p>
@@ -490,7 +490,7 @@ export const blogDatabase: Record<string, BlogPost> = {
         <li>For Kruti Dev Hindi text, use the free <a href="/krutidev-to-unicode">Kruti Dev to Unicode Converter</a></li>
         <li>For AnmolLipi Punjabi text, use the free <a href="/anmollipi-to-unicode">AnmolLipi to Unicode Converter</a></li>
         <li>For Satluj Punjabi text, use the free <a href="/satluj-to-unicode">Satluj to Unicode Converter</a></li>
-        <li>For other Punjabi fonts, try our free converters for <a href="/joy-to-unicode">Joy</a>, <a href="/asees-to-unicode">Asees</a>, <a href="/gurbani-akhar-to-unicode">Gurbani Akhar</a>, and <a href="/raavi-to-unicode">Raavi</a></li>
+        <li>For other Punjabi fonts, try our free converters for <a href="/joy-to-unicode">Joy</a>, <a href="/asees-to-unicode">Asees</a>, <a href="/anmollipi-to-unicode">AnmolLipi</a>, and <a href="/gurbani-akhar-to-unicode">Gurbani Akhar</a>.</li>
       </ul>
       <p>The main idea is simple: old fonts such as Kruti Dev, AnmolLipi and Satluj were designed for an older way of working with Indian-language text, while Unicode is designed for the modern digital world.</p>
       <p>So, if your Hindi or Punjabi text looks fine on one computer but breaks on another device, the text may not be the problem at all. The font format may be the reason.</p>

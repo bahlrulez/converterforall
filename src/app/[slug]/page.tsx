@@ -78,7 +78,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   // Extract from/to from slug if it's a length converter (e.g. "inches-to-centimeters")
   let defaultFrom = "inches";
   let defaultTo = "centimeters";
-  if ((tool as any).converterType === "length") {
+  if (tool.converterType === "length") {
     const parts = toolSlug.split("-to-");
     if (parts.length === 2) {
       defaultFrom = parts[0];
@@ -89,7 +89,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   // Extract from/to from slug if it's a font converter
   let defaultFontFrom = "unicode";
   let defaultFontTo = "krutidev";
-  if ((tool as any).converterType === "font") {
+  if (tool.converterType === "font") {
     const parts = toolSlug.split("-to-");
     if (parts.length === 2) {
       defaultFontFrom = parts[0];
@@ -122,7 +122,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   const extractedFaqs = extractToolFaqs(contentSections);
 
   // Generate SoftwareApplication Schema
-  const softwareAppSchema: Record<string, any> = {
+  const softwareAppSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": tool.title,
@@ -169,7 +169,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   const isRealFontVerified = toolSlug === "krutidev-to-unicode" || toolSlug === "unicode-to-krutidev";
   const showHighFidelityBadge = !isFontTool || isRealFontVerified;
 
-  const isHeldUnavailableTool = toolSlug === "gurbani-akhar-to-unicode" || toolSlug === "unicode-to-raavi";
+  const isHeldUnavailableTool = toolSlug === "unicode-to-raavi";
 
   const PUNJABI_EXPERIMENTAL_TOOLS = new Set([
     "anmollipi-to-unicode",
@@ -178,6 +178,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     "unicode-to-joy",
     "asees-to-unicode",
     "unicode-to-asees",
+    "gurbani-akhar-to-unicode",
   ]);
 
   const UNVERIFIED_FONT_TOOLS = new Set([
@@ -263,7 +264,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             <div className="w-full h-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-500 rounded-full" />
           </div>
 
-          <div className={`${(tool as any).isInteractive ? '' : 'bg-white/90 dark:bg-[#080e22]/95 backdrop-blur-xl rounded-3xl p-5 sm:p-10 border border-slate-200/90 dark:border-slate-800 shadow-xl'} relative z-10`}>
+          <div className={`${tool.isInteractive ? '' : 'bg-white/90 dark:bg-[#080e22]/95 backdrop-blur-xl rounded-3xl p-5 sm:p-10 border border-slate-200/90 dark:border-slate-800 shadow-xl'} relative z-10`}>
             {PUNJABI_EXPERIMENTAL_TOOLS.has(toolSlug) && (
               <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-sm flex items-center justify-center text-center gap-2 font-medium">
                 <span className="font-bold text-amber-700 dark:text-amber-400">Notice:</span>

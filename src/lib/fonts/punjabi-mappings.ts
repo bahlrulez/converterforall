@@ -132,10 +132,6 @@ export const punjabiMappings: Record<string, FontMap> = {
     fromUnicode: [[/ਸ/g, "s"]],
     toUnicode: [[/s/g, "ਸ"]],
   },
-  "gurbani-akhar": {
-    fromUnicode: [[/ਸ/g, "s"]],
-    toUnicode: [[/s/g, "ਸ"]],
-  },
   raavi: {
     fromUnicode: [],
     toUnicode: [],
@@ -173,21 +169,31 @@ import { PunjabiFontConvertor } from './punjabi-engine';
 
 const fontNameMap: Record<string, string> = {
   anmollipi: 'AnmolLipi',
+  'anmol-lipi': 'AnmolLipi',
   asees: 'Asees',
   joy: 'Joy',
   satluj: 'Satluj',
   gurbanilipi: 'GurbaniLipi',
+  'gurbani-akhar': 'GurbaniLipi',
+  gurbaniakhar: 'GurbaniLipi',
   unicode: 'Arial Unicode MS'
 };
 
+interface PunjabiEngine {
+  convert: (str: string, toFontName: string, fromFontName: string) => string;
+}
+
+const engine = PunjabiFontConvertor as unknown as PunjabiEngine;
+
 export function convertPunjabi(text: string, font: string, direction: 'toUnicode' | 'fromUnicode'): string {
   if (!text) return '';
-  const mappedFontName = fontNameMap[font];
+  const normalizedKey = (font || '').toLowerCase().replace(/[-_\s]/g, '');
+  const mappedFontName = fontNameMap[font] || fontNameMap[normalizedKey];
   if (mappedFontName) {
     if (direction === 'toUnicode') {
-      return (PunjabiFontConvertor as any).convert(text, 'Arial Unicode MS', mappedFontName);
+      return engine.convert(text, 'Arial Unicode MS', mappedFontName);
     } else {
-      return (PunjabiFontConvertor as any).convert(text, mappedFontName, 'Arial Unicode MS');
+      return engine.convert(text, mappedFontName, 'Arial Unicode MS');
     }
   }
 

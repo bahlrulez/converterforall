@@ -495,13 +495,13 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
     const formatName = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).replace(/-/g, ' ');
     const fromUnit = formatName(parts[0]);
     const toUnit = formatName(parts[1]);
-    
+
     let tableHtml = "";
     let formulaHtml = "";
     if (lengthFactors[fromUnit] && lengthFactors[toUnit]) {
       const ratio = lengthFactors[fromUnit] / lengthFactors[toUnit];
       const formatNum = (num: number) => Number.isInteger(num) ? num.toString() : num.toPrecision(6).replace(/\.?0+$/, '');
-      
+
       formulaHtml = `
       <div class="bg-muted p-4 rounded-xl my-4 border border-border">
         <h3 class="text-base font-bold mt-0 mb-2">The Exact Conversion Formula</h3>
@@ -609,8 +609,77 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
     ];
   }
 
-  // 2. Regional Indic & Asian Font Conversion Tools
-  if (toolSlug.includes("-to-") && (toolSlug.includes("unicode") || toolSlug.includes("krutidev") || toolSlug.includes("chanakya") || toolSlug.includes("anmollipi") || toolSlug.includes("asees") || toolSlug.includes("devlys") || toolSlug.includes("joy") || toolSlug.includes("preeti") || toolSlug.includes("bijoy") || toolSlug.includes("inpage"))) {
+  // 2. Punjabi Gurmukhi Font Converters (Clean, strictly isolated Punjabi branch)
+  const PUNJABI_FONT_SLUGS = new Set([
+    "unicode-to-anmollipi",
+    "anmollipi-to-unicode",
+    "unicode-to-asees",
+    "asees-to-unicode",
+    "unicode-to-joy",
+    "joy-to-unicode",
+    "unicode-to-satluj",
+    "satluj-to-unicode",
+    "gurbani-akhar-to-unicode",
+    "unicode-to-raavi",
+    "gurmukhi-to-shahmukhi",
+    "shahmukhi-to-gurmukhi"
+  ]);
+
+  if (toolSlug.includes("-to-") && PUNJABI_FONT_SLUGS.has(toolSlug)) {
+    const parts = toolSlug.split("-to-");
+    const formatName = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).replace(/-/g, ' ');
+    const fromFont = formatName(parts[0]);
+    const toFont = formatName(parts[1]);
+
+    return [
+      {
+        title: `Why convert between ${fromFont} and ${toFont}?`,
+        content: `
+          <p>Before Unicode became the universal standard for digital computing, Punjabi and Gurmukhi documents were composed using legacy font encodings. Fonts like ${fromFont} mapped Gurmukhi characters onto standard ASCII keystrokes. While documents looked correct on computers with that specific font installed, copying or emailing the text to another device often results in meaningless English letters.</p>
+          <p>Converting between ${fromFont} and ${toFont} bridges the gap between older desktop publishing workflows and modern computing, ensuring your Punjabi text is readable across all devices, websites, and government portals.</p>
+        `
+      },
+      {
+        title: "How Punjabi font conversion works",
+        content: `
+          <p>Gurmukhi typography requires careful character sequencing. In legacy fonts, vowel modifiers like Sihari (ਿ) were typed before the consonant to match visual printing order. In Unicode, Sihari is stored logically after the consonant. Similarly, conjunct consonants like Pairi Rara, Pairi Haha, and Pairi Vava, as well as Bindi, Tippi, and Addak, require precise reordering.</p>
+          <p>Our converter applies dedicated Gurmukhi mapping rules directly in your browser to reconstruct proper syllable order and preserve phonetic accuracy.</p>
+        `
+      },
+      {
+        title: "Step-by-step instructions for conversion",
+        content: `
+          <ol>
+            <li><strong>Paste your text:</strong> Copy your Punjabi text from Microsoft Word, PageMaker, or your document and paste it into the input box above.</li>
+            <li><strong>Instant conversion:</strong> The tool automatically processes the characters and generates the converted text on your device.</li>
+            <li><strong>Copy and use:</strong> Click the "Copy" button to copy the result to your clipboard, ready for your documents, messages, or publishing software.</li>
+          </ol>
+        `
+      },
+      {
+        title: "Compatibility & tips for Punjabi typists",
+        content: `
+          <ul>
+            <li><strong>Text displays as English letters:</strong> If your document appears as random English characters, it was typed in a legacy font without Unicode encoding. Converting to Unicode restores the proper Gurmukhi script.</li>
+            <li><strong>Punjab Government Exams (PSSSB):</strong> State exams and typing tests in Punjab require standard Unicode Gurmukhi (typically displayed in Raavi font). Converting legacy practice text to Unicode ensures compatibility with official test portals.</li>
+            <li><strong>Desktop Publishing (PageMaker &amp; CorelDraw):</strong> When converting from Unicode to a legacy font for print layout, remember to select the target font name from your software's font menu to view the characters correctly.</li>
+          </ul>
+        `
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Is my Punjabi text uploaded to a remote server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. All font conversions are performed locally in your browser memory and are never transmitted over the internet.</p>
+          <p><strong>Q: Will formatting like bold or tables be preserved?</strong><br>A: Font conversion processes raw character encoding. We recommend converting the plain text first and then applying bold, sizing, or headings in your document editor.</p>
+          <p><strong>Q: Can I use the converted Unicode text on mobile phones?</strong><br>A: Yes. Converted Unicode text works seamlessly on Android, iOS, Windows, and Mac devices without requiring any extra font downloads.</p>
+          <p><strong>Q: Which font should I use in Microsoft Word for Gurmukhi Unicode?</strong><br>A: On Windows, Raavi or Nirmala UI is the standard font for displaying Gurmukhi Unicode. On Mac, Gurmukhi MN or Gurmukhi Sangam MN is used automatically.</p>
+        `
+      }
+    ];
+  }
+
+  // 3. Regional Indic & Asian Font Conversion Tools (Hindi, Nepali, Bengali, etc.)
+  if (toolSlug.includes("-to-") && (toolSlug.includes("krutidev") || toolSlug.includes("chanakya") || toolSlug.includes("devlys") || toolSlug.includes("preeti") || toolSlug.includes("bijoy") || toolSlug.includes("inpage") || toolSlug.includes("shusha") || toolSlug.includes("aps") || toolSlug.includes("shreelipi"))) {
     const parts = toolSlug.split("-to-");
     const formatName = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).replace(/-/g, ' ');
     const fromFont = formatName(parts[0]);
@@ -951,8 +1020,8 @@ export interface ToolFaqItem {
 }
 
 export function extractToolFaqs(sections: { title: string; content: string }[]): ToolFaqItem[] {
-  const faqSection = sections.find(s => 
-    s.title.toLowerCase().includes("frequently asked questions") || 
+  const faqSection = sections.find(s =>
+    s.title.toLowerCase().includes("frequently asked questions") ||
     s.title.toLowerCase().includes("faq")
   );
   if (!faqSection) return [];

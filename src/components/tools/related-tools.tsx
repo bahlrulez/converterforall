@@ -2,8 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, FileText, Image as ImageIcon, Video, Music, Wrench, Type, Code2, Zap, ShieldCheck } from "lucide-react";
-import { toolsDatabase } from "@/lib/tools-db";
+import { ArrowRight, Sparkles, FileText, Image as ImageIcon, Video, Music, Wrench, Type, Code2 } from "lucide-react";
+import { toolsDatabase, Tool } from "@/lib/tools-db";
 
 interface RelatedToolsProps {
   currentSlug: string;
@@ -14,8 +14,9 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
   // Extract related tools using high-relevance workflow clusters + circular ring linkage
   const relatedList = React.useMemo(() => {
     const list: Array<{ slug: string; title: string; description: string; category: string; badge?: string }> = [];
-    const categoryTools = (toolsDatabase as any)[categorySlug] || {};
-    const entries: [string, any][] = Object.entries(categoryTools);
+    const typedDb = toolsDatabase as Record<string, Record<string, Tool>>;
+    const categoryTools = typedDb[categorySlug] || {};
+    const entries: [string, Tool][] = Object.entries(categoryTools);
 
     const badges = ["Popular", "Fast & Free", "Top Utility", "Related Tool"];
 
@@ -64,12 +65,15 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       "unicode-to-preeti": ["preeti-to-unicode", "font-text-fixer", "unicode-to-krutidev", "unicode-to-bijoy"],
       
       // Font Clusters (Punjabi)
-      "anmollipi-to-unicode": ["unicode-to-anmollipi", "font-text-fixer", "joy-to-unicode", "unicode-to-joy"],
-      "unicode-to-anmollipi": ["anmollipi-to-unicode", "font-text-fixer", "joy-to-unicode", "unicode-to-joy"],
-      "joy-to-unicode": ["unicode-to-joy", "anmollipi-to-unicode", "font-text-fixer", "krutidev-to-unicode"],
-      "unicode-to-joy": ["joy-to-unicode", "unicode-to-anmollipi", "font-text-fixer", "unicode-to-krutidev"],
-      "asees-to-unicode": ["unicode-to-asees", "font-text-fixer", "joy-to-unicode", "anmollipi-to-unicode"],
-      "unicode-to-asees": ["asees-to-unicode", "font-text-fixer", "unicode-to-joy", "unicode-to-anmollipi"],
+      "anmollipi-to-unicode": ["asees-to-unicode", "satluj-to-unicode", "joy-to-unicode", "gurbani-akhar-to-unicode"],
+      "unicode-to-anmollipi": ["anmollipi-to-unicode", "unicode-to-asees", "unicode-to-satluj", "unicode-to-joy"],
+      "joy-to-unicode": ["satluj-to-unicode", "asees-to-unicode", "anmollipi-to-unicode", "gurbani-akhar-to-unicode"],
+      "unicode-to-joy": ["joy-to-unicode", "unicode-to-asees", "unicode-to-satluj", "unicode-to-anmollipi"],
+      "asees-to-unicode": ["unicode-to-asees", "satluj-to-unicode", "joy-to-unicode", "anmollipi-to-unicode"],
+      "unicode-to-asees": ["asees-to-unicode", "unicode-to-satluj", "unicode-to-joy", "unicode-to-anmollipi"],
+      "satluj-to-unicode": ["unicode-to-satluj", "asees-to-unicode", "joy-to-unicode", "anmollipi-to-unicode"],
+      "unicode-to-satluj": ["satluj-to-unicode", "unicode-to-asees", "unicode-to-joy", "unicode-to-anmollipi"],
+      "gurbani-akhar-to-unicode": ["asees-to-unicode", "anmollipi-to-unicode", "satluj-to-unicode", "joy-to-unicode"],
 
       // Video Workflows
       "video-compressor": ["compress-mp4", "compress-video-for-discord", "compress-video-for-whatsapp", "video-to-mp4"],
@@ -90,12 +94,12 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
         if (slug === currentSlug) continue;
         if (list.some(item => item.slug === slug)) continue;
         
-        for (const [cat, tools] of Object.entries(toolsDatabase)) {
-          if (slug in (tools as any)) {
+        for (const [cat, tools] of Object.entries(typedDb)) {
+          if (slug in tools) {
             list.push({
               slug,
-              title: (tools as any)[slug].title || slug,
-              description: (tools as any)[slug].description || "",
+              title: tools[slug].title || slug,
+              description: tools[slug].description || "",
               category: cat,
               badge: badges[list.length % badges.length],
             });
@@ -133,13 +137,13 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
         const fallbackCategories = ["document", "image", "developer", "utilities"];
         for (const cat of fallbackCategories) {
           if (cat !== categorySlug) {
-            const tools = (toolsDatabase as any)[cat] || {};
-            for (const [slug, tool] of Object.entries(tools as any)) {
+            const tools = typedDb[cat] || {};
+            for (const [slug, tool] of Object.entries(tools)) {
               if (slug !== currentSlug && !list.some((i) => i.slug === slug)) {
                 list.push({
                   slug,
-                  title: (tool as any).title || slug,
-                  description: (tool as any).description || "",
+                  title: tool.title || slug,
+                  description: tool.description || "",
                   category: cat,
                   badge: badges[list.length % badges.length],
                 });
