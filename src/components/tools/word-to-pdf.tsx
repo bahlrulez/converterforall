@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
+import Link from "next/link";
 import { useDropzone } from "react-dropzone";
-import { Upload, FileText, Download, Loader2, ArrowRight } from "lucide-react";
+import { Upload, FileText, Download, Loader2, ArrowRight, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { convertWordToPdf } from "@/lib/converters/word";
 import { getPendingFile } from "@/lib/file-transfer";
@@ -14,17 +15,20 @@ export default function WordToPdfTool() {
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [fileName, setFileName] = useState("");
   const [useCloudEngine, setUseCloudEngine] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const processFile = useCallback(async (targetFile: File, engineMode: "browser" | "cloud" = "browser") => {
     setIsProcessing(true);
-    setProgressText(engineMode === "cloud" ? "Converting via Cloudmersive API..." : "Converting Word to PDF in browser...");
+    setErrorMessage(null);
+    setProgressText(engineMode === "cloud" ? "Converting via Cloud Engine..." : "Converting Word to PDF in browser...");
     try {
       const blob = await convertWordToPdf(targetFile, { engine: engineMode });
       setResultBlob(blob);
       setProgressText("");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      alert("An error occurred: " + (err.message || err.toString()));
+      const msg = err instanceof Error ? err.message : String(err);
+      setErrorMessage(msg || "An unexpected error occurred during document conversion.");
     } finally {
       setIsProcessing(false);
     }
@@ -36,6 +40,9 @@ export default function WordToPdfTool() {
       if (pending) {
         setFile(pending);
         setFileName(pending.name.replace(/\.docx?$/i, ".pdf"));
+        if (pending.name.toLowerCase().endsWith(".doc")) {
+          setUseCloudEngine(true);
+        }
         processFile(pending);
       }
     }
@@ -48,6 +55,10 @@ export default function WordToPdfTool() {
       setFile(selectedFile);
       setFileName(selectedFile.name.replace(/\.docx?$/i, ".pdf"));
       setResultBlob(null);
+      setErrorMessage(null);
+      if (selectedFile.name.toLowerCase().endsWith(".doc")) {
+        setUseCloudEngine(true);
+      }
     }
   }, []);
 
@@ -111,7 +122,7 @@ export default function WordToPdfTool() {
               <div className="h-16 w-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-2">
                 <FileText className="h-8 w-8 text-blue-600 dark:text-blue-400" />
               </div>
-              <span className="text-sm font-medium">DOCX</span>
+              <span className="text-sm font-medium">{file.name.toLowerCase().endsWith(".doc") ? "DOC" : "DOCX"}</span>
             </div>
             <ArrowRight className="h-6 w-6 text-muted-foreground" />
             <div className="flex flex-col items-center">
@@ -122,7 +133,27 @@ export default function WordToPdfTool() {
             </div>
           </div>
           
-          <h3 className="text-xl font-semibold mb-2 text-center">{file.name}</h3>
+          <h3 className="text-xl font-semibold mb-1 text-center">{file.name}</h3>
+          {file.name.toLowerCase().endsWith(".doc") && (
+            <span className="text-xs text-amber-600 dark:text-amber-400 font-medium mb-1">
+              Word 97-2003 / Legacy DOC format
+            </span>
+          )}
+
+          {/* Inline Error Card */}
+          {errorMessage && (
+            <div className="w-full mt-3 p-4 rounded-2xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-red-800 dark:text-red-200 text-sm">
+              <div className="flex items-start gap-2.5">
+                <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <p className="font-semibold text-xs leading-relaxed">{errorMessage}</p>
+                  <p className="text-[11px] text-red-600 dark:text-red-400 leading-relaxed">
+                    Tip: You can enable &quot;Use Cloud Engine&quot; or re-save the document as standard .docx in Microsoft Word or Google Docs.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Cloud Opt-In Choice (Unchecked by default) */}
           <div className="w-full mt-4 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/40 text-left text-xs">
@@ -156,7 +187,7 @@ export default function WordToPdfTool() {
           )}
           
           {!isProcessing && (
-            <Button variant="ghost" className="mt-4" onClick={() => setFile(null)}>
+            <Button variant="ghost" className="mt-4" onClick={() => { setFile(null); setErrorMessage(null); }}>
               Cancel
             </Button>
           )}
@@ -173,7 +204,7 @@ export default function WordToPdfTool() {
           <Button size="lg" className="w-full rounded-xl h-14 text-lg overflow-hidden relative group" onClick={handleDownload}>
             <span className="truncate w-full block px-4">Download {fileName}</span>
           </Button>
-          <Button variant="ghost" className="mt-4" onClick={() => { setFile(null); setResultBlob(null); }}>
+          <Button variant="ghost" className="mt-4" onClick={() => { setFile(null); setResultBlob(null); setErrorMessage(null); }}>
             Convert Another File
           </Button>
         </div>
@@ -181,13 +212,13 @@ export default function WordToPdfTool() {
 
       {/* Contextual SEO Link */}
       <div className="mt-8 text-center">
-        <a 
+        <Link 
           href="/blog/word-to-pdf-formatting-tips" 
           className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full"
         >
           <FileText className="w-4 h-4" />
           Are fonts changing after conversion? Read our formatting tips
-        </a>
+        </Link>
       </div>
     </div>
   );

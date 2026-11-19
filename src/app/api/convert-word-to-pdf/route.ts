@@ -19,6 +19,10 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(arrayBuffer);
 
     const fileName = file.name || "document.docx";
+    const isDoc = fileName.toLowerCase().endsWith(".doc");
+    const fileMime = isDoc
+      ? "application/msword"
+      : "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
     // 1. Primary Engine: Cloudmersive High-Precision Document API (800 Free/Mo)
     const cloudmersiveKey = (
@@ -29,14 +33,16 @@ export async function POST(req: NextRequest) {
     if (cloudmersiveKey) {
       try {
         const cmFormData = new FormData();
-        const fileObj = new File([buffer], fileName, {
-          type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        });
+        const fileObj = new File([buffer], fileName, { type: fileMime });
         cmFormData.append("inputFile", fileObj);
 
-        console.info(`[Word->PDF] Converting via Cloudmersive API (${buffer.length} bytes)...`);
+        console.info(`[Word->PDF] Converting via Cloudmersive API (${buffer.length} bytes, isDoc=${isDoc})...`);
 
-        const cmRes = await fetch("https://api.cloudmersive.com/convert/docx/to/pdf", {
+        const cmEndpoint = isDoc
+          ? "https://api.cloudmersive.com/convert/autodetect/to/pdf"
+          : "https://api.cloudmersive.com/convert/docx/to/pdf";
+
+        const cmRes = await fetch(cmEndpoint, {
           method: "POST",
           headers: {
             "Apikey": cloudmersiveKey,
@@ -126,9 +132,10 @@ export async function POST(req: NextRequest) {
         headers: { "Content-Type": "application/json" },
       }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : "Conversion failed";
     console.error("Word to PDF API error:", error);
-    return new Response(JSON.stringify({ error: error.message || "Conversion failed" }), {
+    return new Response(JSON.stringify({ error: errorMsg }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });

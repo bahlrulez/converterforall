@@ -159,10 +159,52 @@ export async function convertWordToPdf(file: File, options?: { engine?: "browser
   // 2. Client-Side High-Precision Engine (Default: 0 bytes uploaded to external servers)
   const arrayBuffer = await file.arrayBuffer();
 
-  // Extract DrawingML Charts from ZIP
+  const isZip = (buf: ArrayBuffer): boolean => {
+    if (buf.byteLength < 4) return false;
+    const v = new DataView(buf);
+    const sig = v.getUint32(0, false);
+    return sig === 0x504b0304 || sig === 0x504b0506 || sig === 0x504b0708;
+  };
+
+  // If file is legacy Word 97-2003 binary format (OLE2 CFBF, not a ZIP)
+  if (!isZip(arrayBuffer) && file.name.toLowerCase().endsWith(".doc")) {
+    if (engine === "cloud") {
+      throw new Error(
+        "This file is a legacy Word 97-2003 binary document (.doc). The cloud conversion service is currently busy. Please open the file in Microsoft Word or Google Docs and save it as modern Word (.docx) to convert directly in your browser."
+      );
+    } else {
+      throw new Error(
+        "This file is in legacy Word 97-2003 binary format (.doc). In-browser conversion requires the modern Word format (.docx). Please check 'Use Cloud Engine' or re-save your document as .docx."
+      );
+    }
+  }
+
+  // Extract DrawingML Charts and sanitize compact/non-standard XML schemas from ZIP
   const chartSvgList: string[] = [];
+  let renderBuffer: ArrayBuffer = arrayBuffer;
+
   try {
     const zip = await JSZip.loadAsync(arrayBuffer);
+    let zipModified = false;
+
+    // 1. Sanitize theme files to prevent docx-preview null.childNodes crash on compact themes
+    const themeFiles = Object.keys(zip.files).filter((k) => k.startsWith("word/theme/") && k.endsWith(".xml"));
+    for (const tPath of themeFiles) {
+      const tFile = zip.file(tPath);
+      if (tFile) {
+        const tXml = await tFile.async("text");
+        if (!tXml.includes("themeElements")) {
+          const minimalThemeElements = `<a:themeElements><a:clrScheme name="Office"><a:dk1><a:sysClr val="windowText" lastClr="000000"/></a:dk1><a:lt1><a:sysClr val="window" lastClr="FFFFFF"/></a:lt1><a:dk2><a:srgbClr val="1F497D"/></a:dk2><a:lt2><a:srgbClr val="EEECE1"/></a:lt2><a:accent1><a:srgbClr val="4F81BD"/></a:accent1><a:accent2><a:srgbClr val="C0504D"/></a:accent2><a:accent3><a:srgbClr val="9BBB59"/></a:accent3><a:accent4><a:srgbClr val="8064A2"/></a:accent4><a:accent5><a:srgbClr val="4BACC6"/></a:accent5><a:accent6><a:srgbClr val="F79646"/></a:accent6><a:hlink><a:srgbClr val="0000FF"/></a:hlink><a:folHlink><a:srgbClr val="800080"/></a:folHlink></a:clrScheme><a:fontScheme name="Office"><a:majorFont><a:latin typeface="Calibri"/></a:majorFont><a:minorFont><a:latin typeface="Calibri"/></a:minorFont></a:fontScheme><a:fmtScheme name="Office"><a:fillStyleLst/><a:lnStyleLst/><a:effectStyleLst/><a:bgFillStyleLst/></a:fmtScheme></a:themeElements>`;
+          const newXml = tXml.includes("</a:theme>")
+            ? tXml.replace("</a:theme>", `${minimalThemeElements}</a:theme>`)
+            : (tXml.includes("</theme>") ? tXml.replace("</theme>", `${minimalThemeElements}</theme>`) : tXml);
+          zip.file(tPath, newXml);
+          zipModified = true;
+        }
+      }
+    }
+
+    // 2. Extract DrawingML Charts
     const chartFiles = Object.keys(zip.files).filter((k) => k.startsWith("word/charts/") && k.endsWith(".xml"));
     for (const cPath of chartFiles) {
       const cFile = zip.file(cPath);
@@ -174,8 +216,12 @@ export async function convertWordToPdf(file: File, options?: { engine?: "browser
         }
       }
     }
+
+    if (zipModified) {
+      renderBuffer = await zip.generateAsync({ type: "arraybuffer" });
+    }
   } catch (e) {
-    console.warn("Chart extraction warning:", e);
+    console.warn("Chart extraction and ZIP inspection warning:", e);
   }
 
   // Mount high-precision docx-preview container
@@ -251,20 +297,63 @@ export async function convertWordToPdf(file: File, options?: { engine?: "browser
 
   try {
     // 3. Render DOCX using docx-preview layout engine with authentic Word layout
-    await docxPreview.renderAsync(arrayBuffer, renderContainer, undefined, {
-      className: "docx",
-      inWrapper: true,
-      ignoreWidth: false,
-      ignoreHeight: false,
-      ignoreFonts: false,
-      breakPages: true,
-      ignoreLastRenderedPageBreak: false,
-      experimental: true,
-      trimXmlDeclaration: true,
-      useBase64URL: true,
-      renderHeaders: true,
-      renderFooters: true,
-    });
+    let renderedWithDocxPreview = false;
+    try {
+      await docxPreview.renderAsync(renderBuffer, renderContainer, undefined, {
+        className: "docx",
+        inWrapper: true,
+        ignoreWidth: false,
+        ignoreHeight: false,
+        ignoreFonts: false,
+        breakPages: true,
+        ignoreLastRenderedPageBreak: false,
+        experimental: true,
+        trimXmlDeclaration: true,
+        useBase64URL: true,
+        renderHeaders: true,
+        renderFooters: true,
+      });
+
+      const sections = renderContainer.querySelectorAll("section.docx, .docx-wrapper > section, section");
+      if (sections.length > 0) {
+        renderedWithDocxPreview = true;
+      }
+    } catch (previewErr) {
+      console.warn("docx-preview parsing issue, falling back to mammoth engine:", previewErr);
+    }
+
+    if (!renderedWithDocxPreview) {
+      try {
+        renderContainer.innerHTML = "";
+        renderContainer.appendChild(styleEl);
+
+        const mammoth = (await import("mammoth")).default;
+        const mammothResult = await mammoth.convertToHtml({ arrayBuffer });
+        const htmlContent = mammothResult.value;
+
+        const fallbackWrapper = document.createElement("div");
+        fallbackWrapper.className = "docx-wrapper";
+        fallbackWrapper.innerHTML = `
+          <section class="docx" style="
+            box-sizing: border-box !important;
+            width: 210mm !important;
+            min-height: 297mm !important;
+            padding: 20mm 22mm !important;
+            font-family: 'Times New Roman', Times, 'Liberation Serif', serif !important;
+            font-size: 11pt !important;
+            line-height: 1.25 !important;
+            color: #111827 !important;
+            background: #ffffff !important;
+          ">
+            ${htmlContent}
+          </section>
+        `;
+        renderContainer.appendChild(fallbackWrapper);
+      } catch (mammothErr) {
+        console.error("Both docx-preview and mammoth engines failed:", mammothErr);
+        throw new Error("Unable to parse Word document formatting. Please ensure the document is not corrupt or password-protected.");
+      }
+    }
 
     // 4. Inject DrawingML vector charts into drawing placeholders if missing
     if (chartSvgList.length > 0) {
