@@ -209,7 +209,8 @@ export const PAGE_LASTMOD_DATES: Record<string, string> = {
   "/exam-signature-resizer": "2026-10-09",
   "/compress-pdf-100kb": "2026-10-09",
   "/image-dpi-converter": "2026-10-12",
-  "/blog/why-stop-uploading-sensitive-pdfs-to-online-converters": "2026-10-30"
+  "/blog/why-stop-uploading-sensitive-pdfs-to-online-converters": "2026-10-30",
+  "/blog/gta-6-gameplay-videos-how-to-add-subtitles": "2026-11-20"
 };
 
 /**

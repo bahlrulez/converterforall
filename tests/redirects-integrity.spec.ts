@@ -90,7 +90,7 @@ test.describe('Redirects and Aliases Integrity', () => {
 
       // 2. Chained redirect check (destination should not be another redirect source)
       expect(sourceSet.has(rule.destination), `Redirect chain detected: ${rule.source} -> ${rule.destination}`).toBeFalsy();
-      
+
       // 3. Ensure destination is not an alias in SLUG_ALIASES
       const cleanDest = rule.destination.replace(/^\//, '');
       if (!cleanDest.startsWith('blog/') && !cleanDest.startsWith('category/') && cleanDest !== '' && cleanDest !== 'about' && cleanDest !== 'contact') {
@@ -135,7 +135,7 @@ test.describe('Redirects and Aliases Integrity', () => {
     const vcContent = videoToolsContent['video-compressor'];
     expect(vcContent).toBeDefined();
     const allContentText = vcContent.sections.map(s => `${s.title} ${s.content}`).join(' ');
-    
+
     expect(allContentText).toContain('MP4, MOV, MKV, WebM, and AVI');
     expect(allContentText).toContain('MP4 (H.264 video with AAC audio)');
     expect(allContentText).toContain('We do not output legacy or container formats like MKV, AVI, WMV, or FLV');
@@ -187,8 +187,9 @@ test.describe('Redirects and Aliases Integrity', () => {
     expect(sitemapUrls).toContain('https://www.converterforall.com/trim-audio');
     expect(sitemapUrls).toContain('https://www.converterforall.com/video-compressor');
     expect(sitemapUrls).toContain('https://www.converterforall.com/blog/why-stop-uploading-sensitive-pdfs-to-online-converters');
+    expect(sitemapUrls).toContain('https://www.converterforall.com/blog/gta-6-gameplay-videos-how-to-add-subtitles');
 
-    // 5. Supplementary inventory count: exactly 147 URLs (138 previous + restored Punjabi routes)
-    expect(sitemapEntries.length).toBe(147);
+    // 5. Supplementary inventory count: exactly 148 URLs (138 previous + restored Punjabi routes + GTA 6 blog)
+    expect(sitemapEntries.length).toBe(148);
   });
 });

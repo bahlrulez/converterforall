@@ -21,6 +21,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const excerpt = post.description;
+  const fullImageUrl = post.coverImage
+    ? (post.coverImage.startsWith('http') ? post.coverImage : `https://www.converterforall.com${post.coverImage}`)
+    : undefined;
 
   return {
     title: post.title,
@@ -30,7 +33,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: excerpt,
       type: "article",
       url: `https://www.converterforall.com/blog/${resolvedParams.slug}`,
-      images: post.coverImage ? [{ url: post.coverImage }] : undefined,
+      images: fullImageUrl
+        ? [
+            {
+              url: fullImageUrl,
+              width: 1024,
+              height: 576,
+              alt: post.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: excerpt,
+      images: fullImageUrl ? [fullImageUrl] : undefined,
     },
     alternates: {
       canonical: `https://www.converterforall.com/blog/${resolvedParams.slug}`,
@@ -47,6 +65,9 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
   }
 
   const excerpt = post.description;
+  const fullImageUrl = post.coverImage
+    ? (post.coverImage.startsWith('http') ? post.coverImage : `https://www.converterforall.com${post.coverImage}`)
+    : "https://www.converterforall.com/icon.png";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -57,7 +78,15 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
     },
     "headline": post.title,
     "description": excerpt,
-    "image": post.coverImage || "https://www.converterforall.com/icon.png",
+    "image": post.coverImage
+      ? {
+          "@type": "ImageObject",
+          "url": fullImageUrl,
+          "width": 1024,
+          "height": 576,
+          "caption": post.title,
+        }
+      : fullImageUrl,
     "datePublished": new Date(post.date).toISOString(),
     "dateModified": new Date(post.updatedAt || post.date).toISOString(),
     "author": {
