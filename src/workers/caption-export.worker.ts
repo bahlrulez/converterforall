@@ -20,60 +20,150 @@ import { renderCaptionToCanvas, DEFAULT_STYLE, DEFAULT_POSITION } from '../lib/c
 import { CaptionChunk } from '../lib/caption-studio/types';
 import { StyleSettings, PositionSettings, FontPayload } from '../lib/caption-studio/style-types';
 
+/**
+ * Timestamp-keyed duration registry.
+ * Maps VideoFrame presentation timestamps (in microseconds) to their calculated durations (in microseconds).
+ * Protects against WebCodecs hardware encoder quirks where chunk.duration is emitted as null or 0.
+ */
+export class FrameDurationRegistry {
+  private registry = new Map<number, number[]>();
+  private readonly maxCapacity: number;
+
+  constructor(maxCapacity = 1000) {
+    this.maxCapacity = maxCapacity;
+  }
+
+  public register(timestamp: number, duration: number): void {
+    if (!Number.isFinite(timestamp) || !Number.isFinite(duration) || duration <= 0) {
+      return;
+    }
+    const list = this.registry.get(timestamp);
+    if (list) {
+      list.push(duration);
+    } else {
+      this.registry.set(timestamp, [duration]);
+    }
+
+    // Guard against unbounded memory growth if encoder drops frames without output
+    if (this.registry.size > this.maxCapacity) {
+      const oldestKey = this.registry.keys().next().value;
+      if (oldestKey !== undefined) {
+        this.registry.delete(oldestKey);
+      }
+    }
+  }
+
+  public consume(timestamp: number): number | null {
+    const list = this.registry.get(timestamp);
+    if (!list || list.length === 0) {
+      this.registry.delete(timestamp);
+      return null;
+    }
+    const duration = list.shift()!;
+    if (list.length === 0) {
+      this.registry.delete(timestamp);
+    }
+    return duration;
+  }
+
+  public clear(): void {
+    this.registry.clear();
+  }
+
+  public get size(): number {
+    return this.registry.size;
+  }
+}
+
+/**
+ * Resolves output chunk duration in microseconds according to the strict 4-tier recovery hierarchy:
+ * 1. chunk.duration if finite and strictly positive.
+ * 2. Original VideoFrame calculated duration mapped to chunk.timestamp.
+ * 3. Validated encoder frame-rate fallback (1_000_000 / fps).
+ * 4. Safe default 30 FPS fallback (1_000_000 / 30).
+ */
+export function resolveChunkDuration(
+  chunkDuration: number | null | undefined,
+  registeredDuration: number | null | undefined,
+  configuredFramerate: number | null | undefined
+): number {
+  // 1. Use chunk.duration if finite and strictly positive
+  if (typeof chunkDuration === 'number' && Number.isFinite(chunkDuration) && chunkDuration > 0) {
+    return chunkDuration;
+  }
+
+  // 2. Recover original VideoFrame duration associated with chunk.timestamp
+  if (typeof registeredDuration === 'number' && Number.isFinite(registeredDuration) && registeredDuration > 0) {
+    return registeredDuration;
+  }
+
+  // 3. Validated frame-rate fallback
+  if (typeof configuredFramerate === 'number' && Number.isFinite(configuredFramerate) && configuredFramerate > 0) {
+    return Math.round(1_000_000 / configuredFramerate);
+  }
+
+  // 4. Default 30 FPS fallback
+  return Math.round(1_000_000 / 30);
+}
+
 function reportProgress(progress: ExportProgress) {
-  self.postMessage({ type: 'PROGRESS', progress } as ExportWorkerResponse);
+  if (typeof self !== 'undefined' && typeof self.postMessage === 'function') {
+    self.postMessage({ type: 'PROGRESS', progress } as ExportWorkerResponse);
+  }
 }
 
 let lastExportDiagnostics: any = null;
 let currentStage = 'INIT';
 
-self.onmessage = async (e: MessageEvent<ExportWorkerRequest>) => {
-  const req = e.data;
-  if (req.type === 'START_EXPORT') {
-    try {
-      lastExportDiagnostics = null;
-      currentStage = 'WORKER_START';
-      
-      if (!req.file || !req.captions) throw new Error('Missing file or captions');
-      
-      // Load fonts if provided
-      if (req.fonts && req.fonts.length > 0) {
-        currentStage = 'FONT_LOAD_START';
-        for (const f of req.fonts) {
-          const font = new FontFace(f.name, f.buffer);
-          await font.load();
-          (self as any).fonts.add(font);
+if (typeof self !== 'undefined') {
+  self.onmessage = async (e: MessageEvent<ExportWorkerRequest>) => {
+    const req = e.data;
+    if (req.type === 'START_EXPORT') {
+      try {
+        lastExportDiagnostics = null;
+        currentStage = 'WORKER_START';
+
+        if (!req.file || !req.captions) throw new Error('Missing file or captions');
+
+        // Load fonts if provided
+        if (req.fonts && req.fonts.length > 0) {
+          currentStage = 'FONT_LOAD_START';
+          for (const f of req.fonts) {
+            const font = new FontFace(f.name, f.buffer);
+            await font.load();
+            (self as any).fonts.add(font);
+          }
         }
+
+        if (!req.globalStyle || !req.globalPosition) {
+          throw new Error('Missing globalStyle or globalPosition in START_EXPORT payload. Silent fallback prevented.');
+        }
+
+        await runExport(req.file, req.captions, req.globalStyle, req.globalPosition);
+      } catch (err: any) {
+        console.error(err);
+        const message = err instanceof Error ? err.message : String(err);
+        const isUnsupported =
+          err instanceof UnsupportedInputFormatError ||
+          err?.name === 'UnsupportedInputFormatError' ||
+          (typeof message === 'string' && message.includes('UnsupportedInputFormatError'));
+
+        const userErrorMessage = isUnsupported
+          ? 'The uploaded video format is unsupported or corrupted. Please provide an MP4, QuickTime (MOV), or WebM video file.'
+          : `Export failed [Stage: ${currentStage}]: ${message}`;
+
+        const diagnosticText = lastExportDiagnostics
+          ? JSON.stringify(lastExportDiagnostics, null, 2)
+          : "No video packet diagnostics were captured.";
+
+        self.postMessage({
+          type: 'ERROR',
+          error: `${userErrorMessage}\n\nExport diagnostics:\n${diagnosticText}`
+        } as ExportWorkerResponse);
       }
-
-      if (!req.globalStyle || !req.globalPosition) {
-        throw new Error('Missing globalStyle or globalPosition in START_EXPORT payload. Silent fallback prevented.');
-      }
-
-      await runExport(req.file, req.captions, req.globalStyle, req.globalPosition);
-    } catch (err: any) {
-      console.error(err);
-      const message = err instanceof Error ? err.message : String(err);
-      const isUnsupported =
-        err instanceof UnsupportedInputFormatError ||
-        err?.name === 'UnsupportedInputFormatError' ||
-        (typeof message === 'string' && message.includes('UnsupportedInputFormatError'));
-
-      const userErrorMessage = isUnsupported
-        ? 'The uploaded video format is unsupported or corrupted. Please provide an MP4, QuickTime (MOV), or WebM video file.'
-        : `Export failed [Stage: ${currentStage}]: ${message}`;
-
-      const diagnosticText = lastExportDiagnostics
-        ? JSON.stringify(lastExportDiagnostics, null, 2)
-        : "No video packet diagnostics were captured.";
-
-      self.postMessage({
-        type: 'ERROR',
-        error: `${userErrorMessage}\n\nExport diagnostics:\n${diagnosticText}`
-      } as ExportWorkerResponse);
     }
-  }
-};
+  };
+}
 
 async function runExport(file: File, captions: CaptionChunk[], style: StyleSettings, position: PositionSettings) {
   reportProgress({ status: 'PREPARING' });
@@ -182,6 +272,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   let decoder: VideoDecoder | null = null;
   let encoder: VideoEncoder | null = null;
   let watchdog: any = null;
+  const durationRegistry = new FrameDurationRegistry();
 
   try {
     const processFrame = (frameToRender: VideoFrame, calculatedDuration: number) => {
@@ -208,8 +299,15 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     });
 
     currentStage = 'ENCODE_CALL';
-    if (encoder) encoder.encode(newFrame);
-    newFrame.close();
+    durationRegistry.register(frameToRender.timestamp, calculatedDuration);
+    try {
+      if (encoder) encoder.encode(newFrame);
+    } catch (encodeErr) {
+      durationRegistry.consume(frameToRender.timestamp);
+      throw encodeErr;
+    } finally {
+      newFrame.close();
+    }
   };
 
   currentStage = 'VIDEO_DECODER_CREATED';
@@ -220,9 +318,23 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
         if (!Number.isFinite(chunk.timestamp)) throw new Error("Chunk timestamp is non-finite");
         const data = new Uint8Array(chunk.byteLength);
         chunk.copyTo(data);
-        const packetDuration = chunk.duration ? chunk.duration / 1_000_000 : 0;
+
+        // Recover duration according to the 4-tier hierarchy:
+        // 1. chunk.duration if finite and strictly positive
+        // 2. registered duration from VideoFrame timestamp mapping
+        // 3. validated framerate fallback
+        // 4. default 30 FPS fallback
+        const registeredDuration = durationRegistry.consume(chunk.timestamp);
+        const resolvedDurationMicros = resolveChunkDuration(
+          chunk.duration,
+          registeredDuration,
+          encoderConfig.framerate
+        );
+
+        // Convert microseconds to seconds exactly once for Mediabunny packet
+        const packetDuration = resolvedDurationMicros / 1_000_000;
         
-        if (packetDuration <= 0) {
+        if (!Number.isFinite(packetDuration) || packetDuration <= 0) {
             throw new Error(`Encoded packet has zero/invalid duration: ${packetDuration}`);
         }
 
@@ -268,7 +380,10 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
         encodeError = err;
       }
     },
-    error: (err) => { encodeError = new Error(`VIDEO_ENCODER_ERROR [${currentStage}]: ${err?.name} - ${err?.message} - ${err?.toString()}`); }
+    error: (err) => {
+      durationRegistry.clear();
+      encodeError = new Error(`VIDEO_ENCODER_ERROR [${currentStage}]: ${err?.name} - ${err?.message} - ${err?.toString()}`);
+    }
   });
 
   currentStage = 'ENCODER_CONFIGURED';
@@ -435,6 +550,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     }
     if (encoder) await encoder.flush();
     currentStage = 'ENCODER_FLUSH_DONE';
+    durationRegistry.clear();
     
     currentStage = 'VIDEO_SOURCE_CLOSE_START';
     videoSource.close();
@@ -469,6 +585,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     reportProgress({ status: 'DONE', progress: 100 });
   } finally {
     if (watchdog) clearTimeout(watchdog);
+    durationRegistry.clear();
     if (pendingFrame) {
       try { (pendingFrame as any).close(); } catch (e) {}
       pendingFrame = null;
