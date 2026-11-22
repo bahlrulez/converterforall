@@ -1,6 +1,8 @@
 import {
   Input,
   Mp4InputFormat,
+  QuickTimeInputFormat,
+  WebMInputFormat,
   BlobSource,
   Output,
   Mp4OutputFormat,
@@ -9,7 +11,8 @@ import {
   EncodedVideoPacketSource,
   EncodedPacketSink,
   EncodedPacket,
-  VideoCodec
+  VideoCodec,
+  UnsupportedInputFormatError
 } from 'mediabunny';
 
 import { ExportWorkerRequest, ExportWorkerResponse, ExportProgress } from '../lib/caption-studio/export-utils';
@@ -51,13 +54,22 @@ self.onmessage = async (e: MessageEvent<ExportWorkerRequest>) => {
     } catch (err: any) {
       console.error(err);
       const message = err instanceof Error ? err.message : String(err);
+      const isUnsupported =
+        err instanceof UnsupportedInputFormatError ||
+        err?.name === 'UnsupportedInputFormatError' ||
+        (typeof message === 'string' && message.includes('UnsupportedInputFormatError'));
+
+      const userErrorMessage = isUnsupported
+        ? 'The uploaded video format is unsupported or corrupted. Please provide an MP4, QuickTime (MOV), or WebM video file.'
+        : `Export failed [Stage: ${currentStage}]: ${message}`;
+
       const diagnosticText = lastExportDiagnostics
         ? JSON.stringify(lastExportDiagnostics, null, 2)
         : "No video packet diagnostics were captured.";
 
       self.postMessage({
         type: 'ERROR',
-        error: `Export failed [Stage: ${currentStage}]: ${message}\n\nExport diagnostics:\n${diagnosticText}`
+        error: `${userErrorMessage}\n\nExport diagnostics:\n${diagnosticText}`
       } as ExportWorkerResponse);
     }
   }
@@ -67,7 +79,11 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   reportProgress({ status: 'PREPARING' });
 
   const input = new Input({
-    formats: [new Mp4InputFormat()],
+    formats: [
+      new Mp4InputFormat(),
+      new QuickTimeInputFormat(),
+      new WebMInputFormat(),
+    ],
     source: new BlobSource(file)
   });
   currentStage = 'INPUT_CREATED';
@@ -77,7 +93,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   const audioTracks = await input.getAudioTracks();
   const audioTrack = audioTracks[0];
 
-  if (!videoTrack) throw new Error('No video track found');
+  if (!videoTrack) throw new Error('No video track found in the uploaded file. Please ensure the file contains a valid video stream.');
   currentStage = 'VIDEO_TRACK_FOUND';
 
   const videoCodec = await videoTrack.getCodec();

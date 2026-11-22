@@ -8,7 +8,7 @@ import { ASRResult, WorkerState, CaptionChunk, CaptionWord } from '@/lib/caption
 import { segmentCaptions } from '@/lib/caption-studio/segmentation';
 import { EditorSidebar } from './EditorSidebar';
 import { VideoPreview } from './VideoPreview';
-import { ExportProgress, ExportWorkerRequest, ExportWorkerResponse } from '@/lib/caption-studio/export-utils';
+import { ExportProgress, ExportWorkerRequest, ExportWorkerResponse, validateVideoFile } from '@/lib/caption-studio/export-utils';
 import { StyleSettings, PositionSettings } from '@/lib/caption-studio/style-types';
 import { DEFAULT_STYLE, DEFAULT_POSITION } from '@/lib/caption-studio/caption-renderer';
 import { PRESETS } from '@/lib/caption-studio/presets';
@@ -212,6 +212,12 @@ export function CaptionStudio() {
   const processVideoFile = async (file: File) => {
     if (!file) return;
 
+    const validation = validateVideoFile(file);
+    if (!validation.valid) {
+      setError(validation.error || "Please select a supported video file (MP4, MOV, or WebM).");
+      return;
+    }
+
     setError(null);
     setTranscriptionResult(null);
     setCaptions([]);
@@ -260,7 +266,7 @@ export function CaptionStudio() {
     };
     
     tempVideo.onerror = () => {
-      setError("Failed to load video metadata. The file might be corrupted or unsupported.");
+      setError("Failed to load video metadata. The file might be corrupted or encoded with an unsupported format.");
       URL.revokeObjectURL(url);
     };
   };
@@ -268,6 +274,12 @@ export function CaptionStudio() {
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const validation = validateVideoFile(file);
+      if (!validation.valid) {
+        setError(validation.error || "Please select a supported video file (MP4, MOV, or WebM).");
+        e.target.value = '';
+        return;
+      }
       getOrInitASRClient();
       processVideoFile(file);
     }
@@ -296,10 +308,13 @@ export function CaptionStudio() {
     getOrInitASRClient();
     if (workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING') return;
     const file = e.dataTransfer.files?.[0];
-    if (file && (file.type.startsWith('video/') || /\.(mp4|webm|mov|m4v)$/i.test(file.name))) {
+    if (file) {
+      const validation = validateVideoFile(file);
+      if (!validation.valid) {
+        setError(validation.error || "Please drop a supported video file (MP4, WebM, or MOV).");
+        return;
+      }
       processVideoFile(file);
-    } else if (file) {
-      setError("Please drop a supported video file (MP4, WebM, or MOV).");
     }
   };
 
@@ -611,7 +626,8 @@ export function CaptionStudio() {
         setExportProgress({ status: 'DONE' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(res.blob);
-        a.download = `captioned_${videoFile.name}`;
+        const baseName = videoFile.name.replace(/\.[^/.]+$/, "");
+        a.download = `captioned_${baseName}.mp4`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -663,7 +679,7 @@ export function CaptionStudio() {
       <input 
         ref={fileInputRef}
         type="file" 
-        accept="video/mp4,video/quicktime,video/webm" 
+        accept="video/mp4,video/quicktime,video/webm,video/x-m4v,.mp4,.mov,.webm,.m4v"
         onChange={handleFileInputChange} 
         className="hidden" 
         id="video-upload" 
