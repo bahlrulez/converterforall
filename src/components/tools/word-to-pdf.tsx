@@ -148,7 +148,9 @@ export default function WordToPdfTool() {
                 <div className="space-y-1">
                   <p className="font-semibold text-xs leading-relaxed">{errorMessage}</p>
                   <p className="text-[11px] text-red-600 dark:text-red-400 leading-relaxed">
-                    Tip: You can enable &quot;Use Cloud Engine&quot; or re-save the document as standard .docx in Microsoft Word or Google Docs.
+                    {useCloudEngine
+                      ? "Tip: If the cloud conversion service is unavailable, you can open and re-save the document as standard .docx in Microsoft Word or Google Docs to convert it directly in your browser."
+                      : "Tip: You can enable \"Use Cloud Engine\" or re-save the document as standard .docx in Microsoft Word or Google Docs."}
                   </p>
                 </div>
               </div>

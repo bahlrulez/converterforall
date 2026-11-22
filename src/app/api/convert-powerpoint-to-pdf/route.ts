@@ -20,10 +20,8 @@ export async function POST(req: NextRequest) {
     const fileName = file.name || "presentation.pptx";
 
     // 1. Primary Engine: Cloudmersive High-Precision Presentation API (800 Free/Mo)
-    const cloudmersiveKey = (
-      process.env.CLOUDMERSIVE_API_KEY ||
-      "6c6b59af-1066-4eab-9d23-0ad8fa8f4b60"
-    ).trim();
+    const rawKey = process.env.CLOUDMERSIVE_API_KEY;
+    const cloudmersiveKey = typeof rawKey === "string" ? rawKey.trim() : "";
 
     if (cloudmersiveKey) {
       try {
@@ -60,11 +58,10 @@ export async function POST(req: NextRequest) {
             });
           }
         } else {
-          const errText = await cmRes.text().catch(() => "");
-          console.warn(`[PPTX->PDF] Cloudmersive returned ${cmRes.status}: ${errText}`);
+          console.warn(`[PPTX->PDF] Cloudmersive returned status ${cmRes.status}`);
         }
       } catch (cmErr) {
-        console.warn("[PPTX->PDF] Cloudmersive call error:", cmErr);
+        console.warn("[PPTX->PDF] Cloudmersive call failed:", cmErr instanceof Error ? cmErr.message : "Network error");
       }
     }
 
@@ -117,6 +114,7 @@ export async function POST(req: NextRequest) {
     return new Response(
       JSON.stringify({ 
         error: "High-accuracy server engines unavailable. Switching to in-browser client fallback.", 
+        status: "client_fallback",
         fallback: true 
       }),
       {
@@ -124,10 +122,10 @@ export async function POST(req: NextRequest) {
         headers: { "Content-Type": "application/json" },
       }
     );
-  } catch (error: any) {
-    console.error("[PPTX->PDF] Conversion endpoint error:", error);
+  } catch {
+    console.error("[PPTX->PDF] Conversion endpoint error occurred");
     return new Response(
-      JSON.stringify({ error: error.message || "Failed to process PowerPoint conversion." }),
+      JSON.stringify({ error: "Failed to process PowerPoint conversion." }),
       {
         status: 500,
         headers: { "Content-Type": "application/json" },

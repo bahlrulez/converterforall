@@ -25,10 +25,8 @@ export async function POST(req: NextRequest) {
       : "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
     // 1. Primary Engine: Cloudmersive High-Precision Document API (800 Free/Mo)
-    const cloudmersiveKey = (
-      process.env.CLOUDMERSIVE_API_KEY ||
-      "6c6b59af-1066-4eab-9d23-0ad8fa8f4b60"
-    ).trim();
+    const rawKey = process.env.CLOUDMERSIVE_API_KEY;
+    const cloudmersiveKey = typeof rawKey === "string" ? rawKey.trim() : "";
 
     if (cloudmersiveKey) {
       try {
@@ -67,11 +65,10 @@ export async function POST(req: NextRequest) {
             });
           }
         } else {
-          const errText = await cmRes.text().catch(() => "");
-          console.warn(`[Word->PDF] Cloudmersive returned ${cmRes.status}: ${errText}`);
+          console.warn(`[Word->PDF] Cloudmersive returned status ${cmRes.status}`);
         }
       } catch (cmErr) {
-        console.warn("[Word->PDF] Cloudmersive call error:", cmErr);
+        console.warn("[Word->PDF] Cloudmersive call failed:", cmErr instanceof Error ? cmErr.message : "Network error");
       }
     }
 
@@ -121,21 +118,20 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // If no external Gotenberg instance is configured, respond with 503 so client uses client-side engine
+    // If no cloud conversion engines are available or configured, respond with controlled 503 so client uses client-side engine
     return new Response(
       JSON.stringify({
         status: "client_fallback",
-        message: "No upstream LibreOffice server configured. Falling back to high-fidelity client-side engine.",
+        message: "Cloud conversion service is currently unconfigured or unavailable. Falling back to high-fidelity client-side engine.",
       }),
       {
         status: 503,
         headers: { "Content-Type": "application/json" },
       }
     );
-  } catch (error: unknown) {
-    const errorMsg = error instanceof Error ? error.message : "Conversion failed";
-    console.error("Word to PDF API error:", error);
-    return new Response(JSON.stringify({ error: errorMsg }), {
+  } catch {
+    console.error("[Word->PDF] Conversion endpoint error occurred");
+    return new Response(JSON.stringify({ error: "Conversion service encountered an error." }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
