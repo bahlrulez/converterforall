@@ -29,7 +29,7 @@ type Mp4Inspection = {
   videoWidth: number;
   videoHeight: number;
   videoPacketCount: number;
-  videoTimelineValid: boolean;
+  videoTimelineValid: boolean; // finite PTS and positive packet durations; permits valid B-frame reordering
   audioCodec: string | null;
   audioProfile: string | null;
   audioSampleRate: number | null;
@@ -81,7 +81,6 @@ async function inspectMp4(bytes: Buffer | Uint8Array): Promise<Mp4Inspection> {
   let videoPacketCount = 0;
   let videoTimelineValid = true;
   let firstVideoTimestamp: number | null = null;
-  let previousVideoTimestamp = Number.NEGATIVE_INFINITY;
 
   if (videoTracks[0]) {
     videoCodec = await videoTracks[0].getCodec();
@@ -91,13 +90,12 @@ async function inspectMp4(bytes: Buffer | Uint8Array): Promise<Mp4Inspection> {
 
     for await (const packet of sink.packets()) {
       if (firstVideoTimestamp === null) firstVideoTimestamp = packet.timestamp;
-      if (!Number.isFinite(packet.timestamp) || packet.timestamp < previousVideoTimestamp) {
-        videoTimelineValid = false;
-      }
+      // Encoded video packet iteration can follow decode order; B-frame PTS values may be non-monotonic.
+      // Validate finite timestamps and positive durations without incorrectly rejecting valid reordering.
+      if (!Number.isFinite(packet.timestamp)) videoTimelineValid = false;
       if (!Number.isFinite(packet.duration) || packet.duration <= 0) {
         videoTimelineValid = false;
       }
-      previousVideoTimestamp = packet.timestamp;
       videoPacketCount++;
     }
   }
