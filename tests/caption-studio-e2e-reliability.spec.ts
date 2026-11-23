@@ -4,7 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { Input, Mp4InputFormat, BufferSource, EncodedPacketSink } from 'mediabunny';
+import { Input, Mp4InputFormat, QuickTimeInputFormat, WebMInputFormat, BufferSource, EncodedPacketSink } from 'mediabunny';
 import { DEFAULT_STYLE, DEFAULT_POSITION } from '../src/lib/caption-studio/caption-renderer';
 
 const execFileAsync = promisify(execFile);
@@ -62,15 +62,15 @@ async function runFfmpeg(args: string[]): Promise<void> {
   });
 }
 
-async function openMp4(bytes: Buffer | Uint8Array): Promise<Input> {
+async function openMedia(bytes: Buffer | Uint8Array): Promise<Input> {
   return new Input({
-    formats: [new Mp4InputFormat()],
+    formats: [new Mp4InputFormat(), new QuickTimeInputFormat(), new WebMInputFormat()],
     source: new BufferSource(bytes)
   });
 }
 
-async function inspectMp4(bytes: Buffer | Uint8Array): Promise<Mp4Inspection> {
-  const input = await openMp4(bytes);
+async function inspectMedia(bytes: Buffer | Uint8Array): Promise<Mp4Inspection> {
+  const input = await openMedia(bytes);
   const videoTracks = await input.getVideoTracks();
   const audioTracks = await input.getAudioTracks();
   const duration = (await input.getDurationFromMetadata()) || 0;
@@ -148,6 +148,18 @@ async function inspectMp4(bytes: Buffer | Uint8Array): Promise<Mp4Inspection> {
     firstVideoTimestamp,
     firstAudioTimestamp
   };
+}
+
+
+function expectAvStartOffsetPreserved(source: Mp4Inspection, output: Mp4Inspection, toleranceSeconds = 0.15): void {
+  expect(source.firstVideoTimestamp).not.toBeNull();
+  expect(source.firstAudioTimestamp).not.toBeNull();
+  expect(output.firstVideoTimestamp).not.toBeNull();
+  expect(output.firstAudioTimestamp).not.toBeNull();
+
+  const sourceOffset = source.firstAudioTimestamp! - source.firstVideoTimestamp!;
+  const outputOffset = output.firstAudioTimestamp! - output.firstVideoTimestamp!;
+  expect(Math.abs(outputOffset - sourceOffset)).toBeLessThan(toleranceSeconds);
 }
 
 async function exportWithActualWorker(
@@ -425,20 +437,21 @@ test.describe.serial('Caption Studio End-to-End Reliability Audit', () => {
 
   test('Actual worker exports MP4 + AAC, preserves AAC-LC and warns about additional audio tracks', async ({ page }) => {
     const sourceBytes = fs.readFileSync(samplePath);
-    const source = await inspectMp4(sourceBytes);
+    const source = await inspectMedia(sourceBytes);
     expect(source.videoTrackCount).toBe(1);
     expect(source.audioTrackCount).toBeGreaterThan(0);
     expect(source.audioCodec).toBe('aac');
     expect(source.audioProfile).toMatch(/^mp4a\.40\.0?2$/);
 
     const result = await exportWithActualWorker(page, samplePath, 'audit-aac.mp4', 'video/mp4');
-    const output = await inspectMp4(Buffer.from(result.bytesBase64, 'base64'));
+    const output = await inspectMedia(Buffer.from(result.bytesBase64, 'base64'));
 
     expect(output.videoTrackCount).toBe(1);
     expect(output.audioTrackCount).toBe(1);
     expect(output.audioCodec).toBe('aac');
     expect(output.audioProfile).toMatch(/^mp4a\.40\.0?2$/);
     expect(output.audioSampleRate).toBe(source.audioSampleRate);
+    expectAvStartOffsetPreserved(source, output, 0.05);
     expect(output.audioPacketCount).toBeGreaterThan(0);
     expect(output.videoPacketCount).toBeGreaterThan(1);
     expect(output.videoTimelineValid).toBe(true);
@@ -454,12 +467,16 @@ test.describe.serial('Caption Studio End-to-End Reliability Audit', () => {
   });
 
   test('Actual worker transcodes MOV + 16 kHz PCM to 48 kHz AAC-LC', async ({ page }) => {
-    const source = await inspectMp4(fs.readFileSync(samplePath));
+    const source = await inspectMedia(fs.readFileSync(movPcmPath));
     expect(source.duration).toBeGreaterThan(0.5);
+    expect(source.audioTrackCount).toBe(1);
+    expect(source.audioSampleRate).toBe(16_000);
 
     const result = await exportWithActualWorker(page, movPcmPath, 'audit-pcm.mov', 'video/quicktime');
-    const output = await inspectMp4(Buffer.from(result.bytesBase64, 'base64'));
+    const output = await inspectMedia(Buffer.from(result.bytesBase64, 'base64'));
 
+    expectAvStartOffsetPreserved(source, output);
+    expect(Math.abs(output.duration - source.duration)).toBeLessThan(0.5);
     expect(output.videoTrackCount).toBe(1);
     expect(output.audioTrackCount).toBe(1);
     expect(output.audioCodec).toBe('aac');
@@ -477,9 +494,16 @@ test.describe.serial('Caption Studio End-to-End Reliability Audit', () => {
   });
 
   test('Actual worker transcodes WebM + Opus to 48 kHz AAC-LC', async ({ page }) => {
-    const result = await exportWithActualWorker(page, webmOpusPath, 'audit-opus.webm', 'video/webm');
-    const output = await inspectMp4(Buffer.from(result.bytesBase64, 'base64'));
+    const source = await inspectMedia(fs.readFileSync(webmOpusPath));
+    expect(source.audioTrackCount).toBe(1);
+    expect(source.audioCodec).toBe('opus');
+    expect(source.audioSampleRate).toBe(44_100);
 
+    const result = await exportWithActualWorker(page, webmOpusPath, 'audit-opus.webm', 'video/webm');
+    const output = await inspectMedia(Buffer.from(result.bytesBase64, 'base64'));
+
+    expectAvStartOffsetPreserved(source, output);
+    expect(Math.abs(output.duration - source.duration)).toBeLessThan(0.5);
     expect(output.videoTrackCount).toBe(1);
     expect(output.audioTrackCount).toBe(1);
     expect(output.audioCodec).toBe('aac');
@@ -495,12 +519,12 @@ test.describe.serial('Caption Studio End-to-End Reliability Audit', () => {
   });
 
   test('Actual worker exports MP4 without an audio track as a valid video-only MP4', async ({ page }) => {
-    const input = await inspectMp4(fs.readFileSync(videoOnlyPath));
+    const input = await inspectMedia(fs.readFileSync(videoOnlyPath));
     expect(input.videoTrackCount).toBe(1);
     expect(input.audioTrackCount).toBe(0);
 
     const result = await exportWithActualWorker(page, videoOnlyPath, 'audit-no-audio.mp4', 'video/mp4');
-    const output = await inspectMp4(Buffer.from(result.bytesBase64, 'base64'));
+    const output = await inspectMedia(Buffer.from(result.bytesBase64, 'base64'));
 
     expect(output.videoTrackCount).toBe(1);
     expect(output.audioTrackCount).toBe(0);
