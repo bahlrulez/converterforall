@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Input,
   Mp4InputFormat,
@@ -12,13 +13,14 @@ import {
   EncodedPacketSink,
   EncodedPacket,
   VideoCodec,
-  UnsupportedInputFormatError
+  UnsupportedInputFormatError,
+  type Rotation
 } from 'mediabunny';
 
 import { ExportWorkerRequest, ExportWorkerResponse, ExportProgress } from '../lib/caption-studio/export-utils';
-import { renderCaptionToCanvas, DEFAULT_STYLE, DEFAULT_POSITION } from '../lib/caption-studio/caption-renderer';
+import { renderCaptionToCanvas } from '../lib/caption-studio/caption-renderer';
 import { CaptionChunk } from '../lib/caption-studio/types';
-import { StyleSettings, PositionSettings, FontPayload } from '../lib/caption-studio/style-types';
+import { StyleSettings, PositionSettings } from '../lib/caption-studio/style-types';
 
 interface RegistryNode {
   timestamp: number;
@@ -218,6 +220,79 @@ export function resolveChunkDuration(
   return Math.round(1_000_000 / 30);
 }
 
+/**
+ * Normalizes a video dimension to a valid, positive, even integer required by H.264 encoders.
+ * WebCodecs H.264 (YUV420) strictly rejects odd dimensions with NotSupportedError.
+ *
+ * Behavior:
+ * - If value is non-finite, null, undefined, or <= 0, uses fallback (itself normalized to even).
+ * - Truncates fractional values via Math.floor.
+ * - Forces even integer by rounding down to nearest multiple of 2: Math.floor(v / 2) * 2.
+ * - Clamps to minimum of 2.
+ */
+export function toEvenDimension(dim: number | null | undefined, fallback = 1920): number {
+  const safeFallback = (typeof fallback === 'number' && Number.isFinite(fallback) && fallback > 0)
+    ? Math.max(2, Math.floor(fallback / 2) * 2)
+    : 1920;
+  if (typeof dim !== 'number' || !Number.isFinite(dim) || dim <= 0) {
+    return safeFallback;
+  }
+  const intVal = Math.floor(dim);
+  const evenVal = Math.floor(intVal / 2) * 2;
+  return Math.max(2, evenVal);
+}
+
+/**
+ * Renders a VideoFrame or canvas image source to the OffscreenCanvas context,
+ * handling rotation (0, 90, 180, 270 degrees clockwise) and horizontal flip.
+ *
+ * Baking orientation directly into the canvas ensures that the exported video
+ * is physically upright in square pixels, exactly matching the user's preview in Caption Studio.
+ */
+export function drawVideoFrameWithOrientation(
+  ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+  frame: VideoFrame | CanvasImageSource,
+  targetWidth: number,
+  targetHeight: number,
+  rotation: number = 0,
+  flip: boolean = false
+): void {
+  ctx.clearRect(0, 0, targetWidth, targetHeight);
+
+  if (rotation === 0 && !flip) {
+    ctx.drawImage(frame as CanvasImageSource, 0, 0, targetWidth, targetHeight);
+    return;
+  }
+
+  ctx.save();
+  if (flip) {
+    ctx.translate(targetWidth, 0);
+    ctx.scale(-1, 1);
+  }
+
+  const isSwap = rotation === 90 || rotation === 270;
+  const drawW = isSwap ? targetHeight : targetWidth;
+  const drawH = isSwap ? targetWidth : targetHeight;
+
+  switch (rotation) {
+    case 90:
+      ctx.translate(targetWidth, 0);
+      ctx.rotate(Math.PI / 2);
+      break;
+    case 180:
+      ctx.translate(targetWidth, targetHeight);
+      ctx.rotate(Math.PI);
+      break;
+    case 270:
+      ctx.translate(0, targetHeight);
+      ctx.rotate(1.5 * Math.PI);
+      break;
+  }
+
+  ctx.drawImage(frame as CanvasImageSource, 0, 0, drawW, drawH);
+  ctx.restore();
+}
+
 function reportProgress(progress: ExportProgress) {
   if (typeof self !== 'undefined' && typeof self.postMessage === 'function') {
     self.postMessage({ type: 'PROGRESS', progress } as ExportWorkerResponse);
@@ -303,10 +378,32 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   if (!videoDecoderConfig) throw new Error('Could not get video decoder config');
   currentStage = 'DECODER_CONFIG_LOADED';
 
-  const width = videoDecoderConfig.codedWidth || 1920;
-  const height = videoDecoderConfig.codedHeight || 1080;
+  // Read display metrics and orientation from video track
+  const [
+    rawDisplayWidth,
+    rawDisplayHeight,
+    rotation,
+    flip
+  ] = await Promise.all([
+    videoTrack.getDisplayWidth().catch(() => null),
+    videoTrack.getDisplayHeight().catch(() => null),
+    videoTrack.getRotation().catch(() => 0 as Rotation),
+    videoTrack.getFlip().catch(() => false)
+  ]);
 
-  // Verify WebCodecs Encoder Support
+  const codedWidthFallback = videoDecoderConfig.codedWidth || 1920;
+  const codedHeightFallback = videoDecoderConfig.codedHeight || 1080;
+
+  // Determine target canvas dimensions according to orientation:
+  // If rotation is 90 or 270 degrees, display dimensions are swapped relative to coded dimensions.
+  const isSwap = rotation === 90 || rotation === 270;
+  const fallbackTargetW = isSwap ? codedHeightFallback : codedWidthFallback;
+  const fallbackTargetH = isSwap ? codedWidthFallback : codedHeightFallback;
+
+  const width = toEvenDimension(rawDisplayWidth, fallbackTargetW);
+  const height = toEvenDimension(rawDisplayHeight, fallbackTargetH);
+
+  // Verify WebCodecs Encoder Support with normalized even dimensions
   const encoderConfig: VideoEncoderConfig = {
     codec: 'avc1.4d002a', // H.264 Main Profile, Level 4.2
     width,
@@ -314,11 +411,20 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     framerate: 30, // fallback
     bitrate: 5_000_000,
   };
-  
 
-  const support = await VideoEncoder.isConfigSupported(encoderConfig);
+  let support = await VideoEncoder.isConfigSupported(encoderConfig);
   if (!support.supported) {
-    throw new Error(`VideoEncoder config not supported for ${width}x${height}`);
+    const softwareConfig: VideoEncoderConfig = {
+      ...encoderConfig,
+      hardwareAcceleration: 'prefer-software'
+    };
+    const softwareSupport = await VideoEncoder.isConfigSupported(softwareConfig).catch(() => null);
+    if (softwareSupport?.supported) {
+      encoderConfig.hardwareAcceleration = 'prefer-software';
+      support = softwareSupport;
+    } else {
+      throw new Error(`VideoEncoder config not supported for ${width}x${height} (${encoderConfig.codec})`);
+    }
   }
   currentStage = 'ENCODER_CREATED';
 
@@ -335,10 +441,17 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     codedWidth: Number.isFinite(encoderConfig.width) ? encoderConfig.width : null,
     codedHeight: Number.isFinite(encoderConfig.height) ? encoderConfig.height : null,
     codec: encoderConfig.codec ?? null,
+    rotation: rotation ?? 0,
+    flip: flip ?? false,
     stage: currentStage
   };
 
-  const outVideo = output.addVideoTrack(videoSource);
+  // Rotation and flip are baked directly into the canvas frames so the video is physically upright.
+  // Explicitly set rotation: 0 and flip: false so players do not rotate or flip the video a second time.
+  output.addVideoTrack(videoSource, {
+    rotation: 0,
+    flip: false
+  });
 
   // Prepare Audio Preservation
   let audioSource: EncodedAudioPacketSource | null = null;
@@ -348,7 +461,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     const audioDecoderConfig = await audioTrack.getDecoderConfig();
     if (audioCodec && audioDecoderConfig) {
       audioSource = new EncodedAudioPacketSource(audioCodec);
-      const outAudio = output.addAudioTrack(audioSource, {
+      output.addAudioTrack(audioSource, {
         decoderConfig: audioDecoderConfig as any
       });
       
@@ -389,8 +502,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   try {
     const processFrame = (frameToRender: VideoFrame, calculatedDuration: number) => {
     currentStage = 'CANVAS_RENDER';
-    ctx.clearRect(0, 0, width, height);
-    ctx.drawImage(frameToRender, 0, 0, width, height);
+    drawVideoFrameWithOrientation(ctx, frameToRender, width, height, rotation, flip);
 
     const timestampSec = frameToRender.timestamp / 1_000_000;
     const activeCaption = captions.find(c => timestampSec >= c.start && timestampSec <= c.end);
@@ -604,7 +716,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     if (decodeError) throw decodeError;
     if (encodeError) throw encodeError;
 
-    let waitStart = Date.now();
+    const waitStart = Date.now();
     while (decoder && encoder && (decoder.decodeQueueSize > 8 || encoder.encodeQueueSize > 8)) {
       if (decodeError) throw decodeError;
       if (encodeError) throw encodeError;
@@ -655,7 +767,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   if (decoder) await decoder.flush();
   if (pendingFrame) {
        const pf = pendingFrame as any;
-       let duration = pf.duration && pf.duration > 0 ? pf.duration : Math.round(1_000_000 / (encoderConfig.framerate || 30));
+       const duration = pf.duration && pf.duration > 0 ? pf.duration : Math.round(1_000_000 / (encoderConfig.framerate || 30));
        processFrame(pendingFrame, duration);
        pf.close();
        pendingFrame = null;
