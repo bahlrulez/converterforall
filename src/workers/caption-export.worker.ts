@@ -41,7 +41,8 @@ export interface AudioRoutingDecision {
 
 /**
  * Calculates standardized target sample rate and channel count for AAC audio encoding.
- * Enforces stereo downmixing for multichannel inputs (> 2 channels) and safe sample rate boundaries (16kHz to 48kHz).
+ * Enforces stereo downmixing for multichannel inputs (> 2 channels) and normalizes
+ * all transcoding output to 48,000 Hz for universal AAC-LC (mp4a.40.2) encoder compatibility.
  */
 export function calculateTargetAudioConfig(
   inputSampleRate: number = 48000,
@@ -57,31 +58,28 @@ export function calculateTargetAudioConfig(
     downmixed = true;
   }
 
-  let targetSampleRate = safeSampleRate;
-  let resampled = false;
-  if (safeSampleRate > 48000) {
-    targetSampleRate = 48000; // Cap at 48kHz for universal AAC encoder support
-    resampled = true;
-  } else if (safeSampleRate < 16000) {
-    targetSampleRate = 16000; // Floor at 16kHz for AAC encoder stability
-    resampled = true;
-  }
+  // Phase 2B.4.1: Every transcoding route normalizes to exactly 48,000 Hz.
+  // This guarantees mp4a.40.2 (AAC-LC) and avoids WebCodecs rejection of HE-AAC or low sample rates.
+  const targetSampleRate = 48000;
+  const resampled = safeSampleRate !== 48000;
 
   return { targetSampleRate, targetChannels, downmixed, resampled };
 }
 
 /**
  * Evaluates audio track characteristics and environment capabilities to determine the safe export route:
- * - DIRECT_COPY: Original AAC packets preserved directly without generational loss or CPU overhead.
- * - TRANSCODE_AAC: Non-AAC audio decoded via AudioSampleSink and re-encoded to AAC via AudioSampleSource.
+ * - DIRECT_COPY: Original AAC packets preserved directly without generational loss (strictly limited to standard AAC-LC).
+ * - TRANSCODE_AAC: Non-AAC audio or non-LC AAC decoded via AudioSampleSink and re-encoded to 48kHz AAC-LC via AudioSampleSource.
  * - VIDEO_ONLY: Controlled omission of audio when file has no audio or user opted into video-only fallback.
- * - UNSUPPORTED: Controlled failure when codec is unrecognized or required encoder/decoder is unavailable.
+ * - UNSUPPORTED: Controlled failure when codec/profile is unrecognized or required encoder/decoder is unavailable.
  */
 export function determineAudioExportRoute(params: {
   codec: AudioCodec | null;
   decoderConfig: AudioDecoderConfig | null;
   sampleRate?: number;
   numberOfChannels?: number;
+  targetChannels?: number;
+  targetSampleRate?: number;
   canDecode?: boolean;
   hasAudioEncoder?: boolean;
   aacEncoderSupported?: boolean;
@@ -119,34 +117,97 @@ export function determineAudioExportRoute(params: {
     };
   }
 
-  // Path A: AAC Direct Copy
+  // Calculate standardized target configuration for transcoding routes (always 48kHz, mono/stereo)
+  const baseTargetConfig = calculateTargetAudioConfig(sampleRate, numberOfChannels);
+  const targetChannels = params.targetChannels ?? baseTargetConfig.targetChannels;
+  const targetSampleRate = params.targetSampleRate ?? baseTargetConfig.targetSampleRate;
+  const downmixed = params.targetChannels !== undefined
+    ? numberOfChannels > targetChannels
+    : baseTargetConfig.downmixed;
+  const resampled = sampleRate !== targetSampleRate;
+
+  // Path A: AAC Input Handling (Direct copy vs Transcode by profile)
   if (codec === 'aac') {
-    if (decoderConfig) {
+    if (!decoderConfig || !decoderConfig.codec) {
+      if (allowVideoOnlyFallback) {
+        return {
+          route: 'VIDEO_ONLY',
+          reason: 'AAC audio track is missing required decoder configuration metadata. Falling back to video-only export.'
+        };
+      }
+      return {
+        route: 'UNSUPPORTED',
+        reason: 'AAC audio track is missing required decoder configuration metadata. Processing cannot proceed without valid decoder configuration.'
+      };
+    }
+
+    const aacCodecString = decoderConfig.codec.trim().toLowerCase();
+    const isAacLc = aacCodecString === 'mp4a.40.2' || aacCodecString === 'mp4a.40.02';
+
+    // Direct Copy: Strictly limited to standard MPEG-4 AAC-LC (mp4a.40.2 / mp4a.40.02)
+    if (isAacLc) {
       return {
         route: 'DIRECT_COPY',
-        reason: 'Direct copy of AAC track with existing decoder configuration.',
+        reason: 'Direct copy of AAC track (standard AAC-LC) with existing decoder configuration.',
         targetChannels: numberOfChannels,
         targetSampleRate: sampleRate,
         downmixed: false,
         resampled: false
       };
     }
-    // AAC track without decoder config cannot be reliably packet-copied
-    if (allowVideoOnlyFallback) {
+
+    // Non-LC AAC (HE-AAC mp4a.40.5, HE-AACv2 mp4a.40.29, xHE-AAC mp4a.40.42, MPEG-2 AAC mp4a.67, etc.)
+    // These profiles must NOT be direct-copied. They are transcoded to 48kHz AAC-LC only if decodable.
+    if (!canDecode) {
+      if (allowVideoOnlyFallback) {
+        return {
+          route: 'VIDEO_ONLY',
+          reason: `Audio decoder cannot decode '${decoderConfig.codec}' profile. Falling back to video-only export per user opt-in.`
+        };
+      }
       return {
-        route: 'VIDEO_ONLY',
-        reason: 'AAC audio track is missing required decoder configuration metadata. Falling back to video-only export.'
+        route: 'UNSUPPORTED',
+        reason: `Audio decoder cannot decode '${decoderConfig.codec}' profile. Browser decoding support is required to transcode to AAC-LC.`
       };
     }
+
+    if (!hasAudioEncoder) {
+      if (allowVideoOnlyFallback) {
+        return {
+          route: 'VIDEO_ONLY',
+          reason: 'WebCodecs AudioEncoder is not available in this browser. Falling back to video-only export.'
+        };
+      }
+      return {
+        route: 'UNSUPPORTED',
+        reason: `WebCodecs AudioEncoder is not available in this browser. Transcoding '${decoderConfig.codec}' to AAC-LC requires AudioEncoder.`
+      };
+    }
+
+    if (!aacEncoderSupported) {
+      if (allowVideoOnlyFallback) {
+        return {
+          route: 'VIDEO_ONLY',
+          reason: `AAC AudioEncoder does not support ${targetChannels} ch @ ${targetSampleRate} Hz. Falling back to video-only export.`
+        };
+      }
+      return {
+        route: 'UNSUPPORTED',
+        reason: `Browser AudioEncoder does not support the required AAC configuration (${targetChannels} channels, ${targetSampleRate} Hz).`
+      };
+    }
+
     return {
-      route: 'UNSUPPORTED',
-      reason: 'AAC audio track is missing required decoder configuration metadata. Direct packet copying cannot proceed without AudioSpecificConfig.'
+      route: 'TRANSCODE_AAC',
+      reason: `Transcoding '${decoderConfig.codec}' audio to standard 48kHz AAC-LC.`,
+      targetChannels,
+      targetSampleRate,
+      downmixed,
+      resampled
     };
   }
 
-  // Path B: Non-AAC Transcode to AAC
-  const targetConfig = calculateTargetAudioConfig(sampleRate, numberOfChannels);
-
+  // Path B: Non-AAC Transcode to AAC (Opus, PCM, MP3, Vorbis, FLAC)
   if (!canDecode) {
     if (allowVideoOnlyFallback) {
       return {
@@ -177,22 +238,22 @@ export function determineAudioExportRoute(params: {
     if (allowVideoOnlyFallback) {
       return {
         route: 'VIDEO_ONLY',
-        reason: `AAC AudioEncoder does not support ${targetConfig.targetChannels} ch @ ${targetConfig.targetSampleRate} Hz. Falling back to video-only export.`
+        reason: `AAC AudioEncoder does not support ${targetChannels} ch @ ${targetSampleRate} Hz. Falling back to video-only export.`
       };
     }
     return {
       route: 'UNSUPPORTED',
-      reason: `Browser AudioEncoder does not support the required AAC configuration (${targetConfig.targetChannels} channels, ${targetConfig.targetSampleRate} Hz).`
+      reason: `Browser AudioEncoder does not support the required AAC configuration (${targetChannels} channels, ${targetSampleRate} Hz).`
     };
   }
 
   return {
     route: 'TRANSCODE_AAC',
-    reason: `Transcoding '${codec}' audio to AAC (${targetConfig.targetChannels} ch, ${targetConfig.targetSampleRate} Hz).`,
-    targetChannels: targetConfig.targetChannels,
-    targetSampleRate: targetConfig.targetSampleRate,
-    downmixed: targetConfig.downmixed,
-    resampled: targetConfig.resampled
+    reason: `Transcoding '${codec}' audio to AAC (${targetChannels} ch, ${targetSampleRate} Hz).`,
+    targetChannels,
+    targetSampleRate,
+    downmixed,
+    resampled
   };
 }
 
@@ -696,6 +757,8 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
       decoderConfig: audioDecoderConfig,
       sampleRate: audioSampleRate,
       numberOfChannels: audioChannels,
+      targetChannels: targetConfig.targetChannels,
+      targetSampleRate: targetConfig.targetSampleRate,
       canDecode,
       hasAudioEncoder,
       aacEncoderSupported,

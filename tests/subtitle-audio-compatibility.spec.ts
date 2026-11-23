@@ -59,6 +59,156 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
       expect(decision.reason).toContain('Direct copy of AAC track');
     });
 
+    test('1B. AAC profile routing: mp4a.40.2 and mp4a.40.02 select DIRECT_COPY, preserving input rate/channels', () => {
+      for (const codecStr of ['mp4a.40.2', 'mp4a.40.02']) {
+        const decision = determineAudioExportRoute({
+          codec: 'aac',
+          decoderConfig: {
+            codec: codecStr,
+            sampleRate: 44100,
+            numberOfChannels: 2,
+            description: new Uint8Array([17, 144])
+          },
+          sampleRate: 44100,
+          numberOfChannels: 2
+        });
+        expect(decision.route).toBe('DIRECT_COPY');
+        expect(decision.downmixed).toBe(false);
+        expect(decision.resampled).toBe(false);
+        expect(decision.targetSampleRate).toBe(44100); // Direct copy fast path preserves original rate
+        expect(decision.targetChannels).toBe(2);
+      }
+    });
+
+    test('1C. Non-LC AAC profile routing: HE-AAC (mp4a.40.5) and HE-AACv2 (mp4a.40.29) route to TRANSCODE_AAC @ 48kHz when decodable', () => {
+      for (const codecStr of ['mp4a.40.5', 'mp4a.40.05', 'mp4a.40.29']) {
+        const decision = determineAudioExportRoute({
+          codec: 'aac',
+          decoderConfig: {
+            codec: codecStr,
+            sampleRate: 24000,
+            numberOfChannels: 2,
+            description: new Uint8Array([17, 144])
+          },
+          sampleRate: 24000,
+          numberOfChannels: 2,
+          canDecode: true,
+          hasAudioEncoder: true,
+          aacEncoderSupported: true
+        });
+        expect(decision.route).toBe('TRANSCODE_AAC');
+        expect(decision.targetSampleRate).toBe(48000); // Output normalized to 48kHz AAC-LC
+        expect(decision.resampled).toBe(true);
+        expect(decision.reason).toContain(`Transcoding '${codecStr}' audio to standard 48kHz AAC-LC`);
+      }
+    });
+
+    test('1D. MPEG-2 AAC (mp4a.67): never direct-copied; routes to TRANSCODE_AAC @ 48kHz if decodable, fails if undecodable', () => {
+      // When decodable: routes to TRANSCODE_AAC @ 48kHz
+      const decodableDecision = determineAudioExportRoute({
+        codec: 'aac',
+        decoderConfig: {
+          codec: 'mp4a.67',
+          sampleRate: 44100,
+          numberOfChannels: 2
+        },
+        sampleRate: 44100,
+        numberOfChannels: 2,
+        canDecode: true,
+        hasAudioEncoder: true,
+        aacEncoderSupported: true
+      });
+      expect(decodableDecision.route).toBe('TRANSCODE_AAC');
+      expect(decodableDecision.targetSampleRate).toBe(48000);
+      expect(decodableDecision.resampled).toBe(true);
+
+      // When undecodable: strictly fails with explicit UNSUPPORTED error (no silent loss or direct copy)
+      const undecodableDecision = determineAudioExportRoute({
+        codec: 'aac',
+        decoderConfig: {
+          codec: 'mp4a.67',
+          sampleRate: 44100,
+          numberOfChannels: 2
+        },
+        sampleRate: 44100,
+        numberOfChannels: 2,
+        canDecode: false,
+        allowVideoOnlyFallback: false
+      });
+      expect(undecodableDecision.route).toBe('UNSUPPORTED');
+      expect(undecodableDecision.reason).toContain("Audio decoder cannot decode 'mp4a.67'");
+    });
+
+    test('1E. xHE-AAC (mp4a.40.42): routes to TRANSCODE_AAC @ 48kHz if decodable, fails with explicit error if undecodable', () => {
+      // When decodable: routes to TRANSCODE_AAC @ 48kHz
+      const decodableDecision = determineAudioExportRoute({
+        codec: 'aac',
+        decoderConfig: {
+          codec: 'mp4a.40.42',
+          sampleRate: 48000,
+          numberOfChannels: 2
+        },
+        sampleRate: 48000,
+        numberOfChannels: 2,
+        canDecode: true,
+        hasAudioEncoder: true,
+        aacEncoderSupported: true
+      });
+      expect(decodableDecision.route).toBe('TRANSCODE_AAC');
+      expect(decodableDecision.targetSampleRate).toBe(48000);
+
+      // When undecodable: strictly fails
+      const undecodableDecision = determineAudioExportRoute({
+        codec: 'aac',
+        decoderConfig: {
+          codec: 'mp4a.40.42',
+          sampleRate: 48000,
+          numberOfChannels: 2
+        },
+        sampleRate: 48000,
+        numberOfChannels: 2,
+        canDecode: false,
+        allowVideoOnlyFallback: false
+      });
+      expect(undecodableDecision.route).toBe('UNSUPPORTED');
+      expect(undecodableDecision.reason).toContain("Audio decoder cannot decode 'mp4a.40.42'");
+    });
+
+    test('1F. Undecodable AAC profile: throws explicit UNSUPPORTED and refuses direct copy or silent video-only fallback', () => {
+      const decision = determineAudioExportRoute({
+        codec: 'aac',
+        decoderConfig: {
+          codec: 'mp4a.40.1', // AAC Main
+          sampleRate: 48000,
+          numberOfChannels: 2
+        },
+        sampleRate: 48000,
+        numberOfChannels: 2,
+        canDecode: false,
+        allowVideoOnlyFallback: false
+      });
+      expect(decision.route).toBe('UNSUPPORTED');
+      expect(decision.reason).toContain("Audio decoder cannot decode 'mp4a.40.1'");
+    });
+
+    test('1G. Missing or invalid decoderConfig on AAC: throws explicit UNSUPPORTED, refuses direct copy', () => {
+      const nullDecision = determineAudioExportRoute({
+        codec: 'aac',
+        decoderConfig: null,
+        allowVideoOnlyFallback: false
+      });
+      expect(nullDecision.route).toBe('UNSUPPORTED');
+      expect(nullDecision.reason).toContain('missing required decoder configuration metadata');
+
+      const emptyDecision = determineAudioExportRoute({
+        codec: 'aac',
+        decoderConfig: { codec: '' } as any,
+        allowVideoOnlyFallback: false
+      });
+      expect(emptyDecision.route).toBe('UNSUPPORTED');
+      expect(emptyDecision.reason).toContain('missing required decoder configuration metadata');
+    });
+
     test('2. MOV PCM S16 to AAC: uncompressed 16-bit PCM routes to TRANSCODE_AAC', () => {
       const decision = determineAudioExportRoute({
         codec: 'pcm-s16',
@@ -76,7 +226,7 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
       expect(decision.reason).toContain("Transcoding 'pcm-s16' audio to AAC");
     });
 
-    test('3. MOV PCM S24 to AAC: 24-bit PCM routes to TRANSCODE_AAC when supported', () => {
+    test('3. MOV PCM S24 to AAC: 24-bit PCM routes to TRANSCODE_AAC @ 48kHz when supported', () => {
       const decision = determineAudioExportRoute({
         codec: 'pcm-s24',
         decoderConfig: null,
@@ -89,7 +239,8 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
 
       expect(decision.route).toBe('TRANSCODE_AAC');
       expect(decision.targetChannels).toBe(2);
-      expect(decision.targetSampleRate).toBe(44100);
+      expect(decision.targetSampleRate).toBe(48000); // Normalized to 48kHz
+      expect(decision.resampled).toBe(true);
       expect(decision.reason).toContain("Transcoding 'pcm-s24' audio to AAC");
     });
 
@@ -130,7 +281,7 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
       expect(decision.reason).toContain("Transcoding 'opus' audio to AAC");
     });
 
-    test('6. WebM Vorbis to AAC: Vorbis routes to TRANSCODE_AAC when decoder is present', () => {
+    test('6. WebM Vorbis to AAC: Vorbis routes to TRANSCODE_AAC @ 48kHz when decoder is present', () => {
       const decision = determineAudioExportRoute({
         codec: 'vorbis',
         decoderConfig: null,
@@ -143,7 +294,8 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
 
       expect(decision.route).toBe('TRANSCODE_AAC');
       expect(decision.targetChannels).toBe(2);
-      expect(decision.targetSampleRate).toBe(44100);
+      expect(decision.targetSampleRate).toBe(48000); // Normalized to 48kHz
+      expect(decision.resampled).toBe(true);
     });
 
     test('7. Unsupported ALAC handling: unrecognized codec throws controlled UNSUPPORTED or permits VIDEO_ONLY opt-in', () => {
@@ -227,11 +379,12 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
       expect(decision.reason).toContain("Audio decoder unavailable for codec 'opus'");
     });
 
-    test('12. Mono input: preserves 1 channel without unnecessary upmixing', () => {
+    test('12. Mono input: preserves 1 channel without unnecessary upmixing while normalizing to 48kHz', () => {
       const config = calculateTargetAudioConfig(44100, 1);
       expect(config.targetChannels).toBe(1);
-      expect(config.targetSampleRate).toBe(44100);
+      expect(config.targetSampleRate).toBe(48000);
       expect(config.downmixed).toBe(false);
+      expect(config.resampled).toBe(true);
 
       const decision = determineAudioExportRoute({
         codec: 'opus',
@@ -243,7 +396,9 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
         aacEncoderSupported: true
       });
       expect(decision.targetChannels).toBe(1);
+      expect(decision.targetSampleRate).toBe(48000);
       expect(decision.downmixed).toBe(false);
+      expect(decision.resampled).toBe(true);
     });
 
     test('13. Stereo input: preserves 2 channels faithfully', () => {
@@ -272,18 +427,13 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
       expect(decision.downmixed).toBe(true);
     });
 
-    test('15. Audio sample rate boundaries: clamps extreme sample rates to universal 16kHz-48kHz AAC range', () => {
-      const highConfig = calculateTargetAudioConfig(96000, 2);
-      expect(highConfig.targetSampleRate).toBe(48000);
-      expect(highConfig.resampled).toBe(true);
-
-      const lowConfig = calculateTargetAudioConfig(8000, 2);
-      expect(lowConfig.targetSampleRate).toBe(16000);
-      expect(lowConfig.resampled).toBe(true);
-
-      const standardConfig = calculateTargetAudioConfig(44100, 2);
-      expect(standardConfig.targetSampleRate).toBe(44100);
-      expect(standardConfig.resampled).toBe(false);
+    test('15. Audio sample rate boundaries: normalizes all sample rates (8k-96k) to universal 48kHz AAC-LC', () => {
+      const rates = [8000, 16000, 22050, 24000, 32000, 44100, 48000, 96000];
+      for (const rate of rates) {
+        const config = calculateTargetAudioConfig(rate, 2);
+        expect(config.targetSampleRate).toBe(48000);
+        expect(config.resampled).toBe(rate !== 48000);
+      }
     });
   });
 
@@ -344,7 +494,7 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
       audioSource.close();
       await output.finalize();
 
-      const outBuffer = outTarget.buffer;
+      const outBuffer = outTarget.buffer!;
       expect(outBuffer.byteLength).toBeGreaterThan(1000);
 
       // Verify the generated MP4 by demuxing it back
@@ -460,7 +610,7 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
       // Demux the MOV and inspect the first packet timestamp
       const movInput = new Input({
         formats: [new QuickTimeInputFormat()],
-        source: new BufferSource(movTarget.buffer)
+        source: new BufferSource(movTarget.buffer!)
       });
       const track = (await movInput.getAudioTracks())[0];
       const packetSink = new EncodedPacketSink(track);
@@ -514,7 +664,7 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
 
       const verified = new Input({
         formats: [new Mp4InputFormat()],
-        source: new BufferSource(outTarget.buffer)
+        source: new BufferSource(outTarget.buffer!)
       });
 
       expect((await verified.getVideoTracks()).length).toBe(1);
@@ -986,6 +1136,314 @@ test.describe('Audio Compatibility & Synchronization Reliability (Phase 2B.4)', 
         expect(result.seekResult.seeked).toBe(true);
         expect(result.seekResult.duration).toBeGreaterThan(1.9);
         expect(result.seekResult.seekOffsetDelta).toBeLessThan(0.1);
+      } finally {
+        server.close();
+      }
+    });
+
+    test('25. Browser WebCodecs: Resampling across input sample rates (8k-48k) to 48kHz AAC-LC (mp4a.40.2)', async ({ page }) => {
+      const mbBundlePath = path.join(process.cwd(), 'node_modules/mediabunny/dist/bundles/mediabunny.cjs');
+      const mbBundle = fs.readFileSync(mbBundlePath, 'utf8');
+
+      const server = http.createServer((req, res) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(`<!DOCTYPE html><html><body><script>${mbBundle}</script></body></html>`);
+      });
+
+      await new Promise(r => server.listen(0, '127.0.0.1', r as any));
+      const port = (server.address() as any).port;
+
+      try {
+        await page.goto(`http://127.0.0.1:${port}`);
+
+        const results = await page.evaluate(async () => {
+          const mb = (window as any).mediabunny || (window as any).Mediabunny;
+          const inputRates = [8000, 16000, 22050, 24000, 32000, 44100, 48000];
+          const out: any[] = [];
+
+          for (const inRate of inputRates) {
+            const channels = 2;
+            const durationSec = 0.5;
+            const totalFrames = Math.round(inRate * durationSec);
+            const interleaved = new Float32Array(totalFrames * channels);
+            for (let i = 0; i < totalFrames; i++) {
+              interleaved[i * 2] = Math.sin(2 * Math.PI * 440 * i / inRate) * 0.4;
+              interleaved[i * 2 + 1] = Math.sin(2 * Math.PI * 440 * i / inRate) * 0.4;
+            }
+
+            const mp4Target = new mb.BufferTarget();
+            const mp4Output = new mb.Output({
+              format: new mb.Mp4OutputFormat(),
+              target: mp4Target
+            });
+            const aacSource = new mb.AudioSampleSource({
+              codec: 'aac',
+              quality: mb.QUALITY_HIGH,
+              transform: {
+                numberOfChannels: 2,
+                sampleRate: 48000 // Phase 2B.4.1 normalization
+              }
+            });
+            mp4Output.addAudioTrack(aacSource);
+            await mp4Output.start();
+
+            const chunkSize = Math.max(500, Math.floor(inRate / 10));
+            for (let offset = 0; offset < totalFrames; offset += chunkSize) {
+              const length = Math.min(chunkSize, totalFrames - offset);
+              const chunk = interleaved.subarray(offset * channels, (offset + length) * channels);
+              const sample = new mb.AudioSample({
+                format: 'f32',
+                sampleRate: inRate,
+                numberOfChannels: channels,
+                numberOfFrames: length,
+                timestamp: offset / inRate,
+                data: chunk
+              });
+              await aacSource.add(sample);
+              sample.close();
+            }
+            aacSource.close();
+            await mp4Output.finalize();
+
+            const mp4Bytes = mp4Target.buffer;
+
+            // Demux and inspect output track metadata
+            const verified = new mb.Input({
+              formats: [new mb.Mp4InputFormat()],
+              source: new mb.BufferSource(mp4Bytes)
+            });
+            const track = (await verified.getAudioTracks())[0];
+            const outRate = await track.getSampleRate();
+            const outChannels = await track.getNumberOfChannels();
+            const decConfig = await track.getDecoderConfig();
+            const codecString = decConfig?.codec || '';
+
+            // Test HTML5 playback
+            const blob = new Blob([mp4Bytes], { type: 'audio/mp4' });
+            const url = URL.createObjectURL(blob);
+            const audioEl = document.createElement('audio');
+            audioEl.src = url;
+
+            const playResult = await new Promise<any>((resolve) => {
+              audioEl.oncanplay = () => {
+                resolve({ canPlay: true, duration: audioEl.duration });
+              };
+              audioEl.onerror = () => {
+                resolve({ canPlay: false, error: audioEl.error?.message || 'Playback failed' });
+              };
+              setTimeout(() => resolve({ canPlay: false, error: 'Timeout' }), 3000);
+            });
+
+            out.push({
+              inRate,
+              outRate,
+              outChannels,
+              codecString,
+              playResult
+            });
+          }
+          return out;
+        });
+
+        expect(results.length).toBe(7);
+        for (const r of results) {
+          expect(r.outRate).toBe(48000); // Strictly normalized to 48kHz
+          expect(r.outChannels).toBe(2);
+          expect(r.codecString.toLowerCase()).toBe('mp4a.40.2'); // AAC-LC
+          expect(r.codecString).not.toBe('mp4a.40.5'); // Never HE-AAC v1
+          expect(r.codecString).not.toBe('mp4a.40.29'); // Never HE-AAC v2
+          expect(r.playResult.canPlay).toBe(true);
+          expect(r.playResult.duration).toBeGreaterThan(0.4);
+        }
+      } finally {
+        server.close();
+      }
+    });
+
+    test('26. Browser WebCodecs: Non-zero audio offset and duration preservation under 48kHz resampling', async ({ page }) => {
+      const mbBundlePath = path.join(process.cwd(), 'node_modules/mediabunny/dist/bundles/mediabunny.cjs');
+      const mbBundle = fs.readFileSync(mbBundlePath, 'utf8');
+
+      const server = http.createServer((req, res) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(`<!DOCTYPE html><html><body><script>${mbBundle}</script></body></html>`);
+      });
+
+      await new Promise(r => server.listen(0, '127.0.0.1', r as any));
+      const port = (server.address() as any).port;
+
+      try {
+        await page.goto(`http://127.0.0.1:${port}`);
+
+        const result = await page.evaluate(async () => {
+          const mb = (window as any).mediabunny || (window as any).Mediabunny;
+
+          // Input: 22.05kHz, starting at offset 0.350s (350ms offset), duration 1.0s
+          const inRate = 22050;
+          const channels = 2;
+          const startOffset = 0.350;
+          const durationSec = 1.0;
+          const totalFrames = Math.round(inRate * durationSec);
+          const interleaved = new Float32Array(totalFrames * channels);
+          for (let i = 0; i < totalFrames; i++) {
+            interleaved[i * 2] = Math.sin(2 * Math.PI * 440 * i / inRate) * 0.3;
+            interleaved[i * 2 + 1] = Math.sin(2 * Math.PI * 440 * i / inRate) * 0.3;
+          }
+
+          const mp4Target = new mb.BufferTarget();
+          const mp4Output = new mb.Output({
+            format: new mb.Mp4OutputFormat(),
+            target: mp4Target
+          });
+          const aacSource = new mb.AudioSampleSource({
+            codec: 'aac',
+            quality: mb.QUALITY_HIGH,
+            transform: {
+              numberOfChannels: 2,
+              sampleRate: 48000
+            }
+          });
+          mp4Output.addAudioTrack(aacSource);
+          await mp4Output.start();
+
+          const chunkSize = 2000;
+          for (let offset = 0; offset < totalFrames; offset += chunkSize) {
+            const length = Math.min(chunkSize, totalFrames - offset);
+            const chunk = interleaved.subarray(offset * channels, (offset + length) * channels);
+            const sample = new mb.AudioSample({
+              format: 'f32',
+              sampleRate: inRate,
+              numberOfChannels: channels,
+              numberOfFrames: length,
+              timestamp: startOffset + (offset / inRate),
+              data: chunk
+            });
+            await aacSource.add(sample);
+            sample.close();
+          }
+          aacSource.close();
+          await mp4Output.finalize();
+
+          const mp4Bytes = mp4Target.buffer;
+
+          // Demux and check timestamps
+          const input = new mb.Input({
+            formats: [new mb.Mp4InputFormat()],
+            source: new mb.BufferSource(mp4Bytes)
+          });
+          const track = (await input.getAudioTracks())[0];
+          const packetSink = new mb.EncodedPacketSink(track);
+          const timestamps: number[] = [];
+          for await (const p of packetSink.packets()) {
+            timestamps.push(p.timestamp);
+          }
+
+          return {
+            firstTimestamp: timestamps[0],
+            lastTimestamp: timestamps[timestamps.length - 1],
+            packetCount: timestamps.length,
+            outRate: await track.getSampleRate(),
+            codec: (await track.getDecoderConfig())?.codec
+          };
+        });
+
+        expect(result.outRate).toBe(48000);
+        expect(result.codec).toBe('mp4a.40.2');
+        expect(Math.abs(result.firstTimestamp - 0.350)).toBeLessThan(0.05); // Preserves offset within tolerance
+        expect(result.lastTimestamp).toBeGreaterThan(1.2); // 0.35 + ~1.0s duration
+      } finally {
+        server.close();
+      }
+    });
+
+    test('27. Browser WebCodecs: Capability verification of AAC profiles (AAC-LC, HE-AAC, MPEG-2 AAC, xHE-AAC)', async ({ page }) => {
+      const server = http.createServer((req, res) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end('<!DOCTYPE html><html><body>Capability Probing</body></html>');
+      });
+
+      await new Promise(r => server.listen(0, '127.0.0.1', r as any));
+      const port = (server.address() as any).port;
+
+      try {
+        await page.goto(`http://127.0.0.1:${port}`);
+
+        const results = await page.evaluate(async () => {
+          // Probe AudioEncoder
+          const encLc48k = await AudioEncoder.isConfigSupported({
+            codec: 'mp4a.40.2',
+            sampleRate: 48000,
+            numberOfChannels: 2,
+            bitrate: 192000
+          });
+          const encHeV1 = await AudioEncoder.isConfigSupported({
+            codec: 'mp4a.40.5',
+            sampleRate: 24000,
+            numberOfChannels: 1,
+            bitrate: 64000
+          });
+          const encHeV2 = await AudioEncoder.isConfigSupported({
+            codec: 'mp4a.40.29',
+            sampleRate: 24000,
+            numberOfChannels: 2,
+            bitrate: 64000
+          });
+
+          // Probe AudioDecoder
+          const decLc = await AudioDecoder.isConfigSupported({
+            codec: 'mp4a.40.2',
+            sampleRate: 48000,
+            numberOfChannels: 2,
+            description: new Uint8Array([17, 144])
+          });
+          const decHeV1 = await AudioDecoder.isConfigSupported({
+            codec: 'mp4a.40.5',
+            sampleRate: 24000,
+            numberOfChannels: 1,
+            description: new Uint8Array([17, 144])
+          });
+          const decHeV2 = await AudioDecoder.isConfigSupported({
+            codec: 'mp4a.40.29',
+            sampleRate: 24000,
+            numberOfChannels: 2,
+            description: new Uint8Array([17, 144])
+          });
+          const decMpeg2 = await AudioDecoder.isConfigSupported({
+            codec: 'mp4a.67',
+            sampleRate: 44100,
+            numberOfChannels: 2,
+            description: new Uint8Array([17, 144])
+          });
+          const decXhe = await AudioDecoder.isConfigSupported({
+            codec: 'mp4a.40.42',
+            sampleRate: 48000,
+            numberOfChannels: 2,
+            description: new Uint8Array([17, 144])
+          });
+
+          return {
+            encLc48k: encLc48k.supported,
+            encHeV1: encHeV1.supported,
+            encHeV2: encHeV2.supported,
+            decLc: decLc.supported,
+            decHeV1: decHeV1.supported,
+            decHeV2: decHeV2.supported,
+            decMpeg2: decMpeg2.supported,
+            decXhe: decXhe.supported
+          };
+        });
+
+        // AudioEncoder accepts 48kHz AAC-LC
+        expect(results.encLc48k).toBe(true);
+        // AudioEncoder strictly rejects HE-AAC profiles in Chromium
+        expect(results.encHeV1).toBe(false);
+        expect(results.encHeV2).toBe(false);
+
+        // AudioDecoder accepts AAC-LC
+        expect(results.decLc).toBe(true);
+        // AudioDecoder accepts HE-AAC profiles (demonstrating they are decodable and must be transcoded!)
+        expect(results.decHeV1).toBe(true);
+        expect(results.decHeV2).toBe(true);
       } finally {
         server.close();
       }
