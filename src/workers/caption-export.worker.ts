@@ -13,6 +13,12 @@ import {
   EncodedPacketSink,
   EncodedPacket,
   VideoCodec,
+  AudioCodec,
+  AUDIO_CODECS,
+  AudioSampleSink,
+  AudioSampleSource,
+  canEncodeAudio,
+  QUALITY_HIGH,
   UnsupportedInputFormatError,
   type Rotation
 } from 'mediabunny';
@@ -21,6 +27,174 @@ import { ExportWorkerRequest, ExportWorkerResponse, ExportProgress } from '../li
 import { renderCaptionToCanvas } from '../lib/caption-studio/caption-renderer';
 import { CaptionChunk } from '../lib/caption-studio/types';
 import { StyleSettings, PositionSettings } from '../lib/caption-studio/style-types';
+
+export type AudioExportRoute = 'DIRECT_COPY' | 'TRANSCODE_AAC' | 'VIDEO_ONLY' | 'UNSUPPORTED';
+
+export interface AudioRoutingDecision {
+  route: AudioExportRoute;
+  reason: string;
+  targetChannels?: number;
+  targetSampleRate?: number;
+  downmixed?: boolean;
+  resampled?: boolean;
+}
+
+/**
+ * Calculates standardized target sample rate and channel count for AAC audio encoding.
+ * Enforces stereo downmixing for multichannel inputs (> 2 channels) and safe sample rate boundaries (16kHz to 48kHz).
+ */
+export function calculateTargetAudioConfig(
+  inputSampleRate: number = 48000,
+  inputChannels: number = 2
+): { targetSampleRate: number; targetChannels: number; downmixed: boolean; resampled: boolean } {
+  const safeChannels = Number.isInteger(inputChannels) && inputChannels > 0 ? inputChannels : 2;
+  const safeSampleRate = Number.isInteger(inputSampleRate) && inputSampleRate > 0 ? inputSampleRate : 48000;
+
+  let targetChannels = safeChannels;
+  let downmixed = false;
+  if (safeChannels > 2) {
+    targetChannels = 2; // Downmix multichannel to stereo for standard MP4 compatibility
+    downmixed = true;
+  }
+
+  let targetSampleRate = safeSampleRate;
+  let resampled = false;
+  if (safeSampleRate > 48000) {
+    targetSampleRate = 48000; // Cap at 48kHz for universal AAC encoder support
+    resampled = true;
+  } else if (safeSampleRate < 16000) {
+    targetSampleRate = 16000; // Floor at 16kHz for AAC encoder stability
+    resampled = true;
+  }
+
+  return { targetSampleRate, targetChannels, downmixed, resampled };
+}
+
+/**
+ * Evaluates audio track characteristics and environment capabilities to determine the safe export route:
+ * - DIRECT_COPY: Original AAC packets preserved directly without generational loss or CPU overhead.
+ * - TRANSCODE_AAC: Non-AAC audio decoded via AudioSampleSink and re-encoded to AAC via AudioSampleSource.
+ * - VIDEO_ONLY: Controlled omission of audio when file has no audio or user opted into video-only fallback.
+ * - UNSUPPORTED: Controlled failure when codec is unrecognized or required encoder/decoder is unavailable.
+ */
+export function determineAudioExportRoute(params: {
+  codec: AudioCodec | null;
+  decoderConfig: AudioDecoderConfig | null;
+  sampleRate?: number;
+  numberOfChannels?: number;
+  canDecode?: boolean;
+  hasAudioEncoder?: boolean;
+  aacEncoderSupported?: boolean;
+  allowVideoOnlyFallback?: boolean;
+}): AudioRoutingDecision {
+  const {
+    codec,
+    decoderConfig,
+    sampleRate = 48000,
+    numberOfChannels = 2,
+    canDecode = true,
+    hasAudioEncoder = true,
+    aacEncoderSupported = true,
+    allowVideoOnlyFallback = false
+  } = params;
+
+  if (!codec) {
+    return {
+      route: 'VIDEO_ONLY',
+      reason: 'No audio track present in media file.'
+    };
+  }
+
+  // Check if codec is recognized by mediabunny
+  if (!AUDIO_CODECS.includes(codec)) {
+    if (allowVideoOnlyFallback) {
+      return {
+        route: 'VIDEO_ONLY',
+        reason: `Unsupported audio codec '${codec}'. Falling back to video-only export per user opt-in.`
+      };
+    }
+    return {
+      route: 'UNSUPPORTED',
+      reason: `Audio codec '${codec}' is unsupported for browser MP4 export. Transcoding to AAC is not available for this codec.`
+    };
+  }
+
+  // Path A: AAC Direct Copy
+  if (codec === 'aac') {
+    if (decoderConfig) {
+      return {
+        route: 'DIRECT_COPY',
+        reason: 'Direct copy of AAC track with existing decoder configuration.',
+        targetChannels: numberOfChannels,
+        targetSampleRate: sampleRate,
+        downmixed: false,
+        resampled: false
+      };
+    }
+    // AAC track without decoder config cannot be reliably packet-copied
+    if (allowVideoOnlyFallback) {
+      return {
+        route: 'VIDEO_ONLY',
+        reason: 'AAC audio track is missing required decoder configuration metadata. Falling back to video-only export.'
+      };
+    }
+    return {
+      route: 'UNSUPPORTED',
+      reason: 'AAC audio track is missing required decoder configuration metadata. Direct packet copying cannot proceed without AudioSpecificConfig.'
+    };
+  }
+
+  // Path B: Non-AAC Transcode to AAC
+  const targetConfig = calculateTargetAudioConfig(sampleRate, numberOfChannels);
+
+  if (!canDecode) {
+    if (allowVideoOnlyFallback) {
+      return {
+        route: 'VIDEO_ONLY',
+        reason: `Audio decoder unavailable for '${codec}'. Falling back to video-only export per user opt-in.`
+      };
+    }
+    return {
+      route: 'UNSUPPORTED',
+      reason: `Audio decoder unavailable for codec '${codec}'. The browser cannot decode this audio format.`
+    };
+  }
+
+  if (!hasAudioEncoder) {
+    if (allowVideoOnlyFallback) {
+      return {
+        route: 'VIDEO_ONLY',
+        reason: 'WebCodecs AudioEncoder is not available in this browser. Falling back to video-only export.'
+      };
+    }
+    return {
+      route: 'UNSUPPORTED',
+      reason: `WebCodecs AudioEncoder is not available in this browser. Transcoding '${codec}' audio to AAC requires AudioEncoder.`
+    };
+  }
+
+  if (!aacEncoderSupported) {
+    if (allowVideoOnlyFallback) {
+      return {
+        route: 'VIDEO_ONLY',
+        reason: `AAC AudioEncoder does not support ${targetConfig.targetChannels} ch @ ${targetConfig.targetSampleRate} Hz. Falling back to video-only export.`
+      };
+    }
+    return {
+      route: 'UNSUPPORTED',
+      reason: `Browser AudioEncoder does not support the required AAC configuration (${targetConfig.targetChannels} channels, ${targetConfig.targetSampleRate} Hz).`
+    };
+  }
+
+  return {
+    route: 'TRANSCODE_AAC',
+    reason: `Transcoding '${codec}' audio to AAC (${targetConfig.targetChannels} ch, ${targetConfig.targetSampleRate} Hz).`,
+    targetChannels: targetConfig.targetChannels,
+    targetSampleRate: targetConfig.targetSampleRate,
+    downmixed: targetConfig.downmixed,
+    resampled: targetConfig.resampled
+  };
+}
 
 interface RegistryNode {
   timestamp: number;
@@ -326,7 +500,7 @@ if (typeof self !== 'undefined') {
           throw new Error('Missing globalStyle or globalPosition in START_EXPORT payload. Silent fallback prevented.');
         }
 
-        await runExport(req.file, req.captions, req.globalStyle, req.globalPosition);
+        await runExport(req.file, req.captions, req.globalStyle, req.globalPosition, req.allowVideoOnlyFallback || false);
       } catch (err: any) {
         console.error(err);
         const message = err instanceof Error ? err.message : String(err);
@@ -352,7 +526,7 @@ if (typeof self !== 'undefined') {
   };
 }
 
-async function runExport(file: File, captions: CaptionChunk[], style: StyleSettings, position: PositionSettings) {
+async function runExport(file: File, captions: CaptionChunk[], style: StyleSettings, position: PositionSettings, allowVideoOnlyFallback: boolean = false) {
   reportProgress({ status: 'PREPARING' });
 
   const input = new Input({
@@ -368,7 +542,19 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   const videoTracks = await input.getVideoTracks();
   const videoTrack = videoTracks[0];
   const audioTracks = await input.getAudioTracks();
-  const audioTrack = audioTracks[0];
+  const audioTrack = audioTracks[0] || null;
+  const additionalAudioTracksCount = audioTracks.length > 1 ? audioTracks.length - 1 : 0;
+  const exportWarnings: string[] = [];
+
+  if (additionalAudioTracksCount > 0) {
+    const warningMsg = `Notice: Video contains ${audioTracks.length} audio tracks. Track 1 was preserved; ${additionalAudioTracksCount} additional track(s) were omitted in MP4 export.`;
+    exportWarnings.push(warningMsg);
+    reportProgress({
+      status: 'PREPARING',
+      stage: 'AUDIO_MULTI_TRACK_NOTICE',
+      message: warningMsg
+    });
+  }
 
   if (!videoTrack) throw new Error('No video track found in the uploaded file. Please ensure the file contains a valid video stream.');
   currentStage = 'VIDEO_TRACK_FOUND';
@@ -434,7 +620,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     target: outputBuffer
   });
 
-  const videoSource = new EncodedVideoPacketSource(videoCodec as VideoCodec || 'avc1');
+  const videoSource = new EncodedVideoPacketSource(videoCodec as VideoCodec || 'avc');
   lastExportDiagnostics = {
     width: Number.isFinite(width) ? width : null,
     height: Number.isFinite(height) ? height : null,
@@ -453,32 +639,162 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     flip: false
   });
 
-  // Prepare Audio Preservation
-  let audioSource: EncodedAudioPacketSource | null = null;
+  // Prepare Audio Preservation / Transcoding
+  let audioSource: EncodedAudioPacketSource | AudioSampleSource | null = null;
   let audioTask: Promise<void> | null = null;
+  let audioError: Error | null = null;
+  let decodeError: Error | null = null;
+  let encodeError: Error | null = null;
+  let exportFailed = false;
+
   if (audioTrack) {
-    const audioCodec = await audioTrack.getCodec();
-    const audioDecoderConfig = await audioTrack.getDecoderConfig();
-    if (audioCodec && audioDecoderConfig) {
-      audioSource = new EncodedAudioPacketSource(audioCodec);
-      output.addAudioTrack(audioSource, {
+    currentStage = 'AUDIO_INSPECT_START';
+    let audioCodec: AudioCodec | null = null;
+    let audioDecoderConfig: AudioDecoderConfig | null = null;
+    let audioSampleRate = 48000;
+    let audioChannels = 2;
+    let canDecode = false;
+
+    try { audioCodec = await audioTrack.getCodec(); } catch {}
+    try { audioDecoderConfig = await audioTrack.getDecoderConfig(); } catch {}
+    try { audioSampleRate = (await audioTrack.getSampleRate()) || 48000; } catch {}
+    try { audioChannels = (await audioTrack.getNumberOfChannels()) || 2; } catch {}
+    try { canDecode = await audioTrack.canDecode(); } catch {}
+
+    const hasAudioEncoder = typeof AudioEncoder !== 'undefined';
+    const targetConfig = calculateTargetAudioConfig(audioSampleRate, audioChannels);
+
+    let aacEncoderSupported = false;
+    if (hasAudioEncoder) {
+      try {
+        aacEncoderSupported = await canEncodeAudio('aac', {
+          numberOfChannels: targetConfig.targetChannels,
+          sampleRate: targetConfig.targetSampleRate,
+          quality: QUALITY_HIGH
+        });
+      } catch {
+        aacEncoderSupported = false;
+      }
+      // If mono AAC is not directly supported by browser AudioEncoder, probe stereo fallback
+      if (!aacEncoderSupported && targetConfig.targetChannels === 1) {
+        try {
+          const stereoSupported = await canEncodeAudio('aac', {
+            numberOfChannels: 2,
+            sampleRate: targetConfig.targetSampleRate,
+            quality: QUALITY_HIGH
+          });
+          if (stereoSupported) {
+            targetConfig.targetChannels = 2;
+            aacEncoderSupported = true;
+          }
+        } catch {}
+      }
+    }
+
+    const decision = determineAudioExportRoute({
+      codec: audioCodec,
+      decoderConfig: audioDecoderConfig,
+      sampleRate: audioSampleRate,
+      numberOfChannels: audioChannels,
+      canDecode,
+      hasAudioEncoder,
+      aacEncoderSupported,
+      allowVideoOnlyFallback
+    });
+
+    lastExportDiagnostics = {
+      ...lastExportDiagnostics,
+      audioTrackCount: audioTracks.length,
+      omittedAudioTrackCount: additionalAudioTracksCount,
+      inputAudioCodec: audioCodec ?? null,
+      audioExportRoute: decision.route,
+      audioChannels,
+      audioSampleRate,
+      targetChannels: decision.targetChannels ?? null,
+      targetSampleRate: decision.targetSampleRate ?? null,
+      audioDownmixed: decision.downmixed ?? false,
+      audioResampled: decision.resampled ?? false
+    };
+
+    if (decision.route === 'UNSUPPORTED') {
+      throw new Error(`Audio processing cannot proceed: ${decision.reason}`);
+    }
+
+    if (decision.downmixed) {
+      const downmixMsg = `Multichannel audio (${audioChannels} channels) was downmixed to stereo for broad MP4 compatibility.`;
+      exportWarnings.push(downmixMsg);
+      reportProgress({ status: 'PREPARING', stage: 'AUDIO_DOWNMIX_NOTICE', message: downmixMsg });
+    }
+
+    if (decision.resampled) {
+      const resampleMsg = `Audio sample rate was adjusted from ${audioSampleRate} Hz to ${decision.targetSampleRate} Hz for AAC encoding compatibility.`;
+      exportWarnings.push(resampleMsg);
+      reportProgress({ status: 'PREPARING', stage: 'AUDIO_RESAMPLE_NOTICE', message: resampleMsg });
+    }
+
+    if (decision.route === 'DIRECT_COPY') {
+      currentStage = 'AUDIO_DIRECT_COPY_INIT';
+      const directSource = new EncodedAudioPacketSource('aac');
+      audioSource = directSource;
+      output.addAudioTrack(directSource, {
         decoderConfig: audioDecoderConfig as any
       });
-      
+
       audioTask = (async () => {
-        const audioSink = new EncodedPacketSink(audioTrack);
-        let first = true;
-        for await (const packet of audioSink.packets()) {
-          if (first) {
-            await audioSource!.add(packet, { decoderConfig: audioDecoderConfig as any });
-            first = false;
-          } else {
-            await audioSource!.add(packet);
+        try {
+          const audioSink = new EncodedPacketSink(audioTrack);
+          let first = true;
+          for await (const packet of audioSink.packets()) {
+            if (exportFailed || decodeError || encodeError) {
+              break;
+            }
+            if (first) {
+              await directSource.add(packet, { decoderConfig: audioDecoderConfig as any });
+              first = false;
+            } else {
+              await directSource.add(packet);
+            }
           }
+        } catch (err: any) {
+          audioError = err instanceof Error ? err : new Error(String(err));
         }
       })();
-    } else {
-      console.warn("Could not retrieve audio codec/config. Audio preservation failed.");
+    } else if (decision.route === 'TRANSCODE_AAC') {
+      currentStage = 'AUDIO_TRANSCODE_INIT';
+      const sampleSource = new AudioSampleSource({
+        codec: 'aac',
+        quality: QUALITY_HIGH,
+        transform: {
+          numberOfChannels: decision.targetChannels,
+          sampleRate: decision.targetSampleRate
+        }
+      });
+      audioSource = sampleSource;
+      output.addAudioTrack(sampleSource);
+
+      audioTask = (async () => {
+        try {
+          const sampleSink = new AudioSampleSink(audioTrack);
+          for await (const sample of sampleSink.samples()) {
+            if (exportFailed || decodeError || encodeError) {
+              sample.close();
+              break;
+            }
+            try {
+              await sampleSource.add(sample);
+            } finally {
+              // Crucial: immediately close the AudioSample to maintain memory hygiene!
+              sample.close();
+            }
+          }
+        } catch (err: any) {
+          audioError = err instanceof Error ? err : new Error(String(err));
+        }
+      })();
+    } else if (decision.route === 'VIDEO_ONLY') {
+      const videoOnlyMsg = `Notice: Audio was excluded from export (${decision.reason}). Video-only MP4 generated.`;
+      exportWarnings.push(videoOnlyMsg);
+      reportProgress({ status: 'PREPARING', stage: 'AUDIO_EXCLUDED_NOTICE', message: videoOnlyMsg });
     }
   }
 
@@ -489,8 +805,6 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
   const canvas = new OffscreenCanvas(width, height);
   const ctx = canvas.getContext('2d')!;
 
-  let decodeError: Error | null = null;
-  let encodeError: Error | null = null;
   let firstEncode = true;
 
   let pendingFrame: VideoFrame | null = null;
@@ -623,7 +937,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     if (durationSec > 0) {
       totalFrames = Math.max(1, Math.round(durationSec * (encoderConfig.framerate || 30)));
     }
-  } catch(e) {}
+  } catch {}
 
   const onDecoderOutput = (frame: VideoFrame) => {
     currentStage = 'FIRST_FRAME_RECEIVED';
@@ -665,7 +979,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
       console.warn("Decoding error detected. Re-instantiating decoder with prefer-software fallback.");
       
       if (decoder && decoder.state !== 'closed') {
-          try { decoder.close(); } catch(e) {}
+          try { decoder.close(); } catch {}
       }
       
       decoder = new VideoDecoder({
@@ -783,6 +1097,9 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     if (audioTask) {
       currentStage = 'AUDIO_PACKET_WRITE_START';
       await audioTask;
+      if (audioError) {
+        throw new Error(`Audio processing failed [Stage: ${currentStage}]: ${(audioError as any).message || audioError}`);
+      }
       currentStage = 'AUDIO_PACKET_WRITE_DONE';
       
       currentStage = 'AUDIO_SOURCE_CLOSE_START';
@@ -802,23 +1119,30 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     
     self.postMessage({
       type: 'DONE',
-      blob: finalBlob
+      blob: finalBlob,
+      warnings: exportWarnings.length > 0 ? exportWarnings : undefined
     } as ExportWorkerResponse);
     currentStage = 'DONE_MESSAGE_SENT';
     
     reportProgress({ status: 'DONE', progress: 100 });
+  } catch (err) {
+    exportFailed = true;
+    throw err;
   } finally {
     if (watchdog) clearTimeout(watchdog);
     durationRegistry.clear();
     if (pendingFrame) {
-      try { (pendingFrame as any).close(); } catch (e) {}
+      try { (pendingFrame as any).close(); } catch {}
       pendingFrame = null;
     }
     if (decoder && decoder.state !== 'closed') {
-      try { decoder.close(); } catch (e) {}
+      try { decoder.close(); } catch {}
     }
     if (encoder && encoder.state !== 'closed') {
-      try { encoder.close(); } catch (e) {}
+      try { encoder.close(); } catch {}
+    }
+    if (audioSource && (audioSource as any)._closed !== true) {
+      try { audioSource.close(); } catch {}
     }
   }
 }
