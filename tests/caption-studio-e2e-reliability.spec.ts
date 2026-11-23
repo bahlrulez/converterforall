@@ -12,7 +12,7 @@ const ffmpegPath = require('ffmpeg-static') as string | null;
 const samplePath = path.join(process.cwd(), 'sample.mp4');
 
 type WorkerExportResult = {
-  bytes: ArrayBuffer;
+  bytesBase64: string;
   duration: number;
   seeked: boolean;
   seekTime: number;
@@ -318,9 +318,13 @@ async function exportWithActualWorker(
           }
         }
 
-        const bytes = await response.blob.arrayBuffer();
+        const bytes = new Uint8Array(await response.blob.arrayBuffer());
+        let binary = '';
+        for (let offset = 0; offset < bytes.length; offset += 0x8000) {
+          binary += String.fromCharCode(...bytes.subarray(offset, offset + 0x8000));
+        }
         return {
-          bytes,
+          bytesBase64: btoa(binary),
           duration: outputVideo.duration,
           seeked: outputVideo.currentTime > 0 && Math.abs(outputVideo.currentTime - seekTime) < 0.05,
           seekTime: outputVideo.currentTime,
@@ -351,6 +355,10 @@ async function exportWithActualWorker(
 }
 
 test.describe.serial('Caption Studio End-to-End Reliability Audit', () => {
+  test.beforeEach(() => {
+    test.setTimeout(180_000);
+  });
+
   test.beforeAll(async () => {
     test.setTimeout(180_000);
     if (!fs.existsSync(samplePath)) throw new Error('Required repository fixture sample.mp4 was not found.');
@@ -426,7 +434,7 @@ test.describe.serial('Caption Studio End-to-End Reliability Audit', () => {
     expect(source.audioProfile).toMatch(/^mp4a\.40\.0?2$/);
 
     const result = await exportWithActualWorker(page, samplePath, 'audit-aac.mp4', 'video/mp4');
-    const output = await inspectMp4(Buffer.from(result.bytes));
+    const output = await inspectMp4(Buffer.from(result.bytesBase64, 'base64'));
 
     expect(output.videoTrackCount).toBe(1);
     expect(output.audioTrackCount).toBe(1);
@@ -452,7 +460,7 @@ test.describe.serial('Caption Studio End-to-End Reliability Audit', () => {
     expect(source.duration).toBeGreaterThan(0.5);
 
     const result = await exportWithActualWorker(page, movPcmPath, 'audit-pcm.mov', 'video/quicktime');
-    const output = await inspectMp4(Buffer.from(result.bytes));
+    const output = await inspectMp4(Buffer.from(result.bytesBase64, 'base64'));
 
     expect(output.videoTrackCount).toBe(1);
     expect(output.audioTrackCount).toBe(1);
@@ -472,7 +480,7 @@ test.describe.serial('Caption Studio End-to-End Reliability Audit', () => {
 
   test('Actual worker transcodes WebM + Opus to 48 kHz AAC-LC', async ({ page }) => {
     const result = await exportWithActualWorker(page, webmOpusPath, 'audit-opus.webm', 'video/webm');
-    const output = await inspectMp4(Buffer.from(result.bytes));
+    const output = await inspectMp4(Buffer.from(result.bytesBase64, 'base64'));
 
     expect(output.videoTrackCount).toBe(1);
     expect(output.audioTrackCount).toBe(1);
@@ -494,7 +502,7 @@ test.describe.serial('Caption Studio End-to-End Reliability Audit', () => {
     expect(input.audioTrackCount).toBe(0);
 
     const result = await exportWithActualWorker(page, videoOnlyPath, 'audit-no-audio.mp4', 'video/mp4');
-    const output = await inspectMp4(Buffer.from(result.bytes));
+    const output = await inspectMp4(Buffer.from(result.bytesBase64, 'base64'));
 
     expect(output.videoTrackCount).toBe(1);
     expect(output.audioTrackCount).toBe(0);
