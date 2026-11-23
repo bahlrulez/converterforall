@@ -24,9 +24,19 @@ import { StyleSettings, PositionSettings, FontPayload } from '../lib/caption-stu
  * Timestamp-keyed duration registry.
  * Maps VideoFrame presentation timestamps (in microseconds) to their calculated durations (in microseconds).
  * Protects against WebCodecs hardware encoder quirks where chunk.duration is emitted as null or 0.
+ *
+ * Ordering & Association Guarantees:
+ * - Distinct timestamps (T1 != T2): Exact 1:1 duration association is guaranteed regardless of
+ *   encoder output callback arrival order because lookups are keyed by presentation timestamp.
+ * - Duplicate timestamps (T1 == T2): Multiple durations registered for the identical timestamp
+ *   are queued and consumed in FIFO order. If an underlying hardware encoder reorders chunks
+ *   sharing identical timestamps, exact 1:1 frame-to-chunk association cannot be guaranteed.
+ * - Capacity: Enforces a hard ceiling of maxCapacity (default 1,000) total pending duration records
+ *   across all timestamp keys, evicting the oldest records when the limit is exceeded.
  */
 export class FrameDurationRegistry {
   private registry = new Map<number, number[]>();
+  private totalPending = 0;
   private readonly maxCapacity: number;
 
   constructor(maxCapacity = 1000) {
@@ -43,13 +53,29 @@ export class FrameDurationRegistry {
     } else {
       this.registry.set(timestamp, [duration]);
     }
+    this.totalPending++;
 
-    // Guard against unbounded memory growth if encoder drops frames without output
-    if (this.registry.size > this.maxCapacity) {
-      const oldestKey = this.registry.keys().next().value;
-      if (oldestKey !== undefined) {
-        this.registry.delete(oldestKey);
-      }
+    // Guard against unbounded memory growth: enforce hard maximum on total pending records
+    while (this.totalPending > this.maxCapacity) {
+      this.evictOldest();
+    }
+  }
+
+  private evictOldest(): void {
+    const oldestKey = this.registry.keys().next().value;
+    if (oldestKey === undefined) {
+      this.totalPending = 0;
+      return;
+    }
+    const list = this.registry.get(oldestKey);
+    if (!list || list.length === 0) {
+      this.registry.delete(oldestKey);
+      return;
+    }
+    list.shift();
+    this.totalPending--;
+    if (list.length === 0) {
+      this.registry.delete(oldestKey);
     }
   }
 
@@ -60,16 +86,43 @@ export class FrameDurationRegistry {
       return null;
     }
     const duration = list.shift()!;
+    this.totalPending--;
     if (list.length === 0) {
       this.registry.delete(timestamp);
     }
     return duration;
   }
 
-  public clear(): void {
-    this.registry.clear();
+  /**
+   * Rolls back the most recently registered duration for a given timestamp.
+   * Invoked on synchronous encoder.encode() exceptions to undo the registration
+   * without consuming older pending records for that timestamp.
+   */
+  public rollback(timestamp: number): boolean {
+    const list = this.registry.get(timestamp);
+    if (!list || list.length === 0) {
+      this.registry.delete(timestamp);
+      return false;
+    }
+    list.pop();
+    this.totalPending--;
+    if (list.length === 0) {
+      this.registry.delete(timestamp);
+    }
+    return true;
   }
 
+  public clear(): void {
+    this.registry.clear();
+    this.totalPending = 0;
+  }
+
+  /** Total pending duration records across all timestamp keys */
+  public get pendingCount(): number {
+    return this.totalPending;
+  }
+
+  /** Number of distinct timestamp keys currently registered */
   public get size(): number {
     return this.registry.size;
   }
@@ -303,7 +356,7 @@ async function runExport(file: File, captions: CaptionChunk[], style: StyleSetti
     try {
       if (encoder) encoder.encode(newFrame);
     } catch (encodeErr) {
-      durationRegistry.consume(frameToRender.timestamp);
+      durationRegistry.rollback(frameToRender.timestamp);
       throw encodeErr;
     } finally {
       newFrame.close();

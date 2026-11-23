@@ -130,17 +130,21 @@ test.describe('WebCodecs Frame Duration Recovery & Timing Integrity (Phase 2B.2)
       registry.register(duplicateTs, 30000);
       registry.register(duplicateTs, 45000);
 
-      expect(registry.size).toBe(1); // One timestamp key holding 2 queued durations
+      expect(registry.size).toBe(1); // One timestamp key in the map
+      expect(registry.pendingCount).toBe(2); // Two total pending duration records
 
       const first = registry.consume(duplicateTs);
       expect(first).toBe(30000);
+      expect(registry.pendingCount).toBe(1);
 
       const second = registry.consume(duplicateTs);
       expect(second).toBe(45000);
+      expect(registry.pendingCount).toBe(0);
 
       const third = registry.consume(duplicateTs);
       expect(third).toBeNull();
       expect(registry.size).toBe(0);
+      expect(registry.pendingCount).toBe(0);
     });
 
     // Requirement 8: Missing duration mapping with FPS fallback
@@ -172,12 +176,93 @@ test.describe('WebCodecs Frame Duration Recovery & Timing Integrity (Phase 2B.2)
       }
 
       // Max capacity is 5: oldest entries must be evicted to prevent unbounded growth
+      expect(registry.pendingCount).toBeLessThanOrEqual(5);
       expect(registry.size).toBeLessThanOrEqual(5);
 
       // Verify clear resets everything
       registry.clear();
+      expect(registry.pendingCount).toBe(0);
       expect(registry.size).toBe(0);
       expect(registry.consume(0)).toBeNull();
+    });
+
+    // Phase 2B.2A: Capacity Hardening on Duplicate Timestamps (>1,000 frames)
+    test('10A. Hard capacity limit of 1,000 pending records enforced for duplicate timestamps', () => {
+      const registry = new FrameDurationRegistry(1000);
+      const sameTs = 5_000_000;
+
+      // Register 1,500 frames all sharing the identical presentation timestamp
+      for (let i = 1; i <= 1500; i++) {
+        registry.register(sameTs, i);
+      }
+
+      // Hard ceiling of 1,000 must be strictly enforced on pendingCount
+      expect(registry.pendingCount).toBe(1000);
+      expect(registry.size).toBe(1); // Single timestamp key
+
+      // Verify FIFO eviction: records 1..500 were evicted, oldest remaining is 501
+      const firstRemaining = registry.consume(sameTs);
+      expect(firstRemaining).toBe(501);
+      expect(registry.pendingCount).toBe(999);
+
+      // Verify consume drains accurately down to 0
+      for (let i = 502; i <= 1500; i++) {
+        expect(registry.consume(sameTs)).toBe(i);
+      }
+      expect(registry.pendingCount).toBe(0);
+      expect(registry.size).toBe(0);
+      expect(registry.consume(sameTs)).toBeNull();
+    });
+
+    // Phase 2B.2A: Rollback on Synchronous Encode Failures
+    test('10B. Synchronous encode failure rolls back only the most recent registration for duplicate timestamp', () => {
+      const registry = new FrameDurationRegistry();
+      const ts = 3_000_000;
+
+      // Register initial valid frame
+      registry.register(ts, 33333);
+      expect(registry.pendingCount).toBe(1);
+
+      // Simulate a second frame registered for the same timestamp where encoder.encode() throws synchronously
+      registry.register(ts, 50000);
+      expect(registry.pendingCount).toBe(2);
+
+      // Rollback undoes the failed second attempt without consuming or clobbering the first
+      const rolledBack = registry.rollback(ts);
+      expect(rolledBack).toBe(true);
+      expect(registry.pendingCount).toBe(1);
+
+      // The original valid frame (33333) remains intact and is consumed
+      const consumed = registry.consume(ts);
+      expect(consumed).toBe(33333);
+      expect(registry.pendingCount).toBe(0);
+      expect(registry.size).toBe(0);
+
+      // Additional rollback on empty timestamp returns false safely
+      expect(registry.rollback(ts)).toBe(false);
+    });
+
+    // Phase 2B.2A: Documented Ordering Guarantees for Duplicate Timestamps
+    test('10C. Distinct timestamps guarantee 1:1 out-of-order recovery; duplicate timestamps guarantee FIFO recovery', () => {
+      const registry = new FrameDurationRegistry();
+
+      // Distinct timestamps: completely independent of callback arrival order
+      registry.register(100, 10);
+      registry.register(200, 20);
+      registry.register(300, 30);
+
+      expect(registry.consume(300)).toBe(30);
+      expect(registry.consume(100)).toBe(10);
+      expect(registry.consume(200)).toBe(20);
+
+      // Duplicate timestamps: served in FIFO order
+      // (True 1:1 hardware chunk association cannot be guaranteed if encoder reorders chunks with identical timestamps)
+      registry.register(500, 51);
+      registry.register(500, 52);
+
+      expect(registry.consume(500)).toBe(51);
+      expect(registry.consume(500)).toBe(52);
+      expect(registry.pendingCount).toBe(0);
     });
   });
 
@@ -189,6 +274,9 @@ test.describe('WebCodecs Frame Duration Recovery & Timing Integrity (Phase 2B.2)
     }
 
     // Requirement 11 & Output Verification 1: Simulated missing-duration hardware encoder
+    // NOTE: This test performs a deterministic software simulation of missing WebCodecs chunk durations
+    // (setting chunk.duration = null or 0), representative of Apple VideoToolbox and Windows Media Foundation
+    // behavior, verifying container muxing without requiring live OS GPU encoder hardware.
     test('11. Simulated hardware encoder (missing/zero durations): MP4 muxes and demuxes with valid packet timings', async () => {
       const videoBuffer = getSampleVideoBuffer();
       const input = new Input({
@@ -469,23 +557,25 @@ test.describe('WebCodecs Frame Duration Recovery & Timing Integrity (Phase 2B.2)
           demuxedAudioPts.push(ap.timestamp);
         }
 
-        // 1. Initial A/V timeline alignment: both tracks start synchronously at t=0
-        const startSyncDrift = Math.abs(demuxedPts[0] - demuxedAudioPts[0]);
-        expect(startSyncDrift).toBeLessThan(0.005); // Within 5ms
+        // 1. Measured track timeline alignment: both streams start synchronously at t=0
+        const startSyncOffset = Math.abs(demuxedPts[0] - demuxedAudioPts[0]);
+        expect(startSyncOffset).toBeLessThan(0.005); // Within 5ms start alignment
 
-        // 2. Maximum inter-stream temporal proximity: for each audio presentation timestamp,
-        // measure distance to the nearest video frame presentation timestamp
-        let maxTemporalProximity = 0;
+        // 2. Inter-stream packet timestamp proximity:
+        // NOTE: Proximity measures discrete packet sample density (the maximum temporal distance
+        // from an audio packet to the nearest video frame), which in this VFR test is bounded by the
+        // maximum frame interval (<= 50ms). This metric reflects container interleaving density and
+        // is NOT represented as empirical proof of perceptual lip-sync accuracy across arbitrary media.
+        let maxSampleProximity = 0;
         for (const aPts of demuxedAudioPts) {
           const minDiffToVideo = Math.min(...demuxedPts.map(vPts => Math.abs(vPts - aPts)));
-          if (minDiffToVideo > maxTemporalProximity) {
-            maxTemporalProximity = minDiffToVideo;
+          if (minDiffToVideo > maxSampleProximity) {
+            maxSampleProximity = minDiffToVideo;
           }
         }
-        // In this VFR stream (intervals 30ms-150ms), nearest video frame is always within 50ms (0.05s)
-        expect(maxTemporalProximity).toBeLessThanOrEqual(0.05);
+        expect(maxSampleProximity).toBeLessThanOrEqual(0.05);
 
-        // 3. Track duration alignment: both streams conclude within 1 sample interval
+        // 3. Container total duration alignment: video and audio conclude within 1 sample interval (< 50ms)
         const videoTotalDur = demuxedPts[demuxedPts.length - 1] + demuxedDurations[demuxedDurations.length - 1];
         const audioTotalDur = demuxedAudioPts[demuxedAudioPts.length - 1] + 0.1;
         const totalDurationDrift = Math.abs(videoTotalDur - audioTotalDur);
