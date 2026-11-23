@@ -9,7 +9,8 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
-    "dev:worker": "esbuild src/workers/caption-export.worker.ts --bundle --outfile=public/workers/caption-export.worker.js --format=esm --target=es2022 --watch"
+    "dev:worker": "esbuild src/workers/caption-export.worker.ts --bundle --outfile=public/workers/caption-export.worker.js --format=esm --target=es2022 --watch",
+    "test:e2e:caption-studio": "playwright test --config=playwright.caption-studio.config.ts --workers=1"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
