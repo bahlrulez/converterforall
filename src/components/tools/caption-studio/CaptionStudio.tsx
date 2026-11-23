@@ -888,6 +888,11 @@ export function CaptionStudio() {
                              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-b-transparent"></div>
                              <span>{exportProgress.stage || 'Exporting MP4...'} {exportProgress.progress ? `${exportProgress.progress}%` : ''}</span>
                           </div>
+                          {exportProgress.message && (
+                            <div className="text-xs text-white/90 font-normal max-w-xs truncate" title={exportProgress.message}>
+                              {exportProgress.message}
+                            </div>
+                          )}
                           {exportProgress.currentFrame !== undefined && exportProgress.totalFrames !== undefined && exportProgress.totalFrames > 0 && (
                             <div className="text-xs text-white/80 font-medium">
                               Frame {exportProgress.currentFrame} / {exportProgress.totalFrames}

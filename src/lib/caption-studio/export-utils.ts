@@ -20,6 +20,7 @@ export interface ExportWorkerRequest {
   fonts?: FontPayload[];
   globalStyle?: StyleSettings;
   globalPosition?: PositionSettings;
+  allowVideoOnlyFallback?: boolean;
 }
 
 export interface ExportWorkerResponse {
@@ -27,6 +28,7 @@ export interface ExportWorkerResponse {
   progress?: ExportProgress;
   blob?: Blob;
   error?: string;
+  warnings?: string[];
 }
 
 export async function checkEncoderSupport(codec: string, width: number, height: number, fps: number): Promise<boolean> {
