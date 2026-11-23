@@ -20,8 +20,15 @@ import { renderCaptionToCanvas, DEFAULT_STYLE, DEFAULT_POSITION } from '../lib/c
 import { CaptionChunk } from '../lib/caption-studio/types';
 import { StyleSettings, PositionSettings, FontPayload } from '../lib/caption-studio/style-types';
 
+interface RegistryNode {
+  timestamp: number;
+  duration: number;
+  prev: RegistryNode | null;
+  next: RegistryNode | null;
+}
+
 /**
- * Timestamp-keyed duration registry.
+ * Timestamp-keyed duration registry with global FIFO eviction.
  * Maps VideoFrame presentation timestamps (in microseconds) to their calculated durations (in microseconds).
  * Protects against WebCodecs hardware encoder quirks where chunk.duration is emitted as null or 0.
  *
@@ -31,11 +38,15 @@ import { StyleSettings, PositionSettings, FontPayload } from '../lib/caption-stu
  * - Duplicate timestamps (T1 == T2): Multiple durations registered for the identical timestamp
  *   are queued and consumed in FIFO order. If an underlying hardware encoder reorders chunks
  *   sharing identical timestamps, exact 1:1 frame-to-chunk association cannot be guaranteed.
- * - Capacity: Enforces a hard ceiling of maxCapacity (default 1,000) total pending duration records
- *   across all timestamp keys, evicting the oldest records when the limit is exceeded.
+ * - Global FIFO Eviction: Eviction strictly follows global registration order across all timestamps
+ *   using an internal doubly-linked list, ensuring true oldest-record eviction even when duplicate
+ *   timestamps are interleaved.
+ * - Capacity: Enforces a hard ceiling of maxCapacity (default 1,000) total pending duration records.
  */
 export class FrameDurationRegistry {
-  private registry = new Map<number, number[]>();
+  private registry = new Map<number, RegistryNode[]>();
+  private head: RegistryNode | null = null;
+  private tail: RegistryNode | null = null;
   private totalPending = 0;
   private readonly maxCapacity: number;
 
@@ -47,36 +58,74 @@ export class FrameDurationRegistry {
     if (!Number.isFinite(timestamp) || !Number.isFinite(duration) || duration <= 0) {
       return;
     }
+
+    const node: RegistryNode = {
+      timestamp,
+      duration,
+      prev: this.tail,
+      next: null
+    };
+
+    if (this.tail) {
+      this.tail.next = node;
+      this.tail = node;
+    } else {
+      this.head = node;
+      this.tail = node;
+    }
+
     const list = this.registry.get(timestamp);
     if (list) {
-      list.push(duration);
+      list.push(node);
     } else {
-      this.registry.set(timestamp, [duration]);
+      this.registry.set(timestamp, [node]);
     }
     this.totalPending++;
 
-    // Guard against unbounded memory growth: enforce hard maximum on total pending records
+    // Enforce hard maximum of total pending duration records via global FIFO eviction
     while (this.totalPending > this.maxCapacity) {
       this.evictOldest();
     }
   }
 
+  private unlink(node: RegistryNode): void {
+    if (node.prev) {
+      node.prev.next = node.next;
+    } else {
+      this.head = node.next;
+    }
+
+    if (node.next) {
+      node.next.prev = node.prev;
+    } else {
+      this.tail = node.prev;
+    }
+
+    node.prev = null;
+    node.next = null;
+  }
+
   private evictOldest(): void {
-    const oldestKey = this.registry.keys().next().value;
-    if (oldestKey === undefined) {
+    if (!this.head) {
       this.totalPending = 0;
       return;
     }
-    const list = this.registry.get(oldestKey);
-    if (!list || list.length === 0) {
-      this.registry.delete(oldestKey);
-      return;
+
+    const oldestNode = this.head;
+    this.unlink(oldestNode);
+
+    const list = this.registry.get(oldestNode.timestamp);
+    if (list) {
+      const idx = list.indexOf(oldestNode);
+      if (idx !== -1) {
+        list.splice(idx, 1);
+      }
+      if (list.length === 0) {
+        this.registry.delete(oldestNode.timestamp);
+      }
     }
-    list.shift();
+
     this.totalPending--;
-    if (list.length === 0) {
-      this.registry.delete(oldestKey);
-    }
   }
 
   public consume(timestamp: number): number | null {
@@ -85,12 +134,16 @@ export class FrameDurationRegistry {
       this.registry.delete(timestamp);
       return null;
     }
-    const duration = list.shift()!;
+
+    const node = list.shift()!;
+    this.unlink(node);
     this.totalPending--;
+
     if (list.length === 0) {
       this.registry.delete(timestamp);
     }
-    return duration;
+
+    return node.duration;
   }
 
   /**
@@ -104,16 +157,22 @@ export class FrameDurationRegistry {
       this.registry.delete(timestamp);
       return false;
     }
-    list.pop();
+
+    const node = list.pop()!;
+    this.unlink(node);
     this.totalPending--;
+
     if (list.length === 0) {
       this.registry.delete(timestamp);
     }
+
     return true;
   }
 
   public clear(): void {
     this.registry.clear();
+    this.head = null;
+    this.tail = null;
     this.totalPending = 0;
   }
 

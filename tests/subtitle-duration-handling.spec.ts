@@ -264,6 +264,47 @@ test.describe('WebCodecs Frame Duration Recovery & Timing Integrity (Phase 2B.2)
       expect(registry.consume(500)).toBe(52);
       expect(registry.pendingCount).toBe(0);
     });
+
+    // Phase 2B.2B: Global FIFO Eviction Correctness with Interleaved Duplicate Timestamps
+    test('10D. Global FIFO eviction strictly follows overall registration order across interleaved timestamps', () => {
+      // Use a registry capacity of 3
+      const registry = new FrameDurationRegistry(3);
+
+      // 1. timestamp 100, duration 1 (record A)
+      registry.register(100, 1);
+      // 2. timestamp 200, duration 2 (record B)
+      registry.register(200, 2);
+      // 3. timestamp 200, duration 3 (record C)
+      registry.register(200, 3);
+      expect(registry.pendingCount).toBe(3);
+
+      // 4. timestamp 100, duration 4 (record D) -> Must evict global oldest: A (100, 1)
+      registry.register(100, 4);
+      expect(registry.pendingCount).toBe(3);
+
+      // 5. timestamp 300, duration 5 (record E) -> Must evict global oldest: B (200, 2)
+      registry.register(300, 5);
+      expect(registry.pendingCount).toBe(3);
+
+      // Verifications after registrations:
+      // - consume(100) must return 4 (record D, since A was evicted)
+      expect(registry.consume(100)).toBe(4);
+      expect(registry.pendingCount).toBe(2);
+
+      // - consume(200) must return 3 (record C, since B was evicted)
+      expect(registry.consume(200)).toBe(3);
+      expect(registry.pendingCount).toBe(1);
+
+      // - consume(300) must return 5 (record E)
+      expect(registry.consume(300)).toBe(5);
+      expect(registry.pendingCount).toBe(0);
+
+      // - pendingCount must eventually reach zero
+      expect(registry.size).toBe(0);
+      expect(registry.consume(100)).toBeNull();
+      expect(registry.consume(200)).toBeNull();
+      expect(registry.consume(300)).toBeNull();
+    });
   });
 
   test.describe('End-to-End Output Verification: Mediabunny Muxing, Parsing & Sync', () => {
