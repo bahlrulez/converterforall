@@ -40,9 +40,8 @@ export default function WordToPdfTool() {
       if (pending) {
         setFile(pending);
         setFileName(pending.name.replace(/\.docx?$/i, ".pdf"));
-        if (pending.name.toLowerCase().endsWith(".doc")) {
-          setUseCloudEngine(true);
-        }
+        // Do not select or invoke the remote Cloud Engine automatically for legacy DOC files.
+        // The user must explicitly enable it before a document is sent to the third-party service.
         processFile(pending);
       }
     }
@@ -56,9 +55,7 @@ export default function WordToPdfTool() {
       setFileName(selectedFile.name.replace(/\.docx?$/i, ".pdf"));
       setResultBlob(null);
       setErrorMessage(null);
-      if (selectedFile.name.toLowerCase().endsWith(".doc")) {
-        setUseCloudEngine(true);
-      }
+
     }
   }, []);
 
@@ -103,10 +100,10 @@ export default function WordToPdfTool() {
           </div>
           <h3 className="text-xl font-semibold mb-2">Upload your Word document</h3>
           <p className="text-muted-foreground mb-4">
-            Drag and drop a DOCX file here, or click to browse
+            Drag and drop a DOCX file here, or choose a legacy DOC file for optional Cloud Engine conversion
           </p>
           <p className="text-xs text-muted-foreground max-w-sm">
-            Default is 100% on-device in-browser conversion. Optional cloud conversion uses Cloudmersive API with no permanent storage on our servers.
+            DOCX files use on-device browser conversion by default. Legacy DOC files require the optional Cloud Engine, which sends the selected document to Cloudmersive for conversion.
           </p>
         </div>
       </div>
@@ -171,7 +168,7 @@ export default function WordToPdfTool() {
                   Use Cloud Engine via third-party service (Cloudmersive API)
                 </span>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Default is 100% in-browser on-device conversion. When unchecked, your document never leaves your device. Check this only if you need desktop Microsoft Office layout accuracy.
+                  When enabled, the selected document is sent to Cloudmersive for conversion. Leave this unchecked to keep supported DOCX processing on your device.
                 </p>
               </div>
             </label>
