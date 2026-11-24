@@ -1,5 +1,15 @@
 import { MetadataRoute } from 'next'
 import { SITE_ORIGIN } from '@/lib/seo/site-config'
+import { getCanonicalToolSlugs, toolsDatabase } from '@/lib/tools-db'
+import { getAllBlogSlugs, blogDatabase } from '@/lib/blog-data'
+import { TOOLS } from '@/config/tools'
+import {
+  NOINDEX_CATEGORIES,
+  PAGE_LASTMOD_DATES,
+  TIER_C_NOINDEX_SLUGS,
+  getPageLastModified,
+  getToolLastModified
+} from '@/config/sitemap-lastmod'
 
 export const BASE_SITEMAP_ROUTES = [
   '',
@@ -14,16 +24,6 @@ export const BASE_SITEMAP_ROUTES = [
   '/editorial-policy',
   '/blog',
 ] as const
-import { getCanonicalToolSlugs, toolsDatabase } from '@/lib/tools-db'
-import { getAllBlogSlugs, blogDatabase } from '@/lib/blog-data'
-import { TOOLS } from '@/config/tools'
-import { 
-  NOINDEX_CATEGORIES,
-  PAGE_LASTMOD_DATES,
-  TIER_C_NOINDEX_SLUGS, 
-  getPageLastModified,
-  getToolLastModified
-} from '@/config/sitemap-lastmod'
 
 function getBlogLastModified(slug: string): Date {
   const post = blogDatabase[slug]
