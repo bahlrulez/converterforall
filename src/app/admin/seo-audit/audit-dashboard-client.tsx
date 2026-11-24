@@ -596,7 +596,7 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                   Content Depth &amp; Structure
                 </div>
                 <div><span className="text-slate-500">Meaningful Word Count:</span> <span className="font-bold text-white">{selectedTool.wordCount} words</span></div>
-                <div><span className="text-slate-500">Unique SEO Content:</span> <span className={selectedTool.hasUniqueSeoContent ? "text-emerald-400" : "text-amber-400"}>{selectedTool.hasUniqueSeoContent ? "Yes (Handcrafted)" : "No (Generic Fallback)"}</span></div>
+                <div><span className="text-slate-500">Tool-specific content basis:</span> <span className={selectedTool.hasToolSpecificContent ? "text-emerald-400" : "text-amber-400"}>{selectedTool.hasToolSpecificContent ? "Yes (explicit content or route-specific template)" : "No (generic fallback)"}</span></div>
                 <div><span className="text-slate-500">Content Sections:</span> <span className="text-white">{selectedTool.faqSections.length} sections</span></div>
                 <div><span className="text-slate-500">Structured Data Schemas:</span> <span className="text-white font-mono text-[11px]">{selectedTool.structuredDataTypes.join(", ")}</span></div>
                 <div><span className="text-slate-500">Breadcrumb Hierarchy:</span> <span className="text-slate-300">{selectedTool.breadcrumbStructure.map(b => b.name).join(" > ")}</span></div>
