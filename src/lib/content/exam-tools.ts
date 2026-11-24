@@ -2,212 +2,80 @@ export const examToolsContent: Record<string, { sections: { title: string, conte
   "exam-photo-resizer": {
     sections: [
       {
-        title: "What is this tool?",
-        content: "<p>The Exam Photo & Signature Resizer is a dedicated utility designed specifically for Indian government job and exam applicants. Navigating the strict photo and signature upload requirements for portals like SSC (Staff Selection Commission), UPSC, and IBPS can be incredibly frustrating. This tool takes the guesswork out of the process by providing exact dimensional crops and automatically compressing your files to strictly fit within the required KB size limits, ensuring your application is never rejected due to an invalid image.</p>"
+        title: "Prepare a photo or signature image",
+        content: "<p>Choose a reference preset, crop the image, and let the browser try JPEG quality settings for the selected file-size range. The preset controls the crop aspect ratio, minimum source width, and target size range; it does not create fixed centimetre dimensions, fixed pixel dimensions, or a DPI setting.</p>"
       },
       {
-        title: "Standard Exam Specifications",
-        content: `
-          <div class="overflow-x-auto my-4">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-              <thead class="bg-gray-50 dark:bg-gray-800">
-                <tr>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Exam Portal</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Type</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Size Limit</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Dimensions</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                <tr>
-                  <td class="px-4 py-3 font-semibold">SSC</td>
-                  <td class="px-4 py-3">Photo</td>
-                  <td class="px-4 py-3">20 KB &ndash; 50 KB</td>
-                  <td class="px-4 py-3">3.5cm x 4.5cm</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">SSC</td>
-                  <td class="px-4 py-3">Signature</td>
-                  <td class="px-4 py-3">10 KB &ndash; 20 KB</td>
-                  <td class="px-4 py-3">4.0cm x 2.0cm</td>
-                </tr>
-                <tr class="bg-gray-50/50 dark:bg-gray-800/50">
-                  <td class="px-4 py-3 font-semibold">UPSC</td>
-                  <td class="px-4 py-3">Photo &amp; Sig</td>
-                  <td class="px-4 py-3">20 KB &ndash; 300 KB</td>
-                  <td class="px-4 py-3">Min 350x350 px (1:1)</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">IBPS (Banking)</td>
-                  <td class="px-4 py-3">Photo</td>
-                  <td class="px-4 py-3">20 KB &ndash; 50 KB</td>
-                  <td class="px-4 py-3">200 x 230 px</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">IBPS (Banking)</td>
-                  <td class="px-4 py-3">Signature</td>
-                  <td class="px-4 py-3">10 KB &ndash; 20 KB</td>
-                  <td class="px-4 py-3">140 x 60 px</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        `
+        title: "Use the latest exam instructions",
+        content: "<p>Exam bodies can change image requirements between notifications and recruitment cycles. The values shown in this tool are reference presets, not live or officially verified portal specifications. Check the current official notification for the exact format, pixel dimensions, file-size range, background, and date requirements before uploading.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>When you select a preset (like UPSC or SSC), the cropper automatically locks to the correct aspect ratio (width vs height). Once you align your face or signature inside the box and click process, our client-side engine crops the image and repeatedly tests different JPEG compression levels in milliseconds. If the resulting file is too large, it lowers the quality until it hits the target. If the file is too small (which causes rejections on strict portals), it safely injects standard compliant padding data to perfectly reach the minimum KB threshold.</p>"
-      },
-      {
-        title: "Common Rejection Reasons",
-        content: "<p>Avoid these common mistakes to ensure your application isn't rejected: <strong>Blurry Signatures:</strong> Do not take a photo of a tiny signature from far away and stretch it. Write largely on a blank white paper. <strong>Wrong Background:</strong> Most exams strictly require a light or white background for passport photos. <strong>Spectacles:</strong> SSC often rejects photos where flash reflects off glasses. It is safest to remove glasses entirely. <strong>Caps/Hats:</strong> Wearing caps or dark sunglasses will result in immediate rejection.</p>"
+        title: "Check the exported file",
+        content: "<p>The compressor tries several JPEG quality levels and may add JPEG comment metadata when the generated image is below the preset minimum. It cannot guarantee that every input image will fit the selected range. Review the actual downloaded file size and image quality; do not submit an output that falls outside the portal's stated requirements.</p>"
       },
       {
         title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Are my photos uploaded to a server?</strong><br>A: No. All cropping, resizing, and compression happens entirely within your web browser (client-side). Your personal photos and signatures never leave your device, ensuring complete privacy.</p>
-          <p><strong>Q: Why is my signature file still saying it's too small on the exam portal?</strong><br>A: Some portals have strict minimum limits (e.g., minimum 20 KB). Our tool automatically pads the file with safe data to guarantee it crosses this threshold, so you should not face this issue when using our presets.</p>
-          <p><strong>Q: Does this tool work on mobile phones?</strong><br>A: Yes! You can take a photo of your signature directly from your smartphone camera and use the touch-screen cropper to easily format it for your application.</p>
-          <p><strong>Q: What if the portal asks for DPI settings?</strong><br>A: Most modern portals actually only validate the pixel dimensions and KB size, regardless of what they state about DPI. As long as you use our tool's presets to meet the KB and pixel limits, your photo will be accepted.</p>
-          <p><strong>Q: The downloaded photo looks a bit lower quality, is this normal?</strong><br>A: Yes. To squeeze a high-resolution smartphone photo into a tiny 50 KB limit, standard JPEG compression is applied. This slight loss in quality is expected and perfectly acceptable for exam applications.</p>
-          <p><strong>Q: Can I use this for state-level PSC exams?</strong><br>A: Absolutely. While we have presets for central exams, you can check your specific state PSC notification. If their limits match one of our presets (e.g., 20-50 KB), the output will be perfectly valid.</p>
-        `
+        content: "<p><strong>Are my selected images sent to a conversion API?</strong><br>The photo and signature resizers use browser FileReader and canvas operations for image processing; they do not send the selected image to a file-conversion API. The website may still load its normal page resources and analytics.</p><p><strong>Does a preset guarantee acceptance?</strong><br>No. It is a convenience starting point. Only the current examination instructions determine what the portal accepts.</p><p><strong>What if the output is outside the target size?</strong><br>Try another crop or source image, then check the resulting file size again. If it still does not meet the official requirement, use another image editor or compression workflow.</p>"
       }
     ]
   },
   "photo-name-date-stamper": {
     sections: [
       {
-        title: "Which Exams Require Name and Date on Photo?",
-        content: "<p>Many Indian government job portals strictly require candidates to upload a passport-size photograph with their <strong>Name and Date of Photograph (DOP)</strong> printed at the bottom. Failure to follow this rule is one of the most common reasons for application rejection.</p><p>Major exams enforcing this rule include:</p><ul><li><strong>SSC (Staff Selection Commission):</strong> CGL, CHSL, MTS, GD Constable</li><li><strong>Defense & Police:</strong> CISF, CRPF, State Police recruitment</li><li><strong>UPSC:</strong> NDA, CDS (always verify the latest notification)</li><li><strong>Railway Recruitment Board (RRB)</strong></li></ul>"
+        title: "Add a candidate name and photograph date",
+        content: "<p>This browser-based canvas tool adds the name text and a date-of-photograph label to an image. You can choose a white or black strip, adjust its height and text scale, and choose whether the strip overlays the photo or extends the canvas.</p>"
       },
       {
-        title: "Rules for Valid Date of Photograph (DOP)",
-        content: "<p>When stamping the date on your photo, keep these strict guidelines in mind to prevent rejection:</p><ul><li><strong>3-Month Rule:</strong> The Date of Photograph (DOP) printed on the image must not be older than 3 months from the date of publication of the exam notification.</li><li><strong>Format:</strong> While DD/MM/YYYY is standard and widely accepted, always check if the specific exam notification requests a different format.</li><li><strong>Legibility:</strong> The text must be clearly visible. Our tool ensures this by letting you choose a solid white or black strip to contrast with the text.</li></ul>"
+        title: "Confirm whether a date label is required",
+        content: "<p>Some examination or recruitment instructions request a candidate name, date of photograph, or both; others do not. Requirements and date formats can change. Check the current official notification before adding a label, and enter the date that the photograph was actually taken.</p>"
+      },
+      {
+        title: "Output quality and size",
+        content: "<p>The tool exports a new JPEG from the canvas at a quality setting of 0.95. This is a recompressed image, so the file size and image quality may differ from the original. Review the output dimensions, text legibility, and file size before submitting it.</p>"
       },
       {
         title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Will my photo lose quality when I add the name and date?</strong><br>A: No. Our tool processes the image directly in your browser and outputs a high-resolution JPEG without unnecessary compression.</p>
-          <p><strong>Q: What if I need to compress the photo to 50 KB after stamping?</strong><br>A: After downloading your stamped photo, you can use our <a href="/exam-photo-resizer" class="text-blue-600 hover:underline">Exam Photo Resizer</a> to crop and compress it to the exact KB limits required by portals like SSC or UPSC.</p>
-          <p><strong>Q: Is it safe to upload my photo here?</strong><br>A: Yes! This tool works 100% client-side. Your photo is processed securely within your own web browser and is never uploaded to our servers.</p>
-        `
+        content: "<p><strong>Does the tool upload my photo to a conversion API?</strong><br>The image is read in the browser and drawn to a canvas; this tool does not send it to a file-conversion API. The website may still load its normal page resources and analytics.</p><p><strong>Does it automatically meet an exam portal's photo requirements?</strong><br>No. It adds a label and a selectable crop; it does not verify the latest portal rules or guarantee acceptance. Check the current official instructions.</p><p><strong>Can I compress the result afterward?</strong><br>Yes. You can use the Exam Photo Resizer to try a crop and file-size target, then inspect the actual output. The preset is not a guarantee of portal compliance.</p>"
       }
     ]
   },
   "exam-signature-resizer": {
     sections: [
       {
-        title: "How to scan and clean signature for government exam forms using phone camera",
-        content: "<p>Government exam portals frequently reject applications due to poor signature quality. A common mistake is taking a photo of a signature on a slightly grey or yellow piece of paper with poor lighting. Our tool allows you to upload a regular smartphone photo of your signature, and it automatically removes the grey paper shadows, converting the background to pure white while making the pen ink darker and crisper.</p><p><strong>Steps:</strong><br>1. Sign on a clean, unlined white paper with a blue or black ballpoint/gel pen.<br>2. Take a clear photo near a window for natural light.<br>3. Upload it here, crop the signature tightly.<br>4. Adjust the Paper Whitener slider until the background is pure white.<br>5. Download the strictly compressed (10KB–20KB) ready-to-upload file.</p>"
+        title: "Clean and crop a signature image",
+        content: "<p>Upload a JPEG, PNG, or WebP signature photo, adjust the crop, choose black-and-white or blue-ink treatment, and tune the paper-whitening threshold. The result is exported as a JPEG using the selected preset's crop ratio and target file-size range.</p>"
       },
       {
-        title: "Official Signature Dimensions Table",
-        content: `
-          <div class="overflow-x-auto my-4">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-              <thead class="bg-gray-50 dark:bg-gray-800">
-                <tr>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Exam Portal</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Size Limit</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Dimensions (Pixels / CM)</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                <tr>
-                  <td class="px-4 py-3 font-semibold">SSC (CGL, CHSL, GD, MTS)</td>
-                  <td class="px-4 py-3">10 KB &ndash; 20 KB</td>
-                  <td class="px-4 py-3">4.0 cm x 2.0 cm (Approx 140x60 px)</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">UPSC</td>
-                  <td class="px-4 py-3">20 KB &ndash; 300 KB</td>
-                  <td class="px-4 py-3">Min 350x350 px (1:1 Ratio usually accepted)</td>
-                </tr>
-                <tr class="bg-gray-50/50 dark:bg-gray-800/50">
-                  <td class="px-4 py-3 font-semibold">IBPS (Banking)</td>
-                  <td class="px-4 py-3">10 KB &ndash; 20 KB</td>
-                  <td class="px-4 py-3">140 x 60 pixels</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">Railway RRB</td>
-                  <td class="px-4 py-3">10 KB &ndash; 40 KB (Varies)</td>
-                  <td class="px-4 py-3">140 x 60 pixels (Standard 3:1)</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        `
+        title: "Presets are reference values, not official requirements",
+        content: "<p>The available settings cover several common recruitment categories, but they are not live official specifications. Different examinations and recruitment cycles may ask for different dimensions, formats, ink colours, and file-size limits. Always use the current notification as the source of truth.</p>"
       },
       {
-        title: "Common Signature Rejection Reasons",
-        content: "<ul><li><strong>Grey/Dark Backgrounds:</strong> Shadows from mobile flashes or poor room lighting cause the paper to look grey. This is the #1 rejection reason. Our Paper Whitener fixes this instantly.</li><li><strong>Blurry / Pixelated Image:</strong> Signing too small and then stretching the crop causes pixelation. Always sign largely on the paper.</li><li><strong>Wrong Ink Color:</strong> Most exams mandate Blue or Black ink. Red or green ink is strictly prohibited.</li><li><strong>File Size Too Large/Small:</strong> The file must fall precisely within the KB brackets (e.g., exactly between 10 KB and 20 KB). Our compressor guarantees this output.</li></ul>"
+        title: "Verify the result before submitting",
+        content: "<p>The compressor attempts to place the JPEG within the selected size range. Very simple images may need metadata padding to reach the lower threshold, while a complex image may remain above the upper threshold after compression. Check the actual file size, crop, and legibility before submission.</p>"
       },
       {
         title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Is my signature uploaded to your server?</strong><br>A: No. Your signature is processed entirely on your own device (client-side in your web browser). It is never sent to our servers, ensuring 100% privacy and security.</p>
-          <p><strong>Q: What is the difference between 'Black & White' and 'Preserve Blue' ink modes?</strong><br>A: Black & White mode converts the entire signature to grayscale, darkening the ink to black and forcing the paper to white. Preserve Blue mode retains the blue color of a ballpoint/gel pen while still pushing the grey paper shadows to pure white.</p>
-          <p><strong>Q: Why does the signature look slightly lower quality after processing?</strong><br>A: Squeezing a high-resolution phone photo into a strict 20KB or 10KB limit requires aggressive JPEG compression. The file will look slightly artifacted, but this is expected and perfectly acceptable for official government portals.</p>
-        `
+        content: "<p><strong>Is the selected signature sent to a conversion API?</strong><br>The signature editor uses browser FileReader and canvas operations and does not send the selected image to a file-conversion API. The website may still load its normal page resources and analytics.</p><p><strong>Does the tool guarantee a portal-ready signature?</strong><br>No. It creates an edited JPEG and shows its file size. You must compare the result with the current portal instructions.</p><p><strong>Will paper whitening always remove every shadow?</strong><br>Results depend on the lighting, paper colour, ink, and chosen threshold. Inspect the preview and adjust the settings as needed.</p>"
       }
     ]
   },
   "compress-pdf-100kb": {
     sections: [
       {
-        title: "How to compress marksheets and caste certificates below 100KB without losing text clarity",
-        content: "<p>Government job portals enforce strict PDF size constraints. When you use generic online PDF compressors, they often blur the text to hit the tiny size limits, making critical details like your roll number, marks, and name completely unreadable. This leads to instant application rejection. Our specialized 100KB Marksheet Compressor uses adaptive client-side scaling. It renders each page sharply in your browser and carefully tests dozens of compression levels per second to strictly stay under 100KB (or your custom limit) while maximizing text clarity.</p>"
+        title: "Compress a PDF toward a target file size",
+        content: "<p>This browser-based tool renders each source PDF page to an image, recompresses the page images, and assembles them into a new PDF. It tries several page scales and JPEG quality levels to approach the selected file-size target.</p>"
       },
       {
-        title: "Standard Portal PDF Size Limits",
-        content: `
-          <div class="overflow-x-auto my-4">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-              <thead class="bg-gray-50 dark:bg-gray-800">
-                <tr>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Exam Portal</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Document Type</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Size Limit</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                <tr>
-                  <td class="px-4 py-3 font-semibold">SSC (CGL, CHSL, MTS)</td>
-                  <td class="px-4 py-3">Certificates / Marksheets</td>
-                  <td class="px-4 py-3">Max 100 KB</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">UPSC (NDA, CDS, Civil)</td>
-                  <td class="px-4 py-3">Photo ID &amp; Documents</td>
-                  <td class="px-4 py-3">Max 200 KB</td>
-                </tr>
-                <tr class="bg-gray-50/50 dark:bg-gray-800/50">
-                  <td class="px-4 py-3 font-semibold">State PSCs</td>
-                  <td class="px-4 py-3">Caste &amp; Income Certs</td>
-                  <td class="px-4 py-3">Typically 100 KB - 200 KB</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">NTA (CUET, JEE)</td>
-                  <td class="px-4 py-3">Category Certificates</td>
-                  <td class="px-4 py-3">Max 300 KB</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        `
+        title: "Important output limitations",
+        content: "<p>The result is image-based: text is not retained as selectable or searchable text, and links, forms, bookmarks, accessibility structure, vector graphics, and original document metadata are not preserved as in the source PDF. Compression can reduce text legibility, especially at small file-size targets.</p>"
       },
       {
-        title: "Common Reasons Government Portals Reject Uploaded Document PDFs",
-        content: "<p>Avoid these critical mistakes when uploading educational or category certificates: <strong>Unreadable Text:</strong> The examiner must be able to read your roll number, issue date, and authority signature clearly. <strong>Wrong Format:</strong> Uploading a JPEG when a PDF is strictly requested (or vice-versa). <strong>Password Protection:</strong> Never upload a locked or password-protected PDF (like an e-Aadhar) as the portal system cannot verify it. <strong>File Size Too Big:</strong> Exceeding the strict KB limit will usually cause the form upload to instantly fail.</p>"
+        title: "Check the final file size and every page",
+        content: "<p>The tool makes up to five compression passes, but the final PDF can still remain above the selected target for some inputs. Check the displayed file size and inspect all pages at normal reading size before using the file. No portal acceptance or file-size limit is guaranteed.</p>"
       },
       {
         title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Are my sensitive marksheets and caste certificates uploaded to your servers?</strong><br>A: No. We strictly use 100% private client-side processing for this tool. Your PDFs never leave your browser, ensuring complete privacy and security for your sensitive personal data.</p>
-          <p><strong>Q: Why is the target preset strict?</strong><br>A: Portals like SSC have a hard limit of 100 KB. Generic compressors might output 102 KB, forcing you to try again. Our tool enforces a hard ceiling so the output is guaranteed to be accepted.</p>
-          <p><strong>Q: What if I have a 10-page PDF to compress under 100KB?</strong><br>A: 100KB is very tiny. For multi-page PDFs, our engine automatically steps down the resolution to fit the constraint. However, squeezing 10 pages into 100KB will naturally result in blurry text. We recommend extracting only the required pages using a <a href="/extract-pages" class="text-blue-600 hover:underline">PDF page extractor</a> before compression.</p>
-        `
+        content: "<p><strong>Are my documents sent to a conversion API?</strong><br>The compression code reads the file in the browser and uses PDF.js, canvas, and PDF assembly libraries locally; it does not send the selected PDF to a file-conversion API. The website may still load its normal page resources and analytics.</p><p><strong>Will the output remain searchable?</strong><br>No. Pages are rendered to images before being placed into the output PDF, so text is not retained as selectable text.</p><p><strong>Will every file reach the selected KB target?</strong><br>No. The tool tries several scales and quality levels. Some PDFs cannot reach the requested size without unacceptable quality loss or may remain above the target.</p>"
       }
     ]
   }
