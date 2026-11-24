@@ -165,9 +165,6 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
   const isBrowserFirstOfficeTool = toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf";
   const isPresentationMaker = toolSlug === "presentation-maker";
-  const isFontTool = categorySlug === "fonts";
-  const isRealFontVerified = toolSlug === "krutidev-to-unicode" || toolSlug === "unicode-to-krutidev";
-  const showHighFidelityBadge = !isFontTool || isRealFontVerified;
 
   const isHeldUnavailableTool = toolSlug === "unicode-to-raavi";
 
@@ -245,15 +242,9 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
                   : "On-Device Browser Processing"}
               </span>
             </span>
-            {showHighFidelityBadge && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-                <Zap className="w-3.5 h-3.5 text-amber-500" />
-                <span>Fast &amp; High Fidelity</span>
-              </span>
-            )}
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
-              <span>No Account or Limits</span>
+              <span>No account required</span>
             </span>
           </div>
         </div>
