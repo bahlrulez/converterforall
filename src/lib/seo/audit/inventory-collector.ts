@@ -1,4 +1,6 @@
 import { toolsDatabase, SLUG_ALIASES, getToolBySlug } from "@/lib/tools-db";
+import { TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
+import { extractToolFaqs, getToolContent } from "@/lib/tool-content";
 import { ToolSeoInventoryItem, ToolType, ProcessingType } from "../types";
 import { computeInternalLinkGraph } from "./internal-link-analyzer";
 import { evaluateToolContent } from "./thin-content-detector";
@@ -88,7 +90,9 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
       } else if (categorySlug === "utilities" || toolType === "calculator" || toolType === "generator") {
         processingLocation = "client-side (Canvas/DOM)";
       } else if (toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf") {
-        processingLocation = "hybrid (client-side + ephemeral cloud)";
+        processingLocation = "browser-first (client-side; optional cloud conversion)";
+      } else if (toolSlug === "presentation-maker") {
+        processingLocation = "external AI service + browser rendering";
       }
 
       // Content Evaluation
@@ -112,7 +116,9 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
       ];
 
       // Structured Data
-      const structuredDataTypes = ["BreadcrumbList", "SoftwareApplication", "FAQPage"];
+      const pageSections = getToolContent(toolSlug, tool.title || toolSlug, tool.description || "");
+      const hasFaqMarkup = extractToolFaqs(pageSections).length > 0;
+      const structuredDataTypes = ["BreadcrumbList", "SoftwareApplication", ...(hasFaqMarkup ? ["FAQPage"] : [])];
 
       // Scoring
       const scoreResult = calculateToolSeoScore({
@@ -140,18 +146,18 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
         supportedOutputFormats: Array.from(new Set(supportedOutputFormats)),
         requiresFileUpload,
         processingLocation,
-        isFunctional: true,
+        isFunctional: null,
         currentH1,
         currentTitle,
         currentMetaDescription,
-        indexability: "indexable",
-        robotsDirectives: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        indexability: TIER_C_NOINDEX_SLUGS.has(toolSlug) ? "noindex" : "indexable",
+        robotsDirectives: TIER_C_NOINDEX_SLUGS.has(toolSlug) ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
         structuredDataTypes,
         breadcrumbStructure,
         wordCount: contentEval.wordCount,
         introductoryContent: contentEval.introductoryContent,
         faqSections: contentEval.faqSections,
-        hasUniqueSeoContent: contentEval.hasUniqueSeoContent,
+        hasToolSpecificContent: contentEval.hasToolSpecificContent,
         isThinContent: contentEval.isThinContent,
         thinContentReason: contentEval.thinContentReason,
         incomingInternalLinks,
@@ -211,12 +217,12 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
       supportedOutputFormats: [],
       requiresFileUpload: true,
       processingLocation: "client-side (browser WASM/JS)",
-      isFunctional: true,
+      isFunctional: null,
       currentH1,
       currentTitle,
       currentMetaDescription,
-      indexability: "canonicalized-alias",
-      robotsDirectives: "index, follow",
+      indexability: "redirect",
+      robotsDirectives: "301 permanent redirect",
       structuredDataTypes: ["BreadcrumbList", "SoftwareApplication"],
       breadcrumbStructure: [
         { name: "Home", url: "https://www.converterforall.com", position: 1 },
@@ -225,7 +231,7 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
       wordCount: contentEval.wordCount,
       introductoryContent: contentEval.introductoryContent,
       faqSections: contentEval.faqSections,
-      hasUniqueSeoContent: contentEval.hasUniqueSeoContent,
+      hasToolSpecificContent: contentEval.hasToolSpecificContent,
       isThinContent: contentEval.isThinContent,
       thinContentReason: contentEval.thinContentReason,
       incomingInternalLinks,
@@ -234,10 +240,7 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
       outgoingInternalLinkCount: 0,
       relatedTools,
       seoHealthScore: scoreResult.score,
-      issues: [
-        ...scoreResult.issues,
-        `Duplicate Content / Canonical Risk: Alias /${aliasSlug} duplicates /${targetSlug} but self-canonicalizes to /${aliasSlug} instead of target canonical.`
-      ]
+      issues: scoreResult.issues
     });
   }
 
