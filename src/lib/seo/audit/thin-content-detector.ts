@@ -11,9 +11,28 @@ export interface ThinContentResult {
 }
 
 /**
+ * Counts actual detected question-and-answer pairs or explicit question entries in raw section HTML.
+ * Never infers counts from headings or section titles alone.
+ */
+export function countActualFaqQuestions(rawContent: string): number {
+  if (!rawContent || typeof rawContent !== "string") return 0;
+
+  // Match actual Q&A question markers:
+  // 1. <strong>Q:...</strong> or <b>Q:...</b> or Q:...
+  // 2. <dt> tags in definition lists
+  // 3. Question sentences ending with '?' inside strong, bold, or heading tags
+  // 4. Numbered list items containing question marks
+  const qMatches = rawContent.match(
+    /(?:<p>|<br\s*\/?>|^)\s*(?:<strong>|<b>)?\s*Q(?:uestion)?\s*(?:[0-9]+)?\s*[:\.\-]|<dt\b[^>]*>|<\b(?:h[3-6]|strong|b)\b[^>]*>[^<]*\?\s*<\/(?:h[3-6]|strong|b)>|<li\b[^>]*>(?:[0-9]+\.|\bQ\b)[^<]*\?[^<]*<\/li>/gi
+  );
+
+  return qMatches ? qMatches.length : 0;
+}
+
+/**
  * Evaluates on-page content using defensible heuristics:
- * 1. Dedicated content record existence in toolContent registry.
- * 2. Content specificity examining procedural instructions, format constraints, and substantive FAQs.
+ * 1. Dedicated content record existence in toolContent registry (informational only; does not guarantee specificity).
+ * 2. Content specificity examining procedural instructions, relevant formats/specs, tool limitations, and genuine FAQs.
  * 3. Word count as an internal editorial-review flag (<250w), not a search engine ranking prediction.
  */
 export function evaluateToolContent(
@@ -26,7 +45,7 @@ export function evaluateToolContent(
   
   let totalText = `${toolTitle} ${toolDescription} `;
   const faqSections: { title: string; contentSnippet: string; questionCount: number }[] = [];
-  let totalFaqQuestions = 0;
+  let totalActualFaqQuestions = 0;
 
   for (const section of sections) {
     const rawContent = section.content || "";
@@ -34,13 +53,9 @@ export function evaluateToolContent(
     const strippedText = rawContent.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     totalText += ` ${section.title} ${strippedText}`;
 
-    // Count questions in FAQs (matching 'Q:' or '<strong>Q:' or '<li>')
-    const qMatches = rawContent.match(/<strong>Q:|\?<\/strong>|\?<\/b>|<strong>[0-9]+\./gi);
-    const questionCount = qMatches 
-      ? qMatches.length 
-      : (section.title.toLowerCase().includes("faq") || section.title.toLowerCase().includes("question") ? 3 : 0);
-
-    totalFaqQuestions += questionCount;
+    // Count only actual detected questions, never assuming counts from title alone
+    const questionCount = countActualFaqQuestions(rawContent);
+    totalActualFaqQuestions += questionCount;
 
     faqSections.push({
       title: section.title,
@@ -58,23 +73,32 @@ export function evaluateToolContent(
 
   // Content-specificity analysis:
   // Requires:
-  // - No generic fallback boilerplate
-  // - Procedural guidance or technical instructions (e.g., Steps, How-To, Format Guidance, Dimensions, Formulas)
-  // - Substantive tool-relevant FAQs (at least 2 questions)
-  // - Mention of concrete formats, operations, or units relevant to the slug
-  const hasInstructionsSection = sections.some(s => {
+  // - Disqualification if generic fallback boilerplate
+  // - Minimum substantive text depth (>= 180 words); shallow stubs are not specific
+  // - Procedural instructions (step-by-step guidance with actionable verbs and markup)
+  // - Concrete format, unit, or operation specifications matching tool domain
+  // - Substantive FAQs with >= 2 actual detected questions
+  const hasProceduralInstructions = sections.some(s => {
     const t = s.title.toLowerCase();
-    return t.includes("how to") || t.includes("steps") || t.includes("instructions") || t.includes("using") || t.includes("guide");
+    const hasInstructionTitle = t.includes("how to") || t.includes("step") || t.includes("instructions") || t.includes("guide") || t.includes("using");
+    const hasStepsHtml = /<ol\b|<li\b|step\s*[0-9]|1\.\s+<strong>/i.test(s.content || "");
+    const rawWords = (s.content || "").replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
+    return hasInstructionTitle && (hasStepsHtml || rawWords >= 25);
   });
 
-  const mentionsSpecificFormatsOrUnits = 
-    /(\.(pdf|png|jpg|jpeg|webp|heic|mp4|mov|mp3|wav|opus|svg|docx|pptx|xlsx|csv|json|srt|vtt)|unicode|krutidev|asees|satluj|joy|anmollipi|gurbani|matra|dpi|pixel|cm|mm|inches|feet|meters|bitrate|h\.264|aac|ocr|jwt|hash|uuid|barcode|qr)/i.test(totalText);
+  const mentionsRelevantFormatsOrSpecs = 
+    /(\.(pdf|png|jpg|jpeg|webp|heic|mp4|mov|mp3|wav|opus|svg|docx|pptx|xlsx|csv|json|srt|vtt)|unicode|krutidev|asees|satluj|joy|anmollipi|gurbani|matra|dpi|pixel|cm|mm|inches|feet|meters|bitrate|h\.264|aac|ocr|jwt|base64|uuid|barcode|qr|rasteriz|vector|transparency|alpha channel|lossless|lossy|compression|metadata)/i.test(totalText);
 
-  const hasSubstantiveFaqs = totalFaqQuestions >= 2;
+  const hasSubstantiveFaqs = totalActualFaqQuestions >= 2;
+  const hasSubstantiveDepth = wordCount >= 180;
 
+  // Dedicated content record existence does NOT automatically establish specificity.
+  // Content is specific only if it possesses substantive depth, domain formats/specs, and actionable instructions or genuine FAQs.
   const hasToolSpecificContent = 
     !isGenericBoilerplate && 
-    (hasDedicatedContentRecord || (hasInstructionsSection && mentionsSpecificFormatsOrUnits) || (hasSubstantiveFaqs && mentionsSpecificFormatsOrUnits));
+    hasSubstantiveDepth && 
+    mentionsRelevantFormatsOrSpecs && 
+    (hasProceduralInstructions || hasSubstantiveFaqs);
 
   let isThinContent = false;
   let thinContentReason: string | undefined;

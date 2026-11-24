@@ -3,7 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { inspectSeoSystem } from '../src/lib/seo/audit/system-inspector';
 import { runFullSeoAudit } from '../src/lib/seo/audit/audit-runner';
-import { evaluateToolContent } from '../src/lib/seo/audit/thin-content-detector';
+import { evaluateToolContent, countActualFaqQuestions } from '../src/lib/seo/audit/thin-content-detector';
+import { toolContent } from '../src/lib/tool-content';
 import {
   buildWebSiteSchema,
   buildOrganizationSchema,
@@ -12,10 +13,14 @@ import {
   buildFaqPageSchema,
   buildCollectionPageSchema,
   buildArticleSchema,
+  buildSampleSchema,
+  validateBuiltSchema,
   SCHEMA_BUILDERS
 } from '../src/lib/seo/schema-builders';
 import { siteMetadata } from '../src/lib/seo/site-metadata';
 import { SITE_TITLE_TEMPLATE } from '../src/lib/seo/site-config';
+import { getToolProcessingBadges } from '../src/lib/seo/tool-processing-classification';
+import { calculateToolSeoScore } from '../src/lib/seo/scoring/seo-scorer';
 
 test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
   test('1. inspectSeoSystem uses explicit unverified states for sitemap and canonical tags', () => {
@@ -216,5 +221,183 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     expect(content).toContain('Audio Extraction & MP4 Export');
     expect(content).toContain('re-encode supported video inputs into web-ready MP4 files');
     expect(content).toContain('accept common video containers including MP4, MOV, WebM, MKV, and AVI');
+  });
+
+  test('9. Content specificity measurement accurately identifies depth, formats, real FAQs, and shallow stubs', () => {
+    // A. Empty FAQ heading returns 0, never assumes 3 questions
+    const emptyFaqHtml = '<h2>Frequently Asked Questions</h2><p>Find common questions and answers below.</p>';
+    expect(countActualFaqQuestions(emptyFaqHtml)).toBe(0);
+
+    // Actual detected questions are counted accurately
+    const validFaqHtml = `
+      <p><strong>Q1: Is this tool free?</strong> Yes, completely free.</p>
+      <p><strong>Q2: Where are files processed?</strong> In your browser memory.</p>
+    `;
+    expect(countActualFaqQuestions(validFaqHtml)).toBe(2);
+
+    // B. Dedicated record with substantive procedural/format depth -> specific
+    const krutiResult = evaluateToolContent('krutidev-to-unicode', 'Kruti Dev to Unicode Converter', 'Convert Kruti Dev font to Unicode Hindi text.');
+    expect(krutiResult.hasDedicatedContentRecord).toBe(true);
+    expect(krutiResult.hasToolSpecificContent).toBe(true);
+    expect(krutiResult.isThinContent).toBe(false);
+
+    // C. Non-dedicated tool with substantive dynamic length conversion guide -> specific
+    const lengthResult = evaluateToolContent('inches-to-centimeters', 'Convert Inches to Centimeters', 'Convert inches to centimeters.');
+    expect(lengthResult.hasDedicatedContentRecord).toBe(false);
+    expect(lengthResult.hasToolSpecificContent).toBe(true);
+    expect(lengthResult.isThinContent).toBe(false);
+
+    // D. Shallow stub (temporarily registering shallow stub into toolContent) -> hasDedicatedContentRecord is true but hasToolSpecificContent is false
+    toolContent['test-shallow-stub'] = {
+      sections: [{ title: 'Overview', content: '<p>A short test stub.</p>' }],
+      disableAutoEnrich: true
+    };
+    try {
+      const shallowResult = evaluateToolContent('test-shallow-stub', 'Shallow Stub Tool', 'A very short test stub description.');
+      expect(shallowResult.hasDedicatedContentRecord).toBe(true);
+      expect(shallowResult.hasToolSpecificContent).toBe(false);
+      expect(shallowResult.isThinContent).toBe(true);
+    } finally {
+      delete toolContent['test-shallow-stub'];
+    }
+
+    // E. Generic fallback boilerplate -> false specificity and thin content
+    const fallbackResult = evaluateToolContent('imaginary-tool-test', 'Imaginary Tool', 'We built this tool to make everyday file tasks simple.');
+    expect(fallbackResult.hasDedicatedContentRecord).toBe(false);
+    expect(fallbackResult.hasToolSpecificContent).toBe(false);
+    expect(fallbackResult.isThinContent).toBe(true);
+  });
+
+  test('10. Redirect aliases are excluded from rendered-page averages and schema penalties', () => {
+    const { summary, inventory } = runFullSeoAudit();
+
+    const renderedPages = inventory.filter((item) => !item.isAlias);
+    const aliases = inventory.filter((item) => item.isAlias);
+
+    expect(renderedPages.length).toBeGreaterThan(0);
+    expect(aliases.length).toBeGreaterThan(0);
+
+    // Averages must divide by renderedPageCount, NOT inventory.length
+    const expectedAvgWords = Math.round(
+      renderedPages.reduce((acc, item) => acc + item.wordCount, 0) / renderedPages.length
+    );
+    expect(summary.averageWordCount).toBe(expectedAvgWords);
+
+    const expectedAvgScore = Math.round(
+      renderedPages.reduce((acc, item) => acc + item.seoHealthScore, 0) / renderedPages.length
+    );
+    expect(summary.averageSeoScore).toBe(expectedAvgScore);
+
+    // Missing schema and breadcrumb counts must only reflect rendered pages
+    const missingBreadcrumbs = renderedPages.filter((item) => item.breadcrumbStructure.length === 0).length;
+    expect(summary.pagesMissingBreadcrumbs).toBe(missingBreadcrumbs);
+
+    // Scorer must not penalize legitimate 301 redirect aliases
+    const sampleAlias = aliases[0];
+    const aliasScore = calculateToolSeoScore({
+      title: sampleAlias.currentTitle,
+      metaDescription: sampleAlias.currentMetaDescription,
+      canonicalUrl: sampleAlias.canonicalUrl,
+      isAlias: true,
+      wordCount: 0,
+      isThinContent: false,
+      incomingLinkCount: sampleAlias.incomingInternalLinkCount,
+      hasBreadcrumbs: false,
+      hasStructuredData: false,
+    });
+
+    expect(aliasScore.score).toBe(sampleAlias.seoHealthScore);
+    expect(aliasScore.issues.some((issue) => issue.includes('Alias route: Should 301 redirect'))).toBe(false);
+    expect(aliasScore.issues.some((issue) => issue.includes('Thin content'))).toBe(false);
+    expect(aliasScore.issues.some((issue) => issue.includes('Missing BreadcrumbList'))).toBe(false);
+    expect(aliasScore.issues.some((issue) => issue.includes('Missing SoftwareApplication'))).toBe(false);
+  });
+
+  test('11. Schema sample validation catches invalid structures and passes compliant schemas', () => {
+    // Valid samples from buildSampleSchema pass
+    for (const schemaType of Object.keys(SCHEMA_BUILDERS)) {
+      const sample = buildSampleSchema(schemaType);
+      const validation = validateBuiltSchema(schemaType, sample);
+      expect(validation.isValid, `Sample for ${schemaType} should be valid`).toBe(true);
+      expect(validation.errors).toEqual([]);
+    }
+
+    // Invalid Breadcrumbs (empty array or missing item/url)
+    const emptyBreadcrumbs = validateBuiltSchema('BreadcrumbList', { '@type': 'BreadcrumbList', itemListElement: [] });
+    expect(emptyBreadcrumbs.isValid).toBe(false);
+    expect(emptyBreadcrumbs.errors.some((err) => err.includes('non-empty itemListElement'))).toBe(true);
+
+    // Invalid FAQPage (empty array or missing Answer)
+    const emptyFaq = validateBuiltSchema('FAQPage', { '@type': 'FAQPage', mainEntity: [] });
+    expect(emptyFaq.isValid).toBe(false);
+    expect(emptyFaq.errors.some((err) => err.includes('non-empty mainEntity'))).toBe(true);
+
+    const faqMissingAnswer = validateBuiltSchema('FAQPage', {
+      '@type': 'FAQPage',
+      mainEntity: [{ '@type': 'Question', name: 'Q1?' }]
+    });
+    expect(faqMissingAnswer.isValid).toBe(false);
+
+    // Invalid SoftwareApplication (missing 0-price Offer)
+    const appWithoutOffer = validateBuiltSchema('SoftwareApplication', {
+      '@type': 'SoftwareApplication',
+      name: 'Utility',
+      url: 'https://www.converterforall.com/test'
+    });
+    expect(appWithoutOffer.isValid).toBe(false);
+    expect(appWithoutOffer.errors.some((err) => err.includes('0-price Offer'))).toBe(true);
+
+    // Invalid Article (missing datePublished)
+    const articleWithoutDate = validateBuiltSchema('Article', {
+      '@type': 'Article',
+      headline: 'Guide',
+      description: 'Test Guide',
+      url: 'https://www.converterforall.com/blog/test'
+    });
+    expect(articleWithoutDate.isValid).toBe(false);
+    expect(articleWithoutDate.errors.some((err) => err.includes('datePublished'))).toBe(true);
+  });
+
+  test('12. Tool page processing classifications truthfully disclose cloud vs local engines without blanket claims', () => {
+    // Cloud / External Services
+    const wordPdf = getToolProcessingBadges('word-to-pdf');
+    expect(wordPdf.classification).toBe('cloud-opt-in');
+    expect(wordPdf.heroBadge).toContain('Optional Cloud Engine');
+    expect(wordPdf.trustBadge).toContain('Cloudmersive API');
+
+    const pptPdf = getToolProcessingBadges('powerpoint-to-pdf');
+    expect(pptPdf.classification).toBe('cloud-opt-in');
+    expect(pptPdf.trustBadge).toContain('Cloudmersive API');
+
+    const presentation = getToolProcessingBadges('presentation-maker');
+    expect(presentation.classification).toBe('external-ai');
+    expect(presentation.heroBadge).toContain('Google Gemini');
+    expect(presentation.trustBadge).toContain('Google Gemini');
+
+    // Genuine Client-Side AI/ML
+    const bgRemoval = getToolProcessingBadges('remove-background');
+    expect(bgRemoval.classification).toBe('client-ai');
+    expect(bgRemoval.trustBadge).toContain('@imgly ISNet');
+
+    const ocr = getToolProcessingBadges('image-to-text');
+    expect(ocr.classification).toBe('client-ai');
+    expect(ocr.trustBadge).toContain('Tesseract OCR');
+
+    const captions = getToolProcessingBadges('video-caption-generator');
+    expect(captions.classification).toBe('client-ai');
+    expect(captions.trustBadge).toContain('WebCodecs');
+
+    // WebAssembly PDF tools
+    const mergePdf = getToolProcessingBadges('merge-pdf', { title: 'Merge PDF', description: 'Merge PDFs', outputFormat: 'pdf' }, 'document');
+    expect(mergePdf.classification).toBe('client-wasm-pdf');
+    expect(mergePdf.heroBadge).toContain('WebAssembly PDF Utility');
+
+    // Neutral fallback for unclassified tools
+    const fallbackTool = getToolProcessingBadges('unclassified-custom-utility');
+    expect(fallbackTool.classification).toBe('neutral-fallback');
+    expect(fallbackTool.heroBadge).toBe('Free Online Utility');
+    expect(fallbackTool.trustBadge).toBe('Browser-based file utility · No account required');
+    expect(fallbackTool.trustBadge).not.toContain('100%');
+    expect(fallbackTool.trustBadge).not.toContain('on-device');
   });
 });

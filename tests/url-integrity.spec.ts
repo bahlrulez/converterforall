@@ -300,7 +300,7 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
         expect(html.includes('content="noindex'), `Prerendered HTML for '/${slug}' must NOT contain noindex`).toBe(false);
 
         // Trust badge strip
-        expect(html).toContain('On-Device Browser Processing');
+        expect(html.includes('On-Device Browser Processing') || html.includes('In-browser character mapping')).toBe(true);
         expect(html.includes('No Account or Limits') || html.includes('No account required')).toBe(true);
 
         // Brand title

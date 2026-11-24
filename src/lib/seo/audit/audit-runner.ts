@@ -1,6 +1,6 @@
 import { collectSeoInventory } from "./inventory-collector";
 import { inspectSeoSystem } from "./system-inspector";
-import { CompleteSeoAuditDataset, SeoAuditSummary, ToolSeoInventoryItem } from "../types";
+import { CompleteSeoAuditDataset, SeoAuditSummary } from "../types";
 
 export function runFullSeoAudit(): CompleteSeoAuditDataset {
   const inventory = collectSeoInventory();
@@ -17,8 +17,9 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
   let pagesMissingBreadcrumbs = 0;
   let pagesMissingAppropriateStructuredData = 0;
 
-  let totalWords = 0;
-  let totalScore = 0;
+  let renderedPageCount = 0;
+  let totalRenderedWords = 0;
+  let totalRenderedScore = 0;
   let canonicalCount = 0;
   let aliasCount = 0;
 
@@ -31,9 +32,35 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
       aliasCount++;
     } else {
       canonicalCount++;
+      renderedPageCount++;
+      totalRenderedWords += item.wordCount;
+      totalRenderedScore += item.seoHealthScore;
+
+      // Rendered-page on-page SEO element validation
+      if (!item.currentTitle || item.currentTitle.trim() === "") {
+        pagesMissingTitle++;
+      }
+      if (!item.currentMetaDescription || item.currentMetaDescription.trim() === "") {
+        pagesMissingMetaDescription++;
+      }
+      if (!item.currentH1 || item.currentH1.trim() === "") {
+        pagesMissingH1++;
+      }
+      if (!item.canonicalUrl || item.canonicalUrl.trim() === "") {
+        pagesMissingCanonical++;
+      }
+      if (!item.breadcrumbStructure || item.breadcrumbStructure.length === 0) {
+        pagesMissingBreadcrumbs++;
+      }
+      if (!item.structuredDataTypes || item.structuredDataTypes.length === 0) {
+        pagesMissingAppropriateStructuredData++;
+      }
+      if (item.isThinContent) {
+        pagesWithThinContent++;
+      }
     }
 
-    // Indexability count
+    // Indexability count (indexable vs noindex vs redirect)
     if (item.indexability === "indexable") {
       totalIndexablePages++;
     } else if (item.indexability === "noindex") {
@@ -43,54 +70,19 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
     // Category breakdown
     categoryBreakdown[item.category] = (categoryBreakdown[item.category] || 0) + 1;
 
-    // Word count & score
-    totalWords += item.wordCount;
-    totalScore += item.seoHealthScore;
-
-    // Title validation
-    if (!item.currentTitle || item.currentTitle.trim() === "") {
-      pagesMissingTitle++;
-    } else {
-      if (!titlesMap[item.currentTitle]) titlesMap[item.currentTitle] = [];
-      titlesMap[item.currentTitle].push(item.urlPath);
-    }
-
-    // Meta Description validation
-    if (!item.currentMetaDescription || item.currentMetaDescription.trim() === "") {
-      pagesMissingMetaDescription++;
-    } else {
-      if (!descriptionsMap[item.currentMetaDescription]) descriptionsMap[item.currentMetaDescription] = [];
-      descriptionsMap[item.currentMetaDescription].push(item.urlPath);
-    }
-
-    // H1 validation
-    if (!item.currentH1 || item.currentH1.trim() === "") {
-      pagesMissingH1++;
-    }
-
-    // Thin Content
-    if (item.isThinContent) {
-      pagesWithThinContent++;
-    }
-
     // Weak Internal Linking (< 3 inbound links)
     if (item.incomingInternalLinkCount < 3) {
       pagesWithWeakInternalLinking++;
     }
 
-    // Canonical
-    if (!item.canonicalUrl || item.canonicalUrl.trim() === "") {
-      pagesMissingCanonical++;
+    // Duplicate titles & descriptions tracking
+    if (item.currentTitle) {
+      if (!titlesMap[item.currentTitle]) titlesMap[item.currentTitle] = [];
+      titlesMap[item.currentTitle].push(item.urlPath);
     }
-
-    // Breadcrumbs
-    if (!item.breadcrumbStructure || item.breadcrumbStructure.length === 0) {
-      pagesMissingBreadcrumbs++;
-    }
-
-    // Structured Data
-    if (!item.structuredDataTypes || item.structuredDataTypes.length === 0) {
-      pagesMissingAppropriateStructuredData++;
+    if (item.currentMetaDescription) {
+      if (!descriptionsMap[item.currentMetaDescription]) descriptionsMap[item.currentMetaDescription] = [];
+      descriptionsMap[item.currentMetaDescription].push(item.urlPath);
     }
   }
 
@@ -111,8 +103,9 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
   }
 
   const totalToolPagesDiscovered = inventory.length;
-  const averageWordCount = totalToolPagesDiscovered > 0 ? Math.round(totalWords / totalToolPagesDiscovered) : 0;
-  const averageSeoScore = totalToolPagesDiscovered > 0 ? Math.round(totalScore / totalToolPagesDiscovered) : 0;
+  // Averages are calculated across rendered pages so that 301 redirect aliases do not dilute word count or scores
+  const averageWordCount = renderedPageCount > 0 ? Math.round(totalRenderedWords / renderedPageCount) : 0;
+  const averageSeoScore = renderedPageCount > 0 ? Math.round(totalRenderedScore / renderedPageCount) : 0;
 
   const summary: SeoAuditSummary = {
     totalToolPagesDiscovered,

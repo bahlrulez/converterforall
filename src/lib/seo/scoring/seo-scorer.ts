@@ -46,35 +46,31 @@ export function calculateToolSeoScore(params: {
     }
   }
 
-  // Canonical tag
+  // Canonical tag & alias route handling
   if (!params.canonicalUrl) {
     score -= 20;
     issues.push("Critical: Missing canonical URL definition.");
-  } else if (params.isAlias) {
-    score -= 10;
-    issues.push("Alias route: Should 301 redirect or point canonical directly to target tool.");
   }
 
-  // Content depth & Thin content
-  if (params.isThinContent) {
-    score -= 20;
-    issues.push("Thin Content Alert: Visible copy relies heavily on generic boilerplate or is under 250 words.");
-  } else if (params.wordCount < 350) {
-    score -= 8;
-    issues.push(`Moderate Content Depth: Word count is ${params.wordCount} words (recommendation: 450+ words).`);
-  }
+  // Rendered-page metrics vs redirect alias metrics
+  if (params.isAlias) {
+    // Redirect aliases do not render on-page HTML, schemas, or body copy.
+    // Legitimate 301 redirect routes pointing to a valid canonical target are not penalized as broken rendered pages.
+    if (params.incomingLinkCount === 0) {
+      score -= 5;
+      issues.push("Unreferenced redirect alias: No inbound internal links detected.");
+    }
+  } else {
+    // Content depth & Thin content (applies only to rendered pages)
+    if (params.isThinContent) {
+      score -= 20;
+      issues.push("Thin Content Alert: Visible copy relies heavily on generic boilerplate or is under 250 words.");
+    } else if (params.wordCount < 350) {
+      score -= 8;
+      issues.push(`Moderate Content Depth: Word count is ${params.wordCount} words (recommendation: 450+ words).`);
+    }
 
-  // Internal Link equity
-  if (params.incomingLinkCount < 2) {
-    score -= 15;
-    issues.push(`Orphan / Low Link Equity: Only ${params.incomingLinkCount} incoming internal links.`);
-  } else if (params.incomingLinkCount < 4) {
-    score -= 5;
-    issues.push(`Weak Internal Linking: Only ${params.incomingLinkCount} incoming internal links.`);
-  }
-
-  // Structured Data & Breadcrumbs (applies to rendered tool pages; not redirect aliases)
-  if (!params.isAlias) {
+    // Structured Data & Breadcrumbs (applies only to rendered pages)
     if (!params.hasStructuredData) {
       score -= 10;
       issues.push("Missing SoftwareApplication / Utility structured data schema.");

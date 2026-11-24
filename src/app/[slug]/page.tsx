@@ -12,6 +12,7 @@ import { getOptimizedToolTitle, getOptimizedToolDescription } from "@/lib/seo/me
 import { TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
 import { SITE_ORIGIN } from "@/lib/seo/site-config";
 import { buildBreadcrumbSchema, buildSoftwareAppSchema, buildFaqPageSchema } from "@/lib/seo/schema-builders";
+import { getToolProcessingBadges } from "@/lib/seo/tool-processing-classification";
 
 export async function generateStaticParams() {
   return getCanonicalToolSlugs().map((slug) => ({
@@ -128,8 +129,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     ? buildFaqPageSchema(extractedFaqs.map(f => ({ question: f.question, answer: f.answer })))
     : null;
 
-  const isBrowserFirstOfficeTool = toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf";
-  const isPresentationMaker = toolSlug === "presentation-maker";
+  const processingBadges = getToolProcessingBadges(toolSlug, tool, categorySlug);
 
   const isHeldUnavailableTool = toolSlug === "unicode-to-raavi";
 
@@ -178,13 +178,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>
-              {isBrowserFirstOfficeTool 
-                ? "Browser-first conversion · Optional Cloud Engine" 
-                : isPresentationMaker 
-                ? "In-Browser Slides & PPTX Export (AI via Google Gemini)" 
-                : "Free & Private In-Browser Tool"}
-            </span>
+            <span>{processingBadges.heroBadge}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-slate-900 dark:text-white leading-[1.15]">
@@ -199,13 +193,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-              <span>
-                {isBrowserFirstOfficeTool 
-                  ? "Your file stays on-device by default; Cloud Engine is opt-in" 
-                  : isPresentationMaker 
-                  ? "AI prompts go to Google Gemini; image lookups may use external services" 
-                  : "On-Device Browser Processing"}
-              </span>
+              <span>{processingBadges.trustBadge}</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />

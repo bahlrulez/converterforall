@@ -1,5 +1,5 @@
 import { SystemSeoInspection, SchemaGeneratorStatus } from "../types";
-import { SCHEMA_BUILDERS } from "../schema-builders";
+import { SCHEMA_BUILDERS, buildSampleSchema, validateBuiltSchema } from "../schema-builders";
 import { toolsDatabase, getCanonicalToolSlugs, SLUG_ALIASES, getToolBySlug } from "@/lib/tools-db";
 import sitemap, { BASE_SITEMAP_ROUTES } from "@/app/sitemap";
 import robots from "@/app/robots";
@@ -135,17 +135,12 @@ export function inspectSeoSystem(): SystemSeoInspection {
   const generatorStatuses: Record<string, SchemaGeneratorStatus> = {};
   const detectedGeneratorNames: string[] = [];
 
-  for (const [schemaType, builderFn] of Object.entries(SCHEMA_BUILDERS)) {
+  for (const schemaType of Object.keys(SCHEMA_BUILDERS)) {
     try {
-      const sampleOutput = typeof builderFn === "function" ? (builderFn as () => Record<string, unknown>)() : null;
-      const isValid = Boolean(
-        sampleOutput &&
-        (sampleOutput["@type"] === schemaType ||
-          (Array.isArray(sampleOutput["@graph"]) &&
-            (sampleOutput["@graph"] as Record<string, unknown>[]).some((item) => item["@type"] === schemaType)))
-      );
+      const sampleOutput = buildSampleSchema(schemaType);
+      const validation = validateBuiltSchema(schemaType, sampleOutput);
 
-      if (isValid) {
+      if (validation.isValid) {
         generatorStatuses[schemaType] = {
           schemaType,
           status: "source-declared",
