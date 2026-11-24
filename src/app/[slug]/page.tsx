@@ -1,4 +1,4 @@
-import { ArrowLeft, ShieldCheck, Zap, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Sparkles, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getToolBySlug, getCanonicalToolSlugs } from "@/lib/tools-db";
