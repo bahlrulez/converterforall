@@ -10,6 +10,7 @@ import { ToolReviews } from "@/components/tools/tool-reviews";
 import { getToolReviewStats } from "@/lib/reviews-data";
 import { getOptimizedToolTitle, getOptimizedToolDescription } from "@/lib/seo/metadata";
 import { TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
+import { SITE_SCHEMA_TYPES } from "@/lib/seo/site-config";
 
 export async function generateStaticParams() {
   return getCanonicalToolSlugs().map((slug) => ({
@@ -100,7 +101,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   // Generate Breadcrumb Schema
   const breadcrumbSchema = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
+    "@type": SITE_SCHEMA_TYPES.breadcrumb,
     "itemListElement": [
       {
         "@type": "ListItem",
@@ -124,7 +125,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   // Generate SoftwareApplication Schema
   const softwareAppSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": SITE_SCHEMA_TYPES.softwareApplication,
     "name": tool.title,
     "url": `https://www.converterforall.com/${toolSlug}`,
     "operatingSystem": "All",
@@ -152,7 +153,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   // Generate FAQPage Schema if FAQs exist for enhanced SERP rich snippets
   const faqSchema = extractedFaqs.length > 0 ? {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
+    "@type": SITE_SCHEMA_TYPES.faqPage,
     "mainEntity": extractedFaqs.map(faq => ({
       "@type": "Question",
       "name": faq.question,
