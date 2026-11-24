@@ -5,7 +5,6 @@
 
 export const NOINDEX_CATEGORIES = [
   "document",
-  "fonts",
   "image",
   "audio",
   "video"
