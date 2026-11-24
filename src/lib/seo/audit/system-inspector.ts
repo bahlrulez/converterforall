@@ -147,7 +147,7 @@ export function inspectSeoSystem(): SystemSeoInspection {
         toolRoutes: toolRouteCount,
         blogRoutes: blogRouteCount,
       },
-      hasSitemapXml: sitemapEntries.length > 0 && sitemapEntries.every((entry) => /^https:\\/\\//.test(entry.url)),
+      hasSitemapXml: sitemapEntries.length > 0 && sitemapEntries.every((entry) => entry.url.startsWith(`${SITE_ORIGIN}/`)),
       issues: sitemapIssues,
     },
     robotsTxt: {
