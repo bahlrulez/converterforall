@@ -70,7 +70,7 @@ export function inspectSeoSystem(): SystemSeoInspection {
     sitemapIssues.push(`Noindex tool route(s) incorrectly listed in sitemap: ${listedNoindexTools.join(", ")}.`);
   }
 
-  const basePathSet = new Set<string>(BASE_SITEMAP_ROUTES);
+  const basePathSet = new Set<string>(BASE_SITEMAP_ROUTES.map((path) => path || "/"));
   const categoryRouteCount = sitemapPaths.filter((path) => path.startsWith("/category/")).length;
   const blogRouteCount = sitemapPaths.filter((path) => path.startsWith("/blog/")).length;
   const baseRouteCount = sitemapPaths.filter((path) => basePathSet.has(path)).length;
@@ -147,7 +147,7 @@ export function inspectSeoSystem(): SystemSeoInspection {
         toolRoutes: toolRouteCount,
         blogRoutes: blogRouteCount,
       },
-      hasSitemapXml: sitemapEntries.length > 0 && sitemapEntries.every((entry) => entry.url.startsWith(`${SITE_ORIGIN}/`)),
+      hasSitemapXml: sitemapEntries.length > 0 && sitemapEntries.every((entry) => entry.url === SITE_ORIGIN || entry.url.startsWith(`${SITE_ORIGIN}/`)),
       issues: sitemapIssues,
     },
     robotsTxt: {
