@@ -425,17 +425,16 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       }
     },
     "excel-to-pdf": { theme: "emerald", iconName: "FileSpreadsheet", badge: "Office",
-      title: "EXCEL to PDF",
-      seoTitle: "Excel to PDF Converter - Convert XLS/XLSX to PDF Free",
-      description: "Make EXCEL spreadsheets easy to read by converting them to PDF.",
-      seoDescription: "Convert Microsoft Excel spreadsheets (XLS, XLSX) to PDF documents online for free. Preserve table formatting and layout securely.",
+      title: "Excel XLSX to PDF (First Worksheet)",
+      seoTitle: "Excel XLSX to PDF - Export the First Worksheet",
+      description: "Convert the first worksheet of an .xlsx workbook into a simple table in PDF format. Additional sheets and workbook styling are not preserved.",
+      seoDescription: "Convert the first worksheet in an XLSX file to a simple PDF table in your browser. Additional worksheets, formulas, charts, and workbook styling are not reproduced.",
       relatedTools: ["word-to-pdf", "powerpoint-to-pdf", "merge-pdf", "compress-pdf"],
       subCategory: "Convert to PDF",
-      inputFormat: "excel",
+      inputFormat: "xlsx",
       outputFormat: "pdf",
       actionName: "Convert to PDF",
-      acceptedTypes: { 
-        "application/vnd.ms-excel": [".xls"],
+      acceptedTypes: {
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"]
       }
     },
