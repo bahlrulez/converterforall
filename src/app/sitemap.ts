@@ -3,7 +3,8 @@ import { getCanonicalToolSlugs, toolsDatabase } from '@/lib/tools-db'
 import { getAllBlogSlugs, blogDatabase } from '@/lib/blog-data'
 import { TOOLS } from '@/config/tools'
 import { 
-  NOINDEX_CATEGORIES, 
+  NOINDEX_CATEGORIES,
+  PAGE_LASTMOD_DATES,
   TIER_C_NOINDEX_SLUGS, 
   getPageLastModified,
   getToolLastModified
@@ -49,16 +50,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }))
 
-  // Category routes (Only indexable categories; exclude 5 Tier C noindexed category hubs)
+  // Category routes: only indexable hubs; excluded hubs carry an explicit noindex directive.
   const noindexCatSet = new Set<string>(NOINDEX_CATEGORIES)
   const categoryRoutes = Object.keys(toolsDatabase)
     .filter((catSlug) => !noindexCatSet.has(catSlug))
-    .map((categorySlug) => ({
-      url: `${baseUrl}/category/${categorySlug}`,
-      lastModified: getPageLastModified(`/category/${categorySlug}`),
-      changeFrequency: 'weekly' as const,
-      priority: 0.85,
-    }))
+    .map((categorySlug) => {
+      const recordedLastModified = PAGE_LASTMOD_DATES[`/category/${categorySlug}`];
+      return {
+        url: `${baseUrl}/category/${categorySlug}`,
+        ...(recordedLastModified ? { lastModified: new Date(`${recordedLastModified}T00:00:00Z`) } : {}),
+        changeFrequency: 'weekly' as const,
+        priority: 0.85,
+      };
+    })
 
   // Canonical Tool routes (Exclude Tier C noindexed tools and unverified font tools)
   const unverifiedSlugs = new Set([
