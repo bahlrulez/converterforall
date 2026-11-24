@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { SITE_ORIGIN } from '@/lib/seo/site-config'
 import { getCanonicalToolSlugs, toolsDatabase } from '@/lib/tools-db'
 import { getAllBlogSlugs, blogDatabase } from '@/lib/blog-data'
 import { TOOLS } from '@/config/tools'
@@ -26,7 +27,7 @@ function getBlogLastModified(slug: string): Date {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.converterforall.com'
+  const baseUrl = SITE_ORIGIN
   
   // Base routes
   const basePaths = [
