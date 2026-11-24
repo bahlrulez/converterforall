@@ -1,75 +1,180 @@
 import { SystemSeoInspection } from "../types";
-import { toolsDatabase, getCanonicalToolSlugs } from "@/lib/tools-db";
+import { toolsDatabase, getCanonicalToolSlugs, SLUG_ALIASES, getToolBySlug } from "@/lib/tools-db";
 import { getAllBlogSlugs } from "@/lib/blog-data";
+import sitemap, { BASE_SITEMAP_ROUTES } from "@/app/sitemap";
+import robots from "@/app/robots";
+import { siteMetadata } from "@/lib/seo/site-metadata";
+import {
+  ENABLE_VERCEL_ANALYTICS,
+  GOOGLE_ANALYTICS_MEASUREMENT_ID,
+  GOOGLE_SITE_VERIFICATION_TOKEN,
+  SITE_ORIGIN,
+  SITE_SCHEMA_TYPES,
+} from "@/lib/seo/site-config";
+import { NOINDEX_CATEGORIES, TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
+import { TOOLS } from "@/config/tools";
+
+function asArray(value: string | string[] | undefined): string[] {
+  if (typeof value === "string") return [value];
+  return Array.isArray(value) ? value : [];
+}
 
 export function inspectSeoSystem(): SystemSeoInspection {
-  const baseRoutesCount = 10; // '', about, contact, privacy, terms, disclaimer, accessibility, cookie-policy, editorial-policy, blog
-  const categoryRoutesCount = Object.keys(toolsDatabase).length; // 7
-  const canonicalToolsCount = getCanonicalToolSlugs().length; // 154
-  const blogRoutesCount = getAllBlogSlugs().length; // Blog count
-  const totalSitemapUrls = baseRoutesCount + categoryRoutesCount + canonicalToolsCount + blogRoutesCount;
-
-  // 1. Sitemap Inspection
+  const sitemapEntries = sitemap();
+  const sitemapUrls = sitemapEntries.map((entry) => new URL(entry.url));
+  const sitemapPaths = sitemapUrls.map((url) => url.pathname);
+  const sitemapPathSet = new Set(sitemapPaths);
   const sitemapIssues: string[] = [];
 
-  // 2. Robots.txt Inspection
+  const duplicateSitemapPaths = sitemapPaths.filter((path, index) => sitemapPaths.indexOf(path) !== index);
+  if (duplicateSitemapPaths.length > 0) {
+    sitemapIssues.push(`Duplicate sitemap paths detected: ${Array.from(new Set(duplicateSitemapPaths)).join(", ")}.`);
+  }
+
+  const foreignSitemapUrls = sitemapUrls.filter((url) => url.origin !== SITE_ORIGIN);
+  if (foreignSitemapUrls.length > 0) {
+    sitemapIssues.push(`${foreignSitemapUrls.length} sitemap URL(s) do not use the configured canonical origin.`);
+  }
+
+  const noindexCategorySet = new Set<string>(NOINDEX_CATEGORIES);
+  const allCategorySlugs = Object.keys(toolsDatabase);
+  const expectedIndexableCategoryPaths = allCategorySlugs
+    .filter((slug) => !noindexCategorySet.has(slug))
+    .map((slug) => `/category/${slug}`);
+  const noindexCategoryPaths = allCategorySlugs
+    .filter((slug) => noindexCategorySet.has(slug))
+    .map((slug) => `/category/${slug}`);
+
+  const missingCategoryPaths = expectedIndexableCategoryPaths.filter((path) => !sitemapPathSet.has(path));
+  const listedNoindexCategories = noindexCategoryPaths.filter((path) => sitemapPathSet.has(path));
+  if (missingCategoryPaths.length > 0) {
+    sitemapIssues.push(`Indexable category route(s) missing from sitemap: ${missingCategoryPaths.join(", ")}.`);
+  }
+  if (listedNoindexCategories.length > 0) {
+    sitemapIssues.push(`Noindex category route(s) incorrectly listed in sitemap: ${listedNoindexCategories.join(", ")}.`);
+  }
+
+  const canonicalDbSlugs = getCanonicalToolSlugs();
+  const configToolSlugs = Object.values(TOOLS).map((tool) => tool.path.replace(/^\\//, ""));
+  const expectedToolSlugs = Array.from(new Set([...canonicalDbSlugs, ...configToolSlugs]));
+  const expectedIndexableToolPaths = expectedToolSlugs
+    .filter((slug) => !TIER_C_NOINDEX_SLUGS.has(slug))
+    .filter((slug) => slug !== "chanakya-to-unicode" && slug !== "unicode-to-chanakya")
+    .map((slug) => `/${slug}`);
+  const noindexToolPaths = Array.from(TIER_C_NOINDEX_SLUGS).map((slug) => `/${slug}`);
+  const missingToolPaths = expectedIndexableToolPaths.filter((path) => !sitemapPathSet.has(path));
+  const listedNoindexTools = noindexToolPaths.filter((path) => sitemapPathSet.has(path));
+  if (missingToolPaths.length > 0) {
+    sitemapIssues.push(`Indexable tool route(s) missing from sitemap: ${missingToolPaths.slice(0, 20).join(", ")}${missingToolPaths.length > 20 ? " …" : ""}.`);
+  }
+  if (listedNoindexTools.length > 0) {
+    sitemapIssues.push(`Noindex tool route(s) incorrectly listed in sitemap: ${listedNoindexTools.join(", ")}.`);
+  }
+
+  const basePathSet = new Set<string>(BASE_SITEMAP_ROUTES);
+  const categoryRouteCount = sitemapPaths.filter((path) => path.startsWith("/category/")).length;
+  const blogRouteCount = sitemapPaths.filter((path) => path.startsWith("/blog/")).length;
+  const baseRouteCount = sitemapPaths.filter((path) => basePathSet.has(path)).length;
+  const knownToolPathSet = new Set(expectedToolSlugs.map((slug) => `/${slug}`));
+  const toolRouteCount = sitemapPaths.filter((path) => knownToolPathSet.has(path)).length;
+
+  // Static source inspection does not make an HTTP request to verify deployment availability.
+  sitemapIssues.push("Sitemap membership is checked from the generated route list; deployed HTTP status and Google fetchability are not verified here.");
+
+  const robotsConfig = robots();
+  const robotRules = Array.isArray(robotsConfig.rules) ? robotsConfig.rules : [robotsConfig.rules];
+  const wildcardRule = robotRules.find((rule) => rule.userAgent === "*");
+  const allowedPaths = asArray(wildcardRule?.allow);
+  const disallowedPaths = asArray(wildcardRule?.disallow);
   const robotsIssues: string[] = [];
-  // robots.ts allows userAgent: '*', disallows /api/, /private/, and /admin/
+  const sitemapUrl = typeof robotsConfig.sitemap === "string" ? robotsConfig.sitemap : undefined;
+  const expectedSitemapUrl = `${SITE_ORIGIN}/sitemap.xml`;
+  const isCrawlerAllowed = allowedPaths.includes("/") && !disallowedPaths.some((path) => path === "/" || path === "/*");
+  if (!wildcardRule) robotsIssues.push("robots.txt has no wildcard user-agent rule.");
+  if (!isCrawlerAllowed) robotsIssues.push("robots.txt does not explicitly allow the site root for crawlers.");
+  if (sitemapUrl !== expectedSitemapUrl) robotsIssues.push(`robots.txt sitemap URL does not match the canonical sitemap URL (${expectedSitemapUrl}).`);
+  robotsIssues.push("robots.txt is validated from source configuration; deployed headers and the live robots.txt response are not fetched.");
 
-  // 3. Canonical Strategy Inspection
   const canonicalIssues: string[] = [];
-  // All alias routes now issue permanent 301/308 redirects to canonical targets via next.config.ts
+  const unresolvedAliasTargets = Object.entries(SLUG_ALIASES)
+    .filter(([, target]) => !canonicalDbSlugs.includes(target) || getToolBySlug(target)?.toolSlug !== target)
+    .map(([alias, target]) => `/${alias} → /${target}`);
+  const aliasCanonicalCollisions = Object.keys(SLUG_ALIASES).filter((alias) => canonicalDbSlugs.includes(alias));
+  if (unresolvedAliasTargets.length > 0) {
+    canonicalIssues.push(`Alias target(s) do not resolve to canonical tools: ${unresolvedAliasTargets.join(", ")}.`);
+  }
+  if (aliasCanonicalCollisions.length > 0) {
+    canonicalIssues.push(`Alias slug(s) collide with canonical tool slugs: ${aliasCanonicalCollisions.join(", ")}.`);
+  }
+  canonicalIssues.push("Canonical URLs are checked from the shared origin and route configuration; deployed canonical tags and permanent redirect responses require an HTTP crawl.");
 
-  // 4. Metadata Generation Inspection
   const metadataIssues: string[] = [];
-  // Tool pages generate optimized, search-intent driven titles and descriptions within SERP length limits
+  const metadataBase = siteMetadata.metadataBase;
+  const metadataBaseOrigin = metadataBase instanceof URL ? metadataBase.origin : undefined;
+  const titleTemplate = typeof siteMetadata.title === "object" && siteMetadata.title !== null
+    ? siteMetadata.title.template || ""
+    : "";
+  const openGraph = siteMetadata.openGraph;
+  const twitter = siteMetadata.twitter;
+  const hasMetadataBase = metadataBaseOrigin === SITE_ORIGIN;
+  const hasOpenGraph = Boolean(openGraph && typeof openGraph === "object" && "title" in openGraph && "description" in openGraph);
+  const hasTwitterCard = Boolean(twitter && typeof twitter === "object" && "card" in twitter && "description" in twitter);
+  if (!hasMetadataBase) metadataIssues.push(`metadataBase must match ${SITE_ORIGIN}.`);
+  if (!titleTemplate) metadataIssues.push("Root metadata has no title template.");
+  if (!hasOpenGraph) metadataIssues.push("Open Graph title or description is missing.");
+  if (!hasTwitterCard) metadataIssues.push("Twitter card or description is missing.");
 
-  // 5. Schema Generation Inspection
   const schemaIssues: string[] = [];
-  // Tool pages emit BreadcrumbList, SoftwareApplication, and structured FAQPage JSON-LD schemas
+  const hasOrganizationSchema = SITE_SCHEMA_TYPES.organization === "Organization";
+  const hasWebSiteSchema = SITE_SCHEMA_TYPES.website === "WebSite";
+  const hasBreadcrumbListSchema = SITE_SCHEMA_TYPES.breadcrumb === "BreadcrumbList";
+  const hasSoftwareApplicationSchema = SITE_SCHEMA_TYPES.softwareApplication === "SoftwareApplication";
+  schemaIssues.push("Schema type declarations exist in the source; JSON-LD validity and rich-result eligibility require a deployed structured-data test.");
 
-  // 6. Analytics and Search Console Integration
   const analyticsIssues: string[] = [];
-  const googleAnalyticsId = "G-49NFK7K9W6";
-  const googleSiteVerification = "google8e488f91621932b6";
-  const vercelAnalyticsEnabled = true;
+  const googleAnalyticsId = GOOGLE_ANALYTICS_MEASUREMENT_ID;
+  const googleSiteVerification = GOOGLE_SITE_VERIFICATION_TOKEN;
+  const vercelAnalyticsEnabled = ENABLE_VERCEL_ANALYTICS;
+  if (!googleAnalyticsId) analyticsIssues.push("Google Analytics measurement ID is not configured.");
+  if (!googleSiteVerification) analyticsIssues.push("Google site verification token is not configured.");
+  analyticsIssues.push("Analytics configuration is checked from source only; live GA4 collection, consent behavior, and Search Console ownership are not verified.");
 
   return {
     sitemap: {
-      totalUrls: totalSitemapUrls,
+      totalUrls: sitemapEntries.length,
       urlCountsByType: {
-        baseRoutes: baseRoutesCount,
-        categoryRoutes: categoryRoutesCount,
-        toolRoutes: canonicalToolsCount,
-        blogRoutes: blogRoutesCount,
+        baseRoutes: baseRouteCount,
+        categoryRoutes: categoryRouteCount,
+        toolRoutes: toolRouteCount,
+        blogRoutes: blogRouteCount,
       },
-      hasSitemapXml: true,
+      hasSitemapXml: sitemapEntries.length > 0 && sitemapEntries.every((entry) => /^https:\\/\\//.test(entry.url)),
       issues: sitemapIssues,
     },
     robotsTxt: {
-      isCrawlerAllowed: true,
-      disallowedPaths: ["/api/", "/private/", "/admin/"],
-      sitemapUrl: "https://www.converterforall.com/sitemap.xml",
+      isCrawlerAllowed,
+      disallowedPaths,
+      sitemapUrl,
       issues: robotsIssues,
     },
     canonicalStrategy: {
-      baseUrl: "https://www.converterforall.com",
-      isSelfReferentialCanonical: true,
-      handlesAliasesCorrectly: true,
+      baseUrl: SITE_ORIGIN,
+      isSelfReferentialCanonical: hasMetadataBase && SITE_ORIGIN === "https://www.converterforall.com",
+      handlesAliasesCorrectly: unresolvedAliasTargets.length === 0 && aliasCanonicalCollisions.length === 0,
       issues: canonicalIssues,
     },
     metadataGeneration: {
-      hasMetadataBase: true,
-      titleTemplate: "%s | ConverterForAll",
-      hasOpenGraph: true,
-      hasTwitterCard: true,
+      hasMetadataBase,
+      titleTemplate,
+      hasOpenGraph,
+      hasTwitterCard,
       issues: metadataIssues,
     },
     schemaGeneration: {
-      hasOrganizationSchema: true,
-      hasWebSiteSchema: true,
-      hasBreadcrumbListSchema: true,
-      hasSoftwareApplicationSchema: true,
+      hasOrganizationSchema,
+      hasWebSiteSchema,
+      hasBreadcrumbListSchema,
+      hasSoftwareApplicationSchema,
       issues: schemaIssues,
     },
     analyticsAndSearchConsole: {
