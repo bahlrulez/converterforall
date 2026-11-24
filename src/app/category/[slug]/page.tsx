@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, 
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { NOINDEX_CATEGORIES } from "@/config/sitemap-lastmod";
 
 function getIconComponent(iconName: string, className: string = "h-6 w-6") {
   switch(iconName) {
@@ -129,19 +130,19 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
   fonts: {
     title: "Indic Regional Font to Unicode Converters",
     badge: "Indian Font Converters",
-    intro: "For decades, Indian government departments, publishers, and typing institutes relied on legacy legacy fonts such as Kruti Dev, Chanakya, Devlys, Shusha, Asees, and Joy. When copied to modern websites, mobile apps, or new versions of Word, these fonts frequently display as garbled symbols or question marks. Our font tools convert your text into standard Unicode that displays accurately on every device.",
+    intro: "Legacy Indian-script fonts such as Kruti Dev, Asees, Satluj, Joy, and Gurbani Akhar may store text using font-specific character mappings. When text is opened without the original font or copied into modern apps, it can appear as Latin characters or render incorrectly. The converters listed here cover selected source and target formats; support differs by font and direction, so check each tool's notice and review the converted text before relying on it.",
     points: [
       {
         title: "Universal Unicode Compatibility",
-        desc: "Translate legacy Hindi, Punjabi, Bengali, and Urdu fonts into universal Unicode text that works on Google, WhatsApp, Facebook, and modern smartphones.",
+        desc: "The directory includes selected converters for Hindi, Punjabi, Bengali, and Urdu workflows. Each tool page identifies its source and target format; availability and mapping coverage differ between fonts and directions.",
       },
       {
         title: "Half-Character (Matra) Realignment",
-        desc: "Fix displaced choti-ee matras, half-letters, and ra-padas that commonly break during font copy-pasting.",
+        desc: "Some converters reorder pre-base vowel signs and other characters where the font mapping requires it. Check the output against the source, especially for names, numbers, and punctuation.",
       },
       {
         title: "Text Cleanup & Normalization",
-        desc: "Remove non-breaking spaces, zero-width joiners, and hidden characters that cause typing test or official form rejections.",
+        desc: "Separate Unicode cleanup tools can normalize text or remove selected invisible characters. These are separate operations from converting a legacy font encoding.",
       },
     ],
     faqs: [
@@ -151,15 +152,15 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
       },
       {
         q: "Which Hindi and Punjabi fonts can I convert?",
-        a: "We support conversions for Kruti Dev (010, 011, etc.), Devlys, Chanakya, Shusha, APS, Shree Lipi, Asees, Satluj, Joy, Gurbani Akhar, and Raavi, plus Bengali Bijoy and Urdu InPage.",
+        a: "The directory currently lists individual routes for formats including Kruti Dev, Asees, Satluj, Joy, AnmolLipi, and Gurbani Akhar. Support is not uniform across every font or both directions; check the relevant tool page for its availability and any experimental-use notice.",
       },
       {
         q: "Can I convert full book manuscripts or lengthy government reports?",
-        a: "Yes. Our conversion scripts process thousands of words directly in your browser in milliseconds without truncating your paragraphs.",
+        a: "You can paste multi-paragraph text, but practical input size and processing speed depend on your browser and device. For a long manuscript, test a representative sample first and compare the output with the source.",
       },
       {
         q: "Will my converted Hindi or Punjabi text work in official online application forms?",
-        a: "Yes. All modern government portals (such as SSC, UPSC, and State Boards) require standard Unicode (Mangal/Nirmala UI), which is exactly what our tools produce.",
+        a: "Unicode is generally more portable between modern applications, but each recruitment portal or typing examination can specify its own language, keyboard layout, font, or file requirements. Check the current official instructions before submitting converted text.",
       },
     ],
   },
@@ -372,19 +373,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const editorial = CATEGORY_EDITORIAL_DATA[categorySlug];
   const displayTitle = editorial?.title || (categorySlug === "developer" ? "Data & Code Tools" : `${categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1)} Tools`);
-  const displaySubtitle = editorial?.intro ? editorial.intro.slice(0, 160) : `Free, private in-browser tools to convert and manage ${categorySlug} files without installing software.`;
+  const displaySubtitle = categorySlug === "fonts"
+    ? "Convert supported legacy Hindi and Punjabi font text to Unicode, or Unicode to listed legacy fonts. Check each tool page for direction and experimental support."
+    : editorial?.intro
+      ? editorial.intro.slice(0, 160)
+      : `Free, private in-browser tools to convert and manage ${categorySlug} files without installing software.`;
+  const canonicalUrl = `https://www.converterforall.com/category/${categorySlug}`;
+  const isNoindex = NOINDEX_CATEGORIES.includes(categorySlug as (typeof NOINDEX_CATEGORIES)[number]);
 
   return {
     title: `${displayTitle} - Free In-Browser Tools | ConverterForAll`,
     description: displaySubtitle,
+    robots: isNoindex ? { index: false, follow: true } : undefined,
     openGraph: {
       title: `${displayTitle} - Free In-Browser Tools | ConverterForAll`,
       description: displaySubtitle,
       type: "website",
-      url: `https://www.converterforall.com/category/${resolvedParams.slug}`,
+      url: canonicalUrl,
     },
     alternates: {
-      canonical: `https://www.converterforall.com/category/${resolvedParams.slug}`,
+      canonical: canonicalUrl,
     }
   };
 }
