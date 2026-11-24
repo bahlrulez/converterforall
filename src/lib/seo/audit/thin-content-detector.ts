@@ -1,7 +1,7 @@
 import { toolContent, getToolContent } from "@/lib/tool-content";
 
 export interface ThinContentResult {
-  hasUniqueSeoContent: boolean;
+  hasToolSpecificContent: boolean;
   isThinContent: boolean;
   wordCount: number;
   introductoryContent: string;
@@ -54,7 +54,7 @@ export function evaluateToolContent(
     toolSlug.includes("-to-") && 
     (toolSlug.includes("unicode") || toolSlug.includes("krutidev") || toolSlug.includes("chanakya") || toolSlug.includes("devlys") || toolSlug.includes("anmollipi") || toolSlug.includes("asees"));
 
-  const hasUniqueSeoContent = Boolean(toolContent[toolSlug]) || hasSpecificLengthFormula || hasSpecificFontFaq;
+  const hasToolSpecificContent = Boolean(toolContent[toolSlug]) || hasSpecificLengthFormula || hasSpecificFontFaq;
 
   let isThinContent = false;
   let thinContentReason: string | undefined;
@@ -64,11 +64,11 @@ export function evaluateToolContent(
     thinContentReason = "Uses generic fallback copy ('We built this tool to make everyday file tasks simple...') with under 200 unique words.";
   } else if (wordCount < 250) {
     isThinContent = true;
-    thinContentReason = `Low visible word count (${wordCount} words; recommended minimum is 300 words).`;
+    thinContentReason = `Low visible word count (${wordCount} words; flagged for editorial review only).`;
   }
 
   return {
-    hasUniqueSeoContent,
+    hasToolSpecificContent,
     isThinContent,
     wordCount,
     introductoryContent: toolDescription || sections[0]?.content?.replace(/<[^>]+>/g, " ")?.slice(0, 200) || "",
