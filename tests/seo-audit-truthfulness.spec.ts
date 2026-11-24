@@ -3,8 +3,9 @@ import fs from 'fs';
 import path from 'path';
 import { inspectSeoSystem } from '../src/lib/seo/audit/system-inspector';
 import { runFullSeoAudit } from '../src/lib/seo/audit/audit-runner';
-import { evaluateToolContent, countActualFaqQuestions } from '../src/lib/seo/audit/thin-content-detector';
+import { evaluateToolContent, countActualFaqQuestions, hasToolDomainSpecificTerms } from '../src/lib/seo/audit/thin-content-detector';
 import { toolContent } from '../src/lib/tool-content';
+import { getCanonicalToolSlugs, getToolBySlug } from '../src/lib/tools-db';
 import {
   buildWebSiteSchema,
   buildOrganizationSchema,
@@ -228,7 +229,22 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     const emptyFaqHtml = '<h2>Frequently Asked Questions</h2><p>Find common questions and answers below.</p>';
     expect(countActualFaqQuestions(emptyFaqHtml)).toBe(0);
 
-    // Actual detected questions are counted accurately
+    // Ordinary definition-list terms in <dt> without a question are NOT counted
+    const dtTermsHtml = '<dl><dt>Lossless Compression</dt><dd>Reduces file size without losing any pixel details.</dd></dl>';
+    expect(countActualFaqQuestions(dtTermsHtml)).toBe(0);
+
+    // Definition-list terms containing genuine questions with substantive answers are counted
+    const dtQuestionsHtml = '<dl><dt>Is this converter completely free to use?</dt><dd>Yes, it is 100% free with no daily limits or accounts required.</dd></dl>';
+    expect(countActualFaqQuestions(dtQuestionsHtml)).toBe(1);
+
+    // Question markers without substantive answers are NOT counted
+    const unansweredQuestionsHtml = '<p><strong>Q: Is there any daily file limit?</strong></p><p><strong>Q: How do I convert files?</strong></p>';
+    expect(countActualFaqQuestions(unansweredQuestionsHtml)).toBe(0);
+
+    const shortAnswerHtml = '<p><strong>Q: Is it free?</strong> Yes</p>';
+    expect(countActualFaqQuestions(shortAnswerHtml)).toBe(0);
+
+    // Actual detected questions with substantive answers are counted accurately
     const validFaqHtml = `
       <p><strong>Q1: Is this tool free?</strong> Yes, completely free.</p>
       <p><strong>Q2: Where are files processed?</strong> In your browser memory.</p>
@@ -266,9 +282,24 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     expect(fallbackResult.hasDedicatedContentRecord).toBe(false);
     expect(fallbackResult.hasToolSpecificContent).toBe(false);
     expect(fallbackResult.isThinContent).toBe(true);
+
+    // F. Tool-domain-aware technical terms validation
+    // Unrelated formats cannot establish specificity for an image tool
+    expect(hasToolDomainSpecificTerms('image-to-text', 'Convert .wav audio tracks with 48 kHz sample rate into .mp3 format.')).toBe(false);
+
+    // Generic technical terminology alone ("compression") cannot establish specificity for a font converter
+    expect(hasToolDomainSpecificTerms('krutidev-to-unicode', 'A high quality utility offering efficient compression and fast performance.')).toBe(false);
+
+    // Unmatched tool domains cannot establish specificity via generic terms like ".pdf" or "compression"
+    expect(hasToolDomainSpecificTerms('imaginary-unknown-tool', 'A high quality utility offering file compression into .pdf format.')).toBe(false);
+
+    // True domain-matched terms succeed
+    expect(hasToolDomainSpecificTerms('image-to-text', 'Extract text from png and jpg photos using optical character recognition.')).toBe(true);
+    expect(hasToolDomainSpecificTerms('krutidev-to-unicode', 'Converts legacy Kruti Dev Hindi font to standard Unicode with proper matra placement.')).toBe(true);
+    expect(hasToolDomainSpecificTerms('mp3-to-wav', 'Converts lossy MP3 audio into 44.1 kHz 16-bit PCM WAV lossless audio.')).toBe(true);
   });
 
-  test('10. Redirect aliases are excluded from rendered-page averages and schema penalties', () => {
+  test('10. Redirect aliases are excluded from rendered-page averages, link diagnostics, and duplicate counts', () => {
     const { summary, inventory } = runFullSeoAudit();
 
     const renderedPages = inventory.filter((item) => !item.isAlias);
@@ -291,6 +322,25 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     // Missing schema and breadcrumb counts must only reflect rendered pages
     const missingBreadcrumbs = renderedPages.filter((item) => item.breadcrumbStructure.length === 0).length;
     expect(summary.pagesMissingBreadcrumbs).toBe(missingBreadcrumbs);
+
+    // Weak internal linking total must strictly reflect rendered pages
+    const expectedWeakLinks = renderedPages.filter((item) => item.incomingInternalLinkCount < 3).length;
+    expect(summary.pagesWithWeakInternalLinking).toBe(expectedWeakLinks);
+
+    // Duplicate titles & descriptions must strictly reflect rendered pages (no aliases in duplicate lists)
+    for (const dup of summary.pagesWithDuplicateTitles) {
+      for (const slug of dup.slugs) {
+        const item = inventory.find((i) => i.urlPath === slug);
+        expect(item?.isAlias, `Duplicate title list should not contain alias route: ${slug}`).toBe(false);
+      }
+    }
+
+    for (const dup of summary.pagesWithDuplicateDescriptions) {
+      for (const slug of dup.slugs) {
+        const item = inventory.find((i) => i.urlPath === slug);
+        expect(item?.isAlias, `Duplicate description list should not contain alias route: ${slug}`).toBe(false);
+      }
+    }
 
     // Scorer must not penalize legitimate 301 redirect aliases
     const sampleAlias = aliases[0];
@@ -370,9 +420,10 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     expect(pptPdf.trustBadge).toContain('Cloudmersive API');
 
     const presentation = getToolProcessingBadges('presentation-maker');
-    expect(presentation.classification).toBe('external-ai');
+    expect(presentation.classification).toBe('external-ai-mixed');
     expect(presentation.heroBadge).toContain('Google Gemini');
     expect(presentation.trustBadge).toContain('Google Gemini');
+    expect(presentation.trustBadge).toContain('external image providers');
 
     // Genuine Client-Side AI/ML
     const bgRemoval = getToolProcessingBadges('remove-background');
@@ -384,7 +435,7 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     expect(ocr.trustBadge).toContain('Tesseract OCR');
 
     const captions = getToolProcessingBadges('video-caption-generator');
-    expect(captions.classification).toBe('client-ai');
+    expect(captions.classification).toBe('client-webcodecs');
     expect(captions.trustBadge).toContain('WebCodecs');
 
     // WebAssembly PDF tools
@@ -399,5 +450,61 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     expect(fallbackTool.trustBadge).toBe('Browser-based file utility · No account required');
     expect(fallbackTool.trustBadge).not.toContain('100%');
     expect(fallbackTool.trustBadge).not.toContain('on-device');
+  });
+
+  test('13. Every canonical tool in toolsDatabase has an intentional processing classification', () => {
+    const canonicalSlugs = getCanonicalToolSlugs();
+    expect(canonicalSlugs.length).toBeGreaterThan(100);
+
+    for (const slug of canonicalSlugs) {
+      const toolData = getToolBySlug(slug);
+      expect(toolData, `Tool data for canonical slug '${slug}' must resolve`).toBeDefined();
+      if (toolData) {
+        const badges = getToolProcessingBadges(slug, toolData.tool, toolData.categorySlug);
+        expect(
+          badges.classification,
+          `Canonical tool '${slug}' must have an intentional classification, not neutral-fallback`
+        ).not.toBe('neutral-fallback');
+      }
+    }
+
+    // WebCodecs must only be assigned to video-caption-generator
+    for (const slug of canonicalSlugs) {
+      const toolData = getToolBySlug(slug);
+      if (toolData) {
+        const badges = getToolProcessingBadges(slug, toolData.tool, toolData.categorySlug);
+        if (slug === 'video-caption-generator') {
+          expect(badges.classification).toBe('client-webcodecs');
+        } else {
+          expect(
+            badges.classification,
+            `Tool '${slug}' must not be assigned client-webcodecs unless it explicitly uses WebCodecs`
+          ).not.toBe('client-webcodecs');
+        }
+      }
+    }
+
+    // Video compressor must be WebAssembly FFmpeg (client-wasm-video)
+    const videoCompressorData = getToolBySlug('video-compressor');
+    expect(videoCompressorData).toBeDefined();
+    if (videoCompressorData) {
+      const badges = getToolProcessingBadges('video-compressor', videoCompressorData.tool, videoCompressorData.categorySlug);
+      expect(badges.classification).toBe('client-wasm-video');
+      expect(badges.trustBadge).toContain('FFmpeg');
+    }
+
+    // Audio tools must be WebAssembly audio processors (client-wasm-audio)
+    const audioData = getToolBySlug('mp3-to-wav');
+    expect(audioData).toBeDefined();
+    if (audioData) {
+      const badges = getToolProcessingBadges('mp3-to-wav', audioData.tool, audioData.categorySlug);
+      expect(badges.classification).toBe('client-wasm-audio');
+      expect(badges.trustBadge).toContain('Web Audio');
+    }
+
+    // Unknown slugs must fall back to neutral-fallback
+    const unknownBadges = getToolProcessingBadges('totally-imaginary-slug');
+    expect(unknownBadges.classification).toBe('neutral-fallback');
+    expect(unknownBadges.heroBadge).toBe('Free Online Utility');
   });
 });

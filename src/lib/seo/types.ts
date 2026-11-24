@@ -172,6 +172,7 @@ export interface SeoAuditSummary {
   averageWordCount: number;
   categoryBreakdown: Record<string, number>;
   averageSeoScore: number;
+  aliasesWithWeakInboundLinks?: number;
 }
 
 export interface CompleteSeoAuditDataset {

@@ -22,6 +22,7 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
   let totalRenderedScore = 0;
   let canonicalCount = 0;
   let aliasCount = 0;
+  let aliasesWithWeakInboundLinks = 0;
 
   const categoryBreakdown: Record<string, number> = {};
   const titlesMap: Record<string, string[]> = {};
@@ -30,6 +31,10 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
   for (const item of inventory) {
     if (item.isAlias) {
       aliasCount++;
+      // Track separate redirect-link diagnostics without polluting rendered-page totals
+      if (item.incomingInternalLinkCount < 3) {
+        aliasesWithWeakInboundLinks++;
+      }
     } else {
       canonicalCount++;
       renderedPageCount++;
@@ -58,6 +63,21 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
       if (item.isThinContent) {
         pagesWithThinContent++;
       }
+
+      // Weak Internal Linking for rendered pages only (< 3 inbound links)
+      if (item.incomingInternalLinkCount < 3) {
+        pagesWithWeakInternalLinking++;
+      }
+
+      // Duplicate titles & descriptions tracking for rendered pages only
+      if (item.currentTitle) {
+        if (!titlesMap[item.currentTitle]) titlesMap[item.currentTitle] = [];
+        titlesMap[item.currentTitle].push(item.urlPath);
+      }
+      if (item.currentMetaDescription) {
+        if (!descriptionsMap[item.currentMetaDescription]) descriptionsMap[item.currentMetaDescription] = [];
+        descriptionsMap[item.currentMetaDescription].push(item.urlPath);
+      }
     }
 
     // Indexability count (indexable vs noindex vs redirect)
@@ -69,21 +89,6 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
 
     // Category breakdown
     categoryBreakdown[item.category] = (categoryBreakdown[item.category] || 0) + 1;
-
-    // Weak Internal Linking (< 3 inbound links)
-    if (item.incomingInternalLinkCount < 3) {
-      pagesWithWeakInternalLinking++;
-    }
-
-    // Duplicate titles & descriptions tracking
-    if (item.currentTitle) {
-      if (!titlesMap[item.currentTitle]) titlesMap[item.currentTitle] = [];
-      titlesMap[item.currentTitle].push(item.urlPath);
-    }
-    if (item.currentMetaDescription) {
-      if (!descriptionsMap[item.currentMetaDescription]) descriptionsMap[item.currentMetaDescription] = [];
-      descriptionsMap[item.currentMetaDescription].push(item.urlPath);
-    }
   }
 
   // Find duplicate titles (title shared by > 1 page)
@@ -125,7 +130,8 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
     pagesMissingAppropriateStructuredData,
     averageWordCount,
     categoryBreakdown,
-    averageSeoScore
+    averageSeoScore,
+    aliasesWithWeakInboundLinks
   };
 
   return {
