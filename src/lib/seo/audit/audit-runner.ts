@@ -36,7 +36,7 @@ export function runFullSeoAudit(): CompleteSeoAuditDataset {
     // Indexability count
     if (item.indexability === "indexable") {
       totalIndexablePages++;
-    } else {
+    } else if (item.indexability === "noindex") {
       totalNoindexPages++;
     }
 
