@@ -364,8 +364,8 @@ export function ExamSignatureResizer() {
 
                   <div className="space-y-1 w-full text-xs">
                     <div className="flex items-center justify-between text-muted-foreground">
-                      <span>Dimensions:</span>
-                      <span className="font-medium text-foreground">{config.dimensionsLabel.split(" ")[0]}</span>
+                      <span>Crop ratio (W:H):</span>
+                      <span className="font-medium text-foreground">{config.aspect.toFixed(2)}:1</span>
                     </div>
                     <div className="flex items-center justify-between text-muted-foreground">
                       <span>Target KB:</span>
@@ -389,11 +389,11 @@ export function ExamSignatureResizer() {
                   {activeConfig.minKB} KB – {activeConfig.maxKB} KB
                 </span>
                 <span className="px-2 py-0.5 bg-muted border font-medium rounded text-[11px]">
-                  {activeConfig.dimensionsLabel}
+                  Reference: {activeConfig.dimensionsLabel}
                 </span>
               </div>
               <p className="text-muted-foreground leading-relaxed pt-0.5">
-                Automatically removes grey paper shadows, whitens the background to pure 255-white, sharpens pen ink, and guarantees compliance with the strict {activeConfig.maxKB} KB ceiling.
+                Applies adjustable background and ink filters, then tries to compress the JPEG into the selected {activeConfig.minKB}–{activeConfig.maxKB} KB range. Results depend on the source image; check the final file size and follow the latest official notice.
               </p>
             </div>
           </div>
@@ -412,7 +412,7 @@ export function ExamSignatureResizer() {
           </div>
           <h3 className="text-lg font-semibold mb-1">Upload Signature Photo</h3>
           <p className="text-xs text-muted-foreground mb-4 max-w-sm">
-            Take a photo of your signature on paper with your phone. Grey shadows and uneven lighting will be automatically cleaned.
+            Take a photo of your signature on paper. The adjustable filter can reduce some background shading; inspect the preview for remaining shadows or lost pen detail.
           </p>
           <Button size="sm" variant="outline" className="pointer-events-none">
             Choose signature image
@@ -553,7 +553,7 @@ export function ExamSignatureResizer() {
           <div className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 p-3 rounded-full">
             <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h2 className="text-xl font-bold">Signature Ready for Submission</h2>
+          <h2 className="text-xl font-bold">Signature Image Exported — Review Before Upload</h2>
           
           <div className="bg-background p-4 rounded-xl border max-w-sm w-full mx-auto text-left space-y-2 text-xs">
              <div className="flex justify-between">
@@ -567,7 +567,7 @@ export function ExamSignatureResizer() {
              <div className="flex justify-between">
                <span className="text-muted-foreground">Compliance:</span>
                <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                 <Check className="w-3.5 h-3.5" /> Strictly within {activeConfig.minKB}–{activeConfig.maxKB} KB
+                 <Check className="w-3.5 h-3.5" /> {resultBlob.size >= activeConfig.minKB * 1024 && resultBlob.size <= activeConfig.maxKB * 1024 ? "Within selected range" : "Outside selected range"}
                </span>
              </div>
              <div className="flex justify-between">
@@ -587,7 +587,7 @@ export function ExamSignatureResizer() {
             </Button>
             <Button onClick={handleDownload} size="lg">
               <Download className="mr-2 h-4 w-4" />
-              Download Portal-Ready Signature
+              Download Edited Signature
             </Button>
           </div>
         </div>
