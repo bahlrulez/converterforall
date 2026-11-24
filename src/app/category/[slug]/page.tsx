@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { NOINDEX_CATEGORIES } from "@/config/sitemap-lastmod";
+import { SITE_ORIGIN } from "@/lib/seo/site-config";
 
 function getIconComponent(iconName: string, className: string = "h-6 w-6") {
   switch(iconName) {
@@ -378,7 +379,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     : editorial?.intro
       ? editorial.intro.slice(0, 160)
       : `Free, private in-browser tools to convert and manage ${categorySlug} files without installing software.`;
-  const canonicalUrl = `https://www.converterforall.com/category/${categorySlug}`;
+  const canonicalUrl = `${SITE_ORIGIN}/category/${categorySlug}`;
   const isNoindex = NOINDEX_CATEGORIES.includes(categorySlug as (typeof NOINDEX_CATEGORIES)[number]);
 
   return {
@@ -474,7 +475,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
     "@type": "CollectionPage",
     "name": editorial.title,
     "description": editorial.intro,
-    "url": `https://www.converterforall.com/category/${categorySlug}`,
+    "url": `${SITE_ORIGIN}/category/${categorySlug}`,
     "mainEntity": {
       "@type": "ItemList",
       "itemListElement": toolItemList,
@@ -495,7 +496,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
         "@type": "ListItem",
         "position": 2,
         "name": editorial.title,
-        "item": `https://www.converterforall.com/category/${categorySlug}`,
+        "item": `${SITE_ORIGIN}/category/${categorySlug}`,
       },
     ],
   };
