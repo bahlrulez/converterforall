@@ -64,7 +64,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
       },
       {
         title: "Clean Formatting",
-        desc: "Convert Word, Excel, and PowerPoint presentations into standard PDFs while preserving tables, fonts, margins, and inline images.",
+        desc: "Office conversion behavior depends on the format and engine. The Excel tool currently exports the first XLSX worksheet as a simple table rather than reproducing the full workbook layout.",
       },
       {
         title: "Sensitive Metadata Removal",
@@ -128,7 +128,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     ],
   },
   fonts: {
-    title: "Indic Regional Font to Unicode Converters",
+    title: "Indic Regional Font Converters",
     badge: "Indian Font Converters",
     intro: "Legacy Indian-script fonts such as Kruti Dev, Asees, Satluj, Joy, and Gurbani Akhar may store text using font-specific character mappings. When text is opened without the original font or copied into modern apps, it can appear as Latin characters or render incorrectly. The converters listed here cover selected source and target formats; support differs by font and direction, so check each tool's notice and review the converted text before relying on it.",
     points: [
@@ -147,7 +147,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     ],
     faqs: [
       {
-        q: "Why does my Kruti Dev or Chanakya text look like English gibberish?",
+        q: "Why does legacy font text look like English gibberish?",
         a: "Legacy fonts remap English keyboard keys to Indian letter shapes. Without the custom font file installed, computers see ordinary English letters. Converting your text to Unicode gives each character a recognized standard code that renders everywhere.",
       },
       {
