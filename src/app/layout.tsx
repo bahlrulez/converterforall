@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     url: "https://www.converterforall.com",
     siteName: "ConverterForAll",
     title: "Free Online File Converter | Private PDF, Image, Video & Font Tools",
-    description: "Convert PDFs, images, videos, audio, and Indic fonts directly in your browser. Free, private, and no signup needed.",
+    description: "Most tools process files in your browser. Selected features offer optional cloud conversion or AI-assisted generation through external services. No signup required.",
     images: [
       {
         url: "/og-image.jpg",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Free Online File Converter | Private PDF, Image & Video Tools",
-    description: "Convert files directly in your browser without uploading to foreign servers. Free with no daily limits.",
+    description: "Most file tools run in your browser. Selected features offer optional cloud or AI-assisted processing. No signup required.",
     images: ["/og-image.jpg"],
   },
   robots: {
