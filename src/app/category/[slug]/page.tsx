@@ -149,7 +149,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     faqs: [
       {
         q: "Why does legacy font text look like English gibberish?",
-        a: "Legacy fonts remap English keyboard keys to Indian letter shapes. Without the custom font file installed, computers see ordinary English letters. Converting your text to Unicode gives each character a recognized standard code that renders everywhere.",
+        a: "Many legacy fonts use font-specific character mappings, so text may look like Latin characters when opened without the original font. Unicode is widely supported across modern systems, but the correct glyph still depends on the fonts available on the receiving device.",
       },
       {
         q: "Which Hindi and Punjabi fonts can I convert?",
@@ -166,76 +166,76 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     ],
   },
   exam: {
-    title: "Sarkari Exam Photo, Signature & Document Resizer",
-    badge: "Govt Exam Tools",
-    intro: "Recruitment portals like SSC, UPSC, IBPS, Railways, NTA NEET, and State PSCs have strict upload specifications. Forms get rejected if photo dimensions, signature file sizes, DPI settings, or date stamps fail to match guidelines. These dedicated exam utilities format your photos and certificates to exact portal requirements in seconds.",
+    title: "Exam Photo & Signature Preparation Tools",
+    badge: "Exam Image Utilities",
+    intro: "These browser-based tools help crop, clean, stamp, and compress images or PDFs for application uploads. Preset values are starting points only: recruitment bodies can change their requirements between examinations and notifications. Always follow the current official notice.",
     points: [
       {
-        title: "Photo Name & Date Imprinting",
-        desc: "Add your full candidate name and date of photo taken onto your passport photo with official font styling and clean white borders.",
+        title: "Crop and Resize Photos",
+        desc: "Choose a reference aspect ratio and file-size range for a photo. The cropper does not set fixed physical dimensions or certify that the result meets a specific portal's current requirements.",
       },
       {
-        title: "Exact Dimension & File Size Limits",
-        desc: "Resize photos to 3.5cm x 4.5cm (20KB–50KB) and signatures to 10KB–20KB without blurriness or compression artifacts.",
+        title: "Clean and Resize Signatures",
+        desc: "Adjust a signature crop, background threshold, and target file-size range. Check the downloaded image's actual dimensions and file size before uploading.",
       },
       {
-        title: "100KB Document PDF Compression",
-        desc: "Compress scanned marksheet PDFs, caste certificates, and domicile proofs below 100KB or 200KB for portal uploads.",
+        title: "Compress Supporting PDFs",
+        desc: "Create a smaller rasterized PDF with a chosen size target. Strong compression can reduce text and image clarity, so inspect every page before using the output.",
       },
     ],
     faqs: [
       {
-        q: "How do I add my name and date of photo onto my passport picture?",
-        a: "Open our Photo Name & Date Stamper, upload your photo, enter your candidate name and the date, and download the formatted photo ready for official portal upload.",
+        q: "Are the exam presets official and always up to date?",
+        a: "No. They are editable reference settings, not live portal requirements. The latest examination notification and upload instructions take precedence.",
       },
       {
-        q: "Why do exam portals reject signatures for being too large or too small?",
-        a: "Most exam portals require signatures between 10KB and 20KB with exact 140x60 pixel dimensions. Our Exam Signature Resizer sets the precise pixel bounding box and adjusts quality to guarantee a match.",
+        q: "Does the photo or signature tool guarantee the target file size?",
+        a: "No. The tools try compression settings and show the resulting file size, but cannot guarantee that every image will fit the selected range or be accepted by a portal. Check the output before submission.",
       },
       {
-        q: "What DPI setting do official exam portals require?",
-        a: "Most competitive exams specify 200 DPI or 300 DPI for scanned photos and documents. Our Image DPI Converter adjusts embedded EXIF resolution headers without altering image quality.",
+        q: "Does the DPI tool change image resolution or add detail?",
+        a: "No. It changes density metadata in supported JPEG and PNG files. It does not resample the image, increase its pixel dimensions, or add visual detail.",
       },
       {
-        q: "Are my Aadhaar, admit card, or certificate files safe to upload?",
-        a: "Most of our tools run directly inside your browser so your documents stay on your device. We do not store, view, or retain your personal exam certificates or photographs.",
+        q: "Are the selected photos uploaded to a conversion API?",
+        a: "The photo and signature resizers process the selected image in the browser using canvas operations; they do not send it to a file-conversion API. The website may still load its normal page resources and analytics.",
       },
     ],
   },
   developer: {
     title: "Data & Code Utilities for Developers",
     badge: "Developer Utilities",
-    intro: "When inspecting JSON payloads, decoding JWT tokens, generating random UUIDs, or converting CSV tables into JSON objects, sending internal tokens or customer data to third-party cloud servers presents security risks. Our developer utilities run locally on your device for reliable offline inspection.",
+    intro: "Format JSON, inspect the readable parts of a JWT, convert JSON and CSV, and generate identifiers in the browser. These tools are useful for quick client-side checks, but they are not a substitute for secure server-side validation or production security review.",
     points: [
       {
-        title: "Offline JWT Token Inspection",
-        desc: "Decode token headers and payloads with formatted expiration dates without transmitting your JWT secret or bearer token over the internet.",
+        title: "JWT Header and Payload Inspection",
+        desc: "Decode the Base64URL header and payload locally in JavaScript. Decoding does not verify a token signature, validate its trust chain, or establish that its claims are authentic.",
       },
       {
-        title: "JSON Formatting & Validation",
-        desc: "Quickly beautify, minify, and locate syntax errors in large JSON structures directly in browser memory.",
+        title: "JSON Formatting and Validation",
+        desc: "Use the browser's JSON parser to format and check JSON syntax. Large inputs are limited by available browser memory and are not handled by a streaming parser.",
       },
       {
-        title: "Data Table Conversions",
-        desc: "Transform CSV rows into JSON objects or export structured JSON data to flat CSV spreadsheets in one click.",
+        title: "JSON, CSV, and UUID Utilities",
+        desc: "Convert supported JSON and CSV text locally, and generate UUIDs with the browser's crypto API where available. Review exported data for quoting, nested fields, and type conversions.",
       },
     ],
     faqs: [
       {
-        q: "Is it safe to paste private JWT tokens or API responses here?",
-        a: "Yes. All developer utilities run 100% on-device using client-side JavaScript. No network requests are made, and your tokens or data never leave your browser window.",
+        q: "Does the JWT decoder verify my token?",
+        a: "No. It decodes the header and payload for inspection only. It does not verify the signature, issuer, audience, or authorization status. Never treat decoded claims as proof that a token is valid.",
       },
       {
-        q: "Can the JSON Formatter handle large payloads without crashing?",
-        a: "Our formatter uses streaming browser parsers designed to process large payloads smoothly and highlight syntax errors immediately.",
+        q: "Is my pasted token sent to a verification server?",
+        a: "The JWT decoder reads and parses the token in browser JavaScript; it does not call a backend token-verification API. Avoid pasting production credentials into websites unless you have reviewed and trust their privacy and security practices.",
       },
       {
-        q: "Are the UUIDs generated cryptographically secure?",
-        a: "Yes, our UUID generator uses the browser's native `crypto.randomUUID()` API conforming to RFC 4122 v4 standards.",
+        q: "Can the JSON formatter process unlimited or very large data?",
+        a: "No. Formatting uses the browser's standard JSON parser, so practical input size depends on device memory and browser performance.",
       },
       {
-        q: "Can I convert Unix timestamps to readable dates?",
-        a: "Yes, our Unix Timestamp Converter displays epoch seconds and milliseconds in UTC, local timezone, and relative human-readable formats.",
+        q: "Are generated UUIDs random?",
+        a: "Where supported, the UUID tool uses the browser's crypto.randomUUID() API to generate version 4 UUIDs. Check the tool's browser compatibility if that API is unavailable.",
       },
     ],
   },
@@ -314,43 +314,45 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     ],
   },
   utilities: {
-    title: "Calculators, QR Tools & Everyday Utilities",
-    badge: "Utility Suite",
-    intro: "Quick, dependable mini-tools for day-to-day work: generate custom QR codes and barcodes for packaging, convert between metric and imperial measurements, calculate precise ages, or create strong passwords.",
+    title: "Calculators, QR Codes & Everyday Utilities",
+    badge: "Utility Tools",
+    intro: "Create QR codes and barcodes, convert common units, and use simple date or calculation utilities. Check the generated result and confirm that it suits your intended use before printing or sharing it.",
     points: [
       {
-        title: "Custom QR Code & Barcode Generator",
-        desc: "Create scannable QR codes for websites, Wi-Fi networks, and contact vCards, or standard barcodes for inventory and books.",
+        title: "QR Code Generation",
+        desc: "Encode a URL or text directly in a QR code. The QR image itself does not expire, but an encoded website or service can move, change, or stop working.",
       },
       {
-        title: "Metric & Imperial Unit Conversions",
-        desc: "Convert inches, feet, meters, centimeters, miles, and kilometers with exact precision.",
+        title: "Barcode Generation",
+        desc: "Create supported barcode formats for testing and internal workflows. Retail product identification and point-of-sale use may require a properly assigned GS1 identifier; a generated symbol alone does not grant one.",
       },
       {
-        title: "Age & Date Calculators",
-        desc: "Calculate exact age down to years, months, days, and hours for official forms and resumes.",
+        title: "Unit and Date Calculations",
+        desc: "Convert common units and calculate dates using standard JavaScript arithmetic. Display rounding and timezone settings can affect how a result is presented.",
       },
     ],
     faqs: [
       {
-        q: "Are the generated QR codes permanent?",
-        a: "Yes. The QR codes we generate encode the text or URL directly into the matrix, meaning they will never expire and do not depend on any third-party redirect link.",
+        q: "Will a generated QR code ever expire?",
+        a: "The QR image has no built-in expiry date. However, if it contains a URL, the destination website or page may change or become unavailable.",
       },
       {
-        q: "Can I use generated barcodes for retail products?",
-        a: "Yes, our generator supports Code128, EAN, and UPC formats suitable for inventory management, asset tagging, and retail packaging.",
+        q: "Can I use a generated barcode on products for retail sale?",
+        a: "The tool can create supported barcode symbols, but commercial product identification may require a licensed or assigned GS1 identifier. Confirm the applicable standards before printing product packaging.",
       },
       {
-        q: "Are the unit conversion calculations exact?",
-        a: "Yes. All conversion factors follow international standard measurement tables with high decimal accuracy.",
+        q: "Are unit conversion results exact?",
+        a: "The tools use standard conversion factors, but displayed values may be rounded. Use the full precision or a specialist reference where the calculation is safety-critical or legally significant.",
       },
       {
-        q: "Can I use these tools on mobile phones?",
-        a: "All utilities are fully responsive and touch-friendly, allowing quick calculations on smartphones and tablets.",
+        q: "Do these utilities work on mobile devices?",
+        a: "The pages are designed to be responsive, but camera access and some browser APIs depend on device, browser, and permission support.",
       },
     ],
   },
 };
+
+export async function generateStaticParams};
 
 export async function generateStaticParams() {
   return Object.keys(toolsDatabase).map((slug) => ({
