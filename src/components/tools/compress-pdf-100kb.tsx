@@ -236,7 +236,7 @@ export function CompressPdf100kb() {
               2. Select Portal Target Limit
             </h3>
             <p className="text-xs text-muted-foreground mb-4">
-              Calibrated with an automatic safety margin below the ceiling so portals never reject your file.
+              These presets are compression targets, not portal-specific guarantees. Results depend on the page count, source quality, and target.
             </p>
             
             <div className="space-y-2.5">
@@ -339,8 +339,8 @@ export function CompressPdf100kb() {
         <div className="flex flex-col h-full">
           <div className="bg-muted/30 border border-border rounded-2xl p-6 flex flex-col flex-1 shadow-sm min-h-[420px]">
             <h3 className="font-semibold text-base flex items-center gap-2 mb-4">
-              <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-              Document Verification &amp; Result
+              <FileArchive className="w-5 h-5 text-primary" />
+              Compression Result
             </h3>
             
             {!resultBlob ? (
@@ -348,11 +348,14 @@ export function CompressPdf100kb() {
                 <FileArchive className="w-14 h-14 opacity-25 mb-3" />
                 <p className="text-xs sm:text-sm font-medium">Select your marksheet PDF and click Compress to view the result.</p>
                 <p className="text-xs text-muted-foreground mt-1 max-w-xs">
-                  The algorithm enforces a safety margin below the ceiling so uploading portals never bounce your file.
+                  The tool tries several compression passes. Some PDFs may remain above the selected target, and image-based output can reduce text clarity.
                 </p>
               </div>
             ) : (
               <div className="flex flex-col flex-1 h-full space-y-4">
+                {stats && (
+                  <p className="text-[11px] text-muted-foreground">Every page is rasterized into an image. Text will not remain selectable/searchable; inspect the full document before use.</p>
+                )}
                 {stats && (
                   <div className="bg-background rounded-xl p-4 border grid grid-cols-2 gap-3 text-xs">
                     <div>
@@ -364,9 +367,11 @@ export function CompressPdf100kb() {
                       <span className="font-bold text-sm text-emerald-600 dark:text-emerald-400">{formatSize(stats.newSize)}</span>
                     </div>
                     <div className="col-span-2 pt-2 border-t flex items-center justify-between text-xs">
-                      <span className="text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                        <Check className="w-3.5 h-3.5" /> Portal Verified (Under {targetKb} KB limit)
-                      </span>
+                      {stats.newSize <= targetKb * 1024 ? (
+                        <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Below selected size target — not portal verification</span>
+                      ) : (
+                        <span className="text-amber-700 dark:text-amber-400 font-semibold">Above selected size target — review settings</span>
+                      )}
                       <span className="text-muted-foreground">
                         Reduced by {Math.round(((stats.origSize - stats.newSize) / stats.origSize) * 100)}%
                       </span>
@@ -391,7 +396,7 @@ export function CompressPdf100kb() {
                     download={`compressed-${targetKb}kb-${file?.name || "document.pdf"}`}
                     className="inline-flex items-center justify-center w-full px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-sm shadow-sm hover:bg-primary/90 transition-colors cursor-pointer"
                   >
-                    <Download className="w-4 h-4 mr-2" /> Download Conformed PDF
+                    <Download className="w-4 h-4 mr-2" /> Download Compressed PDF
                   </a>
                 )}
               </div>
