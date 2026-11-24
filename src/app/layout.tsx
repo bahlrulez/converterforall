@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { siteMetadata } from "@/lib/seo/site-metadata";
+import { GOOGLE_ANALYTICS_MEASUREMENT_ID, GOOGLE_SITE_VERIFICATION_TOKEN, ENABLE_VERCEL_ANALYTICS } from "@/lib/seo/site-config";
 import { Inter, Geist, Caveat } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -24,55 +26,7 @@ const caveat = Caveat({
   weight: "700",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://www.converterforall.com"),
-  title: {
-    default: "Free Online File Converter | Private PDF, Image, Video & Font Tools",
-    template: "%s | ConverterForAll"
-  },
-  description: "Convert PDFs, images, videos, audio, and Indic fonts easily. Most tools run directly in your browser so your files stay on your device, with no registration required.",
-  authors: [{ name: "ConverterForAll" }],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://www.converterforall.com",
-    siteName: "ConverterForAll",
-    title: "Free Online File Converter | Private PDF, Image, Video & Font Tools",
-    description: "Most tools process files in your browser. Selected features offer optional cloud conversion or AI-assisted generation through external services. No signup required.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "ConverterForAll - Private Online File Converter",
-      }
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Free Online File Converter | Private PDF, Image & Video Tools",
-    description: "Most file tools run in your browser. Selected features offer optional cloud or AI-assisted processing. No signup required.",
-    images: ["/og-image.jpg"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.png", type: "image/png", sizes: "32x32" },
-    ],
-    apple: "/icon.png",
-  },
-};
+export const metadata: Metadata = siteMetadata;
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/layout/header";
@@ -113,19 +67,19 @@ export default function RootLayout({
           }}
         />
         {/* Google Analytics Script (Runs in consent mode) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-49NFK7K9W6"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_MEASUREMENT_ID}"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-49NFK7K9W6');
+              gtag('config', '${GOOGLE_ANALYTICS_MEASUREMENT_ID}');
             `,
           }}
         />
         {/* Google Site Verification Placeholder */}
-        <meta name="google-site-verification" content="google8e488f91621932b6" />
+        <meta name="google-site-verification" content={GOOGLE_SITE_VERIFICATION_TOKEN} />
       </head>
       <body className={cn(geist.variable, inter.variable, plusJakarta.variable, caveat.variable, "min-h-full flex flex-col font-sans antialiased bg-background text-foreground transition-colors duration-200")}>
         <CookieConsentProvider>
@@ -147,7 +101,7 @@ export default function RootLayout({
             <CookieModal />
             <CookieToast />
             <ThirdPartyScripts />
-            <Analytics />
+            {ENABLE_VERCEL_ANALYTICS && <Analytics />}
           </ThemeProvider>
         </CookieConsentProvider>
       </body>
