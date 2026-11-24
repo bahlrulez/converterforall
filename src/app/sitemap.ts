@@ -1,5 +1,19 @@
 import { MetadataRoute } from 'next'
 import { SITE_ORIGIN } from '@/lib/seo/site-config'
+
+export const BASE_SITEMAP_ROUTES = [
+  '',
+  '/tools',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/terms',
+  '/disclaimer',
+  '/accessibility',
+  '/cookie-policy',
+  '/editorial-policy',
+  '/blog',
+] as const
 import { getCanonicalToolSlugs, toolsDatabase } from '@/lib/tools-db'
 import { getAllBlogSlugs, blogDatabase } from '@/lib/blog-data'
 import { TOOLS } from '@/config/tools'
@@ -29,22 +43,7 @@ function getBlogLastModified(slug: string): Date {
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE_ORIGIN
   
-  // Base routes
-  const basePaths = [
-    '',
-    '/tools',
-    '/about',
-    '/contact',
-    '/privacy',
-    '/terms',
-    '/disclaimer',
-    '/accessibility',
-    '/cookie-policy',
-    '/editorial-policy',
-    '/blog',
-  ]
-
-  const routes = basePaths.map((route) => ({
+  const routes = BASE_SITEMAP_ROUTES.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: getPageLastModified(route || '/'),
     changeFrequency: 'weekly' as const,
