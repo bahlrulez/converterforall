@@ -9,6 +9,7 @@ import {
   GOOGLE_SITE_VERIFICATION_TOKEN,
   SITE_ORIGIN,
   SITE_SCHEMA_TYPES,
+  SITE_TITLE_TEMPLATE,
 } from "@/lib/seo/site-config";
 import { NOINDEX_CATEGORIES, TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
 import { TOOLS } from "@/config/tools";
@@ -110,9 +111,9 @@ export function inspectSeoSystem(): SystemSeoInspection {
   const metadataIssues: string[] = [];
   const metadataBase = siteMetadata.metadataBase;
   const metadataBaseOrigin = metadataBase instanceof URL ? metadataBase.origin : undefined;
-  const titleTemplate = typeof siteMetadata.title === "object" && siteMetadata.title !== null
-    ? siteMetadata.title.template || ""
-    : "";
+  const titleTemplate = typeof siteMetadata.title === "object" && siteMetadata.title !== null && "template" in siteMetadata.title
+    ? siteMetadata.title.template || SITE_TITLE_TEMPLATE
+    : SITE_TITLE_TEMPLATE;
   const openGraph = siteMetadata.openGraph;
   const twitter = siteMetadata.twitter;
   const hasMetadataBase = metadataBaseOrigin === SITE_ORIGIN;

@@ -11,7 +11,7 @@ export const TOOLS: Record<string, ToolConfig> = {
   'exam-photo-resizer': {
     id: 'exam-photo-resizer',
     name: 'Exam Photo Resizer',
-    description: 'Resize passport photo to exact dimensions and KB size for exam portals.',
+    description: 'Resize passport photos using common exam portal aspect ratios and target KB sizes.',
     path: '/exam-photo-resizer',
     category: 'sarkari',
   },
@@ -25,21 +25,21 @@ export const TOOLS: Record<string, ToolConfig> = {
   'exam-signature-resizer': {
     id: 'exam-signature-resizer',
     name: 'Exam Signature Resizer',
-    description: 'Compress and resize official signatures to under 20KB/50KB.',
+    description: 'Resize and compress signature images toward 20KB or 50KB targets.',
     path: '/exam-signature-resizer',
     category: 'sarkari',
   },
   'compress-pdf-100kb': {
     id: 'compress-pdf-100kb',
     name: 'Compress PDF to 100KB',
-    description: 'Compress official certificates and PDFs without quality loss.',
+    description: 'Compress PDF documents toward a 100KB target using image rasterization.',
     path: '/compress-pdf-100kb',
     category: 'sarkari',
   },
   'image-dpi-converter': {
     id: 'image-dpi-converter',
     name: 'Image DPI Converter',
-    description: 'Change image DPI to 200 DPI or 300 DPI instantly for Sarkari exam photos and documents.',
+    description: 'Change JPEG JFIF or PNG pHYs DPI metadata to 200 or 300 DPI without resampling pixels.',
     path: '/image-dpi-converter',
     category: 'sarkari',
   },

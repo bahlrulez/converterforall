@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, Download, Wand2, Minimize2, CheckCircle2, AlertCircle, Trash2, FileText, Upload, Lock } from "lucide-react";
+import { Copy, Check, Download, Wand2, Minimize2, CheckCircle2, AlertCircle, Trash2, Upload } from "lucide-react";
 import { PrivacyBadge } from "@/components/tools/shared/privacy-badge";
 import { cn } from "@/lib/utils";
 
 const SAMPLE_JSON = `{
   "site": "Converter for All",
-  "features": ["100% In-Browser", "Zero Cloud Uploads", "Private & Fast"],
+  "features": ["In-browser processing", "Zero server uploads", "Private and local"],
   "stats": {
     "toolsCount": 150,
     "uptime": 99.9,
@@ -36,10 +36,11 @@ export function JsonFormatter() {
       const formatted = JSON.stringify(parsed, null, space);
       setJsonInput(formatted);
       setValidationStatus({ isValid: true, message: "Valid JSON syntax" });
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Invalid JSON syntax";
       setValidationStatus({
         isValid: false,
-        message: err.message || "Invalid JSON syntax",
+        message: msg,
       });
     }
   };
@@ -50,8 +51,9 @@ export function JsonFormatter() {
       const parsed = JSON.parse(jsonInput);
       setJsonInput(JSON.stringify(parsed));
       setValidationStatus({ isValid: true, message: "Minified successfully" });
-    } catch (err: any) {
-      setValidationStatus({ isValid: false, message: err.message });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Invalid JSON syntax";
+      setValidationStatus({ isValid: false, message: msg });
     }
   };
 
@@ -59,7 +61,7 @@ export function JsonFormatter() {
     if (!jsonInput.trim()) return;
     try {
       // Common JSON fixes: remove trailing commas, single quotes to double quotes, unquoted keys
-      let fixed = jsonInput
+      const fixed = jsonInput
         // Replace single quotes with double quotes
         .replace(/'/g, '"')
         // Remove trailing commas before } or ]
@@ -68,10 +70,11 @@ export function JsonFormatter() {
       const parsed = JSON.parse(fixed);
       setJsonInput(JSON.stringify(parsed, null, indentSize === "tab" ? "\t" : indentSize));
       setValidationStatus({ isValid: true, message: "Repaired and formatted successfully!" });
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
       setValidationStatus({
         isValid: false,
-        message: `Auto-repair could not completely resolve syntax: ${err.message}`,
+        message: `Auto-repair could not completely resolve syntax: ${msg}`,
       });
     }
   };
@@ -143,10 +146,10 @@ export function JsonFormatter() {
               variant="outline"
               onClick={handleAutoRepair}
               className="h-9 px-3.5 rounded-xl font-bold text-xs gap-1.5 text-purple-600 dark:text-purple-400 hover:bg-purple-500/10"
-              title="Auto fix trailing commas and single quotes"
+              title="Fixes trailing commas and single quotes only"
             >
               <Wand2 className="w-3.5 h-3.5" />
-              <span>Auto-Repair</span>
+              <span>Auto-Repair Syntax</span>
             </Button>
 
             {/* Indent Selector */}
@@ -241,8 +244,9 @@ export function JsonFormatter() {
                 } else {
                   setValidationStatus(null);
                 }
-              } catch (err: any) {
-                setValidationStatus({ isValid: false, message: err.message });
+              } catch (err: unknown) {
+                const msg = err instanceof Error ? err.message : "Invalid JSON syntax";
+                setValidationStatus({ isValid: false, message: msg });
               }
             }}
             placeholder="Paste your JSON here..."

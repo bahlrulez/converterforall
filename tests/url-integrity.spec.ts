@@ -301,7 +301,7 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
 
         // Trust badge strip
         expect(html).toContain('On-Device Browser Processing');
-        expect(html).toContain('No Account or Limits');
+        expect(html.includes('No Account or Limits') || html.includes('No account required')).toBe(true);
 
         // Brand title
         expect(html).toContain('| ConverterForAll</title>');

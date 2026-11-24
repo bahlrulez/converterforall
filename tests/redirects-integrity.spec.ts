@@ -189,7 +189,7 @@ test.describe('Redirects and Aliases Integrity', () => {
     expect(sitemapUrls).toContain('https://www.converterforall.com/blog/why-stop-uploading-sensitive-pdfs-to-online-converters');
     expect(sitemapUrls).toContain('https://www.converterforall.com/blog/gta-6-gameplay-videos-how-to-add-subtitles');
 
-    // 5. Supplementary inventory count: exactly 148 URLs (138 previous + restored Punjabi routes + GTA 6 blog)
-    expect(sitemapEntries.length).toBe(148);
+    // 5. Supplementary inventory count: exactly 149 URLs (138 previous + restored Punjabi routes + GTA 6 blog + indexable /category/fonts)
+    expect(sitemapEntries.length).toBe(149);
   });
 });

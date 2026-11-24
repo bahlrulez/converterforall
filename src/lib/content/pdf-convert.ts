@@ -84,30 +84,30 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is this converter?",
-        content: "<p>The PowerPoint to PDF converter turns Microsoft PowerPoint presentation files (.ppt, .pptx) into standard PDF documents. Converting slides to PDF locks your formatting and fonts in place, ensuring colleagues and clients can view your slides on any phone, tablet, or computer even if they don't have PowerPoint installed.</p>"
+        content: "<p>The PowerPoint to PDF converter turns presentation slides into standard PDF documents. Modern .pptx slides are converted locally in your web browser. If you have an older legacy .ppt file, conversion requires enabling the optional Cloud Engine, which converts the file in temporary memory and removes it after download.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>Our tool parses the slide structure, text, and embedded graphics from your PowerPoint presentation and generates a standard PDF document. For supported in-browser conversions, the processing occurs directly on your device without server upload wait times.</p>"
+        content: "<p>For modern .pptx presentations, parsing and PDF generation happen directly inside your web browser. For legacy binary .ppt presentations, browser parsing is not possible, so conversion requires opting into our secure Cloud Engine (via Cloudmersive API), which processes the file in memory and discards it once conversion finishes.</p>"
       },
       {
         title: "Examples",
-        content: "<p>If you created a pitch deck or class presentation in PowerPoint and need to email it to someone who might open it on a phone or tablet, converting it to PDF ensures your fonts, images, and layout stay clean and readable.</p>"
+        content: "<p>If you created a slide deck and need to send it to someone who might view it on a phone or tablet, converting it to PDF ensures your slides can be viewed anywhere without PowerPoint installed.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your Presentation:</strong> Drag and drop your .pptx file into the box.</li><li><strong>Conversion:</strong> The tool reads and formats the slide contents.</li><li><strong>Download:</strong> Click download to save your PDF slides.</li></ol>"
+        content: "<ol><li><strong>Select your Presentation:</strong> Drag and drop your .pptx file into the box (or select a .ppt file and enable Cloud Engine).</li><li><strong>Conversion:</strong> The slides are parsed and formatted into standard PDF pages.</li><li><strong>Download:</strong> Click download to save your PDF slides.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Client Proposals:</strong> Sharing non-editable versions of slides so formatting remains locked.</li><li><strong>Handouts &amp; Study Sheets:</strong> Printing presentation slides as handouts for meetings or classes.</li><li><strong>Mobile Viewing:</strong> Enabling smooth slide viewing on devices without Microsoft Office.</li></ul>"
+        content: "<ul><li><strong>Client Proposals:</strong> Sharing non-editable versions of slides so formatting remains locked.</li><li><strong>Handouts:</strong> Printing presentation slides for meetings or study sheets.</li><li><strong>Mobile Viewing:</strong> Enabling smooth slide viewing on devices without presentation software.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
           <p><strong>Q: Will slide animations work in the PDF?</strong><br>A: No. PDFs are static documents, so animations and video clips are flattened to show the final slide appearance.</p>
-          <p><strong>Q: Are my presentations kept private?</strong><br>A: Yes. Your presentation files are handled securely without permanent server storage.</p>
-          <p><strong>Q: Do I need a Microsoft 365 subscription?</strong><br>A: No. The converter runs independently in your web browser.</p>
+          <p><strong>Q: Does my presentation leave my computer?</strong><br>A: Supported .pptx files are converted in your browser. Legacy .ppt files require checking the Cloud Engine option, which processes files in secure memory and discards them immediately after download.</p>
+          <p><strong>Q: Do I need a Microsoft 365 subscription?</strong><br>A: No. The converter runs without requiring any Microsoft Office license or software.</p>
         `
       }
     ]
@@ -116,30 +116,31 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "What is this converter?",
-        content: "<p>The Excel to PDF converter transforms Microsoft Excel spreadsheets (.xls, .xlsx) into fixed-layout PDF files. Sharing raw spreadsheets can lead to accidental formula edits or messy printing. Converting your spreadsheet to PDF locks your data into a clean, printable document that anyone can open without spreadsheet software.</p>"
+        content: "<p>The Excel to PDF converter transforms the first worksheet of a modern Microsoft Excel workbook (.xlsx) into a clean, simple PDF table. Sharing spreadsheets as PDFs locks your row and column data into a fixed document that anyone can open or print without spreadsheet software.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>The tool reads your spreadsheet rows, columns, and tables, calculating page boundaries to create a clean, formatted PDF document. Processing runs efficiently without requiring your financial records to be permanently stored on external servers.</p>"
+        content: "<p>The tool extracts the first worksheet (sheet1) directly from your .xlsx file in your browser and formats the cells into a standard PDF data table. Note that legacy binary .xls files, multiple sheets, embedded charts, and custom print layouts are not converted—only the primary sheet's table data is exported.</p>"
       },
       {
         title: "Examples",
-        content: "<p>If you built an invoice, monthly budget, or expense report in Excel and want to share it with a client, converting it to PDF ensures they see the finalized calculations in a clean document ready for printing or filing.</p>"
+        content: "<p>If you have a single-sheet invoice, budget summary, or tabular report in XLSX format, this tool converts it into a printable PDF table for sharing or filing.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your Spreadsheet:</strong> Drag and drop your .xlsx file into the box.</li><li><strong>Rendering:</strong> The tool organizes your spreadsheet tables into PDF pages.</li><li><strong>Download:</strong> Click download to save your new PDF report.</li></ol>"
+        content: "<ol><li><strong>Select your Spreadsheet:</strong> Drag and drop your .xlsx file into the box.</li><li><strong>Rendering:</strong> The tool extracts the first worksheet table into PDF pages.</li><li><strong>Download:</strong> Click download to save your PDF report.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Financial Summaries:</strong> Sending clean balance sheets, invoices, and budget reports.</li><li><strong>Easy Printing:</strong> Locking in margins and table layout so sheets print without missing columns.</li><li><strong>Mobile Sharing:</strong> Sharing data tables that can be opened on any phone without Office apps.</li></ul>"
+        content: "<ul><li><strong>Single-Sheet Summaries:</strong> Turning basic tables and invoices into fixed PDF documents.</li><li><strong>Quick Sharing:</strong> Exporting spreadsheet data to PDF for mobile viewing without spreadsheet apps.</li><li><strong>Printable Tables:</strong> Generating a standard table layout without software installation.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will my Excel formulas still work in the PDF?</strong><br>A: No. The PDF shows the final calculated values of your cells.</p>
-          <p><strong>Q: Are my financial spreadsheets secure?</strong><br>A: Yes. Your documents are processed securely and are never stored or logged on our servers.</p>
-          <p><strong>Q: Will the text remain selectable and searchable?</strong><br>A: Yes, table text and numbers remain searchable inside the PDF.</p>
+          <p><strong>Q: Does this converter support legacy .xls files?</strong><br>A: No. The in-browser converter currently supports modern .xlsx workbooks. If you have an older .xls file, save it as .xlsx first.</p>
+          <p><strong>Q: Are all sheets converted into the PDF?</strong><br>A: No. The tool converts only the first worksheet in your workbook. Additional tabs or hidden sheets are omitted.</p>
+          <p><strong>Q: Will formatting, charts, and formulas carry over?</strong><br>A: The converter reads cell values and places them in a basic table layout. Custom formulas, macros, and embedded charts are not rendered.</p>
+          <p><strong>Q: Are my financial spreadsheets secure?</strong><br>A: Yes. All processing runs locally inside your browser—your spreadsheet data is never uploaded to remote servers.</p>
         `
       }
     ]
@@ -180,23 +181,22 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "Word to PDF Converter - Convert DOCX & DOC to PDF Online",
-        content: "<p>Our Word to PDF converter transforms Microsoft Word documents (.docx, .doc) into clean, standard PDF files. Whether you are submitting a resume, emailing a business contract, or sharing an assignment, converting to PDF keeps your formatting, fonts, and margins locked in across all devices.</p>"
+        content: "<p>Our Word to PDF converter transforms Microsoft Word documents into clean, standard PDF files. Modern .docx files are processed directly in your browser. For older legacy .doc files, conversion requires enabling the optional Cloud Engine, which processes files in secure memory and removes them after download.</p>"
       },
       {
         title: "How does Word to PDF conversion work?",
-        content: "<p>The converter reads the text, headings, tables, and embedded images from your Word document and formats them into a PDF copy. For supported files, conversion runs directly in your browser's local memory, keeping your documents private.</p>"
+        content: "<p>For .docx files, the converter reads text, headings, and formatting locally on your computer or phone without server uploads. Legacy .doc files cannot be parsed by browser engines alone; if you choose to enable the optional Cloud Engine, the file is securely converted in memory on an ephemeral server and discarded when the conversion finishes.</p>"
       },
       {
         title: "Step-by-Step: How to Convert Word to PDF",
-        content: "<ol><li><strong>Select Your Word Document:</strong> Drag and drop your .docx or .doc file into the box, or browse your device.</li><li><strong>Conversion:</strong> The tool reads the layout, typography, and embedded elements.</li><li><strong>Download:</strong> Click 'Download PDF' to save your new file.</li></ol>"
+        content: "<ol><li><strong>Select Your Word Document:</strong> Drag and drop your .docx file (or .doc file with Cloud Engine enabled) into the box.</li><li><strong>Conversion:</strong> The document is parsed and rendered into standard PDF pages.</li><li><strong>Download:</strong> Click 'Download PDF' to save your new file.</li></ol>"
       },
       {
         title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: Will my converted PDF keep its layout and page count?</strong><br>A: Yes. The converter maps typography, tables, and spacing to match your original Word document as closely as possible.</p>
-          <p><strong>Q: Are my confidential documents kept private?</strong><br>A: Yes. Files are processed securely in temporary memory and are never permanently stored, logged, or shared.</p>
-          <p><strong>Q: Does this tool support tables and images?</strong><br>A: Yes. Embedded photos, charts, and tables from your Word document are included in the PDF.</p>
-          <p><strong>Q: Can I convert Word documents on my phone?</strong><br>A: Yes. The converter works in mobile browsers on iOS and Android as well as desktop computers.</p>
+          <p><strong>Q: Does my document leave my computer?</strong><br>A: Modern .docx files are converted locally in your browser. If you upload a legacy .doc file, you can opt into our temporary Cloud Engine, which processes the file in memory and discards it immediately after conversion.</p>
+          <p><strong>Q: Will my converted PDF keep its layout and page count?</strong><br>A: The converter maps typography, tables, and spacing to match your Word document as closely as possible. Complex layouts may show minor differences.</p>
+          <p><strong>Q: Can I edit the downloaded file?</strong><br>A: The output is a standard PDF. You can view, print, or share it across all devices.</p>
         `
       }
     ]

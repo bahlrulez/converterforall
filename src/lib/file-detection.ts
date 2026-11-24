@@ -136,7 +136,7 @@ export function detectFileTools(file: File): DetectedFileInfo {
   } else if (extension === "xls" || extension === "xlsx") {
     category = "document";
     tools.push(
-      { slug: "excel-to-pdf", title: "Convert Excel to PDF", category: "document", badge: "Sheets", description: "Convert XLS/XLSX spreadsheets to PDF", isPopular: true }
+      { slug: "excel-to-pdf", title: "Convert Excel to PDF", category: "document", badge: "Sheets", description: "Convert the first sheet of an XLSX spreadsheet to PDF", isPopular: true }
     );
   } else if (extension === "html" || extension === "htm") {
     category = "document";

@@ -1,5 +1,5 @@
 import { toolsDatabase, Tool } from "@/lib/tools-db";
-import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText, Code2, KeyRound, Clock, Table, Database, Images, FileImage, PictureInPicture, Wand2, Eraser, Camera, Presentation, ShieldCheck, HelpCircle, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, FileType, Layout, Image as ImageIcon, Combine, Scissors, Wrench, FileText, Code2, KeyRound, Eraser, Camera, Presentation, ShieldCheck, HelpCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -352,8 +352,6 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
   },
 };
 
-export async function generateStaticParams};
-
 export async function generateStaticParams() {
   return Object.keys(toolsDatabase).map((slug) => ({
     slug,
@@ -408,7 +406,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
     categorySlug = "developer";
   }
 
-  const categoryData = (toolsDatabase as any)[categorySlug];
+  const categoryData = (toolsDatabase as Record<string, Record<string, Tool>>)[categorySlug];
 
   if (!categoryData) {
     notFound();

@@ -67,7 +67,7 @@ export default function RootLayout({
           }}
         />
         {/* Google Analytics Script (Runs in consent mode) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_MEASUREMENT_ID}"></script>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_MEASUREMENT_ID}`}></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `

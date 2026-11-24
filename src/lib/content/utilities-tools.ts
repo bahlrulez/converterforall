@@ -14,20 +14,20 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
         content: "<p>Behind the scenes, this tool uses a powerful client-side library called <code>pptxgenjs</code> to construct the internal XML structure required for the standard Office Open XML presentation format. This means your text is dynamically assembled into a real <code>.pptx</code> file right on your computer. It is not just generating images; it outputs fully editable text boxes and structured slides.</p>"
       },
       {
-        title: "100% Private and Local Processing",
-        content: "<p>Your privacy is our priority. Unlike cloud-based design platforms that require you to upload your sensitive business strategies or personal notes to their servers, our Presentation Maker runs entirely within your local browser. There are no API calls, no network <code>fetch</code> requests, and absolutely no server uploads. The presentation is generated directly in your device's memory and handed straight to you.</p>"
+        title: "Local Assembly and External Service Disclosures",
+        content: "<p>Slide structuring, layout adjustments, and final .pptx compilation happen directly inside your web browser using client-side assembly (pptxgenjs). When creating presentations manually, your text remains in your browser's local memory. If you choose to use the optional AI presentation assistant, your slide topic and slide count are sent via our API endpoint to Google Gemini to generate slide titles and outlines. When image suggestions or external pictures are enabled, image lookups may query external image providers (such as Wikimedia or Pollinations). Manual drafting requires no external API requests.</p>"
       },
       {
         title: "Supported Functionality and Limitations",
-        content: "<p>This tool is heavily optimized for speed and structure. It supports generating standard text-based slides, bulleted lists, and basic slide titles across up to 12 slides. However, it is not a full Canva or Microsoft PowerPoint replacement. It does not support cloud collaboration, AI-driven slide generation, template themes, adding images directly from our interface, or complex slide transitions. It is strictly a structural drafting tool designed to get your outline out of your head and into a standard file format as fast as possible.</p>"
+        content: "<p>The Presentation Maker is designed for fast drafting of structured slide decks. You can select themes, customize layout types (title, content, split, quote, metrics), and export clean, editable .pptx files compatible with PowerPoint, Google Slides, and Apple Keynote. It is not an animation studio: complex slide transition effects, video embedding, and multi-user live collaboration are not supported.</p>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
           <p><strong>Q: Can I edit the downloaded file in Microsoft PowerPoint or Google Slides?</strong><br>A: Yes! The tool exports a standard .pptx file that is fully compatible with Microsoft PowerPoint, Google Slides, LibreOffice Impress, and Apple Keynote.</p>
           <p><strong>Q: Are there any watermarks on the downloaded presentation?</strong><br>A: Absolutely not. The downloaded .pptx files are completely clean with no forced logos, watermarks, or branding.</p>
-          <p><strong>Q: Is my presentation data saved on your servers?</strong><br>A: No. Because we use client-side generation, your text and slide data never leave your computer. We cannot see, store, or access your presentations.</p>
-          <p><strong>Q: Do I need an account to use this?</strong><br>A: No account, email, or subscription is required. You can generate unlimited slides for free.</p>
+          <p><strong>Q: Are my presentations sent to a server?</strong><br>A: When you create slides manually, all editing and .pptx export run locally in your browser. If you use the optional AI generation feature, your topic prompt is sent to Google Gemini to produce the outline, and image lookups query external image services.</p>
+          <p><strong>Q: Do I need an account to use this?</strong><br>A: No account, email, or subscription is required. You can generate slides for free.</p>
         `
       }
     ]

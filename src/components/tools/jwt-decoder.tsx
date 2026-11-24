@@ -1,48 +1,48 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { ShieldCheck, Copy, Check, AlertCircle, KeyRound, Clock, Calendar, CheckCircle2, Lock, ArrowRight, RefreshCw } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { Copy, Check, AlertCircle, KeyRound, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const SAMPLE_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFsZXggSm9obnNvbiIsImVtYWlsIjoiYWxleEBleGFtcGxlLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE1MTYyMzkwMjIsImV4cCI6MTk1MTYzOTAyMn0.4f8d9g0h1j2k3l4m5n6o7p8q9r0s1t2u3v4w5x6y7z8";
 
 export function JwtDecoder() {
   const [tokenInput, setTokenInput] = useState<string>("");
-  const [headerJson, setHeaderJson] = useState<string>("");
-  const [payloadJson, setPayloadJson] = useState<string>("");
-  const [signature, setSignature] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const [metaInfo, setMetaInfo] = useState<{
-    algorithm?: string;
-    type?: string;
-    issuedAt?: string;
-    expiresAt?: string;
-    isExpired?: boolean;
-    subject?: string;
-    issuer?: string;
-  }>({});
+  const [nowSec] = useState(() => Math.floor(Date.now() / 1000));
 
-  const decodeJwt = (jwt: string) => {
-    const cleanJwt = jwt.trim();
+  const decodedData = useMemo(() => {
+    const cleanJwt = tokenInput.trim();
     if (!cleanJwt) {
-      setHeaderJson("");
-      setPayloadJson("");
-      setSignature("");
-      setError(null);
-      setMetaInfo({});
-      return;
+      return {
+        headerJson: "",
+        payloadJson: "",
+        signature: "",
+        error: null,
+        metaInfo: {} as {
+          algorithm?: string;
+          type?: string;
+          issuedAt?: string;
+          expiresAt?: string;
+          isExpired?: boolean;
+          subject?: string;
+          issuer?: string;
+        },
+      };
     }
 
     const parts = cleanJwt.split(".");
     if (parts.length !== 3) {
-      setError("Invalid JWT Token format. A valid JWT must contain exactly 3 parts separated by dots (Header.Payload.Signature).");
-      return;
+      return {
+        headerJson: "",
+        payloadJson: "",
+        signature: "",
+        error: "Invalid JWT Token format. A valid JWT must contain exactly 3 parts separated by dots (Header.Payload.Signature).",
+        metaInfo: {},
+      };
     }
 
     try {
-      // Decode Base64URL
       const base64UrlDecode = (str: string) => {
         let base64 = str.replace(/-/g, "+").replace(/_/g, "/");
         while (base64.length % 4) {
@@ -59,32 +59,36 @@ export function JwtDecoder() {
       const headerObj = JSON.parse(base64UrlDecode(parts[0]));
       const payloadObj = JSON.parse(base64UrlDecode(parts[1]));
 
-      setHeaderJson(JSON.stringify(headerObj, null, 2));
-      setPayloadJson(JSON.stringify(payloadObj, null, 2));
-      setSignature(parts[2]);
-      setError(null);
-
-      // Parse metadata
-      const nowSec = Math.floor(Date.now() / 1000);
       const isExpired = payloadObj.exp ? payloadObj.exp < nowSec : undefined;
 
-      setMetaInfo({
-        algorithm: headerObj.alg || "Unknown",
-        type: headerObj.typ || "JWT",
-        issuedAt: payloadObj.iat ? new Date(payloadObj.iat * 1000).toLocaleString() : undefined,
-        expiresAt: payloadObj.exp ? new Date(payloadObj.exp * 1000).toLocaleString() : undefined,
-        isExpired,
-        subject: payloadObj.sub,
-        issuer: payloadObj.iss,
-      });
-    } catch (e: any) {
-      setError(`Failed to decode JWT: ${e.message || "Invalid Base64 or JSON structure"}`);
+      return {
+        headerJson: JSON.stringify(headerObj, null, 2),
+        payloadJson: JSON.stringify(payloadObj, null, 2),
+        signature: parts[2],
+        error: null,
+        metaInfo: {
+          algorithm: headerObj.alg || "Unknown",
+          type: headerObj.typ || "JWT",
+          issuedAt: payloadObj.iat ? new Date(payloadObj.iat * 1000).toLocaleString() : undefined,
+          expiresAt: payloadObj.exp ? new Date(payloadObj.exp * 1000).toLocaleString() : undefined,
+          isExpired,
+          subject: payloadObj.sub,
+          issuer: payloadObj.iss,
+        },
+      };
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Invalid Base64 or JSON structure";
+      return {
+        headerJson: "",
+        payloadJson: "",
+        signature: "",
+        error: `Failed to decode JWT: ${msg}`,
+        metaInfo: {},
+      };
     }
-  };
+  }, [tokenInput, nowSec]);
 
-  useEffect(() => {
-    decodeJwt(tokenInput);
-  }, [tokenInput]);
+  const { headerJson, payloadJson, signature, error, metaInfo } = decodedData;
 
   const copyToClipboard = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
@@ -95,11 +99,18 @@ export function JwtDecoder() {
   return (
     <div className="w-full max-w-5xl mx-auto space-y-6">
       
-      {/* 🔒 100% In-Browser Privacy Guarantee Banner */}
+      {/* In-Browser Privacy & Signature Notice Banner */}
       <div className="flex items-center gap-3 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-semibold backdrop-blur-md shadow-sm">
         <Lock className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
         <div>
-          <span className="font-bold">100% Client-Side Privacy:</span> Your JWT auth tokens and payloads are parsed entirely inside your browser. No data is ever sent to our servers.
+          <span className="font-bold">In-browser token decoding:</span> Your JWT auth tokens and payloads are parsed directly inside your browser. No token data is sent to our servers.
+        </div>
+      </div>
+
+      <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/25 text-amber-800 dark:text-amber-200 text-xs">
+        <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+        <div>
+          <strong>Signature verification notice:</strong> This tool only decodes the header and payload claims. It does not verify the cryptographic signature or validate token authenticity.
         </div>
       </div>
 
@@ -158,7 +169,7 @@ export function JwtDecoder() {
                 <div className="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800/60">
                   <span className="text-slate-500">Expires At</span>
                   <span className={cn("font-medium", metaInfo.isExpired ? "text-rose-500 font-bold" : "text-emerald-500")}>
-                    {metaInfo.expiresAt} {metaInfo.isExpired ? "(EXPIRED)" : "(VALID)"}
+                    {metaInfo.expiresAt} {metaInfo.isExpired ? "(Expired)" : "(Not expired)"}
                   </span>
                 </div>
               )}
