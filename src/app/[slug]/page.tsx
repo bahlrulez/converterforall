@@ -163,7 +163,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     }))
   } : null;
 
-  const isCloudTool = toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf";
+  const isBrowserFirstOfficeTool = toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf";
   const isPresentationMaker = toolSlug === "presentation-maker";
   const isFontTool = categorySlug === "fonts";
   const isRealFontVerified = toolSlug === "krutidev-to-unicode" || toolSlug === "unicode-to-krutidev";
@@ -217,8 +217,8 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
             <Sparkles className="w-3.5 h-3.5" />
             <span>
-              {isCloudTool 
-                ? "Cloud Conversion via Cloudmersive (In-Browser Fallback)" 
+              {isBrowserFirstOfficeTool 
+                ? "Browser-first conversion · Optional Cloud Engine" 
                 : isPresentationMaker 
                 ? "In-Browser Slides & PPTX Export (AI via Google Gemini)" 
                 : "Free & Private In-Browser Tool"}
@@ -238,10 +238,10 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
               <span>
-                {isCloudTool 
-                  ? "Processed via Cloudmersive API (No documents stored on our servers)" 
+                {isBrowserFirstOfficeTool 
+                  ? "Your file stays on-device by default; Cloud Engine is opt-in" 
                   : isPresentationMaker 
-                  ? "Slides & Export run locally in browser (AI prompt sent to Google Gemini)" 
+                  ? "AI prompts go to Google Gemini; image lookups may use external services" 
                   : "On-Device Browser Processing"}
               </span>
             </span>
