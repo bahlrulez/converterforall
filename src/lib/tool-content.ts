@@ -379,19 +379,35 @@ function enrichContentIfShort(
       <p><strong>Q: Can I process large PDF files on my phone?</strong><br>A: Yes. Because processing occurs locally in your browser's memory, documents up to 50MB–100MB process smoothly on modern smartphones and laptops.</p>
       <p><strong>Q: Are my confidential files stored on remote servers?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
     `;
-  } else if (isOfficeDoc) {
-    tipsTitle = "Office document conversion tips";
+  } else if (toolSlug === "excel-to-pdf") {
+    tipsTitle = "Excel XLSX to PDF: scope and limitations";
     tipsContent = `
-      <p>When converting office files into standard PDF documents:</p>
+      <p>This converter reads the first worksheet in an XLSX workbook and renders the available cell values as a simple PDF table.</p>
       <ul>
-        <li><strong>Layout Preservation:</strong> Converting to PDF locks fonts, tables, and margins so recipients see the exact layout regardless of their device.</li>
-        <li><strong>Clean Distribution:</strong> Finalized contracts, resumes, and spreadsheets are protected against accidental edits.</li>
-        <li><strong>Standardized Privacy:</strong> Most of our tools run directly inside your browser so your documents stay on your device. For conversions that use cloud processing (like Word-to-PDF and PowerPoint-to-PDF via Cloudmersive), files are handled in temporary memory without permanent storage on our servers.</li>
+        <li><strong>Input format:</strong> Use a modern .xlsx workbook. Legacy .xls files are not supported by this converter.</li>
+        <li><strong>Worksheet scope:</strong> Only the first worksheet is read. Other worksheets are not included in the PDF.</li>
+        <li><strong>Formatting:</strong> The output is a basic table; workbook styling, charts, merged-cell layout, and full Excel page formatting are not reproduced.</li>
+        <li><strong>Review:</strong> Check the PDF before sharing or submitting it, especially when the workbook contains important calculations or layout-dependent information.</li>
       </ul>
     `;
     extraFaq = `
-      <p><strong>Q: Will converting to PDF preserve my fonts and formatting?</strong><br>A: Yes. Converting locks your typography, line breaks, and page layout into fixed-format PDF pages.</p>
-      <p><strong>Q: Are my office files stored on remote servers?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. For tools that use temporary cloud processing (like Word-to-PDF and PowerPoint-to-PDF via Cloudmersive), files are handled in temporary memory without permanent storage on our servers.</p>
+      <p><strong>Q: Can I convert an old .xls file?</strong><br>A: No. Save it as .xlsx in spreadsheet software first, then upload the .xlsx file.</p>
+      <p><strong>Q: Does the PDF include every worksheet?</strong><br>A: No. This version reads only the first worksheet.</p>
+      <p><strong>Q: Will it preserve charts, formulas, and the original Excel styling?</strong><br>A: No. It renders available cell values as a simple table and does not reproduce the full workbook layout or chart formatting. Review the output before relying on it.</p>
+    `;
+  } else if (isOfficeDoc) {
+    tipsTitle = "Office document conversion tips";
+    tipsContent = `
+      <p>Conversion fidelity depends on the Office file type and the selected conversion engine. Review the generated PDF before using it as a final copy.</p>
+      <ul>
+        <li><strong>Browser-first processing:</strong> Word and PowerPoint conversion start in your browser. Cloud Engine is an optional user-selected route for those tools.</li>
+        <li><strong>Layout checks:</strong> Complex fonts, diagrams, charts, tables, and page breaks may render differently between engines. Compare the result with the source file.</li>
+        <li><strong>Document privacy:</strong> Files stay in the browser for the default local conversion path. When you opt into a cloud engine, the selected file is sent to the conversion service for processing.</li>
+      </ul>
+    `;
+    extraFaq = `
+      <p><strong>Q: Will converting to PDF preserve every font and layout detail?</strong><br>A: Not in every case. Results depend on the source document and conversion engine, so check the PDF before sharing it.</p>
+      <p><strong>Q: Are my Office files sent to a remote service?</strong><br>A: Word and PowerPoint tools use browser conversion by default. Their optional Cloud Engine sends the selected file to a third-party conversion service only when you enable it.</p>
     `;
   } else if (isPdfToImage) {
     tipsTitle = "PDF to image export tips";
