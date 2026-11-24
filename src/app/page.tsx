@@ -4,7 +4,7 @@ import { HowItWorks } from "@/components/home/how-it-works";
 import { Features } from "@/components/home/features";
 import { FAQ } from "@/components/home/faq";
 import { Metadata } from "next";
-import { SITE_SCHEMA_TYPES } from "@/lib/seo/site-config";
+import { buildHomepageGraphSchema } from "@/lib/seo/schema-builders";
 
 export const metadata: Metadata = {
   keywords: [
@@ -25,36 +25,14 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const homepageSchema = buildHomepageGraphSchema();
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@graph": [
-              {
-                "@type": SITE_SCHEMA_TYPES.website,
-                "@id": "https://www.converterforall.com/#website",
-                "url": "https://www.converterforall.com",
-                "name": "ConverterForAll",
-                "description": "Free online file and font converter for PDFs, images, videos, audio, and Indian regional scripts. Most tools run directly in your browser with zero signups or watermarks.",
-                "publisher": {
-                  "@id": "https://www.converterforall.com/#organization"
-                }
-              },
-              {
-                "@type": SITE_SCHEMA_TYPES.organization,
-                "@id": "https://www.converterforall.com/#organization",
-                "name": "ConverterForAll",
-                "url": "https://www.converterforall.com/",
-                "logo": {
-                  "@type": "ImageObject",
-                  "url": "https://www.converterforall.com/favicon.ico"
-                }
-              }
-            ]
-          })
+          __html: JSON.stringify(homepageSchema)
         }}
       />
       <Hero />

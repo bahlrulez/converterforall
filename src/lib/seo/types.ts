@@ -1,5 +1,14 @@
 export type SeoIndexability = "indexable" | "noindex" | "redirect";
 
+export type VerificationState = "source-declared" | "verified" | "not-found" | "unverified";
+
+export interface SchemaGeneratorStatus {
+  schemaType: string;
+  status: "source-declared" | "not-found";
+  deployedValidation: "unverified";
+  richResultsEligibility: "unverified";
+}
+
 export type ToolType = 
   | "converter" 
   | "calculator" 
@@ -71,6 +80,7 @@ export interface ToolSeoInventoryItem {
   wordCount: number;
   introductoryContent: string;
   faqSections: FaqSection[];
+  hasDedicatedContentRecord: boolean;
   hasToolSpecificContent: boolean;
   isThinContent: boolean;
   thinContentReason?: string;
@@ -96,18 +106,21 @@ export interface SystemSeoInspection {
       toolRoutes: number;
       blogRoutes: number;
     };
-    hasSitemapXml: boolean;
+    verificationStatus: VerificationState;
+    hasSitemapXml: boolean | null;
     issues: string[];
   };
   robotsTxt: {
     isCrawlerAllowed: boolean;
     disallowedPaths: string[];
     sitemapUrl?: string;
+    verificationStatus: VerificationState;
     issues: string[];
   };
   canonicalStrategy: {
     baseUrl: string;
-    isSelfReferentialCanonical: boolean;
+    verificationStatus: VerificationState;
+    isSelfReferentialCanonical: boolean | null;
     handlesAliasesCorrectly: boolean;
     issues: string[];
   };
@@ -116,19 +129,26 @@ export interface SystemSeoInspection {
     titleTemplate: string;
     hasOpenGraph: boolean;
     hasTwitterCard: boolean;
+    verificationStatus: VerificationState;
     issues: string[];
   };
   schemaGeneration: {
+    generators: Record<string, SchemaGeneratorStatus>;
     hasOrganizationSchema: boolean;
     hasWebSiteSchema: boolean;
     hasBreadcrumbListSchema: boolean;
     hasSoftwareApplicationSchema: boolean;
+    hasFaqPageSchema: boolean;
+    hasCollectionPageSchema: boolean;
+    hasArticleSchema: boolean;
+    verificationStatus: VerificationState;
     issues: string[];
   };
   analyticsAndSearchConsole: {
     googleAnalyticsId?: string;
     googleSiteVerification?: string;
     vercelAnalyticsEnabled: boolean;
+    verificationStatus: VerificationState;
     issues: string[];
   };
 }

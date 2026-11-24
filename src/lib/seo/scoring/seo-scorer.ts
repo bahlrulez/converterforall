@@ -73,14 +73,16 @@ export function calculateToolSeoScore(params: {
     issues.push(`Weak Internal Linking: Only ${params.incomingLinkCount} incoming internal links.`);
   }
 
-  // Structured Data & Breadcrumbs
-  if (!params.hasStructuredData) {
-    score -= 10;
-    issues.push("Missing SoftwareApplication / Utility structured data schema.");
-  }
-  if (!params.hasBreadcrumbs) {
-    score -= 5;
-    issues.push("Missing BreadcrumbList schema.");
+  // Structured Data & Breadcrumbs (applies to rendered tool pages; not redirect aliases)
+  if (!params.isAlias) {
+    if (!params.hasStructuredData) {
+      score -= 10;
+      issues.push("Missing SoftwareApplication / Utility structured data schema.");
+    }
+    if (!params.hasBreadcrumbs) {
+      score -= 5;
+      issues.push("Missing BreadcrumbList schema.");
+    }
   }
 
   // Clamp score

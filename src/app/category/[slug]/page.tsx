@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { NOINDEX_CATEGORIES } from "@/config/sitemap-lastmod";
 import { SITE_ORIGIN } from "@/lib/seo/site-config";
+import { buildCollectionPageSchema, buildBreadcrumbSchema, buildFaqPageSchema } from "@/lib/seo/schema-builders";
 
 function getIconComponent(iconName: string, className: string = "h-6 w-6") {
   switch(iconName) {
@@ -82,8 +83,8 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
         a: "No artificial daily limit is imposed on standard usage. Because processing runs in your browser, very large batches are subject only to available device memory.",
       },
       {
-        q: "Will compressing a PDF make the text hard to read?",
-        a: "Our compression tool optimizes high-resolution images and removes duplicate embedded font data while preserving sharp, vector text for clean readability and printing.",
+        q: "Will compressing a PDF make the text hard to read or unselectable?",
+        a: "It depends on the compression method used. Fixed-size target compressors (like Compress PDF to 100KB) rasterize pages into images, which turns text into pixels and makes it non-selectable. In contrast, standard structural optimization retains crisp vector text while optimizing embedded images. Check the output on text-heavy pages before submitting.",
       },
       {
         q: "Can I convert scanned PDFs into editable text?",
@@ -105,14 +106,14 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
         desc: "Extract people, products, and objects onto transparent PNG backgrounds using client-side AI that processes directly in your browser.",
       },
       {
-        title: "Biometric Passport Standards",
-        desc: "Crop, resize, and frame photos to official biometric standards for passports, visas, and identification cards.",
+        title: "Standard Photo Cropping",
+        desc: "Crop and resize photos to common standard specifications (such as 2x2 inches or 35x45 mm) for passports, visas, and exam forms. Always review your official portal guidelines for exact background color and face-ratio requirements.",
       },
     ],
     faqs: [
       {
         q: "How does the background remover work without uploading my photos?",
-        a: "We load a compact AI neural network directly into your browser using WebAssembly. The calculations run on your device's graphics processor, so your personal photos never leave your device.",
+        a: "It runs directly in your browser using client-side WebAssembly models (such as ISNet via @imgly/background-removal) executing in a web worker on your device. The image calculations run in local memory, so your photos do not leave your device.",
       },
       {
         q: "Can I convert iPhone HEIC photos to JPG on Windows or Android?",
@@ -134,8 +135,8 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     intro: "Legacy Indian-script fonts such as Kruti Dev, Asees, Satluj, Joy, and Gurbani Akhar may store text using font-specific character mappings. When text is opened without the original font or copied into modern apps, it can appear as Latin characters or render incorrectly. The converters listed here cover selected source and target formats; support differs by font and direction, so check each tool's notice and review the converted text before relying on it.",
     points: [
       {
-        title: "Universal Unicode Compatibility",
-        desc: "The directory includes selected converters for Hindi, Punjabi, Bengali, and Urdu workflows. Each tool page identifies its source and target format; availability and mapping coverage differ between fonts and directions.",
+        title: "Selected Regional Font Mappings",
+        desc: "The directory includes selected converters for Hindi, Punjabi, Bengali, and Urdu workflows. Each tool page identifies its source and target format; availability, mapping coverage, and reversibility differ between fonts and directions.",
       },
       {
         title: "Half-Character (Matra) Realignment",
@@ -253,14 +254,14 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
         desc: "Generate accurate, timed subtitle text and burned-in captions for Hindi, English, and multilingual videos in your browser.",
       },
       {
-        title: "Audio Extraction & Format Swaps",
-        desc: "Extract clean MP3 audio from MP4 videos or convert formats to AVI, MOV, WebM, and MKV without watermarks.",
+        title: "Audio Extraction & MP4 Export",
+        desc: "Extract clean MP3 audio from video clips or re-encode supported video inputs into web-ready MP4 files without watermarks.",
       },
     ],
     faqs: [
       {
-        q: "How does video compression work in the browser without uploading files?",
-        a: "We utilize WebAssembly-compiled FFmpeg directly inside your browser. Your computer's processor compresses the video data locally, saving bandwidth and keeping your videos private.",
+        q: "How does video processing work in the browser without uploading files?",
+        a: "Video compression and subtitle processing run directly in your browser using client-side WebAssembly and modern browser media APIs. Your device handles the encoding calculations locally so your video files stay on your computer or phone.",
       },
       {
         q: "Will compressing a video add a watermark to my output file?",
@@ -272,7 +273,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
       },
       {
         q: "What video formats are supported?",
-        a: "We support MP4, MOV, MKV, WebM, AVI, FLV, and WMV video containers.",
+        a: "Our video tools accept common video containers including MP4, MOV, WebM, MKV, and AVI. Processed videos are exported as standard MP4 (H.264 video with AAC audio) for broad cross-platform playback compatibility.",
       },
     ],
   },
@@ -301,7 +302,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
       },
       {
         q: "Is sound quality preserved when converting from WAV to MP3?",
-        a: "Yes, our converter uses high-bitrate encoding (up to 320 kbps) to ensure that speech, podcasts, and music retain rich acoustic clarity.",
+        a: "WAV is an uncompressed lossless format, whereas MP3 uses lossy compression that permanently discards acoustic frequencies that are difficult for the human ear to detect. While high-bitrate MP3 encoding (up to 320 kbps) retains strong perceptual clarity for casual listening and voice notes, it is not bit-for-bit lossless.",
       },
       {
         q: "Do my audio recordings get saved on a server?",
@@ -462,57 +463,24 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
   const groups = Object.keys(groupedTools);
   const showGroupHeaders = !(groups.length === 1 && (groups[0] === "All Tools" || groups[0] === "Other Tools"));
 
-  // Build JSON-LD structured data for CollectionPage and FAQPage
-  const toolItemList = Object.keys(categoryData).map((toolSlug, index) => ({
-    "@type": "ListItem",
-    "position": index + 1,
-    "name": categoryData[toolSlug].title,
-    "url": `https://www.converterforall.com/${toolSlug}`,
-  }));
+  // Build JSON-LD structured data via shared schema builders
+  const collectionSchema = buildCollectionPageSchema({
+    name: editorial.title,
+    description: editorial.intro,
+    url: `${SITE_ORIGIN}/category/${categorySlug}`,
+    tools: Object.entries(categoryData).map(([toolSlug, tool]) => ({
+      name: tool.title,
+      url: `${SITE_ORIGIN}/${toolSlug}`,
+      description: tool.description
+    }))
+  });
 
-  const collectionSchema = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": editorial.title,
-    "description": editorial.intro,
-    "url": `${SITE_ORIGIN}/category/${categorySlug}`,
-    "mainEntity": {
-      "@type": "ItemList",
-      "itemListElement": toolItemList,
-    },
-  };
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", url: SITE_ORIGIN, position: 1 },
+    { name: editorial.title, url: `${SITE_ORIGIN}/category/${categorySlug}`, position: 2 }
+  ]);
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://www.converterforall.com",
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": editorial.title,
-        "item": `${SITE_ORIGIN}/category/${categorySlug}`,
-      },
-    ],
-  };
-
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": editorial.faqs.map((faq) => ({
-      "@type": "Question",
-      "name": faq.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.a,
-      },
-    })),
-  };
+  const faqSchema = buildFaqPageSchema(editorial.faqs.map(faq => ({ question: faq.q, answer: faq.a })));
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-background pb-20">

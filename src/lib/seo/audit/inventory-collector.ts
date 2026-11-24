@@ -1,4 +1,4 @@
-import { toolsDatabase, SLUG_ALIASES, getToolBySlug } from "@/lib/tools-db";
+import { toolsDatabase, SLUG_ALIASES, getToolBySlug, Tool } from "@/lib/tools-db";
 import { TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
 import { extractToolFaqs, getToolContent } from "@/lib/tool-content";
 import { ToolSeoInventoryItem, ToolType, ProcessingType } from "../types";
@@ -16,11 +16,17 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
 
   // 1. Process all 154 Canonical Tools across all categories
   for (const [categorySlug, categoryTools] of Object.entries(toolsDatabase)) {
-    for (const [toolSlug, toolObj] of Object.entries(categoryTools as any)) {
+    for (const [toolSlug, toolObj] of Object.entries(categoryTools as Record<string, Tool>)) {
       if (processedSlugs.has(toolSlug)) continue;
       processedSlugs.add(toolSlug);
 
-      const tool = toolObj as any;
+      const tool = toolObj as Tool & {
+        converterType?: string;
+        inputFormat?: string;
+        outputFormat?: string;
+        acceptedTypes?: Record<string, string[]>;
+        fontCategory?: string;
+      };
 
       // Classify Tool Type
       let toolType: ToolType = "converter";
@@ -157,6 +163,7 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
         wordCount: contentEval.wordCount,
         introductoryContent: contentEval.introductoryContent,
         faqSections: contentEval.faqSections,
+        hasDedicatedContentRecord: contentEval.hasDedicatedContentRecord,
         hasToolSpecificContent: contentEval.hasToolSpecificContent,
         isThinContent: contentEval.isThinContent,
         thinContentReason: contentEval.thinContentReason,
@@ -180,7 +187,6 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
     const targetTool = targetToolData?.tool || { title: aliasSlug, description: "" };
     const categorySlug = targetToolData?.categorySlug || "utilities";
 
-    const contentEval = evaluateToolContent(targetSlug, targetTool.title, targetTool.description);
     const incomingInternalLinks = linkGraph.inboundLinksBySlug[aliasSlug] || [];
     const relatedTools = linkGraph.relatedToolsBySlug[targetSlug] || [];
 
@@ -196,11 +202,11 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
       metaDescription: currentMetaDescription,
       canonicalUrl,
       isAlias: true,
-      wordCount: contentEval.wordCount,
-      isThinContent: contentEval.isThinContent,
+      wordCount: 0,
+      isThinContent: false,
       incomingLinkCount: incomingInternalLinks.length,
-      hasBreadcrumbs: true,
-      hasStructuredData: true
+      hasBreadcrumbs: false,
+      hasStructuredData: false
     });
 
     inventory.push({
@@ -223,17 +229,15 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
       currentMetaDescription,
       indexability: "redirect",
       robotsDirectives: "301 permanent redirect",
-      structuredDataTypes: ["BreadcrumbList", "SoftwareApplication"],
-      breadcrumbStructure: [
-        { name: "Home", url: "https://www.converterforall.com", position: 1 },
-        { name: targetTool.title, url: canonicalUrl, position: 2 }
-      ],
-      wordCount: contentEval.wordCount,
-      introductoryContent: contentEval.introductoryContent,
-      faqSections: contentEval.faqSections,
-      hasToolSpecificContent: contentEval.hasToolSpecificContent,
-      isThinContent: contentEval.isThinContent,
-      thinContentReason: contentEval.thinContentReason,
+      structuredDataTypes: [],
+      breadcrumbStructure: [],
+      wordCount: 0,
+      introductoryContent: `Redirects permanently (301) to /${targetSlug}.`,
+      faqSections: [],
+      hasDedicatedContentRecord: false,
+      hasToolSpecificContent: false,
+      isThinContent: false,
+      thinContentReason: undefined,
       incomingInternalLinks,
       incomingInternalLinkCount: incomingInternalLinks.length,
       outgoingInternalLinks: [],

@@ -10,7 +10,8 @@ import { ToolReviews } from "@/components/tools/tool-reviews";
 import { getToolReviewStats } from "@/lib/reviews-data";
 import { getOptimizedToolTitle, getOptimizedToolDescription } from "@/lib/seo/metadata";
 import { TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
-import { SITE_ORIGIN, SITE_SCHEMA_TYPES } from "@/lib/seo/site-config";
+import { SITE_ORIGIN } from "@/lib/seo/site-config";
+import { buildBreadcrumbSchema, buildSoftwareAppSchema, buildFaqPageSchema } from "@/lib/seo/schema-builders";
 
 export async function generateStaticParams() {
   return getCanonicalToolSlugs().map((slug) => ({
@@ -99,70 +100,33 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   }
 
   // Generate Breadcrumb Schema
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": SITE_SCHEMA_TYPES.breadcrumb,
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": SITE_ORIGIN
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": tool.title,
-        "item": `${SITE_ORIGIN}/${toolSlug}`
-      }
-    ]
-  };
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", url: SITE_ORIGIN, position: 1 },
+    { name: tool.title, url: `${SITE_ORIGIN}/${toolSlug}`, position: 2 }
+  ]);
 
   const contentSections = getToolContent(toolSlug, tool.title, tool.description);
   const reviewStats = await getToolReviewStats(toolSlug);
   const extractedFaqs = extractToolFaqs(contentSections);
 
-  // Generate SoftwareApplication Schema
-  const softwareAppSchema: Record<string, unknown> = {
-    "@context": "https://schema.org",
-    "@type": SITE_SCHEMA_TYPES.softwareApplication,
-    "name": tool.title,
-    "url": `${SITE_ORIGIN}/${toolSlug}`,
-    "operatingSystem": "All",
-    "applicationCategory": "UtilitiesApplication",
-    "browserRequirements": "Requires JavaScript. Requires HTML5.",
-    "description": tool.description,
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  };
+  // Generate SoftwareApplication Schema via shared builder
+  const softwareAppSchema = buildSoftwareAppSchema({
+    name: tool.title,
+    description: tool.description,
+    url: `${SITE_ORIGIN}/${toolSlug}`,
+    applicationCategory: "UtilitiesApplication",
+    rating: reviewStats.totalReviews > 0 ? {
+      ratingValue: reviewStats.averageRating,
+      reviewCount: reviewStats.totalReviews,
+      bestRating: 5,
+      worstRating: 1
+    } : undefined
+  });
 
-  // Only include aggregateRating if valid reviews exist (prevents GSC invalid rating errors)
-  if (reviewStats.totalReviews > 0) {
-    softwareAppSchema.aggregateRating = {
-      "@type": "AggregateRating",
-      "ratingValue": reviewStats.averageRating,
-      "reviewCount": reviewStats.totalReviews,
-      "bestRating": "5",
-      "worstRating": "1"
-    };
-  }
-
-  // Generate FAQPage Schema if FAQs exist for enhanced SERP rich snippets
-  const faqSchema = extractedFaqs.length > 0 ? {
-    "@context": "https://schema.org",
-    "@type": SITE_SCHEMA_TYPES.faqPage,
-    "mainEntity": extractedFaqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer
-      }
-    }))
-  } : null;
+  // Generate FAQPage Schema via shared builder if FAQs exist
+  const faqSchema = extractedFaqs.length > 0 
+    ? buildFaqPageSchema(extractedFaqs.map(f => ({ question: f.question, answer: f.answer })))
+    : null;
 
   const isBrowserFirstOfficeTool = toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf";
   const isPresentationMaker = toolSlug === "presentation-maker";

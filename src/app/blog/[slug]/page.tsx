@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import { AuthorProfile } from "@/components/shared/author-profile";
 
 import { blogDatabase, getAllBlogSlugs } from "@/lib/blog-data";
+import { buildArticleSchema, buildBreadcrumbSchema } from "@/lib/seo/schema-builders";
 
 export async function generateStaticParams() {
   return getAllBlogSlugs().map((slug) => ({
@@ -69,65 +70,21 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
     ? (post.coverImage.startsWith('http') ? post.coverImage : `https://www.converterforall.com${post.coverImage}`)
     : "https://www.converterforall.com/icon.png";
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": `https://www.converterforall.com/blog/${params.slug}`
-    },
-    "headline": post.title,
-    "description": excerpt,
-    "image": post.coverImage
-      ? {
-          "@type": "ImageObject",
-          "url": fullImageUrl,
-          "width": 1024,
-          "height": 576,
-          "caption": post.title,
-        }
-      : fullImageUrl,
-    "datePublished": new Date(post.date).toISOString(),
-    "dateModified": new Date(post.updatedAt || post.date).toISOString(),
-    "author": {
-      "@type": "Organization",
-      "name": "ConverterForAll Team",
-      "url": "https://www.converterforall.com"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "ConverterForAll",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://www.converterforall.com/icon.png"
-      }
-    }
-  };
+  const jsonLd = buildArticleSchema({
+    title: post.title,
+    description: excerpt,
+    url: `https://www.converterforall.com/blog/${params.slug}`,
+    datePublished: new Date(post.date).toISOString(),
+    dateModified: new Date(post.updatedAt || post.date).toISOString(),
+    authorName: "ConverterForAll Team",
+    imageUrl: fullImageUrl
+  });
 
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://www.converterforall.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Blog",
-        "item": "https://www.converterforall.com/blog"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": post.title,
-        "item": `https://www.converterforall.com/blog/${params.slug}`
-      }
-    ]
-  };
+  const breadcrumbLd = buildBreadcrumbSchema([
+    { name: "Home", url: "https://www.converterforall.com/", position: 1 },
+    { name: "Blog", url: "https://www.converterforall.com/blog", position: 2 },
+    { name: post.title, url: `https://www.converterforall.com/blog/${params.slug}`, position: 3 }
+  ]);
 
   return (
     <div className="min-h-screen bg-background">

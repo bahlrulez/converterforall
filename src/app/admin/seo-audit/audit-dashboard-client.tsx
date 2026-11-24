@@ -182,9 +182,14 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                 <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Sitemap Implementation</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                      Route Manifest ({systemInspection.sitemap.totalUrls} URLs)
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        Route Manifest ({systemInspection.sitemap.totalUrls} URLs)
+                      </span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        {systemInspection.sitemap.verificationStatus}
+                      </span>
+                    </div>
                   </div>
                   <div className="space-y-2 text-xs text-slate-400">
                     <p>• Base routes: <span className="text-white font-medium">{systemInspection.sitemap.urlCountsByType.baseRoutes}</span></p>
@@ -226,17 +231,23 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                 <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Canonical Strategy</span>
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
-                      systemInspection.canonicalStrategy.handlesAliasesCorrectly
-                        ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
-                        : "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                    }`}>
-                      {systemInspection.canonicalStrategy.handlesAliasesCorrectly ? "Source Configured" : "Alias Conflict Detected"}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
+                        systemInspection.canonicalStrategy.handlesAliasesCorrectly
+                          ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                          : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                      }`}>
+                        {systemInspection.canonicalStrategy.handlesAliasesCorrectly ? "Source Configured" : "Alias Conflict Detected"}
+                      </span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        {systemInspection.canonicalStrategy.verificationStatus}
+                      </span>
+                    </div>
                   </div>
                   <div className="space-y-2 text-xs text-slate-400">
                     <p>• Base domain: <span className="text-white font-medium">{systemInspection.canonicalStrategy.baseUrl}</span></p>
                     <p>• Self-referential on primary tools: <span className="text-slate-300 font-medium">Declared in route templates (Live HTML unverified)</span></p>
+                    <p>• Deployed Canonical Tags: <span className="text-amber-400 font-medium">Unverified (Requires live HTTP crawl)</span></p>
                     {systemInspection.canonicalStrategy.issues.map((iss, i) => (
                       <p key={i} className="text-[11px] text-amber-400/90 pt-2 border-t border-slate-800 leading-relaxed">
                         ℹ {iss}
@@ -249,15 +260,19 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                 <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Schemas &amp; Verification</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                      Source Templates Found
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                        Source Templates Found
+                      </span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        {systemInspection.schemaGeneration.verificationStatus}
+                      </span>
+                    </div>
                   </div>
                   <div className="space-y-2 text-xs text-slate-400">
                     <p>• Google Analytics ID: <span className="text-white font-mono text-[11px]">{systemInspection.analyticsAndSearchConsole.googleAnalyticsId}</span></p>
                     <p>• Search Console Tag: <span className="text-white font-mono text-[11px]">{systemInspection.analyticsAndSearchConsole.googleSiteVerification}</span></p>
-                    <p>• BreadcrumbList Schema: <span className="text-slate-300">Declared in tool, category &amp; blog templates</span></p>
-                    <p>• SoftwareApplication Schema: <span className="text-slate-300">Declared in tool templates (with free price offer)</span></p>
+                    <p>• Detected Schema Builders: <span className="text-white font-medium">{Object.keys(systemInspection.schemaGeneration.generators || {}).join(", ") || "None"}</span></p>
                     <p>• Deployed Rich Results: <span className="text-amber-400">Unverified (Requires deployed Google test)</span></p>
                     {systemInspection.schemaGeneration.issues.map((iss, i) => (
                       <p key={i} className="text-[11px] text-slate-400 pt-2 border-t border-slate-800">
@@ -598,11 +613,12 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                 <div className="font-bold text-slate-300 text-xs border-b border-slate-800 pb-1.5 uppercase tracking-wider">
                   Content Depth &amp; Structure
                 </div>
-                <div><span className="text-slate-500">Meaningful Word Count:</span> <span className="font-bold text-white">{selectedTool.wordCount} words</span></div>
-                <div><span className="text-slate-500">Tool-specific content basis:</span> <span className={selectedTool.hasToolSpecificContent ? "text-emerald-400" : "text-amber-400"}>{selectedTool.hasToolSpecificContent ? "Yes (explicit content or route-specific template)" : "No (generic fallback)"}</span></div>
+                <div><span className="text-slate-500">Visible Word Count:</span> <span className="font-bold text-white">{selectedTool.wordCount} words (Editorial Review Heuristic)</span></div>
+                <div><span className="text-slate-500">Dedicated Content Record:</span> <span className={selectedTool.hasDedicatedContentRecord ? "text-emerald-400" : "text-slate-400"}>{selectedTool.hasDedicatedContentRecord ? "Yes (Dedicated entry in toolContent)" : "No (Dynamic / shared template)"}</span></div>
+                <div><span className="text-slate-500">Content Specificity Heuristic:</span> <span className={selectedTool.hasToolSpecificContent ? "text-emerald-400" : "text-amber-400"}>{selectedTool.hasToolSpecificContent ? "Specific (Procedural instructions & format FAQs)" : "Generic Boilerplate"}</span></div>
                 <div><span className="text-slate-500">Content Sections:</span> <span className="text-white">{selectedTool.faqSections.length} sections</span></div>
-                <div><span className="text-slate-500">Structured Data Schemas:</span> <span className="text-white font-mono text-[11px]">{selectedTool.structuredDataTypes.join(", ")}</span></div>
-                <div><span className="text-slate-500">Breadcrumb Hierarchy:</span> <span className="text-slate-300">{selectedTool.breadcrumbStructure.map(b => b.name).join(" > ")}</span></div>
+                <div><span className="text-slate-500">Structured Data Schemas:</span> <span className="text-white font-mono text-[11px]">{selectedTool.structuredDataTypes.length > 0 ? selectedTool.structuredDataTypes.join(", ") : "None (Redirect Route)"}</span></div>
+                <div><span className="text-slate-500">Breadcrumb Hierarchy:</span> <span className="text-slate-300">{selectedTool.breadcrumbStructure.length > 0 ? selectedTool.breadcrumbStructure.map(b => b.name).join(" > ") : "None (Redirect Route)"}</span></div>
               </div>
 
               {/* Box 5: Internal Links Graph (Span 2) */}

@@ -3,23 +3,36 @@ import fs from 'fs';
 import path from 'path';
 import { inspectSeoSystem } from '../src/lib/seo/audit/system-inspector';
 import { runFullSeoAudit } from '../src/lib/seo/audit/audit-runner';
+import { evaluateToolContent } from '../src/lib/seo/audit/thin-content-detector';
+import {
+  buildWebSiteSchema,
+  buildOrganizationSchema,
+  buildBreadcrumbSchema,
+  buildSoftwareAppSchema,
+  buildFaqPageSchema,
+  buildCollectionPageSchema,
+  buildArticleSchema,
+  SCHEMA_BUILDERS
+} from '../src/lib/seo/schema-builders';
 import { siteMetadata } from '../src/lib/seo/site-metadata';
 import { SITE_TITLE_TEMPLATE } from '../src/lib/seo/site-config';
 
 test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
-  test('1. inspectSeoSystem does not falsely claim live XML sitemap endpoint exists', () => {
+  test('1. inspectSeoSystem uses explicit unverified states for sitemap and canonical tags', () => {
     const inspection = inspectSeoSystem();
-    expect(inspection.sitemap.hasSitemapXml).toBe(false);
+
+    // Sitemap: explicitly marked unverified without HTTP fetch
+    expect(inspection.sitemap.verificationStatus).toBe('unverified');
+    expect(inspection.sitemap.hasSitemapXml).toBeNull();
     expect(
       inspection.sitemap.issues.some((issue) =>
         issue.includes('Live /sitemap.xml endpoint availability and XML response headers are unverified')
       )
     ).toBe(true);
-  });
 
-  test('2. inspectSeoSystem does not falsely claim live canonical tags are verified without HTTP crawl', () => {
-    const inspection = inspectSeoSystem();
-    expect(inspection.canonicalStrategy.isSelfReferentialCanonical).toBe(false);
+    // Canonical Strategy: explicitly marked unverified without HTTP crawl
+    expect(inspection.canonicalStrategy.verificationStatus).toBe('unverified');
+    expect(inspection.canonicalStrategy.isSelfReferentialCanonical).toBeNull();
     expect(
       inspection.canonicalStrategy.issues.some((issue) =>
         issue.includes('live deployed <link rel="canonical"> tags are not verified without an HTTP crawl')
@@ -27,18 +40,55 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     ).toBe(true);
   });
 
-  test('3. inspectSeoSystem acknowledges schema generators in templates but marks live rich results unverified', () => {
+  test('2. Schema inspection executes actual schema builders and dynamically reports generator states', () => {
+    // 1. Invoke all actual schema builders and verify resulting @type values
+    const webSite = buildWebSiteSchema();
+    expect(webSite['@type']).toBe('WebSite');
+
+    const org = buildOrganizationSchema();
+    expect(org['@type']).toBe('Organization');
+
+    const breadcrumbs = buildBreadcrumbSchema([{ name: 'Home', url: 'https://www.converterforall.com' }]);
+    expect(breadcrumbs['@type']).toBe('BreadcrumbList');
+
+    const softwareApp = buildSoftwareAppSchema({ name: 'PDF Splitter', description: 'Split PDFs', url: 'https://www.converterforall.com/split-pdf' });
+    expect(softwareApp['@type']).toBe('SoftwareApplication');
+
+    const faq = buildFaqPageSchema([{ question: 'Is it free?', answer: 'Yes' }]);
+    expect(faq['@type']).toBe('FAQPage');
+
+    const collection = buildCollectionPageSchema({ name: 'PDF Tools', description: 'Collection', url: 'https://www.converterforall.com/category/document' });
+    expect(collection['@type']).toBe('CollectionPage');
+
+    const article = buildArticleSchema({ title: 'How to Convert', description: 'Guide', url: 'https://www.converterforall.com/blog/test' });
+    expect(article['@type']).toBe('Article');
+
+    // 2. Inspect system inspection results
     const inspection = inspectSeoSystem();
+    expect(inspection.schemaGeneration.verificationStatus).toBe('source-declared');
     expect(inspection.schemaGeneration.hasWebSiteSchema).toBe(true);
     expect(inspection.schemaGeneration.hasOrganizationSchema).toBe(true);
     expect(inspection.schemaGeneration.hasBreadcrumbListSchema).toBe(true);
     expect(inspection.schemaGeneration.hasSoftwareApplicationSchema).toBe(true);
+    expect(inspection.schemaGeneration.hasFaqPageSchema).toBe(true);
+    expect(inspection.schemaGeneration.hasCollectionPageSchema).toBe(true);
+    expect(inspection.schemaGeneration.hasArticleSchema).toBe(true);
 
-    expect(
-      inspection.schemaGeneration.issues.some((issue) =>
-        issue.includes('Source inspection found JSON-LD generators')
-      )
-    ).toBe(true);
+    // 3. Verify generator statuses are distinguished
+    const generators = inspection.schemaGeneration.generators;
+    for (const key of Object.keys(SCHEMA_BUILDERS)) {
+      expect(generators[key]).toBeDefined();
+      expect(generators[key].status).toBe('source-declared');
+      expect(generators[key].deployedValidation).toBe('unverified');
+      expect(generators[key].richResultsEligibility).toBe('unverified');
+    }
+
+    // 4. Verify issue list is dynamically constructed and includes detected generator names
+    const confirmationIssue = inspection.schemaGeneration.issues.find(iss => iss.includes('Source inspection confirmed functional schema builders for:'));
+    expect(confirmationIssue).toBeDefined();
+    expect(confirmationIssue).toContain('WebSite');
+    expect(confirmationIssue).toContain('SoftwareApplication');
+
     expect(
       inspection.schemaGeneration.issues.some((issue) =>
         issue.includes('Live JSON-LD syntax validity, schema.org conformance, and Google Rich Results eligibility are unverified')
@@ -46,22 +96,46 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     ).toBe(true);
   });
 
+  test('3. Content specificity heuristic distinguishes dedicated records from generic fallback', () => {
+    // Tool with dedicated content record and specific procedural/format instructions
+    const krutiResult = evaluateToolContent('krutidev-to-unicode', 'Kruti Dev to Unicode Converter', 'Convert Kruti Dev font to Unicode Hindi text.');
+    expect(krutiResult.hasDedicatedContentRecord).toBe(true);
+    expect(krutiResult.hasToolSpecificContent).toBe(true);
+    expect(krutiResult.isThinContent).toBe(false);
+
+    // Generic fallback with boilerplate copy
+    const fallbackResult = evaluateToolContent('imaginary-tool-xyz', 'Imaginary Tool', 'We built this tool to make everyday file tasks simple');
+    expect(fallbackResult.hasDedicatedContentRecord).toBe(false);
+    expect(fallbackResult.hasToolSpecificContent).toBe(false);
+    expect(fallbackResult.isThinContent).toBe(true);
+    expect(fallbackResult.thinContentReason).toContain('editorial review');
+  });
+
   test('4. Root siteMetadata observed template is checked and not silently substituted with fallback', () => {
     const inspection = inspectSeoSystem();
     expect(inspection.metadataGeneration.titleTemplate).toBe(SITE_TITLE_TEMPLATE);
-    // Root metadata has valid template matching SITE_TITLE_TEMPLATE, so no template mismatch issue
     expect(
       inspection.metadataGeneration.issues.some((iss) => iss.includes('template property defined'))
     ).toBe(false);
   });
 
-  test('5. Inventory collector properly separates noindex tools from redirect aliases', () => {
+  test('5. Redirect aliases have indexability = redirect, no independent page schema, and no false schema credits', () => {
     const { summary, inventory } = runFullSeoAudit();
 
-    // Verify aliases are redirects, not noindex
+    // Filter all aliases
     const aliases = inventory.filter((item) => item.isAlias);
     expect(aliases.length).toBeGreaterThan(0);
-    expect(aliases.every((item) => item.indexability === 'redirect')).toBe(true);
+
+    for (const alias of aliases) {
+      // Must have indexability = redirect
+      expect(alias.indexability).toBe('redirect');
+      // Must NOT receive positive schema credits
+      expect(alias.structuredDataTypes).toEqual([]);
+      expect(alias.breadcrumbStructure).toEqual([]);
+      expect(alias.hasDedicatedContentRecord).toBe(false);
+      expect(alias.hasToolSpecificContent).toBe(false);
+      expect(alias.wordCount).toBe(0);
+    }
 
     // Verify summary counts match inventory precisely
     const noindexItems = inventory.filter((item) => item.indexability === 'noindex');
@@ -69,7 +143,7 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     expect(summary.totalAliasRoutes).toBe(aliases.length);
   });
 
-  test('6. Audit dashboard source does not contain false-positive indicators or misleading labels', () => {
+  test('6. Audit dashboard UI reflects explicit unverified states and accurate measurement labels', () => {
     const dashboardPath = path.join(process.cwd(), 'src/app/admin/seo-audit/audit-dashboard-client.tsx');
     const content = fs.readFileSync(dashboardPath, 'utf8');
 
@@ -81,23 +155,16 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     expect(content).toContain('Flagged for review (&lt;250w or fallback copy)');
     expect(content).toContain('Shared across &gt;1 route (inc. aliases)');
 
-    // No hardcoded "Healthy" sitemap badge
-    expect(content).not.toContain('Healthy ({systemInspection.sitemap.totalUrls} URLs)');
-    expect(content).toContain('Route Manifest ({systemInspection.sitemap.totalUrls} URLs)');
+    // Explicit unverified verification statuses in badges
+    expect(content).toContain('{systemInspection.sitemap.verificationStatus}');
+    expect(content).toContain('{systemInspection.canonicalStrategy.verificationStatus}');
+    expect(content).toContain('{systemInspection.schemaGeneration.verificationStatus}');
 
-    // No hardcoded "Alias Risk Detected" or "Active" or "Verified" badges
-    expect(content).not.toMatch(/<span[^>]*>\s*Verified\s*<\/span>/);
-    expect(content).toContain('Source Templates Found');
-    expect(content).toContain('Source Configured');
-
-    // No blanket claim that self-referential canonicals are verified on primary tools
-    expect(content).not.toContain('Self-referential on primary tools: <span className="text-emerald-400 font-medium">Yes</span>');
-    expect(content).toContain('Declared in route templates (Live HTML unverified)');
-
-    // Breadcrumb and SoftwareApplication schemas qualified
-    expect(content).not.toContain('Emitted on all tools');
-    expect(content).toContain('Declared in tool, category &amp; blog templates');
-    expect(content).toContain('Unverified (Requires deployed Google test)');
+    // Content specificity & editorial labels in inspection modal
+    expect(content).toContain('Dedicated Content Record:');
+    expect(content).toContain('Content Specificity Heuristic:');
+    expect(content).toContain('Visible Word Count:');
+    expect(content).toContain('Editorial Review Heuristic');
   });
 
   test('7. Global site-metadata uses truthful browser-first phrasing without blanket private claims', () => {
@@ -118,23 +185,36 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     }
   });
 
-  test('8. Category page copy and fallbacks do not make unverified absolute claims', () => {
+  test('8. Category page copy reconciles PDF, Image, Audio, Font, and Video claims truthfully', () => {
     const categoryPagePath = path.join(process.cwd(), 'src/app/category/[slug]/page.tsx');
     const content = fs.readFileSync(categoryPagePath, 'utf8');
 
-    // Audio suite
+    // PDF Category: distinguishes rasterizing compression from structural optimization
+    expect(content).toContain('Fixed-size target compressors (like Compress PDF to 100KB) rasterize pages into images');
+    expect(content).toContain('turns text into pixels and makes it non-selectable');
+    expect(content).toContain('standard structural optimization retains crisp vector text');
+
+    // Image Category: photo resizing without portal acceptance guarantees + local WASM AI
+    expect(content).not.toContain('Biometric Passport Standards');
+    expect(content).toContain('Standard Photo Cropping');
+    expect(content).toContain('Always review your official portal guidelines');
+    expect(content).toContain('ISNet via @imgly/background-removal');
+
+    // Audio Category: WAV to MP3 lossy disclosure
     expect(content).not.toContain('without quality loss');
-    expect(content).not.toContain('Lossless Audio Trimming');
     expect(content).toContain('Precision Audio Trimming');
+    expect(content).toContain('WAV is an uncompressed lossless format, whereas MP3 uses lossy compression');
+    expect(content).toContain('not bit-for-bit lossless');
 
-    // Document & Image daily limits/size limits qualified
-    expect(content).toContain('Because processing runs in your browser, very large batches are subject only to available device memory');
-    expect(content).toContain('Common Format Support');
+    // Font Category: selected regional font mappings, not universal compatibility
+    expect(content).not.toContain('Universal Unicode Compatibility');
+    expect(content).toContain('Selected Regional Font Mappings');
+    expect(content).toContain('availability, mapping coverage, and reversibility differ between fonts and directions');
 
-    // Fallback editorial
-    expect(content).not.toContain('without uploading files to third-party servers');
-    expect(content).toContain('Browser-First Architecture');
-    expect(content).toContain('Where external services or cloud options are required, they are disclosed per tool');
-    expect(content).toContain('discarded once conversion finishes');
+    // Video Category: accepted inputs and MP4 output format
+    expect(content).not.toContain('convert formats to AVI, MOV, WebM, and MKV');
+    expect(content).toContain('Audio Extraction & MP4 Export');
+    expect(content).toContain('re-encode supported video inputs into web-ready MP4 files');
+    expect(content).toContain('accept common video containers including MP4, MOV, WebM, MKV, and AVI');
   });
 });

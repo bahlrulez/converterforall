@@ -1,4 +1,5 @@
-import { SystemSeoInspection } from "../types";
+import { SystemSeoInspection, SchemaGeneratorStatus } from "../types";
+import { SCHEMA_BUILDERS } from "../schema-builders";
 import { toolsDatabase, getCanonicalToolSlugs, SLUG_ALIASES, getToolBySlug } from "@/lib/tools-db";
 import sitemap, { BASE_SITEMAP_ROUTES } from "@/app/sitemap";
 import robots from "@/app/robots";
@@ -8,7 +9,6 @@ import {
   GOOGLE_ANALYTICS_MEASUREMENT_ID,
   GOOGLE_SITE_VERIFICATION_TOKEN,
   SITE_ORIGIN,
-  SITE_SCHEMA_TYPES,
   SITE_TITLE_TEMPLATE,
 } from "@/lib/seo/site-config";
 import { NOINDEX_CATEGORIES, TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
@@ -132,12 +132,59 @@ export function inspectSeoSystem(): SystemSeoInspection {
   if (!hasTwitterCard) metadataIssues.push("Twitter card or description is missing.");
 
   const schemaIssues: string[] = [];
-  const hasOrganizationSchema = Boolean(SITE_SCHEMA_TYPES.organization);
-  const hasWebSiteSchema = Boolean(SITE_SCHEMA_TYPES.website);
-  const hasBreadcrumbListSchema = Boolean(SITE_SCHEMA_TYPES.breadcrumb);
-  const hasSoftwareApplicationSchema = Boolean(SITE_SCHEMA_TYPES.softwareApplication);
-  schemaIssues.push("Source inspection found JSON-LD generators for WebSite, Organization, BreadcrumbList, SoftwareApplication, CollectionPage, and FAQPage in page templates.");
-  schemaIssues.push("Live JSON-LD syntax validity, schema.org conformance, and Google Rich Results eligibility are unverified and require deployed testing.");
+  const generatorStatuses: Record<string, SchemaGeneratorStatus> = {};
+  const detectedGeneratorNames: string[] = [];
+
+  for (const [schemaType, builderFn] of Object.entries(SCHEMA_BUILDERS)) {
+    try {
+      const sampleOutput = typeof builderFn === "function" ? (builderFn as () => Record<string, unknown>)() : null;
+      const isValid = Boolean(
+        sampleOutput &&
+        (sampleOutput["@type"] === schemaType ||
+          (Array.isArray(sampleOutput["@graph"]) &&
+            (sampleOutput["@graph"] as Record<string, unknown>[]).some((item) => item["@type"] === schemaType)))
+      );
+
+      if (isValid) {
+        generatorStatuses[schemaType] = {
+          schemaType,
+          status: "source-declared",
+          deployedValidation: "unverified",
+          richResultsEligibility: "unverified",
+        };
+        detectedGeneratorNames.push(schemaType);
+      } else {
+        generatorStatuses[schemaType] = {
+          schemaType,
+          status: "not-found",
+          deployedValidation: "unverified",
+          richResultsEligibility: "unverified",
+        };
+      }
+    } catch {
+      generatorStatuses[schemaType] = {
+        schemaType,
+        status: "not-found",
+        deployedValidation: "unverified",
+        richResultsEligibility: "unverified",
+      };
+    }
+  }
+
+  if (detectedGeneratorNames.length > 0) {
+    schemaIssues.push(`Source inspection confirmed functional schema builders for: ${detectedGeneratorNames.join(", ")}.`);
+  } else {
+    schemaIssues.push("No functional schema builders were found in source.");
+  }
+  schemaIssues.push("Live JSON-LD syntax validity, schema.org conformance, and Google Rich Results eligibility are unverified without deployed HTTP testing.");
+
+  const hasOrganizationSchema = generatorStatuses["Organization"]?.status === "source-declared";
+  const hasWebSiteSchema = generatorStatuses["WebSite"]?.status === "source-declared";
+  const hasBreadcrumbListSchema = generatorStatuses["BreadcrumbList"]?.status === "source-declared";
+  const hasSoftwareApplicationSchema = generatorStatuses["SoftwareApplication"]?.status === "source-declared";
+  const hasFaqPageSchema = generatorStatuses["FAQPage"]?.status === "source-declared";
+  const hasCollectionPageSchema = generatorStatuses["CollectionPage"]?.status === "source-declared";
+  const hasArticleSchema = generatorStatuses["Article"]?.status === "source-declared";
 
   const analyticsIssues: string[] = [];
   const googleAnalyticsId = GOOGLE_ANALYTICS_MEASUREMENT_ID;
@@ -156,7 +203,8 @@ export function inspectSeoSystem(): SystemSeoInspection {
         toolRoutes: toolRouteCount,
         blogRoutes: blogRouteCount,
       },
-      hasSitemapXml: false,
+      verificationStatus: "unverified",
+      hasSitemapXml: null,
       issues: [
         ...sitemapIssues,
         "Live /sitemap.xml endpoint availability and XML response headers are unverified; only the in-memory route array was inspected.",
@@ -166,11 +214,13 @@ export function inspectSeoSystem(): SystemSeoInspection {
       isCrawlerAllowed,
       disallowedPaths,
       sitemapUrl,
+      verificationStatus: "source-declared",
       issues: robotsIssues,
     },
     canonicalStrategy: {
       baseUrl: SITE_ORIGIN,
-      isSelfReferentialCanonical: false,
+      verificationStatus: "unverified",
+      isSelfReferentialCanonical: null,
       handlesAliasesCorrectly: unresolvedAliasTargets.length === 0 && aliasCanonicalCollisions.length === 0,
       issues: [
         ...canonicalIssues,
@@ -182,19 +232,26 @@ export function inspectSeoSystem(): SystemSeoInspection {
       titleTemplate: observedTitleTemplate || "",
       hasOpenGraph,
       hasTwitterCard,
+      verificationStatus: "source-declared",
       issues: metadataIssues,
     },
     schemaGeneration: {
+      generators: generatorStatuses,
       hasOrganizationSchema,
       hasWebSiteSchema,
       hasBreadcrumbListSchema,
       hasSoftwareApplicationSchema,
+      hasFaqPageSchema,
+      hasCollectionPageSchema,
+      hasArticleSchema,
+      verificationStatus: "source-declared",
       issues: schemaIssues,
     },
     analyticsAndSearchConsole: {
       googleAnalyticsId,
       googleSiteVerification,
       vercelAnalyticsEnabled,
+      verificationStatus: "source-declared",
       issues: analyticsIssues,
     },
   };
