@@ -260,7 +260,8 @@ export default function ImageDpiConverter() {
       
       {/* Settings Panel */}
       <div className="bg-card border shadow-sm rounded-3xl p-6">
-        <h3 className="text-lg font-semibold mb-4">Target DPI Settings</h3>
+        <h3 className="text-lg font-semibold mb-2">Target DPI Metadata</h3>
+        <p className="text-xs text-muted-foreground mb-4">This tool changes JPEG JFIF density or PNG pHYs metadata only. It does not change pixel dimensions, resample the image, or add detail. A portal may require other image dimensions or formats too.</p>
         <div className="flex flex-wrap gap-3 items-center">
           {[72, 96, 200, 300].map(dpi => (
             <Button
@@ -304,7 +305,7 @@ export default function ImageDpiConverter() {
         <p className="text-muted-foreground mb-4">Accepts JPG, JPEG, and PNG. Batch processing supported.</p>
         <div className="flex justify-center gap-2">
           <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-500/20">
-            <Settings className="w-3.5 h-3.5" /> 100% Client-Side
+            <Settings className="w-3.5 h-3.5" /> Metadata edited in browser
           </div>
         </div>
       </div>
@@ -350,7 +351,7 @@ export default function ImageDpiConverter() {
                   {file.status === "done" && (
                     <div className="text-right text-xs text-muted-foreground">
                       <p>Size: {formatSize(file.originalSize)}</p>
-                      <p className="text-emerald-600 dark:text-emerald-400 font-medium mt-0.5">Verified</p>
+                      <p className="text-emerald-600 dark:text-emerald-400 font-medium mt-0.5">Metadata updated</p>
                     </div>
                   )}
                   
