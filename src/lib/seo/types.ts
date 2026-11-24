@@ -1,4 +1,4 @@
-export type SeoIndexability = "indexable" | "noindex" | "canonicalized-alias";
+export type SeoIndexability = "indexable" | "noindex" | "redirect";
 
 export type ToolType = 
   | "converter" 
@@ -16,7 +16,9 @@ export type ProcessingType =
   | "client-side (browser WASM/JS)" 
   | "client-side (WebGPU/AI)" 
   | "client-side (Canvas/DOM)" 
-  | "hybrid (client-side + ephemeral cloud)";
+  | "hybrid (client-side + ephemeral cloud)"
+  | "browser-first (client-side; optional cloud conversion)"
+  | "external AI service + browser rendering";
 
 export interface BreadcrumbItem {
   name: string;
@@ -54,7 +56,7 @@ export interface ToolSeoInventoryItem {
   supportedOutputFormats: string[];
   requiresFileUpload: boolean;
   processingLocation: ProcessingType;
-  isFunctional: boolean;
+  isFunctional: boolean | null;
 
   // On-Page SEO Elements
   currentH1: string;
@@ -69,7 +71,7 @@ export interface ToolSeoInventoryItem {
   wordCount: number;
   introductoryContent: string;
   faqSections: FaqSection[];
-  hasUniqueSeoContent: boolean;
+  hasToolSpecificContent: boolean;
   isThinContent: boolean;
   thinContentReason?: string;
 
