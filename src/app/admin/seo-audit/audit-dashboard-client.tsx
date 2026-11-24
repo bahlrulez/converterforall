@@ -3,23 +3,16 @@
 import React, { useState, useMemo } from "react";
 import { 
   Search, 
-  Download, 
+  Download,
   AlertTriangle, 
-  CheckCircle2, 
   FileText, 
   ExternalLink, 
-  Layers, 
-  Cpu, 
   ShieldCheck, 
-  BarChart3, 
+  BarChart3,
   Link as LinkIcon, 
   Copy, 
   Check, 
-  X, 
-  ChevronRight,
-  Filter,
-  Sparkles,
-  Info
+  X
 } from "lucide-react";
 import { CompleteSeoAuditDataset, ToolSeoInventoryItem } from "@/lib/seo/types";
 
@@ -138,13 +131,13 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
           <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
             <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Indexable</div>
             <div className="text-2xl font-black text-emerald-400 mt-1">{summary.totalIndexablePages}</div>
-            <div className="text-[10px] text-slate-500 mt-1">{summary.totalNoindexPages} Aliases (Noindex/Alt)</div>
+            <div className="text-[10px] text-slate-500 mt-1">{summary.totalNoindexPages} Noindex Tools ({summary.totalAliasRoutes} Redirect Aliases)</div>
           </div>
 
           <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
             <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400">Thin Content</div>
             <div className="text-2xl font-black text-amber-400 mt-1">{summary.pagesWithThinContent}</div>
-            <div className="text-[10px] text-slate-500 mt-1">&lt;250w or fallback template</div>
+            <div className="text-[10px] text-slate-500 mt-1">Flagged for review (&lt;250w or fallback copy)</div>
           </div>
 
           <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
@@ -156,7 +149,7 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
           <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
             <div className="text-[11px] font-bold uppercase tracking-wider text-purple-400">Duplicate Titles</div>
             <div className="text-2xl font-black text-purple-400 mt-1">{summary.pagesWithDuplicateTitles.length}</div>
-            <div className="text-[10px] text-slate-500 mt-1">Shared by alias routes</div>
+            <div className="text-[10px] text-slate-500 mt-1">Shared across &gt;1 route (inc. aliases)</div>
           </div>
 
           <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
@@ -189,8 +182,8 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                 <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Sitemap Implementation</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                      Healthy ({systemInspection.sitemap.totalUrls} URLs)
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                      Route Manifest ({systemInspection.sitemap.totalUrls} URLs)
                     </span>
                   </div>
                   <div className="space-y-2 text-xs text-slate-400">
@@ -198,9 +191,14 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                     <p>• Category hub routes: <span className="text-white font-medium">{systemInspection.sitemap.urlCountsByType.categoryRoutes}</span></p>
                     <p>• Canonical tool routes: <span className="text-white font-medium">{systemInspection.sitemap.urlCountsByType.toolRoutes}</span></p>
                     <p>• Blog article routes: <span className="text-white font-medium">{systemInspection.sitemap.urlCountsByType.blogRoutes}</span></p>
-                    <p className="text-[11px] text-emerald-400/90 pt-2 border-t border-slate-800">
-                      ✓ Aliases are strictly excluded from sitemap.ts, preventing duplicate submission.
+                    <p className="text-[11px] text-slate-400 pt-2 border-t border-slate-800">
+                      Note: Live endpoint headers &amp; XML payload require deployed verification. Aliases excluded from manifest.
                     </p>
+                    {systemInspection.sitemap.issues.map((iss, i) => (
+                      <p key={i} className="text-[11px] text-slate-400 pt-1">
+                        ℹ {iss}
+                      </p>
+                    ))}
                   </div>
                 </div>
 
@@ -209,7 +207,7 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Robots.txt Directives</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                      Active
+                      Source Configured
                     </span>
                   </div>
                   <div className="space-y-2 text-xs text-slate-400">
@@ -228,16 +226,20 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                 <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Canonical Strategy</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                      Alias Risk Detected
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
+                      systemInspection.canonicalStrategy.handlesAliasesCorrectly
+                        ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                        : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                    }`}>
+                      {systemInspection.canonicalStrategy.handlesAliasesCorrectly ? "Source Configured" : "Alias Conflict Detected"}
                     </span>
                   </div>
                   <div className="space-y-2 text-xs text-slate-400">
                     <p>• Base domain: <span className="text-white font-medium">{systemInspection.canonicalStrategy.baseUrl}</span></p>
-                    <p>• Self-referential on primary tools: <span className="text-emerald-400 font-medium">Yes</span></p>
+                    <p>• Self-referential on primary tools: <span className="text-slate-300 font-medium">Declared in route templates (Live HTML unverified)</span></p>
                     {systemInspection.canonicalStrategy.issues.map((iss, i) => (
-                      <p key={i} className="text-[11px] text-rose-400/90 pt-2 border-t border-slate-800 leading-relaxed">
-                        🚨 {iss}
+                      <p key={i} className="text-[11px] text-amber-400/90 pt-2 border-t border-slate-800 leading-relaxed">
+                        ℹ {iss}
                       </p>
                     ))}
                   </div>
@@ -247,18 +249,19 @@ export function AuditDashboardClient({ data }: { data: CompleteSeoAuditDataset }
                 <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800/80">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Schemas &amp; Verification</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                      Verified
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                      Source Templates Found
                     </span>
                   </div>
                   <div className="space-y-2 text-xs text-slate-400">
                     <p>• Google Analytics ID: <span className="text-white font-mono text-[11px]">{systemInspection.analyticsAndSearchConsole.googleAnalyticsId}</span></p>
                     <p>• Search Console Tag: <span className="text-white font-mono text-[11px]">{systemInspection.analyticsAndSearchConsole.googleSiteVerification}</span></p>
-                    <p>• BreadcrumbList Schema: <span className="text-emerald-400">Emitted on all tools</span></p>
-                    <p>• SoftwareApplication Schema: <span className="text-emerald-400">Emitted with 0-dollar free offer</span></p>
+                    <p>• BreadcrumbList Schema: <span className="text-slate-300">Declared in tool, category &amp; blog templates</span></p>
+                    <p>• SoftwareApplication Schema: <span className="text-slate-300">Declared in tool templates (with free price offer)</span></p>
+                    <p>• Deployed Rich Results: <span className="text-amber-400">Unverified (Requires deployed Google test)</span></p>
                     {systemInspection.schemaGeneration.issues.map((iss, i) => (
-                      <p key={i} className="text-[11px] text-cyan-400/90 pt-2 border-t border-slate-800">
-                        💡 {iss}
+                      <p key={i} className="text-[11px] text-slate-400 pt-2 border-t border-slate-800">
+                        ℹ {iss}
                       </p>
                     ))}
                   </div>

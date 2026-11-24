@@ -111,25 +111,33 @@ export function inspectSeoSystem(): SystemSeoInspection {
   const metadataIssues: string[] = [];
   const metadataBase = siteMetadata.metadataBase;
   const metadataBaseOrigin = metadataBase instanceof URL ? metadataBase.origin : undefined;
-  const titleTemplate = typeof siteMetadata.title === "object" && siteMetadata.title !== null && "template" in siteMetadata.title
-    ? siteMetadata.title.template || SITE_TITLE_TEMPLATE
-    : SITE_TITLE_TEMPLATE;
+  const observedTitleTemplate =
+    typeof siteMetadata.title === "object" && siteMetadata.title !== null && "template" in siteMetadata.title
+      ? siteMetadata.title.template
+      : undefined;
+
+  if (!observedTitleTemplate) {
+    metadataIssues.push("Root siteMetadata.title has no template property defined.");
+  } else if (observedTitleTemplate !== SITE_TITLE_TEMPLATE) {
+    metadataIssues.push(`Root title template ("${observedTitleTemplate}") does not match expected configuration ("${SITE_TITLE_TEMPLATE}").`);
+  }
+
   const openGraph = siteMetadata.openGraph;
   const twitter = siteMetadata.twitter;
   const hasMetadataBase = metadataBaseOrigin === SITE_ORIGIN;
   const hasOpenGraph = Boolean(openGraph && typeof openGraph === "object" && "title" in openGraph && "description" in openGraph);
   const hasTwitterCard = Boolean(twitter && typeof twitter === "object" && "card" in twitter && "description" in twitter);
   if (!hasMetadataBase) metadataIssues.push(`metadataBase must match ${SITE_ORIGIN}.`);
-  if (!titleTemplate) metadataIssues.push("Root metadata has no title template.");
   if (!hasOpenGraph) metadataIssues.push("Open Graph title or description is missing.");
   if (!hasTwitterCard) metadataIssues.push("Twitter card or description is missing.");
 
   const schemaIssues: string[] = [];
-  const hasOrganizationSchema = SITE_SCHEMA_TYPES.organization === "Organization";
-  const hasWebSiteSchema = SITE_SCHEMA_TYPES.website === "WebSite";
-  const hasBreadcrumbListSchema = SITE_SCHEMA_TYPES.breadcrumb === "BreadcrumbList";
-  const hasSoftwareApplicationSchema = SITE_SCHEMA_TYPES.softwareApplication === "SoftwareApplication";
-  schemaIssues.push("Schema type declarations exist in the source; JSON-LD validity and rich-result eligibility require a deployed structured-data test.");
+  const hasOrganizationSchema = Boolean(SITE_SCHEMA_TYPES.organization);
+  const hasWebSiteSchema = Boolean(SITE_SCHEMA_TYPES.website);
+  const hasBreadcrumbListSchema = Boolean(SITE_SCHEMA_TYPES.breadcrumb);
+  const hasSoftwareApplicationSchema = Boolean(SITE_SCHEMA_TYPES.softwareApplication);
+  schemaIssues.push("Source inspection found JSON-LD generators for WebSite, Organization, BreadcrumbList, SoftwareApplication, CollectionPage, and FAQPage in page templates.");
+  schemaIssues.push("Live JSON-LD syntax validity, schema.org conformance, and Google Rich Results eligibility are unverified and require deployed testing.");
 
   const analyticsIssues: string[] = [];
   const googleAnalyticsId = GOOGLE_ANALYTICS_MEASUREMENT_ID;
@@ -148,8 +156,11 @@ export function inspectSeoSystem(): SystemSeoInspection {
         toolRoutes: toolRouteCount,
         blogRoutes: blogRouteCount,
       },
-      hasSitemapXml: sitemapEntries.length > 0 && sitemapEntries.every((entry) => entry.url === SITE_ORIGIN || entry.url.startsWith(`${SITE_ORIGIN}/`)),
-      issues: sitemapIssues,
+      hasSitemapXml: false,
+      issues: [
+        ...sitemapIssues,
+        "Live /sitemap.xml endpoint availability and XML response headers are unverified; only the in-memory route array was inspected.",
+      ],
     },
     robotsTxt: {
       isCrawlerAllowed,
@@ -159,13 +170,16 @@ export function inspectSeoSystem(): SystemSeoInspection {
     },
     canonicalStrategy: {
       baseUrl: SITE_ORIGIN,
-      isSelfReferentialCanonical: hasMetadataBase && SITE_ORIGIN === "https://www.converterforall.com",
+      isSelfReferentialCanonical: false,
       handlesAliasesCorrectly: unresolvedAliasTargets.length === 0 && aliasCanonicalCollisions.length === 0,
-      issues: canonicalIssues,
+      issues: [
+        ...canonicalIssues,
+        "Self-referential canonical URLs are defined in page templates using SITE_ORIGIN, but live deployed <link rel=\"canonical\"> tags are not verified without an HTTP crawl.",
+      ],
     },
     metadataGeneration: {
       hasMetadataBase,
-      titleTemplate,
+      titleTemplate: observedTitleTemplate || "",
       hasOpenGraph,
       hasTwitterCard,
       issues: metadataIssues,

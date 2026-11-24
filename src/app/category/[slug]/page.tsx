@@ -79,7 +79,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
       },
       {
         q: "Is there a daily limit on how many documents I can merge or convert?",
-        a: "No. You can merge, split, or convert as many files as you need without daily quotas, cooldown timers, or watermarks.",
+        a: "No artificial daily limit is imposed on standard usage. Because processing runs in your browser, very large batches are subject only to available device memory.",
       },
       {
         q: "Will compressing a PDF make the text hard to read?",
@@ -97,7 +97,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     intro: "Modern websites and smartphones save pictures in formats like WebP, HEIC, and AVIF, which older software or government upload portals often reject. Our image tools convert, compress, resize, and edit your pictures securely in seconds.",
     points: [
       {
-        title: "Universal Format Support",
+        title: "Common Format Support",
         desc: "Easily convert between WebP, PNG, JPG, AVIF, HEIC, and SVG so your images open smoothly on any computer or phone.",
       },
       {
@@ -124,7 +124,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
       },
       {
         q: "Are there any file size limits for image compression?",
-        a: "Because processing happens locally in your browser memory, you can compress large high-resolution camera photos without artificial size blocks.",
+        a: "Because processing happens locally in your browser memory, high-resolution camera photos can be compressed directly up to available system RAM.",
       },
     ],
   },
@@ -279,10 +279,10 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
   audio: {
     title: "Audio Converters & Sound Trimmers",
     badge: "Audio Suite",
-    intro: "Whether you need to convert an Apple voice memo or WhatsApp voice note into an MP3 file, or cut an audio interview to exact seconds, our audio tools process sound files cleanly in your browser without quality loss.",
+    intro: "Whether you need to convert an Apple voice memo or WhatsApp voice note into an MP3 file, or cut an audio interview to exact seconds, our audio tools let you trim and convert sound files directly in your browser.",
     points: [
       {
-        title: "Lossless Audio Trimming",
+        title: "Precision Audio Trimming",
         desc: "Cut music tracks, ringtones, or podcast clips with millisecond waveform precision directly in your browser.",
       },
       {
@@ -378,7 +378,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     ? "Convert supported legacy Hindi and Punjabi font text to Unicode, or Unicode to listed legacy fonts. Check each tool page for direction and experimental support."
     : editorial?.intro
       ? editorial.intro.slice(0, 160)
-      : `Free, private in-browser tools to convert and manage ${categorySlug} files without installing software.`;
+      : `Free tools to manage and convert ${categorySlug} files. Most tools run directly in your browser without software installation.`;
   const canonicalUrl = `${SITE_ORIGIN}/category/${categorySlug}`;
   const isNoindex = NOINDEX_CATEGORIES.includes(categorySlug as (typeof NOINDEX_CATEGORIES)[number]);
 
@@ -415,19 +415,19 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
   const editorial = CATEGORY_EDITORIAL_DATA[categorySlug] || {
     title: categorySlug === "developer" ? "Data & Code Tools" : `${categorySlug} Tools`,
     badge: "File Utilities",
-    intro: `Manage and convert your ${categorySlug} files in one secure, in-browser toolkit without uploading files to third-party servers.`,
+    intro: `Explore our collection of ${categorySlug} tools. Check each tool page for supported formats, processing locations, and specific options.`,
     points: [
       {
-        title: "In-Browser Privacy",
-        desc: "Most of our tools run directly inside your browser so your documents stay on your device.",
+        title: "Browser-First Architecture",
+        desc: "Most tools run directly inside your browser. Where external services or cloud options are required, they are disclosed per tool.",
       },
       {
-        title: "No Daily Limits",
-        desc: "Convert as many files as you need without watermarks or subscription walls.",
+        title: "No Account Required",
+        desc: "Use available tools without registering an account, providing an email, or encountering forced watermarks.",
       },
       {
-        title: "Universal Compatibility",
-        desc: "Works smoothly on Windows, Mac, Linux, Android, and iOS devices.",
+        title: "Cross-Platform Access",
+        desc: "Designed to run across modern desktop and mobile web browsers with standard web standards.",
       },
     ],
     faqs: [
@@ -437,7 +437,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
       },
       {
         q: "Are my files uploaded to any servers?",
-        a: "Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.",
+        a: "Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and discarded once conversion finishes.",
       },
     ],
   };
