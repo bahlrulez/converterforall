@@ -313,7 +313,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
               Use Cloud Engine via third-party service (Cloudmersive API)
             </span>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-              Default is 100% in-browser on-device conversion. When unchecked, your document never leaves your device. Check this only if you need desktop PowerPoint layout accuracy.
+              PPTX files use the browser renderer by default. When enabled, the selected presentation is sent to Cloudmersive for conversion; legacy PPT files require this Cloud Engine.
             </p>
           </div>
         </label>
