@@ -4,6 +4,7 @@ import { HowItWorks } from "@/components/home/how-it-works";
 import { Features } from "@/components/home/features";
 import { FAQ } from "@/components/home/faq";
 import { Metadata } from "next";
+import { SITE_SCHEMA_TYPES } from "@/lib/seo/site-config";
 
 export const metadata: Metadata = {
   keywords: [
@@ -33,7 +34,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@graph": [
               {
-                "@type": "WebSite",
+                "@type": SITE_SCHEMA_TYPES.website,
                 "@id": "https://www.converterforall.com/#website",
                 "url": "https://www.converterforall.com",
                 "name": "ConverterForAll",
@@ -43,7 +44,7 @@ export default function Home() {
                 }
               },
               {
-                "@type": "Organization",
+                "@type": SITE_SCHEMA_TYPES.organization,
                 "@id": "https://www.converterforall.com/#organization",
                 "name": "ConverterForAll",
                 "url": "https://www.converterforall.com/",
