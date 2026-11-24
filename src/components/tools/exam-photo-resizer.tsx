@@ -359,8 +359,8 @@ export function ExamPhotoResizer() {
 
                   <div className="space-y-1 w-full text-xs">
                     <div className="flex items-center justify-between text-muted-foreground">
-                      <span>Dimensions:</span>
-                      <span className="font-medium text-foreground">{config.dimensionsLabel.split(" ")[0]} cm</span>
+                      <span>Crop ratio (W:H):</span>
+                      <span className="font-medium text-foreground">{config.aspect.toFixed(2)}:1</span>
                     </div>
                     <div className="flex items-center justify-between text-muted-foreground">
                       <span>Target KB:</span>
@@ -384,9 +384,10 @@ export function ExamPhotoResizer() {
                   {activeConfig.minKB} KB – {activeConfig.maxKB} KB
                 </span>
                 <span className="px-2 py-0.5 bg-muted border font-medium rounded text-[11px]">
-                  {activeConfig.dimensionsLabel}
+                  Reference: {activeConfig.dimensionsLabel}
                 </span>
               </div>
+              <p className="text-amber-700 dark:text-amber-300 text-[11px] leading-relaxed">The cropper applies an aspect ratio and minimum source width; it does not create fixed centimetre dimensions, fixed pixel dimensions, or DPI. Presets are references only—follow the latest official notice.</p>
               <ul className="text-muted-foreground list-disc list-inside space-y-0.5 pt-1">
                 {activeConfig.rules.map((rule, idx) => (
                   <li key={idx} className="leading-relaxed">{rule}</li>
@@ -411,7 +412,7 @@ export function ExamPhotoResizer() {
             Select or drop {mode === "photo" ? "passport photograph" : "signature image"}
           </h3>
           <p className="text-xs text-muted-foreground mb-4 max-w-sm">
-            Runs entirely on your device. Your photo is never uploaded to any cloud server.
+            The selected image is cropped and edited in your browser; this tool does not send it to a file-conversion API.
           </p>
           <Button size="sm" variant="outline" className="pointer-events-none">
             Browse files
@@ -444,7 +445,7 @@ export function ExamPhotoResizer() {
             
             <div className="flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-lg text-xs font-medium border border-primary/20">
               <FileCheck className="w-3.5 h-3.5" />
-              <span>Target: {activeConfig.minKB}–{activeConfig.maxKB} KB ({activeConfig.dimensionsLabel.split(" ")[0]} cm)</span>
+              <span>Target: {activeConfig.minKB}–{activeConfig.maxKB} KB ({activeConfig.aspect.toFixed(2)}:1 crop ratio)</span>
             </div>
           </div>
 
@@ -485,9 +486,9 @@ export function ExamPhotoResizer() {
             </Button>
             <Button onClick={processImage} disabled={isProcessing}>
               {isProcessing ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Compressing to Specs...</>
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Compressing image...</>
               ) : (
-                <><Scissors className="mr-2 h-4 w-4" /> Crop &amp; Conform to Specs</>
+                <><Scissors className="mr-2 h-4 w-4" /> Crop &amp; Create JPEG</>
               )}
             </Button>
           </div>
@@ -497,7 +498,7 @@ export function ExamPhotoResizer() {
           <div className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 p-3 rounded-full">
             <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h2 className="text-xl font-bold">Document Ready for Portal Upload</h2>
+          <h2 className="text-xl font-bold">Image Export Ready — Review Before Upload</h2>
           
           <div className="bg-background p-4 rounded-xl border max-w-sm w-full mx-auto text-left space-y-2 text-xs">
              <div className="flex justify-between">
@@ -509,10 +510,12 @@ export function ExamPhotoResizer() {
                <span className="font-bold text-emerald-600 dark:text-emerald-400">{(resultBlob.size / 1024).toFixed(2)} KB</span>
              </div>
              <div className="flex justify-between">
-               <span className="text-muted-foreground">Size Compliance:</span>
-               <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                 <Check className="w-3.5 h-3.5" /> Within {activeConfig.minKB}–{activeConfig.maxKB} KB
-               </span>
+               <span className="text-muted-foreground">Size Check:</span>
+               {resultBlob.size >= activeConfig.minKB * 1024 && resultBlob.size <= activeConfig.maxKB * 1024 ? (
+                 <span className="font-semibold text-emerald-600 dark:text-emerald-400">Within selected range</span>
+               ) : (
+                 <span className="font-semibold text-amber-600 dark:text-amber-400">Outside selected range</span>
+               )}
              </div>
              <div className="flex justify-between">
                <span className="text-muted-foreground">Format:</span>
@@ -531,7 +534,7 @@ export function ExamPhotoResizer() {
             </Button>
             <Button onClick={handleDownload} size="lg" className="shadow-sm">
               <Download className="mr-2 h-4 w-4" />
-              Download Conformed File
+              Download Edited Image
             </Button>
           </div>
         </div>
