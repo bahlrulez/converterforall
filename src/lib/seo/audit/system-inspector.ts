@@ -1,6 +1,5 @@
 import { SystemSeoInspection } from "../types";
 import { toolsDatabase, getCanonicalToolSlugs, SLUG_ALIASES, getToolBySlug } from "@/lib/tools-db";
-import { getAllBlogSlugs } from "@/lib/blog-data";
 import sitemap, { BASE_SITEMAP_ROUTES } from "@/app/sitemap";
 import robots from "@/app/robots";
 import { siteMetadata } from "@/lib/seo/site-metadata";
@@ -55,7 +54,7 @@ export function inspectSeoSystem(): SystemSeoInspection {
   }
 
   const canonicalDbSlugs = getCanonicalToolSlugs();
-  const configToolSlugs = Object.values(TOOLS).map((tool) => tool.path.replace(/^\\//, ""));
+  const configToolSlugs = Object.values(TOOLS).map((tool) => tool.path.startsWith("/") ? tool.path.slice(1) : tool.path);
   const expectedToolSlugs = Array.from(new Set([...canonicalDbSlugs, ...configToolSlugs]));
   const expectedIndexableToolPaths = expectedToolSlugs
     .filter((slug) => !TIER_C_NOINDEX_SLUGS.has(slug))
