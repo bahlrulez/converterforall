@@ -10,7 +10,7 @@ import { ToolReviews } from "@/components/tools/tool-reviews";
 import { getToolReviewStats } from "@/lib/reviews-data";
 import { getOptimizedToolTitle, getOptimizedToolDescription } from "@/lib/seo/metadata";
 import { TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
-import { SITE_SCHEMA_TYPES } from "@/lib/seo/site-config";
+import { SITE_ORIGIN, SITE_SCHEMA_TYPES } from "@/lib/seo/site-config";
 
 export async function generateStaticParams() {
   return getCanonicalToolSlugs().map((slug) => ({
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const pageTitle = getOptimizedToolTitle(tool, toolSlug);
   const pageDescription = getOptimizedToolDescription(tool, toolSlug, categorySlug);
 
-  const ogImageUrl = `https://www.converterforall.com/og/${toolSlug}`;
+  const ogImageUrl = `${SITE_ORIGIN}/og/${toolSlug}`;
   const isNoindex = TIER_C_NOINDEX_SLUGS.has(toolSlug) || TIER_C_NOINDEX_SLUGS.has(resolvedParams.slug);
 
   return {
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: `${pageTitle} | ConverterForAll`,
       description: pageDescription,
       type: "website",
-      url: `https://www.converterforall.com/${toolSlug}`,
+      url: `${SITE_ORIGIN}/${toolSlug}`,
       images: [
         {
           url: ogImageUrl,
@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       images: [ogImageUrl],
     },
     alternates: {
-      canonical: `https://www.converterforall.com/${toolSlug}`,
+      canonical: `${SITE_ORIGIN}/${toolSlug}`,
     }
   };
 }
@@ -107,13 +107,13 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://www.converterforall.com"
+        "item": SITE_ORIGIN
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": tool.title,
-        "item": `https://www.converterforall.com/${toolSlug}`
+        "item": `${SITE_ORIGIN}/${toolSlug}`
       }
     ]
   };
@@ -127,7 +127,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     "@context": "https://schema.org",
     "@type": SITE_SCHEMA_TYPES.softwareApplication,
     "name": tool.title,
-    "url": `https://www.converterforall.com/${toolSlug}`,
+    "url": `${SITE_ORIGIN}/${toolSlug}`,
     "operatingSystem": "All",
     "applicationCategory": "UtilitiesApplication",
     "browserRequirements": "Requires JavaScript. Requires HTML5.",
