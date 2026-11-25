@@ -354,6 +354,21 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
     }
   });
 
+  test('11. No generic auto-enrichment claims are appended to authored pages', () => {
+    const aseesSections = getToolContent('asees-to-unicode', 'Asees to Unicode', '');
+    const aseesText = aseesSections.map(section => section.title + ' ' + section.content).join(' ');
+    expect(aseesText).not.toContain('Compatibility & tips for Punjabi typists');
+    expect(aseesText).not.toContain('All font conversions are performed locally in your browser memory and are never transmitted over the internet');
+
+    const fallbackSections = getToolContent('unverified-test-tool', 'Unverified Test Utility', '');
+    const fallbackText = fallbackSections.map(section => section.title + ' ' + section.content).join(' ');
+    expect(fallbackText).toContain('accepted inputs, settings and output');
+    expect(fallbackText).not.toContain('100KB');
+    expect(fallbackText).not.toContain('never uploaded');
+    expect(fallbackText).not.toContain('no network requests');
+    expect(fallbackText).not.toContain('guarantees playback');
+  });
+
   test('11. Prerendered production HTML verification across all 7 routes', () => {
     for (const slug of targetRoutes) {
       const htmlPath = path.join(process.cwd(), '.next/server/app', `${slug}.html`);
