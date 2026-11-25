@@ -347,26 +347,48 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "image-to-svg": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "Image Raster to Vector Converter (PNG/JPG to SVG)",
-        content: "<p>Instantly vectorize logos, icons, and signatures. Convert pixel-based images (PNG, JPG, WEBP) into scalable vector graphics (SVG) entirely inside your browser without uploading your files to any cloud server.</p>"
+        title: "What the Image to SVG Vector Tracer Does",
+        content: "<p>Upload one JPG/JPEG, PNG or WEBP image and choose a tracing preset. The page uses ImageTracerJS 1.2.6 in the browser to analyse the raster pixels and generate an SVG made from vector shapes and paths. You can preview the generated SVG and download it as an .svg file.</p><p>This is raster-to-vector tracing, not an exact reconstruction of the original design. It approximates visible edges, regions and colours as vector geometry. Fine details, gradients, texture and small text can be simplified or lost.</p>"
       },
       {
-        title: "Is this Image to Vector converter really free?",
-        content: "<p>Yes! Unlike most vectorizer tools that charge monthly fees or add watermarks to your downloads, our tool is 100% free with unlimited conversions and zero watermarks.</p>"
+        title: "What the Four Tracing Presets Change",
+        content: "<p><strong>Default (Balanced):</strong> Uses the library's default tracing and colour settings.</p><p><strong>Logo (Crisp):</strong> Uses the posterized1 preset, which reduces the colour palette to two colours. It is intended for simple, high-contrast graphics rather than detailed photographs.</p><p><strong>Artwork (Smooth):</strong> Uses the curvy preset, which favours smoother curve tracing and less emphasis on right-angle corners.</p><p><strong>Grayscale (B&W):</strong> Uses ImageTracerJS's grayscale preset for a monochrome-style trace. It is a tracing preset, not a guarantee of a perfect black-and-white threshold conversion.</p>"
       },
       {
-        title: "Are my images uploaded to your servers?",
-        content: "<p>No. All vector tracing is done entirely in your browser using advanced client-side scripts. Your sensitive images and signatures never leave your device.</p>"
+        title: "Which Images Usually Trace Best?",
+        content: "<p>Simple logos, icons, illustrations, symbols, bold line art and high-contrast scans are generally better tracing candidates because their edges and colour regions are easier to separate. Busy photographs, gradients, textured backgrounds, shadows, tiny lettering and low-contrast images can produce many complex paths or lose important detail.</p><p>For best results, begin with a clean, high-resolution source with a simple background. Try another preset if the first SVG has too many shapes, rough edges or missing detail. The tool does not provide manual node editing or a text-recognition step.</p>"
       },
       {
-        title: "What is the difference between Raster and Vector?",
-        content: "<p>Raster images (like PNG or JPG) are made of fixed pixels and become blurry when zoomed in. Vector graphics (like SVG) are made of mathematical paths, meaning they can be scaled to any size (from a business card to a billboard) without losing quality.</p>"
+        title: "SVG Paths, Scalability and Editability",
+        content: "<p>The downloaded SVG contains traced vector geometry rather than simply renaming the source image. Its paths can be scaled without the same pixelation that occurs when enlarging a raster image. However, scalability does not make the trace identical to the source: any details simplified during tracing remain simplified at larger sizes.</p><p>Text in the source image is traced as shapes; it is not converted into editable font text. Depending on the source and preset, the SVG can contain many paths and may be larger or harder to edit than the original image. Open the downloaded SVG in a vector editor to inspect and refine it if needed.</p>"
       },
       {
-        title: "What types of images work best?",
-        content: "<p>This tool works best on high-contrast images with solid colors and clear edges, such as logos, icons, line art, and scanned signatures. It is not designed to vectorize complex, highly detailed photographs.</p>"
+        title: "Browser Processing and Privacy",
+        content: "<p>The component loads the selected image through a browser object URL and calls the bundled ImageTracerJS library to generate the SVG. This component does not upload the selected image to an image-tracing API. The tracing operation takes place in the browser, though the page itself still makes the normal requests required to load the website and its scripts.</p>"
+      },
+      {
+        title: "Supported Input and Output",
+        content: "<p>The upload control accepts one JPG/JPEG, PNG or WEBP image per run. The output is an SVG file. This tool does not batch-process several images at once, create a font file, convert photographed text into editable text, or guarantee a specific number of paths or output file size.</p>"
+      },
+      {
+        title: "How to Trace an Image into SVG",
+        content: "<ol><li><strong>Choose one raster image:</strong> Upload a JPG/JPEG, PNG or WEBP file.</li><li><strong>Select a tracing preset:</strong> Choose Default, Logo (Crisp), Artwork (Smooth) or Grayscale (B&W).</li><li><strong>Run the trace:</strong> The browser uses ImageTracerJS to generate SVG geometry from the image pixels.</li><li><strong>Inspect the preview:</strong> Check edges, colours, small shapes and text-like details. Try a different preset if the trace is too rough or too complex.</li><li><strong>Download and refine:</strong> Download the SVG and inspect its paths in a vector editor before using it in production artwork.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Is the SVG an exact copy of the original image?</strong><br>A: No. ImageTracerJS estimates vector shapes from raster pixels. The result can simplify colours, edges and small details, so compare it with the source.</p>
+          <p><strong>Q: Does the SVG contain vector paths or just the original embedded image?</strong><br>A: The tracer generates SVG vector geometry from the image. It is not simply a raster image saved with an SVG extension.</p>
+          <p><strong>Q: Can I scale the SVG without pixelation?</strong><br>A: The generated paths can be scaled without raster pixelation, but scaling cannot restore detail that was lost or simplified during tracing.</p>
+          <p><strong>Q: Does the tool turn words in an image into editable text?</strong><br>A: No. Letters and words are traced as shapes. The tool does not perform OCR or identify fonts.</p>
+          <p><strong>Q: Which images work best?</strong><br>A: High-contrast logos, icons, illustrations and line art usually trace more cleanly than photographs with gradients, textures, shadows or many small details.</p>
+          <p><strong>Q: What does the Grayscale preset do?</strong><br>A: It selects ImageTracerJS's built-in grayscale tracing preset. It does not guarantee a perfect thresholded black-and-white trace.</p>
+          <p><strong>Q: Is my image uploaded to a tracing server?</strong><br>A: The component passes a browser object URL to the bundled ImageTracerJS library and does not send the selected image to an image-tracing API.</p>
+          <p><strong>Q: Can I process multiple images at once?</strong><br>A: No. The current interface accepts one image per run.</p>
+        `
       }
     ]
   },

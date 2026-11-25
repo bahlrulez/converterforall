@@ -207,8 +207,10 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       acceptedTypes: { "image/svg+xml": [".svg"] }
     },
     "image-to-svg": { theme: "emerald", iconName: "Image", badge: "Image",
-      title: "Image to SVG Vector Converter",
-      description: "Convert pixel images (PNG, JPG, WEBP) to scalable vector graphics (SVG) instantly. 100% private.",
+      title: "Image to SVG Vector Tracer",
+      description: "Trace a PNG, JPG or WEBP image into SVG vector paths using selectable ImageTracerJS presets. Best suited to logos, icons and high-contrast artwork; tracing may simplify details.",
+      seoTitle: "Image to SVG Vector Tracer | Convert Raster Images to SVG Paths",
+      seoDescription: "Trace a PNG, JPG or WEBP image into SVG paths in your browser. Choose a tracing preset and review the result; complex photographs and fine detail may not trace accurately.",
       inputFormat: "image",
       outputFormat: "svg",
       actionName: "Convert to Vector",

@@ -8,7 +8,7 @@ const PRESETS = [
   { id: "default", name: "Default (Balanced)", desc: "Good balance of color and shape." },
   { id: "posterized1", name: "Logo (Crisp)", desc: "Fewer colors, sharp edges. Great for logos." },
   { id: "curvy", name: "Artwork (Smooth)", desc: "Smoothed curves for illustrations." },
-  { id: "bw", name: "Line Art (B&W)", desc: "Strict Black & White for sketches/signatures." },
+  { id: "grayscale", name: "Grayscale (B&W)", desc: "Trace using the grayscale preset." },
 ];
 
 export default function ImageToSvgComponent() {
@@ -114,7 +114,7 @@ export default function ImageToSvgComponent() {
                 Drop your image here
               </h3>
               <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-sm">
-                Supports PNG, JPG, and WEBP. We&apos;ll convert it into a scalable SVG vector entirely in your browser.
+                Supports one PNG, JPG or WEBP image. The browser traces its pixels into SVG paths; results vary with image quality and tracing preset.
               </p>
               <button className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors">
                 Select Image
@@ -227,7 +227,7 @@ export default function ImageToSvgComponent() {
             <div className="w-full md:w-1/3 flex flex-col justify-center">
               <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Success!</h4>
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
-                Your image has been perfectly traced into mathematical vector paths. It can now be scaled indefinitely without losing quality.
+                The raster image has been traced into SVG vector shapes. This is an approximation: fine details and colours can be simplified by the selected preset. The SVG paths can be scaled without the pixelation of the original raster image, but enlarging the result does not restore detail that was lost during tracing.
               </p>
               
               <button
@@ -241,7 +241,7 @@ export default function ImageToSvgComponent() {
               <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-900/30">
                 <p className="text-xs font-medium text-blue-800 dark:text-blue-300 flex items-start gap-2">
                   <Info className="w-4 h-4 shrink-0 mt-0.5" />
-                  Processed 100% locally in your browser. No files were uploaded to our servers, ensuring total privacy.
+                  Tracing runs in your browser using ImageTracerJS. This component does not upload the selected image to an image-tracing API.
                 </p>
               </div>
             </div>
