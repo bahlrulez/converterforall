@@ -207,6 +207,9 @@ export function ExamPhotoResizer() {
 
   const activePresetSpec = EXAM_PRESETS[preset] || EXAM_PRESETS.ssc;
   const activeConfig = activePresetSpec[mode];
+  const isWithinPresetSizeRange = resultBlob !== null
+    && resultBlob.size >= activeConfig.minKB * 1024
+    && resultBlob.size <= activeConfig.maxKB * 1024;
 
   const handleFile = (file: File) => {
     setFileName(file.name.replace(/\.[^/.]+$/, "") + `-${preset}-${mode}.jpg`);
@@ -497,7 +500,7 @@ export function ExamPhotoResizer() {
           <div className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 p-3 rounded-full">
             <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h2 className="text-xl font-bold">Document Ready for Portal Upload</h2>
+          <h2 className="text-xl font-bold">JPEG Export Created — Review Before Upload</h2>
           
           <div className="bg-background p-4 rounded-xl border max-w-sm w-full mx-auto text-left space-y-2 text-xs">
              <div className="flex justify-between">
@@ -509,9 +512,10 @@ export function ExamPhotoResizer() {
                <span className="font-bold text-emerald-600 dark:text-emerald-400">{(resultBlob.size / 1024).toFixed(2)} KB</span>
              </div>
              <div className="flex justify-between">
-               <span className="text-muted-foreground">Size Compliance:</span>
-               <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                 <Check className="w-3.5 h-3.5" /> Within {activeConfig.minKB}–{activeConfig.maxKB} KB
+               <span className="text-muted-foreground">Preset size range:</span>
+               <span className={`font-semibold flex items-center gap-1 ${isWithinPresetSizeRange ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"}`}>
+                 {isWithinPresetSizeRange ? <Check className="w-3.5 h-3.5" /> : <Info className="w-3.5 h-3.5" />}
+                 {isWithinPresetSizeRange ? `Within ${activeConfig.minKB}–${activeConfig.maxKB} KB` : `Outside ${activeConfig.minKB}–${activeConfig.maxKB} KB`}
                </span>
              </div>
              <div className="flex justify-between">
