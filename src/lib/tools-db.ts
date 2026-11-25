@@ -110,6 +110,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     },
     "heic-to-jpg": { theme: "amber", iconName: "Image", badge: "Apple Photo", isPopular: true,
       title: "Convert HEIC to JPG",
+      description: "Convert one HEIC or HEIF image to JPG using the browser-side heic2any decoder.",
       seoTitle: "HEIC to JPG Converter | Convert HEIC and HEIF Photos",
       seoDescription: "Convert one HEIC or HEIF image to JPG in your browser using heic2any. The output is re-encoded and original metadata may not be retained.",
       inputFormat: "heic",
