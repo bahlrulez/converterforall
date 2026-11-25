@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import Link from "next/link";
 import { ArrowLeftRight, Copy, ClipboardPaste, Trash2, Download, Printer, Share2, Undo2, Redo2, Check, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { convertHindi } from "@/lib/fonts/hindi-mappings";
@@ -215,8 +216,8 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
           <Button variant="ghost" size="sm" onClick={handleRedo} disabled={historyIndex >= history.length - 1}><Redo2 className="w-4 h-4 mr-2" /> Redo</Button>
         </div>
         <div className="flex flex-wrap gap-1">
-          <Button variant="ghost" size="sm" onClick={() => downloadFile(toValue, 'converted.txt', 'text/plain')}><Download className="w-4 h-4 mr-2" /> TXT</Button>
-          <Button variant="ghost" size="sm" onClick={() => downloadFile(toValue, 'converted.doc', 'application/msword')}><Download className="w-4 h-4 mr-2" /> DOC</Button>
+          <Button variant="ghost" size="sm" title="Download output as plain text (.txt)" onClick={() => downloadFile(toValue, 'converted.txt', 'text/plain')}><Download className="w-4 h-4 mr-2" /> TXT</Button>
+          <Button variant="ghost" size="sm" title="Download plain text with a .doc filename (unformatted)" onClick={() => downloadFile(toValue, 'converted.doc', 'application/msword')}><Download className="w-4 h-4 mr-2" /> DOC</Button>
           <Button variant="ghost" size="sm" onClick={handlePrint}><Printer className="w-4 h-4 mr-2" /> Print</Button>
           <Button variant="ghost" size="sm" onClick={handleShare}><Share2 className="w-4 h-4 mr-2" /> Share</Button>
         </div>
@@ -285,16 +286,29 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
 
       </div>
 
-      {/* Contextual SEO Link */}
-      <div className="mt-8 text-center">
-        <a 
-          href="/blog/kruti-dev-font-showing-as-english-in-word" 
-          className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full"
-        >
-          <FileText className="w-4 h-4" />
-          Is Kruti Dev showing as English in MS Word? Read our troubleshooting guide
-        </a>
-      </div>
+      {/* Contextual Guide Link */}
+      {category === 'hindi' && (
+        <div className="mt-8 text-center">
+          <Link
+            href="/blog/kruti-dev-font-showing-as-english-in-word"
+            className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full"
+          >
+            <FileText className="w-4 h-4" />
+            Is Kruti Dev showing as English in MS Word? Read our troubleshooting guide
+          </Link>
+        </div>
+      )}
+      {category === 'punjabi' && (
+        <div className="mt-8 text-center">
+          <Link
+            href="/unicode-to-raavi"
+            className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full"
+          >
+            <FileText className="w-4 h-4" />
+            Need Gurmukhi Unicode to display in Word? Read our Raavi font guide
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

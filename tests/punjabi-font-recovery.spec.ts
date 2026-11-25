@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { convertPunjabi } from '../src/lib/fonts/punjabi-mappings';
-import { PunjabiFontConvertor } from '../src/lib/fonts/punjabi-engine';
 import { getToolContent, extractToolFaqs } from '../src/lib/tool-content';
 import { toolsDatabase } from '../src/lib/tools-db';
 import { TIER_C_NOINDEX_SLUGS } from '../src/config/sitemap-lastmod';
@@ -192,6 +191,21 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
       // Verify privacy phrasing honesty in each FAQ section
       const faqText = faqs.map(f => `${f.question} ${f.answer}`).join(' ');
       expect(faqText).not.toContain('100% private: files never leave');
+      expect(faqText).not.toContain('never uploaded to our servers');
+    }
+
+    // 4.5 Explicit GurbaniLipi/AnmolLipi disclosure on gurbani-akhar-to-unicode
+    const gurbaniAllText = getToolContent('gurbani-akhar-to-unicode', 'Gurbani Akhar to Unicode', '')
+      .map(s => `${s.title} ${s.content}`).join(' ');
+    expect(gurbaniAllText).toContain('GurbaniLipi');
+    expect(gurbaniAllText).toContain('AnmolLipi');
+
+    // 4.6 Paste-only, plain-text DOC disclosure & target-font instructions on converter routes
+    const converterRoutes = targetRoutes.filter(slug => slug !== 'unicode-to-raavi');
+    for (const slug of converterRoutes) {
+      const fullText = getToolContent(slug, slug, '').map(s => `${s.title} ${s.content}`).join(' ');
+      expect(fullText, `Route '/${slug}' must clarify paste-text behavior`).toContain('paste-text');
+      expect(fullText, `Route '/${slug}' must clarify DOC download is plain text`).toContain('plain text with a <code>.doc</code> filename');
     }
   });
 
@@ -323,6 +337,7 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
       'satluj-to-unicode',
       'unicode-to-satluj',
       'gurbani-akhar-to-unicode',
+      'unicode-to-raavi',
     ];
 
     const relatedToolsFile = path.join(process.cwd(), 'src/components/tools/related-tools.tsx');
@@ -331,6 +346,7 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
     for (const slug of punjabiToolsWithClusters) {
       const regex = new RegExp(`"${slug}":\\s*\\[([^\\]]+)\\]`);
       const match = content.match(regex);
+      expect(match, `Cluster for '${slug}' must exist in related-tools.tsx`).not.toBeNull();
       if (match) {
         const clusterMembers = match[1];
         expect(clusterMembers).not.toContain('krutidev');
@@ -340,19 +356,20 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
     }
   });
 
-  test('11. Prerendered production HTML verification across all 7 routes', () => {
+  test('11. Prerendered production HTML verification across all 10 routes', () => {
     for (const slug of targetRoutes) {
       const htmlPath = path.join(process.cwd(), '.next/server/app', `${slug}.html`);
       expect(fs.existsSync(htmlPath), `Prerendered HTML for '/${slug}' must exist`).toBe(true);
 
       const html = fs.readFileSync(htmlPath, 'utf8');
 
-      if (slug === 'gurbani-akhar-to-unicode') {
+      if (slug === 'unicode-to-raavi') {
+        expect(html).toContain('This tool is not available yet.');
+      } else {
         expect(html).not.toContain('This tool is not available yet.');
       }
 
-      if (slug === 'unicode-to-raavi') {
-        expect(html).toContain('This tool is not available yet.');
+      if (TIER_C_NOINDEX_SLUGS.has(slug)) {
         expect(html).toContain('content="noindex');
       } else {
         expect(html).not.toContain('content="noindex');
@@ -362,6 +379,13 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
       expect(html).not.toContain('fgunh');
       expect(html).not.toContain('CPCT');
       expect(html).not.toContain('Mangal');
+      expect(html).not.toContain('Do You Need to Upload Your Documents?');
+      expect(html).not.toContain('Is This Converter Free to Use?');
+
+      const mainStart = html.indexOf('<main');
+      const mainEnd = html.indexOf('</main>', mainStart);
+      const mainHtml = mainStart >= 0 && mainEnd > mainStart ? html.slice(mainStart, mainEnd) : html;
+      expect(mainHtml).not.toContain('Kruti Dev');
     }
   });
 });

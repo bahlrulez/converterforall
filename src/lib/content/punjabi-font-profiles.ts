@@ -104,15 +104,15 @@ const punjabiProfiles: FontContentProfile[] = [
     faqs: [
       {
         question: "Why does Joy font text appear broken in modern applications?",
-        answer: "Joy uses a legacy character mapping. Converting text covered by the current mapping produces Unicode Gurmukhi that can be used in applications supporting Gurmukhi Unicode; compare the result with the original for accuracy."
+        answer: "Joy uses a legacy non-Unicode character mapping. Converting text covered by the current mapping produces Unicode Gurmukhi that can be used in applications supporting Gurmukhi Unicode; compare the result with the original for accuracy."
       },
       {
         question: "Do I need to install Joy font to read the converted text?",
         answer: "No. The converted output is standard Unicode Gurmukhi, which is natively supported on all modern computers, phones, and browsers."
       },
       {
-        question: "Does this conversion happen locally on my computer?",
-        answer: "This page accepts pasted text rather than document uploads. The conversion is performed in the browser; it does not send the pasted text to a conversion server."
+        question: "Does Joy to Unicode keep Word formatting or export a formatted DOC file?",
+        answer: "No. This page converts pasted text only, so bold styling, tables, images and layout are not preserved. The DOC-labelled download saves plain text with a .doc extension rather than a formatted Microsoft Word document."
       }
     ]
   },
@@ -122,17 +122,17 @@ const punjabiProfiles: FontContentProfile[] = [
     direction: "from-unicode",
     description: "Converts pasted standard Gurmukhi Unicode text into character codes for the Satluj legacy font mapping. Apply the Satluj font in the destination application to view the output as Gurmukhi.",
     primaryUseCases: [
-      "Formatting text for Adobe PageMaker, CorelDraw, and traditional DTP (Desktop Publishing) workflows in Punjab.",
-      "Preparing documents for legacy offset printing presses that mandate the use of Satluj font files.",
-      "Editing older newspaper templates that have not yet migrated to Unicode."
+      "Preparing pasted Punjabi text to paste into Adobe PageMaker, CorelDraw, or desktop-publishing layouts using the Satluj font.",
+      "Converting Unicode text into Satluj character codes for legacy print workflows that require the Satluj font.",
+      "Updating copied text inside older newspaper templates that have not migrated to Unicode."
     ],
     mappingConsiderations: [
       "Maps supported Unicode characters to the character codes in the current Satluj table. The result is legacy-font text, not standard Unicode.",
-      "The converter includes sequence handling for selected Gurmukhi compositions. Check vowel signs, numbers and punctuation in the target Satluj font before relying on the output."
+      "The converter applies sequence handling for selected Gurmukhi compositions. Check vowel signs, numbers and punctuation in the target Satluj font before relying on the output."
     ],
     compatibilityNotes: [
-      "IMPORTANT: After conversion, you MUST select 'Satluj' from the font dropdown menu in your design software. Otherwise, the text will appear as meaningless English characters.",
-      "Satluj text is not suitable for emails or web pages. Use this strictly for offline print design."
+      "IMPORTANT: After conversion, you MUST select 'Satluj' from the font dropdown menu in your design software. Otherwise, the text will appear as Latin or extended characters.",
+      "Satluj text is not suitable for emails or web pages. Use this strictly for workflows where the Satluj font is applied."
     ],
     relatedConverters: [
       { slug: "satluj-to-unicode", name: "Satluj to Unicode" },
@@ -142,7 +142,7 @@ const punjabiProfiles: FontContentProfile[] = [
     faqs: [
       {
         question: "Why do I need to convert Unicode to Satluj?",
-        answer: "Older desktop publishing software like Adobe PageMaker 6.5 and some regional offset printing presses require legacy ASCII fonts like Satluj. Converting Unicode to Satluj allows you to work with these older publishing workflows."
+        answer: "Older desktop publishing software like Adobe PageMaker 6.5 and some regional print templates still use legacy non-Unicode fonts like Satluj. Converting pasted Unicode text into Satluj codes lets you place it into those older layouts."
       },
       {
         question: "Why does the output look garbled until I select the Satluj font?",
@@ -166,7 +166,7 @@ const punjabiProfiles: FontContentProfile[] = [
     ],
     mappingConsiderations: [
       "Maps character codes in the current Satluj table to Gurmukhi Unicode. It does not read page layout or infer characters from an image of a document.",
-      "Font editions and documents with custom glyph substitutions may use codes that are not represented in the table; proofread the converted output, especially for uncommon characters."
+      "Font editions, numeral conventions and documents with custom glyph substitutions can differ across legacy files; proofread numbers, vowel signs and uncommon characters against the source."
     ],
     compatibilityNotes: [
       "The resulting text will render using your system's default Gurmukhi font (such as Raavi on Windows or Nirmala UI).",
@@ -225,8 +225,8 @@ const punjabiProfiles: FontContentProfile[] = [
         answer: "Asees is a legacy font that stores Punjabi text using English ASCII character codes, requiring the Asees font file on every machine. Unicode is an international standard where each Gurmukhi character has its own universal code, making text readable across all devices without installing fonts."
       },
       {
-        question: "Does this converter run locally on my computer?",
-        answer: "Most of our tools run directly inside your browser so your documents stay on your device. Your typing is processed in your browser memory and never uploaded to any remote server."
+        question: "Does Asees to Unicode preserve layout or export a formatted Word file?",
+        answer: "No. It converts pasted characters only and does not carry across Word styles, tables or formatting. The toolbar DOC button downloads plain text with a .doc filename rather than a formatted Word document."
       }
     ]
   },
@@ -236,9 +236,9 @@ const punjabiProfiles: FontContentProfile[] = [
     direction: "from-unicode",
     description: "Converts pasted Gurmukhi Unicode text into character codes for the Asees legacy font mapping. Apply the Asees font in the destination application to display the output as Gurmukhi.",
     primaryUseCases: [
-      "Importing modern Punjabi text into legacy software like Adobe PageMaker 6.5 or older versions of CorelDraw that do not support Unicode.",
-      "Preparing text for traditional offset printing presses in Punjab that require Asees font files.",
-      "Working with existing publishing templates designed specifically for the Asees font layout."
+      "Preparing pasted Unicode Punjabi text for older software such as Adobe PageMaker 6.5 or CorelDraw that relies on the Asees font.",
+      "Converting Unicode passages into Asees character codes for print templates that require the Asees font.",
+      "Creating a legacy Asees text copy alongside existing publishing templates designed for the Asees font layout."
     ],
     mappingConsiderations: [
       "Maps supported Gurmukhi Unicode characters and sequences to the character codes in the current Asees table.",
@@ -264,8 +264,8 @@ const punjabiProfiles: FontContentProfile[] = [
         answer: "For almost all modern purposes—including websites, government portals, emails, and mobile phones—standard Unicode is recommended. Asees should only be used if you are working with older printing presses or legacy software like PageMaker."
       },
       {
-        question: "Does this tool work offline or upload my text?",
-        answer: "Most of our tools run directly inside your browser so your documents stay on your device. The conversion runs entirely in local browser memory and does not upload your text."
+        question: "Does Unicode to Asees keep Word formatting or create a formatted DOCX file?",
+        answer: "No. The converter outputs unformatted plain text, and the DOC download button saves plain text with a .doc filename. Paste the output into Word or PageMaker, select the Asees font, and apply formatting there."
       }
     ]
   },
@@ -303,8 +303,8 @@ const punjabiProfiles: FontContentProfile[] = [
         answer: "Yes. All modern Android and iOS devices have built-in support for Gurmukhi Unicode, so your text will display properly on phones, tablets, and computers."
       },
       {
-        question: "Is there any limit on how much text I can convert?",
-        answer: "The page converts pasted text rather than uploaded documents and does not show a fixed file-size allowance. Very large passages may still be limited by browser memory and responsiveness; divide long material into smaller sections if needed."
+        question: "Will converting AnmolLipi text preserve document layout and formatting?",
+        answer: "No. This tool converts pasted plain text only, so fonts, headings, tables, images and page layout are not carried over. Paste the Unicode output back into Word or your editor to reapply styles; the DOC download button saves plain text with a .doc extension rather than a formatted Word file."
       }
     ]
   },
@@ -335,18 +335,18 @@ const punjabiProfiles: FontContentProfile[] = [
     faqs: [
       {
         question: "How is Gurbani Akhar different from standard Unicode?",
-        answer: "Gurbani Akhar is a legacy ASCII-encoded font from the 1990s and 2000s that mapped Gurmukhi characters onto English keyboard keys. Unicode is the universal international standard where each Gurmukhi character has its own unique character code, allowing text to display properly on any computer or smartphone without installing special fonts."
+        answer: "Gurbani Akhar is a legacy non-Unicode font family from the 1990s and 2000s that mapped Gurmukhi characters onto English keyboard keys. Unicode is the universal international standard where each Gurmukhi character has its own unique character code, allowing text to display properly on any computer or smartphone without installing special fonts."
       },
       {
         question: "Will symbols like Ek Onkar (ੴ) convert properly?",
         answer: "The current mapping contains an Ek Onkar composition, but the output should still be checked against the source font and the original passage. Custom ligatures and punctuation may not be represented."
       },
       {
-        question: "Does this converter send my text to a server?",
-        answer: "This page accepts pasted text rather than uploaded document files. Conversion is performed by the browser-based JavaScript mapping engine; the page does not send the pasted text to a conversion server."
+        question: "How does this Gurbani Akhar route relate to GurbaniLipi and AnmolLipi?",
+        answer: "In the current converter code, the Gurbani Akhar route selects the GurbaniLipi profile, which inherits the AnmolLipi base mapping table and adds separate numeral entries. Because it does not use a separate verified Gurbani Akhar table, compare converted Gurbani text carefully against the source."
       }
     ]
-  }
+  },
   {
     slug: "unicode-to-anmollipi",
     fontName: "AnmolLipi",

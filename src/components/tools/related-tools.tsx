@@ -74,6 +74,7 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       "satluj-to-unicode": ["unicode-to-satluj", "asees-to-unicode", "joy-to-unicode", "anmollipi-to-unicode"],
       "unicode-to-satluj": ["satluj-to-unicode", "unicode-to-asees", "unicode-to-joy", "unicode-to-anmollipi"],
       "gurbani-akhar-to-unicode": ["asees-to-unicode", "anmollipi-to-unicode", "satluj-to-unicode", "joy-to-unicode"],
+      "unicode-to-raavi": ["asees-to-unicode", "anmollipi-to-unicode", "satluj-to-unicode", "gurbani-akhar-to-unicode"],
 
       // Video Workflows
       "video-compressor": ["compress-mp4", "compress-video-for-discord", "compress-video-for-whatsapp", "video-to-mp4"],
