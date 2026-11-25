@@ -866,10 +866,11 @@ export function MergeImagesTool() {
           </div>
           {outputStats && (
             <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
-              {outputStats.width} × {outputStats.height} px • ~{outputStats.estimatedKB} KB
+              {outputStats.width} × {outputStats.height} px • Est. ~{outputStats.estimatedKB} KB
             </span>
           )}
         </div>
+        {outputStats && <p className="w-full text-right text-[11px] text-slate-500 dark:text-slate-400">Estimated file size only. The downloaded JPEG size may differ.</p>}
 
         {/* Live Canvas Element */}
         <div className="w-full min-h-[220px] max-h-[500px] rounded-2xl bg-slate-200/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-3 sm:p-4 flex items-center justify-center overflow-auto">
@@ -889,7 +890,7 @@ export function MergeImagesTool() {
         {/* Download Action Strip */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-between w-full gap-4 pt-4 border-t border-slate-200/80 dark:border-slate-800">
           <div className="text-xs text-slate-500 dark:text-slate-400 text-center sm:text-left">
-            <span>Destination Format: <strong>JPEG (.jpg)</strong> • 100% In-Browser Execution</span>
+            <span>Destination: <strong>JPEG (.jpg)</strong> • Canvas processing in this browser</span>
           </div>
 
           <Button

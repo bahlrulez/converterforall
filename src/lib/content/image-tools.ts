@@ -393,98 +393,53 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "merge-images-to-jpg": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "Why Combine Two Images into One JPG?",
-        content: `
-          <p>Whether you need to submit the front and back of an ID card on an official portal, create a side-by-side before-and-after comparison photo, assemble receipts for expense reimbursement, or prepare a two-panel photo for social media, combining two images into a single file is an everyday necessity.</p>
-          <p>Most basic image viewers do not provide a straightforward way to join two pictures without manually opening complicated graphic design software like Photoshop. This tool provides a dedicated, streamlined way to combine any two JPEG or PNG images into a single, high-quality JPG directly inside your web browser.</p>
-          <p>All processing runs locally in your browser using client-side HTML5 Canvas technology. Your photos stay entirely on your computer or phone and are never uploaded to any remote server.</p>
-          <h3>How to merge two images:</h3>
-          <ol>
-            <li><strong>Select Image 1 and Image 2:</strong> Drag and drop your photos into Slot 1 and Slot 2, or browse your local files. You can also drop two files at once to fill both slots automatically.</li>
-            <li><strong>Choose layout and spacing:</strong> Choose <strong>Side by Side</strong> (horizontal) or <strong>Top and Bottom</strong> (vertical). Adjust the gap between photos, outer border padding, and background color.</li>
-            <li><strong>Preview and download:</strong> Check the live composite preview, then click <strong>Download Merged JPG</strong> to save your merged image as <code>merged-images.jpg</code>.</li>
-          </ol>
-        `
+        title: "What the Merge Two Images Tool Does",
+        content: "<p>Choose two JPG/JPEG or PNG images and combine them into one JPEG. You can place them side by side or top and bottom, swap their order, adjust the gap and outer padding, choose a white, black or custom background, and select a JPEG quality setting. The composite is previewed on a browser Canvas and downloaded as <code>merged-images.jpg</code>.</p>"
       },
       {
-        title: "Layout Options: Side by Side vs. Top and Bottom",
-        content: `
-          <p>Choosing the right layout depends on your photos' subject matter and orientation:</p>
-          <ul>
-            <li><strong>Side by Side (Horizontal):</strong> Places Image 1 on the left and Image 2 on the right. This is the recommended choice for before-and-after comparisons, landscape orientation photos, and two-sided identity cards.</li>
-            <li><strong>Top and Bottom (Vertical):</strong> Places Image 1 above Image 2. This layout works best for mobile portrait photos, vertical documents, long paper receipts, and smartphone screenshots.</li>
-            <li><strong>Swap Order:</strong> Click the central <strong>Swap Order</strong> (⇄) button at any time to switch the positions of Image 1 and Image 2 without re-uploading either file.</li>
-          </ul>
-        `
+        title: "Layouts and Aspect-Ratio Handling",
+        content: "<p>In Side by Side layout, the tool scales the two decoded images proportionally to a common height based on the taller source image. In Top and Bottom layout, it scales them proportionally to a common width based on the wider source image. This preserves each processed image's aspect ratio; the tool does not intentionally crop or stretch the images to fill a fixed grid.</p><p>However, the tool may downscale a source image before compositing or downscale the combined canvas to meet its pixel and canvas-dimension limits. Fine detail can therefore be reduced in very large inputs. The preview is a scaled display of the composite, not a guarantee of the final file's appearance at full size or when printed.</p>"
       },
       {
-        title: "How Different Dimensions Are Handled Without Distortion",
-        content: `
-          <p>One of the most frustrating problems when combining photos from different cameras or phones is mismatched image sizes. Many basic online tools stretch the smaller photo or crop away important edges.</p>
-          <p>Our tool preserves 100% of each photo's original aspect ratio using proportional dimension matching:</p>
-          <ul>
-            <li><strong>In Side by Side layout:</strong> The engine matches heights to the taller image and scales both widths proportionally. Neither photo is vertically stretched or cropped.</li>
-            <li><strong>In Top and Bottom layout:</strong> The engine matches widths to the wider image and scales both heights proportionally. Both photos maintain their natural proportions and crisp details.</li>
-          </ul>
-        `
+        title: "Input Size and Pixel-Dimension Limits",
+        content: "<p>Each input file is limited to 25 MB. The decoder accepts JPG/JPEG and PNG. It also checks each source image against an 8,000-pixel maximum on its longest side and a 24-megapixel pixel-count limit; an image above either limit is proportionally downscaled before it is used.</p><p>The combined output canvas is limited to 8,192 pixels on either dimension and 24 megapixels in total. If the proposed composite would exceed those limits, the tool scales the combined result down proportionally and shows a notice. As a result, the output may have fewer pixels than the original source images.</p>"
       },
       {
-        title: "PNG Transparency & Solid Background Compositing",
-        content: `
-          <p>The standard JPEG format does not support transparency (it lacks an alpha channel). When a transparent PNG file is converted to a JPG without proper handling, the transparent areas frequently turn into solid black boxes.</p>
-          <p>To ensure clean results, our tool fills the canvas with your selected solid background color (pure white by default) before drawing your images. Transparent logos, product cutouts, and signatures will blend smoothly against the background color without ugly dark borders or artifacts.</p>
-        `
+        title: "Spacing, Padding and Background",
+        content: "<p>The gap between the two images can be set from 0 to 200 pixels. Outer border padding can be set from 0 to 400 pixels. Both values are digital pixel measurements, not physical print measurements. The tool also offers white, black and custom background colours. Transparent areas in a PNG are composited over the selected solid background because the exported JPEG format does not support transparency.</p><p>The tool does not set DPI or a physical print size. The physical size of the merged JPG depends on the pixel dimensions and the print scaling selected later in your printer or document software.</p>"
       },
       {
-        title: "Understanding JPEG Quality Settings",
-        content: `
-          <p>JPEG compression is always lossy, even when selecting the maximum quality setting. Our tool gives you three balanced quality options:</p>
-          <ul>
-            <li><strong>High (92% quality - Default):</strong> Delivers excellent visual clarity with minimal compression artifacts, ideal for general photography and printing.</li>
-            <li><strong>Maximum (100% quality):</strong> Minimizes compression for maximum fidelity, resulting in larger file sizes. Note that JPEG encoding remains technically lossy at 100%.</li>
-            <li><strong>Compact (80% quality):</strong> Reduces the output file size significantly, making it suitable for quick email attachments or web portals with strict upload limits.</li>
-          </ul>
-        `
+        title: "JPEG Quality and Estimated File Size",
+        content: "<p>The JPEG quality options are High (92%), Maximum (100%) and Compact (80%). JPEG encoding is lossy at all three settings, including 100%; lower quality may create more visible artifacts. Compact may reduce file size, but the actual reduction depends on the image content and output dimensions. There is no target-KB control and no guarantee that the merged file will fit a particular upload limit.</p><p>The preview displays an estimated KB value calculated from canvas pixel area and the selected quality setting. It is a rough estimate, not the encoded file size returned by the browser's JPEG encoder. The actual downloaded JPEG can be larger or smaller than the estimate. Check the downloaded file's properties before uploading it to a portal or attaching it to a message.</p>"
       },
       {
-        title: "Common Formatting Problems and Troubleshooting",
-        content: `
-          <ul>
-            <li><strong>Problem: The merged file is too large for an application portal.</strong><br>
-            <em>Fix:</em> Switch the JPEG quality to Compact (80%), or use our dedicated <a href="/compress-jpg" class="font-semibold text-blue-600 hover:underline">Compress JPG</a> tool to reduce the file size further without significant quality loss.</li>
-            <li><strong>Problem: Massive camera photos cause browser slowdown.</strong><br>
-            <em>Fix:</em> Modern 48-megapixel phone cameras produce very large raw pixel buffers. Our tool automatically applies safety downscaling if the combined dimensions exceed browser memory thresholds (8,192 px max) to ensure stable processing.</li>
-            <li><strong>Problem: Transparent PNG areas look dark or gray.</strong><br>
-            <em>Fix:</em> Ensure the background color setting is set to solid White (#FFFFFF) to composite transparent areas cleanly before JPEG export.</li>
-          </ul>
-        `
+        title: "Browser Processing and Image Metadata",
+        content: "<p>The images are decoded with browser image APIs, composited with HTML5 Canvas and exported using the browser's JPEG encoder. This component does not upload the selected images to a merging API. Because the output is a newly encoded JPEG, original file metadata such as EXIF camera details and GPS coordinates is not preserved as part of the source file's metadata.</p>"
       },
       {
-        title: "Contextual Related Tools & Guides",
-        content: `
-          <ul>
-            <li><a href="/compress-jpg" class="font-semibold text-blue-600 hover:underline">Compress JPG</a>: Shrink the file size of your merged JPEG photo for online forms or email attachments.</li>
-            <li><a href="/image-resizer" class="font-semibold text-blue-600 hover:underline">Image Resizer</a>: Resize individual photos to exact pixel dimensions before merging.</li>
-            <li><a href="/jpg-to-png" class="font-semibold text-blue-600 hover:underline">Convert JPG to PNG</a>: Convert standard JPEG images into lossless PNG format.</li>
-            <li><a href="/png-to-jpg" class="font-semibold text-blue-600 hover:underline">Convert PNG to JPG</a>: Convert PNG graphics with transparency into standard JPEG photos.</li>
-            <li><a href="/exam-photo-resizer" class="font-semibold text-blue-600 hover:underline">Exam Photo &amp; Signature Resizer</a>: Crop and resize photos and signatures to strict government exam specifications.</li>
-            <li><a href="/passport-photo-maker" class="font-semibold text-blue-600 hover:underline">Passport Photo Maker</a>: Create official biometric passport and visa photo sheets on your device.</li>
-          </ul>
-        `
+        title: "How to Merge Two Images",
+        content: "<ol><li><strong>Choose the first image:</strong> Upload a JPG/JPEG or PNG file in Image 1. You can drop two supported files into the first slot to fill both slots automatically.</li><li><strong>Choose the second image:</strong> Upload the other image in Image 2. Each file can be up to 25 MB.</li><li><strong>Set the layout:</strong> Choose Side by Side or Top and Bottom. Use Swap Order to change which image appears first.</li><li><strong>Adjust the composition:</strong> Set the gap, outer padding and background colour. Choose High, Maximum or Compact JPEG quality.</li><li><strong>Review and download:</strong> Check the output dimensions and estimated file size in the preview, then download the merged JPEG. Verify the actual file size and visual result before using it.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can I combine a JPG and a PNG image together?</strong><br>A: Yes. You can select one JPG and one PNG, two JPGs, or two PNGs. The tool automatically decodes both formats and composites them into a single unified JPG file.</p>
-          <p><strong>Q: Will merging two photos reduce their original quality?</strong><br>A: Our default setting uses 92% JPEG quality with high-quality bicubic smoothing, preserving sharp details and accurate colors. Note that JPEG compression is inherently lossy, but visual differences are minimal.</p>
-          <p><strong>Q: What happens if my two images have different heights or widths?</strong><br>A: In Side by Side layout, the tool automatically matches heights to the taller image and scales both widths proportionally. In Top and Bottom layout, it matches widths to the wider image. Neither image is cropped or distorted.</p>
-          <p><strong>Q: Why does my transparent PNG need a background color?</strong><br>A: The JPEG format does not support transparency. Filling the canvas with a solid background (white by default) prevents transparent areas from rendering as black boxes upon export.</p>
-          <p><strong>Q: Is there an input file size limit?</strong><br>A: Yes, each individual image can be up to 25 MB (50 MB total for both). This limit ensures your browser has sufficient memory to decode and composite the photos smoothly.</p>
-          <p><strong>Q: Are my photos uploaded to your server?</strong><br>A: No. All image decoding, compositing, and JPEG generation happen locally inside your web browser using HTML5 Canvas. Your photos never leave your device.</p>
-          <p><strong>Q: Can I use this image merging tool on an iPhone or Android phone?</strong><br>A: Yes. The tool works directly inside mobile browsers like Safari, Chrome, and Firefox on both iOS and Android smartphones.</p>
+          <p><strong>Q: Which image formats can I combine?</strong><br>A: The upload controls accept JPG/JPEG and PNG. WEBP is not accepted by this tool.</p>
+          <p><strong>Q: What is the maximum file size?</strong><br>A: Each input image can be up to 25 MB, so two files can total up to 50 MB if both are at the maximum.</p>
+          <p><strong>Q: Will the tool crop or stretch either image?</strong><br>A: It proportionally scales images to a common height or width depending on the selected layout. It does not intentionally crop or stretch them, but very large images may be downscaled to fit the source and output pixel limits.</p>
+          <p><strong>Q: Why does the merged result have fewer pixels than my originals?</strong><br>A: The tool limits each decoded source to 8,000 pixels on its longest side and 24 megapixels. The combined canvas is also limited to 8,192 pixels per dimension and 24 megapixels total. It scales images down when those limits would be exceeded.</p>
+          <p><strong>Q: Is the displayed KB value the actual downloaded file size?</strong><br>A: No. It is an estimate based on output pixel area and the selected quality value. The actual JPEG encoder output may differ. Check the downloaded file's properties for the exact size.</p>
+          <p><strong>Q: Does 100% JPEG quality preserve the original image perfectly?</strong><br>A: No. JPEG encoding is lossy even at the 100% setting. It may still introduce compression differences.</p>
+          <p><strong>Q: Can I set a specific KB or DPI target?</strong><br>A: No. The tool provides JPEG quality options but no target-KB input or DPI setting. Physical print size also depends on later printer or document settings.</p>
+          <p><strong>Q: Are my photos uploaded to a server?</strong><br>A: The component decodes and composites the images in the browser using Canvas and does not send them to an image-merging API.</p>
+          <p><strong>Q: Will the output preserve EXIF or GPS metadata?</strong><br>A: The merged JPG is newly encoded from a Canvas composite. Do not expect the original source images' EXIF or GPS metadata to be retained.</p>
         `
+      },
+      {
+        title: "Related Tools",
+        content: "<ul><li><a href=\"/compress-jpg\">Compress JPG</a> — adjust a separate JPG's compression settings.</li><li><a href=\"/image-resizer\">Image Resizer</a> — resize an image to chosen pixel dimensions.</li><li><a href=\"/exam-photo-resizer\">Exam Photo &amp; Signature Resizer</a> — use local preset starting points; check the current recruitment notice for actual requirements.</li><li><a href=\"/passport-photo-maker\">Passport Photo Maker</a> — crop a portrait and optionally change its background; it does not validate official photo requirements.</li></ul>"
       }
     ]
   },

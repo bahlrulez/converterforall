@@ -221,11 +221,11 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
         "image/webp": [".webp"]
       }
     },
-    "merge-images-to-jpg": { theme: "blue", iconName: "Layers", badge: "New", isPopular: true,
+    "merge-images-to-jpg": { theme: "blue", iconName: "Layers", badge: "Image", isPopular: true,
       title: "Merge Two Images into One JPG",
-      description: "Combine two JPEG or PNG images into a single high-quality JPG online. Place photos side by side or top and bottom with custom spacing, background, and no distortion.",
-      seoTitle: "Merge Two Images into One JPG - Free Online Tool",
-      seoDescription: "Combine two JPEG or PNG images into a single high-quality JPG online. Place photos side by side or top and bottom with custom spacing, background, and no distortion.",
+      description: "Combine two JPG/JPEG or PNG images side by side or top and bottom. Adjust spacing, border padding, background and JPEG quality, then export one merged JPG.",
+      seoTitle: "Merge Two Images into One JPG | Side-by-Side or Vertical Layout",
+      seoDescription: "Combine two JPG or PNG images in your browser with adjustable layout, gap, padding, background and JPEG quality. Large images may be downscaled to canvas limits; preview file size is an estimate.",
       inputFormat: "image",
       outputFormat: "jpg",
       actionName: "Merge Images",
