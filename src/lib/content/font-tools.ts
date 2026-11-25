@@ -39,6 +39,41 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     ]
   },
 
+  // GURBANI AKHAR TO UNICODE — page-specific, implementation-verified guidance
+  "gurbani-akhar-to-unicode": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Gurbani Akhar to Unicode Page Does",
+        content: "<p>This page accepts text pasted into the input box and converts it using the Punjabi engine configuration assigned to the Gurbani Akhar/GurbaniLipi option. It does not open Word, PDF or PageMaker files, extract scanned text, or preserve document formatting. The conversion is experimental; compatibility with every historical Gurbani Akhar or GurbaniLipi font file has not been established.</p>"
+      },
+      {
+        title: "Important: Which Character Mapping Does It Use?",
+        content: "<p>The current engine does not define a separate, complete Gurbani Akhar character table. Its GurbaniLipi configuration reuses the AnmolLipi character mapping and overlays a small GurbaniLipi-specific table for Gurmukhi digit positions. As a result, the page should only be used with source text that matches this mapping behaviour. It should not be treated as a verified converter for every font distributed under the names Gurbani Akhar or GurbaniLipi.</p><p>The shared engine also applies Gurmukhi composition and character-ordering rules. A character that is not represented by the selected mapping may pass through unchanged. Compare the converted output with the original source, especially for Gurbani-specific symbols, numerals, punctuation and subjoined forms.</p>"
+      },
+      {
+        title: "Text-Only Conversion and Output",
+        content: "<p>Paste text that can be selected and copied from the source application. This tool does not upload or parse original documents, read scanned pages, or retain font styling, page layout, tables or images. You can copy the Unicode result or download it as plain text. The separate DOC-labelled control in the shared converter saves plain text with a .doc filename; it does not generate a formatted Word document.</p>"
+      },
+      {
+        title: "How to Use This Converter",
+        content: "<ol><li><strong>Copy source text:</strong> Select text from a source that uses the encoding expected by this page.</li><li><strong>Paste it into the input box:</strong> The converted output appears as you type or paste.</li><li><strong>Check it carefully:</strong> Compare each line with the original. Do not assume that every Gurbani Akhar variant, symbol or glyph is supported.</li><li><strong>Copy or download:</strong> Use Copy or the TXT download for plain Unicode text. Reapply document formatting separately.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Does this page have a dedicated, complete Gurbani Akhar mapping table?</strong><br>A: No. The current engine configuration reuses the AnmolLipi character table and adds a small GurbaniLipi-specific digit mapping. This does not establish compatibility with every font labelled Gurbani Akhar or GurbaniLipi.</p>
+          <p><strong>Q: Will all Gurbani symbols, Ek Onkar forms and punctuation convert correctly?</strong><br>A: This is not guaranteed. The shared engine has some Gurmukhi compositions, but the page has not been validated against every historical Gurbani font variant and symbol set. Check the output against your source.</p>
+          <p><strong>Q: Can I upload a Gurbani Word or PDF document?</strong><br>A: No. Paste selectable text into the input box. The converter does not import files or extract text from scanned pages.</p>
+          <p><strong>Q: Does the tool preserve the original document formatting?</strong><br>A: No. It converts text characters only. Font styles, page layout, tables and images are not retained.</p>
+          <p><strong>Q: Does it translate or proofread Gurbani text?</strong><br>A: No. It performs character mapping to Unicode. It does not translate, interpret, verify scripture, correct spelling or validate textual accuracy.</p>
+          <p><strong>Q: Is my pasted text uploaded to a conversion server?</strong><br>A: The font conversion runs in the browser using the bundled JavaScript mapping engine. This component does not send the entered text to a conversion API.</p>
+          <p><strong>Q: Is the DOC download a real Word document?</strong><br>A: No. The shared converter saves plain text with a .doc filename. Use the TXT option for a plain-text download.</p>
+        `
+      }
+    ]
+  },
+
   // ANMOLLIPI TO UNICODE — page-specific, implementation-verified guidance
   "anmollipi-to-unicode": {
     disableAutoEnrich: true,
