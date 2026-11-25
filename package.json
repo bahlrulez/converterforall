@@ -5,11 +5,12 @@
   "scripts": {
     "dev": "npm run build:worker && next dev",
     "build:worker": "esbuild src/workers/caption-export.worker.ts --bundle --outfile=public/workers/caption-export.worker.js --format=esm --target=es2022",
-    "build": "prisma generate && npm run build:worker && next build",
+    "build": "prisma generate && npm run build:worker && next build && npm run test:punjabi",
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
-    "dev:worker": "esbuild src/workers/caption-export.worker.ts --bundle --outfile=public/workers/caption-export.worker.js --format=esm --target=es2022 --watch"
+    "dev:worker": "esbuild src/workers/caption-export.worker.ts --bundle --outfile=public/workers/caption-export.worker.js --format=esm --target=es2022 --watch",
+    "test:punjabi": "playwright test tests/punjabi-font-recovery.spec.ts --reporter=line --workers=1"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
