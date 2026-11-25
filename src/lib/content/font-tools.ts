@@ -256,7 +256,7 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
         title: "Frequently Asked Questions",
         content: `
           <p><strong>Q: Can I upload a Word, PDF or PageMaker document?</strong><br>A: No. This converter accepts typed or pasted text. It does not read document files or extract text from scanned pages.</p>
-          <p><strong>Q: Does the converter identify AnmolLipi automatically?</strong><br>A: No. This page applies the AnmolLipi mapping. Text encoded with another Punjabi font or a modified AnmolLipi font may not convert correctly.</p>
+          <p><strong>Q: Does the converter identify AnmolLipi automatically?</strong><br>A: No. AnmolLipi uses a legacy ASCII-based key mapping, with some extended character codes for additional glyphs. This page applies the AnmolLipi mapping only; text encoded with another Punjabi font or a modified AnmolLipi font may not convert correctly.</p>
           <p><strong>Q: Will every AnmolLipi character convert?</strong><br>A: A complete conversion is not guaranteed. The engine uses a finite mapping table, and characters without an applicable mapping can remain unchanged. Review the output before relying on it.</p>
           <p><strong>Q: Does it correct Punjabi spelling or translate the text?</strong><br>A: No. It changes supported legacy character encodings into Unicode. It does not translate language, infer sentence meaning, or proofread spelling and grammar.</p>
           <p><strong>Q: Is my text uploaded to a conversion server?</strong><br>A: The AnmolLipi conversion runs in the browser using the bundled JavaScript mapping engine. This font-conversion component does not send the entered text to a conversion API.</p>
