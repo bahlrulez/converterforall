@@ -335,33 +335,38 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     ]
   },
 
-  // UNICODE TO RAAVI (GURMUKHI OPEN-TYPE FONT GUIDE)
+  // UNICODE TO RAAVI — guide page; no active conversion interface
   "unicode-to-raavi": {
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Understanding Raavi Font and Unicode Gurmukhi",
-        content: "<p><strong>Raavi</strong> is the standard OpenType font developed by Microsoft for displaying Punjabi Gurmukhi on Windows. Unlike older legacy fonts (such as Asees, Satluj, or Joy) which mapped Gurmukhi characters onto English ASCII keystrokes, Raavi natively follows the international Unicode standard. This means that if your Punjabi text is already in Unicode, <strong>no file or text conversion is needed to use Raavi font</strong>.</p>"
+        title: "What This Raavi Font Page Does",
+        content: "<p>This page is a guide to displaying Gurmukhi Unicode text with the Raavi font. It is not a character-encoding converter. The page's current route does not mount a text input/output converter and displays a notice that the interactive tool is unavailable.</p><p>If your text is already Gurmukhi Unicode, you do not need to convert its characters to use a Gurmukhi-capable display font. Choosing a font changes how the Unicode characters look; it does not change the text's encoding.</p>"
       },
       {
-        title: "How to Display and Format Unicode Text in Raavi Font",
-        content: "<ol><li><strong>Copy Unicode Text:</strong> Copy your Punjabi text from any website, email, or modern document.</li><li><strong>Paste into Word or Docs:</strong> Paste the text into your document editor.</li><li><strong>Select Font:</strong> Highlight the text and choose <strong>'Raavi'</strong> (or 'Nirmala UI') from your font dropdown menu. The text will render with official OpenType Gurmukhi typography.</li></ol>"
+        title: "How to Display Unicode Text with Raavi",
+        content: "<ol><li><strong>Use Unicode text:</strong> Start with Punjabi text that is already encoded as Gurmukhi Unicode.</li><li><strong>Open your document editor:</strong> Paste or type the Unicode text in the application where you want to use it.</li><li><strong>Choose an installed font:</strong> Select Raavi from the font list if it is installed and available in that application. A different font with Gurmukhi Unicode glyph support may also display the same text.</li><li><strong>Check the result:</strong> Confirm that the Gurmukhi characters and signs render as expected in the receiving application.</li></ol>"
       },
       {
-        title: "Converting Older Legacy Fonts to Raavi / Unicode",
-        content: "<p>If you have documents typed in legacy fonts where the text looks like English gibberish without the font installed, you do need to convert them to Unicode. Use our dedicated tools to modernize your text:</p><ul><li><a href=\"/asees-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>Asees to Unicode Converter</strong></a> – For PSSSB typing test passages and government documents.</li><li><a href=\"/satluj-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>Satluj to Unicode Converter</strong></a> – For newspaper archives and PageMaker DTP files.</li><li><a href=\"/joy-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>Joy to Unicode Converter</strong></a> – For legacy Joy font documents.</li><li><a href=\"/anmollipi-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>AnmolLipi to Unicode Converter</strong></a> – For books and university notes typed in AnmolLipi.</li><li><a href=\"/gurbani-akhar-to-unicode\" class=\"text-blue-600 dark:text-blue-400 hover:underline\"><strong>Gurbani Akhar to Unicode Converter</strong></a> – For Gurbani hymns and religious publications.</li></ul>"
+        title: "When You Need a Legacy Font Converter",
+        content: "<p>If copied text appears as Latin letters or unrelated symbols, it may be stored using a legacy font encoding rather than Unicode. Changing the display font alone will not convert those legacy character codes into Unicode. Use a converter for the specific source font only when you know which encoding the text uses.</p><ul><li><a href=\"/asees-to-unicode\">Asees to Unicode</a> — for text encoded with the supported Asees mapping.</li><li><a href=\"/satluj-to-unicode\">Satluj to Unicode</a> — for text encoded with the supported Satluj mapping.</li><li><a href=\"/joy-to-unicode\">Joy to Unicode</a> — for text encoded with the supported Joy mapping.</li><li><a href=\"/anmollipi-to-unicode\">AnmolLipi to Unicode</a> — for text encoded with the supported AnmolLipi mapping.</li></ul><p>These converters work with pasted text and have finite mappings. Review their output; they do not import or repair an entire formatted document.</p>"
+      },
+      {
+        title: "Current Page Availability",
+        content: "<p>The interactive converter associated with this route is currently unavailable. This page provides font-display guidance only; it does not install Raavi, create a font file, convert text or generate a downloadable document.</p>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Do I need to convert Unicode text to use Raavi font?</strong><br>A: No. Raavi is an OpenType Unicode font, not an older ASCII font. Unicode Punjabi text already displays directly in Raavi font without requiring any conversion.</p>
-          <p><strong>Q: Why does my Punjabi text show as English letters in Microsoft Word?</strong><br>A: If your text appears as random English characters, it was typed in a legacy non-Unicode font like Asees or Satluj. Converting that text to Unicode using our font converters will allow it to display properly in Raavi font.</p>
-          <p><strong>Q: Is Raavi required for official Punjab government typing tests?</strong><br>A: Yes. Official government typing tests in Punjab (including PSSSB, Punjab Police, and High Court exams) mandate typing in standard Unicode, with Raavi as the standard display font. If you practiced with the legacy Asees layout, use our Asees to Unicode tool to verify your typing accuracy.</p>
+          <p><strong>Q: Do I need to convert Gurmukhi Unicode text to Raavi?</strong><br>A: No. Unicode is the character encoding. Raavi is a font used to display Gurmukhi Unicode characters. Selecting a compatible font does not require changing the text encoding.</p>
+          <p><strong>Q: Does this page convert text into Raavi?</strong><br>A: No. The interactive converter is currently unavailable on this route. The page provides guidance about displaying Unicode text with a Gurmukhi font.</p>
+          <p><strong>Q: Does this page install or provide the Raavi font?</strong><br>A: No. It does not install, embed or download a font. Select Raavi only if it is already installed and available in your application.</p>
+          <p><strong>Q: What if my Punjabi text looks like English letters?</strong><br>A: It may be legacy-font text rather than Unicode. Identify the source font before choosing a converter; this page does not detect the source encoding automatically.</p>
+          <p><strong>Q: Is Raavi mandatory for every official typing test?</strong><br>A: This page does not verify current recruitment or examination rules. Check the latest official notification and application instructions for the specific test.</p>
         `
       }
     ]
   },
-
   // KRUTI DEV TO UNICODE / MANGAL CONVERTER
   "krutidev-to-unicode": {
     sections: [

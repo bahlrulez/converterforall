@@ -642,7 +642,6 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
     "unicode-to-satluj",
     "satluj-to-unicode",
     "gurbani-akhar-to-unicode",
-    "unicode-to-raavi",
     "gurmukhi-to-shahmukhi",
     "shahmukhi-to-gurmukhi"
   ]);

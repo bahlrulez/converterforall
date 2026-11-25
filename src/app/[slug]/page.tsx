@@ -199,7 +199,9 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
+        {!isHeldUnavailableTool && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
+        )}
         {faqSchema && (
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         )}
@@ -217,7 +219,9 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
             <Sparkles className="w-3.5 h-3.5" />
             <span>
-              {isCloudTool 
+              {isHeldUnavailableTool
+                ? "Raavi Font Guide — No Conversion Available"
+                : isCloudTool 
                 ? "Cloud Conversion via Cloudmersive (In-Browser Fallback)" 
                 : isPresentationMaker 
                 ? "In-Browser Slides & PPTX Export (AI via Google Gemini)" 
@@ -238,7 +242,9 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
               <span>
-                {isCloudTool 
+                {isHeldUnavailableTool
+                  ? "This page explains font display; it does not process text"
+                  : isCloudTool 
                   ? "Processed via Cloudmersive API (No documents stored on our servers)" 
                   : isPresentationMaker 
                   ? "Slides & Export run locally in browser (AI prompt sent to Google Gemini)" 
@@ -251,10 +257,12 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
                 <span>Fast &amp; High Fidelity</span>
               </span>
             )}
+            {!isHeldUnavailableTool && (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
               <span>No Account Required</span>
             </span>
+            )}
           </div>
         </div>
 
@@ -280,7 +288,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             {isHeldUnavailableTool ? (
               <div className="p-8 my-4 max-w-xl mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-center">
                 <p className="text-base font-medium text-slate-700 dark:text-slate-300">
-                  This tool is not available yet.
+                  This is a Raavi font guide. The interactive text-conversion tool is currently unavailable.
                 </p>
               </div>
             ) : (
