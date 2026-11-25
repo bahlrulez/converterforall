@@ -160,9 +160,9 @@ export function PhotoNameDateStamper() {
       {/* Top Banner / CTA */}
       <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h4 className="font-semibold text-foreground text-sm">Need Strict 20 KB – 50 KB File Size for Your Portal?</h4>
+          <h4 className="font-semibold text-foreground text-sm">Need to crop or resize your stamped photo?</h4>
           <p className="text-xs text-muted-foreground mt-0.5">
-            After stamping your Name &amp; Date of Photo (DOP), use our Exam Photo Resizer to guarantee the exact aspect ratio and KB ceiling.
+            After stamping, use the Exam Photo Resizer if you need to adjust the crop or try a preset file-size range. Check the exported JPEG against your current application instructions.
           </p>
         </div>
         <Link href="/exam-photo-resizer">
@@ -201,7 +201,7 @@ export function PhotoNameDateStamper() {
                     <div>
                       <span className="font-semibold">Wide / Landscape photo detected!</span>
                       <p className="text-[11px] mt-0.5 opacity-90">
-                        Exam portals (UPSC, SSC, State) require 3.5cm × 4.5cm vertical passport photos. Passport crop is auto-applied below.
+                        A portrait crop ratio is selected. Move the crop-position slider to adjust the framing.
                       </p>
                     </div>
                   </div>
@@ -228,7 +228,7 @@ export function PhotoNameDateStamper() {
                 onClick={applyUPSCFormat}
                 className="p-2 text-left rounded-lg border text-xs bg-muted/30 hover:bg-muted/80 transition-colors"
               >
-                <span className="font-semibold block">UPSC Format</span>
+                <span className="font-semibold block">UPSC-style preset</span>
                 <span className="text-[10px] text-muted-foreground">White bottom overlay strip</span>
               </button>
               <button
@@ -236,7 +236,7 @@ export function PhotoNameDateStamper() {
                 onClick={applyStateFormat}
                 className="p-2 text-left rounded-lg border text-xs bg-muted/30 hover:bg-muted/80 transition-colors"
               >
-                <span className="font-semibold block">State / SSC Format</span>
+                <span className="font-semibold block">State / SSC-style preset</span>
                 <span className="text-[10px] text-muted-foreground">Added strip below photo</span>
               </button>
             </div>
@@ -247,7 +247,7 @@ export function PhotoNameDateStamper() {
                 <label className="font-semibold text-foreground">Photo Proportions (Aspect Ratio)</label>
                 {aspectMode === "passport" && (
                   <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                    ✓ 3.5×4.5 cm Passport
+                    3.5:4.5 crop ratio
                   </span>
                 )}
               </div>
@@ -261,9 +261,9 @@ export function PhotoNameDateStamper() {
                       : "bg-background hover:bg-muted border-border"
                   }`}
                 >
-                  <span className="font-bold">Passport (3.5 × 4.5)</span>
+                  <span className="font-bold">Portrait (3.5:4.5 ratio)</span>
                   <span className={`text-[10px] font-normal ${aspectMode === "passport" ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
-                    Govt exam standard
+                    Crop ratio only
                   </span>
                 </button>
                 <button
@@ -379,7 +379,7 @@ export function PhotoNameDateStamper() {
                     className={`flex-1 text-xs py-1.5 rounded-lg font-bold border transition-all ${stripStyle === "white" ? 'border-primary ring-2 ring-primary/30 shadow-xs' : 'border-border'}`}
                     style={{ backgroundColor: "#FFFFFF", color: "#000000" }}
                   >
-                    White Strip (Standard)
+                    White Strip
                   </button>
                   <button 
                     onClick={() => setStripStyle("black")}
@@ -447,7 +447,7 @@ export function PhotoNameDateStamper() {
                   Download Stamped Photograph
                 </Button>
                 <p className="text-[11px] text-center text-muted-foreground">
-                  Format: JPEG with clean typography. Ready for portal upload.
+                  Export format: JPEG. Check the image and current application rules before submitting.
                 </p>
               </div>
             )}

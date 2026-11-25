@@ -450,7 +450,7 @@ export function ExamSignatureResizer() {
                 </div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-lg border border-primary/20">
                   <FileCheck className="w-3.5 h-3.5" />
-                  <span>Target: {activeConfig.minKB}–{activeConfig.maxKB} KB</span>
+                  <span>Preset range: {activeConfig.minKB}–{activeConfig.maxKB} KB</span>
                 </div>
               </div>
 

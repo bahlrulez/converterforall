@@ -39,21 +39,43 @@ export const examToolsContent: Record<string, { sections: { title: string, conte
     ]
   },
   "photo-name-date-stamper": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "Which Exams Require Name and Date on Photo?",
-        content: "<p>Many Indian government job portals strictly require candidates to upload a passport-size photograph with their <strong>Name and Date of Photograph (DOP)</strong> printed at the bottom. Failure to follow this rule is one of the most common reasons for application rejection.</p><p>Major exams enforcing this rule include:</p><ul><li><strong>SSC (Staff Selection Commission):</strong> CGL, CHSL, MTS, GD Constable</li><li><strong>Defense & Police:</strong> CISF, CRPF, State Police recruitment</li><li><strong>UPSC:</strong> NDA, CDS (always verify the latest notification)</li><li><strong>Railway Recruitment Board (RRB)</strong></li></ul>"
+        title: "What the Photo Name & Date Stamper Does",
+        content: "<p>Upload an image, enter a candidate name and a date of photograph, choose a crop mode, set the strip placement and colour, then download a JPEG with the text stamped onto the image. The tool renders the result on a browser Canvas. It adds the values you enter; it does not verify your identity, the accuracy of the name or date, or whether a particular recruitment portal requires those details.</p>"
       },
       {
-        title: "Rules for Valid Date of Photograph (DOP)",
-        content: "<p>When stamping the date on your photo, keep these strict guidelines in mind to prevent rejection:</p><ul><li><strong>3-Month Rule:</strong> The Date of Photograph (DOP) printed on the image must not be older than 3 months from the date of publication of the exam notification.</li><li><strong>Format:</strong> While DD/MM/YYYY is standard and widely accepted, always check if the specific exam notification requests a different format.</li><li><strong>Legibility:</strong> The text must be clearly visible. Our tool ensures this by letting you choose a solid white or black strip to contrast with the text.</li></ul>"
+        title: "Crop Ratio and Output Dimensions",
+        content: "<p>The Portrait option crops the image to a 3.5:4.5 aspect ratio. The Original option keeps the source image's proportions. The output pixel dimensions depend on the source image and the selected crop area. The tool does not set a physical print size in millimetres, enforce a fixed pixel width and height, or write a DPI value. A 3.5:4.5 crop ratio is not a guarantee of an exact 35 mm × 45 mm printed photo.</p>"
+      },
+      {
+        title: "How the Name and Date Strip Works",
+        content: "<p>The candidate name is rendered in uppercase. The date input is formatted as DD/MM/YYYY in the output and appears with the label DOP. You can choose to overlay the strip at the bottom of the cropped photo or append a strip below it, select a white or black strip, and adjust text scale and strip height.</p><p>The tool does not check whether the date is within a required age window, whether the date format matches a particular notification, whether the strip position or size is officially accepted, or whether the entered name matches your application. Confirm those details yourself against the current instructions for your recruitment.</p>"
+      },
+      {
+        title: "What the One-Click Presets Change",
+        content: "<p>The UPSC-style and State/SSC-style buttons are local visual presets. They set a combination of strip placement, strip colour, strip-height ratio and text scale. They do not fetch official specifications, check the current notification or certify that the resulting layout is compliant. Treat the preset names as starting points and compare the result with the requirements for your exact exam and application cycle.</p>"
+      },
+      {
+        title: "JPEG Output, File Size and Privacy",
+        content: "<p>The download is re-encoded as JPEG at a Canvas quality setting of 0.95. There is no target file-size control, so the final size depends on the source image dimensions and image content. The tool does not guarantee an output such as 20 KB, 50 KB or any other portal limit.</p><p>The selected image is read with FileReader and drawn to Canvas in the browser. This component does not send the photo to a photo-stamping API. After stamping, you can use the separate Exam Photo Resizer to crop and try one of its stored file-size presets, then check the actual output against the official instructions.</p>"
+      },
+      {
+        title: "How to Stamp a Photo",
+        content: "<ol><li><strong>Upload an image:</strong> Select a photo file that your browser can decode. The interface lists JPG, PNG and WEBP as supported examples.</li><li><strong>Choose the crop:</strong> Select the 3.5:4.5 portrait crop or keep the original aspect ratio. Adjust the crop position if the portrait crop is applied to a landscape image.</li><li><strong>Enter the text:</strong> Type the candidate name and choose the date of photograph. The tool formats the date as DD/MM/YYYY.</li><li><strong>Set the strip:</strong> Choose the visual preset or manually adjust strip placement, contrast, height and text scale.</li><li><strong>Inspect and download:</strong> Review the canvas preview and download the JPEG. Check the image dimensions, file size, name, date and layout against the current recruitment notice.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will my photo lose quality when I add the name and date?</strong><br>A: No. Our tool processes the image directly in your browser and outputs a high-resolution JPEG without unnecessary compression.</p>
-          <p><strong>Q: What if I need to compress the photo to 50 KB after stamping?</strong><br>A: After downloading your stamped photo, you can use our <a href="/exam-photo-resizer" class="text-blue-600 hover:underline">Exam Photo Resizer</a> to crop and compress it to the exact KB limits required by portals like SSC or UPSC.</p>
-          <p><strong>Q: Is it safe to upload my photo here?</strong><br>A: Yes! This tool works 100% client-side. Your photo is processed securely within your own web browser and is never uploaded to our servers.</p>
+          <p><strong>Q: Does this tool check whether a recruitment requires a name and date on the photo?</strong><br>A: No. It stamps the values you enter. It does not identify the exam or verify whether a name/date strip is required.</p>
+          <p><strong>Q: Does it enforce a three-month Date of Photograph (DOP) rule?</strong><br>A: No. You choose the date manually, and the tool prints it. It does not calculate or validate the date's age against an exam notification.</p>
+          <p><strong>Q: Does the Portrait option create an exact 35 mm × 45 mm printed photograph?</strong><br>A: No. It applies a 3.5:4.5 crop ratio. The pixel dimensions depend on the source crop; the tool does not set print size or DPI.</p>
+          <p><strong>Q: Does the tool compress the stamped image to 20 KB or 50 KB?</strong><br>A: No. It exports a JPEG at quality 0.95 but has no target file-size control. Check the downloaded JPEG's actual size.</p>
+          <p><strong>Q: Does the UPSC or State/SSC preset guarantee that the layout is accepted?</strong><br>A: No. These buttons change visual settings only. Verify the current official instructions for your exam and application cycle.</p>
+          <p><strong>Q: Which date format appears on the output?</strong><br>A: The entered date is printed as DD/MM/YYYY after the DOP label.</p>
+          <p><strong>Q: Is the photo uploaded to a stamping server?</strong><br>A: The component reads the selected image in the browser and draws it to Canvas. This photo-stamping component does not send the image to a stamping API.</p>
+          <p><strong>Q: What file format is downloaded?</strong><br>A: The stamped image is downloaded as JPEG.</p>
         `
       }
     ]
