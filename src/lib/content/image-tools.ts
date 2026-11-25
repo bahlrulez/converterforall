@@ -507,6 +507,52 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
+  },,
+  "image-to-text": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Image to Text (OCR) Tool Does",
+        content: "<p>Upload one JPG/JPEG, PNG or WEBP image and use optical character recognition (OCR) to extract editable text. The tool uses Tesseract.js in your browser and lets you choose English, Hindi or Punjabi. You can review and edit the recognised text, copy it to the clipboard or download it as a plain-text .TXT file.</p><p>This is text recognition, not translation or document reconstruction. It returns recognised text; it does not recreate the original page layout, tables, fonts, images or formatting.</p>"
+      },
+      {
+        title: "Supported Languages",
+        content: "<p>The language selector provides three choices: English, Hindi and Punjabi. Choose the language present in the image before starting OCR. The tool does not automatically detect the language, offer an 'any language' mode or expose a multi-language combination in the current interface. The selected language controls which locally hosted Tesseract trained-data file is loaded.</p>"
+      },
+      {
+        title: "How OCR Runs in Your Browser",
+        content: "<p>The page loads a Tesseract.js script from this site's own /tesseract/ path. The OCR worker, engine core and language trained-data files are also configured to load from same-origin /tesseract/ paths. The image is passed to the browser-side OCR worker; this component does not send the image to an external OCR API.</p><p>These script, worker, engine and language files are still downloaded by the browser from this website when needed. That is different from uploading the selected image for server-side recognition. This page does not promise that no network requests occur at all.</p>"
+      },
+      {
+        title: "Image Preprocessing and Size",
+        content: "<p>Before OCR, the tool checks the image's largest dimension. If it is larger than 3,500 pixels, it creates a smaller copy with the longest side reduced to 3,500 pixels while keeping the aspect ratio, then encodes that working copy as JPEG at quality 0.95. Images at or below 3,500 pixels on their longest side are passed through without this resize step.</p><p>Downscaling very large scans can reduce processing load, but it can also remove detail from tiny text. Keep an original copy and use a sufficiently clear image when small print matters.</p>"
+      },
+      {
+        title: "Recognition Accuracy and Limitations",
+        content: "<p>OCR results depend on the source image and the selected language data. Blur, low contrast, shadows, skewed pages, unusual fonts, handwriting, tightly spaced letters, multi-column layouts and small characters can cause missing, repeated or misread text. The tool does not show a confidence score or verify the extracted text against the original image.</p><p>Always compare the output with the image, especially names, numbers, dates, addresses and application details. The result is editable so you can correct recognition mistakes before copying or downloading it.</p>"
+      },
+      {
+        title: "Output and Supported Workflow",
+        content: "<p>The tool accepts one image at a time and returns plain text. You can edit the result in the output text box, copy it or download a UTF-8 .TXT file. It does not accept PDF or Word documents in this image OCR interface, process a batch of images, translate the recognised content or create a searchable PDF.</p>"
+      },
+      {
+        title: "How to Extract Text from an Image",
+        content: "<ol><li><strong>Select one image:</strong> Upload a JPG/JPEG, PNG or WEBP file.</li><li><strong>Choose the OCR language:</strong> Select English, Hindi or Punjabi based on the text in the image.</li><li><strong>Run OCR:</strong> Click Extract Text and keep the page open while the browser loads the required OCR files and recognises the text.</li><li><strong>Review the result:</strong> Compare names, numbers, dates and other important details with the source image. Edit any errors in the text box.</li><li><strong>Copy or download:</strong> Copy the corrected text or download it as a .TXT file.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Which languages can I extract?</strong><br>A: The current selector offers English, Hindi and Punjabi. Choose one language for the image; automatic language detection and a general 'all languages' mode are not provided.</p>
+          <p><strong>Q: Does the OCR tool upload my image to a server?</strong><br>A: The image is processed by Tesseract in your browser, and this component does not send it to an external OCR API. The OCR script, worker, engine and language data are loaded from this site's own /tesseract/ paths.</p>
+          <p><strong>Q: Does the page make any network requests?</strong><br>A: Yes. The browser may request the locally hosted Tesseract script, worker, engine core and selected language trained data from this website. That is an asset download; it does not mean the selected image is uploaded for OCR processing.</p>
+          <p><strong>Q: Can I upload more than one image at a time?</strong><br>A: No. The current upload control accepts one image per run.</p>
+          <p><strong>Q: What happens to a very large image?</strong><br>A: If its longest side exceeds 3,500 pixels, the tool scales it down to a maximum of 3,500 pixels on that side before recognition. This can make very small text harder to recognise.</p>
+          <p><strong>Q: Will the extracted text be perfectly accurate?</strong><br>A: No. OCR can misread small, blurry, handwritten, skewed or low-contrast text. Review and correct the result against the image before relying on it.</p>
+          <p><strong>Q: Does OCR translate the text or preserve its formatting?</strong><br>A: No. It recognises characters in the selected language and returns plain editable text. It does not translate the content or recreate the original page layout.</p>
+          <p><strong>Q: Can I download the extracted text?</strong><br>A: Yes. You can copy the text or download a plain-text .TXT file.</p>
+        `
+      }
+    ]
   },
 };
 

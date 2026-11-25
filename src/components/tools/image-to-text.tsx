@@ -136,7 +136,7 @@ export default function ImageToTextTool() {
             Drag and drop a JPG, PNG, or WebP image here, or click to browse files
           </p>
           <p className="text-xs text-muted-foreground">
-            Processing runs 100% locally in your browser. Maximum privacy.
+            OCR runs in your browser using Tesseract files served from this site. This component does not upload the image to an OCR API.
           </p>
         </div>
       </div>
@@ -179,7 +179,8 @@ export default function ImageToTextTool() {
 
         {status === "idle" && (
           <div className="mt-6 border-t pt-4">
-            <label className="text-sm font-medium mb-2 block text-muted-foreground">Image Text Language</label>
+            <label className="text-sm font-medium mb-2 block text-muted-foreground">OCR Language</label>
+            <p className="text-xs text-muted-foreground mb-2">Choose the language used in the image. Automatic language detection is not provided.</p>
             <select 
               value={language}
               onChange={(e) => setLanguage(e.target.value)}

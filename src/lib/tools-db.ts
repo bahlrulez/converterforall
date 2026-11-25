@@ -36,11 +36,11 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
         "image/webp": [".webp"]
       }
     },
-    "image-to-text": { theme: "emerald", iconName: "FileText", badge: "AI Magic", isPopular: true,
+    "image-to-text": { theme: "emerald", iconName: "FileText", badge: "OCR", isPopular: true,
       title: "Image to Text (OCR)",
-      description: "Extract text from images (JPG, PNG, WebP) instantly using client-side AI. 100% private.",
-      seoTitle: "Image to Text Converter - Free Online OCR & Text Extractor",
-      seoDescription: "Extract text from pictures and images instantly. Free, fast, and 100% private in-browser OCR tool. Copy or download extracted text.",
+      description: "Extract editable text from one JPG, PNG or WEBP image with browser-based OCR. Choose English, Hindi or Punjabi, then review the recognised text.",
+      seoTitle: "Image to Text OCR | Extract English, Hindi & Punjabi",
+      seoDescription: "Extract editable English, Hindi or Punjabi text from a JPG, PNG or WEBP image using in-browser Tesseract OCR. Review the result for recognition errors.",
       inputFormat: "image",
       outputFormat: "text",
       actionName: "Extract Text",
