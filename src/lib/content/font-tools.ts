@@ -311,7 +311,7 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
       },
       {
         title: "How Satluj Character Conversion Works",
-        content: "<p>The tool uses a built-in Satluj character mapping together with shared Gurmukhi character-composition and character-ordering rules. It converts character codes; it does not read the visual appearance of a page, translate Punjabi, or determine the intended meaning of a sentence. Characters that are not covered by the mapping may remain unchanged, so check the output against the source.</p>"
+        content: "<p>The tool uses a built-in Satluj character mapping together with shared Gurmukhi character-composition and character-ordering rules. It converts character codes; it does not read the visual appearance of a page, translate Punjabi, or determine the intended meaning of a sentence. The common sample word ਪੰਜਾਬੀ has been checked against a published Satluj encoding reference, but this is not an exhaustive validation of every glyph or font release. Characters that are not covered by the mapping may remain unchanged, so check the output against the source.</p>"
       },
       {
         title: "Using Text from Older Documents",

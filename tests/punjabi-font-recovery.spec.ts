@@ -153,6 +153,23 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
 
     // In Satluj, high-order character 'ý' (0xfd) encodes to Ek Onkar (ੴ)
     expect(convertPunjabi('\xfd', 'satluj', 'toUnicode')).toBe('ੴ');
+
+    // 3.7 Independent published sample: the legacy-font literature records
+    // ਪੰਜਾਬੀ as "gzikph" in Asees and code points EA B3 DC C5 EC C6 in Satluj.
+    // These fixtures are independent of the round-trip tests above.
+    const commonPunjabiWord = 'ਪੰਜਾਬੀ';
+    expect(convertPunjabi(commonPunjabiWord, 'asees', 'fromUnicode')).toBe('gzikph');
+    expect(convertPunjabi('gzikph', 'asees', 'toUnicode')).toBe(commonPunjabiWord);
+
+    const satlujPunjabiFixture = String.fromCharCode(0xea, 0xb3, 0xdc, 0xc5, 0xec, 0xc6);
+    expect(convertPunjabi(commonPunjabiWord, 'satluj', 'fromUnicode')).toBe(satlujPunjabiFixture);
+    expect(convertPunjabi(satlujPunjabiFixture, 'satluj', 'toUnicode')).toBe(commonPunjabiWord);
+
+    // AnmolLipi/GurbaniAkhar use the shared pMjwbI sample on the documented ASCII layout.
+    expect(convertPunjabi(commonPunjabiWord, 'anmollipi', 'fromUnicode')).toBe('pMjwbI');
+    expect(convertPunjabi('pMjwbI', 'anmollipi', 'toUnicode')).toBe(commonPunjabiWord);
+    expect(convertPunjabi(commonPunjabiWord, 'gurbani-akhar', 'fromUnicode')).toBe('pMjwbI');
+    expect(convertPunjabi('pMjwbI', 'gurbani-akhar', 'toUnicode')).toBe(commonPunjabiWord);
   });
 
   test('4. P1 FAQ Relevance & Context Isolation Audit', () => {

@@ -747,7 +747,7 @@ var PunjabiFontConvertor: any = PunjabiFontConvertor || {};
         _a[78 /* PairiNana */] = 0xa5,
         //[Char.HalfYaiyaLeft]: 0x77,
         _a[81 /* TippiLeft */] = 0xa7,
-        _a[82 /* Tippi */] = 0xbf,
+        _a[82 /* Tippi */] = 0xb3,
         //[Char.TippiRight]: 0x5e,
         //[Char.Visagra]: 0x00,
         //[Char.AddakAbove]: 0x26,

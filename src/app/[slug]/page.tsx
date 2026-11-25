@@ -179,6 +179,8 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     "asees-to-unicode",
     "unicode-to-asees",
     "gurbani-akhar-to-unicode",
+    "satluj-to-unicode",
+    "unicode-to-satluj",
   ]);
 
   const UNVERIFIED_FONT_TOOLS = new Set([
