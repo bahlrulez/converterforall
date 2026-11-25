@@ -128,9 +128,12 @@ export default function ImageCompressor() {
 
       const compressed = await imageCompression(fileToCompress, options);
       
-      // For highly optimized PNGs, browser-image-compression sometimes inflates it if we try to compress it further.
-      // If the compressed size is larger, we just use the original file to prevent bad results.
-      const finalBlob = compressed.size >= targetFile.size ? targetFile : compressed;
+      // Keep the original only when this was a plain compression attempt and it did not reduce file size.
+      // Explicit grayscale or downscale choices should not be silently discarded.
+      const hasRequestedTransform = targetGrayscale || targetDownscale !== "original";
+      const finalBlob = !hasRequestedTransform && compressed.size >= targetFile.size
+        ? targetFile
+        : compressed;
       
       setCompressedBlob(finalBlob);
       
@@ -240,7 +243,7 @@ export default function ImageCompressor() {
       {/* Interactive Slider Area */}
       <div className="rounded-2xl border bg-card p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-base font-semibold">Image Quality & Target Size</h3>
+          <h3 className="text-base font-semibold">Compression Quality & Dimensions</h3>
           <span className="text-lg font-bold text-primary">{quality}%</span>
         </div>
         
@@ -257,7 +260,7 @@ export default function ImageCompressor() {
         </div>
         <div className="flex justify-between text-xs text-muted-foreground px-2 mt-3 mb-6">
           <span>Smaller File (Lower Quality)</span>
-          <span>Original File (High Quality)</span>
+          <span>Higher Quality (Larger File)</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-muted/30 p-4 rounded-xl border">
@@ -269,9 +272,9 @@ export default function ImageCompressor() {
               className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             >
               <option value="original">Keep Original Dimensions</option>
-              <option value="1920">Max 1920px (HD)</option>
-              <option value="1280">Max 1280px (Web)</option>
-              <option value="800">Max 800px (Document)</option>
+              <option value="1920">Max 1920px</option>
+              <option value="1280">Max 1280px</option>
+              <option value="800">Max 800px</option>
             </select>
           </div>
           <div className="flex items-center space-x-3 sm:justify-end pr-2 pt-2 sm:pt-6">
@@ -289,7 +292,7 @@ export default function ImageCompressor() {
         </div>
 
         <p className="text-sm text-muted-foreground mt-4 text-center">
-          For strict targets like 20 KB, use <strong>Max 800px</strong> and <strong>Grayscale</strong>. This keeps text sharp while reducing file size drastically.
+          There is no fixed KB target. Lower the quality setting or choose a smaller maximum dimension to try to reduce the output. Grayscale is optional and changes the image's appearance. Check the actual output size and inspect fine details before using it.
         </p>
       </div>
 
@@ -308,8 +311,8 @@ export default function ImageCompressor() {
         </div>
 
         <div className="rounded-2xl border bg-card p-4 shadow-sm flex flex-col relative">
-          <h4 className="text-sm font-medium text-green-600 dark:text-green-400 mb-3 flex justify-between">
-            <span>Compressed Result</span>
+          <h4 className="text-sm font-medium text-muted-foreground mb-3 flex justify-between">
+            <span>Output</span>
             <span>{compressedBlob ? formatSize(compressedBlob.size) : "..."}</span>
           </h4>
           
@@ -346,7 +349,7 @@ export default function ImageCompressor() {
           }}
         >
           <Download className="mr-2 h-4 w-4" />
-          Download Compressed Image
+          Download Processed Image
         </Button>
       </div>
 

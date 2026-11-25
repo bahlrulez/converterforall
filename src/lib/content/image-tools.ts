@@ -176,69 +176,87 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "compress-jpg": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "What is this compressor?",
-        content: "<p>Our Compress JPG tool is designed to reduce the file size of your JPEG and JPG images without noticeable loss in visual quality. High-resolution photos from smartphones and cameras can easily be 5MB to 10MB each. This compressor shrinks the file footprint so your photos upload faster on portals, fit into email attachments, and load quickly on websites.</p>"
+        title: "What the JPG Compressor Does",
+        content: "<p>Upload one JPG/JPEG image and the tool automatically creates an output using the browser-image-compression library. You can adjust its initial quality setting from 1 to 100, keep the original dimensions or downscale the longest side to a maximum of 1920, 1280 or 800 pixels, and optionally convert the image to grayscale. The page shows the source and output file sizes before download.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>The compression runs locally inside your web browser. When you select an image, your device processes the image data directly in memory. Because supported operations happen on your own computer or phone, you don't have to wait for server uploads or worry about file privacy.</p>"
+        title: "Quality, Dimensions and File-Size Behaviour",
+        content: "<p>The quality slider is passed to the compression library as an initial quality value. A lower value may reduce JPEG file size but can also make compression artifacts more visible. The dimension menu applies a maximum width-or-height setting while preserving the aspect ratio; it does not set an exact width and height. The default is to keep the original dimensions.</p><p>There is no target-KB field and no guarantee that the output will be 20 KB, 50 KB, 100 KB or any other specific size. If a plain compression attempt produces a file that is not smaller, the tool keeps the original file. When grayscale or downscaling is explicitly selected, the processed output is kept so that the requested transformation is not silently discarded. The final size can therefore be smaller, unchanged or larger than the source.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>If you have an 8MB photo to upload to a portfolio or job portal that has a 2MB limit, dropping it into our compressor quickly reduces the file size to under 500KB while keeping the image clear and sharp.</p>"
+        title: "Grayscale and Metadata",
+        content: "<p>The optional Grayscale control draws the source image to a browser Canvas with a grayscale filter before compression. This changes the image's appearance and is not reversible from the exported file. The compressor may re-encode the image, so do not rely on all camera metadata being preserved. If the plain compression result is not smaller and the original file is kept, its original metadata may remain. Check metadata separately when it matters.</p>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your image:</strong> Drag and drop your JPG file into the box or browse your device.</li><li><strong>Adjust Compression:</strong> Choose your preferred compression level or target size.</li><li><strong>Download:</strong> Click download to save your new lightweight JPG file.</li></ol>"
+        title: "Browser Processing and Network Behaviour",
+        content: "<p>The selected image is passed to the browser-image-compression library and processed in a browser worker where supported, with a main-thread fallback depending on browser capabilities. The image is processed in the browser; this component does not upload the image to a compression API. The library's documented worker setup can load its worker script from jsDelivr unless a different library URL is configured, so browser-side processing does not mean that the page makes no network requests.</p>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Website Speed:</strong> Optimizing photos so blog posts and online stores load quickly.</li><li><strong>Email Attachments:</strong> Shrinking photos to fit within email attachment size limits.</li><li><strong>Job &amp; Exam Portals:</strong> Meeting strict upload caps on government and university applications.</li></ul>"
+        title: "Supported Input and Output",
+        content: "<p>This route accepts one JPG or JPEG file at a time. It exports the same JPEG file type. It does not accept PNG or WEBP on the JPG route, process a batch of images, or provide a specific output-size target.</p>"
+      },
+      {
+        title: "How to Compress a JPG",
+        content: "<ol><li><strong>Select one JPG/JPEG:</strong> Upload or drop a single image.</li><li><strong>Adjust quality:</strong> Move the quality slider. Lower settings may produce smaller files with more visible compression artifacts.</li><li><strong>Choose dimensions:</strong> Keep the original size or select a maximum longest-side dimension of 1920, 1280 or 800 pixels.</li><li><strong>Optional grayscale:</strong> Turn on grayscale only when a black-and-white result is acceptable.</li><li><strong>Compare and download:</strong> Check the displayed source and output sizes, inspect the result and download the processed image.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will my photos become blurry?</strong><br>A: At standard compression settings, the visual difference is practically unnoticeable for regular viewing while significantly reducing file size.</p>
-          <p><strong>Q: Are my photos kept private?</strong><br>A: Yes. The compression runs in your browser's local memory and is not uploaded to our servers.</p>
-          <p><strong>Q: Does it strip camera location data?</strong><br>A: Yes, in-browser canvas processing naturally removes EXIF metadata (such as GPS coordinates), which protects your privacy and helps make the file smaller.</p>
+          <p><strong>Q: Can I set an exact 20 KB or 100 KB target?</strong><br>A: No. The page has a quality slider and optional maximum-dimension choices, but no target-KB control. The final size depends on the image and settings.</p>
+          <p><strong>Q: Will the JPG always become smaller?</strong><br>A: No. When no grayscale or downscale transformation is selected and compression does not reduce the size, the tool keeps the original file. When you request grayscale or downscaling, that processed output is kept even if it is not smaller.</p>
+          <p><strong>Q: Does the dimension menu set exact pixel dimensions?</strong><br>A: No. It sets a maximum width-or-height value of 1920, 1280 or 800 pixels. The other dimension follows the source aspect ratio.</p>
+          <p><strong>Q: Does grayscale reduce the file size?</strong><br>A: It may, but this is not guaranteed. Grayscale also changes the image's appearance, so inspect the result before using it.</p>
+          <p><strong>Q: Does the compressor preserve EXIF and GPS metadata?</strong><br>A: Metadata preservation is not guaranteed. The image may be re-encoded, while an unchanged original can be kept when a plain compression attempt does not reduce its size.</p>
+          <p><strong>Q: Is my photo uploaded to a server?</strong><br>A: The image is processed in a browser worker where supported, and this component does not send it to a compression API. The worker script may be loaded from the library's CDN; that is a code download, not an upload of your image.</p>
+          <p><strong>Q: Can I process multiple JPG files at once?</strong><br>A: No. The current interface accepts one image at a time.</p>
         `
       }
     ]
   },
   "compress-png": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "What is this compressor?",
-        content: "<p>The Compress PNG tool reduces the file size of Portable Network Graphics (PNG) images while preserving sharp lines and transparent backgrounds. It is especially useful for screenshots, logos, and digital graphics that need to be lightweight for web use.</p>"
+        title: "What the PNG Compressor Does",
+        content: "<p>Upload one PNG image and the tool processes it with the browser-image-compression library. The controls include an initial quality setting from 1 to 100, an option to keep the original dimensions or downscale the longest side to a maximum of 1920, 1280 or 800 pixels, and an optional grayscale conversion. The page compares the source and output file sizes.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>Our tool uses in-browser color optimization to reduce unnecessary palette data without causing visible banding. By running directly on your device, your images remain private and download immediately.</p>"
+        title: "PNG Compression, Quality and Dimensions",
+        content: "<p>The quality slider is passed to the compression library as an initial quality value, but the visible effect and file-size change depend on the PNG encoder, image content and browser. PNG is a lossless image format; a quality value is not a promise of a particular compression ratio or output size. Downscaling can reduce the number of pixels and change image detail. The maximum-dimension options preserve the image's aspect ratio rather than forcing exact width and height values.</p><p>There is no target-KB input. The output is not guaranteed to be under 20 KB, 100 KB or any other limit. If a plain compression attempt does not make the file smaller, the original is kept. If you select grayscale or downscaling, the transformed output is kept even when it is not smaller than the source.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>A high-resolution screenshot or app icon exported as a 3MB PNG can often be reduced to under 400KB with clean edges and transparent background intact.</p>"
+        title: "Transparency and Grayscale",
+        content: "<p>The PNG route keeps PNG as the output format, which supports an alpha channel. Inspect the downloaded file when transparency is important, especially after grayscale conversion or resizing. The Grayscale option changes the image's colour appearance; it is not reversible in the exported image.</p>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your PNG:</strong> Drag your file into the box.</li><li><strong>Adjust:</strong> Choose your desired compression level.</li><li><strong>Download:</strong> Click download to save your optimized PNG file.</li></ol>"
+        title: "Browser Processing and Network Behaviour",
+        content: "<p>The image is passed to the browser-image-compression library and processed in a browser worker where supported, with a main-thread fallback depending on browser capabilities. This component does not upload the image to a compression API. The library's documented worker setup can load its worker script from jsDelivr unless a different library URL is configured, so browser-side image processing can still involve a request to download worker code.</p>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>App &amp; Web Design:</strong> Compressing transparent logos and icons for faster rendering.</li><li><strong>Email Graphics:</strong> Keeping newsletters and email banners under size caps.</li><li><strong>Sharing Screenshots:</strong> Sending crisp screenshots without sending heavy files.</li></ul>"
+        title: "Supported Input and Output",
+        content: "<p>This route accepts one PNG file at a time and exports PNG. It does not accept JPG/JPEG or WEBP on this route, and it does not provide batch processing or a target file-size field.</p>"
+      },
+      {
+        title: "How to Compress a PNG",
+        content: "<ol><li><strong>Select one PNG:</strong> Upload or drop a single image.</li><li><strong>Adjust the quality setting:</strong> Change the slider and compare the resulting file size and appearance.</li><li><strong>Choose dimensions:</strong> Keep the original dimensions or set a maximum longest side of 1920, 1280 or 800 pixels.</li><li><strong>Optional grayscale:</strong> Enable grayscale only when a monochrome output is suitable.</li><li><strong>Review transparency and detail:</strong> Check transparent edges, small text and fine graphics, then download the PNG.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will my image keep its transparent background?</strong><br>A: Yes. The PNG compressor preserves transparent alpha layers.</p>
-          <p><strong>Q: Is this compression private?</strong><br>A: Yes. Processing happens locally in your browser's memory without server uploads.</p>
+          <p><strong>Q: Can I set an exact KB target for the PNG?</strong><br>A: No. There is no target-KB input. The tool applies a quality setting and optional downscaling, and the resulting file size varies.</p>
+          <p><strong>Q: Will PNG compression always make the file smaller?</strong><br>A: No. When no grayscale or downscale transformation is selected and the result is not smaller, the original PNG is kept. An explicitly requested grayscale or downscale result is retained even if it is larger.</p>
+          <p><strong>Q: Does the quality slider guarantee a smaller PNG?</strong><br>A: No. The slider is passed to the compression library, but output size and visual changes depend on the encoder, browser and image. Compare the resulting file rather than relying on the percentage alone.</p>
+          <p><strong>Q: Does the PNG route preserve transparency?</strong><br>A: It keeps PNG as the output format, which supports transparency. Check transparent edges in the downloaded image before using it.</p>
+          <p><strong>Q: Does grayscale improve compression?</strong><br>A: It can change the resulting file size, but there is no guaranteed reduction. It also removes colour from the output.</p>
+          <p><strong>Q: Is the image uploaded to a conversion server?</strong><br>A: The image is processed in a browser worker where supported, and this component does not send it to a compression API. The worker script may be downloaded from the library's CDN.</p>
+          <p><strong>Q: Can I upload a batch of PNG files?</strong><br>A: No. The current interface accepts one PNG image at a time.</p>
         `
       }
     ]
-  },
-  "passport-photo-maker": {
+  },  "passport-photo-maker": {
     disableAutoEnrich: true,
     sections: [
       {
