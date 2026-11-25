@@ -244,6 +244,9 @@ export function ExamSignatureResizer() {
 
   const activePresetSpec = EXAM_PRESETS[preset] || EXAM_PRESETS.ssc;
   const activeConfig = activePresetSpec.signature;
+  const isWithinPresetSizeRange = resultBlob !== null
+    && resultBlob.size >= activeConfig.minKB * 1024
+    && resultBlob.size <= activeConfig.maxKB * 1024;
 
   const handleFile = (file: File) => {
     setFileName(file.name.replace(/\.[^/.]+$/, "") + `-${preset}-signature.jpg`);
@@ -329,9 +332,9 @@ export function ExamSignatureResizer() {
           <div className="flex items-center justify-between">
             <div>
               <span className="text-xs font-semibold text-primary uppercase tracking-wider">Step 1</span>
-              <h3 className="font-semibold text-base">Select Exam Signature Specification</h3>
+              <h3 className="font-semibold text-base">Choose a Preset Starting Point</h3>
             </div>
-            <span className="text-xs text-muted-foreground hidden sm:inline-block">Auto-calibrates crop ratio &amp; file size</span>
+            <span className="text-xs text-muted-foreground hidden sm:inline-block">Applies the preset crop ratio and file-size range</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
@@ -364,11 +367,11 @@ export function ExamSignatureResizer() {
 
                   <div className="space-y-1 w-full text-xs">
                     <div className="flex items-center justify-between text-muted-foreground">
-                      <span>Dimensions:</span>
-                      <span className="font-medium text-foreground">{config.dimensionsLabel.split(" ")[0]}</span>
+                      <span>Crop ratio:</span>
+                      <span className="font-medium text-foreground">{config.aspect.toFixed(2)}:1</span>
                     </div>
                     <div className="flex items-center justify-between text-muted-foreground">
-                      <span>Target KB:</span>
+                      <span>Preset KB range:</span>
                       <span className="font-semibold text-primary">{config.minKB} KB – {config.maxKB} KB</span>
                     </div>
                   </div>
@@ -378,22 +381,22 @@ export function ExamSignatureResizer() {
           </div>
         </div>
 
-        {/* Target Specs Summary */}
+        {/* Preset Guidance Summary */}
         <div className="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-2xl p-4 text-xs text-foreground space-y-2">
           <div className="flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="font-bold text-sm text-primary">{activePresetSpec.name} Signature</span>
+                <span className="font-bold text-sm text-primary">Preset: {activePresetSpec.shortName}</span>
                 <span className="px-2 py-0.5 bg-primary/15 text-primary font-semibold rounded text-[11px]">
                   {activeConfig.minKB} KB – {activeConfig.maxKB} KB
                 </span>
                 <span className="px-2 py-0.5 bg-muted border font-medium rounded text-[11px]">
-                  {activeConfig.dimensionsLabel}
+                  Crop ratio {activeConfig.aspect.toFixed(2)}:1
                 </span>
               </div>
               <p className="text-muted-foreground leading-relaxed pt-0.5">
-                Automatically removes grey paper shadows, whitens the background to pure 255-white, sharpens pen ink, and guarantees compliance with the strict {activeConfig.maxKB} KB ceiling.
+                Applies a brightness-threshold paper filter and a black-ink or blue-ink contrast treatment, then attempts JPEG compression for this preset range. These settings are not official portal specifications. Crop dimensions and final file size can vary; inspect the exported file and check your current recruitment notice.
               </p>
             </div>
           </div>
@@ -412,7 +415,7 @@ export function ExamSignatureResizer() {
           </div>
           <h3 className="text-lg font-semibold mb-1">Upload Signature Photo</h3>
           <p className="text-xs text-muted-foreground mb-4 max-w-sm">
-            Take a photo of your signature on paper with your phone. Grey shadows and uneven lighting will be automatically cleaned.
+            Upload a saved JPG, PNG or WEBP signature image. The paper and ink filters are adjustable pixel treatments; results depend on lighting, paper tone and ink colour.
           </p>
           <Button size="sm" variant="outline" className="pointer-events-none">
             Choose signature image
@@ -526,7 +529,7 @@ export function ExamSignatureResizer() {
                       className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
                     />
                     <p className="text-[11px] text-muted-foreground">
-                      Slide right if camera shadow or yellowish paper background is visible.
+                      Increase the threshold to whiten brighter paper pixels. Darker shadows may remain, so inspect the result.
                     </p>
                   </div>
                 </div>
@@ -553,11 +556,11 @@ export function ExamSignatureResizer() {
           <div className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 p-3 rounded-full">
             <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h2 className="text-xl font-bold">Signature Ready for Submission</h2>
+          <h2 className="text-xl font-bold">JPEG Export Created — Review Before Upload</h2>
           
           <div className="bg-background p-4 rounded-xl border max-w-sm w-full mx-auto text-left space-y-2 text-xs">
              <div className="flex justify-between">
-               <span className="text-muted-foreground">Target Exam:</span>
+               <span className="text-muted-foreground">Selected preset:</span>
                <span className="font-semibold">{activePresetSpec.shortName}</span>
              </div>
              <div className="flex justify-between">
@@ -565,9 +568,10 @@ export function ExamSignatureResizer() {
                <span className="font-bold text-emerald-600 dark:text-emerald-400">{(resultBlob.size / 1024).toFixed(2)} KB</span>
              </div>
              <div className="flex justify-between">
-               <span className="text-muted-foreground">Compliance:</span>
-               <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                 <Check className="w-3.5 h-3.5" /> Strictly within {activeConfig.minKB}–{activeConfig.maxKB} KB
+               <span className="text-muted-foreground">Preset size range:</span>
+               <span className={`font-semibold flex items-center gap-1 ${isWithinPresetSizeRange ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"}`}>
+                 {isWithinPresetSizeRange ? <Check className="w-3.5 h-3.5" /> : <Info className="w-3.5 h-3.5" />}
+                 {isWithinPresetSizeRange ? `Within ${activeConfig.minKB}–${activeConfig.maxKB} KB` : `Outside ${activeConfig.minKB}–${activeConfig.maxKB} KB`}
                </span>
              </div>
              <div className="flex justify-between">
@@ -587,7 +591,7 @@ export function ExamSignatureResizer() {
             </Button>
             <Button onClick={handleDownload} size="lg">
               <Download className="mr-2 h-4 w-4" />
-              Download Portal-Ready Signature
+              Download JPEG
             </Button>
           </div>
         </div>
