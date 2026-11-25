@@ -529,7 +529,7 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
-  },,
+  },
   "image-to-text": {
     disableAutoEnrich: true,
     sections: [
