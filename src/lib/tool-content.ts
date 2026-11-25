@@ -28,44 +28,43 @@ export const toolContent: Record<string, { sections: { title: string, content: s
   ...devSerializationToolsContent,
   ...examToolsContent,
   "remove-background": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The Remove Background tool is an advanced, AI-powered utility designed to instantly isolate the main subject of any photograph by intelligently detecting and removing the background. Unlike traditional photo editing software that requires painstaking manual selection, this tool leverages state-of-the-art machine learning algorithms to automatically identify foreground elements—such as people, products, animals, or vehicles—and cleanly erase everything else. It operates entirely within your web browser, ensuring lightning-fast performance and total privacy.</p>"
+        title: "What the AI Background Remover Does",
+        content: "<p>Upload one JPG/JPEG, PNG or WEBP image and let the browser-side background-removal engine create a PNG with an alpha channel. The uploader also offers camera capture on supported devices. The tool makes an automatic foreground mask; it does not guarantee that every subject, strand of hair, transparent object or edge will be separated perfectly.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>At its core, the background remover utilizes an in-browser neural network (specifically, the ISNet model optimized for edge devices) to perform semantic segmentation. When you upload an image, the model analyzes the pixels to distinguish between the primary subject and the background. It then generates a highly precise alpha mask. This mask is applied to your original image, effectively rendering the background pixels transparent. Because the entire computational process happens on your device using WebGL/WebGPU acceleration, your photos are never sent to a remote server, offering unprecedented privacy and speed.</p>"
+        title: "How the AI Processing Pipeline Works",
+        content: "<p>The tool runs a Web Worker that first attempts the BRIA RMBG-1.4 image-segmentation model through Transformers.js using WebGPU. If that step fails, the worker falls back to IMG.LY's background-removal library with an ISNet model. If the worker itself fails, the page has a main-thread IMG.LY fallback. The resulting alpha mask is also adjusted by a small browser-side refinement pass.</p><p>The Fast, Balanced and ISNet options shown above select which ISNet model is used in the fallback path. They do not replace the initial BRIA attempt. The selected image is processed in the browser and this component does not upload the photo to a background-removal API.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>Imagine you run an e-commerce store and need to standardize your product images. You can upload a photo of a sneaker taken on a cluttered desk, and our tool will return the sneaker on a perfectly transparent background, ready to be placed onto a solid white canvas or a promotional banner. Similarly, graphic designers can use this tool to quickly extract a model's portrait to composite into a new digital art piece, saving hours of manual lassoing and refining edges.</p>"
+        title: "Model Downloads and Privacy",
+        content: "<p>The image-processing inference runs locally in your browser, but the model and runtime files are not all bundled with the page. The BRIA model is loaded through Hugging Face Transformers.js, and the fallback library may fetch its model and runtime assets from its configured external host. The first run can therefore require an internet connection and can take longer while those assets download. The browser may cache some assets for later use.</p><p>In practical terms: your selected image is processed on your device rather than uploaded to a background-removal API, but the feature is not network-free because model/runtime assets may be downloaded.</p>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload your image:</strong> Drag and drop your JPG, PNG, or WEBP file into the designated upload area, or click to browse your computer's files.</li><li><strong>Select Quality (Optional):</strong> If presented with quality options, choose 'Maximum Quality' for intricate details like hair, or 'Fast' for simple, well-defined shapes.</li><li><strong>Wait for processing:</strong> The AI will analyze the image. This typically takes 2-5 seconds depending on your device's processing power.</li><li><strong>Download:</strong> Once complete, a preview of your isolated subject will appear. Click the download button to save the result as a high-quality, transparent PNG file.</li></ol>"
+        title: "Quality Limits and Touch-Up Controls",
+        content: "<p>Automatic segmentation can leave background fragments or remove fine parts of the subject. Similar foreground and background colours, low contrast, motion blur, fine hair, transparent materials, overlapping objects and complex edges can affect the mask. Results also depend on the device's available memory and whether WebGPU is supported; when BRIA cannot run, the tool uses the ISNet fallback.</p><p>After processing, the interface offers a Touch Up / Restore editor. It includes brush-based restore and erase tools, undo, zoom and pan so you can correct parts of the generated mask before saving the PNG. This is a manual refinement aid, not a guarantee of perfect edge recovery.</p>"
       },
       {
-        title: "Common mistakes",
-        content: "<p>While our AI is highly advanced, certain conditions can yield sub-optimal results. <strong>Low Contrast:</strong> If the subject perfectly matches the color and lighting of the background, the AI may struggle to find the edge. <strong>Blurry Images:</strong> Out-of-focus subjects lack the sharp edge definitions needed for a clean cutout. <strong>Complex Crowds:</strong> Images with dozens of overlapping people or objects might confuse the AI as to what the 'primary' subject is. For best results, use well-lit images where the subject clearly stands out from its surroundings.</p>"
+        title: "Output Format and Image Dimensions",
+        content: "<p>The background-removal pipeline exports PNG so the transparent alpha channel can be retained. JPG does not support transparency. The processing code does not deliberately resize the image as part of background removal, but the result still depends on the source image, model output and browser capabilities. There is no target KB compressor in this tool; the output file size depends on image dimensions and transparent image content.</p>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>E-commerce:</strong> Creating uniform, professional product listings by removing messy backgrounds.</li><li><strong>Marketing & Design:</strong> Designing thumbnails, social media posts, and advertising banners with isolated elements.</li><li><strong>Presentations:</strong> Enhancing slide decks by overlaying clean cutouts of people or charts without ugly white box artifacts.</li><li><strong>Photography:</strong> Quickly creating transparent assets for digital compositing and scrapbooking.</li></ul>"
+        title: "How to Remove an Image Background",
+        content: "<ol><li><strong>Choose the fallback setting:</strong> Select Fast, Balanced or ISNet (Standard). These options apply only if the initial BRIA model attempt fails.</li><li><strong>Upload one image:</strong> Choose a JPG/JPEG, PNG or WEBP file, or use camera capture if your browser supports it.</li><li><strong>Wait for processing:</strong> The browser may need to download model/runtime files the first time. Keep the tab open while it runs.</li><li><strong>Review the cutout:</strong> Compare the original and transparent result. Check hair, clothing edges, small objects and similar-colour areas.</li><li><strong>Touch up if needed:</strong> Use Touch Up / Restore to erase remaining background or restore missed subject areas, then save and download the PNG.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is my data safe when using this background remover?</strong><br>A: Absolutely. All processing happens locally in your web browser. Your images are never uploaded to our servers.</p>
-          <p><strong>Q: What is the maximum file size I can upload?</strong><br>A: Since processing is local, the file size is only limited by your device's available memory. However, we recommend images under 20MB for optimal performance.</p>
-          <p><strong>Q: Why is the output always a PNG?</strong><br>A: PNG is the standard web format that supports an alpha channel (transparency). If we outputted a JPG, the transparent areas would automatically be filled with white.</p>
-          <p><strong>Q: Does this tool work on mobile devices?</strong><br>A: Yes, our tool is fully responsive and uses optimized models that run smoothly on modern smartphones.</p>
-          <p><strong>Q: Will this tool work on non-human subjects like cars or pets?</strong><br>A: Yes! Our advanced AI model is trained to recognize a wide variety of foreground subjects, including animals, products, vehicles, and furniture.</p>
-          <p><strong>Q: Does it cost money to use this AI?</strong><br>A: No, our background removal tool is 100% free with no hidden fees or daily limits.</p>
-          <p><strong>Q: Do I need to manually draw lines around the subject?</strong><br>A: Not at all. The AI automatically detects the subject and creates the mask without any manual intervention.</p>
-          <p><strong>Q: What if the AI misses a spot?</strong><br>A: Our AI is highly accurate, but it can occasionally miss complex areas (like thin strands of hair against a matching background). Currently, the tool offers a fully automatic mode, so you may need a manual editor for minor touch-ups.</p>
-          <p><strong>Q: Will the tool decrease the resolution of my photo?</strong><br>A: The tool aims to preserve your original resolution. However, extremely high-resolution images (like 4K RAW photos) may be slightly downscaled internally to prevent your browser from crashing during the AI processing.</p>
-          <p><strong>Q: Can I use the generated images for commercial purposes?</strong><br>A: Yes, you retain full rights to the images you process, meaning you can freely use them for commercial e-commerce stores or client designs.</p>
+          <p><strong>Q: Is my selected photo uploaded to a server?</strong><br>A: The image is processed in the browser and this component does not send it to a background-removal API. Model and runtime files may be downloaded from external hosts.</p>
+          <p><strong>Q: Does the feature work without an internet connection?</strong><br>A: Not reliably on a first run. The BRIA model and the fallback library may need to download model/runtime assets. Cached assets may help on later visits, but the tool is not designed as a guaranteed offline feature.</p>
+          <p><strong>Q: What do Fast, Balanced and ISNet (Standard) control?</strong><br>A: They choose the ISNet fallback model. The worker attempts BRIA RMBG-1.4 first regardless of this setting; the selected ISNet option is used if BRIA fails.</p>
+          <p><strong>Q: Which image formats can I upload and download?</strong><br>A: The tool accepts JPG/JPEG, PNG and WEBP inputs. The background-removed result is exported as PNG to support transparency.</p>
+          <p><strong>Q: Will the background always be removed perfectly?</strong><br>A: No. Segmentation can struggle with fine hair, low contrast, similar colours, transparent materials and overlapping subjects. Review and touch up the result.</p>
+          <p><strong>Q: Can I manually correct the result?</strong><br>A: Yes. The Touch Up / Restore editor provides brush-based erase and restore tools, undo, zoom and pan before saving the revised PNG.</p>
+          <p><strong>Q: Does it compress the PNG to a specific KB limit?</strong><br>A: No. This tool removes the background and exports PNG; it does not provide a target file-size control.</p>
+          <p><strong>Q: Does it guarantee support for pets, products, vehicles or every type of subject?</strong><br>A: No universal subject-coverage guarantee is made. The result depends on the model, image content, lighting, contrast and device.</p>
         `
       }
     ]

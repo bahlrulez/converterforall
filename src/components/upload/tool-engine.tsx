@@ -169,7 +169,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   const renderBgRemovalOptions = (disabled: boolean) => {
     return (
       <div className="space-y-4">
-        <h3 className="text-sm font-medium">AI Model Quality</h3>
+        <h3 className="text-sm font-medium">ISNet Fallback Model</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <button
             disabled={disabled}
@@ -181,7 +181,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
             }`}
           >
             <span className="font-semibold text-sm">Fast</span>
-            <span className="text-xs mt-1">Quickest, minor artifacts</span>
+            <span className="text-xs mt-1">Quantized ISNet fallback</span>
           </button>
           
           <button
@@ -194,7 +194,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
             }`}
           >
             <span className="font-semibold text-sm">Balanced</span>
-            <span className="text-xs mt-1">Good speed and quality</span>
+            <span className="text-xs mt-1">FP16 ISNet fallback</span>
           </button>
 
           <button
@@ -206,10 +206,11 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
                 : "border-border hover:border-primary/50 text-muted-foreground"
             }`}
           >
-            <span className="font-semibold text-sm">Maximum Quality</span>
-            <span className="text-xs mt-1">Slower, but highest accuracy</span>
+            <span className="font-semibold text-sm">ISNet (Standard)</span>
+            <span className="text-xs mt-1">Standard ISNet fallback</span>
           </button>
         </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">The worker attempts BRIA RMBG-1.4 first. These settings select the ISNet fallback model only if the BRIA attempt fails.</p>
       </div>
     );
   };

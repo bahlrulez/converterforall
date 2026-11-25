@@ -22,11 +22,11 @@ export interface Tool {
 
 export const toolsDatabase: Record<string, Record<string, Tool>> = {
   "image": {
-    "remove-background": { theme: "purple", iconName: "Eraser", badge: "AI Magic", isPopular: true,
-      title: "Remove Background",
-      description: "Instantly remove the background from any image using advanced on-device AI.",
-      seoTitle: "Free AI Background Remover - Remove Backgrounds Online",
-      seoDescription: "Remove image backgrounds instantly using on-device AI. Extract subjects from photos to create transparent backgrounds securely in your browser.",
+    "remove-background": { theme: "purple", iconName: "Eraser", badge: "AI Image", isPopular: true,
+      title: "AI Background Remover",
+      description: "Remove the background from one JPG, PNG or WEBP image and export a transparent PNG. Image processing runs in your browser; model assets may be fetched from external hosts.",
+      seoTitle: "AI Background Remover for JPG, PNG & WEBP | Transparent PNG",
+      seoDescription: "Create a transparent PNG using in-browser AI background removal. Model and runtime assets may download from Hugging Face or IMG.LY; results depend on the image and device.",
       inputFormat: "image",
       outputFormat: "png",
       actionName: "Remove Background",
