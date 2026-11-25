@@ -70,7 +70,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "How Does Browser-Based Compression Work?",
-        content: "<p>Most video compression websites require you to upload your gigabyte-sized files to their cloud servers, which takes a long time and uses up your internet bandwidth. We do things differently. This tool runs directly inside your web browser using your device's own processor. Your videos are compressed locally on your computer or phone, meaning your personal recordings never leave your device.</p>"
+        content: "<p>Most video compression websites require you to upload your gigabyte-sized files to their cloud servers, which takes a long time and uses up your internet bandwidth. We do things differently. This tool runs directly inside your web browser using your device's own processor. The selected video is processed in the browser. FFmpeg-based conversions download the FFmpeg core JavaScript and WebAssembly runtime from unpkg; this component does not send the selected video to a video-conversion API.</p>"
       },
       {
         title: "How to Compress a Video File",
@@ -116,19 +116,19 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "Why Won't Discord Let Me Upload My Video?",
-        content: "<p>Discord limits free file uploads to a strict 25MB maximum size. If you try to upload a game clip, screen recording, or meme edit that exceeds this limit, the upload will fail unless you pay for a premium subscription. To share your clip, you need to reduce the file size before uploading.</p>"
+        content: "<p>Discord upload limits depend on account tier and can change. Check the current limit shown in Discord before sharing. If you try to upload a game clip, screen recording, or meme edit that exceeds this limit, the upload will fail unless you pay for a premium subscription. To share your clip, you need to reduce the file size before uploading.</p>"
       },
       {
         title: "How to Compress Videos for Discord",
-        content: "<ol><li><strong>Select your game clip:</strong> Drop your large video into the compressor.</li><li><strong>Auto-optimization:</strong> The tool automatically targets an output file size under 24.5MB by adjusting the video bitrate.</li><li><strong>Download:</strong> Save the compressed video. It is now guaranteed to fit within Discord's free upload limit.</li></ol>"
+        content: "<ol><li><strong>Select your game clip:</strong> Drop your large video into the compressor.</li><li><strong>Auto-optimization:</strong> This preset estimates a bitrate and quality setting intended to reduce file size; it does not measure and enforce an exact output size.</li><li><strong>Download:</strong> Save the compressed video. This is not a size guarantee. Check the downloaded file against the current upload limit for your Discord account.</li></ol>"
       },
       {
         title: "How Does Local Discord Compression Work?",
-        content: "<p>Most compression websites require you to upload your gaming footage to their servers, which is slow and frustrating for large files. Our tool runs directly inside your web browser using your device's hardware. Your game clips never leave your PC, allowing for fast compression with zero wait queues or watermarks.</p>"
+        content: "<p>Most compression websites require you to upload your gaming footage to their servers, which is slow and frustrating for large files. Our tool runs directly inside your web browser using your device's hardware. The selected video is processed in the browser. FFmpeg-based conversions download the FFmpeg core JavaScript and WebAssembly runtime from unpkg; processing time depends on the source video and device.</p>"
       },
       {
         title: "Will My Game Audio Stay Synced?",
-        content: "<p>Yes. The encoder carefully preserves the original audio timestamp streams alongside the compressed video. Your game sound and voice comms will remain perfectly synchronized with crystal clear audio quality.</p>"
+        content: "<p>Yes. The encoder carefully preserves the original audio timestamp streams alongside the compressed video. The encoder includes the audio stream, but synchronization and perceived quality can vary with source timestamps, codecs and re-encoding. Preview the exported file before sharing.</p>"
       },
       {
         title: "What Video Formats Does Discord Support?",
@@ -145,7 +145,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "Why Won't WhatsApp Let Me Send My Video?",
-        content: "<p>WhatsApp restricts standard video sharing to a strict 16MB file limit. If you try to send a longer or higher-quality video, WhatsApp either blocks the transfer or forces you to use its built-in trimming tool. Even when it does send, WhatsApp's automatic compression often blurs your footage heavily. Pre-compressing your video gives you more control over the final quality and ensures the file fits perfectly within the 16MB limit.</p>"
+        content: "<p>WhatsApp file-size rules can vary by send method, app version and account. Check the current limit shown in the app before sharing. If you try to send a longer or higher-quality video, WhatsApp either blocks the transfer or forces you to use its built-in trimming tool. Even when it does send, WhatsApp's automatic compression often blurs your footage heavily. Pre-compressing your video gives you more control over the final quality and may help reduce the file size, but it does not guarantee that the exported video meets the current limit for every WhatsApp send method or account.</p>"
       },
       {
         title: "How to Compress Videos for WhatsApp",
@@ -153,7 +153,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "How Does Local Compression Keep Videos Private?",
-        content: "<p>Personal videos shared on WhatsApp are meant to be private. Traditional video compressors require you to upload your files to their servers before compression. Our WhatsApp video compressor runs entirely in your web browser. This means the actual processing happens on your own phone or computer, so your home videos never leave your device.</p>"
+        content: "<p>Personal videos shared on WhatsApp are meant to be private. Traditional video compressors require you to upload your files to their servers before compression. Our WhatsApp video compressor runs entirely in your web browser. This means the actual processing happens on your own phone or computer, so the selected video is processed in the browser. FFmpeg-based conversions download the FFmpeg core JavaScript and WebAssembly runtime from unpkg.</p>"
       },
       {
         title: "Will This Work for WhatsApp Status Updates?",
@@ -166,7 +166,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "Why Is My Video Too Large to Email?",
-        content: "<p>Major email providers like Gmail, Outlook, Yahoo Mail, and Apple Mail impose strict attachment size limits, typically between 20MB and 25MB. If your video exceeds this cap, the email client will block the attachment, forcing you to use third-party cloud links like Google Drive or Dropbox. Compressing the video allows you to attach it directly to the email.</p>"
+        content: "<p>Email attachment limits vary by provider, account type and sending method. Check the current limit for your mail service before attaching a video. If your video exceeds this cap, the email client will block the attachment, forcing you to use third-party cloud links like Google Drive or Dropbox. Compressing the video allows you to attach it directly to the email.</p>"
       },
       {
         title: "How to Shrink a Video for Email Attachments",
@@ -174,11 +174,11 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Is My Video Safe from Third Parties?",
-        content: "<p>If you are emailing sensitive work presentations or personal recordings, privacy is critical. Unlike other tools, our compressor runs securely inside your web browser. Your video is processed locally on your own computer and is never uploaded to any external servers, ensuring complete confidentiality.</p>"
+        content: "<p>If you are emailing sensitive work presentations or personal recordings, privacy is critical. Unlike other tools, our compressor runs securely inside your web browser. The selected video is processed in the browser. FFmpeg-based conversions download the FFmpeg core JavaScript and WebAssembly runtime from unpkg.</p>"
       },
       {
         title: "What Are the Exact Email Limits?",
-        content: "<p>Gmail allows up to 25MB of total file attachments per email. Microsoft Outlook and Hotmail typically restrict attachments to 20MB. By compressing your video, you can comfortably fit it within these strict parameters without needing complicated cloud-sharing links.</p>"
+        content: "<p>Gmail, Outlook and other mail services can use different attachment and cloud-link rules, which may change. Check the current limit for your account. By compressing your video, you can comfortably fit it within these strict parameters without needing complicated cloud-sharing links.</p>"
       },
       {
         title: "Why Use Compression Instead of Cloud Links?",
@@ -195,7 +195,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     sections: [
       {
         title: "Why Do My Videos Look Blurry on Instagram?",
-        content: "<p>When you upload a heavy 4K video to Instagram Reels or Stories, Instagram's aggressive server algorithms immediately compress the file. This automated process often crushes the video quality, making your high-definition footage look pixelated and blurry. By pre-compressing your video to Instagram's recommended specifications, you can bypass their heavy compression and maintain maximum visual sharpness.</p>"
+        content: "<p>When you upload a heavy 4K video to Instagram Reels or Stories, Instagram's aggressive server algorithms immediately compress the file. This automated process often crushes the video quality, making your high-definition footage look pixelated and blurry. Pre-compressing can give you control over the uploaded file's dimensions and bitrate, but Instagram may still re-encode uploads. It cannot bypass the platform's processing.</p>"
       },
       {
         title: "How to Optimize Videos for Instagram",
@@ -257,7 +257,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Do You Really Need to Upload Your Video to Compress It?",
-        content: "<p>Most online video compressors require you to upload your gigabyte-sized files to their cloud servers, which takes a long time and uses up your internet bandwidth. We do things differently. This tool runs directly inside your web browser using your device's own processor. Your videos are compressed locally on your computer or phone, meaning your personal recordings never leave your device.</p>"
+        content: "<p>Most online video compressors require you to upload your gigabyte-sized files to their cloud servers, which takes a long time and uses up your internet bandwidth. We do things differently. This tool runs directly inside your web browser using your device's own processor. The selected video is processed in the browser. FFmpeg-based conversions download the FFmpeg core JavaScript and WebAssembly runtime from unpkg; this component does not send the selected video to a video-conversion API.</p>"
       },
       {
         title: "How to Reduce MP4 File Size",
@@ -282,7 +282,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Is My Personal Video Kept Private?",
-        content: "<p>Yes. Traditional video converters force you to upload your files to their cloud servers, which compromises your privacy and takes a long time. Our conversion engine runs entirely on your device using local processing power. Your files are never uploaded, meaning your personal media remains completely private.</p>"
+        content: "<p>Yes. Traditional video converters force you to upload your files to their cloud servers, which compromises your privacy and takes a long time. Our conversion engine runs entirely on your device using local processing power. The conversion is processed in the browser with FFmpeg.wasm. Its core JavaScript and WebAssembly runtime are downloaded from unpkg; this is not a guarantee of zero network activity.</p>"
       },
       {
         title: "Why Is the Conversion Sometimes Slow?",
@@ -290,7 +290,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Is It Safe to Convert Videos Online?",
-        content: "<p>If you are converting personal recordings, workplace presentations, or private family moments, uploading them to remote cloud servers can be a massive security risk. Because our converter operates entirely within your local browser, your files remain strictly on your hard drive. There is zero risk of data interception or unauthorized access.</p>"
+        content: "<p>If you are converting personal recordings, workplace presentations, or private family moments, uploading them to remote cloud servers can be a massive security risk. Because our converter operates entirely within your local browser, your files remain strictly on your hard drive. Browser-side processing reduces the need to send the selected video to a conversion API, but does not guarantee zero network activity or zero security risk.</p>"
       },
       {
         title: "Why is MP4 the Best Format?",
@@ -311,7 +311,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Are My Videos Stored on Your Servers?",
-        content: "<p>Absolutely not. The compression runs entirely on your local device—whether that is your phone or your computer. Your videos are never uploaded to any cloud servers, ensuring that your personal content remains entirely private until you decide to post it on Facebook.</p>"
+        content: "<p>Absolutely not. The compression runs entirely on your local device—whether that is your phone or your computer. The selected video is processed in the browser. FFmpeg-based paths download runtime assets from unpkg; this component does not send the video to a video-conversion API.</p>"
       },
       {
         title: "Will the Video Look Pixelated?",
@@ -340,7 +340,7 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Does It Use Mobile Data to Compress?",
-        content: "<p>No. Because our compressor runs entirely inside your mobile web browser, it does not upload your large video files to the internet. This saves your mobile data plan and ensures that your personal videos remain 100% private on your device.</p>"
+        content: "<p>No. Because our compressor runs entirely inside your mobile web browser, it does not upload your large video files to the internet. This saves your mobile data plan and ensures that your video is processed in the browser, while FFmpeg runtime assets are downloaded from unpkg.</p>"
       },
       {
         title: "Will the Video Still Look Good on My Screen?",

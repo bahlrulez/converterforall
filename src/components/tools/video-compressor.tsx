@@ -488,7 +488,7 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
                     </div>
                     <p className="text-sm font-bold text-white">Discord & WhatsApp</p>
                     <p className="text-[11px] text-slate-400 mt-1 leading-snug">
-                      Guarantees file fits within free Discord and messaging upload limits.
+                      Uses an estimated compression target; the exported size can differ. Check the final file against the service's current upload limit.
                     </p>
                   </button>
 
@@ -737,8 +737,8 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
                     <ShieldCheck className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-emerald-300">100% Client-Side Conversion Complete</p>
-                    <p className="text-[11px] text-emerald-400/80">Processed locally on device • 0 bytes uploaded to external servers</p>
+                    <p className="text-xs font-bold text-emerald-300">Browser Video Processing Complete</p>
+                    <p className="text-[11px] text-emerald-400/80">The selected video is processed in the browser. FFmpeg runtime assets are loaded from unpkg.</p>
                   </div>
                 </div>
 

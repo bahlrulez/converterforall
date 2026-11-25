@@ -314,7 +314,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
               Use Cloud Engine via third-party service (Cloudmersive API)
             </span>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-              Default is 100% in-browser on-device conversion. When unchecked, your document never leaves your device. Check this only if you need desktop PowerPoint layout accuracy.
+              Browser rendering is selected by default. Enabling this option sends the presentation through our server route to Cloudmersive; review the provider's current privacy and retention terms before using it.
             </p>
           </div>
         </label>
@@ -354,7 +354,7 @@ export function ToolEngine({ category, toolSlug, acceptedTypes, targetFormat, ac
   return (
     <FileUploader 
       toolSlug={toolSlug}
-      privacyLevel={isPptTool ? (cloudPptOptIn ? "hybrid" : "client-only") : (toolSlug === "word-to-pdf" ? "hybrid" : "client-only")}
+      privacyLevel={isPptTool ? (cloudPptOptIn ? "hybrid" : "client-only") : "client-only"}
       onProcessFile={handleProcessFile} 
       acceptedTypes={acceptedTypes} 
       actionLabel={isPptTool ? (cloudPptOptIn ? "Convert via Cloud Engine (Cloudmersive API)" : "Convert in Browser (On-Device)") : actionLabel}

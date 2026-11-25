@@ -82,34 +82,11 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
   },
   "powerpoint-to-pdf": {
     sections: [
-      {
-        title: "What is this converter?",
-        content: "<p>The PowerPoint to PDF converter turns Microsoft PowerPoint presentation files (.ppt, .pptx) into standard PDF documents. Converting slides to PDF locks your formatting and fonts in place, ensuring colleagues and clients can view your slides on any phone, tablet, or computer even if they don't have PowerPoint installed.</p>"
-      },
-      {
-        title: "How does it work?",
-        content: "<p>Our tool parses the slide structure, text, and embedded graphics from your PowerPoint presentation and generates a standard PDF document. For supported in-browser conversions, the processing occurs directly on your device without server upload wait times.</p>"
-      },
-      {
-        title: "Examples",
-        content: "<p>If you created a pitch deck or class presentation in PowerPoint and need to email it to someone who might open it on a phone or tablet, converting it to PDF ensures your fonts, images, and layout stay clean and readable.</p>"
-      },
-      {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your Presentation:</strong> Drag and drop your .pptx file into the box.</li><li><strong>Conversion:</strong> The tool reads and formats the slide contents.</li><li><strong>Download:</strong> Click download to save your PDF slides.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Client Proposals:</strong> Sharing non-editable versions of slides so formatting remains locked.</li><li><strong>Handouts &amp; Study Sheets:</strong> Printing presentation slides as handouts for meetings or classes.</li><li><strong>Mobile Viewing:</strong> Enabling smooth slide viewing on devices without Microsoft Office.</li></ul>"
-      },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Will slide animations work in the PDF?</strong><br>A: No. PDFs are static documents, so animations and video clips are flattened to show the final slide appearance.</p>
-          <p><strong>Q: Are my presentations kept private?</strong><br>A: Yes. Your presentation files are handled securely without permanent server storage.</p>
-          <p><strong>Q: Do I need a Microsoft 365 subscription?</strong><br>A: No. The converter runs independently in your web browser.</p>
-        `
-      }
+      { title: "What the PowerPoint to PDF Converter Does", content: "<p>Convert a PPTX presentation into a static PDF. The default mode reads the presentation structure in the browser and renders supported slide text, shapes and images into PDF pages. The browser renderer may not reproduce every PowerPoint feature or exact layout, especially complex charts, SmartArt, animations, transitions, embedded media or uncommon fonts.</p>" },
+      { title: "Browser Conversion and Optional Cloud Engine", content: "<p>Browser conversion is selected by default. When the optional Cloud Engine checkbox is enabled, the file is sent through the site's server route to the Cloudmersive conversion service. If using that mode, review Cloudmersive's current privacy and retention terms before submitting sensitive presentations. This page does not make a claim about the provider's storage or retention practices.</p>" },
+      { title: "What Is and Is Not Preserved", content: "<p>A PDF is a static document. Slide animations and transitions do not play in the PDF, and embedded videos or audio do not become playable media. The browser renderer supports common slide text, shapes and images, but complex presentations may need manual checking or another conversion route.</p>" },
+      { title: "How to Convert a PowerPoint File", content: "<ol><li><strong>Select a PPTX file:</strong> Choose the presentation you want to convert.</li><li><strong>Choose a processing mode:</strong> Leave Cloud Engine unchecked for browser conversion, or enable it to send the file to Cloudmersive through the server route.</li><li><strong>Convert:</strong> Start the conversion and wait for the PDF to be generated.</li><li><strong>Review:</strong> Check slide layout, fonts, charts and graphics in the resulting PDF.</li><li><strong>Download:</strong> Save the PDF after confirming the output.</li></ol>" },
+      { title: "Frequently Asked Questions", content: "<p><strong>Q: Is Cloudmersive used by default?</strong><br>A: No. Browser conversion is the default. The Cloud Engine must be selected.</p><p><strong>Q: What happens when I enable Cloud Engine?</strong><br>A: The selected presentation is sent to the site's server route and the Cloudmersive conversion service. Review the provider's current privacy and retention terms before using this mode.</p><p><strong>Q: Are animations and transitions preserved?</strong><br>A: No. A PDF is static and does not play PowerPoint animations or transitions.</p><p><strong>Q: Will every presentation have an identical layout?</strong><br>A: No. Complex charts, SmartArt, custom fonts, media and unsupported effects may be rendered differently. Review the PDF before distributing it.</p><p><strong>Q: Can I use browser conversion without a Microsoft 365 subscription?</strong><br>A: The browser renderer does not require a Microsoft 365 subscription, but its supported-feature coverage is not identical to PowerPoint.</p>" }
     ]
   },
   "excel-to-pdf": {
@@ -178,27 +155,10 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
   },
   "word-to-pdf": {
     sections: [
-      {
-        title: "Word to PDF Converter - Convert DOCX & DOC to PDF Online",
-        content: "<p>Our Word to PDF converter transforms Microsoft Word documents (.docx, .doc) into clean, standard PDF files. Whether you are submitting a resume, emailing a business contract, or sharing an assignment, converting to PDF keeps your formatting, fonts, and margins locked in across all devices.</p>"
-      },
-      {
-        title: "How does Word to PDF conversion work?",
-        content: "<p>The converter reads the text, headings, tables, and embedded images from your Word document and formats them into a PDF copy. For supported files, conversion runs directly in your browser's local memory, keeping your documents private.</p>"
-      },
-      {
-        title: "Step-by-Step: How to Convert Word to PDF",
-        content: "<ol><li><strong>Select Your Word Document:</strong> Drag and drop your .docx or .doc file into the box, or browse your device.</li><li><strong>Conversion:</strong> The tool reads the layout, typography, and embedded elements.</li><li><strong>Download:</strong> Click 'Download PDF' to save your new file.</li></ol>"
-      },
-      {
-        title: "Frequently Asked Questions (FAQs)",
-        content: `
-          <p><strong>Q: Will my converted PDF keep its layout and page count?</strong><br>A: Yes. The converter maps typography, tables, and spacing to match your original Word document as closely as possible.</p>
-          <p><strong>Q: Are my confidential documents kept private?</strong><br>A: Yes. Files are processed securely in temporary memory and are never permanently stored, logged, or shared.</p>
-          <p><strong>Q: Does this tool support tables and images?</strong><br>A: Yes. Embedded photos, charts, and tables from your Word document are included in the PDF.</p>
-          <p><strong>Q: Can I convert Word documents on my phone?</strong><br>A: Yes. The converter works in mobile browsers on iOS and Android as well as desktop computers.</p>
-        `
-      }
+      { title: "What the Word to PDF Converter Does", content: "<p>Convert a supported Word document (.docx) into PDF in the browser. The converter reads document XML, text and selected embedded content and builds PDF pages from the supported elements. It is not a complete reproduction engine for every Microsoft Word layout feature.</p>" },
+      { title: "Browser Processing and Layout Limits", content: "<p>The current tool calls the browser conversion path and does not expose the optional Cloudmersive selector shown on the PowerPoint converter. Complex tables, floating objects, unusual fonts, SmartArt, charts, text wrapping and page-break rules may not match the original document exactly. Review the exported PDF carefully.</p>" },
+      { title: "How to Convert Word to PDF", content: "<ol><li><strong>Select a DOCX file:</strong> Upload the Word document you want to convert.</li><li><strong>Start conversion:</strong> The browser reads the document package and creates PDF pages.</li><li><strong>Review the PDF:</strong> Check page breaks, paragraphs, tables, images and fonts.</li><li><strong>Download:</strong> Save the PDF if the layout is suitable.</li></ol>" },
+      { title: "Frequently Asked Questions", content: "<p><strong>Q: Does the Word converter send my file to Cloudmersive?</strong><br>A: No Cloudmersive selector is exposed on this page; the current tool path calls the browser converter.</p><p><strong>Q: Will the PDF look exactly like the Word document?</strong><br>A: Not always. The converter supports selected document structures, but complex layout features may need adjustment.</p><p><strong>Q: Does it perform OCR on text inside images?</strong><br>A: No. The converter does not perform OCR on text contained inside images.</p><p><strong>Q: Can I edit the resulting PDF?</strong><br>A: The output is a PDF file. Editing depends on the PDF application you use.</p>" }
     ]
   }
 };

@@ -163,7 +163,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     }))
   } : null;
 
-  const isCloudTool = toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf";
+  const isCloudTool = toolSlug === "powerpoint-to-pdf";
   const isPresentationMaker = toolSlug === "presentation-maker";
 
   const isHeldUnavailableTool = toolSlug === "unicode-to-raavi";
