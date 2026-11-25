@@ -3,6 +3,85 @@ import { generatedPunjabiProfiles } from "./punjabi-font-profiles";
 export const fontToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   ...generatedPunjabiProfiles,
 
+  // UNICODE TO SATLUJ — page-specific, implementation-verified guidance
+  "unicode-to-satluj": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Unicode to Satluj Converter Does",
+        content: "<p>Paste standard Gurmukhi Unicode text into the input box. The converter maps supported Unicode characters and sequences to the legacy character codes used by its built-in Satluj table. The result is legacy-font text, not a Unicode Punjabi document or an installed font file.</p>"
+      },
+      {
+        title: "How to Display the Satluj Output",
+        content: "<p>Copy the output into the application where you need to use it and select an installed Satluj font for that text. Without the matching Satluj font, the legacy character codes may appear as Latin or other unrelated glyphs. This page does not install, embed or supply the Satluj font, and it does not create a Word, PageMaker or CorelDraw document.</p>"
+      },
+      {
+        title: "Mapping Coverage and Limitations",
+        content: "<p>The converter uses a finite Satluj character table and shared Gurmukhi composition rules. Not every possible Unicode code point or font-specific glyph has a corresponding Satluj mapping. When the engine cannot find a mapping, the original character can remain in the output unchanged. Check the result in the target application with the intended Satluj font, especially for vowel signs, subjoined characters, numerals, punctuation and uncommon symbols.</p>"
+      },
+      {
+        title: "Text Input and Output",
+        content: "<p>This is a text-to-text converter. It accepts text typed or pasted into the input box; it does not import Word, PDF or PageMaker files and does not preserve the formatting of a source document. You can copy the result or download it as plain text. The shared converter also has a DOC-labelled control that saves plain text with a .doc filename, not a formatted Word document.</p>"
+      },
+      {
+        title: "How to Convert Unicode to Satluj",
+        content: "<ol><li><strong>Prepare Unicode text:</strong> Copy Gurmukhi text from your document or type it into the input box.</li><li><strong>Review the converted text:</strong> The Satluj-encoded output appears as you type.</li><li><strong>Copy the output:</strong> Use Copy or the TXT download.</li><li><strong>Apply Satluj in your editor:</strong> Paste the text into the target application and select the matching installed Satluj font. Inspect the rendered result before printing or publishing.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why does the output look like English or unrelated characters?</strong><br>A: The output uses legacy Satluj character codes. Select an installed Satluj font for the pasted text in your target application. Without that font, the codes will not display as Gurmukhi.</p>
+          <p><strong>Q: Does this tool install or embed the Satluj font?</strong><br>A: No. It converts text codes only. You must obtain and install a compatible Satluj font separately.</p>
+          <p><strong>Q: Can I upload a Word or PDF document?</strong><br>A: No. Paste Unicode text into the input box. The converter does not import documents or preserve their layout and styling.</p>
+          <p><strong>Q: Will every Unicode character convert to Satluj?</strong><br>A: No complete-coverage guarantee is made. The converter has a finite mapping table; unsupported characters can remain unchanged. Check the output with your intended font.</p>
+          <p><strong>Q: Can I use the converted output on websites or WhatsApp?</strong><br>A: Legacy Satluj text depends on a matching font to display as Gurmukhi. Use standard Unicode for websites, email and messaging unless the receiving environment specifically supports the legacy encoding.</p>
+          <p><strong>Q: Does this converter translate Punjabi or correct spelling?</strong><br>A: No. It maps supported Unicode character sequences to legacy Satluj codes. It does not translate, interpret or proofread the text.</p>
+          <p><strong>Q: Is the text uploaded to a conversion server?</strong><br>A: The conversion runs in the browser using the bundled JavaScript mapping engine. This font-conversion component does not send the entered text to a conversion API.</p>
+        `
+      }
+    ]
+  },
+
+  // UNICODE TO ASEES — page-specific, implementation-verified guidance
+  "unicode-to-asees": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Unicode to Asees Converter Does",
+        content: "<p>Paste standard Gurmukhi Unicode text into the input box. The converter maps supported Unicode characters and sequences to the legacy character codes used by its built-in Asees table. The output is legacy-font text, not standard Unicode and not a font file.</p>"
+      },
+      {
+        title: "How to Display the Asees Output",
+        content: "<p>Copy the output into your word processor or design application and select an installed Asees font for the pasted text. Without the matching font, legacy character codes can appear as Latin or unrelated glyphs. This tool does not install or embed Asees, and it does not create or format a Word, PageMaker or CorelDraw document.</p>"
+      },
+      {
+        title: "Mapping Coverage and Limitations",
+        content: "<p>The converter uses a finite Asees character table and shared Gurmukhi composition and ordering rules. Some character-table entries are not defined, and not every possible Unicode character or font-specific glyph has a corresponding Asees code. If the engine has no mapping for a character, it can remain unchanged. Check the converted output in the target application with the matching Asees font, especially for vowel signs, subjoined characters, numerals, punctuation and uncommon symbols.</p>"
+      },
+      {
+        title: "Text Input and Output",
+        content: "<p>This is a text-to-text converter. It accepts text typed or pasted into the input box; it does not import Word, PDF or PageMaker files or preserve document formatting. You can copy the output or download it as plain text. The shared converter's DOC-labelled control saves plain text with a .doc filename; it does not create a formatted Word document.</p>"
+      },
+      {
+        title: "How to Convert Unicode to Asees",
+        content: "<ol><li><strong>Prepare Unicode text:</strong> Copy Gurmukhi text from your source document or type it into the input box.</li><li><strong>Review the converted text:</strong> Asees-encoded output appears as you type.</li><li><strong>Copy or download:</strong> Use Copy or TXT to save the plain text output.</li><li><strong>Apply Asees in your editor:</strong> Paste the text into the target application, select the installed Asees font, and inspect the rendered result before using it.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why does the output look like English letters?</strong><br>A: The output contains legacy Asees character codes. Select an installed Asees font for the text in your target application to display the intended Gurmukhi glyphs.</p>
+          <p><strong>Q: Does this tool install or embed the Asees font?</strong><br>A: No. It converts text codes only. A compatible Asees font must already be available in the application where you use the output.</p>
+          <p><strong>Q: Can I upload a Word, PDF or PageMaker document?</strong><br>A: No. Paste Unicode text into the input box. The tool does not import documents or preserve font styling, page layout, tables or images.</p>
+          <p><strong>Q: Will every Unicode character convert to Asees?</strong><br>A: No complete-coverage guarantee is made. The Asees mapping has undefined entries and unsupported characters can remain unchanged. Review the output with the intended font.</p>
+          <p><strong>Q: Should I use Asees text on websites and messaging apps?</strong><br>A: Use standard Unicode for websites, email and messaging. Legacy Asees output depends on a compatible font and may not display as Gurmukhi in systems that do not have it.</p>
+          <p><strong>Q: Does this converter translate or proofread Punjabi?</strong><br>A: No. It maps supported Unicode character sequences to legacy Asees codes. It does not translate or check spelling and grammar.</p>
+          <p><strong>Q: Is the text uploaded to a conversion server?</strong><br>A: The conversion runs in the browser using the bundled JavaScript mapping engine. This font-conversion component does not send the entered text to a conversion API.</p>
+          <p><strong>Q: Is the DOC download a formatted Word file?</strong><br>A: No. The shared converter saves plain text with a .doc filename. Use TXT for a plain-text download.</p>
+        `
+      }
+    ]
+  },
+
   // ASEES TO UNICODE — page-specific, implementation-verified guidance
   "asees-to-unicode": {
     disableAutoEnrich: true,
