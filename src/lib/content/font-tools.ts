@@ -17,7 +17,7 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
       },
       {
         title: "Important Accuracy Limitations",
-        content: "<p>Conversion results may contain errors. The output depends on the source text matching the Joy encoding expected by the built-in mapping. Text from another Punjabi font, a modified font version, or a glyph that is not covered by the map may convert incorrectly or remain unchanged. Proofread the result, especially before using it in official, legal, academic, or published material.</p>"
+        content: "<p>The page displays an experimental notice because conversion results may contain errors. The output depends on the source text matching the Joy encoding expected by the built-in mapping. Text from another Punjabi font, a modified font version, or a glyph that is not covered by the map may convert incorrectly or remain unchanged. Proofread the result, especially before using it in official, legal, academic, or published material.</p>"
       },
       {
         title: "How to Use This Converter",
