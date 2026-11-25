@@ -61,6 +61,9 @@ const ExamSignatureResizer = dynamic(() => import("@/components/tools/exam-signa
 const WebpConverter = dynamic(() => import("@/components/tools/webp-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
 const ImageDpiConverter = dynamic(() => import("@/components/tools/image-dpi-converter").then(m => m.default), { ssr: false, loading: ToolLoading });
 const MergeImagesTool = dynamic(() => import("@/components/tools/merge-images-tool").then(m => m.MergeImagesTool), { ssr: false, loading: ToolLoading });
+const ImageResizer = dynamic(() => import("@/components/tools/image-tool-suite").then(m => m.ImageResizerTool), { ssr: false, loading: ToolLoading });
+const ImageCropper = dynamic(() => import("@/components/tools/image-tool-suite").then(m => m.ImageCropperTool), { ssr: false, loading: ToolLoading });
+const GifMaker = dynamic(() => import("@/components/tools/image-tool-suite").then(m => m.GifMakerTool), { ssr: false, loading: ToolLoading });
 interface ToolRendererProps {
   toolSlug: string;
   categorySlug: string;
@@ -102,6 +105,9 @@ export function ToolRenderer({
         {toolSlug === "photo-name-date-stamper" && <PhotoNameDateStamper />}
         {toolSlug === "image-dpi-converter" && <ImageDpiConverter />}
         {toolSlug === "merge-images-to-jpg" && <MergeImagesTool />}
+        {toolSlug === "image-resizer" && <ImageResizer />}
+        {toolSlug === "image-cropper" && <ImageCropper />}
+        {toolSlug === "gif-maker" && <GifMaker />}
         {toolSlug === "compress-pdf" && <CompressPdfTool />}
         {toolSlug === "compress-pdf-100kb" && <CompressPdf100kb />}
 
