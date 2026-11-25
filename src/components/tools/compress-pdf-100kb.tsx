@@ -27,6 +27,7 @@ export function CompressPdf100kb() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const memoryCheck = file ? checkPdfMemoryRisk(file.size) : { risk: "safe" as const, title: "", message: "", dismissible: true };
+  const isWithinSelectedLimit = stats !== null && stats.newSize <= targetKb * 1024;
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -195,9 +196,9 @@ export function CompressPdf100kb() {
         <div className="flex items-start gap-3">
           <Shield className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
           <div className="text-xs sm:text-sm">
-            <h4 className="font-semibold text-amber-900 dark:text-amber-200">100% Private In-Browser Compression</h4>
+            <h4 className="font-semibold text-amber-900 dark:text-amber-200">In-Browser PDF Processing</h4>
             <p className="text-amber-700 dark:text-amber-300/80 leading-relaxed">
-              Your sensitive marksheets, caste certificates, and identity documents never leave your computer or phone. Everything processes directly in your browser.
+              The selected PDF is read, rendered and rebuilt in your browser. This component does not send the PDF to a conversion API.
             </p>
           </div>
         </div>
@@ -214,7 +215,7 @@ export function CompressPdf100kb() {
           <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
             <h3 className="font-semibold text-base flex items-center gap-2 mb-3">
               <UploadCloud className="w-5 h-5 text-primary" />
-              1. Select Educational Marksheet or Certificate PDF
+              1. Select a PDF file
             </h3>
             
             <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-primary/40 hover:border-primary bg-primary/5 hover:bg-primary/10 rounded-xl cursor-pointer transition-colors">
@@ -233,10 +234,10 @@ export function CompressPdf100kb() {
           <div className={`bg-card border border-border rounded-2xl p-6 shadow-sm transition-opacity ${!file ? 'opacity-50 pointer-events-none' : ''}`}>
             <h3 className="font-semibold text-base flex items-center gap-2 mb-1">
               <FileArchive className="w-5 h-5 text-primary" />
-              2. Select Portal Target Limit
+              2. Choose a File-Size Target
             </h3>
             <p className="text-xs text-muted-foreground mb-4">
-              Calibrated with an automatic safety margin below the ceiling so portals never reject your file.
+              The compressor attempts to get below the selected size. It may not reach the target, and a size check alone cannot confirm portal acceptance.
             </p>
             
             <div className="space-y-2.5">
@@ -292,8 +293,8 @@ export function CompressPdf100kb() {
                   />
                 </div>
                 <div className="ml-3 flex flex-col flex-1">
-                  <span className="font-semibold text-xs sm:text-sm text-foreground">Custom KB Ceiling</span>
-                  <span className="text-xs text-muted-foreground mt-0.5">Specify an exact maximum file limit required by your portal.</span>
+                  <span className="font-semibold text-xs sm:text-sm text-foreground">Custom Size Target</span>
+                  <span className="text-xs text-muted-foreground mt-0.5">Enter the maximum size you want the compressor to try. Inspect the final file size before using it.</span>
                   
                   {targetPreset === "custom" && (
                     <div className="mt-2.5 flex items-center gap-2">
@@ -318,7 +319,7 @@ export function CompressPdf100kb() {
               onClick={processPdf}
               disabled={isProcessing || !file}
             >
-              {isProcessing ? "Optimizing & Downscaling..." : `Compress PDF to ${targetKb} KB`}
+              {isProcessing ? "Optimizing & Downscaling..." : `Try compression to ${targetKb} KB`}
             </Button>
             
             {isProcessing && (
@@ -340,15 +341,15 @@ export function CompressPdf100kb() {
           <div className="bg-muted/30 border border-border rounded-2xl p-6 flex flex-col flex-1 shadow-sm min-h-[420px]">
             <h3 className="font-semibold text-base flex items-center gap-2 mb-4">
               <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-              Document Verification &amp; Result
+              Compression Result
             </h3>
             
             {!resultBlob ? (
               <div className="flex-1 flex flex-col items-center justify-center text-center text-muted-foreground p-6">
                 <FileArchive className="w-14 h-14 opacity-25 mb-3" />
-                <p className="text-xs sm:text-sm font-medium">Select your marksheet PDF and click Compress to view the result.</p>
+                <p className="text-xs sm:text-sm font-medium">Select a PDF and choose a target size to see the compression result.</p>
                 <p className="text-xs text-muted-foreground mt-1 max-w-xs">
-                  The algorithm enforces a safety margin below the ceiling so uploading portals never bounce your file.
+                  The tool renders PDF pages as images and tries several output sizes and JPEG quality levels. The result can still exceed the selected target.
                 </p>
               </div>
             ) : (
@@ -364,11 +365,14 @@ export function CompressPdf100kb() {
                       <span className="font-bold text-sm text-emerald-600 dark:text-emerald-400">{formatSize(stats.newSize)}</span>
                     </div>
                     <div className="col-span-2 pt-2 border-t flex items-center justify-between text-xs">
-                      <span className="text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                        <Check className="w-3.5 h-3.5" /> Portal Verified (Under {targetKb} KB limit)
+                      <span className={`font-semibold flex items-center gap-1 ${isWithinSelectedLimit ? "text-emerald-700 dark:text-emerald-400" : "text-amber-700 dark:text-amber-400"}`}>
+                        {isWithinSelectedLimit && <Check className="w-3.5 h-3.5" />}
+                        {isWithinSelectedLimit ? `Within ${targetKb} KB target` : `Above ${targetKb} KB target`}
                       </span>
                       <span className="text-muted-foreground">
-                        Reduced by {Math.round(((stats.origSize - stats.newSize) / stats.origSize) * 100)}%
+                        {stats.origSize >= stats.newSize
+                          ? `Reduced by ${Math.round(((stats.origSize - stats.newSize) / stats.origSize) * 100)}%`
+                          : `Increased by ${Math.round(((stats.newSize - stats.origSize) / stats.origSize) * 100)}%`}
                       </span>
                     </div>
                   </div>
@@ -376,7 +380,7 @@ export function CompressPdf100kb() {
 
                 {previewDataUrl && (
                   <div className="flex-1 flex flex-col items-center justify-center border rounded-xl p-3 bg-background">
-                    <span className="text-[11px] text-muted-foreground mb-2 block">First Page Visual Clarity Check:</span>
+                    <span className="text-[11px] text-muted-foreground mb-2 block">First-page sample preview (initial render; final output may be lower resolution):</span>
                     <img 
                       src={previewDataUrl} 
                       alt="Compressed PDF Page 1" 
@@ -391,7 +395,7 @@ export function CompressPdf100kb() {
                     download={`compressed-${targetKb}kb-${file?.name || "document.pdf"}`}
                     className="inline-flex items-center justify-center w-full px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-sm shadow-sm hover:bg-primary/90 transition-colors cursor-pointer"
                   >
-                    <Download className="w-4 h-4 mr-2" /> Download Conformed PDF
+                    <Download className="w-4 h-4 mr-2" /> Download Compressed PDF
                   </a>
                 )}
               </div>

@@ -120,61 +120,45 @@ export const examToolsContent: Record<string, { sections: { title: string, conte
     ]
   },
   "compress-pdf-100kb": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "How to compress marksheets and caste certificates below 100KB without losing text clarity",
-        content: "<p>Government job portals enforce strict PDF size constraints. When you use generic online PDF compressors, they often blur the text to hit the tiny size limits, making critical details like your roll number, marks, and name completely unreadable. This leads to instant application rejection. Our specialized 100KB Marksheet Compressor uses adaptive client-side scaling. It renders each page sharply in your browser and carefully tests dozens of compression levels per second to strictly stay under 100KB (or your custom limit) while maximizing text clarity.</p>"
+        title: "What the PDF Size Reducer Does",
+        content: "<p>Upload one PDF and choose a file-size target, such as 100 KB, 200 KB, 300 KB, 500 KB or a custom value. The tool renders each PDF page in the browser, converts the page image to JPEG and assembles those images into a new PDF. It is an image-based size reducer, not a lossless PDF optimizer.</p><p>The compressor attempts to reach the selected target, but it can still return a file that is larger than the target after its retry passes. Check the actual output size shown in the result before using the file.</p>"
       },
       {
-        title: "Standard Portal PDF Size Limits",
-        content: `
-          <div class="overflow-x-auto my-4">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-              <thead class="bg-gray-50 dark:bg-gray-800">
-                <tr>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Exam Portal</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Document Type</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Size Limit</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                <tr>
-                  <td class="px-4 py-3 font-semibold">SSC (CGL, CHSL, MTS)</td>
-                  <td class="px-4 py-3">Certificates / Marksheets</td>
-                  <td class="px-4 py-3">Max 100 KB</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">UPSC (NDA, CDS, Civil)</td>
-                  <td class="px-4 py-3">Photo ID &amp; Documents</td>
-                  <td class="px-4 py-3">Max 200 KB</td>
-                </tr>
-                <tr class="bg-gray-50/50 dark:bg-gray-800/50">
-                  <td class="px-4 py-3 font-semibold">State PSCs</td>
-                  <td class="px-4 py-3">Caste &amp; Income Certs</td>
-                  <td class="px-4 py-3">Typically 100 KB - 200 KB</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">NTA (CUET, JEE)</td>
-                  <td class="px-4 py-3">Category Certificates</td>
-                  <td class="px-4 py-3">Max 300 KB</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        `
+        title: "How Compression Works",
+        content: "<p>The tool uses PDF.js to render pages to Canvas and pdf-lib to create a new PDF from embedded JPEG images. It adjusts page render scale and tries a limited set of JPEG quality values, then rebuilds the PDF over up to five overall passes. If the result is still above the internal size target after the final pass, the current implementation returns that last result rather than rejecting it or guaranteeing the requested size.</p><p>For the built-in 100, 200, 300 and 500 KB presets, the compressor uses an internal byte target below the displayed limit as a safety margin. Custom targets also reserve some bytes for PDF overhead. These are attempts to reduce the chance of exceeding the chosen size, not guarantees.</p>"
       },
       {
-        title: "Common Reasons Government Portals Reject Uploaded Document PDFs",
-        content: "<p>Avoid these critical mistakes when uploading educational or category certificates: <strong>Unreadable Text:</strong> The examiner must be able to read your roll number, issue date, and authority signature clearly. <strong>Wrong Format:</strong> Uploading a JPEG when a PDF is strictly requested (or vice-versa). <strong>Password Protection:</strong> Never upload a locked or password-protected PDF (like an e-Aadhar) as the portal system cannot verify it. <strong>File Size Too Big:</strong> Exceeding the strict KB limit will usually cause the form upload to instantly fail.</p>"
+        title: "Important: The Output Pages Are Images",
+        content: "<p>Because each page is rendered and embedded as a JPEG image, the rebuilt PDF does not retain the original page text as selectable or searchable text. It does not run OCR to recreate a text layer. Vector artwork is rasterized, and small print, thin lines, stamps and signatures can become less clear when the page is downscaled or JPEG-compressed.</p><p>The new PDF is assembled from rendered page images. Do not use this tool when you need to preserve editable text, vector graphics, form fields or other interactive PDF elements. Keep the original document and compare the result at normal and zoomed viewing sizes.</p>"
+      },
+      {
+        title: "File-Size Targets Are Not Portal Verification",
+        content: "<p>The built-in 100, 200, 300 and 500 KB options and the custom value are local size targets. They are not live specifications retrieved from SSC, UPSC, NTA, State PSC or other application portals. Requirements vary by examination, document type, post and application cycle. Check the current official instructions before choosing a target.</p><p>The result panel compares the exported PDF's actual byte size with the selected target. A result within that size limit is not a portal acceptance check: the tool does not validate page content, readability, document authenticity, page count, orientation, password rules or the receiving portal's other requirements.</p>"
+      },
+      {
+        title: "Browser Processing, Input and Output",
+        content: "<p>The selected PDF is read in the browser, rendered by PDF.js and rebuilt with pdf-lib. This component does not send the selected PDF to a conversion API. It accepts one PDF file and exports a PDF file. Very large or multi-page documents can require substantial browser memory and processing time; the page may display a device-memory warning for higher-risk files.</p><p>Password-protected PDFs may fail to open in the current workflow. If processing fails, check whether the PDF is encrypted or damaged.</p>"
+      },
+      {
+        title: "How to Try Compressing a PDF",
+        content: "<ol><li><strong>Select one PDF:</strong> Choose the document you want to reduce.</li><li><strong>Choose a size target:</strong> Pick a built-in KB target or enter a custom value.</li><li><strong>Run compression:</strong> The tool renders pages as images and attempts to reduce their resolution and JPEG quality enough to approach the target.</li><li><strong>Check the result:</strong> Review the actual output size and first-page sample. The preview is captured from the initial render, so the final PDF can be lower resolution than the sample.</li><li><strong>Inspect the full PDF:</strong> Open the downloaded file, check every page for readability and verify that its actual size and format meet the current upload instructions.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Are my sensitive marksheets and caste certificates uploaded to your servers?</strong><br>A: No. We strictly use 100% private client-side processing for this tool. Your PDFs never leave your browser, ensuring complete privacy and security for your sensitive personal data.</p>
-          <p><strong>Q: Why is the target preset strict?</strong><br>A: Portals like SSC have a hard limit of 100 KB. Generic compressors might output 102 KB, forcing you to try again. Our tool enforces a hard ceiling so the output is guaranteed to be accepted.</p>
-          <p><strong>Q: What if I have a 10-page PDF to compress under 100KB?</strong><br>A: 100KB is very tiny. For multi-page PDFs, our engine automatically steps down the resolution to fit the constraint. However, squeezing 10 pages into 100KB will naturally result in blurry text. We recommend extracting only the required pages using a <a href="/extract-pages" class="text-blue-600 hover:underline">PDF page extractor</a> before compression.</p>
+          <p><strong>Q: Is the PDF guaranteed to be below 100 KB or my chosen target?</strong><br>A: No. The compressor tries several render scales and JPEG quality settings over up to five passes. If the final result is still above the target, the current implementation returns that result. Check the actual file-size status.</p>
+          <p><strong>Q: Will my text remain selectable and searchable after compression?</strong><br>A: No. Each page is converted to a JPEG image and placed into a new PDF. The tool does not run OCR or recreate a selectable text layer.</p>
+          <p><strong>Q: Does it preserve the original PDF's vector graphics and interactive elements?</strong><br>A: No. The pages are rendered to images before the new PDF is assembled. Vector elements are rasterized, and the original interactive PDF structure is not retained as such.</p>
+          <p><strong>Q: Will small text and signatures remain perfectly clear?</strong><br>A: This is not guaranteed. Reducing page scale and JPEG quality can soften small text, fine lines, stamps and signatures. Inspect every page before relying on the output.</p>
+          <p><strong>Q: Is the PDF uploaded to a conversion server?</strong><br>A: The component reads the selected PDF in the browser and processes it with PDF.js, Canvas and pdf-lib. This component does not send the PDF to a conversion API.</p>
+          <p><strong>Q: Can I compress a password-protected PDF?</strong><br>A: Password-protected PDFs may fail to open in this workflow. The current error message asks you to check whether the document is encrypted.</p>
+          <p><strong>Q: Does a file-size result within the target mean a portal will accept it?</strong><br>A: No. The result panel only checks the byte size against your chosen target. It does not verify document type, readability, authenticity or any portal-specific rules.</p>
+          <p><strong>Q: Why does the output look different from the original PDF?</strong><br>A: The tool rebuilds each page as a JPEG image. Text, vector lines and other content are rasterized, and image scaling or compression can affect appearance and legibility.</p>
         `
       }
     ]
-  }
+  },
 };

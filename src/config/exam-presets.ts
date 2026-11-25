@@ -292,39 +292,39 @@ export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
 export const PDF_DOCUMENT_PRESETS = [
   {
     id: "100",
-    name: "Under 100 KB (Strict)",
+    name: "100 KB target",
     targetKb: 100,
     internalCeilingKb: 85,
-    tag: "Most Popular",
-    suitableFor: "SSC CGL/CHSL Marksheets, State Police & PSC Certificates, Domicile/Caste Forms",
-    description: "Aggressive multi-pass downscaling tuned to guarantee your document stays safely below the rigid 100 KB upload ceiling without failing portal verification."
+    tag: "Small-size target",
+    suitableFor: "Try when the receiving form specifies a 100 KB maximum.",
+    description: "Attempts a small output size by reducing page-image resolution and JPEG quality. The result may remain above the target or become harder to read."
   },
   {
     id: "200",
-    name: "Under 200 KB",
+    name: "200 KB target",
     targetKb: 200,
     internalCeilingKb: 175,
-    tag: "UPSC & Central",
-    suitableFor: "UPSC Civil Services Degrees, Central Govt ID Proofs, SSC Experience Certificates",
-    description: "Optimal balance of document clarity and compressed file size, keeping standard single or double-page documents safely below 200 KB."
+    tag: "Medium-size target",
+    suitableFor: "Try when the receiving form specifies a 200 KB maximum.",
+    description: "A larger size target may retain more detail than a smaller one, but final size and legibility depend on the source PDF and page count."
   },
   {
     id: "300",
-    name: "Under 300 KB",
+    name: "300 KB target",
     targetKb: 300,
     internalCeilingKb: 275,
-    tag: "State Portals",
-    suitableFor: "State Subordinate Services, University Admission Portals, Detailed Marksheets",
-    description: "Ideal for 2 to 4-page certificates and semester transcripts that need crisp text while meeting state portal file size caps."
+    tag: "Larger-file target",
+    suitableFor: "Try when the receiving form specifies a 300 KB maximum.",
+    description: "The compressor still rasterizes pages. Fine text and line detail can be lost as the tool reduces image size or quality."
   },
   {
     id: "500",
-    name: "Under 500 KB",
+    name: "500 KB target",
     targetKb: 500,
     internalCeilingKb: 470,
-    tag: "Multi-Page",
-    suitableFor: "NTA Registration Portals, Complete Degree Certificates, Multi-Page Scans",
-    description: "Designed for multi-page educational dossiers and detailed application attachments."
+    tag: "Larger target",
+    suitableFor: "Try when the receiving form specifies a 500 KB maximum.",
+    description: "A larger target can allow more image detail, but does not guarantee legibility or portal acceptance."
   }
 ];
 
