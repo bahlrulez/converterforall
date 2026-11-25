@@ -167,56 +167,42 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         )}
 
-        {/* Hero Header Section */}
-        <div className="mb-10 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
-          <Link 
-            href={isRaaviGuidePage ? "/category/fonts" : "/"} 
-            className="inline-flex items-center text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-6 transition-all bg-white dark:bg-[#0a1128]/80 px-4 py-2 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
-          >
-            <ArrowLeft className="mr-2 h-3.5 w-3.5" />
-            <span>{isRaaviGuidePage ? "Back to Fonts & Text" : "Back to All 150+ Tools"}</span>
-          </Link>
-
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{processingBadges.heroBadge}</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-slate-900 dark:text-white leading-[1.15]">
-            {tool.title}
-          </h1>
-          
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed mb-6">
-            {tool.description}
-          </p>
-
-          {/* Quick Trust Highlights Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-              <span>{processingBadges.trustBadge}</span>
-            </span>
-            {!isRaaviGuidePage && (
+        {isRaaviGuidePage ? (
+          <header className="max-w-3xl mx-auto mb-12 print:hidden">
+            <Link href="/category/fonts" className="inline-flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-8 transition-colors">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span>Fonts &amp; Text</span>
+            </Link>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-600 dark:text-blue-400 mb-3">Punjabi typography</p>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight mb-5">{tool.title}</h1>
+            <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">{tool.description}</p>
+          </header>
+        ) : (
+          <div className="mb-10 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
+            <Link href="/" className="inline-flex items-center text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-6 transition-all bg-white dark:bg-[#0a1128]/80 px-4 py-2 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800">
+              <ArrowLeft className="mr-2 h-3.5 w-3.5" />
+              <span>Back to All 150+ Tools</span>
+            </Link>
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{processingBadges.heroBadge}</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 text-slate-900 dark:text-white leading-[1.15]">{tool.title}</h1>
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed mb-6">{tool.description}</p>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>{processingBadges.trustBadge}</span>
+              </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
                 <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
                 <span>No account required</span>
               </span>
-            )}
-          </div>
-        </div>
-
-        {isRaaviGuidePage ? (
-          <section aria-label="Raavi font usage note" className="max-w-3xl mx-auto mb-10 print:hidden">
-            <div role="note" className="rounded-2xl border border-blue-200/80 dark:border-blue-500/20 bg-blue-50/70 dark:bg-blue-500/5 px-5 py-4 sm:px-7 sm:py-5 text-center">
-              <p className="text-base font-semibold text-slate-800 dark:text-slate-100">
-                No text conversion is required.
-              </p>
-              <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                Raavi displays Gurmukhi Unicode text. Open your document editor, select the text, and choose Raavi when the font is installed and available.
-              </p>
             </div>
-          </section>
-        ) : (
+          </div>
+        )}
+
+        {!isRaaviGuidePage && (
         <div className="relative mb-14">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[90%] max-w-3xl h-[85%] blur-[90px] opacity-25 dark:opacity-15 pointer-events-none">
             <div className="w-full h-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-500 rounded-full" />
@@ -264,24 +250,33 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           </div>
         )}
 
-        {/* Structured SEO Guide & Bento Information Sections */}
-        <div className="space-y-8 print:hidden mt-12">
-          {contentSections.map((section, index) => (
-            <div 
-              key={index} 
-              className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#0a1128]/95 border border-slate-200/90 dark:border-slate-800 shadow-sm"
-            >
-              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-blue-500" />
-                <span>{section.title}</span>
-              </h2>
-              <div 
-                className="prose prose-slate dark:prose-invert max-w-none prose-sm sm:prose-base leading-relaxed text-slate-600 dark:text-slate-300"
-                dangerouslySetInnerHTML={{ __html: section.content }} 
-              />
+        {isRaaviGuidePage ? (
+          <article className="max-w-3xl mx-auto print:block">
+            <div className="space-y-12">
+              {contentSections.map((section, index) => (
+                <section key={index} className={index < contentSections.length - 1 ? "pb-10 border-b border-slate-200 dark:border-slate-800" : ""}>
+                  <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 dark:text-white mb-5">{section.title}</h2>
+                  <div
+                    className="prose prose-slate dark:prose-invert max-w-none prose-base sm:prose-lg leading-8 text-slate-700 dark:text-slate-300 prose-p:my-5 prose-ol:my-5 prose-ul:my-5 prose-li:my-2 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:text-slate-900 dark:prose-strong:text-slate-100"
+                    dangerouslySetInnerHTML={{ __html: section.content }}
+                  />
+                </section>
+              ))}
             </div>
-          ))}
-        </div>
+          </article>
+        ) : (
+          <div className="space-y-8 print:hidden mt-12">
+            {contentSections.map((section, index) => (
+              <div key={index} className="p-6 sm:p-8 rounded-3xl bg-white/90 dark:bg-[#0a1128]/95 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+                <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500" />
+                  <span>{section.title}</span>
+                </h2>
+                <div className="prose prose-slate dark:prose-invert max-w-none prose-sm sm:prose-base leading-relaxed text-slate-600 dark:text-slate-300" dangerouslySetInnerHTML={{ __html: section.content }} />
+              </div>
+            ))}
+          </div>
+        )}
 
       </div>
     </div>

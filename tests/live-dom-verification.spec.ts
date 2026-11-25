@@ -117,24 +117,33 @@ test.describe('Live DOM Inspection & SEO Parity Verification', () => {
     }
   });
 
-  test('7. Raavi is rendered as an informational guide rather than a disabled converter tool', async ({ page }) => {
+  test('7. Raavi renders as a focused editorial guide, not a converter template', async ({ page }) => {
     await page.goto('http://localhost:3005/unicode-to-raavi');
 
-    await expect(page.getByRole('heading', { name: 'Raavi Font Guide' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Back to Fonts & Text' })).toHaveAttribute('href', '/category/fonts');
-    await expect(page.getByText('No text conversion is required.')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Raavi Font Guide', level: 1 })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Fonts & Text' })).toHaveAttribute('href', '/category/fonts');
+    await expect(page.getByText('Punjabi typography', { exact: true })).toBeVisible();
+
+    const article = page.locator('article');
+    await expect(article).toBeVisible();
+    await expect(article.getByRole('heading', { name: 'Understanding Raavi Font and Unicode Gurmukhi' })).toBeVisible();
+    await expect(article.getByRole('heading', { name: 'How to Display and Format Unicode Text in Raavi Font' })).toBeVisible();
+    await expect(article.getByRole('link', { name: 'Asees to Unicode Converter' })).toHaveAttribute('href', '/asees-to-unicode');
 
     const bodyText = await page.textContent('body');
-    expect(bodyText).not.toContain('Back to All 150+ Tools');
+    expect(bodyText).not.toContain('No text conversion is required.');
     expect(bodyText).not.toContain('No account required');
     expect(bodyText).not.toContain('Related & Recommended Utilities');
     expect(bodyText).not.toContain('Rate this tool / Report an issue');
     expect(bodyText).not.toContain('This tool is not available yet.');
 
+    await expect(article.locator(':scope > div > section')).toHaveCount(4);
+
     const structuredData = await page.locator('script[type="application/ld+json"]').allTextContents();
     for (const jsonText of structuredData) {
       expect(jsonText).not.toContain('"@type":"SoftwareApplication"');
     }
+    expect(structuredData.some(jsonText => jsonText.includes('"@type":"FAQPage"'))).toBe(true);
   });
 
 });
