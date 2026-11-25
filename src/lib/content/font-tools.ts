@@ -3,6 +3,40 @@ import { generatedPunjabiProfiles } from "./punjabi-font-profiles";
 export const fontToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   ...generatedPunjabiProfiles,
 
+  // JOY TO UNICODE — page-specific, implementation-verified guidance
+  "joy-to-unicode": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Joy to Unicode Converter Does",
+        content: "<p>Paste text encoded with the legacy Joy Punjabi font. This tool converts the pasted characters into standard Gurmukhi Unicode using its built-in Joy mapping. It works with text entered or pasted into the input box; it does not open Word or PDF files, preserve document formatting, translate between languages, or correct spelling.</p>"
+      },
+      {
+        title: "How the Joy Character Mapping Works",
+        content: "<p>The converter applies a predefined Joy character map together with shared Gurmukhi character-composition and reordering rules. It is a character-encoding conversion, not a phonetic or meaning-based translation. When a source character or glyph has no matching entry, the converter can leave that character unchanged. Review the converted text before using it.</p>"
+      },
+      {
+        title: "Important Accuracy Limitations",
+        content: "<p>This page is marked experimental because conversion results may contain errors. The output depends on the source text matching the Joy encoding expected by the built-in mapping. Text from another Punjabi font, a modified font version, or a glyph that is not covered by the map may convert incorrectly or remain unchanged. Proofread the result, especially before using it in official, legal, academic, or published material.</p>"
+      },
+      {
+        title: "How to Use This Converter",
+        content: "<ol><li><strong>Paste Joy-encoded text:</strong> Enter or paste the text in the input box.</li><li><strong>Check the output:</strong> The Unicode result appears in the output box as you type.</li><li><strong>Copy the result:</strong> Review the characters and use the Copy button to take the Unicode text into another application.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Can I upload a Word or PDF document?</strong><br>A: No. This converter accepts pasted or typed text. It does not import document files or retain fonts, page layout, tables, or other formatting.</p>
+          <p><strong>Q: Does the tool identify the source font automatically?</strong><br>A: No. This page is configured for Joy text. Use it only when the source text is encoded with the Joy mapping expected by this converter.</p>
+          <p><strong>Q: Will every Joy character convert correctly?</strong><br>A: A perfect result is not guaranteed. The converter uses a finite mapping table, and unsupported characters can pass through unchanged. The page is labelled experimental, so proofread the output.</p>
+          <p><strong>Q: Is this a Punjabi translator or spell-checker?</strong><br>A: No. It changes character encoding from the supported Joy mapping to Gurmukhi Unicode. It does not translate language, infer meaning, or check spelling and grammar.</p>
+          <p><strong>Q: Is my text sent to a conversion server?</strong><br>A: The conversion runs in the browser using the bundled JavaScript mapping code; the font-conversion component does not send the text to a conversion API.</p>
+          <p><strong>Q: Do I need the Joy font to read the converted output?</strong><br>A: No. The output is Gurmukhi Unicode. Your device or application needs a font with Gurmukhi Unicode glyph support, but it does not need the legacy Joy font to display the converted text.</p>
+        `
+      }
+    ]
+  },
+
   // UNICODE TO RAAVI (GURMUKHI OPEN-TYPE FONT GUIDE)
   "unicode-to-raavi": {
     disableAutoEnrich: true,
