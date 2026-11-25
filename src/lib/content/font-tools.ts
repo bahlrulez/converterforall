@@ -39,6 +39,42 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     ]
   },
 
+  // ANMOLLIPI TO UNICODE — page-specific, implementation-verified guidance
+  "anmollipi-to-unicode": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the AnmolLipi to Unicode Converter Does",
+        content: "<p>Paste text encoded with the AnmolLipi Punjabi font into the input box. The converter applies its built-in AnmolLipi character mapping to produce Gurmukhi Unicode text. It processes entered or pasted text; it does not open Word, PDF or PageMaker files, extract text from scanned pages, or preserve document formatting.</p>"
+      },
+      {
+        title: "How the AnmolLipi Character Mapping Works",
+        content: "<p>The conversion uses a predefined AnmolLipi character table together with shared Gurmukhi character-composition and ordering rules. The engine uses those rules to resolve supported multi-character combinations and reorder mapped signs where required. This is character-encoding conversion, not Punjabi translation, phonetic transcription or spelling correction.</p><p>The character table is finite and does not define a mapping for every possible character or font-specific glyph. When no mapping is found, the conversion engine can pass the source character through unchanged. Modified AnmolLipi fonts or text encoded with a different Punjabi font can therefore produce incomplete or incorrect output. Review the result against the original.</p>"
+      },
+      {
+        title: "Text Input, Output and Formatting",
+        content: "<p>Enter or paste text into the input box. You can copy the Unicode result, download TXT, print or share it. The interface also has a DOC-labelled download, but the current implementation saves the same plain text content with a .doc filename; it does not generate a formatted Microsoft Word document. Use TXT when you need a plain-text file with a matching extension.</p><p>The converter does not import source documents or retain page layout, font styling, tables, images or other formatting. It converts the text characters only.</p>"
+      },
+      {
+        title: "How to Convert AnmolLipi Text",
+        content: "<ol><li><strong>Copy the source text:</strong> Select text that was entered using the AnmolLipi encoding expected by this converter.</li><li><strong>Paste it into the input box:</strong> The Unicode output updates as you type or paste.</li><li><strong>Review the result:</strong> Check letters, vowel signs, subjoined forms, numerals and punctuation against the source. Unsupported characters may remain unchanged.</li><li><strong>Copy or export:</strong> Use Copy or TXT download for the converted plain text. Reapply formatting in your document editor if needed.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Can I upload a Word, PDF or PageMaker document?</strong><br>A: No. This converter accepts typed or pasted text. It does not read document files or extract text from scanned pages.</p>
+          <p><strong>Q: Does the converter identify AnmolLipi automatically?</strong><br>A: No. This page applies the AnmolLipi mapping. Text encoded with another Punjabi font or a modified AnmolLipi font may not convert correctly.</p>
+          <p><strong>Q: Will every AnmolLipi character convert?</strong><br>A: A complete conversion is not guaranteed. The engine uses a finite mapping table, and characters without an applicable mapping can remain unchanged. Review the output before relying on it.</p>
+          <p><strong>Q: Does it correct Punjabi spelling or translate the text?</strong><br>A: No. It changes supported legacy character encodings into Unicode. It does not translate language, infer sentence meaning, or proofread spelling and grammar.</p>
+          <p><strong>Q: Is my text uploaded to a conversion server?</strong><br>A: The AnmolLipi conversion runs in the browser using the bundled JavaScript mapping engine. This font-conversion component does not send the entered text to a conversion API.</p>
+          <p><strong>Q: Does the DOC button create a formatted Word document?</strong><br>A: No. The current DOC-labelled control saves plain text with a .doc filename. It does not create a native or formatted Word document. Use TXT for a plain-text download.</p>
+          <p><strong>Q: Do I need the AnmolLipi font to read the converted output?</strong><br>A: No. The output is Gurmukhi Unicode. The receiving device or application needs a font with Gurmukhi glyph support, but it does not need the legacy AnmolLipi font to display the Unicode text.</p>
+          <p><strong>Q: Is there a guaranteed unlimited text capacity?</strong><br>A: The interface does not display a fixed text quota, but the converter does not publish a tested unlimited-capacity guarantee. Very large inputs remain subject to browser and device memory and performance.</p>
+        `
+      }
+    ]
+  },
+
   // JOY TO UNICODE — page-specific, implementation-verified guidance
   "joy-to-unicode": {
     disableAutoEnrich: true,
