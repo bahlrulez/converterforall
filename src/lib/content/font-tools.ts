@@ -37,6 +37,40 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     ]
   },
 
+  // SATLUJ TO UNICODE — page-specific, implementation-verified guidance
+  "satluj-to-unicode": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Satluj to Unicode Converter Does",
+        content: "<p>Paste text encoded with the legacy Satluj Punjabi font to convert its supported characters into Gurmukhi Unicode. The converter works on text in the input box. It does not open or convert Word, PDF, or PageMaker files, and it does not preserve document layout, font styling, tables, or images.</p>"
+      },
+      {
+        title: "How Satluj Character Conversion Works",
+        content: "<p>The tool uses a built-in Satluj character mapping together with shared Gurmukhi character-composition and character-ordering rules. It converts character codes; it does not read the visual appearance of a page, translate Punjabi, or determine the intended meaning of a sentence. Characters that are not covered by the mapping may remain unchanged, so check the output against the source.</p>"
+      },
+      {
+        title: "Using Text from Older Documents",
+        content: "<p>For an older Word, PageMaker, or PDF document, first copy the text from the application where it is available as selectable text, then paste it here. This converter cannot extract text from a file or from a scanned page. If the copied text was encoded with a different legacy Punjabi font or a modified Satluj font, the result may be incorrect.</p>"
+      },
+      {
+        title: "How to Convert Satluj Text",
+        content: "<ol><li><strong>Copy the Satluj text:</strong> Select and copy the text from the original application.</li><li><strong>Paste it into the input box:</strong> The converter processes the entered text and displays the Unicode result.</li><li><strong>Review the output:</strong> Check letters, vowel signs, conjuncts, numerals, and punctuation against the source.</li><li><strong>Copy or export:</strong> Use the available Copy or download controls to take the converted text into another application.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Can I upload a Satluj Word or PDF file?</strong><br>A: No. The tool accepts text pasted into its input box. Copy selectable text from the original document first; scanned pages and document formatting are not imported.</p>
+          <p><strong>Q: Will it preserve the original document's layout and formatting?</strong><br>A: No. It converts text characters only. Page layout, font styling, tables, images, and other document formatting are outside the converter's scope.</p>
+          <p><strong>Q: Does the converter translate Punjabi or correct spelling?</strong><br>A: No. It maps supported Satluj-encoded characters to Unicode. It does not translate language, infer meaning, or check spelling and grammar.</p>
+          <p><strong>Q: Why do some characters remain unchanged or look incorrect?</strong><br>A: The source may use a different font encoding or a glyph that is not covered by the built-in Satluj mapping. Review the output and do not assume every character or font variant is supported.</p>
+          <p><strong>Q: Do I need the Satluj font to read the converted text?</strong><br>A: The output is Gurmukhi Unicode, so the receiving device or application needs a font with Gurmukhi Unicode glyph support. It does not need the legacy Satluj font to display the Unicode output.</p>
+          <p><strong>Q: Is my text uploaded to a conversion server?</strong><br>A: The font conversion runs in the browser using the bundled JavaScript mapping code. The font-conversion component does not send the text to a conversion API.</p>
+        `
+      }
+    ]
+  },
+
   // UNICODE TO RAAVI (GURMUKHI OPEN-TYPE FONT GUIDE)
   "unicode-to-raavi": {
     disableAutoEnrich: true,
