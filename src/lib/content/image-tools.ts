@@ -525,7 +525,7 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
-  },,
+  },
   "svg-to-png": {
     disableAutoEnrich: true,
     sections: [
