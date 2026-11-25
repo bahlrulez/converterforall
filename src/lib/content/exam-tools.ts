@@ -1,76 +1,39 @@
 export const examToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   "exam-photo-resizer": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "What is this tool?",
-        content: "<p>The Exam Photo & Signature Resizer is a dedicated utility designed specifically for Indian government job and exam applicants. Navigating the strict photo and signature upload requirements for portals like SSC (Staff Selection Commission), UPSC, and IBPS can be incredibly frustrating. This tool takes the guesswork out of the process by providing exact dimensional crops and automatically compressing your files to strictly fit within the required KB size limits, ensuring your application is never rejected due to an invalid image.</p>"
+        title: "What the Exam Photo & Signature Resizer Does",
+        content: "<p>This tool lets you upload one image, choose Photo or Signature mode, select a preset, adjust the crop and export a JPEG. The file picker accepts JPG/JPEG, PNG and WEBP images. The crop and compression work in your browser; the tool does not upload an application or submit anything to an exam portal.</p><p>It is an image-preparation aid, not an official exam validator. A downloaded image is not proof that it meets every visual, identity, live-capture or document rule for a recruitment.</p>"
       },
       {
-        title: "Standard Exam Specifications",
+        title: "What the Presets Actually Control",
+        content: "<p>A preset supplies a crop aspect ratio, a minimum and maximum file-size target, a minimum crop width and guidance text. The crop box uses the selected aspect ratio, but the final pixel dimensions depend on the crop area selected from the source image. The implementation can scale a crop up when its width is below the preset minimum; it does not force every result to a fixed width and height. The dimensions shown on a preset card should therefore be treated as guidance, not a guaranteed output size.</p><p>The compressor adjusts JPEG quality when the image is too large and can add JPEG comment data when it is below the configured minimum. It does not verify that a recruitment portal will accept the file. Check the numeric file size after export. The current result panel's green “Within” label is not a final range check, so do not rely on that label by itself.</p>"
+      },
+      {
+        title: "Check the Current Recruitment Notice Before Using a Preset",
         content: `
-          <div class="overflow-x-auto my-4">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-              <thead class="bg-gray-50 dark:bg-gray-800">
-                <tr>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Exam Portal</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Type</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Size Limit</th>
-                  <th class="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Dimensions</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                <tr>
-                  <td class="px-4 py-3 font-semibold">SSC</td>
-                  <td class="px-4 py-3">Photo</td>
-                  <td class="px-4 py-3">20 KB &ndash; 50 KB</td>
-                  <td class="px-4 py-3">3.5cm x 4.5cm</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">SSC</td>
-                  <td class="px-4 py-3">Signature</td>
-                  <td class="px-4 py-3">10 KB &ndash; 20 KB</td>
-                  <td class="px-4 py-3">4.0cm x 2.0cm</td>
-                </tr>
-                <tr class="bg-gray-50/50 dark:bg-gray-800/50">
-                  <td class="px-4 py-3 font-semibold">UPSC</td>
-                  <td class="px-4 py-3">Photo &amp; Sig</td>
-                  <td class="px-4 py-3">20 KB &ndash; 300 KB</td>
-                  <td class="px-4 py-3">Min 350x350 px (1:1)</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">IBPS (Banking)</td>
-                  <td class="px-4 py-3">Photo</td>
-                  <td class="px-4 py-3">20 KB &ndash; 50 KB</td>
-                  <td class="px-4 py-3">200 x 230 px</td>
-                </tr>
-                <tr>
-                  <td class="px-4 py-3 font-semibold">IBPS (Banking)</td>
-                  <td class="px-4 py-3">Signature</td>
-                  <td class="px-4 py-3">10 KB &ndash; 20 KB</td>
-                  <td class="px-4 py-3">140 x 60 px</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <p>Photo and signature instructions differ by recruiting body, examination, post and application year. Presets on this page are stored convenience settings; they are not fetched from official portals or automatically updated when a notification changes.</p>
+          <p><strong>Example — SSC CGL 2026:</strong> The <a href="https://ssc.gov.in/api/attachment/uploads/masterData/NoticeBoards/Notice_of_adv_cgl_2026.pdf" target="_blank" rel="noopener noreferrer">SSC CGL 2026 notice</a> instructs candidates to capture their application photograph through the portal's camera workflow. It separately specifies a scanned JPEG/JPG signature of 10–20 KB, about 6.0 cm × 2.0 cm. This tool only crops an existing image; it cannot perform SSC's live-photo capture. Its generic SSC preset should not be treated as an SSC CGL 2026-compliant profile.</p>
+          <p><strong>Example — UPSC Engineering Services 2027:</strong> The <a href="https://www.upsc.gov.in/uploads/2026/09/Notif-ESEP-2027-Engl-160926.pdf" target="_blank" rel="noopener noreferrer">UPSC ESE 2027 notice</a> requires both an uploaded photograph and a separate live photograph. It also asks candidates to upload three signatures one below another. A single cropped image from this tool cannot fulfil the live-capture step or verify a triplicate signature.</p>
+          <p>Before uploading, read the notification and the live application portal instructions for your exact recruitment cycle. Check the required image type, pixel dimensions, file-size range, background, date or name markings, signature layout and any live-photo or additional-document steps.</p>
         `
       },
       {
-        title: "How does it work?",
-        content: "<p>When you select a preset (like UPSC or SSC), the cropper automatically locks to the correct aspect ratio (width vs height). Once you align your face or signature inside the box and click process, our client-side engine crops the image and repeatedly tests different JPEG compression levels in milliseconds. If the resulting file is too large, it lowers the quality until it hits the target. If the file is too small (which causes rejections on strict portals), it safely injects standard compliant padding data to perfectly reach the minimum KB threshold.</p>"
-      },
-      {
-        title: "Common Rejection Reasons",
-        content: "<p>Avoid these common mistakes to ensure your application isn't rejected: <strong>Blurry Signatures:</strong> Do not take a photo of a tiny signature from far away and stretch it. Write largely on a blank white paper. <strong>Wrong Background:</strong> Most exams strictly require a light or white background for passport photos. <strong>Spectacles:</strong> SSC often rejects photos where flash reflects off glasses. It is safest to remove glasses entirely. <strong>Caps/Hats:</strong> Wearing caps or dark sunglasses will result in immediate rejection.</p>"
+        title: "How to Use the Resizer",
+        content: "<ol><li><strong>Select the image type:</strong> Choose Photo or Signature.</li><li><strong>Choose a preset:</strong> Use it only as a starting point after checking the current recruitment instructions.</li><li><strong>Upload one image:</strong> Select a JPG/JPEG, PNG or WEBP image.</li><li><strong>Adjust the crop:</strong> Move and zoom the image inside the crop frame. The tool does not assess whether your face, signature, background or ink meets the portal's visual rules.</li><li><strong>Export and inspect:</strong> Create the JPEG, check its actual file size and image dimensions, and compare them with the official instructions before uploading it yourself.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Are my photos uploaded to a server?</strong><br>A: No. All cropping, resizing, and compression happens entirely within your web browser (client-side). Your personal photos and signatures never leave your device, ensuring complete privacy.</p>
-          <p><strong>Q: Why is my signature file still saying it's too small on the exam portal?</strong><br>A: Some portals have strict minimum limits (e.g., minimum 20 KB). Our tool automatically pads the file with safe data to guarantee it crosses this threshold, so you should not face this issue when using our presets.</p>
-          <p><strong>Q: Does this tool work on mobile phones?</strong><br>A: Yes! You can take a photo of your signature directly from your smartphone camera and use the touch-screen cropper to easily format it for your application.</p>
-          <p><strong>Q: What if the portal asks for DPI settings?</strong><br>A: Most modern portals actually only validate the pixel dimensions and KB size, regardless of what they state about DPI. As long as you use our tool's presets to meet the KB and pixel limits, your photo will be accepted.</p>
-          <p><strong>Q: The downloaded photo looks a bit lower quality, is this normal?</strong><br>A: Yes. To squeeze a high-resolution smartphone photo into a tiny 50 KB limit, standard JPEG compression is applied. This slight loss in quality is expected and perfectly acceptable for exam applications.</p>
-          <p><strong>Q: Can I use this for state-level PSC exams?</strong><br>A: Absolutely. While we have presets for central exams, you can check your specific state PSC notification. If their limits match one of our presets (e.g., 20-50 KB), the output will be perfectly valid.</p>
+          <p><strong>Q: Does this tool guarantee that my photo or signature will be accepted?</strong><br>A: No. It crops and compresses an image; it does not check the recruitment portal's complete requirements or guarantee acceptance.</p>
+          <p><strong>Q: Can it capture a live photograph for SSC or UPSC?</strong><br>A: No. It accepts an existing image file. When an application requires a live photograph through its own camera or mobile workflow, complete that step on the official portal.</p>
+          <p><strong>Q: Will the output always have the exact pixel dimensions shown in the preset?</strong><br>A: No. The crop ratio is applied, but final pixel dimensions depend on the selected crop area. The tool only scales up when the crop width is below the configured minimum; it does not enforce a fixed width-and-height pair.</p>
+          <p><strong>Q: Which image formats can I upload, and what format is downloaded?</strong><br>A: The file picker accepts JPG/JPEG, PNG and WEBP. The generated output is JPEG.</p>
+          <p><strong>Q: Does it remove or replace the photo background or clean a signature?</strong><br>A: No. It does not perform background removal, paper whitening, ink extraction or signature verification. Prepare an image with the required background and appearance before using the cropper.</p>
+          <p><strong>Q: Does it set a specific DPI value?</strong><br>A: There is no DPI setting in this crop-and-export workflow. Check whether your recruitment portal specifies pixel dimensions, physical dimensions or resolution metadata, and use a suitable editor if it requires something this tool does not create.</p>
+          <p><strong>Q: Is the image uploaded to a conversion server?</strong><br>A: The component reads the selected image in the browser and crops it with Canvas. The crop-and-compression workflow does not send the image to a conversion API.</p>
+          <p><strong>Q: How can I check whether the file-size target was met?</strong><br>A: Check the numeric file size shown after processing and inspect the downloaded JPEG's properties. The current green status label is not a final file-size validation; compare the actual size with the range in your current notification.</p>
         `
       }
     ]
