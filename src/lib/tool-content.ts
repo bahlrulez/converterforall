@@ -665,13 +665,14 @@ export function getToolContent(toolSlug: string, toolTitle: string, _toolDescrip
   // A cautious fallback for tools that do not yet have a verified page-specific guide.
   // Do not infer accepted formats, processing location, limits, quality or third-party acceptance
   // from the tool name alone. Those details must be documented only after checking the tool UI/code.
-  const safeToolTitle = toolTitle.replace(/[&<>"']/g, character => ({
+  const htmlEntities: Record<string, string> = {
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
     '"': "&quot;",
     "'": "&#39;"
-  })[character] ?? character);
+  };
+  const safeToolTitle = toolTitle.replace(/[&<>"']/g, character => htmlEntities[character] ?? character);
 
   return [
     {
