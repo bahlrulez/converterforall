@@ -151,43 +151,39 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "avif-to-jpeg": {
+    disableAutoEnrich: true,
     sections: [
-      {
-        title: "Why convert AVIF to JPEG?",
-        content: "<p>AVIF is a highly efficient next-generation image format that offers incredible compression and quality. However, many legacy software applications, older operating systems, and some content management systems still do not fully support AVIF. Converting your AVIF images to the universal JPEG format ensures maximum compatibility across all devices, email clients, and upload portals.</p>"
-      },
-      {
-        title: "Fast, Private AVIF to JPG Conversion",
-        content: "<p>This AVIF to JPEG converter runs completely in your browser using modern WebAssembly. This means your images are never uploaded to a remote server. You avoid slow upload times, waiting in queues, and risking the privacy of your personal photos.</p>"
-      },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Does converting AVIF to JPEG reduce quality?</strong><br>A: JPEG is a lossy format, meaning some image data is discarded during conversion. Our converter uses conservative compression settings to minimize visible artifacts and balance image clarity.</p>
-          <p><strong>Q: Will my image's transparent background be preserved?</strong><br>A: No. The JPEG format does not support transparency. Any transparent areas in your AVIF will be automatically filled with a solid color (usually white) during conversion. If you need to keep transparency, use our AVIF to PNG converter instead.</p>
-          <p><strong>Q: Are there any file size limits?</strong><br>A: Because processing happens locally on your device, there is no fixed server upload limit. However, processing very large images is constrained by your browser's allocated memory and device resources.</p>
-        `
-      }
+      { title: "What the AVIF to JPEG Converter Does", content: "<p>Upload one AVIF image and convert it to JPEG using the browser's native image decoder and HTML Canvas. This route accepts one .avif file per run. It does not use a separate AVIF WebAssembly decoder or a cloud conversion API.</p>" },
+      { title: "Browser Support and Decoding", content: "<p>The converter loads the selected file into a browser Image element. The browser must support AVIF decoding. If it cannot decode the file, image loading can fail; this route does not load a separate AVIF decoder as a fallback.</p>" },
+      { title: "JPEG Output, Transparency and Metadata", content: "<p>The decoded image is drawn to Canvas at its current image width and height, then exported as JPEG with a quality argument of 1.0. JPEG does not support transparency and encoding remains lossy even at 1.0. The output is re-encoded, so original EXIF, GPS, date and colour-profile metadata should not be expected to remain.</p>" },
+      { title: "Controls and Limitations", content: "<p>There is no resize control, quality slider, crop tool or target-KB setting. The canvas uses the decoded image's width and height. Conversion depends on browser AVIF support, source validity and available device memory.</p>" },
+      { title: "How to Convert AVIF to JPEG", content: "<ol><li><strong>Select one AVIF image:</strong> Upload a .avif file.</li><li><strong>Decode in the browser:</strong> The browser must support AVIF image decoding.</li><li><strong>Convert:</strong> The image is drawn to Canvas and exported as JPEG.</li><li><strong>Review and download:</strong> Inspect image appearance and detail, then download the JPEG.</li></ol>" },
+      { title: "Frequently Asked Questions", content: `
+        <p><strong>Q: Does this tool use WebAssembly to decode AVIF?</strong><br>A: No. The current converter uses the browser's native Image decoder and Canvas.</p>
+        <p><strong>Q: Why might an AVIF file fail to load?</strong><br>A: The browser may not support AVIF decoding, or the file may be invalid or too large for available memory. No alternate decoder fallback is provided.</p>
+        <p><strong>Q: Does JPEG output preserve transparency?</strong><br>A: No. JPEG has no alpha channel, so the output is opaque.</p>
+        <p><strong>Q: Does a quality argument of 1.0 make JPEG lossless?</strong><br>A: No. Canvas JPEG encoding is still lossy.</p>
+        <p><strong>Q: Can I set output dimensions or file size?</strong><br>A: No. This route has no resize or target-KB controls.</p>
+        <p><strong>Q: Is the image uploaded to a conversion API?</strong><br>A: No. The image is decoded and re-encoded in the browser; this component does not send it to a conversion API.</p>
+      ` }
     ]
   },
   "avif-to-png": {
+    disableAutoEnrich: true,
     sections: [
-      {
-        title: "Why convert AVIF to PNG?",
-        content: "<p>AVIF is an excellent modern format that supports both high compression and alpha-channel transparency. However, you may need to open the image in design software or upload it to a platform that doesn't yet support AVIF. Converting AVIF to PNG allows you to retain the original image's transparent background while guaranteeing universal compatibility across all editing tools and browsers.</p>"
-      },
-      {
-        title: "Private Browser-Based AVIF to PNG Conversion",
-        content: "<p>Unlike cloud-based conversion services, our AVIF to PNG tool processes your images locally on your device. Your files are never uploaded to the internet, ensuring complete privacy for sensitive graphics, logos, and personal photos.</p>"
-      },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Will converting to PNG preserve my image's transparency?</strong><br>A: Yes. Unlike JPEG, the PNG format fully supports alpha transparency. If your original AVIF contains a transparent background, the PNG will retain those transparent areas.</p>
-          <p><strong>Q: Is PNG better than AVIF?</strong><br>A: PNG is a lossless, widely supported format, making it ideal for editing and design work. However, PNG files are typically much larger than AVIF files. AVIF is better for web delivery, while PNG is better for broad compatibility and lossless editing.</p>
-          <p><strong>Q: Are my files uploaded to your servers?</strong><br>A: No. All conversions happen entirely in your web browser. Your images remain safely on your computer or mobile device.</p>
-        `
-      }
+      { title: "What the AVIF to PNG Converter Does", content: "<p>Upload one AVIF image and convert it to PNG using the browser's native image decoder and HTML Canvas. This route accepts one .avif file per run and exports a PNG image.</p>" },
+      { title: "Browser Support and Decoding", content: "<p>The converter loads the AVIF file into a browser Image element. The browser must support AVIF decoding. If it cannot decode the file, the tool reports an image-loading error; there is no separate AVIF decoder fallback.</p>" },
+      { title: "PNG Output and Transparency", content: "<p>PNG supports an alpha channel. If the browser decodes transparency in the source AVIF, the Canvas PNG output can retain those pixels. If the source is an opaque photograph, converting it to PNG does not remove its background or create transparency. PNG encoding is lossless for the resulting Canvas pixels, but it cannot restore detail already lost in the source AVIF.</p>" },
+      { title: "Dimensions and Metadata", content: "<p>The converter creates a Canvas at the decoded image's width and height and exports PNG. There is no resize control, crop control, quality slider or target-KB setting. The new PNG should not be expected to preserve all original EXIF, GPS, date, colour-profile or other metadata.</p>" },
+      { title: "How to Convert AVIF to PNG", content: "<ol><li><strong>Select one AVIF image:</strong> Upload a .avif file.</li><li><strong>Check browser support:</strong> The browser must be able to decode AVIF images.</li><li><strong>Convert:</strong> The image is drawn to Canvas and exported as PNG.</li><li><strong>Inspect and download:</strong> Check dimensions, detail and transparency, then download the PNG.</li></ol>" },
+      { title: "Frequently Asked Questions", content: `
+        <p><strong>Q: Does this tool remove the background?</strong><br>A: No. An opaque source image remains opaque; the converter does not create a transparent background.</p>
+        <p><strong>Q: Will transparent AVIF pixels remain transparent?</strong><br>A: PNG supports alpha transparency. If the browser decodes alpha information from the source AVIF, it can be retained in the Canvas PNG output. Check the result.</p>
+        <p><strong>Q: Why might AVIF fail in my browser?</strong><br>A: The browser must support AVIF image decoding. There is no separate decoder fallback.</p>
+        <p><strong>Q: Does the converter resize or crop the image?</strong><br>A: No. The output canvas uses the decoded image's width and height.</p>
+        <p><strong>Q: Is PNG output lossless?</strong><br>A: PNG preserves the resulting Canvas pixels losslessly, but it cannot restore detail already lost in the source AVIF.</p>
+        <p><strong>Q: Does it keep EXIF or GPS metadata?</strong><br>A: Metadata preservation is not guaranteed through Canvas re-encoding.</p>
+      ` }
     ]
   },
   "remove-background": {
@@ -326,43 +322,43 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         title: "Output and Important Limitations",
         content: "<p>The crop is exported as a JPEG at the browser canvas's high-quality setting. There is no target file-size control, fixed pixel-size preset, DPI setting, face-measurement tool or official-rule validator. Background removal is an automated estimate rather than a manual cutout editor, so inspect hair, clothing edges and objects near the subject before using the result. A successful download does not mean an embassy, passport office or visa portal will accept the image.</p>"
       },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Does the 35:45 option create an exact 35 × 45 mm passport photograph?</strong><br>A: No. It sets a 35:45 crop ratio. The final pixel dimensions depend on the crop area, and the tool does not set print dimensions or DPI.</p>
-          <p><strong>Q: Does the square option guarantee a US passport or OCI-compliant photo?</strong><br>A: No. It creates a 1:1 crop only. It does not verify the current photo, head-size, background, pixel or other requirements for a US passport, OCI or visa application.</p>
-          <p><strong>Q: Which image formats can I upload?</strong><br>A: The upload area accepts JPG/JPEG, PNG and WEBP images. The downloaded crop is a JPEG.</p>
-          <p><strong>Q: Can I download a transparent PNG after removing the background?</strong><br>A: No. The crop/export function encodes the result as JPEG, which does not support transparency. Choose a solid background colour before creating the final image.</p>
-          <p><strong>Q: Is my selected photograph uploaded to a server?</strong><br>A: The photo is passed to the in-browser background-removal worker and is not sent to a photo-processing API by this code. The AI model and runtime assets are downloaded from Hugging Face or IMG.LY when needed, so the feature does make external requests for model files.</p>
-          <p><strong>Q: Why can background removal take longer the first time?</strong><br>A: The browser may need to download the AI model and runtime assets before it can process the photo. Later use may be faster if those assets remain cached.</p>
-          <p><strong>Q: Does this tool compress the image to a portal's KB limit?</strong><br>A: No. It creates a JPEG crop but has no target-KB control. Check the downloaded file size and use a separate compressor if the official application specifies a limit.</p>
-          <p><strong>Q: Does the tool check the face position or guarantee photo acceptance?</strong><br>A: No. You position the image manually in the crop window. The tool does not measure facial proportions, inspect official photo rules or guarantee acceptance.</p>
-        `
-      }
+      "heic-to-jpg": {
+    disableAutoEnrich: true,
+    sections: [
+      { title: "What the HEIC to JPG Converter Does", content: "<p>Upload one HEIC or HEIF image and convert it to JPG/JPEG. The page uses the heic2any library in the browser to decode the selected file and create the output. The uploader accepts one file per run; there is no batch queue or output-format selector on this page.</p>" },
+      { title: "How HEIC Conversion Works", content: "<p>The converter detects HEIC/HEIF input by the file name or MIME type, dynamically loads heic2any and asks it to encode the first returned result as JPEG. It does not send the image to a HEIC conversion API. The resulting JPG is a newly encoded image, not a byte-for-byte copy of the HEIC source.</p>" },
+      { title: "Image Quality, Dimensions and Metadata", content: "<p>The call uses a quality value of 1 for heic2any. There is no visible quality slider, resize control, crop control or target-KB setting. Exact preservation of image detail, colour profiles, orientation metadata, dates, GPS information and other source metadata is not guaranteed. Inspect the converted image before using it.</p>" },
+      { title: "Browser Processing and Compatibility", content: "<p>The HEIC decoder runs in the browser after the page loads the heic2any module. Processing requires enough memory to decode the source and create the output. Very large photographs may take longer or fail on devices with limited memory. JPG is more widely supported than HEIC, but acceptance still depends on the receiving application and its requirements.</p>" },
+      { title: "How to Convert HEIC to JPG", content: "<ol><li><strong>Select one HEIC or HEIF file:</strong> Choose a .heic or .heif photo.</li><li><strong>Start conversion:</strong> The browser loads the HEIC decoder and creates JPEG output.</li><li><strong>Review the result:</strong> Check orientation, colour, detail and dimensions.</li><li><strong>Download:</strong> Save the converted JPG file.</li></ol>" },
+      { title: "Frequently Asked Questions", content: `
+        <p><strong>Q: Can I upload several HEIC photos at once?</strong><br>A: No. The current uploader accepts one file per run.</p>
+        <p><strong>Q: Does the converter upload my photo to a server?</strong><br>A: The image is decoded in the browser with heic2any; this component does not send it to a conversion API.</p>
+        <p><strong>Q: Does it preserve original dimensions and metadata exactly?</strong><br>A: Exact preservation is not guaranteed. The output is re-encoded and EXIF, GPS, dates or colour metadata may not be retained.</p>
+        <p><strong>Q: Can I choose PNG output or adjust JPEG quality?</strong><br>A: No. This route exports JPG at a fixed quality setting. Use the separate HEIC-to-PNG page for PNG output.</p>
+        <p><strong>Q: Does the converter resize or crop the photo?</strong><br>A: No resize or crop controls are provided.</p>
+        <p><strong>Q: Will every HEIC/HEIF file convert?</strong><br>A: Not guaranteed. File structure, decoder support, memory and image characteristics can affect processing.</p>
+      ` }
     ]
   },
-  "heic-to-jpg": {
+  "heic-to-png": {
+    disableAutoEnrich: true,
     sections: [
-      {
-        title: "HEIC to JPG Converter - Convert iPhone Photos Online",
-        content: "<p>When you take photos on an iPhone or iPad, iOS often saves them in the <strong>HEIC (High Efficiency Image Container)</strong> format. However, HEIC photos often cannot be opened on Windows PCs, older photo software, or online application portals. Our tool converts your Apple HEIC photos into standard JPG files so they open anywhere.</p>"
-      },
-      {
-        title: "Private, On-Device Browser Processing",
-        content: "<p>Our HEIC to JPG converter operates directly inside your web browser. Your photos are decoded and saved locally in your device's memory without being sent across the internet, keeping your personal photos and document scans private.</p>"
-      },
-      {
-        title: "Step-by-Step: How to Convert HEIC to JPG",
-        content: "<ol><li><strong>Select Your HEIC Image:</strong> Drag and drop your .heic or .heif file into the box.</li><li><strong>Conversion:</strong> The browser decodes the image and converts it to JPG.</li><li><strong>Download:</strong> Click download to save your standard JPG photo.</li></ol>"
-      },
-      {
-        title: "Practical Uses",
-        content: "<ul><li><strong>Windows &amp; Android Viewing:</strong> Opening and viewing iPhone photos on Windows laptops and Android devices.</li><li><strong>Application Portals:</strong> Submitting photo IDs and receipts to portals that reject HEIC files.</li><li><strong>Photo Printing:</strong> Printing iPhone photos at retail kiosks that require JPG format.</li></ul>"
-      },
-      {
-        title: "Frequently Asked Questions (FAQs)",
-        content: `
-          <p><strong>Q: Why won't my Windows PC open HEIC files?</strong><br>A: Windows does not always have built-in HEIC codec support installed. Converting the photos to JPG allows them to open in any default photo viewer.</p>
+      { title: "What the HEIC to PNG Converter Does", content: "<p>Upload one HEIC or HEIF image and convert it to PNG in your browser using heic2any. This route accepts one file per run and exports PNG. It does not remove the background or create transparent pixels from an opaque photograph.</p>" },
+      { title: "PNG Output and Transparency", content: "<p>PNG can store an alpha channel, but converting an ordinary opaque HEIC photo to PNG does not make its background transparent. Transparency in the result depends on the decoded source and conversion library. If your aim is background removal, use a dedicated background-removal tool instead.</p><p>PNG encoding is lossless for the pixel data placed into the PNG, but conversion from HEIC cannot restore detail already lost in the source compression or guarantee identical colour, metadata or appearance.</p>" },
+      { title: "How the Conversion Works", content: "<p>The converter detects HEIC/HEIF input, dynamically loads heic2any and requests PNG output with a fixed quality parameter of 1. There is no output quality slider, resize control, crop control or target-KB setting. The output is newly encoded rather than a byte-for-byte copy of the original.</p>" },
+      { title: "Browser Processing and Compatibility", content: "<p>Decoding and conversion run in the browser through heic2any; this component does not send the selected image to a conversion API. The browser needs enough memory to decode the input and create the PNG. Large HEIC images may take longer or fail on devices with limited memory.</p>" },
+      { title: "How to Convert HEIC to PNG", content: "<ol><li><strong>Select one HEIC/HEIF image:</strong> Upload a .heic or .heif file.</li><li><strong>Run the conversion:</strong> The page loads the decoder and creates PNG output.</li><li><strong>Check the result:</strong> Inspect the converted image, dimensions and transparency if relevant.</li><li><strong>Download:</strong> Save the PNG file.</li></ol>" },
+      { title: "Frequently Asked Questions", content: `
+        <p><strong>Q: Does converting HEIC to PNG remove the background?</strong><br>A: No. PNG supports transparency, but this converter does not perform background removal. An opaque source remains opaque.</p>
+        <p><strong>Q: Is PNG output lossless?</strong><br>A: PNG encodes its resulting pixels losslessly, but the HEIC source has already been decoded and re-encoded. It cannot restore detail lost in the original compression.</p>
+        <p><strong>Q: Can I convert multiple HEIC files at once?</strong><br>A: No. The uploader accepts one file per run.</p>
+        <p><strong>Q: Does the tool resize the output?</strong><br>A: No resize or crop controls are provided.</p>
+        <p><strong>Q: Does the converter preserve all HEIC metadata?</strong><br>A: Metadata preservation is not guaranteed. Do not expect all original EXIF, GPS, date or colour-profile information to remain.</p>
+        <p><strong>Q: Is the image sent to a conversion server?</strong><br>A: The component uses heic2any in the browser and does not send the image to a conversion API.</p>
+      ` }
+    ]
+  },
+g><br>A: Windows does not always have built-in HEIC codec support installed. Converting the photos to JPG allows them to open in any default photo viewer.</p>
           <p><strong>Q: Are my photos kept private?</strong><br>A: Yes. The conversion takes place entirely within your web browser on your own device.</p>
           <p><strong>Q: How can I make my iPhone take JPG photos directly?</strong><br>A: On your iPhone, go to <em>Settings &gt; Camera &gt; Formats</em> and choose <strong>'Most Compatible'</strong>.</p>
         `
