@@ -439,18 +439,15 @@ export function GifMakerTool() {
     setProgress(0);
     try {
       const selected = [...frames];
-      const decoded: HTMLImageElement[] = [];
-      for (let index = 0; index < selected.length; index++) {
-        decoded.push(await loadImage(selected[index].url));
-        setProgress(Math.round(((index + 1) / selected.length) * 20));
-      }
-      const first = decoded[0];
+      const first = await loadImage(selected[0].url);
       const scale = Math.min(1, 512 / first.naturalWidth, 512 / first.naturalHeight);
       const width = Math.max(1, Math.round(first.naturalWidth * scale));
       const height = Math.max(1, Math.round(first.naturalHeight * scale));
       const rasterFrames: Uint8Array[] = [];
-      for (let index = 0; index < decoded.length; index++) {
-        const image = decoded[index];
+
+      // Decode and rasterize sequentially so a batch of large phone photos does not
+      // keep every full-resolution decoded bitmap resident at the same time.
+      const rasterizeFrame = (image: HTMLImageElement): Uint8Array => {
         const canvas = document.createElement("canvas");
         canvas.width = width;
         canvas.height = height;
@@ -464,10 +461,18 @@ export function GifMakerTool() {
         context.imageSmoothingEnabled = true;
         context.imageSmoothingQuality = "high";
         context.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) / 2, drawWidth, drawHeight);
-        rasterFrames.push(quantizeFrame(context.getImageData(0, 0, width, height)));
-        setProgress(20 + Math.round(((index + 1) / decoded.length) * 65));
+        return quantizeFrame(context.getImageData(0, 0, width, height));
+      };
+
+      rasterFrames.push(rasterizeFrame(first));
+      setProgress(15 + Math.round((1 / selected.length) * 70));
+      for (let index = 1; index < selected.length; index++) {
+        const image = await loadImage(selected[index].url);
+        rasterFrames.push(rasterizeFrame(image));
+        setProgress(15 + Math.round(((index + 1) / selected.length) * 70));
         await new Promise<void>(resolve => window.setTimeout(resolve, 0));
       }
+      first.src = "";
       const blob = encodeAnimatedGif(width, height, rasterFrames, delay, loopForever);
       setGifUrl(URL.createObjectURL(blob));
       setGifSize(blob.size);
