@@ -3,6 +3,42 @@ import { generatedPunjabiProfiles } from "./punjabi-font-profiles";
 export const fontToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   ...generatedPunjabiProfiles,
 
+  // ASEES TO UNICODE — page-specific, implementation-verified guidance
+  "asees-to-unicode": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Asees to Unicode Converter Does",
+        content: "<p>Paste text encoded with the Asees Punjabi font into the input box. The converter uses its built-in Asees character mapping to produce Gurmukhi Unicode text. It is intended for text that matches the Asees encoding expected by this tool; it does not identify an unknown source font, translate Punjabi, or check spelling and grammar.</p>"
+      },
+      {
+        title: "How the Asees Character Mapping Works",
+        content: "<p>The conversion uses a predefined Asees character table together with shared Gurmukhi character-composition and ordering rules. These rules handle mapped vowel signs and supported composed forms when converting the legacy character sequence to Unicode. This is character-encoding conversion, not a meaning-based or phonetic translation.</p><p>The mapping is finite. Some character-table entries are not defined, and the conversion engine leaves an input character unchanged when it finds no matching mapping. The result can therefore contain characters that did not convert. The page also displays an experimental warning: review the output against the source, especially for names, numerals, punctuation and older or customised font files.</p>"
+      },
+      {
+        title: "Text Input and Output Limits",
+        content: "<p>This converter works with text typed or pasted into the input box. It does not upload or open Word, PDF or PageMaker files, extract text from scanned pages, or preserve document layout, font styling, tables or images.</p><p>You can copy the converted text, download a TXT file, print or share the text. There is also a button labelled DOC, but the current implementation downloads the same plain text string with a .doc filename; it does not generate a formatted Microsoft Word document. Use the TXT option when you need an accurately labelled plain-text file.</p>"
+      },
+      {
+        title: "How to Convert Asees Text",
+        content: "<ol><li><strong>Copy the source text:</strong> Select and copy text that was entered using the Asees font encoding expected by this converter.</li><li><strong>Paste it into the input box:</strong> The Unicode result updates as you type or paste.</li><li><strong>Review the result:</strong> Compare words, vowel signs, subjoined forms, numerals and punctuation with the source. The page is marked experimental because some characters or font variants may not be covered.</li><li><strong>Copy or export:</strong> Use Copy or TXT download for the converted plain text. Formatting from the original document is not carried over.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Can I upload a Word, PDF or PageMaker file?</strong><br>A: No. This page accepts text typed or pasted into the input box. It does not import files or extract text from a scanned document.</p>
+          <p><strong>Q: Does the converter detect whether my text uses Asees?</strong><br>A: No. This page applies the Asees mapping. Text from another Punjabi font or a modified Asees font may convert incorrectly or remain unchanged.</p>
+          <p><strong>Q: Will every Asees character convert correctly?</strong><br>A: A perfect result is not guaranteed. The converter uses a finite mapping table, and unsupported characters can pass through unchanged. Check the output against your source text.</p>
+          <p><strong>Q: Does the converter have a Convert Digits option?</strong><br>A: No. There is no separate digit-conversion toggle in this tool. Numerals are handled only according to the character mappings in the conversion engine.</p>
+          <p><strong>Q: Does it preserve the original formatting?</strong><br>A: No. It converts text characters only. Font styling, page layout, tables, images and other document formatting are not preserved.</p>
+          <p><strong>Q: Is my text uploaded to a conversion server?</strong><br>A: The Asees mapping runs in the browser using the bundled JavaScript conversion engine. The font-conversion component does not send the entered text to a conversion API.</p>
+          <p><strong>Q: Is the DOC download a formatted Word document?</strong><br>A: No. The current DOC-labelled control saves the converted text with a .doc filename; it does not create a native or formatted Word document. Use TXT for a plain-text download.</p>
+          <p><strong>Q: Do I need the Asees font to read the converted output?</strong><br>A: No. The output is Gurmukhi Unicode. Your receiving device or application needs a font with Gurmukhi glyph support, but it does not need the legacy Asees font to display the converted Unicode text.</p>
+        `
+      }
+    ]
+  },
+
   // JOY TO UNICODE — page-specific, implementation-verified guidance
   "joy-to-unicode": {
     disableAutoEnrich: true,
