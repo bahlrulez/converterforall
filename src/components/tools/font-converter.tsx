@@ -216,7 +216,7 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
         </div>
         <div className="flex flex-wrap gap-1">
           <Button variant="ghost" size="sm" onClick={() => downloadFile(toValue, 'converted.txt', 'text/plain')}><Download className="w-4 h-4 mr-2" /> TXT</Button>
-          <Button variant="ghost" size="sm" onClick={() => downloadFile(toValue, 'converted.doc', 'application/msword')}><Download className="w-4 h-4 mr-2" /> DOC</Button>
+          <Button variant="ghost" size="sm" title="Downloads plain text with a .doc filename; this is not a formatted Word document" onClick={() => downloadFile(toValue, 'converted.doc', 'application/msword')}><Download className="w-4 h-4 mr-2" /> Plain text (.doc)</Button>
           <Button variant="ghost" size="sm" onClick={handlePrint}><Printer className="w-4 h-4 mr-2" /> Print</Button>
           <Button variant="ghost" size="sm" onClick={handleShare}><Share2 className="w-4 h-4 mr-2" /> Share</Button>
         </div>
@@ -285,16 +285,18 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
 
       </div>
 
-      {/* Contextual SEO Link */}
-      <div className="mt-8 text-center">
-        <a 
-          href="/blog/kruti-dev-font-showing-as-english-in-word" 
-          className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full"
-        >
-          <FileText className="w-4 h-4" />
-          Is Kruti Dev showing as English in MS Word? Read our troubleshooting guide
-        </a>
-      </div>
+      {/* Show the Kruti Dev troubleshooting link only on relevant Hindi converter pages. */}
+      {category === "hindi" && (defaultFrom.toLowerCase() === "krutidev" || defaultTo.toLowerCase() === "krutidev") && (
+        <div className="mt-8 text-center">
+          <a 
+            href="/blog/kruti-dev-font-showing-as-english-in-word" 
+            className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full"
+          >
+            <FileText className="w-4 h-4" />
+            Is Kruti Dev showing as English in MS Word? Read our troubleshooting guide
+          </a>
+        </div>
+      )}
     </div>
   );
 }
