@@ -253,7 +253,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             )}
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
               <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
-              <span>No Account or Limits</span>
+              <span>No Account Required</span>
             </span>
           </div>
         </div>
