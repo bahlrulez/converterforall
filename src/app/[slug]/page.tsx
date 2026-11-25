@@ -77,6 +77,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   }
 
   const { categorySlug, toolSlug, tool } = toolData;
+  const isRaaviGuidePage = toolSlug === "unicode-to-raavi";
 
   // Extract from/to from slug if it's a length converter (e.g. "inches-to-centimeters")
   let defaultFrom = "inches";
@@ -110,8 +111,8 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   const reviewStats = await getToolReviewStats(toolSlug);
   const extractedFaqs = extractToolFaqs(contentSections);
 
-  // Generate SoftwareApplication Schema via shared builder
-  const softwareAppSchema = buildSoftwareAppSchema({
+  // Converter pages use SoftwareApplication schema; informational guides do not.
+  const softwareAppSchema = isRaaviGuidePage ? null : buildSoftwareAppSchema({
     name: tool.title,
     description: tool.description,
     url: `${SITE_ORIGIN}/${toolSlug}`,
@@ -130,8 +131,6 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     : null;
 
   const processingBadges = getToolProcessingBadges(toolSlug, tool, categorySlug);
-
-  const isRaaviGuidePage = toolSlug === "unicode-to-raavi";
 
   const PUNJABI_EXPERIMENTAL_TOOLS = new Set([
     "anmollipi-to-unicode",
@@ -161,7 +160,9 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
+        {softwareAppSchema && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
+        )}
         {faqSchema && (
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         )}
@@ -169,11 +170,11 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
         {/* Hero Header Section */}
         <div className="mb-10 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
           <Link 
-            href="/" 
+            href={isRaaviGuidePage ? "/category/fonts" : "/"} 
             className="inline-flex items-center text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-6 transition-all bg-white dark:bg-[#0a1128]/80 px-4 py-2 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
           >
             <ArrowLeft className="mr-2 h-3.5 w-3.5" />
-            <span>Back to All 150+ Tools</span>
+            <span>{isRaaviGuidePage ? "Back to Fonts & Text" : "Back to All 150+ Tools"}</span>
           </Link>
 
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
@@ -195,14 +196,27 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
               <span>{processingBadges.trustBadge}</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
-              <span>No account required</span>
-            </span>
+            {!isRaaviGuidePage && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
+                <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
+                <span>No account required</span>
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Main Interactive Tool Engine Box */}
+        {isRaaviGuidePage ? (
+          <section aria-label="Raavi font usage note" className="max-w-3xl mx-auto mb-10 print:hidden">
+            <div role="note" className="rounded-2xl border border-blue-200/80 dark:border-blue-500/20 bg-blue-50/70 dark:bg-blue-500/5 px-5 py-4 sm:px-7 sm:py-5 text-center">
+              <p className="text-base font-semibold text-slate-800 dark:text-slate-100">
+                No text conversion is required.
+              </p>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                Raavi displays Gurmukhi Unicode text. Open your document editor, select the text, and choose Raavi when the font is installed and available.
+              </p>
+            </div>
+          </section>
+        ) : (
         <div className="relative mb-14">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[90%] max-w-3xl h-[85%] blur-[90px] opacity-25 dark:opacity-15 pointer-events-none">
             <div className="w-full h-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-500 rounded-full" />
@@ -221,17 +235,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
                 <span>Please check the output before relying on it.</span>
               </div>
             )}
-            {isRaaviGuidePage ? (
-              <div role="note" aria-label="Raavi font guide" className="p-8 my-4 max-w-xl mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-center">
-                <p className="text-base font-semibold text-slate-800 dark:text-slate-200">
-                  No text conversion is required.
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                  Raavi is a Gurmukhi Unicode font. Use it to display existing Punjabi Unicode text in a document editor where the Raavi font is installed and available.
-                </p>
-              </div>
-            ) : (
-              <ToolRenderer
+            <ToolRenderer
                 toolSlug={toolSlug}
                 categorySlug={categorySlug}
                 tool={tool}
@@ -239,24 +243,26 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
                 defaultTo={defaultTo}
                 defaultFontFrom={defaultFontFrom}
                 defaultFontTo={defaultFontTo}
-              />
-            )}
+            />
           </div>
         </div>
+        )}
 
-        {/* Lightweight Modern Related Utilities Discovery Strip (Above FAQs & Guides) */}
-        <div className="print:hidden">
-          <RelatedTools currentSlug={toolSlug} categorySlug={categorySlug} />
-        </div>
+        {!isRaaviGuidePage && (
+          <div className="print:hidden">
+            <RelatedTools currentSlug={toolSlug} categorySlug={categorySlug} />
+          </div>
+        )}
 
-        {/* Modern Authentic Tool Reviews & Issue Feedback Section */}
-        <div className="print:hidden">
-          <ToolReviews 
-            toolSlug={toolSlug} 
-            toolTitle={tool.title} 
-            initialStats={reviewStats} 
-          />
-        </div>
+        {!isRaaviGuidePage && (
+          <div className="print:hidden">
+            <ToolReviews
+              toolSlug={toolSlug}
+              toolTitle={tool.title}
+              initialStats={reviewStats}
+            />
+          </div>
+        )}
 
         {/* Structured SEO Guide & Bento Information Sections */}
         <div className="space-y-8 print:hidden mt-12">

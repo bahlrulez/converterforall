@@ -116,4 +116,25 @@ test.describe('Live DOM Inspection & SEO Parity Verification', () => {
       }
     }
   });
+
+  test('7. Raavi is rendered as an informational guide rather than a disabled converter tool', async ({ page }) => {
+    await page.goto('http://localhost:3005/unicode-to-raavi');
+
+    await expect(page.getByRole('heading', { name: 'Raavi Font Guide' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Back to Fonts & Text' })).toHaveAttribute('href', '/category/fonts');
+    await expect(page.getByText('No text conversion is required.')).toBeVisible();
+
+    const bodyText = await page.textContent('body');
+    expect(bodyText).not.toContain('Back to All 150+ Tools');
+    expect(bodyText).not.toContain('No account required');
+    expect(bodyText).not.toContain('Related & Recommended Utilities');
+    expect(bodyText).not.toContain('Rate this tool / Report an issue');
+    expect(bodyText).not.toContain('This tool is not available yet.');
+
+    const structuredData = await page.locator('script[type="application/ld+json"]').allTextContents();
+    for (const jsonText of structuredData) {
+      expect(jsonText).not.toContain('"@type":"SoftwareApplication"');
+    }
+  });
+
 });
