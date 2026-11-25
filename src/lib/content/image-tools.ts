@@ -447,6 +447,48 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
-  }
+  },
+  "image-dpi-converter": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Image DPI Metadata Editor Changes",
+        content: "<p>This tool updates the DPI or pixel-density metadata stored in JPEG and PNG files. For JPEG images, it updates or adds the JFIF density fields. For PNG images, it updates or inserts the pHYs chunk, which stores pixel density in pixels per metre. The selected image is not resized or resampled.</p>"
+      },
+      {
+        title: "DPI Metadata Is Not the Same as Pixel Resolution",
+        content: "<p>The image's pixel width and height remain unchanged. Setting a file to 200 or 300 DPI does not add pixels, sharpen a blurry photograph, restore missing detail or improve the source image's actual resolution. It changes the density value that compatible editors and print workflows can use when calculating physical size.</p><p>For the same pixel dimensions, changing the DPI value changes the physical print size that some applications infer. Different software and upload portals may ignore this metadata or use their own pixel-dimension requirements. Check the current instructions for your intended use.</p>"
+      },
+      {
+        title: "Supported Image Formats",
+        content: "<p>The tool accepts JPEG/JPG and PNG files and keeps the original image format when downloading. It supports batch processing. It does not accept WEBP, GIF, TIFF or PDF in the current dropzone.</p><p>The JPEG path edits the JFIF density metadata. The PNG path updates the pHYs chunk and its CRC. The raster image data is not recompressed by these metadata edits, although adding a missing metadata segment or chunk can change the file size slightly.</p>"
+      },
+      {
+        title: "What This Tool Does Not Do",
+        content: "<p>This is a metadata editor, not an image resizer or an image enhancer. It does not change pixel dimensions, crop an image, add detail, compress the file to a KB target, or verify that a passport, exam, print shop or document portal will accept it. A DPI value alone is not enough to establish that an image meets a particular application's requirements.</p>"
+      },
+      {
+        title: "Browser Processing",
+        content: "<p>The selected files are read as ArrayBuffers in the browser and their metadata bytes are updated locally. This component does not send the image to a DPI-conversion API. The exported JPEG or PNG is downloaded in the same format as the source file.</p>"
+      },
+      {
+        title: "How to Change Image DPI Metadata",
+        content: "<ol><li><strong>Choose a DPI value:</strong> Select 72, 96, 200 or 300 DPI, or enter a custom value from 1 to 65,535.</li><li><strong>Add images:</strong> Drop or select one or more JPEG/JPG or PNG files.</li><li><strong>Wait for the metadata update:</strong> The tool updates the JPEG JFIF density fields or PNG pHYs chunk without resampling pixels.</li><li><strong>Check the output:</strong> Review the displayed output file size and selected DPI metadata, then download the file.</li><li><strong>Verify the destination requirements:</strong> Confirm whether the receiving application checks DPI metadata, pixel dimensions, physical print size or another property.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Does setting an image to 300 DPI make it sharper?</strong><br>A: No. The tool changes density metadata only. It does not add pixels or recover detail that is not present in the source image.</p>
+          <p><strong>Q: Does the tool resize the image to a required pixel width and height?</strong><br>A: No. The pixel dimensions remain unchanged. Use an image resizer when an application specifies pixel dimensions.</p>
+          <p><strong>Q: What does the JPEG DPI setting change?</strong><br>A: The tool updates the JFIF density unit and horizontal and vertical density fields to pixels per inch, or inserts a JFIF APP0 segment when one is not present.</p>
+          <p><strong>Q: What does the PNG DPI setting change?</strong><br>A: It updates or inserts the PNG pHYs chunk, which records pixel density in pixels per metre.</p>
+          <p><strong>Q: Which formats can I process?</strong><br>A: JPEG/JPG and PNG are supported. The tool keeps the input format when exporting.</p>
+          <p><strong>Q: Does 200 or 300 DPI guarantee acceptance by an exam portal?</strong><br>A: No. The tool changes metadata only. An application may require particular pixel dimensions, image content, file size or other conditions. Check its current official instructions.</p>
+          <p><strong>Q: Is the image uploaded to a server?</strong><br>A: The component reads and updates the image metadata in the browser. It does not send the image to a DPI-conversion API.</p>
+          <p><strong>Q: Will the file size remain exactly the same?</strong><br>A: Not always. If a JFIF or pHYs metadata segment must be inserted, the output can be slightly larger. The pixel image data is not recompressed by the metadata change.</p>
+        `
+      }
+    ]
+  },
 };
 

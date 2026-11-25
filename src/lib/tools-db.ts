@@ -1279,11 +1279,11 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
         "application/pdf": [".pdf"]
       }
     },
-    "image-dpi-converter": { theme: "emerald", iconName: "Image", badge: "Sarkari", isPopular: true,
-      title: "Image DPI Converter",
-      description: "Change image DPI to 200 DPI or 300 DPI instantly for Sarkari exam photos and documents.",
-      seoTitle: "Image DPI Converter (200 / 300 DPI) - Free Online Tool",
-      seoDescription: "Change image DPI to 200 DPI or 300 DPI instantly for Sarkari exam photos and documents.",
+    "image-dpi-converter": { theme: "emerald", iconName: "Image", badge: "Image Metadata", isPopular: true,
+      title: "Image DPI Metadata Editor",
+      description: "Update DPI / pixel-density metadata in JPEG and PNG images without resizing their pixel dimensions.",
+      seoTitle: "Image DPI Metadata Editor | Set JPEG & PNG DPI",
+      seoDescription: "Change JPEG JFIF or PNG pHYs DPI metadata in your browser without resampling image pixels. This does not increase image detail or verify portal requirements.",
       inputFormat: "image",
       outputFormat: "image",
       actionName: "Change DPI",

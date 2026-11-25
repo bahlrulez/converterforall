@@ -226,7 +226,7 @@ export default function ImageDpiConverter() {
   const handleDpiChange = (dpi: number) => {
     setTargetDpi(dpi);
     setFiles(prev => {
-      const updated = prev.map(f => ({ ...f, status: "pending" as const }));
+      const updated = prev.map(f => ({ ...f, targetDpi: dpi, status: "pending" as const }));
       updated.forEach(f => processFile(f, dpi));
       return updated;
     });
@@ -240,7 +240,7 @@ export default function ImageDpiConverter() {
     a.href = file.newUrl;
     const ext = file.originalType === "image/jpeg" || file.originalType === "image/jpg" ? ".jpg" : ".png";
     const baseName = file.originalFile.name.replace(/\.[^/.]+$/, "");
-    a.download = `${baseName}-${targetDpi}dpi${ext}`;
+    a.download = `${baseName}-${file.targetDpi}dpi${ext}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -269,20 +269,21 @@ export default function ImageDpiConverter() {
               onClick={() => handleDpiChange(dpi)}
               className={targetDpi === dpi ? "ring-2 ring-primary ring-offset-2" : ""}
             >
-              {dpi} DPI {dpi === 200 ? "(Sarkari)" : dpi === 300 ? "(Print)" : ""}
+              {dpi} DPI
             </Button>
           ))}
           <div className="flex items-center gap-2 border rounded-md px-3 py-1 ml-auto">
-            <span className="text-sm font-medium text-muted-foreground">Custom:</span>
+            <span className="text-sm font-medium text-muted-foreground">Custom (1–65,535):</span>
             <input 
               type="number" 
               value={targetDpi}
               onChange={(e) => {
                 const val = parseInt(e.target.value, 10);
-                if (val > 0) handleDpiChange(val);
+                if (val > 0 && val <= 65535) handleDpiChange(val);
               }}
               className="w-20 outline-none bg-transparent font-semibold"
               min="1"
+              max="65535"
             />
             <span className="text-sm text-muted-foreground">DPI</span>
           </div>
@@ -339,7 +340,7 @@ export default function ImageDpiConverter() {
                         </span>
                         <ArrowRight className="w-3 h-3 text-muted-foreground" />
                         <span className="bg-primary/10 text-primary font-medium px-2 py-0.5 rounded border border-primary/20">
-                          {targetDpi} DPI
+                          {file.targetDpi} DPI
                         </span>
                       </div>
                     )}
@@ -349,8 +350,9 @@ export default function ImageDpiConverter() {
                 <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4">
                   {file.status === "done" && (
                     <div className="text-right text-xs text-muted-foreground">
-                      <p>Size: {formatSize(file.originalSize)}</p>
-                      <p className="text-emerald-600 dark:text-emerald-400 font-medium mt-0.5">Verified</p>
+                      <p>Source: {formatSize(file.originalSize)}</p>
+                      <p>Output: {formatSize(file.newBlob?.size ?? file.originalSize)}</p>
+                      <p className="text-emerald-600 dark:text-emerald-400 font-medium mt-0.5">DPI metadata updated</p>
                     </div>
                   )}
                   
