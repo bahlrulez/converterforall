@@ -1,4 +1,4 @@
-import { ArrowLeft, ShieldCheck, Zap, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getToolBySlug, getCanonicalToolSlugs } from "@/lib/tools-db";
@@ -165,9 +165,6 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
   const isCloudTool = toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf";
   const isPresentationMaker = toolSlug === "presentation-maker";
-  const isFontTool = categorySlug === "fonts";
-  const isRealFontVerified = toolSlug === "krutidev-to-unicode" || toolSlug === "unicode-to-krutidev";
-  const showHighFidelityBadge = !isFontTool || isRealFontVerified;
 
   const isHeldUnavailableTool = toolSlug === "unicode-to-raavi";
 
@@ -215,7 +212,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             className="inline-flex items-center text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-6 transition-all bg-white dark:bg-[#0a1128]/80 px-4 py-2 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
           >
             <ArrowLeft className="mr-2 h-3.5 w-3.5" />
-            <span>Back to All 150+ Tools</span>
+            <span>Back to All Tools</span>
           </Link>
 
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
@@ -223,11 +220,11 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             <span>
               {isHeldUnavailableTool
                 ? "Raavi Font Guide — No Conversion Available"
-                : isCloudTool 
-                ? "Cloud Conversion via Cloudmersive (In-Browser Fallback)" 
-                : isPresentationMaker 
-                ? "In-Browser Slides & PPTX Export (AI via Google Gemini)" 
-                : "Free & Private In-Browser Tool"}
+                : isCloudTool
+                ? "Browser conversion by default · optional Cloudmersive API"
+                : isPresentationMaker
+                ? "Browser slide editor · Gemini AI outline option"
+                : "Online Tool"}
             </span>
           </div>
 
@@ -239,33 +236,15 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
             {tool.description}
           </p>
 
-          {/* Quick Trust Highlights Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-medium">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-              <span>
-                {isHeldUnavailableTool
-                  ? "This page explains font display; it does not process text"
-                  : isCloudTool 
-                  ? "Processed via Cloudmersive API (No documents stored on our servers)" 
-                  : isPresentationMaker 
-                  ? "Slides & Export run locally in browser (AI prompt sent to Google Gemini)" 
-                  : "On-Device Browser Processing"}
-              </span>
-            </span>
-            {showHighFidelityBadge && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-                <Zap className="w-3.5 h-3.5 text-amber-500" />
-                <span>Fast &amp; High Fidelity</span>
-              </span>
-            )}
-            {!isHeldUnavailableTool && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
-              <span>No Account Required</span>
-            </span>
-            )}
-          </div>
+          {(isHeldUnavailableTool || isCloudTool || isPresentationMaker) && (
+            <div className="mt-3 max-w-3xl text-center text-xs text-slate-600 dark:text-slate-400">
+              {isHeldUnavailableTool
+                ? "This page is an informational guide; text conversion is currently unavailable."
+                : isCloudTool
+                ? "Browser conversion is the default. Selecting Cloud Engine sends the document to the Cloudmersive service through our server route; review the provider's current privacy and retention terms before using it."
+                : "Manual slide editing and PPTX export run in the browser. AI outline requests are sent to the server and Google Gemini; generated slide visuals may also be retrieved from external image services."}
+            </div>
+          )}
         </div>
 
         {/* Main Interactive Tool Engine Box */}

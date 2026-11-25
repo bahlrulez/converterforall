@@ -14,6 +14,7 @@ export function PasswordGenerator() {
     symbols: true,
   });
   const [copied, setCopied] = useState(false);
+  const [generationError, setGenerationError] = useState("");
 
   const generatePassword = useCallback(() => {
     const chars = {
@@ -31,16 +32,37 @@ export function PasswordGenerator() {
 
     if (!allowedChars) {
       setPassword("");
+      setGenerationError("Select at least one character group.");
       return;
     }
 
-    let newPassword = "";
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * allowedChars.length);
-      newPassword += allowedChars[randomIndex];
+    if (typeof window === "undefined" || !window.crypto?.getRandomValues) {
+      setPassword("");
+      setGenerationError("Secure random generation is not available in this browser. Use a modern browser with Web Crypto support.");
+      return;
     }
-    setPassword(newPassword);
-    setCopied(false);
+
+    try {
+      // Rejection sampling avoids modulo bias when mapping random bytes to characters.
+      const acceptBelow = Math.floor(256 / allowedChars.length) * allowedChars.length;
+      const randomBytes = new Uint8Array(128);
+      let newPassword = "";
+      while (newPassword.length < length) {
+        window.crypto.getRandomValues(randomBytes);
+        for (const byte of randomBytes) {
+          if (byte < acceptBelow) {
+            newPassword += allowedChars[byte % allowedChars.length];
+            if (newPassword.length === length) break;
+          }
+        }
+      }
+      setPassword(newPassword);
+      setGenerationError("");
+      setCopied(false);
+    } catch {
+      setPassword("");
+      setGenerationError("The browser could not generate secure random values. Please try again in a supported browser.");
+    }
   }, [length, options]);
 
   useEffect(() => {
@@ -120,6 +142,8 @@ export function PasswordGenerator() {
           </div>
         </div>
 
+        {generationError && <p role="alert" className="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-800">{generationError}</p>}
+
         {/* Strength Indicator */}
         <div className="mb-8">
           <div className="flex justify-between text-sm font-medium mb-2">
@@ -138,6 +162,7 @@ export function PasswordGenerator() {
               />
             ))}
           </div>
+          <p className="mt-2 text-xs text-muted-foreground">This is a simple composition estimate based on length and selected character groups, not a formal entropy score or breached-password check.</p>
         </div>
 
         {/* Controls */}

@@ -34,70 +34,19 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
   },
   "age-calculator": {
     sections: [
-      {
-        title: "What is the Age Calculator?",
-        content: "<p>The Age Calculator is a highly accurate utility that determines your exact age in years, months, and days based on your date of birth. It also calculates the total number of days you've been alive, making it a fun and practical tool for milestones, legal document filling, or personal curiosity.</p>"
-      },
-      {
-        title: "How does it work?",
-        content: "<p>You simply input your Date of Birth and a Target Date (which defaults to today). The calculator uses standard Gregorian calendar algorithms to precisely compute the difference between the two dates. It accounts for leap years, variable month lengths, and time zone discrepancies by utilizing your device's local time settings.</p>"
-      },
-      {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your Date of Birth:</strong> Use the date picker to choose the exact year, month, and day you were born.</li><li><strong>Set the Target Date:</strong> If you want to know your age as of today, leave this as the default. Otherwise, select a past or future date.</li><li><strong>Click Calculate:</strong> Instantly view your exact age breakdown and your total days alive.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Filling out forms:</strong> Quickly determining exact age in years and months for medical or government documents.</li><li><strong>Event Planning:</strong> Figuring out exactly how old someone will be on a specific future date (like a wedding or graduation).</li><li><strong>Pet Ages:</strong> Calculating the exact age of your pets if you know their birth date.</li><li><strong>Curiosity:</strong> Finding out exactly how many days you've been alive.</li></ul>"
-      },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Is my birth date saved or stored anywhere?</strong><br>A: No. All calculations are performed entirely in your web browser. We do not store, track, or send your birth date to any servers, ensuring absolute privacy.</p>
-          <p><strong>Q: Does the calculator account for leap years?</strong><br>A: Yes, our algorithm uses native JavaScript Date objects which perfectly account for leap years (e.g., February 29th).</p>
-          <p><strong>Q: Can I calculate my age for a date in the future?</strong><br>A: Absolutely. By changing the 'Target Date' to a future date, you can find out exactly how old you will be on that day.</p>
-          <p><strong>Q: Can I calculate how old someone was when they died?</strong><br>A: Yes, simply set the 'Date of Birth' and set the 'Target Date' to the date of their passing.</p>
-          <p><strong>Q: Why does the Total Days result look different from multiplying my years by 365?</strong><br>A: Multiplying by 365 is inaccurate because it ignores leap years and the extra quarter-day per year. Our tool calculates the exact number of days.</p>
-          <p><strong>Q: Will this work if I was born before the year 1900?</strong><br>A: Yes, the calculator supports historical dates going back thousands of years.</p>
-          <p><strong>Q: Does time zone affect the calculation?</strong><br>A: The tool uses your device's local timezone. Unless you were born on the exact stroke of midnight and are currently in a wildly different timezone, it will be perfectly accurate.</p>
-          <p><strong>Q: Is this tool free to use?</strong><br>A: Yes, the Age Calculator is 100% free with no limits on how many times you can use it.</p>
-          <p><strong>Q: What if I only know the month and year of birth?</strong><br>A: For an exact calculation, a specific day is required. If you don't know it, you can select the 1st of the month as a placeholder.</p>
-          <p><strong>Q: Can it calculate time between any two dates?</strong><br>A: Yes! Even though it's called an Age Calculator, it functions perfectly as a general date-difference calculator.</p>
-        `
-      }
+      { title: "What the Age Calculator Does", content: "<p>Calculate the difference between a date of birth and a target date in Gregorian calendar years, months and days. The page also reports the number of whole calendar days between the two dates.</p>" },
+      { title: "How Date Calculation Works", content: "<p>The date picker supplies calendar dates in YYYY-MM-DD form. The calculator compares those date values using UTC calendar fields, so browser time zones and daylight-saving clock changes do not shift the selected date. The default target date is today's local calendar date when the page is opened.</p><p>The years/months/days breakdown follows calendar-month arithmetic. For birthdays on February 29, the displayed month-and-day breakdown follows the calendar subtraction used by the tool; legal age rules can vary by jurisdiction, so use the relevant official rule for legal eligibility.</p>" },
+      { title: "How to Calculate an Age", content: "<ol><li><strong>Enter the date of birth:</strong> Choose the year, month and day.</li><li><strong>Choose a target date:</strong> Leave today's date or select another past or future calendar date.</li><li><strong>Calculate:</strong> View the years, months, days and total whole days between the selected dates.</li><li><strong>Check the input:</strong> The birth date must not be later than the target date.</li></ol>" },
+      { title: "Frequently Asked Questions", content: "<p><strong>Q: Does the calculator account for leap years?</strong><br>A: Yes. Calendar date arithmetic uses the Gregorian calendar and the actual number of days in each month.</p><p><strong>Q: Can I calculate an age on a future date?</strong><br>A: Yes. Select a future target date to calculate the calendar difference.</p><p><strong>Q: Is the total-days figure affected by daylight-saving time?</strong><br>A: No. The calculator compares date-only values using UTC calendar arithmetic rather than elapsed local hours.</p><p><strong>Q: How does it handle February 29 birthdays?</strong><br>A: It uses calendar subtraction. Legal age treatment for a leap-day birthday can differ by jurisdiction, so check the applicable official rule when the result is used for legal eligibility.</p><p><strong>Q: Does it calculate legal eligibility automatically?</strong><br>A: No. It reports a date difference and does not determine legal eligibility or apply jurisdiction-specific age rules.</p></p>" }
     ]
   },
   "qr-generator": {
     sections: [
-      {
-        title: "Free Custom QR Code Generator",
-        content: "<p>Create high-quality, reliable QR codes instantly with the ConverterForAll QR Code Generator. Whether you need to share a website link, a digital restaurant menu, promotional marketing material, or just a secret text message, this tool converts your data into a scannable 2D barcode in milliseconds. Designed for simplicity and reliability, our generator operates entirely within your web browser, allowing you to easily generate and download crisp, static QR codes as PNG images without dealing with annoying subscriptions or hidden fees.</p>"
-      },
-      {
-        title: "How to Generate a QR Code",
-        content: "<ol><li><strong>Enter Your Content:</strong> Type or paste your desired URL or plain text into the input box. Be sure to include the full link (e.g., https://example.com) if you want smartphones to open it in a web browser automatically.</li><li><strong>Preview in Real-Time:</strong> As you type, the QR code graphic on the screen will automatically update and re-render to encode your data.</li><li><strong>Test It:</strong> Before downloading, we highly recommend pointing your smartphone's camera at your screen to verify that it scans properly and points to the correct destination.</li><li><strong>Download PNG:</strong> Click the download button to instantly save a high-resolution PNG image file of your new QR code to your device.</li></ol>"
-      },
-      {
-        title: "How the Tool Works",
-        content: "<p>Our generator utilizes the <code>qrcode.react</code> library to dynamically translate your alphanumeric text into a grid of black and white square modules. It mathematically maps your characters into a machine-readable pattern. The tool then draws this pattern onto a scalable vector graphic (SVG), which we carefully convert into a high-resolution, unblurred PNG image using a hidden HTML canvas when you click download.</p>"
-      },
-      {
-        title: "High Error Correction",
-        content: "<p>To ensure maximum reliability, our tool hardcodes the QR error correction to 'Level H' (High). This means that up to 30% of the QR code's surface area can be missing, covered by a logo, or damaged by wear and tear, and modern smartphone cameras will still be able to successfully scan and reconstruct the data.</p>"
-      },
-      {
-        title: "Supported Functionality and Limitations",
-        content: "<p>This tool is designed to generate standard, static text and URL QR codes quickly. It does not feature complex UI builders for vCards, WiFi network configurations, automated SMS messages, or email drafts. It also does not allow you to change the error correction level or output formats beyond the provided high-resolution PNG.</p>"
-      },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Do these generated QR codes ever expire?</strong><br>A: No! We generate 'Static' QR codes. The destination data is hardcoded directly into the visual pattern, meaning as long as your destination URL remains online, the QR code will work forever.</p>
-          <p><strong>Q: Is there a scan limit on my QR codes?</strong><br>A: Absolutely not. Because the codes are static and processed locally, there are zero scan limits. You can scan them infinitely for free.</p>
-          <p><strong>Q: Are my QR codes tracked by ConverterForAll?</strong><br>A: No. We do not track scans, intercept traffic, or collect any analytics on how your QR codes are used.</p>
-          <p><strong>Q: Why does the QR code pattern get denser when I type a long paragraph?</strong><br>A: As you add more data, the grid must increase in density to physically encode all the characters. We recommend keeping links short to ensure older phone cameras can easily read the code.</p>
-        `
-      }
+      { title: "What the QR Code Generator Does", content: "<p>Enter text or a URL to create a static QR code and preview it as you type. Download the generated code as a 1,024 × 1,024 pixel PNG. The QR code stores the entered data directly in its pattern; it is not a dynamic redirect link managed by this tool.</p>" },
+      { title: "Error Correction Level H", content: "<p>The QR code is generated with error-correction Level H. The standard describes Level H as having an approximate recovery capability of up to 30% of codewords under suitable conditions. This is not a promise that any 30% of the visible surface may be covered or removed. Scan success depends on which modules are damaged, print size, contrast, quiet-zone space and the scanner.</p>" },
+      { title: "Static QR Codes and Destination Links", content: "<p>The encoded data is static: changing the destination later requires generating and distributing a new QR code. A QR code does not itself expire, but a URL can stop working or its content can change. The QR pattern does not impose a scan counter; any limits, redirects or analytics applied by the destination website are separate.</p>" },
+      { title: "How to Generate and Download a QR Code", content: "<ol><li><strong>Enter the data:</strong> Type or paste a URL or text into the QR Content box.</li><li><strong>Preview the code:</strong> The QR pattern updates as the text changes.</li><li><strong>Test it:</strong> Scan the preview with a phone camera before printing or sharing it.</li><li><strong>Download:</strong> Save the PNG file and test the saved image at its intended size.</li></ol>" },
+      { title: "Frequently Asked Questions", content: "<p><strong>Q: Do these QR codes expire?</strong><br>A: The static QR pattern has no built-in expiry date. A URL or service encoded in the code may later become unavailable or change.</p><p><strong>Q: Does Level H let me cover 30% of the visible QR image?</strong><br>A: No. The approximate 30% recovery figure refers to codewords, not an arbitrary portion of the visible surface. Damage location and scan conditions matter.</p><p><strong>Q: Does the generator count scans?</strong><br>A: The generated QR is static and contains the data you entered. It does not add a ConverterForAll scan-count redirect. The destination service may have its own analytics or limits.</p><p><strong>Q: Which output format is available?</strong><br>A: The download button exports a 1,024 × 1,024 pixel PNG.</p><p><strong>Q: Why should I test the QR code before printing?</strong><br>A: Small module size, low contrast, insufficient quiet zone or print damage can make a QR code harder to scan. Test the downloaded or printed result.</p></p>" }
     ]
   },
   "barcode-generator": {
@@ -135,37 +84,10 @@ export const utilitiesToolsContent: Record<string, { sections: { title: string, 
   },
   "password-generator": {
     sections: [
-      {
-        title: "What is the Password Generator?",
-        content: "<p>The Password Generator is an essential security tool that creates incredibly strong, highly randomized passwords. By allowing you to mix uppercase letters, lowercase letters, numbers, and symbols up to 64 characters in length, it ensures your accounts remain safe from brute-force attacks and dictionary hacking attempts.</p>"
-      },
-      {
-        title: "How does it work?",
-        content: "<p>The tool relies on your browser's native Math.random() cryptographic functions to select characters from your chosen character pools. Because the entire generation process happens locally in JavaScript on your device, the generated password is never transmitted across the network, guaranteeing that you are the only person who will ever see it.</p>"
-      },
-      {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select Length:</strong> Use the slider to choose a password length. Experts recommend at least 16 characters for critical accounts.</li><li><strong>Choose Complexity:</strong> Toggle checkboxes to include or exclude Uppercase, Lowercase, Numbers, and Symbols.</li><li><strong>Generate:</strong> The password generates automatically as you adjust settings. You can click the 'Regenerate' button for a new combination.</li><li><strong>Copy:</strong> Click the Copy icon to instantly copy the secure string to your clipboard for pasting into a password manager.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Securing Accounts:</strong> Creating unbreakable passwords for banking, email, and social media accounts.</li><li><strong>Wi-Fi Security:</strong> Generating long, random strings to secure your home or business router networks.</li><li><strong>Software Development:</strong> Creating random secret keys, API tokens, or temporary passwords for new user accounts.</li></ul>"
-      },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Is this password generator safe to use?</strong><br>A: Yes, it is 100% safe. The password generation happens entirely within your web browser (client-side). No data is sent to our servers.</p>
-          <p><strong>Q: Does ConverterForAll keep a copy of generated passwords?</strong><br>A: Absolutely not. We have no databases storing your passwords, and we cannot see what the tool generates on your screen.</p>
-          <p><strong>Q: How long should my password be?</strong><br>A: For maximum security, cybersecurity experts recommend passwords be at least 16 characters long. Length is generally more important than complexity.</p>
-          <p><strong>Q: What makes a password "Strong"?</strong><br>A: A strong password is long, completely random (not based on dictionary words or personal info), and utilizes a mix of different character types.</p>
-          <p><strong>Q: Should I memorize the generated passwords?</strong><br>A: It is virtually impossible to memorize highly secure, random passwords. We strongly recommend using a reputable Password Manager to store them securely.</p>
-          <p><strong>Q: Why was my clipboard blocked when clicking copy?</strong><br>A: Some strict browser security settings or ad-blockers prevent scripts from writing to the clipboard. If this happens, you can manually highlight and copy the text.</p>
-          <p><strong>Q: Can the tool generate pronounceable passwords?</strong><br>A: Currently, this tool generates purely random strings for maximum entropy. Pronounceable passwords are inherently less random and therefore slightly less secure.</p>
-          <p><strong>Q: Is there a maximum password length?</strong><br>A: Our tool allows generating passwords up to 64 characters, which is more than enough to thwart any modern supercomputer brute-force attempt.</p>
-          <p><strong>Q: What are the symbols used in the generator?</strong><br>A: We use standard keyboard symbols: !@#$%^&*()_+~|\`{}[]:;?><,./-=</p>
-          <p><strong>Q: Are these passwords vulnerable to dictionary attacks?</strong><br>A: No. Because they are completely random character strings rather than known words, dictionary attacks are entirely useless against them.</p>
-        `
-      }
+      { title: "What the Password Generator Does", content: "<p>Create a random password up to 64 characters from the selected uppercase letters, lowercase letters, digits and symbols. The tool uses the browser Web Crypto API to obtain random bytes and rejection sampling to choose characters without modulo bias.</p>" },
+      { title: "Randomness and Security", content: "<p>This page uses <code>crypto.getRandomValues()</code>, not <code>Math.random()</code>, to generate password characters. A password is only as useful as the way it is stored and used: do not reuse it across services, and save it in a trusted password manager. The strength label shown here is a simple heuristic based on length and selected character groups; it is not a formal entropy calculation or a check against known breached passwords.</p><p>If Web Crypto is not available, the tool shows an error rather than falling back to a non-cryptographic random generator.</p>" },
+      { title: "How to Generate a Password", content: "<ol><li><strong>Set a length:</strong> Choose between 6 and 64 characters.</li><li><strong>Select character groups:</strong> Choose uppercase, lowercase, digits and/or symbols. At least one group remains selected.</li><li><strong>Generate:</strong> A new password is created when the settings change or when you press Regenerate.</li><li><strong>Copy safely:</strong> Copy the password and save it in a trusted password manager.</li></ol>" },
+      { title: "Frequently Asked Questions", content: "<p><strong>Q: Does it use cryptographically secure randomness?</strong><br>A: Yes. It uses the browser's Web Crypto API <code>crypto.getRandomValues()</code> with rejection sampling. It does not use <code>Math.random()</code>.</p><p><strong>Q: Is the strength label a formal security score?</strong><br>A: No. It is a basic heuristic based on password length and selected character groups. It does not measure entropy or check password-breach databases.</p><p><strong>Q: What happens if Web Crypto is unavailable?</strong><br>A: The tool displays an error and does not generate a password using a weaker random-number fallback.</p><p><strong>Q: What is the maximum length?</strong><br>A: The slider allows passwords from 6 to 64 characters.</p><p><strong>Q: Should I reuse the same generated password?</strong><br>A: No. Use a unique password for each account and store it in a trusted password manager.</p></p>" }
     ]
   },
   "fuel-calculator": {
