@@ -3,6 +3,84 @@ import { generatedPunjabiProfiles } from "./punjabi-font-profiles";
 export const fontToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   ...generatedPunjabiProfiles,
 
+  // UNICODE TO ANMOLLIPI — page-specific, implementation-verified guidance
+  "unicode-to-anmollipi": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Unicode to AnmolLipi Converter Does",
+        content: "<p>Paste Gurmukhi Unicode text into the input box. The converter maps supported characters and sequences to the legacy character codes in its built-in AnmolLipi table. The output is legacy-font text; it is not standard Unicode text and is not an AnmolLipi font file.</p>"
+      },
+      {
+        title: "How to Display the AnmolLipi Output",
+        content: "<p>Copy the converted text into the application where you need it and select an installed AnmolLipi font for that text. Without a matching font, the legacy codes may appear as Latin or unrelated glyphs. This tool does not install or embed the font and does not create or format a Word or PageMaker document.</p>"
+      },
+      {
+        title: "Mapping Coverage and Limitations",
+        content: "<p>The converter uses a finite AnmolLipi character table and shared Gurmukhi composition rules. Some possible characters and forms are not defined in the table. If a Unicode character has no corresponding mapping, it can remain unchanged in the output. Check the result in the target application with the matching AnmolLipi font, especially for vowel signs, subjoined forms, numerals, punctuation and uncommon symbols.</p>"
+      },
+      {
+        title: "Text Input and Output",
+        content: "<p>This is a text-to-text converter. It accepts typed or pasted text; it does not import Word, PDF or PageMaker files and does not preserve page layout, font styling, tables or images. You can copy the result or download plain text. The shared converter's DOC-labelled control saves plain text with a .doc filename, not a formatted Word document.</p>"
+      },
+      {
+        title: "How to Convert Unicode to AnmolLipi",
+        content: "<ol><li><strong>Paste Unicode text:</strong> Enter or paste Gurmukhi Unicode text in the input box.</li><li><strong>Review the output:</strong> The AnmolLipi-encoded result appears as you type.</li><li><strong>Copy or download:</strong> Use Copy or TXT for the converted text.</li><li><strong>Apply the font:</strong> Paste the output into your target application, select an installed AnmolLipi font and inspect the rendered text.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why does the output look like English letters?</strong><br>A: It contains legacy AnmolLipi character codes. Select an installed AnmolLipi font for the text in your target application to display the Gurmukhi glyphs.</p>
+          <p><strong>Q: Does this converter install or embed AnmolLipi?</strong><br>A: No. It converts text codes only. You need a compatible AnmolLipi font in the application where you use the output.</p>
+          <p><strong>Q: Will every Unicode character convert?</strong><br>A: Complete coverage is not guaranteed. The mapping table is finite, and unsupported characters may remain unchanged. Review the result in the target application.</p>
+          <p><strong>Q: Can I upload a Word or PDF document?</strong><br>A: No. Paste text into the input box. The tool does not import files or preserve document formatting.</p>
+          <p><strong>Q: Can I use AnmolLipi output on websites or messaging apps?</strong><br>A: Use standard Unicode for websites, email and messaging. Legacy AnmolLipi output depends on a compatible font and may not display as Gurmukhi elsewhere.</p>
+          <p><strong>Q: Does the converter translate or proofread Punjabi?</strong><br>A: No. It maps supported Unicode character sequences to legacy AnmolLipi codes; it does not translate or correct spelling.</p>
+          <p><strong>Q: Is my text uploaded to a server?</strong><br>A: The conversion runs in the browser using the bundled JavaScript mapping engine. This component does not send entered text to a conversion API.</p>
+        `
+      }
+    ]
+  },
+
+  // UNICODE TO JOY — page-specific, implementation-verified guidance
+  "unicode-to-joy": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the Unicode to Joy Converter Does",
+        content: "<p>Paste Gurmukhi Unicode text into the input box. The converter applies its built-in Joy character table and shared Gurmukhi composition rules to produce legacy Joy character codes. The output is legacy-font text, not standard Unicode and not a Joy font file.</p>"
+      },
+      {
+        title: "How to Display the Joy Output",
+        content: "<p>Copy the converted text into the application where you need it and select an installed Joy font for that text. Without the matching font, the legacy codes may display as Latin or unrelated glyphs. This tool does not install or embed Joy and does not create or format a Word or PageMaker document.</p>"
+      },
+      {
+        title: "Mapping Coverage and Limitations",
+        content: "<p>The Joy character table is finite and works only for the characters and combinations represented in the built-in mapping. If the engine cannot find a matching mapping for a source character, it can leave that character unchanged. Modified Joy font versions and uncommon symbols may therefore produce incomplete output. Review the result in the target application using the intended Joy font.</p>"
+      },
+      {
+        title: "Text Input and Output",
+        content: "<p>This is a text-to-text converter. It accepts text typed or pasted into the input box; it does not import Word, PDF or PageMaker files or preserve document formatting. You can copy the result or download it as plain text. The shared converter's DOC-labelled control saves plain text with a .doc filename, not a formatted Word document.</p>"
+      },
+      {
+        title: "How to Convert Unicode to Joy",
+        content: "<ol><li><strong>Paste Unicode text:</strong> Enter or paste Gurmukhi Unicode text into the input box.</li><li><strong>Review the output:</strong> Joy-encoded characters appear as you type.</li><li><strong>Copy or download:</strong> Use Copy or TXT to take the converted text.</li><li><strong>Apply the Joy font:</strong> Paste the output into your target application, select an installed Joy font and check the rendered result.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why does the converted output look like English or symbols?</strong><br>A: The output uses legacy Joy character codes. Select an installed Joy font in the receiving application to render the expected Gurmukhi glyphs.</p>
+          <p><strong>Q: Does this tool install the Joy font?</strong><br>A: No. It converts text codes only; it does not provide or install the legacy font.</p>
+          <p><strong>Q: Will every Unicode character convert to Joy?</strong><br>A: Complete coverage is not guaranteed. The engine uses a finite mapping table, and unsupported characters can remain unchanged. Review the output with the intended Joy font.</p>
+          <p><strong>Q: Can I upload Word or PDF files?</strong><br>A: No. Paste text into the input box. The converter does not import documents or preserve formatting.</p>
+          <p><strong>Q: Is Joy output suitable for websites, email or WhatsApp?</strong><br>A: Use standard Unicode for modern web and messaging content. Legacy Joy output may not display correctly where the Joy font is unavailable.</p>
+          <p><strong>Q: Does it translate Punjabi or correct spelling?</strong><br>A: No. It maps supported Unicode character sequences to legacy Joy codes and does not translate, interpret or proofread the text.</p>
+          <p><strong>Q: Is the text sent to a conversion server?</strong><br>A: The mapping runs in the browser using the bundled JavaScript engine. This component does not send the entered text to a conversion API.</p>
+        `
+      }
+    ]
+  },
+
   // UNICODE TO SATLUJ — page-specific, implementation-verified guidance
   "unicode-to-satluj": {
     disableAutoEnrich: true,
