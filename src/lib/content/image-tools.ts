@@ -1,4 +1,4 @@
-export const imageToolsContent: Record<string, { sections: { title: string, content: string }[] }> = {
+export const imageToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   "webp-to-png": {
     sections: [
       {
