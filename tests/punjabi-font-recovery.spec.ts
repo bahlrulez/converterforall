@@ -366,7 +366,7 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
       }
 
       if (slug === 'unicode-to-raavi') {
-        expect(html).toContain('This tool is not available yet.');
+        expect(html).toContain('This is a Raavi font guide. The interactive text-conversion tool is currently unavailable.');
         expect(html).toContain('content="noindex');
       } else {
         expect(html).not.toContain('content="noindex');
