@@ -83,8 +83,8 @@ const punjabiProfiles: FontContentProfile[] = [
     direction: "to-unicode",
     description: "Converts pasted text encoded with the legacy Joy Punjabi font mapping into standard Gurmukhi Unicode. The page accepts text in its input box; it does not import a complete document.",
     primaryUseCases: [
-      "Pasting legacy Joy text into modern web browsers, WhatsApp, or social media.",
-      "Fixing broken Punjabi documents where the text appears as random English letters.",
+      "Converting text copied from a document that uses the Joy font before sharing the resulting Unicode text in a browser, WhatsApp, or social media.",
+      "Converting copied passages from older Word or desktop-publishing documents when their underlying text uses the Joy mapping.",
       "Preparing text for modern data storage and search engines which require Unicode."
     ],
     mappingConsiderations: [
@@ -104,7 +104,7 @@ const punjabiProfiles: FontContentProfile[] = [
     faqs: [
       {
         question: "Why does Joy font text appear broken in modern applications?",
-        answer: "Joy is an older ASCII font. In modern applications and web browsers that expect Unicode, Joy text displays as random English characters. Converting to Unicode permanently fixes the text so it can be read anywhere."
+        answer: "Joy uses a legacy character mapping. Converting text covered by the current mapping produces Unicode Gurmukhi that can be used in applications supporting Gurmukhi Unicode; compare the result with the original for accuracy."
       },
       {
         question: "Do I need to install Joy font to read the converted text?",
@@ -160,8 +160,8 @@ const punjabiProfiles: FontContentProfile[] = [
     direction: "to-unicode",
     description: "Converts pasted text encoded with the supported Satluj legacy character mapping into Gurmukhi Unicode. The converter processes text, not the original document or its formatting.",
     primaryUseCases: [
-      "Salvaging old PageMaker documents, newspaper archives, or legacy DTP files for the modern web.",
-      "Fixing rendering issues when copying text from older Punjabi PDFs into web forms.",
+      "Converting text copied from older PageMaker layouts, newspaper archives or desktop-publishing files when it retains Satluj character codes.",
+      "Converting text copied from older Punjabi PDFs when the copied characters retain the supported Satluj legacy encoding.",
       "Modernizing print-ready text for digital archiving and indexing."
     ],
     mappingConsiderations: [
@@ -180,7 +180,7 @@ const punjabiProfiles: FontContentProfile[] = [
     faqs: [
       {
         question: "What is Satluj font commonly used for?",
-        answer: "Satluj is a popular legacy Punjabi font widely used in Punjab for newspaper publishing, book typesetting, and PageMaker documents. Converting it to Unicode allows those legacy documents to be read on modern screens and websites."
+        answer: "When copied text contains Satluj character codes, this converter can map supported characters to Unicode Gurmukhi. It does not import the original PDF or PageMaker file."
       },
       {
         question: "Will converting Satluj text to Unicode change its spelling?",
@@ -198,9 +198,9 @@ const punjabiProfiles: FontContentProfile[] = [
     direction: "to-unicode",
     description: "Converts pasted text encoded with the Asees Punjabi legacy font mapping into standard Gurmukhi Unicode. It is a text conversion utility, not an official examination typing or validation system.",
     primaryUseCases: [
-      "Converting practice paragraphs from Asees into standard Unicode to verify typing accuracy for PSSSB and state exams.",
-      "Migrating old government documents typed in Asees into modern, searchable Unicode text.",
-      "Fixing garbled Punjabi text on mobile devices and WhatsApp by converting the legacy ASCII encoding into universal UTF-8."
+      "Converting Asees practice passages into Unicode so the characters can be reviewed separately; this tool does not score typing speed or certify exam readiness.",
+      "Converting text copied from older government documents that use the Asees legacy mapping into searchable Unicode text.",
+      "Converting copied Asees-encoded text into Unicode before using it in mobile apps, websites or messaging services."
     ],
     mappingConsiderations: [
       "The current Asees table includes legacy character mappings and uses the shared engine for Gurmukhi sequence handling. Check words with repeated vowel signs and uncommon combinations against the source.",
@@ -275,8 +275,8 @@ const punjabiProfiles: FontContentProfile[] = [
     direction: "to-unicode",
     description: "Converts pasted text encoded with the AnmolLipi legacy character mapping into standard Gurmukhi Unicode. It does not import a complete Word, PDF or PageMaker document.",
     primaryUseCases: [
-      "Converting legacy Punjabi documents, university notes, and books typed in AnmolLipi into modern Unicode.",
-      "Fixing AnmolLipi text that appears as random English characters when pasted into web browsers or Word.",
+      "Converting passages copied from Punjabi documents, notes or books that use the AnmolLipi character mapping into Unicode.",
+      "Converting AnmolLipi-encoded text copied from Word or another document editor when it appears as Latin or extended characters.",
       "Preparing Punjabi text for publishing on websites, blogs, and social media platforms."
     ],
     mappingConsiderations: [
@@ -304,7 +304,7 @@ const punjabiProfiles: FontContentProfile[] = [
       },
       {
         question: "Is there any limit on how much text I can convert?",
-        answer: "No. You can convert as much text as you need for free without signing up for an account."
+        answer: "The page converts pasted text rather than uploaded documents and does not show a fixed file-size allowance. Very large passages may still be limited by browser memory and responsiveness; divide long material into smaller sections if needed."
       }
     ]
   },
@@ -314,9 +314,9 @@ const punjabiProfiles: FontContentProfile[] = [
     direction: "to-unicode",
     description: "Converts pasted text intended for legacy Gurbani Akhar/GurbaniLipi encoding into Gurmukhi Unicode. The current route uses the GurbaniLipi mapping profile; compatibility with every font carrying these names has not been established.",
     primaryUseCases: [
-      "Converting Gurbani Shabads, Steeks, and Nitnem files typed in Gurbani Akhar into standard Unicode.",
-      "Modernizing legacy Sikh literature and religious publications for websites, mobile apps, and search engines.",
-      "Displaying Gurbani verses properly on smartphones and tablets without needing custom font files installed."
+      "Converting copied Gurbani Shabad, Steek or Nitnem passages when their text uses the legacy mapping selected by this route.",
+      "Preparing copied text from older Sikh literature or religious publications for use in Unicode-based websites and mobile apps.",
+      "Sharing converted Unicode Gurbani passages on devices that support Gurmukhi Unicode, without requiring the recipient to install the source legacy font."
     ],
     mappingConsiderations: [
       "In the current implementation, the Gurbani Akhar route selects the GurbaniLipi profile, which reuses the AnmolLipi base character table and overlays GurbaniLipi-specific numeral entries. This is not evidence of a separately verified full mapping for every Gurbani Akhar font edition.",

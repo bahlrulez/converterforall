@@ -13,8 +13,11 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
     'asees-to-unicode',
     'unicode-to-asees',
     'anmollipi-to-unicode',
+    'unicode-to-anmollipi',
     'joy-to-unicode',
+    'unicode-to-joy',
     'satluj-to-unicode',
+    'unicode-to-satluj',
     'unicode-to-raavi',
     'gurbani-akhar-to-unicode',
   ];
