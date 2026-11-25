@@ -14,7 +14,6 @@ import {
   Loader2, 
   Info, 
   Check, 
-  ShieldCheck,
   CheckCircle2,
   FileCheck
 } from "lucide-react";
@@ -379,23 +378,24 @@ export function ExamPhotoResizer() {
         {/* Preset Guidance Banner */}
         <div className="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-2xl p-4 text-xs text-foreground space-y-2">
           <div className="flex items-start gap-3">
-            <ShieldCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+            <Info className="w-5 h-5 text-primary shrink-0 mt-0.5" />
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="font-bold text-sm text-primary">{activePresetSpec.name}</span>
+                <span className="font-bold text-sm text-primary">Starting point: {activePresetSpec.shortName}</span>
                 <span className="px-2 py-0.5 bg-primary/15 text-primary font-semibold rounded text-[11px]">
-                  {activeConfig.minKB} KB – {activeConfig.maxKB} KB
-                </span>
-                <span className="px-2 py-0.5 bg-muted border font-medium rounded text-[11px]">
-                  Reference only: {activeConfig.dimensionsLabel}
+                  Attempted size range: {activeConfig.minKB}–{activeConfig.maxKB} KB
                 </span>
               </div>
-              <ul className="text-muted-foreground list-disc list-inside space-y-0.5 pt-1">
-                {activeConfig.rules.map((rule, idx) => (
-                  <li key={idx} className="leading-relaxed">{rule}</li>
-                ))}
-              </ul>
-              <p className="pt-1 text-amber-700 dark:text-amber-400 font-medium">These stored preset values are not live portal specifications. Confirm the current recruitment notice before using the output.</p>
+              <p className="text-muted-foreground leading-relaxed pt-1">
+                Crop ratio: {activeConfig.aspect.toFixed(2)}:1. Minimum crop width: {activeConfig.minWidthPx}px.
+                The tool may upscale a smaller crop to that minimum, but it does not enforce a maximum pixel size,
+                physical print size or DPI.
+              </p>
+              <p className="pt-1 text-amber-700 dark:text-amber-400 font-medium">
+                This is a local crop and file-size starting point, not an official exam profile. The tool does not
+                check live-photo capture, face position, background, handwriting, ink colour or signature count.
+                Confirm every requirement in the current recruitment notice and application portal.
+              </p>
             </div>
           </div>
         </div>
@@ -415,7 +415,7 @@ export function ExamPhotoResizer() {
             Select or drop {mode === "photo" ? "passport photograph" : "signature image"}
           </h3>
           <p className="text-xs text-muted-foreground mb-4 max-w-sm">
-            Runs entirely on your device. Your photo is never uploaded to any cloud server.
+            The image is cropped and exported in your browser. This component does not send it to a conversion API.
           </p>
           <Button size="sm" variant="outline" className="pointer-events-none">
             Browse files

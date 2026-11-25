@@ -33,258 +33,191 @@ export interface ExamPresetSpec {
 export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
   ssc: {
     id: "ssc",
-    name: "Staff Selection Commission (SSC)",
-    shortName: "SSC (CGL, CHSL, MTS, GD)",
+    name: "SSC-style starting point (not official)",
+    shortName: "SSC-style starting point",
     category: "central",
-    description: "Standard specifications for SSC CGL, CHSL, MTS, Stenographer, and GD Constable online portals.",
+    description: "Stored crop-ratio and file-size starting values. They are not live or verified portal requirements.",
     photo: {
       minKB: 20,
       maxKB: 50,
       aspect: 3.5 / 4.5,
-      dimensionsLabel: "3.5 cm × 4.5 cm (approx 200 × 250 px)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 200,
       format: "jpeg",
       background: "light",
-      rules: [
-        "File size strictly between 20 KB and 50 KB",
-        "Dimensions: 3.5 cm width × 4.5 cm height",
-        "Plain white or light-coloured background",
-        "Both ears must be clearly visible, no caps or dark glasses"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check live capture, face position, background, identity or portal acceptance"]
     },
     signature: {
       minKB: 10,
       maxKB: 20,
       aspect: 140 / 60, // 2.33:1 (4.0cm x 2.0cm approx)
-      dimensionsLabel: "140 × 60 px (approx 4.0 cm × 2.0 cm)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 140,
       format: "jpeg",
       inkColor: "black",
-      rules: [
-        "File size strictly between 10 KB and 20 KB",
-        "Dimensions: approx 140 width × 60 height px (horizontal)",
-        "Must be signed on white paper with black/dark ink",
-        "Signatures in capital letters are strictly rejected"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check ink colour, handwriting, signature count, identity or portal acceptance"]
     }
   },
   upsc: {
     id: "upsc",
-    name: "Union Public Service Commission (UPSC)",
-    shortName: "UPSC (Civil Services, NDA, CDS)",
+    name: "UPSC-style starting point (not official)",
+    shortName: "UPSC-style starting point",
     category: "central",
-    description: "Specifications for UPSC Civil Services (IAS/IPS), NDA, CDS, and Central Engineering examinations.",
+    description: "Stored crop-ratio and file-size starting values. They are not live or verified portal requirements.",
     photo: {
       minKB: 20,
       maxKB: 300,
       aspect: 1.0, // UPSC OTR mandates 1:1 square
-      dimensionsLabel: "350 × 350 to 1000 × 1000 px (1:1 Square)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 350,
       format: "jpeg",
       background: "white",
-      rules: [
-        "File size strictly between 20 KB and 300 KB",
-        "Aspect ratio 1:1 (min 350 × 350 px, max 1000 × 1000 px)",
-        "White background with 3/4th face visibility",
-        "UPSC requires candidate name & date of photo at the bottom"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check live capture, face position, background, identity or portal acceptance"]
     },
     signature: {
       minKB: 20,
       maxKB: 300,
       aspect: 1.0,
-      dimensionsLabel: "350 × 350 to 1000 × 1000 px (1:1 Square)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 350,
       format: "jpeg",
       inkColor: "black",
-      rules: [
-        "File size strictly between 20 KB and 300 KB",
-        "Aspect ratio 1:1 square canvas",
-        "Clear black ink signature on spotless white background",
-        "Do not upload blurred or pixelated scans"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check ink colour, handwriting, signature count, identity or portal acceptance"]
     }
   },
   ibps: {
     id: "ibps",
-    name: "Banking (IBPS, SBI PO & Clerk, RRB)",
-    shortName: "IBPS / SBI (PO, Clerk, SO)",
+    name: "Banking-style starting point (not official)",
+    shortName: "IBPS / SBI-style starting point",
     category: "banking",
-    description: "Standard parameters required across SBI, IBPS, RBI, and regional rural bank portals.",
+    description: "Stored crop-ratio and file-size starting values. They are not live or verified portal requirements.",
     photo: {
       minKB: 20,
       maxKB: 50,
       aspect: 200 / 230, // approx 4.5cm x 3.5cm
-      dimensionsLabel: "200 × 230 px (approx 4.5 cm × 3.5 cm)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 200,
       format: "jpeg",
       background: "white",
-      rules: [
-        "File size between 20 KB and 50 KB",
-        "Dimensions: 200 × 230 pixels",
-        "White background with natural face expression",
-        "Red-eye reflections must be removed"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check live capture, face position, background, identity or portal acceptance"]
     },
     signature: {
       minKB: 10,
       maxKB: 20,
       aspect: 140 / 60,
-      dimensionsLabel: "140 × 60 px (approx 3.5 cm × 1.5 cm)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 140,
       format: "jpeg",
       inkColor: "black",
-      rules: [
-        "File size between 10 KB and 20 KB",
-        "Dimensions: 140 × 60 pixels",
-        "Must be signed with black ink on white paper",
-        "Capital letter signatures are not accepted"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check ink colour, handwriting, signature count, identity or portal acceptance"]
     }
   },
   state_police: {
     id: "state_police",
-    name: "State Police & PSC (UP, Bihar, Punjab, Raj, MP)",
-    shortName: "State Police & PSC",
+    name: "State Police / PSC-style starting point (not official)",
+    shortName: "State Police / PSC-style starting point",
     category: "state",
-    description: "Common requirements for UP Police, Bihar BPSC/BSSC, MP ESB, Rajasthan RSMSSB, and Punjab PSSSB.",
+    description: "Stored crop-ratio and file-size starting values. They are not live or verified portal requirements.",
     photo: {
       minKB: 20,
       maxKB: 50,
       aspect: 3.5 / 4.5,
-      dimensionsLabel: "3.5 cm × 4.5 cm (20–50 KB)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 200,
       format: "jpeg",
       background: "light",
-      rules: [
-        "File size strictly between 20 KB and 50 KB (some states allow up to 100 KB)",
-        "Dimensions: 3.5 cm × 4.5 cm passport ratio",
-        "Plain light grey or white background",
-        "Clear facial visibility with neutral look"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check live capture, face position, background, identity or portal acceptance"]
     },
     signature: {
       minKB: 10,
       maxKB: 20,
       aspect: 140 / 60,
-      dimensionsLabel: "140 × 60 px (10–20 KB)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 140,
       format: "jpeg",
       inkColor: "black",
-      rules: [
-        "File size strictly between 10 KB and 20 KB",
-        "Dimensions: approx 3.5 cm width × 1.5 cm height",
-        "High contrast signature on white paper"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check ink colour, handwriting, signature count, identity or portal acceptance"]
     }
   },
   rrb: {
     id: "rrb",
-    name: "Railway Recruitment Boards (RRB)",
-    shortName: "Railway RRB (ALP, NTPC, Group D)",
+    name: "RRB-style starting point (not official)",
+    shortName: "RRB-style starting point",
     category: "railway",
-    description: "Prescribed specifications for RRB Assistant Loco Pilot, Technician, NTPC, and Group D applications.",
+    description: "Stored crop-ratio and file-size starting values. They are not live or verified portal requirements.",
     photo: {
       minKB: 30,
       maxKB: 70,
       aspect: 35 / 45,
-      dimensionsLabel: "35 mm × 45 mm (30–70 KB)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 220,
       format: "jpeg",
       background: "white",
-      rules: [
-        "File size between 30 KB and 70 KB",
-        "Dimensions: 35 mm × 45 mm colour passport photo",
-        "Clear white background without shadows",
-        "Must be taken within the last 6 months"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check live capture, face position, background, identity or portal acceptance"]
     },
     signature: {
       minKB: 30,
       maxKB: 70,
       aspect: 50 / 20, // 2.5:1
-      dimensionsLabel: "50 mm × 20 mm (30–70 KB)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 160,
       format: "jpeg",
       inkColor: "black",
-      rules: [
-        "File size strictly between 30 KB and 70 KB",
-        "Dimensions: 50 mm × 20 mm running handwriting",
-        "Signed in black ink on white paper",
-        "Signatures in block/capital letters will lead to rejection"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check ink colour, handwriting, signature count, identity or portal acceptance"]
     }
   },
   nta: {
     id: "nta",
-    name: "National Testing Agency (NEET, JEE Main, CUET)",
-    shortName: "NTA (NEET, JEE, CUET)",
+    name: "NTA-style starting point (not official)",
+    shortName: "NTA-style starting point",
     category: "academic",
-    description: "Guidelines for NTA portals including NEET UG, JEE Main, and CUET registrations.",
+    description: "Stored crop-ratio and file-size starting values. They are not live or verified portal requirements.",
     photo: {
       minKB: 10,
       maxKB: 200,
       aspect: 3.5 / 4.5,
-      dimensionsLabel: "Passport Size (10–200 KB)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 240,
       format: "jpeg",
       background: "white",
-      rules: [
-        "File size between 10 KB and 200 KB",
-        "80% face coverage showing ears clearly against white background",
-        "Spectacles are permitted only if used regularly (no tint or glare)",
-        "Polaroid and computer-generated photos are not accepted"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check live capture, face position, background, identity or portal acceptance"]
     },
     signature: {
       minKB: 4,
       maxKB: 30,
       aspect: 140 / 60,
-      dimensionsLabel: "140 × 60 px (4–30 KB)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 140,
       format: "jpeg",
       inkColor: "black",
-      rules: [
-        "File size strictly between 4 KB and 30 KB",
-        "Signed on white paper with black ballpoint pen",
-        "Clear scan without background shadows"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check ink colour, handwriting, signature count, identity or portal acceptance"]
     }
   },
   gate: {
     id: "gate",
-    name: "GATE & IIT Admissions",
-    shortName: "GATE / IIT",
+    name: "GATE-style starting point (not official)",
+    shortName: "GATE-style starting point",
     category: "academic",
-    description: "Photo and signature upload specs for Graduate Aptitude Test in Engineering (GATE).",
+    description: "Stored crop-ratio and file-size starting values. They are not live or verified portal requirements.",
     photo: {
       minKB: 20,
       maxKB: 200,
       aspect: 3.5 / 4.5,
-      dimensionsLabel: "3.5 cm × 4.5 cm (20–200 KB)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 240,
       format: "jpeg",
       background: "white",
-      rules: [
-        "File size between 20 KB and 200 KB",
-        "Aspect ratio 3.5 cm width × 4.5 cm height",
-        "White or very light background",
-        "Face must occupy 60% to 70% of the image"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check live capture, face position, background, identity or portal acceptance"]
     },
     signature: {
       minKB: 10,
       maxKB: 200,
       aspect: 7 / 2, // 3.5:1
-      dimensionsLabel: "7.0 cm × 2.0 cm (10–200 KB)",
+      dimensionsLabel: "Crop ratio and minimum width only; no fixed output dimensions.",
       minWidthPx: 200,
       format: "jpeg",
       inkColor: "black",
-      rules: [
-        "File size between 10 KB and 200 KB",
-        "Dimensions: 7.0 cm width × 2.0 cm height (horizontal strip)",
-        "Signed with dark blue or black ink"
-      ]
+      rules: ["Applies this preset's crop ratio and minimum crop width only.", "Attempts the stored file-size range; the exported image may remain outside it.", "Does not check ink colour, handwriting, signature count, identity or portal acceptance"]
     }
   }
 };
