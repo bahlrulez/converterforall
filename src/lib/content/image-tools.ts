@@ -239,30 +239,39 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "passport-photo-maker": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "Free Online Passport Photo Converter",
-        content: "<p>Our free online passport photo converter takes your existing portrait or selfie and converts it into a perfectly cropped passport or visa photo directly in your browser. Since it processes the image locally on your device, your personal photos are never uploaded to any server. You can convert photos into supported standard 2x2 inch dimensions (for US passport and Indian Visa/OCI) or 35x45mm sizes (for Indian domestic passport, UK, European Schengen, or Australian visas), and replace background colors to meet standard requirements.</p>"
+        title: "What the Passport Photo Maker Does",
+        content: "<p>Upload or capture a portrait, crop it to one of two shapes, optionally remove the background, choose a replacement colour and download a JPEG. The upload picker accepts JPG/JPEG, PNG and WEBP images. This is an image editor; it does not check whether a photo complies with a country's passport, visa or identity-document rules.</p>"
       },
       {
-        title: "How does background replacement work?",
-        content: "<p>The tool uses on-device image processing to separate your portrait from the background and apply a standard solid color (such as white, light blue, or gray). Because this runs locally in your web browser, your personal photo is not uploaded or stored on any server.</p>"
+        title: "Choose a Crop Shape — Not a Fixed Print Size",
+        content: "<p>The portrait option sets a 35:45 aspect ratio and the square option sets a 1:1 aspect ratio. These settings control the shape of the crop window only. The exported canvas uses the selected crop area's pixel width and height; the tool does not resize every result to a fixed pixel dimension, set a physical print size in millimetres or inches, or write a DPI value. The labels should not be treated as confirmation that a finished image is exactly 35 × 45 mm or 2 × 2 inches when printed.</p><p>Photo rules vary by country, document type and application route. Confirm the required pixel dimensions, physical size, head position, background, expression, file type and file-size limit with the official passport or visa authority before submitting your image.</p>"
       },
       {
-        title: "Step-by-step guide to a clean photo",
-        content: "<ol><li><strong>Select a portrait:</strong> Choose a clear photo with even lighting on your face.</li><li><strong>Background Color:</strong> Use the background tool to select a solid color (white or light blue) as required by your application.</li><li><strong>Choose Size:</strong> Select US/India Visa (2x2 inches) or International Standard (35x45mm).</li><li><strong>Crop &amp; Center:</strong> Position your face within the guidelines.</li><li><strong>Download:</strong> Save your formatted photo ready for printing or digital submission.</li></ol>"
+        title: "AI Background Removal and Privacy",
+        content: "<p>Background removal runs in a browser worker. The worker first attempts the Bria RMBG-1.4 model through Transformers.js; if that path fails, it falls back to the ISNet model through the IMG.LY background-removal library. The selected photo is processed in the browser and this implementation does not upload the photo to a background-removal API.</p><p>The model and runtime files are fetched from external model hosts when needed: the Bria model uses the Hugging Face model pipeline, and the fallback library uses IMG.LY-hosted model and WebAssembly assets by default. The first background-removal attempt can therefore require an internet connection and may take longer while these files are downloaded. Your browser may cache them for later use. This means the photo processing is local, but the feature is not network-free.</p>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Passport Renewals:</strong> Creating compliant photos with standard solid white backgrounds.</li><li><strong>Online Visa Portals:</strong> Preparing exact dimension requirements for online immigration forms.</li><li><strong>Student &amp; Work IDs:</strong> Standardizing photos for badges and application profiles.</li></ul>"
+        title: "How to Make a Cropped Photo",
+        content: "<ol><li><strong>Choose a portrait:</strong> Upload one JPG/JPEG, PNG or WEBP image, or use the camera capture control where your browser supports it.</li><li><strong>Optional background removal:</strong> Select Remove Background and allow the model files to load. Review the cutout because fine hair, similar foreground/background colours and complex edges can produce imperfect results.</li><li><strong>Choose a background:</strong> After background removal, select a solid preset colour or use the custom colour picker. The output is JPEG, so it cannot retain transparent pixels; choose a solid background before downloading.</li><li><strong>Select the crop ratio:</strong> Choose the 35:45 portrait shape or 1:1 square shape, then move and zoom the image inside the crop window.</li><li><strong>Create and inspect the JPEG:</strong> Generate the crop, review the result and download it. Check its pixel dimensions and file size separately if your application specifies them.</li></ol>"
+      },
+      {
+        title: "Output and Important Limitations",
+        content: "<p>The crop is exported as a JPEG at the browser canvas's high-quality setting. There is no target file-size control, fixed pixel-size preset, DPI setting, face-measurement tool or official-rule validator. Background removal is an automated estimate rather than a manual cutout editor, so inspect hair, clothing edges and objects near the subject before using the result. A successful download does not mean an embassy, passport office or visa portal will accept the image.</p>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is it safe to use for passport photos?</strong><br>A: Yes. The tool runs locally in your browser, so your photos are not saved or sent to external databases.</p>
-          <p><strong>Q: What size do I need for a US Passport or Indian Visa/OCI?</strong><br>A: Select the 2x2 inch (square) preset.</p>
-          <p><strong>Q: What size is used for Indian domestic passports and Schengen Visas?</strong><br>A: The 35x45mm international standard is used for Indian passports, Schengen visas, and UK applications.</p>
-          <p><strong>Q: Can I print the downloaded file?</strong><br>A: Yes. The tool outputs a standard high-resolution JPG file that you can print at home or at any local photo center.</p>
+          <p><strong>Q: Does the 35:45 option create an exact 35 × 45 mm passport photograph?</strong><br>A: No. It sets a 35:45 crop ratio. The final pixel dimensions depend on the crop area, and the tool does not set print dimensions or DPI.</p>
+          <p><strong>Q: Does the square option guarantee a US passport or OCI-compliant photo?</strong><br>A: No. It creates a 1:1 crop only. It does not verify the current photo, head-size, background, pixel or other requirements for a US passport, OCI or visa application.</p>
+          <p><strong>Q: Which image formats can I upload?</strong><br>A: The upload area accepts JPG/JPEG, PNG and WEBP images. The downloaded crop is a JPEG.</p>
+          <p><strong>Q: Can I download a transparent PNG after removing the background?</strong><br>A: No. The crop/export function encodes the result as JPEG, which does not support transparency. Choose a solid background colour before creating the final image.</p>
+          <p><strong>Q: Is my selected photograph uploaded to a server?</strong><br>A: The photo is passed to the in-browser background-removal worker and is not sent to a photo-processing API by this code. The AI model and runtime assets are downloaded from Hugging Face or IMG.LY when needed, so the feature does make external requests for model files.</p>
+          <p><strong>Q: Why can background removal take longer the first time?</strong><br>A: The browser may need to download the AI model and runtime assets before it can process the photo. Later use may be faster if those assets remain cached.</p>
+          <p><strong>Q: Does this tool compress the image to a portal's KB limit?</strong><br>A: No. It creates a JPEG crop but has no target-KB control. Check the downloaded file size and use a separate compressor if the official application specifies a limit.</p>
+          <p><strong>Q: Does the tool check the face position or guarantee photo acceptance?</strong><br>A: No. You position the image manually in the crop window. The tool does not measure facial proportions, inspect official photo rules or guarantee acceptance.</p>
         `
       }
     ]
