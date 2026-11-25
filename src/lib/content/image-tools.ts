@@ -525,6 +525,26 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
         `
       }
     ]
+  },,
+  "svg-to-png": {
+    disableAutoEnrich: true,
+    sections: [
+      { title: "What SVG to PNG Does", content: "<p>Upload one SVG file and convert it to PNG in the browser. The converter loads the SVG as an image, draws it to HTML Canvas using the browser-decoded width and height, and exports PNG. The result is a raster bitmap; the original SVG paths, text objects and vector editability are not retained.</p>" },
+      { title: "Dimensions and Resolution", content: "<p>The Canvas uses the dimensions reported by the browser when it decodes the SVG. This page has no width, height, scale-factor or DPI controls. Pixel dimensions depend on the SVG's intrinsic dimensions and browser interpretation. SVGs with missing or unusual dimensions may not rasterize at the size you expect.</p>" },
+      { title: "Transparency and Browser Rendering", content: "<p>PNG supports transparency and can retain transparent areas rendered from the source SVG. It does not remove a solid background that is part of the SVG. Unsupported SVG features, unavailable fonts, missing linked resources or cross-origin restrictions can affect rendering or Canvas export. Inspect the result.</p>" },
+      { title: "Browser Processing", content: "<p>The selected SVG is loaded through a browser object URL, rendered into Canvas and exported as PNG. This component does not send the selected SVG file to a conversion API. It accepts one file per run.</p>" },
+      { title: "Frequently Asked Questions", content: "<p><strong>Q: Does the PNG remain a vector file?</strong><br>A: No. The SVG is rasterized into PNG pixels; its paths and editable objects are not preserved.</p><p><strong>Q: Can I set a 2x or 4x PNG resolution?</strong><br>A: No. This page has no scale-factor, width, height or DPI control.</p><p><strong>Q: Does PNG keep a transparent SVG background?</strong><br>A: PNG can retain transparent areas rendered from the source SVG. It does not remove a solid background.</p><p><strong>Q: Why do fonts or linked images look different?</strong><br>A: The browser must render the SVG and resolve its resources. Missing fonts, unsupported features or cross-origin restrictions can affect rendering or export.</p><p><strong>Q: Can I convert multiple SVG files at once?</strong><br>A: No. The current uploader accepts one file per run.</p><p><strong>Q: Is my SVG uploaded to a server?</strong><br>A: The component renders the SVG in the browser and does not send it to a conversion API.</p>" }
+    ]
+  },
+  "svg-to-jpg": {
+    disableAutoEnrich: true,
+    sections: [
+      { title: "What SVG to JPG Does", content: "<p>Upload one SVG file and convert it to JPG/JPEG. The browser loads the SVG as an image, draws it to Canvas using its decoded dimensions and exports JPEG. This rasterizes the artwork: vector paths and text objects are not retained.</p>" },
+      { title: "Dimensions and Resolution", content: "<p>The Canvas uses the dimensions reported by the browser when it decodes the SVG. There are no width, height, scale-factor or DPI controls. Pixel dimensions depend on intrinsic SVG sizing and browser interpretation.</p>" },
+      { title: "JPEG Quality and Transparency", content: "<p>The converter calls Canvas toBlob with a JPEG quality argument of 1.0. This is not lossless: JPEG is still lossy. The page has no quality slider or target-KB control. JPEG does not support transparency, so transparent SVG areas cannot remain transparent in the JPG.</p>" },
+      { title: "Browser Rendering and Limitations", content: "<p>The browser must be able to render the SVG. Unsupported features, unavailable fonts, missing linked resources or cross-origin restrictions can affect rendering or cause Canvas export to fail. The output is a new JPEG bitmap, not the original SVG document.</p>" },
+      { title: "Frequently Asked Questions", content: "<p><strong>Q: Does the JPG remain a vector image?</strong><br>A: No. The SVG is rasterized to JPEG pixels. Paths and editable text are not preserved.</p><p><strong>Q: Does JPG retain transparency?</strong><br>A: No. JPEG has no alpha channel.</p><p><strong>Q: Is JPEG quality 1.0 lossless?</strong><br>A: No. JPEG encoding remains lossy even at 1.0.</p><p><strong>Q: Can I set output dimensions or DPI?</strong><br>A: No. The Canvas uses browser-decoded SVG dimensions and there are no resolution controls.</p><p><strong>Q: Why are some SVG fonts or images missing?</strong><br>A: Browser rendering, referenced resources and cross-origin restrictions can affect the result.</p><p><strong>Q: Can I convert multiple SVGs at once?</strong><br>A: No. The current uploader accepts one file per run.</p><p><strong>Q: Is the file sent to a conversion server?</strong><br>A: The component renders the SVG in the browser and does not send it to a conversion API.</p>" }
+    ]
   },
 };
 
