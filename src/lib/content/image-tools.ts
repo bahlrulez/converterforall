@@ -1,38 +1,85 @@
 export const imageToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   "webp-to-png": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The WEBP to PNG converter is a specialized image processing utility designed to effortlessly transform modern WEBP files into universally compatible PNG images. WEBP is an advanced image format created by Google that provides superior lossless and lossy compression for images on the web. While WEBP is fantastic for reducing file sizes and improving website load times, it isn't universally supported by all legacy operating systems, older image editing software, or certain content management systems. This converter seamlessly bridges that compatibility gap by rendering the WEBP file and exporting it as a standard Portable Network Graphic (PNG), ensuring you can open, edit, and share your images anywhere.</p>"
+        title: "What the WEBP Converter Does",
+        content: "<p>Upload one or more WEBP images and convert them to PNG or JPG/JPEG. The page defaults to PNG when opened from the WEBP-to-PNG route, but the Output Format selector lets you switch to JPG. Files are processed one at a time in the browser and can be downloaded individually or using Download All.</p>"
       },
       {
-        title: "How does it work?",
-        content: "<p>Unlike traditional conversion services that require you to upload your personal photos to a remote server, our WEBP to PNG tool operates entirely within your web browser using HTML5 Canvas and modern browser APIs. When you select a file, the browser decodes the WEBP image locally into raw pixel data. This data is then instantly re-encoded by the browser's native rendering engine into a high-quality PNG format. This process preserves the exact color profile, resolution, and transparency (alpha channel) of the original image. Because the entire conversion happens on your device's RAM, it guarantees absolute privacy and lightning-fast speeds with zero upload or download latency.</p>"
+        title: "PNG and JPG Output Options",
+        content: "<p><strong>PNG:</strong> PNG supports an alpha channel. When the source WEBP contains transparent pixels, the canvas can retain that transparency in the PNG output. The converter does not add an opaque background in PNG mode.</p><p><strong>JPG/JPEG:</strong> JPEG does not support transparency. In JPG mode, the converter fills the canvas with white before drawing the image, so transparent source areas become white. The JPEG Quality slider is shown only in JPG mode; it does not act as a PNG quality setting.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>Imagine you've just downloaded a beautiful transparent logo or a high-resolution graphic from a modern website, but it is saved as a WEBP file. When you try to import this graphic into an older version of Photoshop or a desktop presentation software like Microsoft PowerPoint, you receive an 'unsupported file format' error. By quickly running the file through our WEBP to PNG converter, you get an identical, transparent PNG file that is instantly recognized by virtually every design and presentation software ever made.</p>"
+        title: "Image Dimensions and File Size",
+        content: "<p>The canvas is created using the decoded image's width and height. This converter does not provide resize controls or intentionally change the pixel dimensions. The output file size can differ from the source because the browser re-encodes the image; JPEG size also depends on the selected quality setting and image content.</p><p>The component displays the actual converted Blob size after processing. It does not guarantee a target KB value or preserve every byte of the original file.</p>"
       },
       {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload your file:</strong> Drag and drop your WEBP image directly into the designated upload zone on the page, or click to open your device's file picker.</li><li><strong>Local Processing:</strong> Once selected, the image is immediately read by your browser. No internet upload is required.</li><li><strong>Instant Conversion:</strong> The browser renders the image data onto a hidden canvas and exports it as a PNG file in a fraction of a second.</li><li><strong>Download:</strong> Click the prominent download button to save the new PNG file directly to your local storage.</li></ol>"
+        title: "Batch Conversion",
+        content: "<p>You can select multiple WEBP files at once, add more files to the list, and download each converted result or use Download All. The component processes the queued files one by one to reduce the chance of freezing the interface. There is no fixed file-size cap configured in this component; practical limits depend on the browser, source dimensions and available memory.</p>"
       },
       {
-        title: "Practical uses",
-        content: "<ul><li><strong>Graphic Design:</strong> Converting downloaded web assets into a format compatible with Adobe Creative Suite and other design tools.</li><li><strong>Website Building:</strong> Standardizing image formats for uploading to older Content Management Systems (CMS) that reject WEBP uploads.</li><li><strong>Archiving:</strong> Saving images in a widely recognized format to ensure they can be opened on any device.</li><li><strong>Social Media:</strong> Converting images for platforms or forums that only accept JPG and PNG files.</li></ul>"
+        title: "Browser Processing and Metadata",
+        content: "<p>The converter creates object URLs for the selected files, decodes each image in the browser, draws it to an HTML Canvas and exports the selected format with Canvas toBlob. This component does not upload the image to a conversion API. Re-encoding through Canvas does not preserve the original file byte-for-byte, and source metadata such as EXIF camera details and GPS information should not be expected to remain.</p>"
+      },
+      {
+        title: "How to Convert WEBP Images",
+        content: "<ol><li><strong>Select WEBP files:</strong> Upload one or more .webp images.</li><li><strong>Choose the output:</strong> Select PNG or JPG (JPEG). PNG supports transparency; JPG mode uses a white background for transparent areas.</li><li><strong>Set JPEG quality if needed:</strong> The quality slider is available only when JPG is selected.</li><li><strong>Wait for the batch:</strong> Files are processed one at a time. You can add more files after the initial selection.</li><li><strong>Download:</strong> Download an individual result or use Download All for completed files.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is my data safe when using this background remover?</strong><br>A: Yes. Processing happens locally in your web browser. Your images are not uploaded to our servers.</p>
-          <p><strong>Q: How does this tool utilize WebGPU and WebGL hardware acceleration?</strong><br>A: Our background removal tool can utilize your device's graphics processor (GPU) using standard WebGPU and WebGL APIs for fast, responsive edge detection.</p>
-          <p><strong>Q: What happens if my browser or smartphone does not support WebGPU?</strong><br>A: The tool automatically falls back to standard WebGL or CPU WebAssembly processing so the conversion runs smoothly without errors.</p>
-          <p><strong>Q: What is the maximum file size I can upload?</strong><br>A: Since processing is local, the file size is only limited by your device's available memory. Images under 20MB are recommended for the best performance.</p>
-          <p><strong>Q: Why is the output always a PNG?</strong><br>A: PNG supports transparency (an alpha channel). If saved as a JPG, transparent background areas would automatically be filled with solid white.</p>
-          <p><strong>Q: Do I need to install any software to convert WEBP to PNG?</strong><br>A: No software installation is required. This tool runs directly in your web browser (Chrome, Firefox, Safari, Edge).</p>
-          <p><strong>Q: Is there a file size limit for uploading WEBP images?</strong><br>A: Because conversion happens locally on your device, there are no strict server-side upload limits.</p>
-          <p><strong>Q: Can I use this WEBP to PNG converter on my smartphone?</strong><br>A: Yes. The tool works on mobile browsers on both iOS and Android.</p>
-          <p><strong>Q: Why do some websites use WEBP instead of PNG?</strong><br>A: WEBP provides efficient compression, helping websites load faster while maintaining good visual quality.</p>
+          <p><strong>Q: Can I choose both PNG and JPG output from this page?</strong><br>A: Yes. The Output Format selector offers PNG and JPG/JPEG. This route defaults to PNG, but you can switch it to JPG.</p>
+          <p><strong>Q: Does PNG output preserve WEBP transparency?</strong><br>A: PNG supports transparency, and the component does not fill the canvas with a background in PNG mode. Check the result if transparency is important.</p>
+          <p><strong>Q: What happens to transparent areas in JPG output?</strong><br>A: They are composited against a white background because JPEG does not support transparency.</p>
+          <p><strong>Q: Can I convert multiple WEBP files at once?</strong><br>A: Yes. You can upload multiple files, add more to the list and download them one by one or use Download All.</p>
+          <p><strong>Q: Does conversion resize the image?</strong><br>A: No resize setting is provided. The canvas uses the decoded image's original width and height.</p>
+          <p><strong>Q: Does the quality slider apply to PNG?</strong><br>A: No. The JPEG quality slider appears only when JPG is selected. PNG uses the browser's PNG encoder.</p>
+          <p><strong>Q: Is the displayed result size exact?</strong><br>A: Yes. After conversion, the component displays the size of the resulting Blob. The size can be different from the source.</p>
+          <p><strong>Q: Are images uploaded to a server?</strong><br>A: The component decodes and converts images in the browser and does not send them to a conversion API.</p>
+          <p><strong>Q: Will EXIF or GPS metadata be preserved?</strong><br>A: Do not rely on original EXIF or GPS metadata being preserved. Canvas re-encoding creates a new image file.</p>
+        `
+      }
+    ]
+  },
+  "webp-to-jpg": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "What the WEBP to JPG Converter Does",
+        content: "<p>Upload one or more WEBP images and convert them to JPG/JPEG in your browser. The page defaults to JPEG, but the Output Format selector also lets you choose PNG. The converter processes files one by one, shows the actual converted file size and offers individual downloads or Download All.</p>"
+      },
+      {
+        title: "JPEG Quality and Transparent Backgrounds",
+        content: "<p>When JPG/JPEG is selected, the quality slider lets you choose a value from 10% to 100%. A lower value can reduce file size but may introduce more visible compression artifacts; the effect varies with the source image. The converter fills the canvas with white before drawing the image, so transparent areas in the source WEBP become white in the JPG output.</p><p>If you need to retain transparent pixels, choose PNG instead. The quality slider is only displayed for JPG mode and does not control PNG encoding.</p>"
+      },
+      {
+        title: "Dimensions and Output File Size",
+        content: "<p>The canvas uses the decoded image's original width and height. The component does not offer resizing or cropping controls. JPEG output is re-encoded at the selected quality, so the output file size can be different from the original. The result list reports the actual converted Blob size; the tool does not target a specific KB value.</p>"
+      },
+      {
+        title: "Batch Conversion",
+        content: "<p>The upload zone accepts multiple WEBP files. You can add additional files after the initial selection and download each completed result or use Download All. The component processes items sequentially. It does not set a fixed maximum file size; processing is subject to the browser's memory and decoding capabilities.</p>"
+      },
+      {
+        title: "Browser Processing and Metadata",
+        content: "<p>The image is decoded and drawn to an HTML Canvas in the browser, then re-encoded using Canvas toBlob. This component does not send the image to a conversion API. Canvas re-encoding creates a new file, so original metadata such as EXIF camera details and GPS information should not be expected to be preserved.</p>"
+      },
+      {
+        title: "How to Convert WEBP to JPG",
+        content: "<ol><li><strong>Select WEBP images:</strong> Upload one or multiple .webp files.</li><li><strong>Choose JPG output:</strong> Leave JPG selected, or select PNG when you need transparency.</li><li><strong>Adjust quality:</strong> For JPG output, move the slider between 10% and 100%. This control is hidden for PNG output.</li><li><strong>Wait for processing:</strong> The browser converts files one at a time.</li><li><strong>Download:</strong> Save files individually or use Download All for the completed batch.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Can I convert more than one WEBP image at once?</strong><br>A: Yes. The converter supports multiple files and provides individual downloads and Download All.</p>
+          <p><strong>Q: Can I change the output to PNG?</strong><br>A: Yes. The Output Format selector offers PNG as well as JPG/JPEG.</p>
+          <p><strong>Q: Does JPG output retain transparent backgrounds?</strong><br>A: No. The converter fills the canvas with white before creating a JPEG. Choose PNG if you need transparency.</p>
+          <p><strong>Q: Does the quality slider change PNG quality?</strong><br>A: No. It is only shown for JPEG output.</p>
+          <p><strong>Q: Will the converter resize or crop my image?</strong><br>A: No. The output canvas uses the decoded source width and height, and there are no resize or crop controls.</p>
+          <p><strong>Q: Is the output file size exactly the same as the source?</strong><br>A: Not necessarily. JPEG is re-encoded at the chosen quality, and PNG is also re-encoded. The displayed result size is the actual output Blob size.</p>
+          <p><strong>Q: Is my WEBP file uploaded to a conversion server?</strong><br>A: No. The component processes the image in the browser and does not send it to a conversion API.</p>
+          <p><strong>Q: Does the converted file keep EXIF or GPS metadata?</strong><br>A: Do not expect original EXIF or GPS metadata to be preserved through Canvas re-encoding.</p>
         `
       }
     ]

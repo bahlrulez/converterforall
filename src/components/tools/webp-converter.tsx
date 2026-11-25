@@ -204,8 +204,8 @@ export default function WebpConverter({ defaultFormat = "image/jpeg" }: { defaul
             onChange={handleFormatChange}
             disabled={isProcessing}
           >
-            <option value="image/jpeg">JPG Document</option>
-            <option value="image/png">PNG (Preserves Transparency)</option>
+            <option value="image/jpeg">JPG (JPEG)</option>
+            <option value="image/png">PNG (supports transparency)</option>
           </select>
         </div>
 
