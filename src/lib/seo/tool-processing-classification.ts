@@ -14,6 +14,7 @@ export type ProcessingClassification =
   | "client-font-mapping"
   | "client-developer"
   | "client-script-utility"
+  | "informational-guide"
   | "neutral-fallback";
 
 export interface ToolProcessingBadges {
@@ -36,6 +37,15 @@ export function getToolProcessingBadges(
   tool?: Tool,
   categorySlug?: string
 ): ToolProcessingBadges {
+  // Raavi is an informational Unicode-font guide, not a text converter.
+  if (toolSlug === "unicode-to-raavi") {
+    return {
+      classification: "informational-guide",
+      heroBadge: "Punjabi Unicode Font Guide",
+      trustBadge: "No character conversion required · Use an installed Gurmukhi font",
+    };
+  }
+
   // 1. External services & opt-in cloud engines
   if (toolSlug === "word-to-pdf" || toolSlug === "powerpoint-to-pdf") {
     return {

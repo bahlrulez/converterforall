@@ -131,7 +131,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
 
   const processingBadges = getToolProcessingBadges(toolSlug, tool, categorySlug);
 
-  const isHeldUnavailableTool = toolSlug === "unicode-to-raavi";
+  const isRaaviGuidePage = toolSlug === "unicode-to-raavi";
 
   const PUNJABI_EXPERIMENTAL_TOOLS = new Set([
     "anmollipi-to-unicode",
@@ -221,10 +221,13 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
                 <span>Please check the output before relying on it.</span>
               </div>
             )}
-            {isHeldUnavailableTool ? (
-              <div className="p-8 my-4 max-w-xl mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-center">
-                <p className="text-base font-medium text-slate-700 dark:text-slate-300">
-                  This tool is not available yet.
+            {isRaaviGuidePage ? (
+              <div role="note" aria-label="Raavi font guide" className="p-8 my-4 max-w-xl mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-center">
+                <p className="text-base font-semibold text-slate-800 dark:text-slate-200">
+                  No text conversion is required.
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                  Raavi is a Gurmukhi Unicode font. Use it to display existing Punjabi Unicode text in a document editor where the Raavi font is installed and available.
                 </p>
               </div>
             ) : (

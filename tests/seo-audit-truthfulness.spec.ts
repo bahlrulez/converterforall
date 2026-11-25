@@ -408,7 +408,24 @@ test.describe('SEO Audit Truthfulness & False-Positive Elimination', () => {
     expect(articleWithoutDate.errors.some((err) => err.includes('datePublished'))).toBe(true);
   });
 
-  test('12. Tool page processing classifications truthfully disclose cloud vs local engines without blanket claims', () => {
+  test('12. Raavi is classified and presented as an informational font guide, not a converter', () => {
+    const raaviTool = getToolBySlug('unicode-to-raavi');
+    expect(raaviTool).toBeDefined();
+    expect(raaviTool?.tool.title).toBe('Raavi Font Guide');
+    expect(raaviTool?.tool.isInteractive).toBe(false);
+
+    const raaviGuide = getToolProcessingBadges(
+      'unicode-to-raavi',
+      raaviTool?.tool,
+      raaviTool?.categorySlug
+    );
+    expect(raaviGuide.classification).toBe('informational-guide');
+    expect(raaviGuide.heroBadge).toBe('Punjabi Unicode Font Guide');
+    expect(raaviGuide.trustBadge).toContain('No character conversion required');
+    expect(raaviGuide.trustBadge).not.toContain('On-Device Browser Processing');
+  });
+
+  test('13. Tool page processing classifications truthfully disclose cloud vs local engines without blanket claims', () => {
     // Cloud / External Services
     const wordPdf = getToolProcessingBadges('word-to-pdf');
     expect(wordPdf.classification).toBe('cloud-opt-in');
