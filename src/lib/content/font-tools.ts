@@ -24,7 +24,7 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
         content: `
           <p><strong>Q: Do I need to convert Unicode text to use Raavi font?</strong><br>A: No. Raavi is an OpenType Unicode font, not an older ASCII font. Unicode Punjabi text already displays directly in Raavi font without requiring any conversion.</p>
           <p><strong>Q: Why does my Punjabi text show as English letters in Microsoft Word?</strong><br>A: If your text appears as random English characters, it was typed in a legacy non-Unicode font like Asees or Satluj. Converting that text to Unicode using our font converters will allow it to display properly in Raavi font.</p>
-          <p><strong>Q: Is Raavi required for official Punjab government typing tests?</strong><br>A: Yes. Official government typing tests in Punjab (including PSSSB, Punjab Police, and High Court exams) mandate typing in standard Unicode, with Raavi as the standard display font. If you practiced with the legacy Asees layout, use our Asees to Unicode tool to verify your typing accuracy.</p>
+          <p><strong>Q: Is Raavi required for every Punjab government typing test?</strong><br>A: Requirements can differ by recruitment and test. Check the current official notification for the required script, input method, keyboard layout and font. This guide explains how to display Unicode Gurmukhi in Raavi; it does not certify the requirements of a particular examination.</p>
         `
       }
     ]
