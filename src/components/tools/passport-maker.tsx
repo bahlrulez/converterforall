@@ -241,7 +241,7 @@ export function PassportMaker() {
             Drag and drop a portrait photo here, or click to browse files
           </p>
           <p className="text-xs text-muted-foreground">
-            Supports JPG, PNG, and WEBP. Processing is 100% private.
+            Accepts JPG, PNG and WEBP. Photo editing runs in your browser; AI model files may download on first use. Your photo is processed locally.
           </p>
         </div>
         
@@ -294,12 +294,12 @@ export function PassportMaker() {
 
             {transparentImageSrc && (
               <div className="flex flex-col space-y-2">
-                <p className="text-xs text-muted-foreground">Select a new solid background color for your passport photo:</p>
+                <p className="text-xs text-muted-foreground">Choose a solid background colour for your photo. The downloaded JPEG cannot preserve transparency, so select a solid colour before exporting.</p>
                 <div className="flex flex-wrap items-center gap-3">
                   <button
                     onClick={() => applyBgColor("transparent")}
                     className={`h-10 w-10 rounded-full border-2 flex items-center justify-center transition-all ${bgColor === "transparent" ? "border-primary" : "border-transparent"} relative overflow-hidden`}
-                    title="Transparent"
+                    title="Transparent preview (JPEG export flattens transparency)"
                   >
                     <div className="absolute inset-0 opacity-50" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='5' height='5' fill='%23ccc' /%3E%3Crect x='5' y='5' width='5' height='5' fill='%23ccc' /%3E%3Crect x='0' y='5' width='5' height='5' fill='%23eee' /%3E%3Crect x='5' y='0' width='5' height='5' fill='%23eee' /%3E%3C/svg%3E\")" }} />
                     {bgColor === "transparent" && <Check className="h-4 w-4 text-primary z-10" />}
@@ -344,7 +344,7 @@ export function PassportMaker() {
                   aspect === 35 / 45 ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                 }`}
               >
-                India / EU / UK (35x45mm)
+                Portrait crop (35:45 ratio)
               </button>
               <button
                 onClick={() => setAspect(1)}
@@ -352,9 +352,10 @@ export function PassportMaker() {
                   aspect === 1 ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                 }`}
               >
-                US / India OCI (2x2 in)
+                Square crop (1:1 ratio)
               </button>
             </div>
+            <p className="mt-2 text-xs text-muted-foreground">These options set the crop shape only. They do not set fixed pixel dimensions, physical print size or DPI.</p>
           </div>
 
           <div className="relative w-full h-[50vh] min-h-[400px] bg-black/5 rounded-2xl overflow-hidden border">
@@ -397,7 +398,7 @@ export function PassportMaker() {
             </Button>
             <Button onClick={showCroppedImage} disabled={isProcessing}>
               <Scissors className="mr-2 h-4 w-4" />
-              {isProcessing ? "Processing..." : "Generate Passport Photo"}
+              {isProcessing ? "Processing..." : "Create Cropped JPEG"}
             </Button>
           </div>
         </>
@@ -406,9 +407,9 @@ export function PassportMaker() {
           <div className="bg-green-500/10 text-green-600 p-3 rounded-full mb-2">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
           </div>
-          <h2 className="text-2xl font-bold">Your passport photo is ready!</h2>
+          <h2 className="text-2xl font-bold">Your cropped JPEG is ready</h2>
           <p className="text-muted-foreground max-w-md mx-auto">
-            Your image has been perfectly cropped to the specified dimensions without leaving your device.
+            The image has been cropped to the selected aspect ratio. Pixel dimensions depend on the crop area; this tool does not set print dimensions or DPI, or verify passport and visa photo requirements.
           </p>
           
           <div className="relative border-4 border-white shadow-xl rounded-sm overflow-hidden bg-white max-w-sm mx-auto">
