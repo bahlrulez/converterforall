@@ -545,7 +545,7 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       { title: "Browser Rendering and Limitations", content: "<p>The browser must be able to render the SVG. Unsupported features, unavailable fonts, missing linked resources or cross-origin restrictions can affect rendering or cause Canvas export to fail. The output is a new JPEG bitmap, not the original SVG document.</p>" },
       { title: "Frequently Asked Questions", content: "<p><strong>Q: Does the JPG remain a vector image?</strong><br>A: No. The SVG is rasterized to JPEG pixels. Paths and editable text are not preserved.</p><p><strong>Q: Does JPG retain transparency?</strong><br>A: No. JPEG has no alpha channel.</p><p><strong>Q: Is JPEG quality 1.0 lossless?</strong><br>A: No. JPEG encoding remains lossy even at 1.0.</p><p><strong>Q: Can I set output dimensions or DPI?</strong><br>A: No. The Canvas uses browser-decoded SVG dimensions and there are no resolution controls.</p><p><strong>Q: Why are some SVG fonts or images missing?</strong><br>A: Browser rendering, referenced resources and cross-origin restrictions can affect the result.</p><p><strong>Q: Can I convert multiple SVGs at once?</strong><br>A: No. The current uploader accepts one file per run.</p><p><strong>Q: Is the file sent to a conversion server?</strong><br>A: The component renders the SVG in the browser and does not send it to a conversion API.</p>" }
     ]
-  },,
+  },
   "gif-maker": {
     disableAutoEnrich: true,
     sections: [
