@@ -327,9 +327,9 @@ export function ExamPhotoResizer() {
           <div className="flex items-center justify-between">
             <div>
               <span className="text-xs font-semibold text-primary uppercase tracking-wider">Step 2</span>
-              <h3 className="font-semibold text-base">Choose Your Target Exam or Portal</h3>
+              <h3 className="font-semibold text-base">Choose a Preset Starting Point</h3>
             </div>
-            <span className="text-xs text-muted-foreground hidden sm:inline-block">Auto-tunes aspect ratio &amp; file limits</span>
+            <span className="text-xs text-muted-foreground hidden sm:inline-block">Applies the preset crop ratio and KB range</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
@@ -362,11 +362,11 @@ export function ExamPhotoResizer() {
 
                   <div className="space-y-1 w-full text-xs">
                     <div className="flex items-center justify-between text-muted-foreground">
-                      <span>Dimensions:</span>
-                      <span className="font-medium text-foreground">{config.dimensionsLabel.split(" ")[0]} cm</span>
+                      <span>Crop ratio:</span>
+                      <span className="font-medium text-foreground">{config.aspect.toFixed(2)}:1</span>
                     </div>
                     <div className="flex items-center justify-between text-muted-foreground">
-                      <span>Target KB:</span>
+                      <span>Preset KB range:</span>
                       <span className="font-semibold text-primary">{config.minKB} KB – {config.maxKB} KB</span>
                     </div>
                   </div>
@@ -376,7 +376,7 @@ export function ExamPhotoResizer() {
           </div>
         </div>
 
-        {/* Target Specification Banner */}
+        {/* Preset Guidance Banner */}
         <div className="bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-2xl p-4 text-xs text-foreground space-y-2">
           <div className="flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -387,7 +387,7 @@ export function ExamPhotoResizer() {
                   {activeConfig.minKB} KB – {activeConfig.maxKB} KB
                 </span>
                 <span className="px-2 py-0.5 bg-muted border font-medium rounded text-[11px]">
-                  {activeConfig.dimensionsLabel}
+                  Reference only: {activeConfig.dimensionsLabel}
                 </span>
               </div>
               <ul className="text-muted-foreground list-disc list-inside space-y-0.5 pt-1">
@@ -395,6 +395,7 @@ export function ExamPhotoResizer() {
                   <li key={idx} className="leading-relaxed">{rule}</li>
                 ))}
               </ul>
+              <p className="pt-1 text-amber-700 dark:text-amber-400 font-medium">These stored preset values are not live portal specifications. Confirm the current recruitment notice before using the output.</p>
             </div>
           </div>
         </div>
@@ -442,12 +443,12 @@ export function ExamPhotoResizer() {
           <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between border-b pb-4">
             <div>
               <h3 className="text-lg font-semibold capitalize">Adjust &amp; Crop {mode}</h3>
-              <p className="text-xs text-muted-foreground">Framed for {activePresetSpec.name}</p>
+              <p className="text-xs text-muted-foreground">Using preset: {activePresetSpec.name}</p>
             </div>
             
             <div className="flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-lg text-xs font-medium border border-primary/20">
               <FileCheck className="w-3.5 h-3.5" />
-              <span>Target: {activeConfig.minKB}–{activeConfig.maxKB} KB ({activeConfig.dimensionsLabel.split(" ")[0]} cm)</span>
+              <span>Preset range: {activeConfig.minKB}–{activeConfig.maxKB} KB</span>
             </div>
           </div>
 
@@ -488,9 +489,9 @@ export function ExamPhotoResizer() {
             </Button>
             <Button onClick={processImage} disabled={isProcessing}>
               {isProcessing ? (
-                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Compressing to Specs...</>
+                <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Compressing JPEG...</>
               ) : (
-                <><Scissors className="mr-2 h-4 w-4" /> Crop &amp; Conform to Specs</>
+                <><Scissors className="mr-2 h-4 w-4" /> Crop &amp; Export JPEG</>
               )}
             </Button>
           </div>
@@ -504,7 +505,7 @@ export function ExamPhotoResizer() {
           
           <div className="bg-background p-4 rounded-xl border max-w-sm w-full mx-auto text-left space-y-2 text-xs">
              <div className="flex justify-between">
-               <span className="text-muted-foreground">Portal Target:</span>
+               <span className="text-muted-foreground">Selected preset:</span>
                <span className="font-semibold text-foreground">{activePresetSpec.shortName}</span>
              </div>
              <div className="flex justify-between">
@@ -535,7 +536,7 @@ export function ExamPhotoResizer() {
             </Button>
             <Button onClick={handleDownload} size="lg" className="shadow-sm">
               <Download className="mr-2 h-4 w-4" />
-              Download Conformed File
+              Download JPEG
             </Button>
           </div>
         </div>
