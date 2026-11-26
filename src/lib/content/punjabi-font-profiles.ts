@@ -312,11 +312,11 @@ const punjabiProfiles: FontContentProfile[] = [
     slug: "gurbani-akhar-to-unicode",
     fontName: "Gurbani Akhar",
     direction: "to-unicode",
-    description: "Converts pasted text intended for legacy Gurbani Akhar/GurbaniLipi encoding into Gurmukhi Unicode. The current route uses the GurbaniLipi mapping profile; compatibility with every font carrying these names has not been established.",
+    description: "Converts pasted text using this route's current GurbaniLipi-based mapping profile into Gurmukhi Unicode. It is not established as a complete mapping for every font distributed under the Gurbani Akhar or GurbaniLipi names.",
     primaryUseCases: [
-      "Converting copied Gurbani Shabad, Steek or Nitnem passages when their text uses the legacy mapping selected by this route.",
-      "Preparing copied text from older Sikh literature or religious publications for use in Unicode-based websites and mobile apps.",
-      "Sharing converted Unicode Gurbani passages on devices that support Gurmukhi Unicode, without requiring the recipient to install the source legacy font."
+      "Converting copied Gurbani Shabad, Steek or Nitnem passages only when their text uses the character mapping supported by this route.",
+      "Preparing copied passages for Unicode-based websites and mobile apps after checking the converted text against a trusted copy of the source.",
+      "Creating a Unicode text copy for sharing or archiving while retaining the original legacy-encoded text for reference."
     ],
     mappingConsiderations: [
       "In the current implementation, the Gurbani Akhar route selects the GurbaniLipi profile, which reuses the AnmolLipi base character table and overlays GurbaniLipi-specific numeral entries. This is not evidence of a separately verified full mapping for every Gurbani Akhar font edition.",
@@ -324,8 +324,8 @@ const punjabiProfiles: FontContentProfile[] = [
       "Do not assume every poetic ligature, custom punctuation mark or nonstandard glyph is covered; compare each converted passage with a trusted copy of the source."
     ],
     compatibilityNotes: [
-      "The converted Unicode text will render in any standard Gurmukhi font such as Raavi, Nirmala UI, or Gurmukhi MN on Mac/iOS.",
-      "No specialized Gurbani font installation is needed on recipient devices to read the converted Unicode text."
+      "The output is Gurmukhi Unicode. It can be displayed in an application that has a Gurmukhi-capable Unicode font available; the original legacy Gurbani font is not required to read the converted text.",
+      "If a recipient device or app shows missing glyphs, check its Gurmukhi font availability and text-rendering support. Compare religious text with the original before publishing or quoting it."
     ],
     relatedConverters: [
       { slug: "asees-to-unicode", name: "Asees to Unicode" },
@@ -334,16 +334,16 @@ const punjabiProfiles: FontContentProfile[] = [
     ],
     faqs: [
       {
-        question: "How is Gurbani Akhar different from standard Unicode?",
-        answer: "Gurbani Akhar is a legacy non-Unicode font family from the 1990s and 2000s that mapped Gurmukhi characters onto English keyboard keys. Unicode is the universal international standard where each Gurmukhi character has its own unique character code, allowing text to display properly on any computer or smartphone without installing special fonts."
+        question: "Is this converter compatible with every font called Gurbani Akhar?",
+        answer: "No universal compatibility is established. This route uses the current GurbaniLipi mapping profile, which reuses the AnmolLipi base character table and overlays GurbaniLipi-specific numeral entries. Different font builds or custom glyphs may use different character codes; compare output from your actual source font with a trusted copy before relying on it."
       },
       {
-        question: "Will symbols like Ek Onkar (ੴ) convert properly?",
-        answer: "The current mapping contains an Ek Onkar composition, but the output should still be checked against the source font and the original passage. Custom ligatures and punctuation may not be represented."
+        question: "Does the current mapping include Ek Onkar (ੴ)?",
+        answer: "The current mapping includes an Ek Onkar composition. Still compare the converted symbol and surrounding passage with the original, because custom ligatures, punctuation and font-specific variants may not be represented."
       },
       {
-        question: "How does this Gurbani Akhar route relate to GurbaniLipi and AnmolLipi?",
-        answer: "In the current converter code, the Gurbani Akhar route selects the GurbaniLipi profile, which inherits the AnmolLipi base mapping table and adds separate numeral entries. Because it does not use a separate verified Gurbani Akhar table, compare converted Gurbani text carefully against the source."
+        question: "Why does this page mention both GurbaniLipi and AnmolLipi?",
+        answer: "The route is labelled Gurbani Akhar, but its current implementation selects the GurbaniLipi profile. That profile reuses the AnmolLipi base character table and adds GurbaniLipi-specific numeral entries; it is not a separately verified full mapping for every Gurbani Akhar font edition."
       }
     ]
   },
