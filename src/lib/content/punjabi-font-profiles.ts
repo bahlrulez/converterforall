@@ -6,6 +6,10 @@ export interface FontContentProfile {
   primaryUseCases: string[];
   mappingConsiderations: string[];
   compatibilityNotes: string[];
+  compatibilitySubsection?: {
+    title: string;
+    content: string;
+  };
   relatedConverters: { slug: string; name: string }[];
   faqs?: { question: string; answer: string }[];
 }
@@ -39,10 +43,16 @@ export function generatePunjabiFontContent(profile: FontContentProfile) {
   }
 
   if (profile.compatibilityNotes && profile.compatibilityNotes.length > 0) {
+    const subsectionHtml = profile.compatibilitySubsection
+      ? '<h3 class="text-lg font-bold text-slate-900 dark:text-white mt-5 mb-2">' +
+        profile.compatibilitySubsection.title +
+        '</h3>' +
+        profile.compatibilitySubsection.content
+      : '';
     sections.push({
       title: 'Compatibility and troubleshooting',
       content: '<ul class="list-disc pl-5 mt-2 space-y-1">' +
-        profile.compatibilityNotes.map(cn => '<li>' + cn + '</li>').join('') + '</ul>'
+        profile.compatibilityNotes.map(cn => '<li>' + cn + '</li>').join('') + '</ul>' + subsectionHtml
     });
   }
 
@@ -112,7 +122,7 @@ const punjabiProfiles: FontContentProfile[] = [
       },
       {
         question: "Does Joy to Unicode keep Word formatting or export a formatted DOC file?",
-        answer: "No. This page converts pasted text only, so bold styling, tables, images and layout are not preserved. The DOC-labelled download saves plain text with a .doc extension rather than a formatted Microsoft Word document."
+        answer: "No. This page converts pasted text only, so bold styling, tables, images and layout are not preserved. Download .docx exports unformatted plain text paragraphs, and the toolbar DOC button saves plain text with a .doc extension."
       }
     ]
   },
@@ -210,6 +220,10 @@ const punjabiProfiles: FontContentProfile[] = [
       "Converted text will automatically render using your system's default Gurmukhi font (such as Raavi on Windows or Nirmala UI).",
       "Check numbers and punctuation separately if the source mixes Western digits with legacy-font characters; the converter page does not provide a separate digit-conversion toggle."
     ],
+    compatibilitySubsection: {
+      title: "Using Asees output with Raavi (Unicode) on Windows",
+      content: "<p>On Windows, <strong>Raavi (Unicode)</strong> and Nirmala UI are standard OpenType Gurmukhi Unicode fonts. Because Windows Raavi uses standard Gurmukhi Unicode rather than legacy ASCII encoding, converting Asees text into Unicode produces Raavi-compatible text directly—paste the result into Word or any editor and select Raavi if you need that font face.</p>"
+    },
     relatedConverters: [
       { slug: "unicode-to-asees", name: "Unicode to Asees" },
       { slug: "satluj-to-unicode", name: "Satluj to Unicode" },
@@ -221,12 +235,16 @@ const punjabiProfiles: FontContentProfile[] = [
         answer: "No. The tool converts pasted Asees-encoded text into Unicode; it does not reproduce or certify an official typing-test environment. Check the current PSSSB notification for the required input method, font and layout. Use the converter only to inspect or convert practice text."
       },
       {
+        question: "Does converting Asees to Unicode work with Windows Raavi (Unicode) font?",
+        answer: "Yes. Microsoft Windows Raavi is a standard OpenType Gurmukhi Unicode font, not a legacy ASCII mapping. Converting Asees-encoded text to Unicode produces Raavi-compatible Punjabi text directly, so it renders properly in Raavi, Nirmala UI, or any modern Gurmukhi Unicode font."
+      },
+      {
         question: "How is Unicode different from Asees?",
         answer: "Asees is a legacy font that stores Punjabi text using English ASCII character codes, requiring the Asees font file on every machine. Unicode is an international standard where each Gurmukhi character has its own universal code, making text readable across all devices without installing fonts."
       },
       {
         question: "Does Asees to Unicode preserve layout or export a formatted Word file?",
-        answer: "No. It converts pasted characters only and does not carry across Word styles, tables or formatting. The toolbar DOC button downloads plain text with a .doc filename rather than a formatted Word document."
+        answer: "No. It converts pasted characters only and does not carry across Word styles, tables or formatting. Download .docx exports unformatted plain text paragraphs, and the toolbar DOC button saves plain text with a .doc filename."
       }
     ]
   },
@@ -265,7 +283,7 @@ const punjabiProfiles: FontContentProfile[] = [
       },
       {
         question: "Does Unicode to Asees keep Word formatting or create a formatted DOCX file?",
-        answer: "No. The converter outputs unformatted plain text, and the DOC download button saves plain text with a .doc filename. Paste the output into Word or PageMaker, select the Asees font, and apply formatting there."
+        answer: "No. The converter processes plain text and does not carry across Word layout, tables or styles. Download .docx exports plain text paragraphs without legacy formatting, and the toolbar DOC button saves plain text with a .doc filename; paste into Word or PageMaker and apply the Asees font there."
       }
     ]
   },
@@ -304,7 +322,7 @@ const punjabiProfiles: FontContentProfile[] = [
       },
       {
         question: "Will converting AnmolLipi text preserve document layout and formatting?",
-        answer: "No. This tool converts pasted plain text only, so fonts, headings, tables, images and page layout are not carried over. Paste the Unicode output back into Word or your editor to reapply styles; the DOC download button saves plain text with a .doc extension rather than a formatted Word file."
+        answer: "No. This tool converts pasted plain text only, so fonts, headings, tables, images and page layout are not carried over. Download .docx saves unformatted plain text paragraphs, and the toolbar DOC button saves plain text with a .doc extension; paste the Unicode output back into Word to apply formatting."
       }
     ]
   },
@@ -382,7 +400,7 @@ const punjabiProfiles: FontContentProfile[] = [
       },
       {
         question: "Does this create a formatted Word document?",
-        answer: "No. The converter outputs plain text. It does not preserve document layout or create a formatted DOCX file."
+        answer: "No. The converter processes plain text and does not preserve original Word layout, styles or tables. Download .docx saves unformatted plain text paragraphs, and the toolbar DOC button exports plain text with a .doc extension."
       }
     ]
   },
@@ -421,7 +439,7 @@ const punjabiProfiles: FontContentProfile[] = [
       },
       {
         question: "Does this create a formatted Word document?",
-        answer: "No. The converter outputs plain text. It does not preserve document layout or create a formatted DOCX file."
+        answer: "No. The converter processes plain text and does not preserve original Word layout, styles or tables. Download .docx saves unformatted plain text paragraphs, and the toolbar DOC button exports plain text with a .doc extension."
       }
     ]
   }

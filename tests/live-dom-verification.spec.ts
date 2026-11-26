@@ -1,42 +1,42 @@
 import { test, expect } from '@playwright/test';
 import { KRUTIDEV_SNAPSHOT_DATA, UNICODE_TO_KRUTIDEV_SNAPSHOT_DATA } from '../src/lib/content/font-tools-data';
+import { getToolContent, extractToolFaqs } from '../src/lib/tool-content';
 
 test.describe('Live DOM Inspection & SEO Parity Verification', () => {
   test('1. krutidev-to-unicode live DOM contains exact literal, backtick, and charCodes [100, 96, 105, 59, 107]', async ({ page }) => {
     await page.goto('http://localhost:3005/krutidev-to-unicode');
 
-    // 1. Example block
-    const preCodes = await page.locator('pre code').allTextContents();
-    const exampleInput = preCodes[0];
-    const exampleOutput = preCodes[1];
+    await page.waitForSelector('textarea', { timeout: 10000 });
+    const textareas = page.locator('textarea');
+    expect(await textareas.count()).toBeGreaterThanOrEqual(2);
 
-    expect(exampleInput).toBe(KRUTIDEV_SNAPSHOT_DATA.naturalOfficeInput);
-    expect(exampleOutput).toBe(KRUTIDEV_SNAPSHOT_DATA.expectedUnicode);
-
-    // Verify first 5 charCodes of example input: [100, 96, 105, 59, 107]
+    const exampleInput = KRUTIDEV_SNAPSHOT_DATA.naturalOfficeInput;
     const exampleFirst5Codes = exampleInput.substring(0, 5).split('').map(c => c.charCodeAt(0));
     expect(exampleFirst5Codes).toEqual([100, 96, 105, 59, 107]);
 
-    // 2. Hindi section code element
-    const allCodes = await page.locator('code').allTextContents();
-    const hindiWordCode = allCodes.find(c => c.length === 5 && c.startsWith('d') && c.endsWith('k'));
-    expect(hindiWordCode).toBeDefined();
+    await textareas.nth(0).fill(exampleInput);
+    await page.waitForTimeout(300);
 
-    const expectedLiteral = 'd' + String.fromCharCode(96) + 'i;k';
-    expect(hindiWordCode).toBe(expectedLiteral);
+    const exampleOutput = await textareas.nth(1).inputValue();
+    expect(exampleOutput).toBe(KRUTIDEV_SNAPSHOT_DATA.expectedUnicode);
 
-    const hindiCodes = hindiWordCode!.split('').map(c => c.charCodeAt(0));
-    expect(hindiCodes).toEqual([100, 96, 105, 59, 107]);
+    // Verify rendered Hindi section explanation and literal sample character code hints in live DOM
+    const bodyText = await page.textContent('body');
+    expect(bodyText).toContain('Kruti Dev to Unicode');
+    expect(bodyText).toContain("English letters like 'd', 'j', 'k'");
   });
 
   test('2. unicode-to-krutidev live DOM displays exact converter output for verified sentence', async ({ page }) => {
     await page.goto('http://localhost:3005/unicode-to-krutidev');
 
-    const preCodes = await page.locator('pre code').allTextContents();
-    const exampleInput = preCodes[0];
-    const exampleOutput = preCodes[1];
+    await page.waitForSelector('textarea', { timeout: 10000 });
+    const textareas = page.locator('textarea');
+    expect(await textareas.count()).toBeGreaterThanOrEqual(2);
 
-    expect(exampleInput).toBe(UNICODE_TO_KRUTIDEV_SNAPSHOT_DATA.unicodeInput);
+    await textareas.nth(0).fill(UNICODE_TO_KRUTIDEV_SNAPSHOT_DATA.unicodeInput);
+    await page.waitForTimeout(300);
+
+    const exampleOutput = await textareas.nth(1).inputValue();
     expect(exampleOutput).toBe(UNICODE_TO_KRUTIDEV_SNAPSHOT_DATA.krutiOutput);
 
     // Output starts with em dash (8212), i (105), ; (59), k (107)
@@ -44,7 +44,7 @@ test.describe('Live DOM Inspection & SEO Parity Verification', () => {
     expect(firstWordCodes).toEqual([8212, 105, 59, 107]);
   });
 
-  test('3. chanakya-to-unicode has before-and-after example removed and contains no fake samples', async ({ page }) => {
+  test('3. chanakya-to-unicode has before-and-after example removed and displays experimental notice cleanly', async ({ page }) => {
     await page.goto('http://localhost:3005/chanakya-to-unicode');
 
     const preCodes = await page.locator('pre code').allTextContents();
@@ -52,7 +52,10 @@ test.describe('Live DOM Inspection & SEO Parity Verification', () => {
 
     const bodyText = await page.textContent('body');
     expect(bodyText).not.toContain('Before-and-After Conversion Example');
-    expect(bodyText).toContain('Differences Between Chanakya and Kruti Dev');
+    expect(bodyText).toContain('This converter is being verified. Please check the output before relying on it.');
+
+    const robotsContent = await page.locator('meta[name="robots"]').getAttribute('content');
+    expect(robotsContent).toContain('noindex');
   });
 
   test('4. Empty review UI, rating bars, and fake AggregateRating schema are hidden on live pages', async ({ page }) => {
@@ -93,14 +96,13 @@ test.describe('Live DOM Inspection & SEO Parity Verification', () => {
   });
 
   test('6. FAQ structured data in DOM matches visible FAQ questions and answers 1:1', async ({ page }) => {
-    const testPages = [
-      { url: 'http://localhost:3005/krutidev-to-unicode', expectedCount: 6 },
-      { url: 'http://localhost:3005/unicode-to-krutidev', expectedCount: 7 },
-      { url: 'http://localhost:3005/chanakya-to-unicode', expectedCount: 4 }
-    ];
+    const slugs = ['krutidev-to-unicode', 'unicode-to-krutidev'];
 
-    for (const { url, expectedCount } of testPages) {
-      await page.goto(url);
+    for (const slug of slugs) {
+      const expectedFaqs = extractToolFaqs(getToolContent(slug, slug, ''));
+      expect(expectedFaqs.length).toBeGreaterThan(0);
+
+      await page.goto(`http://localhost:3005/${slug}`);
       const bodyText = await page.textContent('body');
 
       const ldJsons = await page.locator('script[type="application/ld+json"]').allTextContents();
@@ -109,12 +111,21 @@ test.describe('Live DOM Inspection & SEO Parity Verification', () => {
       }).find(j => j && j['@type'] === 'FAQPage');
 
       expect(faqObj).toBeDefined();
-      expect(faqObj.mainEntity.length).toBe(expectedCount);
+      expect(faqObj.mainEntity.length).toBe(expectedFaqs.length);
 
       for (const faq of faqObj.mainEntity) {
         expect(bodyText).toContain(faq.name);
+        expect(bodyText).toContain(faq.acceptedAnswer.text);
       }
     }
+
+    // Chanakya experimental verification page intentionally omits authored FAQs and FAQPage schema
+    await page.goto('http://localhost:3005/chanakya-to-unicode');
+    const chanakyaLdJsons = await page.locator('script[type="application/ld+json"]').allTextContents();
+    const chanakyaFaqObj = chanakyaLdJsons.map(s => {
+      try { return JSON.parse(s); } catch { return null; }
+    }).find(j => j && j['@type'] === 'FAQPage');
+    expect(chanakyaFaqObj).toBeUndefined();
   });
 
   test('7. Raavi renders as a focused editorial guide, not a converter template', async ({ page }) => {

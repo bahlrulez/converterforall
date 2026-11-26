@@ -7,9 +7,7 @@ import {
   Sparkles,
   ShieldCheck,
   Zap,
-  CheckCircle2,
   Smartphone,
-  Cpu,
   Palette,
   Download,
   Clock,
@@ -29,14 +27,14 @@ import { CaptionStudio } from "@/components/tools/caption-studio/DynamicCaptionS
 
 export const metadata: Metadata = {
   title: "Free AI Video Subtitle Generator – Auto Caption Hindi English",
-  description: "Free AI video subtitle generator to auto caption Hindi English and social clips. Generate timed subtitles in your browser, edit text, customize fonts, and export captioned MP4s without watermarks.",
+  description: "100% in-browser AI video caption generator with 0 bytes uploaded. Auto-transcribe Hindi and English speech, style subtitles, and export MP4s with no watermark or sign-up.",
   robots: getRobotsForPath("/video-caption-generator"),
   alternates: {
     canonical: "https://www.converterforall.com/video-caption-generator",
   },
   openGraph: {
-    title: "Free AI Video Subtitle Generator – Auto Caption Hindi English",
-    description: "Free AI video subtitle generator to auto caption Hindi English and social clips. Generate timed subtitles in your browser, edit text, customize fonts, and export captioned MP4s without watermarks.",
+    title: "Free AI Video Caption & Subtitle Generator | ConverterForAll",
+    description: "100% in-browser AI video caption generator with 0 bytes uploaded. Auto-transcribe Hindi and English speech, edit text, customize styles, and export MP4s with no watermark or sign-up.",
     type: "website",
     url: "https://www.converterforall.com/video-caption-generator",
     siteName: "ConverterForAll",
@@ -46,14 +44,14 @@ export const metadata: Metadata = {
         url: "https://www.converterforall.com/og?title=AI%20Video%20Caption%20Studio&cat=Video",
         width: 1200,
         height: 630,
-        alt: "Free AI Video Subtitle Generator – ConverterForAll",
+        alt: "Free AI Video Caption & Subtitle Generator – ConverterForAll",
       }
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free AI Video Subtitle Generator – Auto Caption Hindi English",
-    description: "Free AI video subtitle generator to auto caption Hindi English and social clips in your browser without watermarks.",
+    title: "Free AI Video Caption & Subtitle Generator | ConverterForAll",
+    description: "100% in-browser AI video caption generator with 0 bytes uploaded, editable Hindi & English subtitles, and no watermark or sign-up.",
     images: ["https://www.converterforall.com/og?title=AI%20Video%20Caption%20Studio&cat=Video"],
   }
 };
@@ -262,7 +260,7 @@ export default function VideoCaptionGeneratorPage() {
             className="inline-flex items-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-2 transition-all bg-white dark:bg-[#0a1128]/80 px-3 py-1 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
           >
             <ArrowLeft className="mr-1.5 h-3 w-3" />
-            <span>Back to All 150+ Tools</span>
+            <span>Back to Home</span>
           </Link>
 
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-2 shadow-sm">
@@ -274,29 +272,19 @@ export default function VideoCaptionGeneratorPage() {
             Free AI Video Caption &amp; Subtitle Generator
           </h1>
 
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed mb-3">
-            Upload your video for free, automatically generate timed captions and subtitles, edit the words, style them, and export a finished video for Instagram, TikTok, YouTube, Facebook and more.
+          {/* Core Above-the-Fold Value Proposition */}
+          <p className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-3.5 py-1.5 mb-2.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 text-xs sm:text-sm font-semibold tracking-tight">
+            <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+            <span>100% In-Browser &bull; 0 Bytes Uploaded &bull; No Watermark &bull; No Sign-Up</span>
           </p>
 
-          {/* Compact Verified Trust Highlights Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] text-slate-600 dark:text-slate-400 font-medium">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <CheckCircle2 className="w-3 h-3 text-blue-500" />
-              <span>Free to use</span>
-            </span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <Sparkles className="w-3 h-3 text-amber-500" />
-              <span>AI-powered captions</span>
-            </span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <Languages className="w-3 h-3 text-indigo-500" />
-              <span>Hindi + English + more</span>
-            </span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white dark:bg-[#0a1128] border border-slate-200/90 dark:border-slate-800 shadow-sm">
-              <Cpu className="w-3 h-3 text-emerald-500" />
-              <span>Browser-based processing</span>
-            </span>
-          </div>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed mb-2">
+            Load your clip, generate timed Hindi or English captions on your device, edit words, customize styles, and export an MP4.
+          </p>
+
+          <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
+            Best on desktop Chrome/Edge via WebCodecs; large files depend on device RAM.
+          </p>
         </div>
 
         {/* PRIMARY TOOL AREA: Kept Prominently Above the Fold */}

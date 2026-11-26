@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
               {title}
             </div>
             <div style={{ fontSize: "22px", color: "#94a3b8", lineHeight: 1.4 }}>
-              Fast, private in-browser utility. Your documents stay on your device.
+              Private in-browser utility with no registration and no watermarks.
             </div>
           </div>
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { ArrowLeftRight, Copy, ClipboardPaste, Trash2, Download, Printer, Share2, Undo2, Redo2, Check, FileText } from "lucide-react";
+import { ArrowLeftRight, Copy, ClipboardPaste, Trash2, Download, Printer, Share2, Undo2, Redo2, Check, FileText, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { convertHindi } from "@/lib/fonts/hindi-mappings";
 import { convertPunjabi } from "@/lib/fonts/punjabi-mappings";
@@ -25,6 +25,7 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
   const [toValue, setToValue] = useState("");
 
   const [copied, setCopied] = useState(false);
+  const [isExportingDocx, setIsExportingDocx] = useState(false);
 
   // Undo/Redo History
   const [history, setHistory] = useState<string[]>([]);
@@ -158,14 +159,50 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
     }
   };
 
+  const outputBaseName =
+    `${fromUnit}-to-${toUnit}`.toLowerCase().replace(/[^a-z0-9-]+/g, "-") || "converted";
+
   const downloadFile = (content: string, filename: string, type: string) => {
     const blob = new Blob([content], { type });
+    triggerBlobDownload(blob, filename);
+  };
+
+  const triggerBlobDownload = (blob: Blob, filename: string) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = filename;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadDocx = async () => {
+    if (!toValue.trim() || isExportingDocx) return;
+    try {
+      setIsExportingDocx(true);
+      const { Document, Packer, Paragraph, TextRun } = await import("docx");
+      const paragraphs = toValue.split(/\r?\n/).map(
+        (line) =>
+          new Paragraph({
+            children: [new TextRun(line)],
+          })
+      );
+      const doc = new Document({
+        sections: [
+          {
+            children: paragraphs,
+          },
+        ],
+      });
+      const blob = await Packer.toBlob(doc);
+      triggerBlobDownload(blob, `${outputBaseName}.docx`);
+    } catch (err) {
+      console.error("Failed to generate .docx export:", err);
+    } finally {
+      setIsExportingDocx(false);
+    }
   };
 
   const handlePrint = () => {
@@ -270,15 +307,51 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
               className="w-full flex-1 bg-transparent text-lg resize-none outline-none text-primary"
               placeholder="Conversion will appear here..."
             />
-            <div className="mt-2 text-xs text-primary/70 flex justify-between items-center">
+            <div className="mt-2 text-xs text-primary/70 flex flex-wrap justify-between items-center gap-2">
               <div>
                 <span className="mr-3">{getCharCount(toValue)} chars</span>
                 <span>{getWordCount(toValue)} words</span>
               </div>
-              <Button variant="secondary" size="sm" className="h-7 text-xs gap-1 bg-primary/10 hover:bg-primary/20 text-primary" onClick={handleCopy}>
-                {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                {copied ? "Copied" : "Copy"}
-              </Button>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="h-7 text-xs gap-1 bg-primary/10 hover:bg-primary/20 text-primary"
+                  onClick={handleCopy}
+                >
+                  {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  {copied ? "Copied" : "Copy"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={!toValue.trim()}
+                  title="Download output as plain text (.txt)"
+                  className="h-7 text-xs gap-1"
+                  onClick={() => downloadFile(toValue, `${outputBaseName}.txt`, "text/plain;charset=utf-8")}
+                >
+                  <Download className="w-3 h-3" />
+                  Download .txt
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={!toValue.trim() || isExportingDocx}
+                  title="Download output as a Microsoft Word (.docx) document"
+                  className="h-7 text-xs gap-1"
+                  onClick={handleDownloadDocx}
+                >
+                  {isExportingDocx ? (
+                    <Loader2 className="w-3 h-3 animate-spin" />
+                  ) : (
+                    <FileText className="w-3 h-3" />
+                  )}
+                  Download .docx
+                </Button>
+              </div>
             </div>
           </div>
 

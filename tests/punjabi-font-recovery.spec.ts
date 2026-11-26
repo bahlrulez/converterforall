@@ -189,12 +189,12 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
     expect(legacyWorkflowFaq?.answer).toContain('keep the standard Unicode text');
 
     // 4.2 Gurbani Akhar FAQs must clearly disclose the current mapping scope and Ek Onkar coverage.
-    expect(gurbaniFaqs.some(f => f.question === 'Is this converter compatible with every font called Gurbani Akhar')).toBe(true);
-    const gurbaniCompatibilityFaq = gurbaniFaqs.find(f => f.question === 'Is this converter compatible with every font called Gurbani Akhar');
+    expect(gurbaniFaqs.some(f => f.question === 'Is this converter compatible with every font called Gurbani Akhar?')).toBe(true);
+    const gurbaniCompatibilityFaq = gurbaniFaqs.find(f => f.question === 'Is this converter compatible with every font called Gurbani Akhar?');
     expect(gurbaniCompatibilityFaq?.answer).toContain('current GurbaniLipi mapping profile');
     expect(gurbaniCompatibilityFaq?.answer).toContain('AnmolLipi base character table');
     expect(gurbaniFaqs.some(f => f.question.includes('Ek Onkar'))).toBe(true);
-    const gurbaniFontFaq = gurbaniFaqs.find(f => f.question === 'Why does this page mention both GurbaniLipi and AnmolLipi');
+    const gurbaniFontFaq = gurbaniFaqs.find(f => f.question === 'Why does this page mention both GurbaniLipi and AnmolLipi?');
     expect(gurbaniFontFaq?.answer).toContain('not a separately verified full mapping');
 
     // 4.3 AnmolLipi FAQs must cover legacy ASCII and Dr. Thind layout

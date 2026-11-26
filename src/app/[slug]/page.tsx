@@ -229,6 +229,18 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
                 defaultFontFrom={defaultFontFrom}
                 defaultFontTo={defaultFontTo}
             />
+            {categorySlug === "fonts" && tool.fontCategory === "punjabi" && !isRaaviGuidePage && (
+              <div className="mt-5 text-center">
+                <a
+                  href="https://github.com/bahlrulez/gurmukhi-legacy-to-unicode"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:underline transition-colors"
+                >
+                  <span>Open-source Gurmukhi engine on GitHub</span>
+                </a>
+              </div>
+            )}
           </div>
         </div>
         )}

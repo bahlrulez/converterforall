@@ -5,7 +5,7 @@ import { checkVideoMemoryRisk, checkPdfMemoryRisk, getDeviceProfile } from '../s
 test.describe('Government & Job Document Helpers and Memory Guard Integrity', () => {
 
   test('1. Exam Presets cover all major recruitment bodies with strict size constraints', () => {
-    const requiredExamBodies = ['ssc', 'upsc', 'ibps', 'state_police', 'rrb', 'nta', 'gate'];
+    const requiredExamBodies = ['ssc', 'upsc', 'ibps', 'psssb', 'punjab_police', 'up_police', 'state_police', 'rrb', 'nta', 'gate'];
     
     for (const body of requiredExamBodies) {
       expect(EXAM_PRESETS, `Missing preset specification for ${body}`).toHaveProperty(body);

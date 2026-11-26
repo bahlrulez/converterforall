@@ -34,7 +34,7 @@ export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
   ssc: {
     id: "ssc",
     name: "Staff Selection Commission (SSC)",
-    shortName: "SSC (CGL, CHSL, MTS, GD)",
+    shortName: "SSC CGL / CHSL / MTS / GD",
     category: "central",
     description: "Standard specifications for SSC CGL, CHSL, MTS, Stenographer, and GD Constable online portals.",
     photo: {
@@ -42,6 +42,8 @@ export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
       maxKB: 50,
       aspect: 3.5 / 4.5,
       dimensionsLabel: "3.5 cm × 4.5 cm (approx 200 × 250 px)",
+      targetWidthPx: 200,
+      targetHeightPx: 257,
       minWidthPx: 200,
       format: "jpeg",
       background: "light",
@@ -57,6 +59,8 @@ export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
       maxKB: 20,
       aspect: 140 / 60, // 2.33:1 (4.0cm x 2.0cm approx)
       dimensionsLabel: "140 × 60 px (approx 4.0 cm × 2.0 cm)",
+      targetWidthPx: 140,
+      targetHeightPx: 60,
       minWidthPx: 140,
       format: "jpeg",
       inkColor: "black",
@@ -79,6 +83,8 @@ export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
       maxKB: 300,
       aspect: 1.0, // UPSC OTR mandates 1:1 square
       dimensionsLabel: "350 × 350 to 1000 × 1000 px (1:1 Square)",
+      targetWidthPx: 500,
+      targetHeightPx: 500,
       minWidthPx: 350,
       format: "jpeg",
       background: "white",
@@ -94,6 +100,8 @@ export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
       maxKB: 300,
       aspect: 1.0,
       dimensionsLabel: "350 × 350 to 1000 × 1000 px (1:1 Square)",
+      targetWidthPx: 500,
+      targetHeightPx: 500,
       minWidthPx: 350,
       format: "jpeg",
       inkColor: "black",
@@ -116,6 +124,8 @@ export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
       maxKB: 50,
       aspect: 200 / 230, // approx 4.5cm x 3.5cm
       dimensionsLabel: "200 × 230 px (approx 4.5 cm × 3.5 cm)",
+      targetWidthPx: 200,
+      targetHeightPx: 230,
       minWidthPx: 200,
       format: "jpeg",
       background: "white",
@@ -131,6 +141,8 @@ export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
       maxKB: 20,
       aspect: 140 / 60,
       dimensionsLabel: "140 × 60 px (approx 3.5 cm × 1.5 cm)",
+      targetWidthPx: 140,
+      targetHeightPx: 60,
       minWidthPx: 140,
       format: "jpeg",
       inkColor: "black",
@@ -139,6 +151,129 @@ export const EXAM_PRESETS: Record<string, ExamPresetSpec> = {
         "Dimensions: 140 × 60 pixels",
         "Must be signed with black ink on white paper",
         "Capital letter signatures are not accepted"
+      ]
+    }
+  },
+  psssb: {
+    id: "psssb",
+    name: "Punjab Subordinate Services Selection Board (PSSSB)",
+    shortName: "PSSSB (Clerk, Patwari, Group C)",
+    category: "state",
+    description: "Photo and signature upload limits for PSSSB Clerk, Patwari, Excise Inspector, and Jail Warder portals.",
+    photo: {
+      minKB: 20,
+      maxKB: 50,
+      aspect: 3.5 / 4.5,
+      dimensionsLabel: "3.5 cm × 4.5 cm (approx 200 × 230 px)",
+      targetWidthPx: 200,
+      targetHeightPx: 257,
+      minWidthPx: 200,
+      format: "jpeg",
+      background: "light",
+      rules: [
+        "File size between 20 KB and 50 KB (check advertisement if up to 100 KB is allowed)",
+        "Passport ratio 3.5 cm × 4.5 cm in JPEG format",
+        "Light or plain white background with clear face visibility",
+        "No caps, dark glasses, or heavy shadows"
+      ]
+    },
+    signature: {
+      minKB: 10,
+      maxKB: 40,
+      aspect: 150 / 60,
+      dimensionsLabel: "150 × 60 px (10–40 KB)",
+      targetWidthPx: 150,
+      targetHeightPx: 60,
+      minWidthPx: 150,
+      format: "jpeg",
+      inkColor: "either",
+      rules: [
+        "File size between 10 KB and 40 KB (use 10–20 KB if the active form specifies a lower cap)",
+        "Horizontal ratio approx 150 × 60 px in JPEG format",
+        "Sign in black or dark blue ink on plain white paper",
+        "Running handwriting required; signatures in capital letters may be rejected"
+      ]
+    }
+  },
+  punjab_police: {
+    id: "punjab_police",
+    name: "Punjab Police Recruitment (Constable, SI)",
+    shortName: "Punjab Police (Constable, SI)",
+    category: "state",
+    description: "Specifications commonly requested on Punjab Police Constable and Sub-Inspector registration portals.",
+    photo: {
+      minKB: 20,
+      maxKB: 50,
+      aspect: 200 / 240,
+      dimensionsLabel: "200 × 240 px (20–50 KB)",
+      targetWidthPx: 200,
+      targetHeightPx: 240,
+      minWidthPx: 200,
+      format: "jpeg",
+      background: "white",
+      rules: [
+        "File size strictly between 20 KB and 50 KB",
+        "Portrait ratio matching 200 × 240 px in JPEG format",
+        "Plain white or light background with 60–70% face coverage",
+        "No caps, dark glasses, or artificial filters"
+      ]
+    },
+    signature: {
+      minKB: 10,
+      maxKB: 20,
+      aspect: 140 / 80,
+      dimensionsLabel: "140 × 80 px (10–20 KB)",
+      targetWidthPx: 140,
+      targetHeightPx: 80,
+      minWidthPx: 140,
+      format: "jpeg",
+      inkColor: "either",
+      rules: [
+        "File size strictly between 10 KB and 20 KB",
+        "Horizontal box approx 140 × 80 px in JPEG format",
+        "Sign clearly on unruled white paper with black or blue ballpoint pen",
+        "Check preview legibility before portal submission"
+      ]
+    }
+  },
+  up_police: {
+    id: "up_police",
+    name: "UP Police Recruitment Board (UPPRPB Constable, SI)",
+    shortName: "UP Police (Constable, SI)",
+    category: "state",
+    description: "Standard specifications for Uttar Pradesh Police (UPPRPB) Constable, SI, and Ministerial forms.",
+    photo: {
+      minKB: 20,
+      maxKB: 50,
+      aspect: 3.5 / 4.5,
+      dimensionsLabel: "350 × 450 px (3.5 cm × 4.5 cm)",
+      targetWidthPx: 350,
+      targetHeightPx: 450,
+      minWidthPx: 200,
+      format: "jpeg",
+      background: "white",
+      rules: [
+        "File size strictly between 20 KB and 50 KB",
+        "Dimensions: 3.5 cm × 4.5 cm (approx 350 × 450 px) JPEG",
+        "Plain white or light grey background with both ears visible",
+        "Neutral expression without caps, goggles, or glare"
+      ]
+    },
+    signature: {
+      minKB: 5,
+      maxKB: 20,
+      aspect: 3.5 / 1.5,
+      dimensionsLabel: "350 × 150 px (3.5 cm × 1.5 cm)",
+      targetWidthPx: 350,
+      targetHeightPx: 150,
+      minWidthPx: 140,
+      format: "jpeg",
+      inkColor: "black",
+      rules: [
+        "File size strictly between 5 KB and 20 KB",
+        "Dimensions: 3.5 cm × 1.5 cm (approx 350 × 150 px or 140 × 60 px) JPEG",
+        "Sign in black ink on plain white unruled paper",
+        "Avoid smudges, dark paper shadows, and block-letter signatures"
       ]
     }
   },
