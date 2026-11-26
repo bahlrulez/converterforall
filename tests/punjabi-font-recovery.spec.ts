@@ -174,6 +174,19 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
     const satlujFaqs = extractToolFaqs(getToolContent('satluj-to-unicode', 'Satluj to Unicode', ''));
     expect(satlujFaqs.some(f => f.question.includes('PSSSB') || f.answer.includes('PSSSB'))).toBe(false);
 
+    const satlujInputFaq = satlujFaqs.find(f => f.question === 'What kind of Satluj text can this converter handle?');
+    expect(satlujInputFaq?.answer).toContain('only when the copied characters use the Satluj character mapping supported by this tool');
+    expect(satlujInputFaq?.answer).toContain('does not open the original files');
+
+    const satlujFontFaq = satlujFaqs.find(f => f.question === 'Does the converted text need the Satluj font?');
+    expect(satlujFontFaq?.answer).toContain('does not require the legacy Satluj font');
+    expect(satlujFontFaq?.answer).toContain('Gurmukhi-capable Unicode font');
+
+    const unicodeToSatlujFaqs = extractToolFaqs(getToolContent('unicode-to-satluj', 'Unicode to Satluj', ''));
+    const legacyWorkflowFaq = unicodeToSatlujFaqs.find(f => f.question === 'When is Unicode to Satluj useful?');
+    expect(legacyWorkflowFaq?.answer).toContain('specific legacy publishing or print workflow requires');
+    expect(legacyWorkflowFaq?.answer).toContain('keep the standard Unicode text');
+
     // 4.2 Gurbani Akhar FAQs must specifically cover religious text / Ek Onkar
     expect(gurbaniFaqs.some(f => f.question.includes('Ek Onkar') || f.answer.includes('Gurbani'))).toBe(true);
 

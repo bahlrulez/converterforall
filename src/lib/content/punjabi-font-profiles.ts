@@ -122,17 +122,17 @@ const punjabiProfiles: FontContentProfile[] = [
     direction: "from-unicode",
     description: "Converts pasted standard Gurmukhi Unicode text into character codes for the Satluj legacy font mapping. Apply the Satluj font in the destination application to view the output as Gurmukhi.",
     primaryUseCases: [
-      "Preparing pasted Punjabi text to paste into Adobe PageMaker, CorelDraw, or desktop-publishing layouts using the Satluj font.",
-      "Converting Unicode text into Satluj character codes for legacy print workflows that require the Satluj font.",
-      "Updating copied text inside older newspaper templates that have not migrated to Unicode."
+      "Preparing text for an existing Adobe PageMaker, CorelDraw, or desktop-publishing layout that specifically requires the Satluj font.",
+      "Creating a Satluj-encoded text copy for a legacy print workflow while retaining the original Unicode text separately.",
+      "Supplying text to a print template whose instructions explicitly specify Satluj font encoding."
     ],
     mappingConsiderations: [
       "Maps supported Unicode characters to the character codes in the current Satluj table. The result is legacy-font text, not standard Unicode.",
       "The converter applies sequence handling for selected Gurmukhi compositions. Check vowel signs, numbers and punctuation in the target Satluj font before relying on the output."
     ],
     compatibilityNotes: [
-      "IMPORTANT: After conversion, you MUST select 'Satluj' from the font dropdown menu in your design software. Otherwise, the text will appear as Latin or extended characters.",
-      "Satluj text is not suitable for emails or web pages. Use this strictly for workflows where the Satluj font is applied."
+      "After conversion, select 'Satluj' in the destination application's font menu. Without the matching font, the legacy character codes may appear as Latin or extended characters.",
+      "Satluj-encoded text is not as portable as Unicode. Use it only where the destination application and recipient workflow support the Satluj font; use Unicode for websites, messaging and cross-device sharing."
     ],
     relatedConverters: [
       { slug: "satluj-to-unicode", name: "Satluj to Unicode" },
@@ -141,8 +141,8 @@ const punjabiProfiles: FontContentProfile[] = [
     ],
     faqs: [
       {
-        question: "Why do I need to convert Unicode to Satluj?",
-        answer: "Older desktop publishing software like Adobe PageMaker 6.5 and some regional print templates still use legacy non-Unicode fonts like Satluj. Converting pasted Unicode text into Satluj codes lets you place it into those older layouts."
+        question: "When is Unicode to Satluj useful?",
+        answer: "Use it when a specific legacy publishing or print workflow requires text encoded for the Satluj font. The converter outputs mapped character codes; select Satluj in the target application to display them as Gurmukhi. For websites, messaging and cross-device sharing, keep the standard Unicode text."
       },
       {
         question: "Why does the output look garbled until I select the Satluj font?",
@@ -169,7 +169,7 @@ const punjabiProfiles: FontContentProfile[] = [
       "Font editions, numeral conventions and documents with custom glyph substitutions can differ across legacy files; proofread numbers, vowel signs and uncommon characters against the source."
     ],
     compatibilityNotes: [
-      "The resulting text will render using your system's default Gurmukhi font (such as Raavi on Windows or Nirmala UI).",
+      "The output is standard Gurmukhi Unicode and is displayed using a Gurmukhi-capable Unicode font available to the app (for example, Raavi or Nirmala UI on Windows when installed).",
       "Formatting like bold or italics from PageMaker will be lost during plain-text conversion; only the character data is preserved."
     ],
     relatedConverters: [
@@ -179,16 +179,16 @@ const punjabiProfiles: FontContentProfile[] = [
     ],
     faqs: [
       {
-        question: "What is Satluj font commonly used for?",
-        answer: "When copied text contains Satluj character codes, this converter can map supported characters to Unicode Gurmukhi. It does not import the original PDF or PageMaker file."
+        question: "What kind of Satluj text can this converter handle?",
+        answer: "It handles pasted text only when the copied characters use the Satluj character mapping supported by this tool. This can include text copied from some older PageMaker layouts or PDFs, but it does not open the original files or recover text from page images."
       },
       {
         question: "Will converting Satluj text to Unicode change its spelling?",
         answer: "The converter applies the character mappings available for Satluj. It does not proofread Punjabi spelling or guarantee that every font variant and special character is covered, so compare the output with the source."
       },
       {
-        question: "Do I need to install any font to read the converted text?",
-        answer: "No. Standard Gurmukhi Unicode is built into Windows (via Raavi or Nirmala UI), macOS, iOS, and Android. The converted text works immediately across all modern devices."
+        question: "Does the converted text need the Satluj font?",
+        answer: "No. Standard Gurmukhi Unicode output does not require the legacy Satluj font. The device or app still needs a Gurmukhi-capable Unicode font to display the characters; if glyphs appear missing or incorrect, check font availability and rendering support."
       }
     ]
   },
