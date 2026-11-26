@@ -140,7 +140,7 @@ export function AIProcessingCard({
     }
   } else if (isTranscribing) {
     stageLabel = "Transcribing audio";
-    stageDetail = "Detecting speech and generating Devanagari Hindi timestamps...";
+    stageDetail = "Detecting speech and generating word-level timestamps...";
   }
 
   return (

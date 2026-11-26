@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { checkBrowserCapabilities, isASRReady } from '@/lib/caption-studio/capabilities';
 import { ASRClient } from '@/lib/caption-studio/asr-client';
 import { extractAudioFromVideo } from '@/lib/caption-studio/audio-extractor';
-import { ASRResult, WorkerState, CaptionChunk, CaptionWord } from '@/lib/caption-studio/types';
+import { ASRResult, WorkerState, CaptionChunk, CaptionWord, CAPTION_LANGUAGES, CaptionLanguageCode } from '@/lib/caption-studio/types';
 import { segmentCaptions } from '@/lib/caption-studio/segmentation';
 import { EditorSidebar } from './EditorSidebar';
 import { VideoPreview } from './VideoPreview';
@@ -31,7 +31,8 @@ import {
   AlertCircle,
   RefreshCw,
   Maximize,
-  Minimize
+  Minimize,
+  Languages
 } from 'lucide-react';
 
 export function CaptionStudio() {
@@ -49,6 +50,14 @@ export function CaptionStudio() {
   const [initProgress, setInitProgress] = useState<any>(null);
   const [releaseAI, setReleaseAI] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<CaptionLanguageCode>('en');
+  const [transcriptionWarning, setTranscriptionWarning] = useState<string | null>(null);
+  const selectedLanguageRef = useRef<CaptionLanguageCode>('en');
+
+  const handleLanguageChange = (lang: CaptionLanguageCode) => {
+    setSelectedLanguage(lang);
+    selectedLanguageRef.current = lang;
+  };
   
   // Phase 1: State management
   const [aiOriginalCaptions, setAiOriginalCaptions] = useState<CaptionChunk[] | null>(null);
@@ -165,6 +174,7 @@ export function CaptionStudio() {
       (state) => setWorkerState(state),
       (result) => {
         setTranscriptionResult(result);
+        setTranscriptionWarning(result.warning || null);
         const newCaptions = segmentCaptions(result.words);
         const deepCopy = JSON.parse(JSON.stringify(newCaptions));
         setCaptions(newCaptions);
@@ -219,6 +229,7 @@ export function CaptionStudio() {
     }
 
     setError(null);
+    setTranscriptionWarning(null);
     setTranscriptionResult(null);
     setCaptions([]);
     setAiOriginalCaptions(null);
@@ -258,7 +269,7 @@ export function CaptionStudio() {
         
         setWorkerState('TRANSCRIBING');
         const pcm = await extractAudioFromVideo(file);
-        client.transcribe(pcm);
+        client.transcribe(pcm, selectedLanguageRef.current);
       } catch (err: any) {
         setError(err.message || String(err));
         setWorkerState('READY');
@@ -334,6 +345,7 @@ export function CaptionStudio() {
 
   const handleRetryAI = async () => {
     setError(null);
+    setTranscriptionWarning(null);
     setInitProgress(null);
     if (asrClientRef.current) {
       asrClientRef.current.terminate();
@@ -347,12 +359,58 @@ export function CaptionStudio() {
       if (videoFile) {
         setWorkerState('TRANSCRIBING');
         const pcm = await extractAudioFromVideo(videoFile);
-        client.transcribe(pcm);
+        client.transcribe(pcm, selectedLanguageRef.current);
       }
     } catch (err: any) {
       setError(err.message || String(err));
     }
   };
+
+  const handleRetranscribe = async (langOverride?: CaptionLanguageCode) => {
+    if (!videoFile || workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING') return;
+    const langToUse = langOverride ?? selectedLanguageRef.current;
+    setError(null);
+    setTranscriptionWarning(null);
+    try {
+      const client = getOrInitASRClient();
+      if (!client) return;
+      if ((client as any).state !== 'READY') {
+        await client.prepare();
+      }
+      setWorkerState('TRANSCRIBING');
+      const pcm = await extractAudioFromVideo(videoFile);
+      client.transcribe(pcm, langToUse);
+    } catch (err: any) {
+      setError(err.message || String(err));
+      setWorkerState('READY');
+    }
+  };
+
+  const renderLanguageSelector = (idSuffix: string) => (
+    <div className="inline-flex items-center gap-1.5">
+      <label
+        htmlFor={`caption-language-${idSuffix}`}
+        className="text-xs font-medium text-slate-600 dark:text-slate-300 inline-flex items-center gap-1"
+      >
+        <Languages className="w-3.5 h-3.5 text-blue-500" />
+        <span>Language</span>
+      </label>
+      <select
+        id={`caption-language-${idSuffix}`}
+        aria-label="Spoken language"
+        value={selectedLanguage}
+        disabled={workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING' || exportProgress !== null}
+        onChange={(e) => handleLanguageChange(e.target.value as CaptionLanguageCode)}
+        className="h-8 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-2.5 text-xs font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+      >
+        {CAPTION_LANGUAGES.map((lang) => (
+          <option key={lang.value} value={lang.value}>
+            {lang.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 
   const handleTimeUpdate = () => {
     if (!videoRef.current || captions.length === 0) return;
@@ -729,9 +787,14 @@ export function CaptionStudio() {
               {isDragging ? "Drop your video right here" : "Choose a video to caption"}
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-4 sm:mb-5 leading-relaxed max-w-md">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-3 sm:mb-4 leading-relaxed max-w-md">
               Drag and drop your video file here, or click below. Speech is recognized and timed on your device using on-device AI.
             </p>
+
+            {/* Spoken Language Control */}
+            <div className="mb-4 flex flex-wrap items-center justify-center gap-2 rounded-xl bg-white/80 dark:bg-slate-900/70 px-3 py-2 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+              {renderLanguageSelector('dropzone')}
+            </div>
 
             {/* CTAs: Browse Video + Try Sample */}
             <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 mb-4 sm:mb-5 w-full sm:w-auto">
@@ -800,7 +863,18 @@ export function CaptionStudio() {
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-end shrink-0">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-end shrink-0">
+              {renderLanguageSelector('toolbar')}
+              <button
+                type="button"
+                onClick={() => handleRetranscribe()}
+                disabled={workerState === 'INITIALIZING' || workerState === 'TRANSCRIBING' || exportProgress !== null}
+                className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1.5 bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800 rounded-lg transition-colors disabled:opacity-40"
+                title="Re-run speech recognition in the selected language"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Re-transcribe</span>
+              </button>
               {captions.length > 0 && (
                 <>
                   <button 
@@ -847,6 +921,14 @@ export function CaptionStudio() {
               </button>
             </div>
           </div>
+
+          {/* Sanity / Fallback Warning Banner */}
+          {transcriptionWarning && (
+            <div className="flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3.5 py-2.5 text-xs text-amber-900 dark:text-amber-200">
+              <AlertCircle className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
+              <span>{transcriptionWarning}</span>
+            </div>
+          )}
 
           {/* 2-Column Studio: Left Video Preview + Export, Right Editor Sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-start">

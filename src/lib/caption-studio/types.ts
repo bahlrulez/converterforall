@@ -27,10 +27,24 @@ export interface ASRSegment {
   words?: ASRWord[];
 }
 
+export const CAPTION_LANGUAGES = [
+  { value: 'en', label: 'English (en)' },
+  { value: 'auto', label: 'Auto-detect' },
+  { value: 'hi', label: 'Hindi (hi)' },
+  { value: 'pa', label: 'Punjabi (pa)' },
+  { value: 'es', label: 'Spanish (es)' },
+  { value: 'fr', label: 'French (fr)' },
+  { value: 'de', label: 'German (de)' },
+] as const;
+
+export type CaptionLanguageCode = (typeof CAPTION_LANGUAGES)[number]['value'];
+
 export interface ASRResult {
   text: string;
   segments: ASRSegment[];
   words: ASRWord[]; // Flat list of all words
+  warning?: string;
+  backend?: 'webgpu' | 'wasm';
 }
 
 export interface CaptionWord {
@@ -49,7 +63,7 @@ export interface CaptionChunk {
 
 export type WorkerMessage =
   | { type: 'INITIALIZE' }
-  | { type: 'TRANSCRIBE'; pcm: Float32Array }
+  | { type: 'TRANSCRIBE'; pcm: Float32Array; language?: string }
   | { type: 'CANCEL' }
   | { type: 'TERMINATE' };
 
