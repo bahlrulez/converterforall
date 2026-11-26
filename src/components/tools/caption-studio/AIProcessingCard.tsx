@@ -117,9 +117,14 @@ export function AIProcessingCard({
   if (isInitializing) {
     if (initProgress) {
       if (initProgress.status === 'download' || initProgress.status === 'progress' || initProgress.status === 'progress_total') {
-        stageLabel = "Downloading AI model";
-        const cleanName = activeFile ? activeFile.split('/').pop() : '';
-        stageDetail = cleanName ? `Fetching ${cleanName}` : "Downloading model weights...";
+        if (displayedPercent >= 100) {
+          stageLabel = "Loading speech recognition into WebGPU";
+          stageDetail = "Allocating GPU buffers and compiling neural network...";
+        } else {
+          stageLabel = "Downloading AI model";
+          const cleanName = activeFile ? activeFile.split('/').pop() : '';
+          stageDetail = cleanName ? `Fetching ${cleanName}` : "Downloading model weights...";
+        }
       } else if (initProgress.status === 'done') {
         stageLabel = "Loading speech recognition into WebGPU";
         stageDetail = "Allocating GPU buffers and compiling neural network...";

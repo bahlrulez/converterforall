@@ -2,13 +2,14 @@ import { WorkerMessage } from '../lib/caption-studio/types';
 import { detectDegenerateTranscription } from '../lib/caption-studio/asr-sanity';
 import { MIN_AUDIO_RMS } from '../lib/caption-studio/audio-extractor';
 
-const WHISPER_MODEL_ID = 'onnx-community/whisper-large-v3-turbo_timestamped';
+const WHISPER_MODEL_ID = 'onnx-community/whisper-small_timestamped';
+const WEBGPU_INIT_IDLE_TIMEOUT_MS = 45000;
 
 let transcriber: any = null;
 let activeDevice: 'webgpu' | 'wasm' = 'webgpu';
 let isInitializing = false;
 
-async function buildPipeline(device: 'webgpu' | 'wasm') {
+async function buildPipeline(device: 'webgpu' | 'wasm', onActivity?: () => void) {
   const { pipeline, env } = await import('@huggingface/transformers');
   env.allowLocalModels = false;
   if (env.backends?.onnx?.wasm) {
@@ -19,7 +20,8 @@ async function buildPipeline(device: 'webgpu' | 'wasm') {
     device === 'webgpu'
       ? {
           device: 'webgpu',
-          // Keep Whisper encoder in fp32 to prevent Windows WebGPU q4f16 overflow/repetition loops
+          // Keep Whisper encoder in fp32 to prevent Windows WebGPU fp16/q4f16 overflow/repetition loops.
+          // whisper-small_timestamped encoder fp32 is ~336 MB (avoids >2 GB .onnx_data buffer stalls).
           dtype: {
             encoder_model: 'fp32',
             decoder_model_merged: 'q4',
@@ -31,10 +33,44 @@ async function buildPipeline(device: 'webgpu' | 'wasm') {
         };
 
   options.progress_callback = (progress: any) => {
+    onActivity?.();
     self.postMessage({ type: 'PROGRESS', progress });
   };
 
   return pipeline('automatic-speech-recognition', WHISPER_MODEL_ID, options);
+}
+
+async function buildWebGpuPipelineWithStallFallback() {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  let settled = false;
+  let rejectTimeout: ((err: Error) => void) | null = null;
+
+  const scheduleTimeout = () => {
+    if (settled) return;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (!settled) {
+        rejectTimeout?.(new Error('Timed out initializing WebGPU Whisper session'));
+      }
+    }, WEBGPU_INIT_IDLE_TIMEOUT_MS);
+  };
+
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    rejectTimeout = reject;
+    scheduleTimeout();
+  });
+
+  const pipelinePromise = buildPipeline('webgpu', scheduleTimeout);
+
+  try {
+    return await Promise.race([pipelinePromise, timeoutPromise]);
+  } finally {
+    settled = true;
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  }
 }
 
 function buildTranscribeOptions(language?: string) {
@@ -92,7 +128,7 @@ self.addEventListener('message', async (e: MessageEvent<WorkerMessage>) => {
         self.postMessage({ type: 'INITIALIZING' });
 
         try {
-          transcriber = await buildPipeline('webgpu');
+          transcriber = await buildWebGpuPipelineWithStallFallback();
           activeDevice = 'webgpu';
         } catch (webgpuErr) {
           console.warn('WebGPU initialization failed, falling back to WASM:', webgpuErr);

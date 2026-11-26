@@ -479,7 +479,7 @@ export default function VideoCaptionGeneratorPage() {
                     Additional supported languages
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    The underlying Whisper Large v3 Turbo engine supports multiple languages across global speech datasets. Because automatic speech recognition can face challenges with heavy background noise or fast accents, you can always edit any words in the editor before final export.
+                    The underlying Whisper multilingual speech engine supports multiple languages across global speech datasets. Because automatic speech recognition can face challenges with heavy background noise or fast accents, you can always edit any words in the editor before final export.
                   </p>
                 </div>
               </div>

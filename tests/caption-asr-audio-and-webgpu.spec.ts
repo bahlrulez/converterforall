@@ -88,6 +88,8 @@ test.describe('Caption Studio Audio Extraction, WebGPU Decoding Guards & Languag
       'utf8'
     );
 
+    expect(workerSrc).toContain("const WHISPER_MODEL_ID = 'onnx-community/whisper-small_timestamped'");
+    expect(workerSrc).not.toContain('whisper-large-v3-turbo');
     expect(workerSrc).toContain("encoder_model: 'fp32'");
     expect(workerSrc).toContain("decoder_model_merged: 'q4'");
     expect(workerSrc).not.toContain("encoder_model: 'q4f16'");
@@ -99,6 +101,7 @@ test.describe('Caption Studio Audio Extraction, WebGPU Decoding Guards & Languag
     expect(workerSrc).toContain('compression_ratio_threshold: 2.4');
     expect(workerSrc).toContain('detectDegenerateTranscription');
     expect(workerSrc).toContain("device: 'wasm'");
+    expect(workerSrc).toContain('WEBGPU_INIT_IDLE_TIMEOUT_MS');
   });
 
   test('4. /video-caption-generator renders Spoken Language selector with English default and all required options', async ({ page }) => {
