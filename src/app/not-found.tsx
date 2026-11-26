@@ -46,43 +46,16 @@ export default function NotFound() {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-semibold text-sm shadow-sm transition-all"
           >
             <Search className="w-4 h-4" />
-            <span>Explore All 150+ Tools</span>
+            <span>Explore All Tools</span>
           </Link>
         </div>
 
-        {/* Popular Category Hubs */}
+        {/* Popular Utility Hubs */}
         <div className="pt-6 border-t border-slate-200 dark:border-slate-800">
           <p className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-4">
-            Or Jump Directly to a Category
+            Or Jump Directly to a Suite
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-left">
-            <Link
-              href="/category/document"
-              className="p-3 rounded-xl bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 hover:shadow-md transition-all group"
-            >
-              <FileText className="w-5 h-5 text-blue-500 mb-1 group-hover:scale-110 transition-transform" />
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">PDF &amp; Docs</div>
-              <div className="text-[11px] text-slate-400">Merge, convert, edit</div>
-            </Link>
-
-            <Link
-              href="/category/image"
-              className="p-3 rounded-xl bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 hover:shadow-md transition-all group"
-            >
-              <Image className="w-5 h-5 text-emerald-500 mb-1 group-hover:scale-110 transition-transform" />
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Images</div>
-              <div className="text-[11px] text-slate-400">Resize, remove BG</div>
-            </Link>
-
-            <Link
-              href="/category/fonts"
-              className="p-3 rounded-xl bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 hover:shadow-md transition-all group"
-            >
-              <Type className="w-5 h-5 text-indigo-500 mb-1 group-hover:scale-110 transition-transform" />
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Indic Fonts</div>
-              <div className="text-[11px] text-slate-400">Kruti Dev, Chanakya</div>
-            </Link>
-
             <Link
               href="/category/exam"
               className="p-3 rounded-xl bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 hover:shadow-md transition-all group"
@@ -93,12 +66,39 @@ export default function NotFound() {
             </Link>
 
             <Link
-              href="/category/developer"
+              href="/krutidev-to-unicode"
+              className="p-3 rounded-xl bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 hover:shadow-md transition-all group"
+            >
+              <Type className="w-5 h-5 text-indigo-500 mb-1 group-hover:scale-110 transition-transform" />
+              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Hindi Fonts</div>
+              <div className="text-[11px] text-slate-400">Kruti Dev &amp; Unicode</div>
+            </Link>
+
+            <Link
+              href="/asees-to-unicode"
+              className="p-3 rounded-xl bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 hover:shadow-md transition-all group"
+            >
+              <Type className="w-5 h-5 text-blue-500 mb-1 group-hover:scale-110 transition-transform" />
+              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Punjabi Fonts</div>
+              <div className="text-[11px] text-slate-400">Asees, Satluj, Anmol</div>
+            </Link>
+
+            <Link
+              href="/video-caption-generator"
+              className="p-3 rounded-xl bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 hover:shadow-md transition-all group"
+            >
+              <Image className="w-5 h-5 text-emerald-500 mb-1 group-hover:scale-110 transition-transform" />
+              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Caption Studio</div>
+              <div className="text-[11px] text-slate-400">Auto subtitles locally</div>
+            </Link>
+
+            <Link
+              href="/font-text-fixer"
               className="p-3 rounded-xl bg-white dark:bg-[#0c1630] border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 hover:shadow-md transition-all group col-span-2 sm:col-span-1"
             >
               <Cpu className="w-5 h-5 text-cyan-500 mb-1 group-hover:scale-110 transition-transform" />
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Data &amp; Code</div>
-              <div className="text-[11px] text-slate-400">JSON, JWT, Base64</div>
+              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Font Fixer</div>
+              <div className="text-[11px] text-slate-400">Detect &amp; repair text</div>
             </Link>
           </div>
         </div>

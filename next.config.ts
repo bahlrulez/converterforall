@@ -105,12 +105,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/remove-extra-spaces",
-        destination: "/unicode-normalizer",
+        destination: "/font-text-fixer",
         permanent: true,
       },
       {
         source: "/remove-special-characters",
-        destination: "/unicode-text-cleaner",
+        destination: "/font-text-fixer",
         permanent: true,
       },
       {
@@ -230,7 +230,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/meters-to-miles",
-        destination: "/miles-to-kilometers",
+        destination: "/tools",
         permanent: true,
       },
       {
@@ -290,7 +290,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/unity-to-meters",
-        destination: "/meters-to-kilometers",
+        destination: "/tools",
         permanent: true,
       },
       {
@@ -375,7 +375,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/centimeters-to-meters",
-        destination: "/meters-to-kilometers",
+        destination: "/tools",
         permanent: true,
       },
       {
@@ -400,7 +400,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/case-converter",
-        destination: "/unicode-normalizer",
+        destination: "/font-text-fixer",
         permanent: true,
       },
       {
@@ -416,6 +416,87 @@ const nextConfig: NextConfig = {
       {
         source: "/blog/why-you-should-stop-uploading-sensitive-files-to-online-converters",
         destination: "/blog/why-stop-uploading-sensitive-pdfs-to-online-converters",
+        permanent: true,
+      },
+      // Phase 1 SEO Consolidation Redirects
+      {
+        source: "/compress-mp4",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/compress-mov-video",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/compress-video-for-discord",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/compress-video-for-whatsapp",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/compress-video-for-email",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/compress-video-for-instagram",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/compress-video-for-facebook",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/compress-video-for-phone",
+        destination: "/video-compressor",
+        permanent: true,
+      },
+      {
+        source: "/trim-mp3-online",
+        destination: "/trim-audio",
+        permanent: true,
+      },
+      {
+        source: "/convert-whatsapp-voice-note-to-mp3",
+        destination: "/trim-audio",
+        permanent: true,
+      },
+      {
+        source: "/unicode-normalizer",
+        destination: "/font-text-fixer",
+        permanent: true,
+      },
+      {
+        source: "/remove-hidden-characters",
+        destination: "/font-text-fixer",
+        permanent: true,
+      },
+      {
+        source: "/fix-copy-paste-text",
+        destination: "/font-text-fixer",
+        permanent: true,
+      },
+      {
+        source: "/unicode-text-cleaner",
+        destination: "/font-text-fixer",
+        permanent: true,
+      },
+      {
+        source: "/raavi-to-unicode",
+        destination: "/asees-to-unicode",
+        permanent: true,
+      },
+      {
+        source: "/unicode-to-gurbani-akhar",
+        destination: "/anmollipi-to-unicode",
         permanent: true,
       },
     ];
@@ -449,6 +530,18 @@ const nextConfig: NextConfig = {
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+        ],
+      },
+      {
+        source: "/og",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/og/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
       },
       {

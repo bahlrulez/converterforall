@@ -2,6 +2,7 @@ import { toolsDatabase, Tool } from "@/lib/tools-db";
 import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText, Code2, KeyRound, Clock, Table, Database, Images, FileImage, PictureInPicture, Wand2, Eraser, Camera, Presentation } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
+import { getRobotsForPath, isIndexablePath } from "@/lib/seo-allowlist";
 
 function getIconComponent(iconName: string, className: string = "h-6 w-6") {
   switch(iconName) {
@@ -43,11 +44,12 @@ function getThemeStyles(theme?: string) {
 }
 
 export const metadata: Metadata = {
-  title: "All Tools - ConverterForAll",
-  description: "Browse our complete directory of free online tools for PDFs, Images, Developers, Data, and more. 100% free, runs locally in your browser.",
+  title: "All Tools Directory",
+  description: "Browse curated free online tools for Indian exams, Hindi & Punjabi fonts, and browser-based video/audio conversion.",
+  robots: getRobotsForPath("/tools"),
   openGraph: {
-    title: "All Tools - ConverterForAll",
-    description: "Browse our complete directory of free online tools for PDFs, Images, Developers, Data, and more. 100% free, runs locally in your browser.",
+    title: "All Tools Directory | ConverterForAll",
+    description: "Browse curated free online tools for Indian exams, Hindi & Punjabi fonts, and browser-based video/audio conversion.",
     type: "website",
     url: "https://www.converterforall.com/tools",
   },
@@ -84,19 +86,27 @@ export default function AllToolsPage() {
         <div className="space-y-16">
           {categories.map((categorySlug) => {
             const categoryData = toolsDatabase[categorySlug];
+            const allowlistedTools = Object.entries(categoryData).filter(([slug]) =>
+              isIndexablePath(`/${slug}`)
+            );
+            if (allowlistedTools.length === 0) return null;
+
             const displayCategoryName = categorySlug === "developer" ? "Data & Code Tools" : categorySlug === "exam" ? "Exam & Document Tools" : `${categorySlug} Tools`;
+            const isCategoryIndexable = isIndexablePath(`/category/${categorySlug}`);
             
             return (
               <div key={categorySlug}>
                 <div className="flex items-center justify-between mb-6 md:mb-8 border-b border-slate-200 dark:border-slate-800 pb-2">
                   <h2 className="text-xl md:text-2xl font-bold capitalize text-slate-800 dark:text-slate-200">{displayCategoryName}</h2>
-                  <Link href={`/category/${categorySlug}`} className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
-                    View all {categorySlug} &rarr;
-                  </Link>
+                  {isCategoryIndexable && (
+                    <Link href={`/category/${categorySlug}`} className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                      View all {categorySlug} &rarr;
+                    </Link>
+                  )}
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-                  {Object.entries(categoryData).map(([slug, tool]) => {
+                  {allowlistedTools.map(([slug, tool]) => {
                     const colorConfig = getThemeStyles(tool.theme);
                     const [gradientFrom, gradientTo, textCol, bgCol, ringCol] = colorConfig.split(' ');
                     

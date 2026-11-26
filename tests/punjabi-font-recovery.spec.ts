@@ -3,6 +3,7 @@ import { convertPunjabi } from '../src/lib/fonts/punjabi-mappings';
 import { getToolContent, extractToolFaqs } from '../src/lib/tool-content';
 import { toolsDatabase } from '../src/lib/tools-db';
 import { TIER_C_NOINDEX_SLUGS } from '../src/config/sitemap-lastmod';
+import { isIndexablePath } from '../src/lib/seo-allowlist';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -302,21 +303,25 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
     }
   });
 
-  test('8. Indexability and Sitemap Tier configuration', () => {
-    expect(TIER_C_NOINDEX_SLUGS.has('anmollipi-to-unicode')).toBe(false);
-    expect(TIER_C_NOINDEX_SLUGS.has('gurbani-akhar-to-unicode')).toBe(false);
-    expect(TIER_C_NOINDEX_SLUGS.has('unicode-to-raavi')).toBe(true);
+  test('8. Indexability and Sitemap Allowlist configuration', () => {
+    expect(isIndexablePath('/anmollipi-to-unicode')).toBe(true);
+    expect(isIndexablePath('/asees-to-unicode')).toBe(true);
+    expect(isIndexablePath('/joy-to-unicode')).toBe(true);
+    expect(isIndexablePath('/satluj-to-unicode')).toBe(true);
+    expect(isIndexablePath('/unicode-to-asees')).toBe(true);
+    expect(isIndexablePath('/unicode-to-satluj')).toBe(true);
+    expect(isIndexablePath('/unicode-to-joy')).toBe(true);
 
-    expect(TIER_C_NOINDEX_SLUGS.has('asees-to-unicode')).toBe(false);
-    expect(TIER_C_NOINDEX_SLUGS.has('joy-to-unicode')).toBe(false);
-    expect(TIER_C_NOINDEX_SLUGS.has('satluj-to-unicode')).toBe(false);
-    expect(TIER_C_NOINDEX_SLUGS.has('unicode-to-asees')).toBe(false);
-    expect(TIER_C_NOINDEX_SLUGS.has('unicode-to-satluj')).toBe(false);
+    // Non-allowlisted Punjabi routes receive noindex via seo-allowlist
+    expect(isIndexablePath('/unicode-to-raavi')).toBe(false);
+    expect(isIndexablePath('/unicode-to-anmollipi')).toBe(false);
+    expect(isIndexablePath('/gurbani-akhar-to-unicode')).toBe(false);
+    expect(TIER_C_NOINDEX_SLUGS.has('unicode-to-raavi')).toBe(true);
   });
 
   test('9. Zero references to broken /raavi-to-unicode in src directory', () => {
     const srcDir = path.join(process.cwd(), 'src');
-    
+
     function scanDir(dir: string): string[] {
       let results: string[] = [];
       const list = fs.readdirSync(dir);
@@ -383,12 +388,12 @@ test.describe('Phase 2, Batch 1: Punjabi Font Converter Recovery & Forensic Gate
       const html = fs.readFileSync(htmlPath, 'utf8');
 
       if (slug === 'unicode-to-raavi') {
-        expect(html).toContain('This tool is not available yet.');
+        expect(html).toContain('Raavi Font Guide');
       } else {
         expect(html).not.toContain('This tool is not available yet.');
       }
 
-      if (TIER_C_NOINDEX_SLUGS.has(slug)) {
+      if (!isIndexablePath(`/${slug}`)) {
         expect(html).toContain('content="noindex');
       } else {
         expect(html).not.toContain('content="noindex');

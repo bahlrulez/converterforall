@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, Sparkles, FileText, Image as ImageIcon, Video, Music, Wrench, Type, Code2 } from "lucide-react";
 import { toolsDatabase, Tool } from "@/lib/tools-db";
+import { isIndexablePath } from "@/lib/seo-allowlist";
 
 interface RelatedToolsProps {
   currentSlug: string;
@@ -48,37 +49,24 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
       "jpg-to-pdf": ["pdf-to-jpg", "merge-pdf", "compress-pdf", "png-to-jpg"],
       
       // Font Clusters (Hindi & Text Fixes)
-      "krutidev-to-unicode": ["unicode-to-krutidev", "font-detector", "font-text-fixer", "unicode-normalizer"],
-      "unicode-to-krutidev": ["krutidev-to-unicode", "font-detector", "font-text-fixer", "unicode-normalizer"],
-      "chanakya-to-unicode": ["unicode-to-chanakya", "krutidev-to-unicode", "font-text-fixer", "unicode-normalizer"],
-      "unicode-to-chanakya": ["chanakya-to-unicode", "unicode-to-krutidev", "font-text-fixer", "krutidev-to-unicode"],
-      "font-text-fixer": ["krutidev-to-unicode", "unicode-to-krutidev", "unicode-normalizer", "font-detector"],
-      "unicode-normalizer": ["font-text-fixer", "remove-hidden-characters", "fix-copy-paste-text", "unicode-text-cleaner"],
-      "remove-hidden-characters": ["unicode-normalizer", "font-text-fixer", "fix-copy-paste-text", "unicode-text-cleaner"],
-      "fix-copy-paste-text": ["font-text-fixer", "unicode-normalizer", "remove-hidden-characters", "unicode-text-cleaner"],
-      "unicode-text-cleaner": ["fix-copy-paste-text", "unicode-normalizer", "font-text-fixer", "remove-hidden-characters"],
-      
-      // Font Clusters (Bengali & Nepali)
-      "unicode-to-bijoy": ["bijoy-to-unicode", "krutidev-to-unicode", "font-text-fixer", "preeti-to-unicode"],
-      "bijoy-to-unicode": ["unicode-to-bijoy", "font-text-fixer", "krutidev-to-unicode", "preeti-to-unicode"],
-      "preeti-to-unicode": ["unicode-to-preeti", "font-text-fixer", "krutidev-to-unicode", "bijoy-to-unicode"],
-      "unicode-to-preeti": ["preeti-to-unicode", "font-text-fixer", "unicode-to-krutidev", "unicode-to-bijoy"],
+      "krutidev-to-unicode": ["unicode-to-krutidev", "font-detector", "font-text-fixer", "asees-to-unicode"],
+      "unicode-to-krutidev": ["krutidev-to-unicode", "font-detector", "font-text-fixer", "unicode-to-asees"],
+      "font-text-fixer": ["krutidev-to-unicode", "unicode-to-krutidev", "asees-to-unicode", "font-detector"],
       
       // Font Clusters (Punjabi)
-      "anmollipi-to-unicode": ["asees-to-unicode", "satluj-to-unicode", "joy-to-unicode", "gurbani-akhar-to-unicode"],
+      "anmollipi-to-unicode": ["asees-to-unicode", "satluj-to-unicode", "joy-to-unicode", "font-text-fixer"],
       "unicode-to-anmollipi": ["anmollipi-to-unicode", "unicode-to-asees", "unicode-to-satluj", "unicode-to-joy"],
-      "joy-to-unicode": ["satluj-to-unicode", "asees-to-unicode", "anmollipi-to-unicode", "gurbani-akhar-to-unicode"],
-      "unicode-to-joy": ["joy-to-unicode", "unicode-to-asees", "unicode-to-satluj", "unicode-to-anmollipi"],
+      "joy-to-unicode": ["satluj-to-unicode", "asees-to-unicode", "anmollipi-to-unicode", "unicode-to-joy"],
+      "unicode-to-joy": ["joy-to-unicode", "unicode-to-asees", "unicode-to-satluj", "asees-to-unicode"],
       "asees-to-unicode": ["unicode-to-asees", "satluj-to-unicode", "joy-to-unicode", "anmollipi-to-unicode"],
-      "unicode-to-asees": ["asees-to-unicode", "unicode-to-satluj", "unicode-to-joy", "unicode-to-anmollipi"],
+      "unicode-to-asees": ["asees-to-unicode", "unicode-to-satluj", "unicode-to-joy", "satluj-to-unicode"],
       "satluj-to-unicode": ["unicode-to-satluj", "asees-to-unicode", "joy-to-unicode", "anmollipi-to-unicode"],
-      "unicode-to-satluj": ["satluj-to-unicode", "unicode-to-asees", "unicode-to-joy", "unicode-to-anmollipi"],
+      "unicode-to-satluj": ["satluj-to-unicode", "unicode-to-asees", "unicode-to-joy", "asees-to-unicode"],
       "gurbani-akhar-to-unicode": ["asees-to-unicode", "anmollipi-to-unicode", "satluj-to-unicode", "joy-to-unicode"],
-      "unicode-to-raavi": ["asees-to-unicode", "anmollipi-to-unicode", "satluj-to-unicode", "gurbani-akhar-to-unicode"],
+      "unicode-to-raavi": ["asees-to-unicode", "anmollipi-to-unicode", "satluj-to-unicode", "joy-to-unicode"],
 
       // Video Workflows
-      "video-compressor": ["compress-mp4", "compress-video-for-discord", "compress-video-for-whatsapp", "video-to-mp4"],
-      "compress-mp4": ["video-compressor", "compress-video-for-discord", "compress-mov-video", "mp4-to-mp3"],
+      "video-compressor": ["video-caption-generator", "subtitle-converter", "trim-audio"],
 
       // Developer Tools
       "jwt-decoder": ["json-formatter", "base64-encoder-decoder", "uuid-generator", "unix-timestamp-converter"],
@@ -93,6 +81,7 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
     if (targetCluster && targetCluster.length > 0) {
       for (const slug of targetCluster) {
         if (slug === currentSlug) continue;
+        if (!isIndexablePath(`/${slug}`)) continue;
         if (list.some(item => item.slug === slug)) continue;
         
         for (const [cat, tools] of Object.entries(typedDb)) {
@@ -120,7 +109,7 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
 
         for (let i = 0; i < entries.length; i++) {
           const [slug, tool] = entries[(startIndex + i) % entries.length];
-          if (slug !== currentSlug && !list.some(item => item.slug === slug)) {
+          if (slug !== currentSlug && isIndexablePath(`/${slug}`) && !list.some(item => item.slug === slug)) {
             list.push({
               slug,
               title: tool.title || slug,
@@ -133,14 +122,14 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
         }
       }
 
-      // 3. Fallback cross-category if still under 4
+      // 3. Fallback cross-category if still under 4 (allowlisted tools only)
       if (list.length < 4) {
-        const fallbackCategories = ["document", "image", "developer", "utilities"];
+        const fallbackCategories = ["exam", "fonts", "video", "audio", "utilities"];
         for (const cat of fallbackCategories) {
           if (cat !== categorySlug) {
             const tools = typedDb[cat] || {};
             for (const [slug, tool] of Object.entries(tools)) {
-              if (slug !== currentSlug && !list.some((i) => i.slug === slug)) {
+              if (slug !== currentSlug && isIndexablePath(`/${slug}`) && !list.some((i) => i.slug === slug)) {
                 list.push({
                   slug,
                   title: tool.title || slug,
@@ -242,10 +231,10 @@ export function RelatedTools({ currentSlug, categorySlug }: RelatedToolsProps) {
         </div>
 
         <Link
-          href={`/category/${categorySlug}`}
+          href={isIndexablePath(`/category/${categorySlug}`) ? `/category/${categorySlug}` : "/tools"}
           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800/80 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all shadow-sm group w-fit"
         >
-          <span>View All {categorySlug === "developer" ? "Data & Code" : categorySlug} Tools</span>
+          <span>{isIndexablePath(`/category/${categorySlug}`) ? `View All ${categorySlug} Tools` : "View All Tools"}</span>
           <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>

@@ -1,8 +1,11 @@
 import { Metadata } from "next";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
+import { CONTACT_EMAIL } from "@/lib/seo/site-config";
 
 export const metadata: Metadata = {
   title: "Accessibility Statement - Inclusive Digital Tools",
   description: "Our commitment to ensuring digital accessibility for all users across our web converters and online tools.",
+  robots: getRobotsForPath("/accessibility"),
   alternates: {
     canonical: "https://www.converterforall.com/accessibility",
   },
@@ -104,7 +107,7 @@ export default function AccessibilityStatementPage() {
           Please reach out to us via email, and we will make all reasonable efforts to address your concerns and provide the information or service you need in an alternative format if necessary.
         </p>
         <p>
-          <strong>Email:</strong> officialdeepbahl@gmail.com
+          <strong>Email:</strong> {CONTACT_EMAIL}
         </p>
       </div>
     </div>

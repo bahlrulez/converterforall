@@ -32,8 +32,9 @@ import {
 } from "lucide-react";
 import { toolsDatabase, Tool } from "@/lib/tools-db";
 import { cn } from "@/lib/utils";
+import { isIndexablePath } from "@/lib/seo-allowlist";
 
-type CategoryFilter = "all" | "popular" | "developer" | "pdf" | "image" | "video" | "audio" | "document" | "utilities" | "fonts";
+type CategoryFilter = "all" | "popular" | "exam" | "fonts" | "video" | "audio" | "image" | "utilities";
 
 interface ToolItem {
   slug: string;
@@ -51,14 +52,12 @@ interface ToolItem {
 const CATEGORY_TABS: { key: CategoryFilter; label: string }[] = [
   { key: "all", label: "All Tools" },
   { key: "popular", label: "Popular" },
-  { key: "developer", label: "Data & Code" },
-  { key: "pdf", label: "PDF" },
-  { key: "image", label: "Image" },
+  { key: "exam", label: "Exam Utilities" },
+  { key: "fonts", label: "Indic Fonts" },
   { key: "video", label: "Video" },
   { key: "audio", label: "Audio" },
-  { key: "document", label: "Documents" },
-  { key: "utilities", label: "Utilities" },
-  { key: "fonts", label: "Fonts" },
+  { key: "image", label: "Photo" },
+  { key: "utilities", label: "Subtitles" },
 ];
 
 function getIconComponent(iconName: string) {
@@ -105,11 +104,12 @@ export function AllToolsGrid() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Extract all tools from the database
+  // Extract only allowlisted tools from the database
   const allToolsList: ToolItem[] = useMemo(() => {
     const list: ToolItem[] = [];
     Object.entries(toolsDatabase).forEach(([catKey, tools]) => {
       (Object.entries(tools) as [string, Tool][]).forEach(([slug, tool]) => {
+        if (!isIndexablePath(`/${slug}`)) return;
         const themeStyles = getThemeStyles(tool.theme);
         list.push({
           slug,
@@ -145,10 +145,6 @@ export function AllToolsGrid() {
 
     if (activeTab === "popular") {
       result = result.filter((t) => t.isPopular);
-    } else if (activeTab === "pdf") {
-      result = result.filter((t) => t.category === "document" || t.slug.includes("pdf"));
-    } else if (activeTab === "document") {
-      result = result.filter((t) => t.category === "document");
     } else if (activeTab !== "all") {
       result = result.filter((t) => t.category === activeTab);
     }
@@ -165,10 +161,10 @@ export function AllToolsGrid() {
         {/* Top Header & Search Row */}
         <div className="flex flex-col items-center justify-center text-center mb-10 pt-4">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
-            All 150+ Conversion Tools
+            Curated Conversion Tools
           </h2>
           <p className="text-slate-600 dark:text-slate-400 text-base md:text-lg mb-8 max-w-xl mx-auto">
-            Search our extensive library of free tools or explore by category below.
+            Search our flagship tools for Indian exams, Hindi/Punjabi fonts, and media editing.
           </p>
 
           {/* Huge Search Input */}
@@ -182,21 +178,19 @@ export function AllToolsGrid() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search for any converter (e.g. 'PDF to Word' or 'Compress Image')..."
+              placeholder="Search for a tool (e.g. 'Exam Photo', 'Kruti Dev', 'Asees', 'Captions')..."
               className="w-full h-16 md:h-20 pl-16 pr-6 rounded-full bg-white dark:bg-[#080e22]/90 backdrop-blur-xl border-2 border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base md:text-xl focus:outline-none focus:border-blue-500/70 focus:bg-white dark:focus:bg-[#0c1630] focus:shadow-[0_0_40px_rgba(37,99,235,0.15)] shadow-sm transition-all relative z-0"
             />
           </div>
         </div>
 
-        {/* Category Cards (Replacing Pills) */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+        {/* Category Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
           {[
-            { key: "pdf", label: "PDF Tools", count: "20+ tools", icon: FileText, color: "bg-red-500", shadow: "shadow-[0_0_15px_rgba(239,68,68,0.2)]" },
-            { key: "image", label: "Image Tools", count: "30+ tools", icon: ImageIcon, color: "bg-emerald-500", shadow: "shadow-[0_0_15px_rgba(16,185,129,0.2)]" },
-            { key: "video", label: "Video Tools", count: "25+ tools", icon: Video, color: "bg-orange-500", shadow: "shadow-[0_0_15px_rgba(249,115,22,0.2)]" },
-            { key: "audio", label: "Audio Tools", count: "15+ tools", icon: Music, color: "bg-purple-500", shadow: "shadow-[0_0_15px_rgba(168,85,247,0.2)]" },
-            { key: "document", label: "Document Tools", count: "20+ tools", icon: FileText, color: "bg-blue-500", shadow: "shadow-[0_0_15px_rgba(59,130,246,0.2)]" },
-            { key: "fonts", label: "Fonts & Text", count: "20+ tools", icon: Type, color: "bg-pink-500", shadow: "shadow-[0_0_15px_rgba(236,72,153,0.2)]" }
+            { key: "exam", label: "Exam Utilities", count: "5 tools", icon: FileText, color: "bg-blue-500", shadow: "shadow-[0_0_15px_rgba(59,130,246,0.2)]" },
+            { key: "fonts", label: "Fonts & Text", count: "11 tools", icon: Type, color: "bg-pink-500", shadow: "shadow-[0_0_15px_rgba(236,72,153,0.2)]" },
+            { key: "video", label: "Video Tools", count: "2 tools", icon: Video, color: "bg-orange-500", shadow: "shadow-[0_0_15px_rgba(249,115,22,0.2)]" },
+            { key: "audio", label: "Audio & Photos", count: "2+ tools", icon: Music, color: "bg-purple-500", shadow: "shadow-[0_0_15px_rgba(168,85,247,0.2)]" }
           ].map((cat) => {
             const isActive = activeTab === cat.key && !searchQuery;
             return (
@@ -298,7 +292,7 @@ export function AllToolsGrid() {
           </div>
         )}
 
-        {/* Expand / Explore All 150+ Tools Button */}
+        {/* Expand / Explore All Tools Button */}
         {!searchQuery && filteredTools.length > 16 && (
           <div className="mt-12 text-center">
             <button
@@ -306,7 +300,7 @@ export function AllToolsGrid() {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-slate-800 dark:text-white bg-white dark:bg-[#0e1733] hover:bg-slate-100 dark:hover:bg-blue-600 border border-slate-200 dark:border-slate-700 hover:border-blue-400 shadow-sm hover:shadow-md transition-all duration-300 active:scale-95"
             >
               <Sparkles className="w-4 h-4 text-blue-500 dark:text-blue-400 group-hover:text-blue-600 dark:group-hover:text-white" />
-              <span>{isExpanded ? "Show Fewer Tools" : `Explore All ${filteredTools.length}+ Tools`}</span>
+              <span>{isExpanded ? "Show Fewer Tools" : `Show All ${filteredTools.length} Tools`}</span>
               <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "-rotate-90" : "rotate-90"}`} />
             </button>
           </div>

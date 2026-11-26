@@ -20,30 +20,30 @@ import {
   Code2,
 } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
+import { isIndexablePath } from "@/lib/seo-allowlist";
 
 const POPULAR_TOOLS = [
-  { slug: "video-compressor", title: "Video Compressor", icon: Video, color: "text-rose-400" },
-  { slug: "compress-video-for-discord", title: "Discord Video Compressor", icon: Video, color: "text-indigo-400" },
-  { slug: "heic-to-jpg", title: "HEIC to JPG", icon: ImageIcon, color: "text-amber-400" },
-  { slug: "heic-to-png", title: "HEIC to PNG", icon: ImageIcon, color: "text-rose-400" },
-  { slug: "jwt-decoder", title: "JWT Decoder", icon: Code2, color: "text-cyan-400" },
-  { slug: "json-formatter", title: "JSON Formatter", icon: Code2, color: "text-emerald-400" },
-  { slug: "jpg-to-pdf", title: "JPG to PDF", icon: FileText, color: "text-emerald-400" },
-  { slug: "edit-pdf", title: "Edit PDF Online", icon: FileText, color: "text-blue-400" },
-  { slug: "remove-background", title: "Remove Background", icon: Eraser, color: "text-purple-400" },
-  { slug: "merge-pdf", title: "Merge PDF, Word & Images", icon: FileStack, color: "text-red-400" },
-  { slug: "compress-pdf", title: "Compress PDF Size", icon: Zap, color: "text-amber-400" },
-  { slug: "pdf-to-word", title: "PDF to Word (DOCX)", icon: FileText, color: "text-indigo-400" },
+  { slug: "exam-photo-resizer", title: "Exam Photo Resizer", icon: Layers, color: "text-blue-400" },
+  { slug: "photo-name-date-stamper", title: "Photo Name & Date", icon: Camera, color: "text-indigo-400" },
+  { slug: "compress-pdf-100kb", title: "Compress PDF 100KB", icon: FileText, color: "text-sky-400" },
+  { slug: "krutidev-to-unicode", title: "Kruti Dev to Unicode", icon: Type, color: "text-cyan-400" },
+  { slug: "asees-to-unicode", title: "Asees to Unicode", icon: Type, color: "text-violet-400" },
+  { slug: "font-text-fixer", title: "Font Text Fixer", icon: Sparkles, color: "text-emerald-400" },
+  { slug: "video-caption-generator", title: "AI Caption Studio", icon: Video, color: "text-rose-400" },
+  { slug: "subtitle-converter", title: "Subtitle Converter", icon: Type, color: "text-amber-400" },
+  { slug: "video-compressor", title: "Video Compressor", icon: Zap, color: "text-orange-400" },
+  { slug: "trim-audio", title: "Audio Trimmer", icon: Music, color: "text-purple-400" },
+  { slug: "passport-photo-maker", title: "Passport Photo Maker", icon: ImageIcon, color: "text-emerald-400" },
+  { slug: "image-dpi-converter", title: "Image DPI Converter", icon: Layers, color: "text-blue-400" },
 ];
 
 const CATEGORY_META: Record<string, { label: string; icon: any; color: string }> = {
-  image: { label: "Image", icon: ImageIcon, color: "text-emerald-400" },
-  document: { label: "Document", icon: FileText, color: "text-blue-400" },
-  developer: { label: "Data & Code", icon: Code2, color: "text-cyan-400" },
+  exam: { label: "Exam Suite", icon: Layers, color: "text-blue-400" },
+  fonts: { label: "Indic Fonts", icon: Type, color: "text-indigo-400" },
+  video: { label: "Video Studio", icon: Video, color: "text-red-400" },
   audio: { label: "Audio", icon: Music, color: "text-purple-400" },
-  video: { label: "Video", icon: Video, color: "text-red-400" },
-  utilities: { label: "Utilities", icon: Wrench, color: "text-amber-400" },
-  fonts: { label: "Fonts", icon: Type, color: "text-indigo-400" },
+  image: { label: "Image & Photo", icon: ImageIcon, color: "text-emerald-400" },
+  utilities: { label: "Subtitles & Utilities", icon: Wrench, color: "text-amber-400" },
 };
 
 interface ToolsMegaMenuProps {
@@ -53,11 +53,12 @@ interface ToolsMegaMenuProps {
 export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Flattened tools for search
+  // Flattened allowlisted tools for search
   const allTools = useMemo(() => {
     const list: Array<{ slug: string; title: string; category: string; description?: string }> = [];
     Object.entries(toolsDatabase).forEach(([catKey, tools]) => {
       Object.entries(tools as any).forEach(([slug, tool]: any) => {
+        if (!isIndexablePath(`/${slug}`)) return;
         list.push({
           slug,
           title: tool.title || slug,
@@ -207,15 +208,19 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
           {/* Right Area: Categorized Tools Grid */}
           <div className="col-span-12 md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-7 gap-y-6 py-1">
             {Object.entries(toolsDatabase).map(([categoryKey, tools]) => {
+              const allowlistedEntries = Object.entries(tools as any).filter(([slug]) =>
+                isIndexablePath(`/${slug}`)
+              );
+              if (allowlistedEntries.length === 0) return null;
+
               const meta = CATEGORY_META[categoryKey] || {
                 label: categoryKey,
                 icon: FileText,
                 color: "text-blue-600 dark:text-blue-400",
               };
               const Icon = meta.icon;
-              const toolEntries = Object.entries(tools as any);
-              const previewTools = toolEntries.slice(0, 4);
-              const remainingCount = toolEntries.length - previewTools.length;
+              const previewTools = allowlistedEntries.slice(0, 4);
+              const remainingCount = allowlistedEntries.length - previewTools.length;
 
               return (
                 <div key={categoryKey} className="flex flex-col">
@@ -278,11 +283,11 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
           ⚡ 100% Free &amp; Private in-browser utilities
         </div>
         <Link
-          href="/#featured-tools"
+          href="/tools"
           onClick={onClose}
           className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-cyan-300 bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 px-4 py-2 rounded-xl transition-all ml-auto"
         >
-          <span>Explore All 150+ Tools</span>
+          <span>Explore All Tools</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

@@ -20,7 +20,7 @@ interface FontConverterProps {
 export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev", category = 'hindi' }: FontConverterProps) {
   const [fromUnit, setFromUnit] = useState(defaultFrom);
   const [toUnit, setToUnit] = useState(defaultTo);
-  
+
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
 
@@ -85,7 +85,7 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
         pushToHistory(storedText);
         return;
       }
-    } catch {}
+    } catch { }
     // Initial history push
     pushToHistory("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,7 +95,7 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
     const val = e.target.value;
     setFromValue(val);
     setToValue(convertText(val, fromUnit, toUnit));
-    
+
     // Debounce history push slightly for better UX, but for simplicity we push directly on change
     // In a real robust implementation, you'd debounce this.
     pushToHistory(val);
@@ -205,7 +205,7 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
 
   return (
     <div className="w-full max-w-6xl mx-auto flex flex-col gap-6">
-      
+
       {/* TOOLBAR */}
       <div className="flex flex-wrap gap-2 items-center justify-between bg-muted/50 p-2 rounded-xl border border-border">
         <div className="flex flex-wrap gap-1">
@@ -224,16 +224,16 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
       </div>
 
       <div className="bg-card border rounded-3xl p-4 sm:p-6 shadow-lg">
-        
+
         <div className="flex flex-col lg:flex-row gap-4 relative">
-          
+
           {/* FROM */}
           <div className="flex-1 w-full bg-muted/30 rounded-2xl p-4 border border-border/50 focus-within:border-primary/50 transition-colors flex flex-col min-h-[450px]">
             <div className="flex justify-between items-center mb-3 pb-3 border-b border-border/50">
-               <div className="font-semibold text-lg text-foreground">{formatFontName(fromUnit)}</div>
-               <div className="text-xs text-muted-foreground">Input</div>
+              <div className="font-semibold text-lg text-foreground">{formatFontName(fromUnit)}</div>
+              <div className="text-xs text-muted-foreground">Input</div>
             </div>
-            <textarea 
+            <textarea
               ref={textareaRef}
               value={fromValue}
               onChange={handleFromChange}
@@ -248,9 +248,9 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
 
           {/* SWAP BUTTON */}
           <div className="z-10 lg:-mx-8 lg:my-auto my-0 mx-auto -my-8 p-2 bg-card rounded-full shadow-md border flex-shrink-0">
-            <Button 
-              variant="default" 
-              size="icon" 
+            <Button
+              variant="default"
+              size="icon"
               className="rounded-full h-12 w-12"
               onClick={swapUnits}
             >
@@ -261,10 +261,10 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
           {/* TO */}
           <div className="flex-1 w-full bg-primary/5 rounded-2xl p-4 border border-primary/20 flex flex-col min-h-[450px]">
             <div className="flex justify-between items-center mb-3 pb-3 border-b border-primary/10">
-               <div className="font-semibold text-lg text-primary">{formatFontName(toUnit)}</div>
-               <div className="text-xs text-primary/70">Output</div>
+              <div className="font-semibold text-lg text-primary">{formatFontName(toUnit)}</div>
+              <div className="text-xs text-primary/70">Output</div>
             </div>
-            <textarea 
+            <textarea
               value={toValue}
               readOnly
               className="w-full flex-1 bg-transparent text-lg resize-none outline-none text-primary"
@@ -301,11 +301,11 @@ export function FontConverter({ defaultFrom = "unicode", defaultTo = "krutidev",
       {category === 'punjabi' && (
         <div className="mt-8 text-center">
           <Link
-            href="/unicode-to-raavi"
+            href="/blog/the-ultimate-guide-to-hindi-and-punjabi-font-conversion"
             className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full"
           >
             <FileText className="w-4 h-4" />
-            Need Gurmukhi Unicode to display in Word? Read our Raavi font guide
+            Read our guide to Hindi and Punjabi Unicode font conversion
           </Link>
         </div>
       )}

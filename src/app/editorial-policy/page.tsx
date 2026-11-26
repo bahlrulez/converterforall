@@ -1,9 +1,12 @@
 import { Metadata } from "next";
 import { AuthorProfile } from "@/components/shared/author-profile";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
+import { CONTACT_EMAIL } from "@/lib/seo/site-config";
 
 export const metadata: Metadata = {
   title: "Editorial Policy - Publishing Standards & Integrity",
   description: "Learn about our commitment to technical accuracy, independent content creation, and helpful guidance.",
+  robots: getRobotsForPath("/editorial-policy"),
   alternates: {
     canonical: "https://www.converterforall.com/editorial-policy",
   },
@@ -113,7 +116,7 @@ export default function EditorialPolicyPage() {
           For any questions regarding this Editorial Policy, or to submit feedback regarding our content, please contact the site owner directly:
         </p>
         <p>
-          <strong>Email:</strong> officialdeepbahl@gmail.com
+          <strong>Email:</strong> {CONTACT_EMAIL}
         </p>
         
         <div className="mt-16 pt-8 border-t">

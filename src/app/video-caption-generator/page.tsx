@@ -1,18 +1,19 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  ArrowLeft, 
-  Sparkles, 
-  ShieldCheck, 
-  Zap, 
-  CheckCircle2, 
-  Smartphone, 
-  Cpu, 
-  Palette, 
-  Download, 
-  Clock, 
-  Layers, 
+import { getRobotsForPath } from "@/lib/seo-allowlist";
+import {
+  ArrowLeft,
+  Sparkles,
+  ShieldCheck,
+  Zap,
+  CheckCircle2,
+  Smartphone,
+  Cpu,
+  Palette,
+  Download,
+  Clock,
+  Layers,
   HelpCircle,
   FileVideo,
   Check,
@@ -29,6 +30,7 @@ import { CaptionStudio } from "@/components/tools/caption-studio/DynamicCaptionS
 export const metadata: Metadata = {
   title: "Free AI Video Subtitle Generator – Auto Caption Hindi English",
   description: "Free AI video subtitle generator to auto caption Hindi English and social clips. Generate timed subtitles in your browser, edit text, customize fonts, and export captioned MP4s without watermarks.",
+  robots: getRobotsForPath("/video-caption-generator"),
   alternates: {
     canonical: "https://www.converterforall.com/video-caption-generator",
   },
@@ -255,8 +257,8 @@ export default function VideoCaptionGeneratorPage() {
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Navigation & Header Section */}
         <div className="mb-3 sm:mb-4 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="inline-flex items-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-2 transition-all bg-white dark:bg-[#0a1128]/80 px-3 py-1 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800"
           >
             <ArrowLeft className="mr-1.5 h-3 w-3" />
@@ -271,7 +273,7 @@ export default function VideoCaptionGeneratorPage() {
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-white leading-[1.15]">
             Free AI Video Caption &amp; Subtitle Generator
           </h1>
-          
+
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed mb-3">
             Upload your video for free, automatically generate timed captions and subtitles, edit the words, style them, and export a finished video for Instagram, TikTok, YouTube, Facebook and more.
           </p>
@@ -355,8 +357,8 @@ export default function VideoCaptionGeneratorPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 pt-8 border-t border-slate-100 dark:border-slate-800">
               <div className="space-y-2">
                 <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900 aspect-video flex items-center justify-center">
-                  <Image 
-                    src="/images/caption-studio/reels-caption-preview.jpg" 
+                  <Image
+                    src="/images/caption-studio/reels-caption-preview.jpg"
                     alt="Free AI video caption generator showing Hindi captions in the editor for vertical 9:16 reels"
                     width={480}
                     height={270}
@@ -370,8 +372,8 @@ export default function VideoCaptionGeneratorPage() {
 
               <div className="space-y-2">
                 <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900 aspect-video flex items-center justify-center">
-                  <Image 
-                    src="/images/caption-studio/highlight-caption-preview.jpg" 
+                  <Image
+                    src="/images/caption-studio/highlight-caption-preview.jpg"
                     alt="Video subtitle generator showing caption styling controls and karaoke-style active word highlighting"
                     width={480}
                     height={270}
@@ -455,11 +457,11 @@ export default function VideoCaptionGeneratorPage() {
               <Languages className="w-3.5 h-3.5" />
               <span>Language Support</span>
             </div>
-            
+
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
               Hindi, English and more
             </h2>
-            
+
             <div className="space-y-4 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
               <p>
                 Caption Studio is powered by the Whisper speech recognition architecture, giving you practical language flexibility for modern content:
@@ -631,24 +633,24 @@ export default function VideoCaptionGeneratorPage() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <Link 
-                href="/mp4-to-mp3" 
+              <Link
+                href="/trim-audio"
                 className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
               >
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center justify-between">
-                    <span>Extract audio from an MP4</span>
+                    <span>Trim &amp; cut audio clips</span>
                     <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-0.5" />
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Convert video soundtracks into clean MP3 audio files directly in your browser.
+                    Trim and cut audio clips cleanly in your browser before adding them to your videos.
                   </p>
                 </div>
-                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open MP4 to MP3 →</span>
+                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open Audio Trimmer →</span>
               </Link>
 
-              <Link 
-                href="/video-compressor" 
+              <Link
+                href="/video-compressor"
                 className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
               >
                 <div>
@@ -663,8 +665,8 @@ export default function VideoCaptionGeneratorPage() {
                 <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open Video Compressor →</span>
               </Link>
 
-              <Link 
-                href="/subtitle-converter" 
+              <Link
+                href="/subtitle-converter"
                 className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
               >
                 <div>
@@ -679,24 +681,8 @@ export default function VideoCaptionGeneratorPage() {
                 <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open Subtitle Converter →</span>
               </Link>
 
-              <Link 
-                href="/compress-mp4" 
-                className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
-              >
-                <div>
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center justify-between">
-                    <span>Compress MP4 files</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-0.5" />
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Quickly shrink large MP4 clips to fit under social upload and email limits.
-                  </p>
-                </div>
-                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open MP4 Compressor →</span>
-              </Link>
-
-              <Link 
-                href="/unicode-to-krutidev" 
+              <Link
+                href="/unicode-to-krutidev"
                 className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
               >
                 <div>
@@ -711,17 +697,17 @@ export default function VideoCaptionGeneratorPage() {
                 <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">Open font converter →</span>
               </Link>
 
-              <Link 
-                href="/category/video" 
+              <Link
+                href="/tools"
                 className="group flex flex-col justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
               >
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center justify-between">
-                    <span>Browse all video tools</span>
+                    <span>Browse all tools</span>
                     <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-transform group-hover:translate-x-0.5" />
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Explore our complete suite of browser-based video conversion utilities.
+                    Explore our curated directory of browser-based exam, font, and media utilities.
                   </p>
                 </div>
                 <span className="text-[11px] text-blue-600 dark:text-blue-400 font-medium mt-3">View all tools →</span>
@@ -744,7 +730,7 @@ export default function VideoCaptionGeneratorPage() {
 
           <div className="space-y-4">
             {qaList.map((item, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-white dark:bg-[#0a1128]/80 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-sm"
               >

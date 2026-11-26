@@ -1,5 +1,5 @@
 import { toolsDatabase, SLUG_ALIASES, getToolBySlug, Tool } from "@/lib/tools-db";
-import { TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
+import { isIndexablePath } from "@/lib/seo-allowlist";
 import { extractToolFaqs, getToolContent } from "@/lib/tool-content";
 import { ToolSeoInventoryItem, ToolType, ProcessingType } from "../types";
 import { computeInternalLinkGraph } from "./internal-link-analyzer";
@@ -156,8 +156,10 @@ export function collectSeoInventory(): ToolSeoInventoryItem[] {
         currentH1,
         currentTitle,
         currentMetaDescription,
-        indexability: TIER_C_NOINDEX_SLUGS.has(toolSlug) ? "noindex" : "indexable",
-        robotsDirectives: TIER_C_NOINDEX_SLUGS.has(toolSlug) ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        indexability: isIndexablePath(`/${toolSlug}`) ? "indexable" : "noindex",
+        robotsDirectives: isIndexablePath(`/${toolSlug}`)
+          ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+          : "noindex, nofollow",
         structuredDataTypes,
         breadcrumbStructure,
         wordCount: contentEval.wordCount,

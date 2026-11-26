@@ -9,7 +9,7 @@ import { RelatedTools } from "@/components/tools/related-tools";
 import { ToolReviews } from "@/components/tools/tool-reviews";
 import { getToolReviewStats } from "@/lib/reviews-data";
 import { getOptimizedToolTitle, getOptimizedToolDescription } from "@/lib/seo/metadata";
-import { TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
 import { SITE_ORIGIN } from "@/lib/seo/site-config";
 import { buildBreadcrumbSchema, buildSoftwareAppSchema, buildFaqPageSchema } from "@/lib/seo/schema-builders";
 import { getToolProcessingBadges } from "@/lib/seo/tool-processing-classification";
@@ -36,12 +36,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const pageDescription = getOptimizedToolDescription(tool, toolSlug, categorySlug);
 
   const ogImageUrl = `${SITE_ORIGIN}/og/${toolSlug}`;
-  const isNoindex = TIER_C_NOINDEX_SLUGS.has(toolSlug) || TIER_C_NOINDEX_SLUGS.has(resolvedParams.slug);
 
   return {
     title: pageTitle,
     description: pageDescription,
-    robots: isNoindex ? { index: false, follow: true } : undefined,
+    robots: getRobotsForPath(`/${toolSlug}`),
     openGraph: {
       title: `${pageTitle} | ConverterForAll`,
       description: pageDescription,
@@ -181,7 +180,7 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
           <div className="mb-10 print:hidden flex flex-col items-center text-center max-w-4xl mx-auto">
             <Link href="/" className="inline-flex items-center text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-6 transition-all bg-white dark:bg-[#0a1128]/80 px-4 py-2 rounded-full shadow-sm border border-slate-200/90 dark:border-slate-800">
               <ArrowLeft className="mr-2 h-3.5 w-3.5" />
-              <span>Back to All 150+ Tools</span>
+              <span>Back to Home</span>
             </Link>
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 mb-4 shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />

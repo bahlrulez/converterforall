@@ -60,13 +60,15 @@ test.describe('Template Refactoring & Metadata Integrity', () => {
     expect(catHtml).toContain('rel="canonical"');
   });
 
-  test('7. /tools directory page is indexable and lists tools as plain HTML links', () => {
+  test('7. /tools directory page is indexable and lists only allowlisted tool links', () => {
     expect(fs.existsSync(toolsPath)).toBe(true);
     const toolsHtml = fs.readFileSync(toolsPath, 'utf8');
     expect(toolsHtml).not.toContain('noindex');
     expect(toolsHtml).toContain('href="/krutidev-to-unicode"');
-    expect(toolsHtml).toContain('href="/word-to-pdf"');
-    expect(toolsHtml).toContain('href="/remove-background"');
+    expect(toolsHtml).toContain('href="/asees-to-unicode"');
+    expect(toolsHtml).toContain('href="/exam-photo-resizer"');
+    expect(toolsHtml).not.toContain('href="/word-to-pdf"');
+    expect(toolsHtml).not.toContain('href="/remove-background"');
   });
 
   test('8. Cloud tools have explicit per-tool privacy disclosures', () => {

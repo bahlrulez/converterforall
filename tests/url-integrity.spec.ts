@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { toolsDatabase, SLUG_ALIASES, getCanonicalToolSlugs, getToolBySlug } from '../src/lib/tools-db';
 import { getAllBlogSlugs } from '../src/lib/blog-data';
+import { isIndexablePath, INDEXABLE_PATHS } from '../src/lib/seo-allowlist';
 import { convertPunjabi } from '../src/lib/fonts/punjabi-mappings';
 import { PunjabiFontConvertor } from '../src/lib/fonts/punjabi-engine';
 import sitemap from '../src/app/sitemap';
@@ -132,14 +133,14 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
       expect(sitemapUrls, `Unverified route '${url}' must be excluded from sitemap`).not.toContain(url);
     }
 
-    // Import TIER_C_NOINDEX_SLUGS to ensure sitemap contains only indexable canonical tools
-    const { TIER_C_NOINDEX_SLUGS } = require('../src/config/sitemap-lastmod');
+    // Ensure sitemap strictly matches the curated allowlist (INDEXABLE_PATHS)
+    expect(sitemapUrls.length).toBe(INDEXABLE_PATHS.length);
     for (const toolSlug of canonicalSlugs) {
       const expectedUrl = `https://www.converterforall.com/${toolSlug}`;
-      if (TIER_C_NOINDEX_SLUGS.has(toolSlug) || genuinelyUnverifiedSlugs.has(toolSlug)) {
-        expect(sitemapUrls).not.toContain(expectedUrl);
-      } else {
+      if (isIndexablePath(`/${toolSlug}`)) {
         expect(sitemapUrls).toContain(expectedUrl);
+      } else {
+        expect(sitemapUrls).not.toContain(expectedUrl);
       }
     }
   });

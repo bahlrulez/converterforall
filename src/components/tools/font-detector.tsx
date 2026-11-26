@@ -24,26 +24,18 @@ export function FontDetector() {
     if (!result || result.font === "Unknown") return null;
     
     if (result.isUnicode) {
-      if (result.language === 'Punjabi') return '/unicode-to-anmollipi';
+      if (result.language === 'Punjabi') return '/unicode-to-asees';
       return '/unicode-to-krutidev';
     }
 
     const fontName = result.font.toLowerCase();
     if (fontName.includes("kruti") || fontName.includes("devlys")) return '/krutidev-to-unicode';
-    if (fontName.includes("chanakya")) return '/chanakya-to-unicode';
     if (fontName.includes("anmol")) return '/anmollipi-to-unicode';
-    if (fontName.includes("shusha")) return '/shusha-to-unicode';
-    if (fontName.includes("aps")) return '/aps-to-unicode';
-    if (fontName.includes("shree")) return '/shreelipi-to-unicode';
     if (fontName.includes("asees")) return '/asees-to-unicode';
     if (fontName.includes("joy")) return '/joy-to-unicode';
     if (fontName.includes("satluj")) return '/satluj-to-unicode';
-    if (fontName.includes("gurbani")) return '/gurbani-akhar-to-unicode';
-    if (fontName.includes("bijoy") || fontName.includes("sutonny")) return '/bijoy-to-unicode';
-    if (fontName.includes("preeti")) return '/preeti-to-unicode';
-    if (fontName.includes("inpage")) return '/inpage-to-unicode';
 
-    // Safe fallback: route to the universal font & text fixer instead of generating non-existent tool URLs
+    // Safe fallback: route to the universal font & text fixer instead of generating non-existent or noindex tool URLs
     return '/font-text-fixer';
   };
 

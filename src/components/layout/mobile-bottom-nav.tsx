@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, LayoutGrid, UploadCloud, FileText, Image as ImageIcon } from "lucide-react";
+import { Home, LayoutGrid, UploadCloud, Award, Type } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
@@ -43,8 +43,8 @@ export function MobileBottomNav() {
           </div>
         </div>
         
-        <NavItem href="/category/document" icon={FileText} label="PDF Tools" isActive={pathname === "/category/document"} />
-        <NavItem href="/category/image" icon={ImageIcon} label="Image Tools" isActive={pathname === "/category/image"} />
+        <NavItem href="/category/exam" icon={Award} label="Exam Tools" isActive={pathname === "/category/exam"} />
+        <NavItem href="/font-text-fixer" icon={Type} label="Font Fixer" isActive={pathname === "/font-text-fixer"} />
       </div>
     </div>
   );

@@ -22,30 +22,30 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { toolsDatabase } from "@/lib/tools-db";
+import { isIndexablePath } from "@/lib/seo-allowlist";
 
 const CATEGORIES = [
   { key: "popular", label: "Popular", icon: Zap, color: "text-amber-400" },
-  { key: "document", label: "Document", icon: FileText, color: "text-blue-400" },
-  { key: "developer", label: "Data & Code", icon: Code2, color: "text-cyan-400" },
-  { key: "image", label: "Image", icon: ImageIcon, color: "text-emerald-400" },
-  { key: "audio", label: "Audio", icon: Music, color: "text-purple-400" },
+  { key: "exam", label: "Exam Suite", icon: FileText, color: "text-blue-400" },
+  { key: "fonts", label: "Indic Fonts", icon: Type, color: "text-indigo-400" },
   { key: "video", label: "Video", icon: Video, color: "text-red-400" },
-  { key: "utilities", label: "Utilities", icon: Wrench, color: "text-orange-400" },
-  { key: "fonts", label: "Fonts", icon: Type, color: "text-indigo-400" },
+  { key: "audio", label: "Audio", icon: Music, color: "text-purple-400" },
+  { key: "image", label: "Photo", icon: ImageIcon, color: "text-emerald-400" },
+  { key: "utilities", label: "Subtitles", icon: Wrench, color: "text-orange-400" },
 ];
 
 const POPULAR_TOOLS = [
-  { slug: "heic-to-jpg", title: "HEIC to JPG", category: "image" },
-  { slug: "jwt-decoder", title: "JWT Decoder", category: "developer" },
-  { slug: "json-formatter", title: "JSON Formatter", category: "developer" },
-  { slug: "jpg-to-pdf", title: "JPG to PDF", category: "document" },
-  { slug: "edit-pdf", title: "Edit PDF Online", category: "document" },
-  { slug: "remove-background", title: "Remove Background", category: "image" },
-  { slug: "merge-pdf", title: "Merge PDF, Word & Images", category: "document" },
-  { slug: "compress-pdf", title: "Compress PDF", category: "document" },
-  { slug: "word-to-pdf", title: "WORD to PDF", category: "document" },
-  { slug: "pdf-to-word", title: "PDF to WORD", category: "document" },
-  { slug: "mp4-to-mp3", title: "MP4 to MP3", category: "audio" },
+  { slug: "exam-photo-resizer", title: "Exam Photo Resizer", category: "exam" },
+  { slug: "photo-name-date-stamper", title: "Photo Name & Date", category: "exam" },
+  { slug: "exam-signature-resizer", title: "Exam Signature Resizer", category: "exam" },
+  { slug: "compress-pdf-100kb", title: "Compress PDF 100KB", category: "exam" },
+  { slug: "krutidev-to-unicode", title: "Kruti Dev to Unicode", category: "fonts" },
+  { slug: "unicode-to-krutidev", title: "Unicode to Kruti Dev", category: "fonts" },
+  { slug: "asees-to-unicode", title: "Asees to Unicode", category: "fonts" },
+  { slug: "font-text-fixer", title: "Font & Text Fixer", category: "fonts" },
+  { slug: "video-caption-generator", title: "AI Caption Studio", category: "video" },
+  { slug: "video-compressor", title: "Video Compressor", category: "video" },
+  { slug: "trim-audio", title: "Trim Audio", category: "audio" },
 ];
 
 interface MobileNavProps {
@@ -77,11 +77,12 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
     };
   }, [isOpen]);
 
-  // Flatten all tools for instant search
+  // Flatten allowlisted tools for instant search
   const allTools = useMemo(() => {
     const list: Array<{ slug: string; title: string; category: string; description?: string }> = [];
     Object.entries(toolsDatabase).forEach(([catKey, tools]) => {
       Object.entries(tools as any).forEach(([slug, tool]: any) => {
+        if (!isIndexablePath(`/${slug}`)) return;
         list.push({
           slug,
           title: tool.title || slug,
@@ -109,11 +110,13 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const currentCategoryTools =
     activeCategory === "popular"
       ? POPULAR_TOOLS
-      : Object.entries((toolsDatabase as any)[activeCategory] || {}).map(([slug, tool]: any) => ({
-          slug,
-          title: tool.title || slug,
-          category: activeCategory,
-        }));
+      : Object.entries((toolsDatabase as any)[activeCategory] || {})
+          .filter(([slug]) => isIndexablePath(`/${slug}`))
+          .map(([slug, tool]: any) => ({
+            slug,
+            title: tool.title || slug,
+            category: activeCategory,
+          }));
 
   return createPortal(
     <div className="md:hidden fixed inset-0 z-[9999] bg-white/98 dark:bg-[#040814]/98 backdrop-blur-3xl flex flex-col text-slate-800 dark:text-slate-100 overflow-hidden h-[100dvh] w-screen">
@@ -279,12 +282,12 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
       {/* Bottom Action Footer */}
       <div className="p-4 border-t border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-[#080e22]/95 flex items-center justify-between gap-3 shrink-0">
         <Link
-          href="/#featured-tools"
+          href="/tools"
           onClick={onClose}
           className="flex-1 h-11 inline-flex items-center justify-center gap-1.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md hover:opacity-95 transition-opacity"
         >
           <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-          <span>Explore All 150+ Tools</span>
+          <span>Explore All Tools</span>
         </Link>
         <button
           onClick={() => setTheme(isDark ? "light" : "dark")}

@@ -1,98 +1,98 @@
-import { MetadataRoute } from 'next'
-import { SITE_ORIGIN } from '@/lib/seo/site-config'
-import { getCanonicalToolSlugs, toolsDatabase } from '@/lib/tools-db'
-import { getAllBlogSlugs, blogDatabase } from '@/lib/blog-data'
-import { TOOLS } from '@/config/tools'
+import { MetadataRoute } from "next";
+import { SITE_ORIGIN } from "@/lib/seo/site-config";
+import { INDEXABLE_PATHS } from "@/lib/seo-allowlist";
+import { blogDatabase } from "@/lib/blog-data";
 import {
-  NOINDEX_CATEGORIES,
   PAGE_LASTMOD_DATES,
-  TIER_C_NOINDEX_SLUGS,
   getPageLastModified,
-  getToolLastModified
-} from '@/config/sitemap-lastmod'
+  getToolLastModified,
+} from "@/config/sitemap-lastmod";
 
 export const BASE_SITEMAP_ROUTES = [
-  '',
-  '/tools',
-  '/about',
-  '/contact',
-  '/privacy',
-  '/terms',
-  '/disclaimer',
-  '/accessibility',
-  '/cookie-policy',
-  '/editorial-policy',
-  '/blog',
-] as const
+  "",
+  "/tools",
+  "/about",
+  "/contact",
+  "/privacy",
+  "/terms",
+  "/blog",
+] as const;
 
 function getBlogLastModified(slug: string): Date {
-  const post = blogDatabase[slug]
+  const post = blogDatabase[slug];
   if (post?.updatedAt) {
-    const raw = post.updatedAt.includes('T') || post.updatedAt.includes('UTC') ? post.updatedAt : `${post.updatedAt} UTC`
-    const parsed = new Date(raw)
-    if (!isNaN(parsed.getTime())) return parsed
+    const raw =
+      post.updatedAt.includes("T") || post.updatedAt.includes("UTC")
+        ? post.updatedAt
+        : `${post.updatedAt} UTC`;
+    const parsed = new Date(raw);
+    if (!isNaN(parsed.getTime())) return parsed;
   }
   if (post?.date) {
-    const raw = post.date.includes('T') || post.date.includes('UTC') ? post.date : `${post.date} UTC`
-    const parsed = new Date(raw)
-    if (!isNaN(parsed.getTime())) return parsed
+    const raw =
+      post.date.includes("T") || post.date.includes("UTC")
+        ? post.date
+        : `${post.date} UTC`;
+    const parsed = new Date(raw);
+    if (!isNaN(parsed.getTime())) return parsed;
   }
-  return getPageLastModified(`/blog/${slug}`)
+  return getPageLastModified(`/blog/${slug}`);
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = SITE_ORIGIN
-  
-  const routes = BASE_SITEMAP_ROUTES.map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: getPageLastModified(route || '/'),
-    changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1 : 0.8,
-  }))
+  const baseUrl = SITE_ORIGIN;
 
-  // Category routes: only indexable hubs; excluded hubs carry an explicit noindex directive.
-  const noindexCatSet = new Set<string>(NOINDEX_CATEGORIES)
-  const categoryRoutes = Object.keys(toolsDatabase)
-    .filter((catSlug) => !noindexCatSet.has(catSlug))
-    .map((categorySlug) => {
-      const recordedLastModified = PAGE_LASTMOD_DATES[`/category/${categorySlug}`];
+  return INDEXABLE_PATHS.map((path) => {
+    const cleanPath = path === "/" ? "" : path;
+    const url = `${baseUrl}${cleanPath}`;
+
+    if (path.startsWith("/blog/")) {
+      const slug = path.replace("/blog/", "");
       return {
-        url: `${baseUrl}/category/${categorySlug}`,
-        ...(recordedLastModified ? { lastModified: new Date(`${recordedLastModified}T00:00:00Z`) } : {}),
-        changeFrequency: 'weekly' as const,
+        url,
+        lastModified: getBlogLastModified(slug),
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
+      };
+    }
+
+    if (
+      path === "/" ||
+      path === "/tools" ||
+      path === "/blog" ||
+      path === "/about" ||
+      path === "/contact" ||
+      path === "/privacy" ||
+      path === "/terms"
+    ) {
+      return {
+        url,
+        lastModified: getPageLastModified(path),
+        changeFrequency: "weekly" as const,
+        priority: path === "/" ? 1 : 0.8,
+      };
+    }
+
+    if (path.startsWith("/category/")) {
+      const recorded = PAGE_LASTMOD_DATES[path];
+      return {
+        url,
+        ...(recorded ? { lastModified: new Date(`${recorded}T00:00:00Z`) } : {}),
+        changeFrequency: "weekly" as const,
         priority: 0.85,
       };
-    })
+    }
 
-  // Canonical Tool routes (Exclude Tier C noindexed tools and unverified font tools)
-  const unverifiedSlugs = new Set([
-    'chanakya-to-unicode',
-    'unicode-to-chanakya'
-  ])
-  const dbSlugs = getCanonicalToolSlugs()
-  const configSlugs = Object.values(TOOLS).map(t => t.path.replace(/^\//, ''))
-  const toolSlugs = Array.from(new Set([...dbSlugs, ...configSlugs]))
-    .filter((slug) => !TIER_C_NOINDEX_SLUGS.has(slug) && !unverifiedSlugs.has(slug))
-  
-  const toolRoutes = toolSlugs.map((slug) => {
-    const lastModified = getToolLastModified(slug);
+    const slug = path.replace(/^\//, "");
+    const lastModified =
+      getToolLastModified(slug) ||
+      (PAGE_LASTMOD_DATES[path] ? getPageLastModified(path) : undefined);
+
     return {
-      url: `${baseUrl}/${slug}`,
+      url,
       ...(lastModified ? { lastModified } : {}),
-      changeFrequency: 'weekly' as const,
+      changeFrequency: "weekly" as const,
       priority: 0.9,
     };
-  })
-
-  // Blog routes
-  const blogSlugs = getAllBlogSlugs()
-  const blogRoutes = blogSlugs.map((slug) => ({
-    url: `${baseUrl}/blog/${slug}`,
-    lastModified: getBlogLastModified(slug),
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }))
-
-  return [...routes, ...categoryRoutes, ...toolRoutes, ...blogRoutes]
+  });
 }
-

@@ -1,9 +1,12 @@
 import { Metadata } from "next";
 import { Mail, Clock, Sparkles, Send, ShieldCheck, MessageSquare, Lightbulb, CheckCircle2, HelpCircle } from "lucide-react";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
+import { CONTACT_EMAIL } from "@/lib/seo/site-config";
 
 export const metadata: Metadata = {
   title: "Contact Us - Support & Tool Feedback",
   description: "Contact the ConverterForAll team for technical support, bug reports, partnership inquiries, or to request new free file conversion tools.",
+  robots: getRobotsForPath("/contact"),
   alternates: {
     canonical: "https://www.converterforall.com/contact",
   },
@@ -25,11 +28,11 @@ export default function ContactPage() {
     "mainEntity": {
       "@type": "Organization",
       "name": "ConverterForAll",
-      "email": "officialdeepbahl@gmail.com",
+      "email": CONTACT_EMAIL,
       "url": "https://www.converterforall.com",
       "contactPoint": {
         "@type": "ContactPoint",
-        "email": "officialdeepbahl@gmail.com",
+        "email": CONTACT_EMAIL,
         "contactType": "Customer Support",
         "availableLanguage": ["English", "Hindi", "Punjabi"]
       }
@@ -95,11 +98,11 @@ export default function ContactPage() {
               </div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Direct Email</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Send us an email anytime for technical or general inquiries.</p>
-              <a 
-                href="mailto:officialdeepbahl@gmail.com" 
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline break-all"
               >
-                officialdeepbahl@gmail.com
+                {CONTACT_EMAIL}
               </a>
             </div>
 
@@ -142,9 +145,9 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <form 
-              action="https://formsubmit.co/officialdeepbahl@gmail.com" 
-              method="POST" 
+            <form
+              action={`https://formsubmit.co/${CONTACT_EMAIL}`}
+              method="POST"
               className="space-y-4"
             >
               {/* FormSubmit Configuration */}

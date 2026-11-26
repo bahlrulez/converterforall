@@ -1,8 +1,11 @@
 import { Metadata } from "next";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
+import { CONTACT_EMAIL } from "@/lib/seo/site-config";
 
 export const metadata: Metadata = {
   title: "Terms of Service - Free Online Tools",
   description: "Terms of service and usage conditions for ConverterForAll free online file tools and converters.",
+  robots: getRobotsForPath("/terms"),
   alternates: {
     canonical: "https://www.converterforall.com/terms",
   },
@@ -151,7 +154,7 @@ export default function TermsOfServicePage() {
           If you have any questions, feedback, comments, or requests for technical support regarding these Terms of Service, please contact us.
         </p>
         <p>
-          <strong>Email:</strong> officialdeepbahl@gmail.com
+          <strong>Email:</strong> {CONTACT_EMAIL}
         </p>
       </div>
     </div>

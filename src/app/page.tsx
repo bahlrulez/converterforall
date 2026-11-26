@@ -5,8 +5,10 @@ import { Features } from "@/components/home/features";
 import { FAQ } from "@/components/home/faq";
 import { Metadata } from "next";
 import { buildHomepageGraphSchema } from "@/lib/seo/schema-builders";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
 
 export const metadata: Metadata = {
+  robots: getRobotsForPath("/"),
   keywords: [
     "free file converter",
     "online pdf tools",

@@ -83,11 +83,10 @@ export function BlogClient({ initialPosts }: { initialPosts: Post[] }) {
                   onClick={() => {
                     setSelectedCategory(cat);
                   }}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
-                    isActive
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 ${isActive
                       ? "bg-blue-600 text-white shadow-md shadow-blue-500/20 border border-blue-400 scale-[1.02]"
                       : "bg-slate-100 dark:bg-[#0c142c] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#132044] border border-slate-200/80 dark:border-slate-800"
-                  }`}
+                    }`}
                 >
                   {cat}
                 </button>
@@ -130,17 +129,17 @@ export function BlogClient({ initialPosts }: { initialPosts: Post[] }) {
           <div className="relative z-10 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-white/20 text-white backdrop-blur-md mb-4">
               <Zap className="w-3.5 h-3.5" />
-              <span>150+ Free Tools Ready to Use</span>
+              <span>Curated Browser Tools Ready to Use</span>
             </div>
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-3">
-              Need to convert or edit a file right now?
+              Need to convert or prepare a file right now?
             </h3>
             <p className="text-blue-100 text-sm sm:text-base leading-relaxed mb-8 max-w-2xl">
-              Convert PDFs, images, videos, audio, and regional fonts directly in your browser. 100% free, unlimited, and completely private.
+              Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <a
-                href="/#featured-tools"
+                href="/tools"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white text-blue-700 font-bold text-sm hover:bg-blue-50 shadow-lg transition-transform active:scale-95"
               >
                 <span>Explore All Tools</span>

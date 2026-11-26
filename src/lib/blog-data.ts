@@ -455,7 +455,7 @@ export const blogDatabase: Record<string, BlogPost> = {
 
       <h2>Other Legacy Punjabi Fonts</h2>
       <p>Joy, Asees, Gurbani Akhar, Satluj, and AnmolLipi are legacy fonts that often cause formatting issues. If you have old typing files written in these formats, converting them to standard Unicode (which displays natively in fonts like Raavi or Nirmala UI) is the easiest way to make the text readable again.</p>
-      <p>You can instantly fix these files using our dedicated free tools, such as the <a href="/joy-to-unicode">Joy to Unicode Converter</a>, <a href="/asees-to-unicode">Asees to Unicode Converter</a>, <a href="/anmollipi-to-unicode">AnmolLipi to Unicode Converter</a>, and <a href="/gurbani-akhar-to-unicode">Gurbani Akhar to Unicode Converter</a>.</p>
+      <p>You can instantly fix these files using our dedicated free tools, such as the <a href="/joy-to-unicode">Joy to Unicode Converter</a>, <a href="/asees-to-unicode">Asees to Unicode Converter</a>, and <a href="/anmollipi-to-unicode">AnmolLipi to Unicode Converter</a>.</p>
 
       <h2>What Is the Difference Between Old Fonts and Unicode?</h2>
       <p>The easiest way to understand the difference is to think about how your phone reads text.</p>
@@ -490,7 +490,7 @@ export const blogDatabase: Record<string, BlogPost> = {
         <li>For Kruti Dev Hindi text, use the free <a href="/krutidev-to-unicode">Kruti Dev to Unicode Converter</a></li>
         <li>For AnmolLipi Punjabi text, use the free <a href="/anmollipi-to-unicode">AnmolLipi to Unicode Converter</a></li>
         <li>For Satluj Punjabi text, use the free <a href="/satluj-to-unicode">Satluj to Unicode Converter</a></li>
-        <li>For other Punjabi fonts, try our free converters for <a href="/joy-to-unicode">Joy</a>, <a href="/asees-to-unicode">Asees</a>, <a href="/anmollipi-to-unicode">AnmolLipi</a>, and <a href="/gurbani-akhar-to-unicode">Gurbani Akhar</a>.</li>
+        <li>For other Punjabi fonts, try our free converters for <a href="/joy-to-unicode">Joy</a>, <a href="/asees-to-unicode">Asees</a>, <a href="/anmollipi-to-unicode">AnmolLipi</a>, and Gurbani Akhar.</li>
       </ul>
       <p>The main idea is simple: old fonts such as Kruti Dev, AnmolLipi and Satluj were designed for an older way of working with Indian-language text, while Unicode is designed for the modern digital world.</p>
       <p>So, if your Hindi or Punjabi text looks fine on one computer but breaks on another device, the text may not be the problem at all. The font format may be the reason.</p>
@@ -1920,7 +1920,7 @@ export const blogDatabase: Record<string, BlogPost> = {
       <ul>
         <li><a href="/font-text-fixer">Regional Font Auto-Fixer</a>: Paste your broken text and let our AI automatically detect the legacy font and convert it to readable Unicode.</li>
         <li><a href="/krutidev-to-unicode">Kruti Dev to Unicode Converter</a>: Specifically convert Kruti Dev or Devlys text from old government documents to Unicode.</li>
-        <li><a href="/chanakya-to-unicode">Chanakya to Unicode Converter</a>: Fix text copied from PageMaker or InDesign files using Walkman-Chanakya.</li>
+        <li><strong>Walkman-Chanakya text:</strong> Use the Regional Font Auto-Fixer above to check PageMaker or InDesign passages in your browser.</li>
       </ul>
 
       <h2>Frequently Asked Questions</h2>
@@ -2067,184 +2067,14 @@ export const blogDatabase: Record<string, BlogPost> = {
 
       <p><strong>Q: Is the date format DD/MM/YYYY or MM/DD/YYYY?</strong><br>A: Indian recruitment portals strictly follow the Indian/British calendar standard: <code>DD/MM/YYYY</code> (Day/Month/Year). If you accidentally write <code>11/08/2026</code> thinking it is November 8th, a portal might read it as August 11th. Our tool automatically formats your date to avoid this confusion.</p>
 
-      <p><strong>Q: My photo has a colored wall background. Will it be rejected?</strong><br>A: Almost all central and state exams specify a plain white, off-white, or light gray background. Red, blue, green, or decorative curtain backgrounds are common grounds for rejection. If you do not have a white wall at home, you can clean it up using our free <a href="/remove-background">Background Remover</a> before stamping your name and date.</p>
+      <p><strong>Q: My photo has a colored wall background. Will it be rejected?</strong><br>A: Almost all central and state exams specify a plain white, off-white, or light gray background. Red, blue, green, or decorative curtain backgrounds are common grounds for rejection. If you need a clean portrait crop first, use our free <a href="/passport-photo-maker">Passport Photo Maker</a> before stamping your name and date.</p>
 
       <p><strong>Q: Can I use black text on a white strip, or white text on a black strip?</strong><br>A: Black text on a solid white strip is the universally accepted standard across UPSC, SSC, and state boards because it matches the white paper printout of your admit card. Black strips are also accepted on some portals, but white strips are recommended for maximum legibility.</p>
-    `
-  },
-  "gta-6-gameplay-videos-how-to-add-subtitles": {
-    description: "Learn how to add automatic subtitles to GTA 6 gameplay clips for YouTube Shorts, TikTok, and Instagram Reels using ConverterForAll's free in-browser AI Caption Studio.",
-    relatedTool: {
-      slug: "video-caption-generator",
-      title: "AI Video Caption & Subtitle Generator",
-      desc: "Create automatic, styled subtitles for your gameplay videos and export ready-to-share MP4 clips directly in your browser."
-    },
-    title: "GTA 6 Gameplay Videos: How to Add Subtitles for YouTube Shorts, TikTok & Instagram Reels",
-    date: "November 20, 2026",
-    category: "Guides & Tutorials",
-    coverImage: "/images/blog/gta-6-gameplay-videos-how-to-add-subtitles.jpg",
-    content: `
-      <figure class="my-8">
-        <img 
-          src="/images/blog/gta-6-gameplay-videos-how-to-add-subtitles.jpg" 
-          alt="GTA 6 Gameplay Videos: How to Add Subtitles for YouTube Shorts, TikTok & Instagram Reels" 
-          title="How to Add Subtitles to GTA 6 Gameplay Videos using ConverterForAll"
-          width="1024" 
-          height="576" 
-          class="w-full h-auto rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800" 
-          loading="eager"
-        />
-        <figcaption class="mt-3 text-center text-sm text-slate-500 dark:text-slate-400">
-          How to add automatic captions and subtitles to GTA 6 gameplay clips for YouTube Shorts, TikTok, and Instagram Reels using ConverterForAll.
-        </figcaption>
-      </figure>
-
-      <p>So, GTA 6 is finally here. After years of waiting, players are back in Vice City, exploring Leonida, getting into police chases and discovering all the little details Rockstar has packed into the game.</p>
-      <p>And, as expected, social media is filling up with gameplay clips.</p>
-      <p>Some creators are sharing their funniest moments, others are recording mission walkthroughs, while streamers are cutting highlights from their live sessions and uploading them to YouTube Shorts, Instagram Reels, TikTok and Facebook.</p>
-      <p>But here's something many gaming creators overlook when preparing these videos: subtitles.</p>
-      <p>Think about it. Someone might be watching your GTA 6 police chase while travelling on a bus, sitting in a waiting room or scrolling through Instagram late at night. Their phone may be on silent. They can see what's happening on screen, but they might miss your reaction, the joke you just made or the explanation behind the gameplay.</p>
-      <p>That's where captions make a difference.</p>
-      <p>You don't need to spend hours typing every sentence or buy expensive editing software just to put subtitles on a 30-second gaming clip. There are easier ways to get the job done.</p>
-      <p>In this guide, we'll look at how you can add automatic subtitles to your GTA 6 gameplay videos and prepare them for social media using a free online tool.</p>
-
-      <h2>Why subtitles are worth adding to your GTA 6 clips</h2>
-      <p>Let's take a simple example.</p>
-      <p>You're driving through Vice City, the police suddenly appear behind you, and within seconds your car is completely surrounded. You start reacting to the situation, shouting at the screen and laughing.</p>
-      <p>That's probably the part people will enjoy watching.</p>
-      <p>But what happens when someone watches without sound?</p>
-      <p>They'll see the cars and the police chase, but your reaction is missing. Adding subtitles gives them a way to follow what you're saying, even when the audio is muted.</p>
-      <p>There are a few other reasons worth considering:</p>
-      <ul>
-        <li><strong>Your reactions become part of the video:</strong> Gaming content isn't always about what happens inside the game. Your commentary, jokes and unexpected reactions are often what make a clip entertaining. Captions help viewers catch those moments.</li>
-        <li><strong>People can follow your commentary more easily:</strong> A mission explanation or a quick gaming tip is easier to understand when the spoken words also appear on screen.</li>
-        <li><strong>You can make your clips more accessible:</strong> Viewers who have difficulty hearing, or simply prefer reading along, can follow the conversation.</li>
-        <li><strong>Your videos can look more complete:</strong> Properly timed captions, readable fonts and a consistent style give your gaming clips a more finished appearance.</li>
-      </ul>
-      <p>Of course, subtitles alone won't make a video go viral. The gameplay and the moment itself still matter. But they can make your content easier to watch and understand.</p>
-
-      <h2>How to add subtitles to GTA 6 gameplay videos for free</h2>
-      <p>You might already have a video editor installed on your computer. The problem is that manually adding subtitles can take longer than expected, especially when you're regularly uploading clips from longer gaming sessions.</p>
-      <p>For those situations, you can try the <a href="/video-caption-generator">Free AI Video Caption &amp; Subtitle Generator</a> by ConverterForAll.</p>
-      <p>It listens to the spoken audio in your video, creates timed captions and lets you correct and style them before downloading the finished video.</p>
-      <p>Here's how to use it:</p>
-
-      <h3>Step 1: Choose a GTA 6 gameplay clip</h3>
-      <p>First, select a short clip from your gameplay recording.</p>
-      <p>It could be a funny interaction, a police chase, a livestream reaction or a mission walkthrough. You can also use a short highlight you've already edited.</p>
-      <p>One thing to remember: the current tool supports videos up to 60 seconds, so you'll need to cut longer recordings into shorter clips first.</p>
-
-      <h3>Step 2: Open the free caption generator</h3>
-      <p>Visit the tool here: <a href="/video-caption-generator">Free AI Video Caption &amp; Subtitle Generator</a>.</p>
-      <p>There is no need to install another editing application or create an account before getting started.</p>
-
-      <h3>Step 3: Let AI listen to your video</h3>
-      <p>Select your video in the Caption Studio and let the speech recognition engine process its audio.</p>
-      <p>It will automatically turn spoken words into timed subtitle segments.</p>
-      <p>This is particularly helpful when your GTA 6 video includes commentary. Instead of typing everything yourself, you get an initial transcript that you can review.</p>
-
-      <h3>Step 4: Check and edit the captions</h3>
-      <p>This is the step I'd recommend spending a little time on.</p>
-      <p>Gaming videos often contain slang, character names, fast conversations and background sounds. AI can sometimes misunderstand these words.</p>
-      <p>For example, it might recognise a character's name incorrectly or miss a word when you're speaking excitedly during a police chase.</p>
-      <p>You can click on the generated captions and correct the text, adjust the timing, split longer sentences or merge shorter fragments.</p>
-      <p>You can also change the font, colours and caption position to suit your video.</p>
-
-      <h3>Step 5: Export your video and share it</h3>
-      <p>Once everything looks right, export the finished video as an MP4.</p>
-      <p>The subtitles are permanently added to the video, so viewers don't need to switch on a separate subtitle option.</p>
-      <p>That's it. Your captioned GTA 6 clip is ready to upload.</p>
-
-      <h2>A few subtitle tips that work well for gaming videos</h2>
-      <p>There's a small difference between adding captions and adding captions that people can actually read while watching fast-moving gameplay.</p>
-      <p>Here are a few things I'd keep in mind:</p>
-
-      <h3>Keep your captions away from the bottom of the screen</h3>
-      <p>When uploading to TikTok, Instagram Reels or YouTube Shorts, remember that these platforms place buttons, usernames and descriptions around the video.</p>
-      <p>Don't position your subtitles too close to the bottom or right-hand side. They could end up hidden behind the app's interface.</p>
-
-      <h3>Don't put too many words on one line</h3>
-      <p>Imagine watching a fast car chase while trying to read three lines of text at the same time. It gets distracting.</p>
-      <p>Break long sentences into shorter phrases. Let the captions follow your speech naturally.</p>
-      <p>For example, instead of showing:</p>
-      <div class="my-4 p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm italic">
-        "Today we're exploring Vice City, and I think we've already got the police looking for us."
-      </div>
-      <p>You could display:</p>
-      <div class="my-4 p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm italic space-y-1">
-        <p class="m-0">"Exploring Vice City..."</p>
-        <p class="m-0">"Everything looks peaceful."</p>
-        <p class="m-0 font-bold text-red-500">"WAIT! THE POLICE ARE HERE!"</p>
-      </div>
-      <p>The text should follow what you're actually saying. Don't add dramatic words that weren't in your original commentary.</p>
-
-      <h3>Choose a caption style that suits the footage</h3>
-      <p>GTA 6 has plenty of colourful environments, bright lights and busy scenes. Plain white text can sometimes disappear against lighter backgrounds.</p>
-      <p>A bold font with a dark outline or subtle background usually works well. You can highlight an important word in another colour, but avoid making every word a different colour.</p>
-
-      <h3>Use vertical video for Shorts and Reels</h3>
-      <p>If you're creating content specifically for short-form platforms, a 9:16 vertical video is a good starting point.</p>
-      <p>Make sure the important part of your gameplay remains visible after cropping. Check your subtitles on a phone-sized preview before exporting.</p>
-
-      <h2>What if you speak Hindi, English or Hinglish while gaming?</h2>
-      <p>Not every gaming creator records commentary in English.</p>
-      <p>There are plenty of creators who speak Hindi, switch between Hindi and English, or use Hinglish naturally while playing. That is also how many people communicate with their gaming audiences.</p>
-      <p>ConverterForAll's Caption Studio supports Hindi transcription with Devanagari captions, English transcription and Hinglish conversations.</p>
-      <p>So, suppose you're recording a GTA 6 livestream and saying:</p>
-      <div class="my-4 p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm font-medium">
-        "Bhai, yeh police peeche hi pad gayi hai!"
-      </div>
-      <p>You can generate captions from your spoken commentary instead of manually typing every line.</p>
-      <p>The underlying speech recognition engine also supports additional languages, although results can vary depending on the accent, background audio and clarity of the recording.</p>
-      <p>You can always review and correct the generated text before exporting.</p>
-
-      <h2>Do you need to upload your gameplay video to a server?</h2>
-      <p>This is worth mentioning because gameplay recordings can be quite large, and some creators may not feel comfortable uploading their videos to an unfamiliar online service.</p>
-      <p>Caption Studio processes the video and audio directly in your browser. Your actual video doesn't need to be uploaded to a remote video-rendering service.</p>
-      <p>The speech recognition model and web fonts are downloaded when needed, but the video itself is processed on your device.</p>
-      <p>The tool is also free to use. There's no account registration, subscription or added ConverterForAll watermark on the exported video.</p>
-      <p>For a creator who just wants to caption a short gaming clip, that's a fairly straightforward workflow.</p>
-
-      <h2>Frequently asked questions</h2>
-      <h3>Can I add subtitles to GTA 6 gameplay videos for free?</h3>
-      <p>Yes. You can use ConverterForAll's free AI Caption Studio. Select a video of up to 60 seconds, generate the captions, edit them and export an MP4 with subtitles permanently added.</p>
-
-      <h3>Can I use the tool for GTA 6 YouTube Shorts?</h3>
-      <p>Yes. It supports short vertical videos and lets you customize caption appearance and positioning before exporting. You can then upload the finished MP4 to YouTube Shorts.</p>
-
-      <h3>Does it work for Instagram Reels and TikTok?</h3>
-      <p>Yes. You can prepare captioned videos for Instagram Reels and TikTok. The editor also includes safe-zone controls to help keep your text away from the platforms' interface elements.</p>
-
-      <h3>Can I generate Hindi subtitles for my gaming videos?</h3>
-      <p>Yes. The tool supports Hindi speech recognition and displays the generated captions in Devanagari script. English and Hinglish transcription are supported too.</p>
-
-      <h3>Can I correct mistakes in AI-generated subtitles?</h3>
-      <p>Yes. You can edit individual caption segments, correct misheard words, adjust timing and split or combine sentences before exporting.</p>
-
-      <h3>Is there a watermark on the downloaded video?</h3>
-      <p>No. ConverterForAll exports your captioned MP4 without adding its own watermark.</p>
-
-      <h3>Can I caption a full GTA 6 livestream recording?</h3>
-      <p>The current tool supports videos up to 60 seconds. For a longer livestream, first use a video editor to extract the moments you want to share, then generate captions for each short clip.</p>
-
-      <h2>One last thing before you upload your next clip</h2>
-      <p>With GTA 6 now available, there will be plenty of gameplay clips competing for attention on social media. Some will be funny, some will be impressive, and some will simply capture those unexpected moments that make gaming so entertaining.</p>
-      <p>When you're preparing your next clip, take a minute to check whether your commentary is easy to follow, even without sound.</p>
-      <p>And when you're ready to add subtitles, you can give ConverterForAll's free Caption Studio a try:</p>
-      <p><a href="/video-caption-generator"><strong>Generate captions for your video – Free AI Video Caption &amp; Subtitle Generator</strong></a></p>
-      <p>No complicated editing setup. Just your video, your captions and a few minutes to get everything ready for posting.</p>
     `
   }
 };
 
 export const posts = [
-  {
-    slug: "gta-6-gameplay-videos-how-to-add-subtitles",
-    title: "GTA 6 Gameplay Videos: How to Add Subtitles for YouTube Shorts, TikTok & Instagram Reels",
-    date: "November 20, 2026",
-    excerpt: "Learn how to add automatic subtitles to GTA 6 gameplay clips for YouTube Shorts, TikTok, and Instagram Reels using ConverterForAll's free in-browser AI Caption Studio.",
-    category: "Guides & Tutorials"
-  },
   {
     slug: "how-to-add-name-and-date-on-photo-for-ssc-upsc",
     title: "How to Add Name and Date on Photo for SSC and UPSC (Without Photoshop)",

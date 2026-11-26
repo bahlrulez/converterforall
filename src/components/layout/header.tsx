@@ -125,23 +125,23 @@ export function Header() {
             <CompactToolNav />
           )}
 
-          <Link href="/category/document" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
-            PDF
+          <Link href="/category/exam" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Exam Tools
           </Link>
-          <Link href="/category/image" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
-            Image
+          <Link href="/krutidev-to-unicode" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Hindi Fonts
           </Link>
-          <Link href="/category/video" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+          <Link href="/asees-to-unicode" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Punjabi Fonts
+          </Link>
+          <Link href="/video-caption-generator" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+            Caption Studio
+          </Link>
+          <Link href="/video-compressor" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
             Video
           </Link>
-          <Link href="/category/audio" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
+          <Link href="/trim-audio" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
             Audio
-          </Link>
-          <Link href="/category/exam" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
-            Exam
-          </Link>
-          <Link href="/category/fonts" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
-            Fonts & Text
           </Link>
           <Link href="/blog" className="text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors">
             Blog

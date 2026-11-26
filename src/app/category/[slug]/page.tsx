@@ -3,7 +3,7 @@ import { ArrowLeft, ShieldCheck, HelpCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { NOINDEX_CATEGORIES } from "@/config/sitemap-lastmod";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
 import { SITE_ORIGIN } from "@/lib/seo/site-config";
 import { buildCollectionPageSchema, buildBreadcrumbSchema, buildFaqPageSchema } from "@/lib/seo/schema-builders";
 import { CategoryToolsGrid, GroupedCategoryTools } from "@/components/category/category-tools-grid";
@@ -344,12 +344,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       ? editorial.intro.slice(0, 160)
       : `Free tools to manage and convert ${categorySlug} files. Most tools run directly in your browser without software installation.`;
   const canonicalUrl = `${SITE_ORIGIN}/category/${categorySlug}`;
-  const isNoindex = NOINDEX_CATEGORIES.includes(categorySlug as (typeof NOINDEX_CATEGORIES)[number]);
 
   return {
-    title: `${displayTitle} - Free In-Browser Tools | ConverterForAll`,
+    title: `${displayTitle} - Free In-Browser Tools`,
     description: displaySubtitle,
-    robots: isNoindex ? { index: false, follow: true } : undefined,
+    robots: getRobotsForPath(`/category/${categorySlug}`),
     openGraph: {
       title: `${displayTitle} - Free In-Browser Tools | ConverterForAll`,
       description: displaySubtitle,

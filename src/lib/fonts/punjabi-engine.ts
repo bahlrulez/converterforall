@@ -26,19 +26,27 @@ var Convertor;
             }
             if (charToAddOnRight) {
                 if (charToMoveRightIndex < 1) {
+                    if (moveRightChars.indexOf(charToAdd) > -1) {
+                        output.push(charToAddOnRight);
+                        charToAddOnRight = charToAdd;
+                        charToMoveRightIndex = 0;
+                        continue;
+                    }
                     charToMoveRightIndex = 1;
                     output.push(charToAdd);
+                    continue;
                 }
                 else if (moveAcrossCharacters.indexOf(charToAdd) > -1) {
                     output.push(charToAdd);
+                    continue;
                 }
                 else {
-                    output.push(charToAddOnRight, charToAdd);
+                    output.push(charToAddOnRight);
                     charToAddOnRight = null;
                     charToMoveRightIndex = 0;
                 }
             }
-            else if (moveRightChars.indexOf(charToAdd) > -1) {
+            if (moveRightChars.indexOf(charToAdd) > -1) {
                 charToAddOnRight = charToAdd;
             }
             else if (moveLeftChars.indexOf(charToAdd) > -1 && output.length) {

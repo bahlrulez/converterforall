@@ -57,15 +57,10 @@ test.describe('Blog Content Privacy Claims & Release Integrity', () => {
     expect(TOOL_CONTENT_CHANGED_DATES['trim-audio']).toBeUndefined();
   });
 
-  test('5. Sitemap generated output reflects updated lastModified dates', () => {
+  test('5. Sitemap generated output reflects updated lastModified dates for allowlisted URLs', () => {
     const entries = sitemap();
-    const cleanPdf = entries.find(e => e.url.endsWith('/clean-pdf-metadata'));
     const videoComp = entries.find(e => e.url.endsWith('/video-compressor'));
     const trimAudio = entries.find(e => e.url.endsWith('/trim-audio'));
-    const blogPost = entries.find(e => e.url.endsWith('/blog/why-stop-uploading-sensitive-pdfs-to-online-converters'));
-
-    expect(cleanPdf?.lastModified).toBeDefined();
-    expect(new Date(cleanPdf!.lastModified!).toISOString()).toContain('2026-10-30');
 
     expect(videoComp?.lastModified).toBeDefined();
     expect(new Date(videoComp!.lastModified!).toISOString()).toContain('2026-10-30');
@@ -75,8 +70,9 @@ test.describe('Blog Content Privacy Claims & Release Integrity', () => {
       expect(new Date(trimAudio.lastModified).toISOString()).not.toContain('2026-10-30');
     }
 
-    expect(blogPost?.lastModified).toBeDefined();
-    expect(new Date(blogPost!.lastModified!).toISOString()).toContain('2026-10-30');
+    // Non-allowlisted blog & utility URLs remain excluded from sitemap
+    expect(entries.find(e => e.url.endsWith('/clean-pdf-metadata'))).toBeUndefined();
+    expect(entries.find(e => e.url.endsWith('/blog/why-stop-uploading-sensitive-pdfs-to-online-converters'))).toBeUndefined();
   });
 
   test('6. video-compressor source code proves inputs, WebAssembly engine, and libx264/aac codecs', () => {

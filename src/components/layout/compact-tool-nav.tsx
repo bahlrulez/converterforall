@@ -2,15 +2,15 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { 
-  ChevronDown, 
-  Sparkles, 
-  Type, 
-  Award, 
-  FileText, 
-  Image as ImageIcon, 
-  Video, 
-  ArrowRight 
+import {
+  ChevronDown,
+  Sparkles,
+  Type,
+  Award,
+  FileText,
+  Image as ImageIcon,
+  Video,
+  ArrowRight
 } from "lucide-react";
 
 // The 11 Core Tier A Tools directly linked as normal HTML links
@@ -32,13 +32,13 @@ export function CompactToolNav() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div 
+    <div
       className="group/compact relative flex h-full items-center"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <Link 
-        href="/tools" 
+      <Link
+        href="/tools"
         className="flex items-center gap-1.5 text-[13px] font-semibold text-muted-foreground hover:text-foreground transition-colors py-2"
         aria-expanded={isOpen}
       >
@@ -48,10 +48,9 @@ export function CompactToolNav() {
       </Link>
 
       {/* Lightweight dropdown containing normal HTML links to every Tier A page */}
-      <div 
-        className={`absolute left-0 top-full pt-2 w-80 transition-all duration-200 origin-top z-50 ${
-          isOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-2 pointer-events-none"
-        }`}
+      <div
+        className={`absolute left-0 top-full pt-2 w-80 transition-all duration-200 origin-top z-50 ${isOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-2 pointer-events-none"
+          }`}
       >
         <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#0c1630]/95 backdrop-blur-xl p-3 shadow-xl">
           <div className="px-3 py-1.5 mb-1 flex items-center justify-between border-b border-slate-100 dark:border-slate-800">
@@ -91,7 +90,7 @@ export function CompactToolNav() {
               onClick={() => setIsOpen(false)}
               className="flex items-center justify-center gap-1.5 w-full py-2 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-colors"
             >
-              <span>Explore All 150+ Converters</span>
+              <span>Explore All Tools</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
           </div>

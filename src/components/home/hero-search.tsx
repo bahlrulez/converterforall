@@ -4,24 +4,24 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Search, X, ArrowRight, FileText, Image as ImageIcon, Video, Music, Code2, Wrench, Type, Sparkles } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
+import { isIndexablePath } from "@/lib/seo-allowlist";
 
 const POPULAR_SHORTCUTS = [
-  { label: "Unicode to Satluj", slug: "unicode-to-satluj" },
-  { label: "PDF to Word", slug: "pdf-to-word" },
-  { label: "JPG to PDF", slug: "jpg-to-pdf" },
-  { label: "Compress PDF", slug: "compress-pdf" },
-  { label: "Remove Background", slug: "remove-background" },
+  { label: "Exam Photo Resizer", slug: "exam-photo-resizer" },
   { label: "Kruti Dev to Unicode", slug: "krutidev-to-unicode" },
+  { label: "Asees to Unicode", slug: "asees-to-unicode" },
+  { label: "Unicode to Satluj", slug: "unicode-to-satluj" },
+  { label: "AI Caption Studio", slug: "video-caption-generator" },
+  { label: "Compress PDF 100KB", slug: "compress-pdf-100kb" },
 ];
 
 const CATEGORY_META: Record<string, { label: string; icon: any; color: string }> = {
-  image: { label: "Image", icon: ImageIcon, color: "text-emerald-500" },
-  document: { label: "Document", icon: FileText, color: "text-blue-500" },
-  developer: { label: "Data & Code", icon: Code2, color: "text-cyan-500" },
+  exam: { label: "Exam Suite", icon: FileText, color: "text-blue-500" },
+  image: { label: "Image & Photo", icon: ImageIcon, color: "text-emerald-500" },
   audio: { label: "Audio", icon: Music, color: "text-purple-500" },
   video: { label: "Video", icon: Video, color: "text-rose-500" },
-  utilities: { label: "Utilities", icon: Wrench, color: "text-amber-500" },
-  fonts: { label: "Fonts", icon: Type, color: "text-indigo-500" },
+  utilities: { label: "Subtitles", icon: Wrench, color: "text-amber-500" },
+  fonts: { label: "Indic Fonts", icon: Type, color: "text-indigo-500" },
 };
 
 export function HeroSearch() {
@@ -29,11 +29,12 @@ export function HeroSearch() {
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Flatten tools for instant search
+  // Flatten allowlisted tools for instant search
   const allTools = useMemo(() => {
     const list: Array<{ slug: string; title: string; category: string; description?: string }> = [];
     Object.entries(toolsDatabase).forEach(([catKey, tools]) => {
       Object.entries(tools as any).forEach(([slug, tool]: any) => {
+        if (!isIndexablePath(`/${slug}`)) return;
         list.push({
           slug,
           title: tool.title || slug,
@@ -98,7 +99,7 @@ export function HeroSearch() {
               setQuery(e.target.value);
               setIsFocused(true);
             }}
-            placeholder="Search 150+ free tools..."
+            placeholder="Search curated tools (e.g. Exam Photo, Kruti Dev, Asees, Captions)..."
             className="w-full h-11 sm:h-12 pl-10 pr-24 rounded-2xl bg-white dark:bg-[#0a1228] border-2 border-slate-200/90 dark:border-blue-500/30 text-slate-900 dark:text-white placeholder-slate-400 text-xs sm:text-sm font-medium shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-600 dark:focus:border-blue-400 transition-all"
           />
           {query ? (
@@ -180,14 +181,14 @@ export function HeroSearch() {
 
           <div className="p-2 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-800 text-center">
             <Link
-              href="/#featured-tools"
+              href="/tools"
               onClick={() => {
                 setIsFocused(false);
                 setQuery("");
               }}
               className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700"
             >
-              <span>Explore All 150+ Tools</span>
+              <span>Explore All Tools</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
           </div>

@@ -146,19 +146,13 @@ export const PAGE_LASTMOD_DATES: Record<string, string> = {
   "/feet-to-meters": "2026-09-29",
   "/feet-to-yards": "2026-09-28",
   "/feet-to-inches": "2026-09-29",
-  "/miles-to-kilometers": "2026-09-29",
   "/miles-to-nautical-miles": "2026-09-29",
   "/yards-to-meters": "2026-09-29",
-  "/meters-to-kilometers": "2026-09-29",
-  "/centimeters-to-millimeters": "2026-09-29",
   "/millimeters-to-inches": "2026-08-03",
-  "/micrometers-to-millimeters": "2026-09-27",
   "/nanometers-to-micrometers": "2026-09-29",
   "/light-years-to-parsecs": "2026-09-28",
   "/nautical-miles-to-miles": "2026-09-29",
   "/furlongs-to-miles": "2026-09-29",
-  "/chains-to-meters": "2026-08-03",
-  "/rods-to-yards": "2026-08-03",
   "/leagues-to-miles": "2026-09-29",
   "/unicode-to-krutidev": "2026-09-28",
   "/krutidev-to-unicode": "2026-09-28",
@@ -208,8 +202,7 @@ export const PAGE_LASTMOD_DATES: Record<string, string> = {
   "/exam-signature-resizer": "2026-10-09",
   "/compress-pdf-100kb": "2026-10-09",
   "/image-dpi-converter": "2026-10-12",
-  "/blog/why-stop-uploading-sensitive-pdfs-to-online-converters": "2026-10-30",
-  "/blog/gta-6-gameplay-videos-how-to-add-subtitles": "2026-11-20"
+  "/blog/why-stop-uploading-sensitive-pdfs-to-online-converters": "2026-10-30"
 };
 
 /**

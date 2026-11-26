@@ -6,6 +6,7 @@ import { AuthorProfile } from "@/components/shared/author-profile";
 
 import { blogDatabase, getAllBlogSlugs } from "@/lib/blog-data";
 import { buildArticleSchema, buildBreadcrumbSchema } from "@/lib/seo/schema-builders";
+import { getRobotsForPath, isIndexablePath } from "@/lib/seo-allowlist";
 
 export async function generateStaticParams() {
   return getAllBlogSlugs().map((slug) => ({
@@ -18,7 +19,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = blogDatabase[resolvedParams.slug];
   
   if (!post) {
-    return { title: "Not Found" };
+    return {
+      title: "Not Found",
+      robots: { index: false, follow: false },
+    };
   }
 
   const excerpt = post.description;
@@ -29,6 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: post.title,
     description: excerpt,
+    robots: getRobotsForPath(`/blog/${resolvedParams.slug}`),
     openGraph: {
       title: `${post.title} | ConverterForAll`,
       description: excerpt,
@@ -145,7 +150,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
         />
         
         {/* Hub-and-Spoke Contextual Tool Card */}
-        {post.relatedTool && (
+        {post.relatedTool && isIndexablePath(`/${post.relatedTool.slug}`) && (
           <div className="mt-12 p-6 sm:p-7 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-32 bg-blue-500/20 blur-3xl pointer-events-none" />
             
@@ -175,10 +180,10 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
             <p className="text-xs sm:text-sm text-blue-100 mt-1">No uploads, 100% private, and completely free forever.</p>
           </div>
           <Link
-            href="/#featured-tools"
+            href="/tools"
             className="px-6 py-3 rounded-xl bg-white text-blue-700 font-bold text-xs sm:text-sm hover:bg-blue-50 shrink-0 shadow transition-transform active:scale-95"
           >
-            Explore 150+ Tools
+            Explore All Tools
           </Link>
         </div>
 

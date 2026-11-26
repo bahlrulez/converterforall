@@ -2,18 +2,18 @@
 
 import React from "react";
 import Link from "next/link";
-import { 
-  ArrowRight, 
-  Type, 
-  Settings, 
-  Shield, 
-  Image as ImageIcon, 
-  Eraser, 
-  FileText, 
-  Camera, 
-  Scan, 
-  FileJson, 
-  FileArchive, 
+import {
+  ArrowRight,
+  Type,
+  Settings,
+  Shield,
+  Image as ImageIcon,
+  Eraser,
+  FileText,
+  Camera,
+  Scan,
+  FileJson,
+  FileArchive,
   Wand2,
   Video,
   Music,
@@ -24,46 +24,46 @@ import { TOOLS } from "@/config/tools";
 
 const POPULAR_CATEGORY_CARDS = [
   {
-    title: "PDF Tools",
-    desc: "Merge, split, compress & more",
-    href: "/category/document",
-    icon: FileText,
-    iconColor: "text-rose-500 bg-rose-50 dark:bg-rose-950/40 border-rose-200/60 dark:border-rose-900/40",
+    title: "Exam Utilities",
+    desc: "Sarkari photo, sign & 100KB PDF",
+    href: "/category/exam",
+    icon: GraduationCap,
+    iconColor: "text-sky-500 bg-sky-50 dark:bg-sky-950/40 border-sky-200/60 dark:border-sky-900/40",
   },
   {
-    title: "Image Tools",
-    desc: "Convert, resize, compress",
-    href: "/category/image",
-    icon: ImageIcon,
-    iconColor: "text-blue-500 bg-blue-50 dark:bg-blue-950/40 border-blue-200/60 dark:border-blue-900/40",
+    title: "Hindi Fonts",
+    desc: "Kruti Dev to & from Unicode",
+    href: "/krutidev-to-unicode",
+    icon: Type,
+    iconColor: "text-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 border-indigo-200/60 dark:border-indigo-900/40",
   },
   {
-    title: "Video Tools",
-    desc: "Convert, trim, compress",
-    href: "/category/video",
-    icon: Video,
-    iconColor: "text-purple-500 bg-purple-50 dark:bg-purple-950/40 border-purple-200/60 dark:border-purple-900/40",
-  },
-  {
-    title: "Audio Tools",
-    desc: "Convert, cut, extract",
-    href: "/category/audio",
-    icon: Music,
-    iconColor: "text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200/60 dark:border-emerald-900/40",
-  },
-  {
-    title: "Fonts & Text",
-    desc: "Convert, fix, generate",
-    href: "/category/fonts",
+    title: "Punjabi Fonts",
+    desc: "Asees, AnmolLipi, Satluj & Joy",
+    href: "/asees-to-unicode",
     icon: Type,
     iconColor: "text-amber-500 bg-amber-50 dark:bg-amber-950/40 border-amber-200/60 dark:border-amber-900/40",
   },
   {
-    title: "Exam Utilities",
-    desc: "Sarkari exam tools & more",
-    href: "/category/exam",
-    icon: GraduationCap,
-    iconColor: "text-sky-500 bg-sky-50 dark:bg-sky-950/40 border-sky-200/60 dark:border-sky-900/40",
+    title: "AI Caption Studio",
+    desc: "Auto subtitles in browser",
+    href: "/video-caption-generator",
+    icon: Video,
+    iconColor: "text-purple-500 bg-purple-50 dark:bg-purple-950/40 border-purple-200/60 dark:border-purple-900/40",
+  },
+  {
+    title: "Audio & Video",
+    desc: "Video compressor & audio trimmer",
+    href: "/video-compressor",
+    icon: Music,
+    iconColor: "text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200/60 dark:border-emerald-900/40",
+  },
+  {
+    title: "All Curated Tools",
+    desc: "Browse full tools directory",
+    href: "/tools",
+    icon: FileText,
+    iconColor: "text-rose-500 bg-rose-50 dark:bg-rose-950/40 border-rose-200/60 dark:border-rose-900/40",
   },
 ];
 
@@ -89,7 +89,7 @@ function HubCard({ href, title, description, tag, icon: Icon, colorClass }: { hr
       className="group relative flex flex-col p-6 rounded-2xl bg-white dark:bg-[#0a1128]/90 hover:bg-slate-50 dark:hover:bg-[#0f1a3d] border border-slate-200/80 dark:border-slate-800/90 hover:border-blue-400/60 dark:hover:border-blue-500/40 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300 pointer-events-none" />
-      
+
       <div className="flex items-center justify-between mb-5 relative z-10">
         <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform duration-300", colorClass)}>
           <Icon className="w-6 h-6" />
@@ -124,7 +124,7 @@ export function SpecializedHubs() {
   return (
     <section className="pt-6 sm:pt-10 pb-16 sm:pb-20 md:pb-24 bg-white dark:bg-[#030714] transition-colors duration-300">
       <div className="container mx-auto px-4 max-w-7xl space-y-20">
-        
+
         {/* Popular Conversion Tools (6 Category Cards matching mockup) */}
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
@@ -137,8 +137,8 @@ export function SpecializedHubs() {
                 Popular Conversion Tools
               </h2>
             </div>
-            <Link 
-              href="/tools" 
+            <Link
+              href="/tools"
               className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center gap-1 transition-colors self-start sm:self-end"
             >
               View All Tools <ArrowRight className="w-4 h-4 ml-0.5" />
@@ -190,7 +190,7 @@ export function SpecializedHubs() {
               const tool = TOOLS[card.id];
               if (!tool) return null;
               return (
-                <HubCard 
+                <HubCard
                   key={card.id}
                   href={tool.path}
                   title={tool.name}
@@ -215,7 +215,7 @@ export function SpecializedHubs() {
                 Indian Typography &amp; Publishing Suite
               </h2>
             </div>
-            <Link href="/category/fonts" className="text-sm font-medium text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 flex items-center gap-1 transition-colors">
+            <Link href="/tools" className="text-sm font-medium text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 flex items-center gap-1 transition-colors">
               View all font tools <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -225,7 +225,7 @@ export function SpecializedHubs() {
               const tool = TOOLS[card.id];
               if (!tool) return null;
               return (
-                <HubCard 
+                <HubCard
                   key={card.id}
                   href={tool.path}
                   title={tool.name}
@@ -239,67 +239,67 @@ export function SpecializedHubs() {
           </div>
         </div>
 
-        {/* Featured Hub 3: Privacy-First Core Utilities */}
+        {/* Featured Hub 3: Creator Video & Audio Suite */}
         <div className="space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
-                <span className="text-sm">🔒</span> Local Processing
+                <span className="text-sm">🎬</span> Local Media Processing
               </div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Privacy-First Core Utilities
+                Creator Video, Audio &amp; Photo Utilities
               </h2>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            <HubCard 
-              href="/image-to-text"
-              title="Client-Side OCR"
-              description="Extract text from images entirely within your browser."
-              tag="AI Vision"
-              icon={ImageIcon}
+            <HubCard
+              href="/video-caption-generator"
+              title="AI Video Caption Studio"
+              description="Generate, style, and burn timed subtitles directly in your browser."
+              tag="WebCodecs + AI"
+              icon={Video}
+              colorClass="bg-rose-500"
+            />
+            <HubCard
+              href="/subtitle-converter"
+              title="Subtitle Converter"
+              description="Convert SRT, VTT, SBV, and ASS files and adjust subtitle timing."
+              tag="Subtitles"
+              icon={Type}
+              colorClass="bg-cyan-500"
+            />
+            <HubCard
+              href="/video-compressor"
+              title="In-Browser Video Compressor"
+              description="Reduce MP4, MOV, MKV, WebM, and AVI sizes cleanly locally."
+              tag="Video"
+              icon={FileArchive}
+              colorClass="bg-amber-500"
+            />
+            <HubCard
+              href="/passport-photo-maker"
+              title="Passport Photo Maker"
+              description="Crop and format portraits for IDs and official portals in-browser."
+              tag="Photo Utility"
+              icon={Camera}
               colorClass="bg-emerald-500"
-            />
-            <HubCard 
-              href="/remove-background"
-              title="Background Remover"
-              description="Cut out subjects from photos instantly with local AI."
-              tag="Image Edit"
-              icon={Eraser}
-              colorClass="bg-teal-500"
-            />
-            <HubCard 
-              href="/edit-pdf"
-              title="True PDF Redaction"
-              description="Black out sensitive information locally before sharing."
-              tag="Document Security"
-              icon={Shield}
-              colorClass="bg-purple-500"
-            />
-            <HubCard 
-              href="/csv-to-json"
-              title="CSV to JSON"
-              description="Convert spreadsheets to developer formats privately."
-              tag="Data formatting"
-              icon={FileJson}
-              colorClass="bg-sky-500"
             />
           </div>
         </div>
 
         {/* Bottom CTA */}
         <div className="pt-12 text-center">
-          <Link 
-            href="/tools" 
+          <Link
+            href="/tools"
             className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-900 font-bold text-lg shadow-xl hover:shadow-2xl transition-all active:scale-95 border border-transparent"
           >
-            <span>Looking for Unit Converters or Media Tools?</span>
-            <span className="font-normal opacity-90 hidden sm:inline">Browse our Complete Directory of 150+ Tools</span>
+            <span>Explore Our Focused Utility Suite</span>
+            <span className="font-normal opacity-90 hidden sm:inline">Browse the Curated Tools Directory</span>
             <ArrowRight className="w-5 h-5" />
           </Link>
           <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 block sm:hidden">
-            Browse our Complete Directory of 150+ Tools
+            Browse the Curated Tools Directory
           </p>
         </div>
 

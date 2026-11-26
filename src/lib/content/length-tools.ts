@@ -62,27 +62,6 @@ export const lengthToolsContent: Record<string, { sections: { title: string, con
       }
     ]
   },
-  "meters-to-kilometers": {
-    disableAutoEnrich: true,
-    sections: [
-      {
-        title: "Metric System Conversion",
-        content: "The metric system is elegantly designed entirely around multiples of 10, making unit conversions mathematically simple and intuitive. The standard prefix \"kilo-\" explicitly translates to one thousand. Therefore, by definition, there are exactly 1,000 meters (m) contained within a single kilometer (km). This standardization is the foundation of modern scientific measurement and international travel, ensuring that distance calculations remain universally consistent across different borders and industries."
-      },
-      {
-        title: "How to Convert Meters to Kilometers",
-        content: "To convert a distance from meters to kilometers, you divide the total number of meters by 1,000. In practical terms, this is as simple as moving the decimal point exactly three places to the left. <ul><li><strong>Conversion Formula:</strong> <code>km = m / 1000</code></li><li><strong>Worked Example:</strong> If you run a standard 5,000-meter race (commonly referred to as a 5K), dividing 5,000 by 1,000 confirms the distance is exactly 5.0 kilometers.</li></ul> For the reverse calculation, converting kilometers back into meters, you simply multiply the kilometer value by 1,000."
-      },
-      {
-        title: "Everyday Contexts and Applications",
-        content: "While meters are the standard base unit used to measure relatively short distances—such as the length of an Olympic swimming pool, the height of a skyscraper, or the dimensions of a running track—kilometers are the globally accepted standard for macroscopic distances. Kilometers are used worldwide for geographical mapping, calculating highway driving distances, tracking long-distance endurance workouts like cycling and marathons, and planning commercial aviation flight paths. Understanding this basic conversion is essential for international travel and global logistics."
-      },
-      {
-        title: "Decimal Precision and Calculator Behavior",
-        content: "Because this conversion is a strict division by a power of ten, it never results in irrational or infinitely repeating decimals. The conversion is always perfectly exact, regardless of the input size. This calculator handles the decimal shifting securely in your web browser to provide an instantaneous, error-free result. It is fully capable of processing very large numbers as well as microscopic fractional inputs, ensuring high precision for all standard engineering and everyday needs without transmitting your data."
-      }
-    ]
-  },
   "leagues-to-miles": {
     disableAutoEnrich: true,
     sections: [

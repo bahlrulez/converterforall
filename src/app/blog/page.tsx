@@ -2,10 +2,12 @@ import { Metadata } from "next";
 import { BookOpen, Sparkles, Shield, Cpu, Zap } from "lucide-react";
 import { posts } from "@/lib/blog-data";
 import { BlogClient } from "./blog-client";
+import { getRobotsForPath, isIndexablePath } from "@/lib/seo-allowlist";
 
 export const metadata: Metadata = {
   title: "Blog & Guides - Everyday File Conversion Tips",
   description: "Helpful, straightforward guides on working with PDFs, images, Indic fonts, and video files directly in your browser without extra software.",
+  robots: getRobotsForPath("/blog"),
   alternates: {
     canonical: "https://www.converterforall.com/blog",
   },
@@ -18,10 +20,12 @@ export const metadata: Metadata = {
 };
 
 export default function BlogIndex() {
-  // Sort posts by date (descending)
-  const sortedPosts = [...posts].sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  // Show only curated allowlisted blog posts so /blog never links to noindex routes
+  const sortedPosts = [...posts]
+    .filter((post) => isIndexablePath(`/blog/${post.slug}`))
+    .sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -83,15 +87,15 @@ export default function BlogIndex() {
           <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-medium text-slate-500 dark:text-slate-400">
             <div className="flex items-center gap-1.5">
               <Shield className="w-4 h-4 text-emerald-500" />
-              <span>100% Client-Side Privacy</span>
+              <span>Browser-First Processing</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Zap className="w-4 h-4 text-amber-500" />
-              <span>No Cloud Uploads</span>
+              <span>No Registration Required</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Cpu className="w-4 h-4 text-blue-500" />
-              <span>Free Forever</span>
+              <span>Free Utility Guides</span>
             </div>
           </div>
         </div>

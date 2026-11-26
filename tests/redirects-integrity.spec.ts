@@ -151,12 +151,12 @@ test.describe('Redirects and Aliases Integrity', () => {
     expect(compCode).not.toContain('href="/compress-wmv"');
     expect(compCode).not.toContain('href="/compress-flv"');
 
-    // Ensure links to kept canonical format pages exist
-    expect(compCode).toContain('href="/compress-mp4"');
-    expect(compCode).toContain('href="/compress-mov-video"');
+    // Ensure no links to redirected format pages remain in video-compressor.tsx
+    expect(compCode).not.toContain('href="/compress-mp4"');
+    expect(compCode).not.toContain('href="/compress-mov-video"');
   });
 
-  test('5. Sitemap contains 0 redirected URLs, includes all restored Punjabi routes, and URLs are unique', () => {
+  test('5. Sitemap contains 0 redirected URLs, matches the 34-URL allowlist, and includes allowlisted Punjabi routes', () => {
     const sitemapEntries = sitemap();
     const sitemapUrls = sitemapEntries.map(e => e.url);
 
@@ -164,7 +164,7 @@ test.describe('Redirects and Aliases Integrity', () => {
     const uniqueUrls = new Set(sitemapUrls);
     expect(sitemapUrls.length, `Duplicate URLs found in sitemap! Unique: ${uniqueUrls.size}, Total: ${sitemapUrls.length}`).toBe(uniqueUrls.size);
 
-    // 2. All 10 approved redirect sources must NEVER appear in the sitemap
+    // 2. Approved redirect sources must NEVER appear in the sitemap
     for (const item of legacyFiveRedirects) {
       const fullUrl = `https://www.converterforall.com${item.source}`;
       expect(sitemapUrls, `Redirect source '${fullUrl}' must not appear in sitemap`).not.toContain(fullUrl);
@@ -174,22 +174,21 @@ test.describe('Redirects and Aliases Integrity', () => {
       expect(sitemapUrls, `Redirect source '${fullUrl}' must not appear in sitemap`).not.toContain(fullUrl);
     }
 
-    // 3. All six restored Punjabi routes must appear in the sitemap
+    // 3. All six allowlisted Punjabi routes must appear in the sitemap
     for (const route of restoredPunjabiRoutes) {
-      expect(sitemapUrls, `Restored Punjabi route '${route}' missing from sitemap`).toContain(route);
+      expect(sitemapUrls, `Allowlisted Punjabi route '${route}' missing from sitemap`).toContain(route);
     }
 
-    // 4. Held tools and canonical pages must remain in sitemap
-    expect(sitemapUrls).toContain('https://www.converterforall.com/trim-mp3-online');
-    expect(sitemapUrls).toContain('https://www.converterforall.com/compress-video-for-discord');
-    expect(sitemapUrls).toContain('https://www.converterforall.com/compress-mp4');
-    expect(sitemapUrls).toContain('https://www.converterforall.com/clean-pdf-metadata');
+    // 4. Consolidated & off-topic routes stay out of sitemap; allowlisted canonical targets stay in sitemap
+    expect(sitemapUrls).not.toContain('https://www.converterforall.com/trim-mp3-online');
+    expect(sitemapUrls).not.toContain('https://www.converterforall.com/compress-video-for-discord');
+    expect(sitemapUrls).not.toContain('https://www.converterforall.com/compress-mp4');
+    expect(sitemapUrls).not.toContain('https://www.converterforall.com/clean-pdf-metadata');
     expect(sitemapUrls).toContain('https://www.converterforall.com/trim-audio');
     expect(sitemapUrls).toContain('https://www.converterforall.com/video-compressor');
-    expect(sitemapUrls).toContain('https://www.converterforall.com/blog/why-stop-uploading-sensitive-pdfs-to-online-converters');
-    expect(sitemapUrls).toContain('https://www.converterforall.com/blog/gta-6-gameplay-videos-how-to-add-subtitles');
+    expect(sitemapUrls).not.toContain('https://www.converterforall.com/blog/gta-6-gameplay-videos-how-to-add-subtitles');
 
-    // 5. Supplementary inventory count: exactly 149 URLs (138 previous + restored Punjabi routes + GTA 6 blog + indexable /category/fonts)
-    expect(sitemapEntries.length).toBe(149);
+    // 5. Phase 1 strict allowlist count: exactly 34 URLs
+    expect(sitemapEntries.length).toBe(34);
   });
 });

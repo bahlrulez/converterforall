@@ -6,46 +6,46 @@ import { cn } from "@/lib/utils";
 
 const POPULAR_TOOLS = [
   {
-    title: "PDF to Word",
-    description: "Convert PDF to editable Word",
+    title: "Exam Photo Resizer",
+    description: "Crop and size photos for SSC, UPSC & IBPS",
+    icon: ImageIcon,
+    color: "bg-blue-600",
+    slug: "exam-photo-resizer"
+  },
+  {
+    title: "Kruti Dev to Unicode",
+    description: "Convert legacy Kruti Dev text to Hindi Unicode",
     icon: FileText,
-    color: "bg-red-500",
-    slug: "pdf-to-word"
+    color: "bg-indigo-600",
+    slug: "krutidev-to-unicode"
   },
   {
-    title: "JPG to PDF",
-    description: "Convert images to PDF documents",
-    icon: ImageIcon,
-    color: "bg-purple-500",
-    slug: "jpg-to-pdf"
+    title: "Asees to Unicode",
+    description: "Convert Punjabi Asees text to Gurmukhi Unicode",
+    icon: FileText,
+    color: "bg-violet-600",
+    slug: "asees-to-unicode"
   },
   {
-    title: "PNG to JPG",
-    description: "Convert PNG to JPG images",
-    icon: ImageIcon,
-    color: "bg-emerald-500",
-    slug: "png-to-jpg"
-  },
-  {
-    title: "MP4 to MP3",
-    description: "Extract audio from video files",
+    title: "AI Caption Studio",
+    description: "Auto-caption Hindi and English videos locally",
     icon: Video,
-    color: "bg-amber-500",
-    slug: "mp4-to-mp3"
+    color: "bg-rose-600",
+    slug: "video-caption-generator"
   },
   {
-    title: "Compress PDF",
-    description: "Reduce PDF file size online",
+    title: "Compress PDF 100KB",
+    description: "Shrink marksheets and forms toward 100KB",
     icon: FileArchive,
-    color: "bg-blue-500",
-    slug: "compress-pdf"
+    color: "bg-amber-600",
+    slug: "compress-pdf-100kb"
   },
   {
-    title: "Remove Background",
-    description: "Remove background from images",
-    icon: Eraser,
-    color: "bg-indigo-500",
-    slug: "remove-background"
+    title: "Video Compressor",
+    description: "Compress MP4, MOV & WebM videos in-browser",
+    icon: Video,
+    color: "bg-emerald-600",
+    slug: "video-compressor"
   }
 ];
 

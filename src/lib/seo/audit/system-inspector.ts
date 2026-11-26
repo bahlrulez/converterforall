@@ -11,7 +11,7 @@ import {
   SITE_ORIGIN,
   SITE_TITLE_TEMPLATE,
 } from "@/lib/seo/site-config";
-import { NOINDEX_CATEGORIES, TIER_C_NOINDEX_SLUGS } from "@/config/sitemap-lastmod";
+import { INDEXABLE_PATH_SET, isIndexablePath } from "@/lib/seo-allowlist";
 import { TOOLS } from "@/config/tools";
 
 function asArray(value: string | string[] | undefined): string[] {
@@ -36,13 +36,12 @@ export function inspectSeoSystem(): SystemSeoInspection {
     sitemapIssues.push(`${foreignSitemapUrls.length} sitemap URL(s) do not use the configured canonical origin.`);
   }
 
-  const noindexCategorySet = new Set<string>(NOINDEX_CATEGORIES);
   const allCategorySlugs = Object.keys(toolsDatabase);
   const expectedIndexableCategoryPaths = allCategorySlugs
-    .filter((slug) => !noindexCategorySet.has(slug))
+    .filter((slug) => isIndexablePath(`/category/${slug}`))
     .map((slug) => `/category/${slug}`);
   const noindexCategoryPaths = allCategorySlugs
-    .filter((slug) => noindexCategorySet.has(slug))
+    .filter((slug) => !isIndexablePath(`/category/${slug}`))
     .map((slug) => `/category/${slug}`);
 
   const missingCategoryPaths = expectedIndexableCategoryPaths.filter((path) => !sitemapPathSet.has(path));
@@ -58,10 +57,11 @@ export function inspectSeoSystem(): SystemSeoInspection {
   const configToolSlugs = Object.values(TOOLS).map((tool) => tool.path.startsWith("/") ? tool.path.slice(1) : tool.path);
   const expectedToolSlugs = Array.from(new Set([...canonicalDbSlugs, ...configToolSlugs]));
   const expectedIndexableToolPaths = expectedToolSlugs
-    .filter((slug) => !TIER_C_NOINDEX_SLUGS.has(slug))
-    .filter((slug) => slug !== "chanakya-to-unicode" && slug !== "unicode-to-chanakya")
+    .filter((slug) => isIndexablePath(`/${slug}`))
     .map((slug) => `/${slug}`);
-  const noindexToolPaths = Array.from(TIER_C_NOINDEX_SLUGS).map((slug) => `/${slug}`);
+  const noindexToolPaths = expectedToolSlugs
+    .filter((slug) => !isIndexablePath(`/${slug}`))
+    .map((slug) => `/${slug}`);
   const missingToolPaths = expectedIndexableToolPaths.filter((path) => !sitemapPathSet.has(path));
   const listedNoindexTools = noindexToolPaths.filter((path) => sitemapPathSet.has(path));
   if (missingToolPaths.length > 0) {
@@ -77,6 +77,9 @@ export function inspectSeoSystem(): SystemSeoInspection {
   const baseRouteCount = sitemapPaths.filter((path) => basePathSet.has(path)).length;
   const knownToolPathSet = new Set(expectedToolSlugs.map((slug) => `/${slug}`));
   const toolRouteCount = sitemapPaths.filter((path) => knownToolPathSet.has(path)).length;
+  if (sitemapPathSet.size !== INDEXABLE_PATH_SET.size) {
+    sitemapIssues.push(`Sitemap URL count (${sitemapPathSet.size}) does not match SEO allowlist (${INDEXABLE_PATH_SET.size}).`);
+  }
 
   // Static source inspection does not make an HTTP request to verify deployment availability.
   sitemapIssues.push("Sitemap membership is checked from the generated route list; deployed HTTP status and Google fetchability are not verified here.");

@@ -1,8 +1,11 @@
 import { Metadata } from "next";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
+import { CONTACT_EMAIL } from "@/lib/seo/site-config";
 
 export const metadata: Metadata = {
   title: "Disclaimer - General Service Information",
   description: "Legal disclaimer and limitations of liability for using ConverterForAll free utilities and file converters.",
+  robots: getRobotsForPath("/disclaimer"),
   alternates: {
     canonical: "https://www.converterforall.com/disclaimer",
   },
@@ -76,7 +79,7 @@ export default function DisclaimerPage() {
           If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email.
         </p>
         <p>
-          <strong>Email:</strong> officialdeepbahl@gmail.com
+          <strong>Email:</strong> {CONTACT_EMAIL}
         </p>
       </div>
     </div>

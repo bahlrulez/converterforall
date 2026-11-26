@@ -2,10 +2,12 @@ import { Metadata } from "next";
 import { AuthorProfile } from "@/components/shared/author-profile";
 import { ShieldCheck, Zap, Sparkles, Cpu, Lock, Globe, Heart, CheckCircle2, ArrowRight, Layers, FileText, Users } from "lucide-react";
 import Link from "next/link";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
 
 export const metadata: Metadata = {
   title: "About Us - Simple, Free & Private File Tools",
   description: "Why we started ConverterForAll: Making essential file conversion and editing tools accessible to everyone for free, with in-browser privacy.",
+  robots: getRobotsForPath("/about"),
   alternates: {
     canonical: "https://www.converterforall.com/about",
   },
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   const stats = [
-    { label: "Essential File Tools", value: "150+", icon: Layers, color: "text-blue-500", bg: "bg-blue-500/10 border-blue-500/20" },
+    { label: "Curated Web Tools", value: "Browser-First", icon: Layers, color: "text-blue-500", bg: "bg-blue-500/10 border-blue-500/20" },
     { label: "Local Processing", value: "Direct in Browser", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-500/10 border-emerald-500/20" },
     { label: "Data Retention", value: "Zero Storage", icon: Cpu, color: "text-purple-500", bg: "bg-purple-500/10 border-purple-500/20" },
     { label: "Free for Everyone", value: "No Signup", icon: Zap, color: "text-amber-500", bg: "bg-amber-500/10 border-amber-500/20" },
@@ -45,7 +47,7 @@ export default function AboutPage() {
       "name": "ConverterForAll",
       "url": "https://www.converterforall.com",
       "logo": "https://www.converterforall.com/icon.png",
-      "description": "Provider of 150+ free, client-side, privacy-focused file conversion and editing tools.",
+      "description": "Provider of free, browser-first exam photo, Indic font, and media utilities.",
       "foundingDate": "2026",
       "knowsAbout": ["File Conversion", "WebAssembly In-Browser Processing", "PDF Utilities", "Font Conversion", "Image Optimization"]
     }
@@ -175,10 +177,10 @@ export default function AboutPage() {
 
         {/* Section 3: Your Files Stay With You & Privacy Comes First */}
         <div className="p-8 sm:p-12 rounded-3xl bg-white dark:bg-[#0a1128]/95 border border-slate-200/90 dark:border-slate-800 shadow-sm relative overflow-hidden">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 mb-4">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Zero Cloud Uploads</span>
-          </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 mb-4">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Browser-First Processing</span>
+            </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
             Your Files Stay With You
           </h2>

@@ -1,8 +1,11 @@
 import { Metadata } from "next";
+import { getRobotsForPath } from "@/lib/seo-allowlist";
+import { CONTACT_EMAIL } from "@/lib/seo/site-config";
 
 export const metadata: Metadata = {
   title: "Cookie Policy - How We Use Local Storage",
   description: "Learn how and why ConverterForAll uses cookies, local storage, and minimal web analytics.",
+  robots: getRobotsForPath("/cookie-policy"),
   alternates: {
     canonical: "https://www.converterforall.com/cookie-policy",
   },
@@ -116,7 +119,7 @@ export default function CookiePolicyPage() {
           If you have any questions about our use of cookies or other technologies, please contact us at:
         </p>
         <p>
-          <strong>Email:</strong> officialdeepbahl@gmail.com
+          <strong>Email:</strong> {CONTACT_EMAIL}
         </p>
       </div>
     </div>

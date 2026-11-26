@@ -1015,13 +1015,11 @@ test.describe('Merge Two Images into One JPG (/merge-images-to-jpg) Automated Su
     await expect(maxQualityBtn).toHaveClass(/border-blue-500/);
   });
 
-  // Test 23: Sitemap Inclusion
-  test('23. Sitemap: /merge-images-to-jpg is automatically included as a canonical indexable URL', () => {
+  // Test 23: Tool registry presence & non-allowlisted sitemap exclusion
+  test('23. Registry & Sitemap: /merge-images-to-jpg resolves cleanly while staying outside the curated 34-URL sitemap allowlist', () => {
     const entries = sitemap();
     const entry = entries.find(e => e.url === 'https://www.converterforall.com/merge-images-to-jpg');
-    expect(entry).toBeDefined();
-    expect(entry?.priority).toBe(0.9);
-    expect(entry?.changeFrequency).toBe('weekly');
+    expect(entry).toBeUndefined();
   });
 
   // Test 24: Live Browser - JPEG Quality Passed to toBlob
