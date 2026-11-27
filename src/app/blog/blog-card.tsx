@@ -125,7 +125,7 @@ export function BlogCard({ post, index, isFirstItem = false }: { post: Post; ind
                 <p className="text-xs font-bold text-slate-900 dark:text-white">ConverterForAll Editorial</p>
                 <p className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
                   <ShieldCheck className="w-3 h-3" />
-                  100% Client-Side Verified
+                  Browser-First Utilities
                 </p>
               </div>
             </div>

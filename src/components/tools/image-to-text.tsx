@@ -136,7 +136,7 @@ export default function ImageToTextTool() {
             Drag and drop a JPG, PNG, or WebP image here, or click to browse files
           </p>
           <p className="text-xs text-muted-foreground">
-            Processing runs 100% locally in your browser. Maximum privacy.
+            Tesseract OCR runs directly inside your browser without uploading images to a conversion API.
           </p>
         </div>
       </div>

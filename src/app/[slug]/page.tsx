@@ -148,8 +148,12 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     "unicode-to-preeti",
     "bijoy-to-unicode",
     "unicode-to-bijoy",
+    "sutonnymj-to-unicode",
+    "unicode-to-sutonnymj",
     "inpage-to-unicode",
     "unicode-to-inpage",
+    "zawgyi-to-unicode",
+    "unicode-to-zawgyi",
   ]);
 
   return (

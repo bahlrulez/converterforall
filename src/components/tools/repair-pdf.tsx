@@ -103,7 +103,7 @@ export default function RepairPdfTool() {
             Drag and drop a damaged PDF here, or click to browse files
           </p>
           <p className="text-xs text-muted-foreground">
-            Repair runs 100% locally in your browser. Maximum privacy.
+            PDF inspection and rebuild run inside browser memory without sending documents to a conversion server.
           </p>
         </div>
       </div>

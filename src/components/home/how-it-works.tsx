@@ -22,7 +22,7 @@ const steps = [
   {
     num: "03",
     title: "Download",
-    description: "Get your converted file instantly.",
+    description: "Download your converted file cleanly.",
     color: "text-emerald-500",
     bg: "bg-white dark:bg-[#080e22]",
     border: "border-emerald-500/50"

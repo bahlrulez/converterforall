@@ -14,8 +14,8 @@ export function PrivacyBadge({ level = "general", className, showAnimation = tru
     switch (level) {
       case "client-only":
         return {
-          title: "100% On-Device Processing",
-          description: "Processed securely on your device's CPU/GPU. 0 bytes uploaded to external servers.",
+          title: "In-Browser Processing",
+          description: "Processed inside your browser's local memory without sending your file to a conversion server.",
           icon: <ShieldCheck className="w-4 h-4" />,
           colorClass: "bg-emerald-500/10 dark:bg-emerald-500/15 border-emerald-500/30",
           iconBgClass: "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400",

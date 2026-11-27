@@ -175,7 +175,7 @@ export function QrScanner() {
     <Card className="w-full max-w-3xl mx-auto shadow-xl border-primary/10 overflow-hidden bg-background/50 backdrop-blur-xl">
       <CardHeader className="text-center pb-6 border-b bg-muted/30">
         <CardTitle className="text-3xl font-bold tracking-tight">QR Code Scanner</CardTitle>
-        <CardDescription className="text-lg">Scan securely in your browser. 100% private.</CardDescription>
+        <CardDescription className="text-lg">Scan QR codes directly inside your browser without server uploads.</CardDescription>
       </CardHeader>
       
       <CardContent className="p-6">
@@ -245,7 +245,7 @@ export function QrScanner() {
                 </div>
                 <h3 className="text-xl font-bold mb-2">Upload a QR Code Image</h3>
                 <p className="text-muted-foreground mb-6 max-w-md">
-                  Drag and drop an image or click to browse. We will instantly decode any QR code found in the picture.
+                  Drag and drop an image or click to browse to scan any QR code found in the picture inside your browser.
                 </p>
                 <Button variant="secondary" className="pointer-events-none">
                   Select Image

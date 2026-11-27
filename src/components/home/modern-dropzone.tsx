@@ -359,7 +359,7 @@ export function ModernDropzone() {
                       )}
                     </button>
                     <p className="text-[11px] text-center text-slate-500 dark:text-slate-400 mt-2">
-                      Your file will load directly and start converting instantly.
+                      Your file will load directly in the tool workspace.
                     </p>
                   </div>
                 </div>

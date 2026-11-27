@@ -75,7 +75,7 @@ export default function EditorialPolicyPage() {
 
         <h2>5. Continuous Updates and Maintenance</h2>
         <p>
-          Technology moves fast. A tutorial that is perfectly accurate today may become obsolete in a year due to software updates, changing web standards, or the deprecation of APIs. 
+          Technology moves fast. A tutorial that is accurate today may become obsolete in a year due to software updates, changing web standards, or the deprecation of APIs.
         </p>
         <p>
           We are committed to the long-term maintenance of our content catalog. We routinely audit our highest-traffic pages and core tool documentation to ensure they remain accurate. When we significantly update an article to reflect new information, we will typically indicate this by updating the "Last Updated" date on the page. If a tool undergoes a major architectural shift (such as moving from server-side processing to client-side processing), we proactively update the accompanying documentation to reflect how user data is now handled.

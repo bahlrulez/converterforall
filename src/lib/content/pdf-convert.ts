@@ -93,7 +93,7 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "How does it work?",
-        content: "<p>When <em>Use Cloud Engine</em> stays unchecked, browser JavaScript reads <code>.pptx</code> slide XML shapes and pictures cleanly on your device. If you check the Cloud Engine option (or upload a legacy <code>.ppt</code> file), the presentation is sent via our route to the Cloudmersive API for server conversion in temporary memory and returned to your browser.</p>"
+        content: "<p>When <em>Use Cloud Engine</em> stays unchecked, browser JavaScript reads <code>.pptx</code> slide XML shapes, text runs, and embedded pictures on your device (master-slide themes, tables, charts, and SmartArt are skipped in browser XML mode, and slides without explicit background colors default to dark navy). If you check the Cloud Engine option (or upload a legacy <code>.ppt</code> file), the presentation is sent via our route to the Cloudmersive API for server conversion in temporary memory and returned to your browser.</p>"
       },
       {
         title: "Examples",
@@ -101,7 +101,7 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select engine mode (optional):</strong> Leave Cloud Engine unchecked for browser conversion of <code>.pptx</code> files, or check it for legacy <code>.ppt</code> support or Cloudmersive slide rendering.</li><li><strong>Upload your presentation:</strong> Drop your <code>.pptx</code> or <code>.ppt</code> file into the converter box.</li><li><strong>Download PDF:</strong> Save the converted <code>.pdf</code> deck and review slide styling before distributing.</li></ol>"
+        content: "<ol><li><strong>Select engine mode (optional):</strong> Leave Cloud Engine unchecked for browser conversion of simple <code>.pptx</code> decks, or check it for legacy <code>.ppt</code> files, tables, charts, or master-slide styling via Cloudmersive.</li><li><strong>Upload your presentation:</strong> Drop your <code>.pptx</code> or <code>.ppt</code> file into the converter box.</li><li><strong>Download PDF:</strong> Save the converted <code>.pdf</code> deck and check slide visuals before distributing.</li></ol>"
       },
       {
         title: "Practical uses",
@@ -110,6 +110,7 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
       {
         title: "Frequently Asked Questions",
         content: `
+          <p><strong>Q: Will tables, charts, and master-slide themes appear in browser mode?</strong><br>A: Browser XML mode parses text boxes, basic shapes, and embedded images cleanly, whereas PowerPoint tables, charts, SmartArt, and master themes require enabling the optional Cloud Engine checkbox.</p>
           <p><strong>Q: Will slide animations work inside the exported PDF?</strong><br>A: No. PDF documents are static pages, so slide animations and transitions are flattened to fixed frames.</p>
           <p><strong>Q: Does my presentation leave my computer?</strong><br>A: Modern .pptx slides render locally in your browser when Cloud Engine stays unchecked. Enabling the Cloud Engine checkbox (required for legacy .ppt files) transmits the selected presentation over HTTPS to the third-party Cloudmersive API in temporary memory.</p>
           <p><strong>Q: Do I need Microsoft Office installed?</strong><br>A: No. Neither browser rendering nor the optional cloud path requires an installed Office suite.</p>

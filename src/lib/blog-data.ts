@@ -72,10 +72,10 @@ export const blogDatabase: Record<string, BlogPost> = {
       <h2>Create Passport Size Photos in Minutes</h2>
       <p>At <a href="https://www.converterforall.com/passport-photo-maker">ConverterForAll.com Passport Photo Maker</a>, creating a passport photo is surprisingly simple.</p>
       <p>If you don't already have a photo, simply click <strong>Take Photo</strong>.<br>
-      Your phone camera or webcam opens instantly.<br>
-      Take your picture, and it immediately appears inside the editor.</p>
+      Your phone camera or webcam opens in the browser.<br>
+      Take your picture, and it appears inside the editor.</p>
       <p>Now click <strong>Remove Background</strong>.<br>
-      Our AI automatically separates you from the background with clean, accurate edges.</p>
+      Our AI separates you from the background cleanly inside the browser.</p>
       <p>Once the background is removed, you can:</p>
       <ul>
         <li>Zoom in</li>
@@ -92,7 +92,7 @@ export const blogDatabase: Record<string, BlogPost> = {
         <li>Black</li>
         <li>Any custom colour</li>
       </ul>
-      <p>The background changes instantly, giving you a professional passport-style photo ready for official use.</p>
+      <p>The background updates right away in preview, giving you a passport-style photo ready for review.</p>
       <p>If you already have an existing photo, simply upload it instead. The editing process remains exactly the same.</p>
 
       <h2>Passport Sizes for Different Countries</h2>
@@ -123,7 +123,7 @@ export const blogDatabase: Record<string, BlogPost> = {
       <h2>Free JPG Compressor</h2>
       <p>Need to compress a JPG?</p>
       <p>Our free JPG compressor helps reduce file size while preserving image clarity. <a href="https://www.converterforall.com/compress-jpg">Click here to compress JPG</a>.</p>
-      <p>Perfect for:</p>
+      <p>Useful for:</p>
       <ul>
         <li>Government forms</li>
         <li>Job applications</li>
@@ -211,7 +211,7 @@ export const blogDatabase: Record<string, BlogPost> = {
       <p>There are no complicated editing options to learn.</p>
       <p>Whether you're a student, job seeker, business owner, designer, content creator, or someone editing a family photo, the process is quick and easy.</p>
 
-      <h2>Perfect for Many Everyday Uses</h2>
+      <h2>Useful for Many Everyday Uses</h2>
       <p>Removing backgrounds isn't just for designers anymore.</p>
       <p>People use transparent images every day for different purposes.</p>
       <p>Some common uses include:</p>
@@ -287,7 +287,7 @@ export const blogDatabase: Record<string, BlogPost> = {
         <li>Works on phones and computers</li>
         <li>Clean transparent images</li>
         <li>Free to use</li>
-        <li>Perfect for personal and professional work</li>
+        <li>Useful for personal and professional work</li>
         <li>Passport photo maker available on the same website</li>
       </ul>
 
@@ -299,7 +299,7 @@ export const blogDatabase: Record<string, BlogPost> = {
   },
   "the-ultimate-guide-to-hindi-and-punjabi-font-conversion": {
     description: "Learn how to fix broken Hindi and Punjabi legacy fonts like Kruti Dev and AnmolLipi by converting them to modern Unicode text for free.",
-    relatedTool: { slug: "krutidev-to-unicode", title: "Kruti Dev to Unicode Converter", desc: "Convert legacy font typing into standard Unicode Hindi instantly." },
+    relatedTool: { slug: "krutidev-to-unicode", title: "Kruti Dev to Unicode Converter", desc: "Convert legacy font typing into standard Unicode Hindi directly in your browser." },
     title: "Old Hindi or Punjabi Text Not Working? Here's How to Convert It to Unicode",
     date: "August 4, 2026",
     category: "Conversion Guides",
@@ -421,14 +421,14 @@ export const blogDatabase: Record<string, BlogPost> = {
   },
   "kruti-dev-font-showing-as-english-in-word": {
     description: "Find out why your old Kruti Dev or AnmolLipi Hindi/Punjabi documents are showing as English characters in Word, and learn how to fix them.",
-    relatedTool: { slug: "krutidev-to-unicode", title: "Kruti Dev to Unicode Converter", desc: "Convert legacy font typing into standard Unicode Hindi instantly." },
+    relatedTool: { slug: "krutidev-to-unicode", title: "Kruti Dev to Unicode Converter", desc: "Convert legacy font typing into standard Unicode Hindi directly in your browser." },
     title: "Kruti Dev Font Showing as English in Word? Why It Happens and How to Fix It",
     date: "August 10, 2026",
     category: "Conversion Guides",
     content: `
       <p>If you have ever opened an old Hindi document in Microsoft Word and found that the Hindi text is suddenly showing as English letters, strange symbols, or boxes, you may have wondered what went wrong. In many cases, there is nothing wrong with your document. The problem is usually related to the type of font used in the document.</p>
       <p>Kruti Dev is one of the older Hindi fonts that has been used for many years for Hindi typing on computers. It is still found in many old documents, office files, applications, books and other Hindi content. The problem is that Kruti Dev does not work in the same way as modern Unicode Hindi.</p>
-      <p>When the required Kruti Dev font is installed on a computer, the text can look perfectly normal. But if the same text is opened on another computer, copied into a website, sent to a mobile phone or pasted into another application, it may appear as English characters or unreadable symbols.</p>
+      <p>When the required Kruti Dev font is installed on a computer, the text can look completely normal. But if the same text is opened on another computer, copied into a website, sent to a mobile phone or pasted into another application, it may appear as English characters or unreadable symbols.</p>
       <p>This happens because the other device or application may not understand the old Kruti Dev font format.</p>
       <h2>Why Converting Kruti Dev to Unicode Helps</h2>
       <p>One of the easiest ways to avoid these problems is to convert Kruti Dev text into Unicode Hindi.</p>
@@ -455,7 +455,7 @@ export const blogDatabase: Record<string, BlogPost> = {
 
       <h2>Other Legacy Punjabi Fonts</h2>
       <p>Joy, Asees, Gurbani Akhar, Satluj, and AnmolLipi are legacy fonts that often cause formatting issues. If you have old typing files written in these formats, converting them to standard Unicode (which displays natively in fonts like Raavi or Nirmala UI) is the easiest way to make the text readable again.</p>
-      <p>You can instantly fix these files using our dedicated free tools, such as the <a href="/joy-to-unicode">Joy to Unicode Converter</a>, <a href="/asees-to-unicode">Asees to Unicode Converter</a>, and <a href="/anmollipi-to-unicode">AnmolLipi to Unicode Converter</a>.</p>
+      <p>You can convert these files directly in your browser using our free tools, such as the <a href="/joy-to-unicode">Joy to Unicode Converter</a>, <a href="/asees-to-unicode">Asees to Unicode Converter</a>, and <a href="/anmollipi-to-unicode">AnmolLipi to Unicode Converter</a>.</p>
 
       <h2>What Is the Difference Between Old Fonts and Unicode?</h2>
       <p>The easiest way to understand the difference is to think about how your phone reads text.</p>
@@ -733,7 +733,7 @@ export const blogDatabase: Record<string, BlogPost> = {
         </div>
       </div>
 
-      <h2>Compress by Platform: Instant Guides</h2>
+      <h2>Compress by Platform: Quick Guides</h2>
 
       <h3>Compress a Video for Discord (&lt;25MB)</h3>
       <p class="text-base text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
@@ -1072,7 +1072,7 @@ export const blogDatabase: Record<string, BlogPost> = {
         <li>Your file does not need to be transmitted to an external server for supported operations, which helps you avoid the <a href="/blog/why-stop-uploading-sensitive-pdfs-to-online-converters" class="text-blue-600 dark:text-blue-400 font-semibold underline">risks of uploading sensitive PDFs to cloud servers</a>.</li>
       </ul>
       <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 italic mb-6">
-        *Note on advanced conversions: While tools like PDF merging, image conversion, and compression run locally in your browser, Word to PDF and PowerPoint to PDF have an optional cloud mode that sends the file to a third-party service (Cloudmersive), and the AI Presentation Maker sends your prompt to Google Gemini.
+        *Note on complex conversions: While tools like PDF merging, image conversion, and compression run locally in your browser, Word to PDF and PowerPoint to PDF have an optional cloud mode that sends the file to a third-party service (Cloudmersive), and the AI Presentation Maker sends your prompt to Google Gemini.
       </p>
 
       <h2>Can I Convert Word and PowerPoint to PDF for Free?</h2>
@@ -1081,7 +1081,7 @@ export const blogDatabase: Record<string, BlogPost> = {
       </p>
       <ul class="list-disc pl-6 space-y-2 text-slate-600 dark:text-slate-300 mb-6 text-sm sm:text-base">
         <li><a href="https://www.converterforall.com/word-to-pdf" class="text-blue-600 dark:text-blue-400 font-semibold underline">Word to PDF Converter</a>: Converts Word documents (.docx) while preserving formatting, fonts, tables, and page layout as closely as possible.</li>
-        <li><a href="https://www.converterforall.com/powerpoint-to-pdf" class="text-blue-600 dark:text-blue-400 font-semibold underline">PowerPoint to PDF Converter</a>: Converts .pptx slides into crisp, vector-rendered PDF presentations.</li>
+        <li><a href="https://www.converterforall.com/powerpoint-to-pdf" class="text-blue-600 dark:text-blue-400 font-semibold underline">PowerPoint to PDF Converter</a>: Converts PowerPoint decks in your browser for quick slide text and shapes, with an optional Cloud Engine when you need full theme layouts, tables, and charts preserved.</li>
         <li><a href="https://www.converterforall.com/jpg-to-pdf" class="text-blue-600 dark:text-blue-400 font-semibold underline">JPG to PDF Converter</a>: Turns camera photos, ID scans, and screenshots into standardized PDF pages.</li>
       </ul>
 
@@ -1378,21 +1378,21 @@ export const blogDatabase: Record<string, BlogPost> = {
         <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
           <h3 class="text-base font-bold text-slate-900 dark:text-white m-0 mb-2">Q1: Why is my PDF file size so large when it only has a few pages?</h3>
           <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 m-0 leading-relaxed">
-            Almost always, the culprit is uncompressed images or high-DPI scans. A single camera photo from a phone can add 5MB to 8MB. Compressing the PDF optimizes these image layers without affecting text readability.
+            Almost always, the culprit is uncompressed images, embedded high-DPI scans, or heavy page bitmaps. Compressing a PDF targets image resolution or re-renders pages cleanly inside browser limits.
           </p>
         </div>
 
         <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
           <h3 class="text-base font-bold text-slate-900 dark:text-white m-0 mb-2">Q2: How do I reduce a PDF to under 1MB or 2MB?</h3>
           <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 m-0 leading-relaxed">
-            Upload your document to our <a href="/compress-pdf" class="text-blue-600 dark:text-blue-400 font-semibold underline">Free PDF Compressor</a>. Select "Recommended" or "Extreme" compression depending on how big the original file is. It will instantly generate a compliant file ready for upload.
+            Upload your document to our <a href="/compress-pdf" class="text-blue-600 dark:text-blue-400 font-semibold underline">Free PDF Compressor</a>. Select "Recommended" or "Extreme" compression depending on how big the original file is to export a smaller file in your browser.
           </p>
         </div>
 
         <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
           <h3 class="text-base font-bold text-slate-900 dark:text-white m-0 mb-2">Q3: Will compressing a PDF make the text blurry?</h3>
           <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 m-0 leading-relaxed">
-            No. PDF text is vector-based (mathematical outlines), so standard compression focuses on reducing image bloat and redundant metadata while keeping text razor sharp.
+            Depending on the mode, yes: Recommended, Extreme, and Target-KB modes rasterize pages to JPEG images, which turns selectable text into pixels and can soften fine print. On High Quality, structural optimization tries to keep vector text selectable first before falling back if size reduction is under 15%.
           </p>
         </div>
 
@@ -1884,7 +1884,7 @@ export const blogDatabase: Record<string, BlogPost> = {
       </ul>
 
       <h2>Step-by-Step Resolution (Free In-Browser Tools)</h2>
-      <p>You don't need Photoshop to fix these issues. You can use our specialized free tools to prepare your documents instantly inside your browser:</p>
+      <p>You don't need Photoshop to fix these issues. You can use our free tools to prepare your documents directly inside your browser:</p>
       <ul>
         <li><a href="/exam-photo-resizer">Exam Photo Resizer</a>: Crop and compress photos to exact pixel and strict KB bounds (20-50 KB).</li>
         <li><a href="/photo-name-date-stamper">Name & Date of Photo (DOP) Stamper</a>: Automatically add the required white Name and DOP strip to your passport photo.</li>
@@ -1916,7 +1916,7 @@ export const blogDatabase: Record<string, BlogPost> = {
       <p>Converting between these requires mapping the specific legacy glyphs to universal Unicode characters.</p>
 
       <h2>How to Auto-Detect and Convert Garbled Text in 1 Click</h2>
-      <p>You can instantly fix broken Hindi and Punjabi text using our free conversion tools:</p>
+      <p>You can convert broken Hindi and Punjabi text directly in your browser using our free tools:</p>
       <ul>
         <li><a href="/font-text-fixer">Regional Font Auto-Fixer</a>: Paste your broken text and let our AI automatically detect the legacy font and convert it to readable Unicode.</li>
         <li><a href="/krutidev-to-unicode">Kruti Dev to Unicode Converter</a>: Specifically convert Kruti Dev or Devlys text from old government documents to Unicode.</li>
@@ -2030,7 +2030,7 @@ export const blogDatabase: Record<string, BlogPost> = {
       <ul>
         <li>Tap <strong>Click to select photo</strong> and upload your picture.</li>
         <li>If your camera took a wide horizontal picture, the tool automatically detects it and enables <strong>Passport (3.5 × 4.5)</strong> mode. This immediately trims away the background room on the left and right, leaving your face and shoulders in the official 3.5cm × 4.5cm passport frame.</li>
-        <li>If your face is slightly off to one side, use the <em>Center Face (Pan Left/Right)</em> slider to slide the crop until your nose is perfectly centered.</li>
+        <li>If your face is slightly off to one side, use the <em>Center Face (Pan Left/Right)</em> slider to adjust the crop until your nose is centered.</li>
       </ul>
 
       <h3>Step 3: Type Your Name and Pick the Date</h3>

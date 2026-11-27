@@ -131,7 +131,7 @@ export default function ContactPage() {
             {/* Privacy Promise */}
             <div className="p-4 rounded-2xl bg-slate-100 dark:bg-[#080e22] border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400">
               <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span>Your contact details are 100% private and never used for marketing or spam.</span>
+              <span>Your contact details are kept confidential and never used for marketing or spam.</span>
             </div>
 
           </div>

@@ -76,7 +76,7 @@ export const TOOLS: Record<string, ToolConfig> = {
   'webp-to-jpg': {
     id: 'webp-to-jpg',
     name: 'WEBP to JPG / PNG Converter',
-    description: 'Convert WEBP images to JPG or PNG format instantly in your browser with adjustable compression quality.',
+    description: 'Convert WEBP images to JPG or PNG format directly in your browser with adjustable compression quality.',
     path: '/webp-to-jpg',
     category: 'sarkari',
   },

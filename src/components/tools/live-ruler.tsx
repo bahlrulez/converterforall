@@ -61,7 +61,7 @@ export function LiveRuler() {
         <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 shadow-sm print:hidden flex flex-col items-center">
           <h3 className="text-lg font-semibold mb-2">Screen Calibration</h3>
           <p className="text-sm text-muted-foreground mb-6 text-center max-w-md">
-            Place a standard credit card on your screen and adjust the slider until the blue box perfectly matches its size.
+            Place a standard credit card on your screen and adjust the slider until the blue box matches its physical size.
           </p>
           
           <div className="flex items-center gap-4 w-full max-w-sm mb-8">
@@ -169,7 +169,7 @@ export function LiveRuler() {
       
       {/* Informational Tooltip */}
       <div className="text-center text-sm text-muted-foreground print:hidden">
-        <p>Tip: Place your object directly on the screen to measure. Use the Calibration tool for perfect accuracy.</p>
+        <p>Tip: Place your object directly on the screen to measure. Use the Calibration tool for reliable screen accuracy.</p>
       </div>
 
     </div>

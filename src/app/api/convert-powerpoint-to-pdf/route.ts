@@ -18,6 +18,10 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     const fileName = file.name || "presentation.pptx";
+    const isLegacyPpt = fileName.toLowerCase().endsWith(".ppt");
+    const fileMime = isLegacyPpt
+      ? "application/vnd.ms-powerpoint"
+      : "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 
     // 1. Primary Engine: Cloudmersive High-Precision Presentation API (800 Free/Mo)
     const rawKey = process.env.CLOUDMERSIVE_API_KEY;
@@ -26,14 +30,16 @@ export async function POST(req: NextRequest) {
     if (cloudmersiveKey) {
       try {
         const cmFormData = new FormData();
-        const fileObj = new File([buffer], fileName, {
-          type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-        });
+        const fileObj = new File([buffer], fileName, { type: fileMime });
         cmFormData.append("inputFile", fileObj);
 
-        console.info(`[PPTX->PDF] Converting via Cloudmersive API (${buffer.length} bytes)...`);
+        console.info(`[PPTX->PDF] Converting via Cloudmersive API (${buffer.length} bytes, isLegacyPpt=${isLegacyPpt})...`);
 
-        const cmRes = await fetch("https://api.cloudmersive.com/convert/pptx/to/pdf", {
+        const cmEndpoint = isLegacyPpt
+          ? "https://api.cloudmersive.com/convert/autodetect/to/pdf"
+          : "https://api.cloudmersive.com/convert/pptx/to/pdf";
+
+        const cmRes = await fetch(cmEndpoint, {
           method: "POST",
           headers: {
             "Apikey": cloudmersiveKey,
@@ -83,7 +89,7 @@ export async function POST(req: NextRequest) {
         const endpoint = `${gotenbergUrl}/forms/libreoffice/convert`;
         const upstreamFormData = new FormData();
         const fileObj = new File([buffer], fileName, {
-          type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          type: fileMime,
         });
         upstreamFormData.append("files", fileObj);
 
@@ -112,10 +118,10 @@ export async function POST(req: NextRequest) {
     }
 
     return new Response(
-      JSON.stringify({ 
-        error: "High-accuracy server engines unavailable. Switching to in-browser client fallback.", 
+      JSON.stringify({
+        error: "High-accuracy server engines unavailable. Switching to in-browser client fallback.",
         status: "client_fallback",
-        fallback: true 
+        fallback: true
       }),
       {
         status: 503,

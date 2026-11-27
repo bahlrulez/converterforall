@@ -110,7 +110,7 @@ export function getToolProcessingBadges(
     return {
       classification: "client-browser-api",
       heroBadge: "In-Browser Screen Recorder",
-      trustBadge: "Browser MediaRecorder API · Recordings stay on your device",
+      trustBadge: "Browser MediaRecorder API · Captured in browser memory",
     };
   }
 
@@ -180,7 +180,7 @@ export function getToolProcessingBadges(
     return {
       classification: "client-canvas",
       heroBadge: "In-Browser Image Converter",
-      trustBadge: "Client-side Canvas & image processing · No uploads",
+      trustBadge: "Client-side Canvas & image processing · Runs in your browser",
     };
   }
 
@@ -188,7 +188,7 @@ export function getToolProcessingBadges(
     return {
       classification: "client-canvas",
       heroBadge: "In-Browser Photo Utility",
-      trustBadge: "Client-side image processing · Files stay on your device",
+      trustBadge: "Client-side image processing · Processed in browser memory",
     };
   }
 

@@ -342,8 +342,8 @@ export function AIProcessingCard({
         {/* Idle & Ready Supporting Note */}
         {(isIdle || isReady) && (
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-muted-foreground pt-1 border-t border-border/50">
-            <p>Your video stays on your device. AI processing happens locally in your browser.</p>
-            <p className="font-medium text-foreground/80">No server uploads • No watermarks</p>
+            <p>AI transcription runs directly inside your browser without uploading your video to a conversion server.</p>
+            <p className="font-medium text-foreground/80">In-browser processing • No watermarks</p>
           </div>
         )}
       </div>

@@ -658,7 +658,7 @@ export default function MergePdfTool() {
               {isDragActive ? 'Drop files to combine' : 'Select PDF, Word, PowerPoint & Images'}
             </h3>
             <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
-              Drag &amp; drop your documents here. 100% private and processed on-device.
+              Drag &amp; drop your PDF, DOCX, PPTX, or image files here to merge in browser memory.
             </p>
             <div className="flex flex-wrap justify-center gap-2 text-xs font-bold">
               <span className="bg-red-500/10 text-red-500 border border-red-500/20 px-3 py-1 rounded-full shadow-sm">PDF</span>

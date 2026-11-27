@@ -241,7 +241,7 @@ export function PassportMaker() {
             Drag and drop a portrait photo here, or click to browse files
           </p>
           <p className="text-xs text-muted-foreground">
-            Supports JPG, PNG, and WEBP. Processing is 100% private.
+            Supports JPG, PNG, and WEBP. Processed inside browser memory.
           </p>
         </div>
         
@@ -408,7 +408,7 @@ export function PassportMaker() {
           </div>
           <h2 className="text-2xl font-bold">Your passport photo is ready!</h2>
           <p className="text-muted-foreground max-w-md mx-auto">
-            Your image has been perfectly cropped to the specified dimensions without leaving your device.
+            Your photo has been cropped to the selected preset dimensions inside browser memory without sending images to a server.
           </p>
           
           <div className="relative border-4 border-white shadow-xl rounded-sm overflow-hidden bg-white max-w-sm mx-auto">

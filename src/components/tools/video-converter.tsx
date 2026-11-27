@@ -331,7 +331,7 @@ export function VideoConverter({ toolSlug = "video-to-mp4", targetFormat: initia
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                <span>100% Private On-Device Processing</span>
+                <span>In-Browser Local Processing</span>
               </span>
               {hasGpu && (
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">

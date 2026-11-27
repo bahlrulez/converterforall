@@ -416,20 +416,21 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Zawgyi to Unicode Converter",
-        content: "<p>Convert legacy <strong>Myanmar Zawgyi font</strong> text into international standard <strong>Myanmar Unicode</strong> inside your browser. Modern Android, iOS, and Windows devices natively expect Myanmar Unicode, so older Zawgyi strings often appear scrambled until mapped cleanly to Unicode order.</p>"
+        title: "Zawgyi to Unicode Converter (Rule-Based)",
+        content: "<p>Convert basic <strong>Myanmar Zawgyi font</strong> text patterns toward <strong>Myanmar Unicode</strong> inside your browser. Modern Android, iOS, and Windows devices natively expect Myanmar Unicode, so older Zawgyi strings often appear scrambled until mapped into standard Unicode order.</p>"
       },
       {
-        title: "Why Convert Zawgyi to Unicode?",
-        content: "<ul><li><strong>Modern Device Support:</strong> Native smartphones, browsers, and search engines expect Myanmar Unicode rather than legacy Zawgyi glyph hacks.</li><li><strong>Restore Readability:</strong> Fixes garbled Burmese posts copied from older blogs, forums, or documents.</li><li><strong>Browser Processing:</strong> Conversion rules execute inside browser memory without sending pasted text remotely.</li></ul>"
+        title: "Current Mapping Scope &amp; Review Advice",
+        content: "<ul><li><strong>Vowel &amp; Medial Reordering:</strong> Applies rule-based mapping for common Zawgyi medial Ya/Ra/Wa/Ha code points, vowels, tone marks, and pre-posed ေ (E-vowel) reordering.</li><li><strong>Limitations:</strong> Complex stacked consonant clusters (pat-sint), Kinzi sequences, and stylized glyphs are not fully covered by the current rule set—always proofread converted Burmese text against the original source before publishing.</li><li><strong>Browser Processing:</strong> Conversion rules execute inside browser memory without sending pasted text remotely.</li></ul>"
       },
       {
         title: "How to Use This Converter",
-        content: "<ol><li><strong>Paste Zawgyi text:</strong> Paste the Burmese Zawgyi text into the input panel above.</li><li><strong>Auto-convert to Myanmar Unicode:</strong> Check the readable Myanmar Unicode text in the output box.</li><li><strong>Copy &amp; share:</strong> Copy cleanly for WhatsApp, Facebook, CMS editors, or Word.</li></ol>"
+        content: "<ol><li><strong>Paste Zawgyi text:</strong> Paste the Burmese Zawgyi text into the input panel above.</li><li><strong>Inspect Myanmar Unicode output:</strong> Check stacked letters, medials, and vowels in the right-hand output box against your source passage.</li><li><strong>Copy &amp; share:</strong> Copy cleanly once verified for WhatsApp, Facebook, CMS editors, or Word.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
+          <p><strong>Q: Does this handle every Zawgyi ligature and pat-sint stacked consonant?</strong><br>A: No. The current browser mapper applies core Zawgyi vowel and medial substitutions plus vowel ေ reordering; inspect stacked consonants and Kinzi words manually before relying on the result.</p>
           <p><strong>Q: Why does legacy Zawgyi text look broken on newer Android phones or Windows PCs?</strong><br>A: Zawgyi placed Burmese glyphs at non-standard code points; modern phones ship Unicode Myanmar fonts by default and misrender raw Zawgyi text.</p>
           <p><strong>Q: Are my Myanmar texts transmitted to a server?</strong><br>A: No. Mapping executes in browser JavaScript without uploading pasted text remotely.</p>
         `
@@ -440,21 +441,22 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Unicode to Zawgyi Converter",
-        content: "<p>Convert standard <strong>Myanmar Unicode</strong> text back into legacy <strong>Zawgyi font</strong> encoding inside your browser when older Myanmar desktop software, legacy databases, or PageMaker templates require Zawgyi character ordering.</p>"
+        title: "Unicode to Zawgyi Converter (Experimental Helper)",
+        content: "<p>Reorders pre-posed vowel <code>ေ</code> characters in standard <strong>Myanmar Unicode</strong> text toward legacy <strong>Zawgyi</strong> display order inside your browser when older Myanmar desktop software or legacy PageMaker templates expect pre-posed vowel ordering.</p>"
       },
       {
-        title: "When Do You Need Zawgyi Conversion?",
-        content: "<ul><li><strong>Legacy Hardware:</strong> Supporting older devices configured prior to Myanmar Unicode migration.</li><li><strong>Print Templates:</strong> Pasting Burmese copy into old desktop layout templates requiring Zawgyi font files.</li><li><strong>Browser Execution:</strong> Character conversion runs in browser JavaScript without server transmission.</li></ul>"
+        title: "Current Mapping Scope &amp; Limitations",
+        content: "<ul><li><strong>Scope notice:</strong> The current browser implementation reorders Myanmar vowel sign <code>ေ</code> before its consonant rather than performing full Rabbit-style glyph substitution for medials (ျ/ြ), Kinzi, pat-sint stacked consonants, or alternate Zawgyi glyphs.</li><li><strong>Always verify output:</strong> Review converted Burmese passages carefully before placing them into legacy print layouts.</li><li><strong>Browser Execution:</strong> Character conversion runs in browser JavaScript without server transmission.</li></ul>"
       },
       {
         title: "How to Use This Converter",
-        content: "<ol><li><strong>Paste Myanmar Unicode text:</strong> Enter readable Unicode Burmese text into the editor above.</li><li><strong>Generate Zawgyi encoding:</strong> Review the converted Zawgyi output cleanly on the right.</li><li><strong>Apply Zawgyi font:</strong> Paste into your target legacy app and select the Zawgyi font family so characters render properly on that system.</li></ol>"
+        content: "<ol><li><strong>Paste Myanmar Unicode text:</strong> Enter readable Unicode Burmese text into the editor above.</li><li><strong>Review reordered output:</strong> Check how vowel signs render and manually verify medial/stacked clusters.</li><li><strong>Apply Zawgyi font:</strong> Paste into your target legacy app and select the Zawgyi font family so characters display on that system.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Why does converted Zawgyi text look odd on my Unicode browser before pasting?</strong><br>A: Without Zawgyi installed locally, modern systems use Unicode fonts—once pasted into an app using the Zawgyi font, the glyphs align.</p>
+          <p><strong>Q: Does this reverse full Myanmar Unicode medials and stacked consonants into Zawgyi code points?</strong><br>A: Not currently—this helper reorders vowel ေ before consonants only. Check complex syllables manually when moving into legacy Zawgyi templates.</p>
+          <p><strong>Q: Why does converted Zawgyi text look odd on my Unicode browser before pasting?</strong><br>A: Without Zawgyi installed locally, modern systems use Unicode fonts—once pasted into an app using the Zawgyi font, vowel ordering aligns.</p>
           <p><strong>Q: Are typed drafts sent to any server?</strong><br>A: No. Mapping executes in browser memory without sending pasted text remotely.</p>
         `
       }

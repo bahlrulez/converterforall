@@ -62,7 +62,7 @@ export default function AccessibilityStatementPage() {
         <ul>
           <li><strong>Color Contrast:</strong> We carefully select our color palettes in both Light Mode and Dark Mode to meet or exceed the WCAG AA requirement for text contrast (a minimum ratio of 4.5:1 for normal text). This ensures that text remains legible against its background.</li>
           <li><strong>Not Relying on Color Alone:</strong> We do not rely exclusively on color to convey important information. For example, form validation errors are indicated by text messages and icons, not just by turning a border red.</li>
-          <li><strong>Scalable Text:</strong> Our website is built with relative units (such as <code>rem</code> and <code>em</code>) rather than fixed pixels. This allows users to seamlessly scale the text up to 200% using their browser's built-in zoom functionality without breaking the layout or hiding critical controls.</li>
+          <li><strong>Scalable Text:</strong> Our website is built with relative units (such as <code>rem</code> and <code>em</code>) rather than fixed pixels. This allows users to scale text cleanly up to 200% using their browser's built-in zoom functionality without breaking the layout or hiding critical controls.</li>
         </ul>
 
         <h3>3.4 Screen Reader Compatibility</h3>

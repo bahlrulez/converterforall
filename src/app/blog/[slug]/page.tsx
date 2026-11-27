@@ -136,7 +136,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
             </div>
             <div>
               <p className="text-sm font-bold text-slate-900 dark:text-white">ConverterForAll Editorial Team</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">100% Client-Side Verified Content</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Browser-First Utilities &amp; Practical Guides</p>
             </div>
           </div>
         </div>
@@ -177,7 +177,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
         <div className="mt-8 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h4 className="text-lg font-bold">Ready to convert other files for free?</h4>
-            <p className="text-xs sm:text-sm text-blue-100 mt-1">No uploads, 100% private, and completely free forever.</p>
+            <p className="text-xs sm:text-sm text-blue-100 mt-1">Browser-based utilities with no watermarks and no account required.</p>
           </div>
           <Link
             href="/tools"

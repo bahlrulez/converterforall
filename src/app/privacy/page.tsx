@@ -87,7 +87,7 @@ export default function PrivacyPolicyPage() {
             </table>
           </div>
           <p className="text-sm text-muted-foreground italic">
-            (If the user does not check the Cloud Engine opt-in box, conversion runs 100% locally in the browser with zero network transmission).
+            (If the Cloud Engine opt-in box is left unchecked, conversion runs directly inside your browser without uploading the document.)
           </p>
 
           <h3>B. Artificial Intelligence &amp; Image Generation Services</h3>
@@ -246,7 +246,7 @@ export default function PrivacyPolicyPage() {
           <h2>6. Cookies &amp; Local Storage</h2>
           <ul>
             <li>
-              <strong>Local Storage:</strong> Used solely to persist your client-side UI preferences (such as Dark Mode theme) and your cookie consent settings. This data never leaves your device.
+              <strong>Local Storage:</strong> Used solely to keep your client-side UI preferences (such as Dark Mode theme) and your cookie consent settings stored in your browser.
             </li>
             <li>
               <strong>Cookies:</strong> Analytics cookies such as <code>_ga</code> are set only after the user accepts analytics; advertising cookies only after they accept advertising. Third-party advertising scripts remain completely blocked and are not loaded until you explicitly grant consent in our Cookie Banner or Cookie Preferences dialog.

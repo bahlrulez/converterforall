@@ -323,7 +323,7 @@ export default function PdfToWordTool() {
             Drag and drop a PDF file here, or click to browse
           </p>
           <p className="text-xs text-muted-foreground max-w-sm">
-            Fast, secure, and 100% private. Processing happens entirely on your device.
+            Converts selectable PDF text into Word inside browser memory without sending files to a conversion API.
           </p>
         </div>
       </div>

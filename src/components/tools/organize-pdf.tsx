@@ -1177,7 +1177,7 @@ export function OrganizePdfTool() {
                   Ready to Export {pages.length} {pages.length === 1 ? "Page" : "Pages"}
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Processed on-device • 100% private in your browser
+                  Processed inside your browser without sending PDFs to a conversion server
                 </p>
               </div>
             </div>

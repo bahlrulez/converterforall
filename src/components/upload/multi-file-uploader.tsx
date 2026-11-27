@@ -208,11 +208,11 @@ export function MultiFileUploader({ onProcessFiles, acceptedTypes, actionLabel =
                   </div>
                   <div className="flex-1">
                     <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
-                      <span>100% On-Device Batch Processing Complete</span>
+                      <span>In-Browser Batch Processing Complete</span>
                       <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
                     </p>
                     <p className="text-[11px] text-emerald-600/90 dark:text-emerald-400/90">
-                      Processed securely on your device's CPU • 0 bytes uploaded to external servers
+                      Processed inside your browser memory without uploading files to external conversion servers
                     </p>
                   </div>
                 </div>

@@ -195,9 +195,9 @@ export function CompressPdf100kb() {
         <div className="flex items-start gap-3">
           <Shield className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
           <div className="text-xs sm:text-sm">
-            <h4 className="font-semibold text-amber-900 dark:text-amber-200">100% Private In-Browser Compression</h4>
+            <h4 className="font-semibold text-amber-900 dark:text-amber-200">In-Browser Document Compression</h4>
             <p className="text-amber-700 dark:text-amber-300/80 leading-relaxed">
-              Your sensitive marksheets, caste certificates, and identity documents never leave your computer or phone. Everything processes directly in your browser.
+              Your selected marksheets, caste certificates, and identity PDFs compress directly inside browser memory without sending files to a conversion server.
             </p>
           </div>
         </div>

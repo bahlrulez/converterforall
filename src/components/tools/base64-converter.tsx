@@ -217,7 +217,7 @@ export function Base64Converter({ defaultAction = "encode" }: { defaultAction?: 
                 Upload Any File (Image, PDF, Audio, Document)
               </h4>
               <p className="text-xs text-slate-500 mb-4">
-                Instant client-side encoding into standard Base64 Data URL
+                Client-side encoding into a standard Base64 Data URL inside your browser
               </p>
               <label className="cursor-pointer">
                 <div className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md">

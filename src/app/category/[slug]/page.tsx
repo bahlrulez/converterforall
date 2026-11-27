@@ -39,7 +39,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     faqs: [
       {
         q: "Do I have to upload my PDFs to an external server?",
-        a: "Most of our PDF tools, including merge, split, rotate, organize, and metadata removal, execute directly on your computer or phone using WebAssembly. Your files never travel across the internet.",
+        a: "Most of our PDF tools, including merge, split, rotate, organize, and metadata removal, execute inside browser memory rather than sending files to remote conversion servers (except optional Cloud Engine paths on Word and PowerPoint tools when enabled).",
       },
       {
         q: "Is there a daily limit on how many documents I can merge or convert?",
@@ -47,7 +47,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
       },
       {
         q: "Will compressing a PDF make the text hard to read or unselectable?",
-        a: "It depends on the compression method used. Fixed-size target compressors (like Compress PDF to 100KB) rasterize pages into images, which turns text into pixels and makes it non-selectable. In contrast, standard structural optimization retains crisp vector text while optimizing embedded images. Check the output on text-heavy pages before submitting.",
+        a: "Often yes. Fixed-size target compressors (like Compress PDF to 100KB) rasterize pages into images, which turns text into pixels and makes it non-selectable, and Recommended or Extreme presets on Compress PDF do the same. On High Quality, standard structural optimization retains crisp vector text when it cuts size by at least 15%, and falls back to rasterization otherwise. Check text-heavy pages before submitting.",
       },
       {
         q: "Can I convert scanned PDFs into editable text?",
@@ -58,7 +58,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
   image: {
     title: "Image Converters & Photo Optimizers",
     badge: "Image Suite",
-    intro: "Modern websites and smartphones save pictures in formats like WebP, HEIC, and AVIF, which older software or government upload portals often reject. Our image tools convert, compress, resize, and edit your pictures securely in seconds.",
+    intro: "Modern websites and smartphones save pictures in formats like WebP, HEIC, and AVIF, which older software or government upload portals often reject. Our image tools convert, compress, resize, and edit your pictures directly in your browser.",
     points: [
       {
         title: "Common Format Support",
@@ -76,7 +76,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     faqs: [
       {
         q: "How does the background remover work without uploading my photos?",
-        a: "It runs directly in your browser using client-side WebAssembly models (such as ISNet via @imgly/background-removal) executing in a web worker on your device. The image calculations run in local memory, so your photos do not leave your device.",
+        a: "It runs directly in your browser using client-side WebAssembly models (such as ISNet via @imgly/background-removal) executing in a web worker on your device. Image decoding and matting calculations happen in local browser memory.",
       },
       {
         q: "Can I convert iPhone HEIC photos to JPG on Windows or Android?",
@@ -84,7 +84,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
       },
       {
         q: "Will converting WebP to PNG keep transparent backgrounds intact?",
-        a: "Yes, our WebP to PNG converter fully preserves transparent alpha channels, making it easy to use graphics in presentations and websites.",
+        a: "Yes, our WebP to PNG converter preserves transparent alpha channels, making it easy to use graphics in presentations and websites.",
       },
       {
         q: "Are there any file size limits for image compression?",
@@ -210,11 +210,11 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     points: [
       {
         title: "Targeted Platform Compression",
-        desc: "Preset size targets for Discord (under 25MB or 10MB), WhatsApp (under 16MB), and email attachments (under 25MB).",
+        desc: "Preset size targets for Discord (under 10 MB), Discord & WhatsApp (under 25 MB), and email attachments (under 25 MB).",
       },
       {
         title: "AI Caption & Subtitle Generator",
-        desc: "Generate accurate, timed subtitle text and burned-in captions for Hindi, English, and multilingual videos in your browser.",
+        desc: "Generate timed subtitle tracks and burned-in captions for English, Hindi, Punjabi, and other languages directly inside your browser.",
       },
       {
         title: "Audio Extraction & MP4 Export",
@@ -224,7 +224,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     faqs: [
       {
         q: "How does video processing work in the browser without uploading files?",
-        a: "Video compression and subtitle processing run directly in your browser using client-side WebAssembly and modern browser media APIs. Your device handles the encoding calculations locally so your video files stay on your computer or phone.",
+        a: "Video compression and subtitle processing run directly in your browser using client-side WebAssembly and modern browser media APIs, keeping encoding calculations inside browser memory rather than uploading footage to a conversion server.",
       },
       {
         q: "Will compressing a video add a watermark to my output file?",
@@ -232,7 +232,7 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
       },
       {
         q: "Can I export subtitle files like SRT and VTT?",
-        a: "Yes, our Video Caption Generator allows you to edit captions directly and export either an .srt file or an MP4 video with embedded subtitles.",
+        a: "Yes, our Video Caption Generator lets you edit captions directly and export .srt or .vtt files, or render an MP4 video with burned-in open captions.",
       },
       {
         q: "What video formats are supported?",
@@ -247,29 +247,29 @@ const CATEGORY_EDITORIAL_DATA: Record<string, CategoryEditorial> = {
     points: [
       {
         title: "Precision Audio Trimming",
-        desc: "Cut music tracks, ringtones, or podcast clips with millisecond waveform precision directly in your browser.",
+        desc: "Cut music tracks, ringtones, or podcast clips using waveform markers directly in your browser.",
       },
       {
         title: "Voice Note Conversion",
-        desc: "Convert WhatsApp voice notes (.opus) and voice memos into universal MP3 files that play anywhere.",
+        desc: "Convert WhatsApp voice notes (.opus) and voice memos into universal MP3 files that play broadly.",
       },
       {
         title: "Format Flexibility",
-        desc: "Convert between MP3, WAV, OGG, and AAC formats for optimal sound quality and small file sizes.",
+        desc: "Convert between MP3, WAV, OGG, and AAC formats for everyday sound playback and smaller file sizes.",
       },
     ],
     faqs: [
       {
         q: "How do I convert a WhatsApp voice note to MP3?",
-        a: "Save the voice note from WhatsApp to your phone or computer, open our Voice Note to MP3 converter, drop the file, and download the MP3 file immediately.",
+        a: "Save the voice note from WhatsApp to your phone or computer, open our Voice Note to MP3 tool, drop the file, and save the converted MP3 file.",
       },
       {
         q: "Is sound quality preserved when converting from WAV to MP3?",
-        a: "WAV is an uncompressed lossless format, whereas MP3 uses lossy compression that permanently discards acoustic frequencies that are difficult for the human ear to detect. While high-bitrate MP3 encoding (up to 320 kbps) retains strong perceptual clarity for casual listening and voice notes, it is not bit-for-bit lossless.",
+        a: "WAV is an uncompressed lossless format, whereas MP3 uses lossy compression that discards subtle acoustic detail. Our audio trimmer exports fixed 192 kbps MP3, while our FFmpeg format converter uses high-quality VBR MP3 encoding—practical for listening and voice notes, though not bit-for-bit lossless.",
       },
       {
         q: "Do my audio recordings get saved on a server?",
-        a: "No. Most of our tools run directly inside your browser so your documents and voice recordings stay on your device.",
+        a: "No. Audio decoding and trimming execute inside your browser memory without uploading voice notes to a remote conversion server.",
       },
       {
         q: "Can I use the audio trimmer to make ringtones?",

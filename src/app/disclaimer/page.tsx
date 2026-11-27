@@ -29,7 +29,7 @@ export default function DisclaimerPage() {
 
         <h2>2. Use of Conversion Tools at Your Own Risk</h2>
         <p>
-          The core functionality of ConverterForAll involves processing digital files—such as converting documents (e.g., Word to PDF), manipulating images (e.g., removing backgrounds), and reformatting data. While we utilize advanced algorithms and, where applicable, secure client-side WebAssembly processing, no software is entirely free of bugs or edge cases.
+          The core functionality of ConverterForAll involves processing digital files—such as converting documents (e.g., Word to PDF), manipulating images (e.g., removing backgrounds), and reformatting data. While we rely on established libraries and, where applicable, client-side WebAssembly processing, no software is entirely free of bugs or edge cases.
         </p>
         <p>
           <strong>File Integrity:</strong> You acknowledge that file conversions can occasionally result in formatting loss, unexpected pixelation, missing fonts, or structural corruption. You are strictly advised to retain backup copies of all original files before processing them through ConverterForAll. We accept no responsibility or liability for any lost data, corrupted files, or the financial consequences resulting from a failed or inaccurate conversion.

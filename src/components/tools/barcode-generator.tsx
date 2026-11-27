@@ -57,7 +57,7 @@ export function BarcodeGenerator() {
           </div>
           
           <p className="text-muted-foreground text-sm">
-            Generate standard 1D barcodes instantly. Type any text or number combination below.
+            Generate standard 1D CODE128 barcodes in your browser. Type any text or number combination below.
           </p>
 
           <div className="space-y-2">

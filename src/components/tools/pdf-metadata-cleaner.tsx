@@ -242,7 +242,7 @@ export default function PdfMetadataCleanerComponent() {
                     
                     <div className="flex items-center gap-2 text-xs text-slate-400">
                       <ShieldCheck className="w-4 h-4 text-green-500" />
-                      100% Client-Side. No servers used.
+                      Runs inside your browser without uploading files to a server.
                     </div>
                   </>
                 ) : (

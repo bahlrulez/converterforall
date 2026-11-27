@@ -49,7 +49,7 @@ export function QRGenerator() {
           </div>
           
           <p className="text-muted-foreground text-sm">
-            Enter a URL, text, email, or any other data to generate a custom QR code instantly.
+            Enter a URL, text, email, or any other data to generate a custom QR code in your browser.
           </p>
 
           <div className="space-y-2">

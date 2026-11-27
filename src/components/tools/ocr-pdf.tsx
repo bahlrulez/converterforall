@@ -148,7 +148,7 @@ export default function OcrPdfTool() {
             Drag and drop a scanned PDF here, or click to browse files
           </p>
           <p className="text-xs text-muted-foreground">
-            Processing runs 100% locally in your browser. Maximum privacy.
+            OCR runs directly inside your browser memory without uploading PDF files to a conversion server.
           </p>
         </div>
       </div>

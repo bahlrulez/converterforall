@@ -147,11 +147,11 @@ const TEMPLATE_DECKS = [
     desc: "Problem, Solution, Market Size, Model & Ask",
     theme: "venture" as ThemeKey,
     slides: [
-      { id: "p1", layout: "title" as SlideLayout, title: "NextGen AI Platform", subtitle: "Transforming Everyday Workflows with On-Device Intelligence" },
-      { id: "p2", layout: "content" as SlideLayout, title: "The Problem", content: "- Cloud software is expensive and forces recurring subscriptions\n- Data privacy leaks and security risks during cloud processing\n- Slow upload queues and frustrating wait times" },
-      { id: "p3", layout: "split" as SlideLayout, title: "Our Breakthrough Solution", content: "- 100% In-Browser Client-Side Processing Engine\n- Zero Server Uploads = Total Privacy Guarantee\n- Blazing fast execution using WebGPU hardware acceleration", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" },
+      { id: "p1", layout: "title" as SlideLayout, title: "On-Device AI Platform", subtitle: "Transforming Everyday Workflows with Browser Intelligence" },
+      { id: "p2", layout: "content" as SlideLayout, title: "The Problem", content: "- Cloud software can be expensive and require recurring subscriptions\n- Sending confidential drafts remotely raises privacy concerns\n- File queues slow down everyday formatting tasks" },
+      { id: "p3", layout: "split" as SlideLayout, title: "Our Solution", content: "- In-Browser Client-Side Processing Engine\n- Runs directly in your browser without server queues\n- Hardware acceleration using WebGPU where supported", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" },
       { id: "p4", layout: "metrics" as SlideLayout, title: "Market Opportunity & Traction", metric1Label: "Total Addressable Market", metric1Value: "$48 Billion", metric2Label: "Active Monthly Users", metric2Value: "2.4 Million", metric3Label: "MoM Growth Rate", metric3Value: "34%" },
-      { id: "p5", layout: "quote" as SlideLayout, title: "Industry Vision", content: "Privacy is not a premium luxury—it is the fundamental requirement for the next generation of web software.", quoteAuthor: "Founding Team" },
+      { id: "p5", layout: "quote" as SlideLayout, title: "Industry Vision", content: "Privacy should be built into everyday web utilities by default rather than sold as a paid add-on.", quoteAuthor: "Founding Team" },
       { id: "p6", layout: "content" as SlideLayout, title: "The Investment Ask", content: "- Raising $1.5M Seed Round for core engine expansion\n- 18 Months Runway: 50% Engineering, 30% Growth, 20% Operations\n- Target Milestone: 10M Global Active Users" }
     ]
   },
@@ -164,9 +164,9 @@ const TEMPLATE_DECKS = [
     slides: [
       { id: "q1", layout: "title" as SlideLayout, title: "Q3 Business Performance Review", subtitle: "Executive Summary, Key Accomplishments & Q4 Strategic Outlook" },
       { id: "q2", layout: "metrics" as SlideLayout, title: "Quarterly Key Metrics", metric1Label: "Net Revenue", metric1Value: "$1.85M", metric2Label: "Customer Satisfaction", metric2Value: "98.4%", metric3Label: "Gross Margin", metric3Value: "82%" },
-      { id: "q3", layout: "split" as SlideLayout, title: "Core Accomplishments This Quarter", content: "- Shipped 15 new high-precision file converters\n- Reduced mobile latency by 65% with WebGPU optimization\n- Reached #1 organic ranking for high-intent conversion terms", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" },
-      { id: "q4", layout: "content" as SlideLayout, title: "Challenges & Mitigations", content: "- Increased mobile memory constraints resolved with WebWorker isolation\n- Scaled CDN edge caching for instant global asset delivery\n- Expanded multi-language font conversion support" },
-      { id: "q5", layout: "content" as SlideLayout, title: "Q4 Strategic Roadmap", content: "- Launch automated batch processing suite\n- Introduce team collaboration workspace\n- Expand enterprise security audit compliance" }
+      { id: "q3", layout: "split" as SlideLayout, title: "Core Accomplishments This Quarter", content: "- Shipped 15 new browser-based file converters\n- Reduced mobile latency by 65% with WebGPU optimization\n- Expanded support for regional Indic font conversions", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" },
+      { id: "q4", layout: "content" as SlideLayout, title: "Challenges & Mitigations", content: "- Mobile memory constraints addressed with WebWorker isolation\n- Scaled CDN edge caching for faster global asset delivery\n- Expanded multi-language font conversion support" },
+      { id: "q5", layout: "content" as SlideLayout, title: "Q4 Strategic Roadmap", content: "- Launch automated batch processing workflows\n- Improve accessible PDF and caption tools\n- Expand technical QA and regression testing" }
     ]
   },
   {
@@ -176,9 +176,9 @@ const TEMPLATE_DECKS = [
     desc: "Value Prop, Target Persona & GTM",
     theme: "cyber" as ThemeKey,
     slides: [
-      { id: "pl1", layout: "title" as SlideLayout, title: "Product Launch 2026", subtitle: "Introducing the Ultimate Universal Conversion Suite" },
-      { id: "pl2", layout: "content" as SlideLayout, title: "Why We Built This Product", content: "- Users waste hours juggling multiple single-purpose websites\n- Existing tools lock basic features behind aggressive paywalls\n- We unified 150+ essential tools into one seamless interface" },
-      { id: "pl3", layout: "split" as SlideLayout, title: "Core Features & Capabilities", content: "- AI Background Removal with sub-second precision\n- Instant PDF compression, merging, and OCR extraction\n- Regional Indic font converters for government exam preparation", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" },
+      { id: "pl1", layout: "title" as SlideLayout, title: "Product Launch 2026", subtitle: "Introducing Our Browser-Based Conversion Suite" },
+      { id: "pl2", layout: "content" as SlideLayout, title: "Why We Built This Product", content: "- Users waste time juggling multiple single-purpose websites\n- Existing tools often lock basic utilities behind paywalls\n- We grouped 100+ everyday utilities into one clean workspace" },
+      { id: "pl3", layout: "split" as SlideLayout, title: "Core Features & Capabilities", content: "- On-device AI background removal on supported devices\n- Browser PDF compression, merging, and OCR extraction\n- Regional Indic font converters for exam preparation", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" },
       { id: "pl4", layout: "metrics" as SlideLayout, title: "Launch Targets & Adoption", metric1Label: "Day 1 Target Signups", metric1Value: "50,000+", metric2Label: "Conversion Speedup", metric2Value: "10x", metric3Label: "User Rating", metric3Value: "4.9 / 5" },
       { id: "pl5", layout: "quote" as SlideLayout, title: "User Testimonial", content: "ConverterForAll has completely eliminated the need for multiple subscriptions. It's fast, private, and unbelievably reliable.", quoteAuthor: "Lead Product Designer" }
     ]

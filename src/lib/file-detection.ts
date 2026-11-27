@@ -123,7 +123,7 @@ export function detectFileTools(file: File): DetectedFileInfo {
   ) {
     category = "document";
     tools.push(
-      { slug: "word-to-pdf", title: "Convert Word to PDF", category: "document", badge: "Instant", description: "Convert DOC and DOCX files into universal PDF format", isPopular: true }
+      { slug: "word-to-pdf", title: "Convert Word to PDF", category: "document", badge: "Document", description: "Convert DOC and DOCX files into universal PDF format", isPopular: true }
     );
   }
 

@@ -1095,7 +1095,7 @@ export function CaptionStudio() {
                   {/* Privacy Guarantee Reassurance */}
                   <div className="inline-flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800/60 px-3 py-1 rounded-full border border-slate-200/60 dark:border-slate-700/60">
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>Zero uploads • Completely private on-device</span>
+                    <span>Processed locally in browser memory</span>
                   </div>
                 </div>
               ) : (

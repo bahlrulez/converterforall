@@ -53,7 +53,7 @@ export function CookieModal() {
     {
       id: "functional",
       title: "Functional",
-      description: "Enable advanced features like theme preferences, language selection, and layout customizations.",
+      description: "Enable optional interface features like theme preferences, language selection, and layout customizations.",
       required: false,
     }
   ];

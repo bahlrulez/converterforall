@@ -20,7 +20,7 @@ export const COMPETITOR_BENCHMARKS: Record<string, CompetitorBenchmark> = {
       "Strict file size limits on free tier",
       "Aggressive upsells to premium plans"
     ],
-    converterForAllAdvantage: "100% on-device WebAssembly processing with zero cloud uploads and no file limits."
+    converterForAllAdvantage: "Browser-based WebAssembly processing for standard PDF operations with flexible local file sizes."
   },
   "cloudconvert": {
     competitorName: "CloudConvert",
@@ -46,7 +46,7 @@ export const COMPETITOR_BENCHMARKS: Record<string, CompetitorBenchmark> = {
       "5MB size limit on free tier",
       "Limited batch size without subscription"
     ],
-    converterForAllAdvantage: "Browser-based Canvas and WASM compression with no upload lag or size quotas."
+    converterForAllAdvantage: "Browser-based Canvas and WASM compression with no account gates or daily caps."
   },
   "removebg": {
     competitorName: "Remove.bg",
@@ -72,6 +72,6 @@ export const COMPETITOR_BENCHMARKS: Record<string, CompetitorBenchmark> = {
       "Outdated non-responsive UI",
       "Lacks modern privacy transparency"
     ],
-    converterForAllAdvantage: "Modern, clean, responsive UI with zero-ad clutter and instant client-side typing conversion."
+    converterForAllAdvantage: "Clean, responsive UI with ad-free workspace and local browser typing conversion."
   }
 };

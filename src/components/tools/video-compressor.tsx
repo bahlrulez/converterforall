@@ -322,7 +322,7 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
           <div className="space-y-1.5 max-w-md">
             <h3 className="text-xl font-bold text-white">Drop your video here, or browse files</h3>
             <p className="text-xs sm:text-sm text-slate-400">
-              Accepts MP4, MOV, MKV, WebM, AVI • Outputs universal MP4 • Instant local processing
+              Accepts MP4, MOV, MKV, WebM, AVI • Outputs universal MP4 • Runs locally in browser
             </p>
           </div>
           <Button className="mt-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-600/30">
@@ -737,8 +737,8 @@ export function VideoCompressor({ toolSlug = "compress-video" }: VideoCompressor
                     <ShieldCheck className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-emerald-300">100% Client-Side Conversion Complete</p>
-                    <p className="text-[11px] text-emerald-400/80">Processed locally on device • 0 bytes uploaded to external servers</p>
+                    <p className="text-xs font-bold text-emerald-300">In-Browser Conversion Complete</p>
+                    <p className="text-[11px] text-emerald-400/80">Processed inside your browser memory without uploading video files</p>
                   </div>
                 </div>
 
