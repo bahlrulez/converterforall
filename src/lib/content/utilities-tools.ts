@@ -1,4 +1,25 @@
-export const utilitiesToolsContent: Record<string, { sections: { title: string, content: string }[] }> = {
+export const utilitiesToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
+  "subtitle-converter": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Convert, time-shift, and clean up SRT, VTT, SBV, and ASS subtitles",
+        content: "<p>This browser-based subtitle utility parses <strong>SRT (SubRip)</strong>, <strong>WebVTT (.vtt)</strong>, <strong>YouTube SBV (.sbv)</strong>, and <strong>ASS/SSA (.ass, .ssa)</strong> files, previews the first three parsed cues along with basic validation warnings, lets you shift timestamps in milliseconds, strip markup tags, and download a clean converted file without uploading your subtitles to a conversion server.</p>"
+      },
+      {
+        title: "Supported formats, timing sync, and cleanup behavior",
+        content: "<ul><li><strong>Automatic or manual format detection:</strong> When you drop a subtitle file, the parser detects SRT, VTT, SBV, or ASS automatically; if detection fails on an unusual header, you can pick the source format manually before processing.</li><li><strong>Target outputs and ASS handling:</strong> You can export as <strong>SRT</strong>, <strong>WebVTT</strong>, or <strong>YouTube SBV</strong>, or choose <em>Keep Original (Cleanup Only)</em>. Note that ASS/SSA styling and screen positioning are not preserved—converting from ASS retains dialogue text and timing only, and keeping the original target on an ASS input exports as <code>.srt</code>.</li><li><strong>Timing shift &amp; tag cleanup:</strong> Enter positive milliseconds (e.g., <code>500</code>) to delay subtitles or negative values (e.g., <code>-500</code>) to shift them earlier, optionally remove empty or zero-duration cues, strip HTML tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>), and strip ASS override tags (such as <code>{\\an8}</code>). Cue numbers are renumbered sequentially during compilation.</li></ul>"
+      },
+      {
+        title: "Step-by-step subtitle workflow",
+        content: "<ol><li><strong>Choose options or drop your file:</strong> Load an <code>.srt</code>, <code>.vtt</code>, <code>.sbv</code>, <code>.ass</code>, <code>.ssa</code>, or <code>.txt</code> subtitle track and verify the detected format and cue preview.</li><li><strong>Adjust target format, timing, and cleanup:</strong> Select a target format, enter any millisecond offset, and toggle empty-cue removal, HTML tag stripping, or ASS override tag removal.</li><li><strong>Process and save:</strong> Click <em>Process Subtitle</em> to compile the cleaned track directly in browser memory and download the resulting file.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: Are my subtitle files sent to a server or cloud API?</strong><br>A: No. Parsing, timestamp shifting, tag cleanup, and output compilation run in your browser using JavaScript; your subtitle file is not uploaded to a conversion server.</p><p><strong>Q: Can I convert an ASS or SSA subtitle file and keep all custom styles?</strong><br>A: No. ASS and SSA styling, fonts, and override coordinates are not retained by the converter. Selecting Keep Original on an ASS file saves plain dialogue timing as SRT, and ASS override tags like <code>{\\an8}</code> are stripped by default.</p><p><strong>Q: How do I fix subtitles that appear too early or too late?</strong><br>A: Enter an offset in the <em>Shift Timing (ms)</em> field—use positive values like <code>1500</code> to push cues 1.5 seconds later, or negative values like <code>-1500</code> to move them earlier—then click Process Subtitle.</p>"
+      }
+    ]
+  },
   "presentation-maker": {
     sections: [
       {

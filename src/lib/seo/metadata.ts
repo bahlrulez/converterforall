@@ -101,13 +101,41 @@ export function getOptimizedToolTitle(tool: ToolMetadataInput, toolSlug: string)
 export function getOptimizedToolDescription(tool: ToolMetadataInput, toolSlug: string, categorySlug: string): string {
   if (tool.seoDescription) return tool.seoDescription;
 
-  const desc = (tool.description || "")
-    .replace(/\s*100%\s*private[.,]?/gi, "")
-    .replace(/\s*zero\s*uploads[.,]?/gi, "")
+  const cleanedDesc = (tool.description || "")
+    .replace(/\.\s*100%\s*private\s*(?:and\s+)?/gi, ". ")
+    .replace(/,\s*100%\s*private(?:\s+and)?/gi, "")
+    .replace(/\s*\(?\b100%\s*private\b[.,;\s-]*(?:no\s+uploads?)?\)?/gi, "")
+    .replace(/\s*,?\s*\b(?:zero|no)\s+uploads\b[.,]?/gi, "")
+    .replace(/\.\s*(?:and|or)\s+/gi, ". ")
+    .replace(/\s+([.,])/g, "$1")
+    .replace(/\.\s*\./g, ".")
+    .replace(/\s{2,}/g, " ")
+    .trim()
+    .replace(/(?:,\s*|\s+(?:and|or))\.?$/i, "")
     .trim();
+  const desc = cleanedDesc.replace(/(\.\s+)([a-z])/g, (_, sep, ch) => `${sep}${ch.toUpperCase()}`);
   const base = desc.endsWith(".") ? desc : `${desc}.`;
 
-  let suffix = "Free, private, and runs directly in your browser with no registration or file size queues.";
+  const nonFileUtilitySlugs = new Set([
+    "live-ruler",
+    "camera-measure",
+    "age-calculator",
+    "qr-generator",
+    "barcode-generator",
+    "password-generator",
+    "fuel-calculator",
+    "mileage-calculator",
+  ]);
+  const isLengthUtility =
+    toolSlug.includes("-to-") &&
+    /(?:inches|centimeters|meters|feet|miles|yards|millimeters|nanometers|micrometers|furlong|league|parsec|light-years)/.test(
+      toolSlug
+    );
+
+  let suffix =
+    nonFileUtilitySlugs.has(toolSlug) || isLengthUtility
+      ? "Free, private, and runs directly in your browser with no account required."
+      : "Free, private, and runs directly in your browser with no registration required.";
   if (categorySlug === "fonts") {
     suffix = "Convert text accurately with no font distortion. Free and runs in your browser.";
   } else if (categorySlug === "document") {
@@ -119,7 +147,7 @@ export function getOptimizedToolDescription(tool: ToolMetadataInput, toolSlug: s
   } else if (categorySlug === "image") {
     suffix = "High-resolution image processing on your device. Fast, free, and private.";
   } else if (categorySlug === "video" || categorySlug === "audio") {
-    suffix = "Process media smoothly in your browser with zero compression queues or quality loss.";
+    suffix = "Process media in your browser with no server upload queues or watermarks.";
   } else if (categorySlug === "developer") {
     suffix = "Runs locally in your browser. Confidential tokens are never sent across the network.";
   }

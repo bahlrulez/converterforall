@@ -1,4 +1,4 @@
-export const pdfConvertContent: Record<string, { sections: { title: string, content: string }[] }> = {
+export const pdfConvertContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   "pdf-to-word": {
     sections: [
       {
@@ -178,25 +178,26 @@ export const pdfConvertContent: Record<string, { sections: { title: string, cont
     ]
   },
   "word-to-pdf": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Word to PDF Converter - Convert DOCX & DOC to PDF Online",
-        content: "<p>Our Word to PDF converter transforms Microsoft Word documents into clean, standard PDF files. Modern .docx files are processed directly in your browser. For older legacy .doc files, conversion requires enabling the optional Cloud Engine, which processes files in secure memory and removes them after download.</p>"
+        content: "<p>Our Word to PDF converter transforms Microsoft Word documents into standard PDF files. Modern <code>.docx</code> files run directly inside your browser by default. Legacy binary <code>.doc</code> files cannot be parsed locally in the browser and require enabling the optional Cloud Engine checkbox, which sends the selected file to the third-party Cloudmersive API for conversion in memory.</p>"
       },
       {
         title: "How does Word to PDF conversion work?",
-        content: "<p>For .docx files, the converter reads text, headings, and formatting locally on your computer or phone without server uploads. Legacy .doc files cannot be parsed by browser engines alone; if you choose to enable the optional Cloud Engine, the file is securely converted in memory on an ephemeral server and discarded when the conversion finishes.</p>"
+        content: "<p>For <code>.docx</code> files, the browser extracts text, headings, lists, and embedded Word charts into an A4 PDF on your device without uploading the document. If you check <em>Use Cloud Engine via third-party service (Cloudmersive API)</em>—required for older Word 97–2003 <code>.doc</code> files or optional for complex layouts—the selected file is sent over HTTPS to Cloudmersive for conversion and returned to your browser.</p>"
       },
       {
         title: "Step-by-Step: How to Convert Word to PDF",
-        content: "<ol><li><strong>Select Your Word Document:</strong> Drag and drop your .docx file (or .doc file with Cloud Engine enabled) into the box.</li><li><strong>Conversion:</strong> The document is parsed and rendered into standard PDF pages.</li><li><strong>Download:</strong> Click 'Download PDF' to save your new file.</li></ol>"
+        content: "<ol><li><strong>Select your Word document:</strong> Drag and drop a <code>.docx</code> or <code>.doc</code> file into the upload box.</li><li><strong>Choose conversion engine:</strong> Leave <em>Use Cloud Engine</em> unchecked for default on-device browser conversion of <code>.docx</code> files, or check it when converting a legacy <code>.doc</code> file via Cloudmersive API.</li><li><strong>Convert and download:</strong> Click the convert button and save your generated <code>.pdf</code> document once finished.</li></ol>"
       },
       {
         title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: Does my document leave my computer?</strong><br>A: Modern .docx files are converted locally in your browser. If you upload a legacy .doc file, you can opt into our temporary Cloud Engine, which processes the file in memory and discards it immediately after conversion.</p>
-          <p><strong>Q: Will my converted PDF keep its layout and page count?</strong><br>A: The converter maps typography, tables, and spacing to match your Word document as closely as possible. Complex layouts may show minor differences.</p>
-          <p><strong>Q: Can I edit the downloaded file?</strong><br>A: The output is a standard PDF. You can view, print, or share it across all devices.</p>
+          <p><strong>Q: Does my Word document leave my computer?</strong><br>A: Modern .docx files run locally in your browser when the Cloud Engine box is left unchecked. Legacy .doc files require enabling the optional Cloud Engine, which transmits the file to the Cloudmersive API for conversion in temporary memory.</p>
+          <p><strong>Q: Will my converted PDF match every font and page break?</strong><br>A: Browser conversion renders paragraphs, headings, tables, and charts as closely as possible, while intricate Word layouts or missing system fonts can shift wrapping slightly. Always review the PDF before submitting.</p>
+          <p><strong>Q: What if the Cloud Engine is busy when converting a legacy .doc file?</strong><br>A: Open the .doc file in Microsoft Word, LibreOffice, or Google Docs and save it as modern .docx, then convert it in your browser without needing the cloud option.</p>
         `
       }
     ]

@@ -1,41 +1,25 @@
-export const audioToolsContent: Record<string, { sections: { title: string, content: string }[] }> = {
+export const audioToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   "trim-audio": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Audio Trimmer & Cutter (MP3, WAV, OGG)",
-        content: `<p>Trim, cut, and split audio files directly in your browser. 100% private, no uploads. Our tool uses advanced WebAudio technology to give you a professional, visual audio editor directly inside your web browser. There is no software to install and no need to wait for your files to upload to a cloud server.</p>`
+        content: `<p>Trim and cut audio clips directly inside your web browser using Web Audio waveform playback and browser-based MP3 encoding. You can upload <strong>MP3, WAV, OGG, M4A, or AAC</strong> recordings, drag visual start and end markers on the waveform, preview just the selected section, and export the trimmed clip as an MP3 file without installing desktop software or uploading your audio to a conversion server.</p>`
       },
       {
-        title: "100% Client-Side Privacy",
-        content: "<p>Most online audio cutters require you to upload your sensitive voice notes, music, or corporate recordings to a remote server for processing. This raises significant privacy concerns. Our Audio Trimmer is entirely <strong>client-side</strong>. The audio decoding, waveform visualization, and MP3 exporting all happen exclusively within your device's memory. Your files are <em>never</em> uploaded.</p>"
+        title: "Browser-based decoding and processing",
+        content: "<p>Many online audio cutters send voice notes, music tracks, or meeting recordings to remote servers for processing. This tool reads and decodes your selected audio inside your browser via the Web Audio API, draws the interactive waveform with WaveSurfer, slices the chosen PCM sample range in memory, and encodes the exported MP3 directly on your device. Normal website assets and analytics may still load.</p>"
       },
       {
         title: "How to Trim Audio Online",
-        content: "<ol><li><strong>Upload File:</strong> Drag and drop your audio file (MP3, WAV, OGG, M4A).</li><li><strong>Adjust Markers:</strong> Use the visual waveform to drag the start and end markers to your desired points.</li><li><strong>Preview:</strong> Click the Play button to listen to your selected section.</li><li><strong>Export:</strong> Click Export to instantly encode and download your new MP3 file.</li></ol>"
+        content: "<ol><li><strong>Select your file:</strong> Drag and drop an MP3, WAV, OGG, M4A, or AAC file into the upload zone or pick one from your device.</li><li><strong>Adjust region markers:</strong> Drag the blue region handles across the rendered waveform to isolate the portion you want to keep.</li><li><strong>Preview selection:</strong> Click <em>Play Selection</em> to audition only the highlighted segment before encoding.</li><li><strong>Export MP3:</strong> Click <em>Export Selected to MP3</em> to decode the clip and download your trimmed <code>.mp3</code> file.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <div itemscope itemtype="https://schema.org/FAQPage">
-            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-              <h3 itemprop="name">Does trimming my audio file reduce the quality?</h3>
-              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">No! Our tool preserves the original bitrate (up to 192kbps) during the extraction process, ensuring your trimmed audio sounds exactly as crisp as the original file.</p>
-              </div>
-            </div>
-            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="mt-4">
-              <h3 itemprop="name">Is it safe to cut private audio recordings online?</h3>
-              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Yes, because ConverterForAll processes your files <strong>100% locally in your web browser</strong>. Unlike other tools, your audio is never uploaded to a remote server, guaranteeing absolute privacy for sensitive voice notes or personal recordings.</p>
-              </div>
-            </div>
-            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="mt-4">
-              <h3 itemprop="name">Can I trim audio files on my mobile phone?</h3>
-              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Absolutely. Our audio cutter is fully responsive and designed to work seamlessly on iOS and Android devices. You can drag the handles using your touchscreen to trim WhatsApp voice notes or songs on the go.</p>
-              </div>
-            </div>
-          </div>
+          <p><strong>Q: Does trimming audio preserve lossless WAV or original bitrates?</strong><br>A: No. The browser decodes the uploaded file to 44.1 kHz PCM audio and re-encodes the trimmed selection into a 192 kbps MP3 file using LAME encoding. Lossless inputs (such as WAV) or higher-bitrate MP3/OGG sources are always converted to lossy 192 kbps MP3 rather than copied bit-for-bit losslessly.</p>
+          <p><strong>Q: Are my voice notes or recordings sent to a conversion server?</strong><br>A: No. Waveform rendering, PCM slicing, and MP3 encoding run in your browser memory without uploading the audio file to a backend conversion server.</p>
+          <p><strong>Q: Can I trim WhatsApp OGG/M4A voice notes on mobile?</strong><br>A: Yes, as long as your mobile browser can decode the input codec. Because exported clips always save as standard 192 kbps MP3 files, trimming a WhatsApp voice note is also an easy way to share it on car stereos or editors that do not support OGG Opus.</p>
         `
       }
     ]

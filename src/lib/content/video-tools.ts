@@ -1,4 +1,29 @@
 export const videoToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
+  "video-caption-generator": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Generate, edit, and style video captions in your browser",
+        content: "<p>AI Caption Studio transcribes spoken audio from short video clips using an in-browser Whisper speech recognition model, times captions word by word, and renders burned-in captions into an MP4 download. Supported inputs include <strong>MP4, QuickTime (MOV), WebM, and M4V</strong> videos up to <strong>60 seconds</strong> long; older containers such as AVI, MKV, FLV, and WMV are not accepted.</p>"
+      },
+      {
+        title: "Spoken languages, WebGPU acceleration, and WASM fallback",
+        content: "<p>Choose the video's spoken language from the selector before or after loading your clip—<strong>English (en)</strong>, <strong>Auto-detect</strong>, <strong>Hindi (hi)</strong>, <strong>Punjabi (pa)</strong>, <strong>Spanish (es)</strong>, <strong>French (fr)</strong>, or <strong>German (de)</strong>—and click <strong>Re-transcribe</strong> if you want to switch languages on an already loaded video. The studio resamples the audio track to 16 kHz mono PCM and runs inference inside a browser Web Worker using WebGPU hardware acceleration when available, automatically falling back to CPU WebAssembly (WASM) if WebGPU is unavailable, times out, or produces repetitive output.</p>"
+      },
+      {
+        title: "Step-by-step Caption Studio workflow",
+        content: "<ol><li><strong>Select language and video:</strong> Pick the spoken language (or Auto-detect) and drop an MP4, MOV, WebM, or M4V video up to 60 seconds, or load the sample reel.</li><li><strong>Edit captions and timestamps:</strong> In the <em>Captions</em> tab, fix any transcribed wording, adjust start or end times, split long cues at your cursor, merge adjacent cues, or run <em>Auto-split</em>, with full Undo, Redo, and Reset to AI controls.</li><li><strong>Style and position:</strong> Switch to the <em>Style</em> tab to choose a look (Clean Pop, Glass, Neon, Lower Third, Classic, or Bold Reels), pick Latin, Devanagari, or Gurmukhi fonts, customize colors, outline, shadow, and background box, toggle Reels/TikTok safe zones, and drag captions directly on the video preview.</li><li><strong>Export captioned MP4:</strong> Click <em>Export MP4 Video</em> to burn the styled captions directly into a new watermark-free <code>.mp4</code> file.</li></ol>"
+      },
+      {
+        title: "Browser requirements and limitations",
+        content: "<p>Video decoding, canvas rendering, and hardware-accelerated encoding use browser <strong>WebCodecs</strong> (<code>VideoEncoder</code> and <code>AudioEncoder</code>), so exporting works best in desktop Chrome or Microsoft Edge. High-resolution footage and longer clips depend on available device RAM. Caption Studio exports burned-in captioned MP4 video rather than separate subtitle text tracks; if you need to convert, shift, or clean standalone <code>.srt</code> or <code>.vtt</code> files, use our <a href=\"/subtitle-converter\" class=\"font-semibold text-blue-600 dark:text-blue-400 hover:underline\">Subtitle Converter &amp; Toolkit</a>.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: "<p><strong>Q: Is my video uploaded to a server for transcription or rendering?</strong><br>A: No. Audio extraction, Whisper speech transcription, and WebCodecs MP4 export run in your browser without sending your video to a conversion server. The Whisper model files are downloaded into your browser cache the first time you initialize the studio.</p><p><strong>Q: Why did transcription switch to WebAssembly (WASM) or ask me to check the language?</strong><br>A: Setting an explicit language yields better accuracy than Auto-detect on short clips. If the WebGPU driver stalls or triggers repetition safeguards on Windows, the worker retries on CPU WebAssembly automatically and displays a notice so you can review or re-transcribe.</p><p><strong>Q: Why is there a 60-second limit on videos?</strong><br>A: Extracting PCM audio, running local Whisper inference, and re-encoding video frames inside browser memory takes significant RAM; capping clips at 60 seconds prevents tab crashes during local export.</p>"
+      }
+    ]
+  },
   "mp4-to-mp3": {
     disableAutoEnrich: true,
     sections: [
@@ -70,15 +95,23 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
       },
       {
         title: "How Does Browser-Based Compression Work?",
-        content: "<p>Most video compression websites require you to upload your gigabyte-sized files to their cloud servers, which takes a long time and uses up your internet bandwidth. We do things differently. This tool runs directly inside your web browser using your device's own processor. Your videos are compressed locally on your computer or phone, meaning your personal recordings never leave your device.</p>"
+        content: "<p>Most video compression websites require you to upload gigabyte-sized recordings to remote servers. This tool instead runs FFmpeg WebAssembly directly inside your web browser using your device's processor, encoding H.264 video and AAC audio into a standard MP4 without uploading your video to a conversion server.</p>"
       },
       {
         title: "How to Compress a Video File",
-        content: "<ol><li><strong>Select your video:</strong> Drag and drop your video file (supports MP4, MOV, MKV, WebM, AVI) directly into the browser window.</li><li><strong>Choose compression settings:</strong> Select a target preset (like Discord under 25MB, WhatsApp under 16MB, or custom percentage reduction) and optional resolution scaling.</li><li><strong>Save your MP4:</strong> Download the newly compressed, lightweight MP4 video directly to your device.</li></ol>"
+        content: "<ol><li><strong>Select your video:</strong> Drag and drop your video file (supports MP4, MOV, MKV, WebM, AVI, and M4V) directly into the browser window.</li><li><strong>Choose compression settings:</strong> Pick a preset (Recommended (~55% smaller), Discord &amp; WhatsApp (&lt; 25 MB), Maximum Compression (~80% smaller), or the Custom target-size slider) plus optional resolution scaling and audio bitrate settings.</li><li><strong>Save your MP4:</strong> Download the newly compressed MP4 video directly to your device.</li></ol>"
       },
       {
         title: "Will the Compressed Video Look Blurry?",
-        content: "<p>Our compressor uses a smart balanced preset that reduces the overall file size while maintaining the clarity of the main subjects. For everyday use like watching on a phone screen, sharing in group chats, or attaching to emails, the quality difference is virtually imperceptible. You get a much smaller file that still looks great and plays smoothly.</p>"
+        content: "<p>The Recommended preset balances file reduction with clarity for phone playback, chat apps, and email attachments. Choosing aggressive target reductions or lowering output resolution (such as 480p or 360p) trades fine visual detail for smaller file sizes, so check the estimated output size and preview your compressed MP4 before sharing.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Does the video compressor have a preset for Discord and WhatsApp limits?</strong><br>A: Yes. Pick the <strong>Discord &amp; WhatsApp (&lt; 25 MB)</strong> combined preset or use the Custom target-size slider if you want a smaller target such as 16 MB or 10 MB before sharing.</p>
+          <p><strong>Q: What output format and codecs does the compressor produce?</strong><br>A: Even if your source file is MOV, MKV, WebM, or AVI, the tool transcodes and outputs a standard <strong>MP4</strong> file using H.264 video and AAC audio for broad phone and browser playback.</p>
+          <p><strong>Q: Are my videos uploaded to a cloud server for encoding?</strong><br>A: No. Video compression runs directly inside your web browser using FFmpeg WebAssembly, without sending your video to a remote conversion queue.</p>
+        `
       }
     ]
   },

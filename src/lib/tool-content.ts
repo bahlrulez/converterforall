@@ -27,88 +27,6 @@ export const toolContent: Record<string, { sections: { title: string, content: s
   ...devTextToolsContent,
   ...devSerializationToolsContent,
   ...examToolsContent,
-  "remove-background": {
-    sections: [
-      {
-        title: "What is this converter?",
-        content: "<p>The Remove Background tool is an advanced, AI-powered utility designed to instantly isolate the main subject of any photograph by intelligently detecting and removing the background. Unlike traditional photo editing software that requires painstaking manual selection, this tool leverages state-of-the-art machine learning algorithms to automatically identify foreground elements—such as people, products, animals, or vehicles—and cleanly erase everything else. It operates entirely within your web browser, ensuring lightning-fast performance and total privacy.</p>"
-      },
-      {
-        title: "How does it work?",
-        content: "<p>At its core, the background remover utilizes an in-browser neural network (specifically, the ISNet model optimized for edge devices) to perform semantic segmentation. When you upload an image, the model analyzes the pixels to distinguish between the primary subject and the background. It then generates a highly precise alpha mask. This mask is applied to your original image, effectively rendering the background pixels transparent. Because the entire computational process happens on your device using WebGL/WebGPU acceleration, your photos are never sent to a remote server, offering unprecedented privacy and speed.</p>"
-      },
-      {
-        title: "Examples",
-        content: "<p>Imagine you run an e-commerce store and need to standardize your product images. You can upload a photo of a sneaker taken on a cluttered desk, and our tool will return the sneaker on a perfectly transparent background, ready to be placed onto a solid white canvas or a promotional banner. Similarly, graphic designers can use this tool to quickly extract a model's portrait to composite into a new digital art piece, saving hours of manual lassoing and refining edges.</p>"
-      },
-      {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload your image:</strong> Drag and drop your JPG, PNG, or WEBP file into the designated upload area, or click to browse your computer's files.</li><li><strong>Select Quality (Optional):</strong> If presented with quality options, choose 'Maximum Quality' for intricate details like hair, or 'Fast' for simple, well-defined shapes.</li><li><strong>Wait for processing:</strong> The AI will analyze the image. This typically takes 2-5 seconds depending on your device's processing power.</li><li><strong>Download:</strong> Once complete, a preview of your isolated subject will appear. Click the download button to save the result as a high-quality, transparent PNG file.</li></ol>"
-      },
-      {
-        title: "Common mistakes",
-        content: "<p>While our AI is highly advanced, certain conditions can yield sub-optimal results. <strong>Low Contrast:</strong> If the subject perfectly matches the color and lighting of the background, the AI may struggle to find the edge. <strong>Blurry Images:</strong> Out-of-focus subjects lack the sharp edge definitions needed for a clean cutout. <strong>Complex Crowds:</strong> Images with dozens of overlapping people or objects might confuse the AI as to what the 'primary' subject is. For best results, use well-lit images where the subject clearly stands out from its surroundings.</p>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>E-commerce:</strong> Creating uniform, professional product listings by removing messy backgrounds.</li><li><strong>Marketing & Design:</strong> Designing thumbnails, social media posts, and advertising banners with isolated elements.</li><li><strong>Presentations:</strong> Enhancing slide decks by overlaying clean cutouts of people or charts without ugly white box artifacts.</li><li><strong>Photography:</strong> Quickly creating transparent assets for digital compositing and scrapbooking.</li></ul>"
-      },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Is my data safe when using this background remover?</strong><br>A: Absolutely. All processing happens locally in your web browser. Your images are never uploaded to our servers.</p>
-          <p><strong>Q: What is the maximum file size I can upload?</strong><br>A: Since processing is local, the file size is only limited by your device's available memory. However, we recommend images under 20MB for optimal performance.</p>
-          <p><strong>Q: Why is the output always a PNG?</strong><br>A: PNG is the standard web format that supports an alpha channel (transparency). If we outputted a JPG, the transparent areas would automatically be filled with white.</p>
-          <p><strong>Q: Does this tool work on mobile devices?</strong><br>A: Yes, our tool is fully responsive and uses optimized models that run smoothly on modern smartphones.</p>
-          <p><strong>Q: Will this tool work on non-human subjects like cars or pets?</strong><br>A: Yes! Our advanced AI model is trained to recognize a wide variety of foreground subjects, including animals, products, vehicles, and furniture.</p>
-          <p><strong>Q: Does it cost money to use this AI?</strong><br>A: No, our background removal tool is 100% free with no hidden fees or daily limits.</p>
-          <p><strong>Q: Do I need to manually draw lines around the subject?</strong><br>A: Not at all. The AI automatically detects the subject and creates the mask without any manual intervention.</p>
-          <p><strong>Q: What if the AI misses a spot?</strong><br>A: Our AI is highly accurate, but it can occasionally miss complex areas (like thin strands of hair against a matching background). Currently, the tool offers a fully automatic mode, so you may need a manual editor for minor touch-ups.</p>
-          <p><strong>Q: Will the tool decrease the resolution of my photo?</strong><br>A: The tool aims to preserve your original resolution. However, extremely high-resolution images (like 4K RAW photos) may be slightly downscaled internally to prevent your browser from crashing during the AI processing.</p>
-          <p><strong>Q: Can I use the generated images for commercial purposes?</strong><br>A: Yes, you retain full rights to the images you process, meaning you can freely use them for commercial e-commerce stores or client designs.</p>
-        `
-      }
-    ]
-  },
-  "word-to-pdf": {
-    sections: [
-      {
-        title: "What is this converter?",
-        content: "<p>Our Word to PDF converter is a specialized document processing tool that transforms your Microsoft Word documents (.doc, .docx) into universally accessible Portable Document Format (PDF) files. PDFs are the global standard for document sharing because they preserve your exact layout, typography, and images regardless of the device or software the recipient is using. This tool ensures your resumes, reports, and invoices look exactly as intended when you send them.</p>"
-      },
-      {
-        title: "How does it work?",
-        content: "<p>When you select a Word document, our tool reads the document layout and text directly in your web browser. It extracts the headings, paragraphs, lists, and basic styling, then generates a standard PDF file directly on your computer or phone. For supported files, this means your document is processed locally without needing to wait for server uploads.</p>"
-      },
-      {
-        title: "Examples",
-        content: "<p>Consider a job applicant who formatted a resume in Word. If they email the raw .docx file, a recruiter opening it on a phone or older computer might see shifted margins and missing fonts. Converting the Word file to a PDF locks the layout in place so the recipient sees the exact same document on any screen.</p>"
-      },
-      {
-        title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your Word document:</strong> Drag your .docx file into the box or click to browse your files.</li><li><strong>Automatic Conversion:</strong> The tool reads the layout and text directly.</li><li><strong>Download your PDF:</strong> Click the download button to save your new PDF file immediately.</li></ol>"
-      },
-      {
-        title: "Common mistakes",
-        content: "<p>When converting Word documents in the browser, keep these tips in mind: <strong>Custom Fonts:</strong> If your document uses an unusual custom font that isn't installed on your system, the browser will substitute a standard font. <strong>Macros:</strong> Interactive VBA macros are stripped out for safety. <strong>Complex Tables:</strong> Very intricate multi-column layouts with floating graphics might occasionally wrap slightly differently in the generated PDF.</p>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Resumes &amp; Portfolios:</strong> Sending applications that look clean and identical on any recruiter's screen.</li><li><strong>Invoices &amp; Contracts:</strong> Sharing finalized business documents that cannot be accidentally edited.</li><li><strong>Easy Printing:</strong> Creating print-ready files that commercial printers can reproduce without font errors.</li></ul>"
-      },
-      {
-        title: "Frequently Asked Questions",
-        content: `
-          <p><strong>Q: Are my confidential documents kept private?</strong><br>A: Yes. For supported browser tools, your file is processed in your device's local memory and is not uploaded to our servers.</p>
-          <p><strong>Q: Does it support older .doc files?</strong><br>A: The tool is optimized for modern .docx files. For older .doc binary files, opening them in Word and saving as .docx first gives the best results.</p>
-          <p><strong>Q: Will links in my Word document work in the PDF?</strong><br>A: Yes, standard web hyperlinks remain clickable in the final PDF.</p>
-          <p><strong>Q: Will embedded images and charts convert?</strong><br>A: Yes, images, charts, and diagrams included in the Word document are rendered into the PDF.</p>
-          <p><strong>Q: Do I need Microsoft Word installed on my computer?</strong><br>A: No. The converter runs directly in your web browser, so you don't need Microsoft Office or any paid software installed.</p>
-          <p><strong>Q: Does this converter cost money?</strong><br>A: No, our Word to PDF converter is free with no watermarks or daily limits.</p>
-        `
-      }
-    ]
-  }
 };
 
 // Helper for length conversion factors to base (meters) to generate accurate tables
@@ -199,9 +117,7 @@ function enrichContentIfShort(
     "organize-pdf",
     "rotate-pdf",
     "split-pdf",
-    "merge-pdf",
-    "clean-pdf-metadata",
-    "repair-pdf"
+    "merge-pdf"
   ]);
 
   const OFFICE_DOCUMENT_SLUGS = new Set([

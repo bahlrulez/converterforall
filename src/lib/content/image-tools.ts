@@ -1,38 +1,34 @@
-export const imageToolsContent: Record<string, { sections: { title: string, content: string }[] }> = {
+export const imageToolsContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   "webp-to-png": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "What is this converter?",
-        content: "<p>The WEBP to PNG converter is a specialized image processing utility designed to effortlessly transform modern WEBP files into universally compatible PNG images. WEBP is an advanced image format created by Google that provides superior lossless and lossy compression for images on the web. While WEBP is fantastic for reducing file sizes and improving website load times, it isn't universally supported by all legacy operating systems, older image editing software, or certain content management systems. This converter seamlessly bridges that compatibility gap by rendering the WEBP file and exporting it as a standard Portable Network Graphic (PNG), ensuring you can open, edit, and share your images anywhere.</p>"
+        content: "<p>The WEBP to PNG converter turns modern WEBP images into widely compatible PNG files directly in your browser. Google's WEBP format compresses web graphics efficiently, so many websites serve saved logos, product shots, and screenshots as <code>.webp</code>. However, older desktop image editors, presentation tools, and upload forms still reject WEBP files. Converting to PNG preserves transparency (the alpha channel) so the file opens across design tools and document editors.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>Unlike traditional conversion services that require you to upload your personal photos to a remote server, our WEBP to PNG tool operates entirely within your web browser using HTML5 Canvas and modern browser APIs. When you select a file, the browser decodes the WEBP image locally into raw pixel data. This data is then instantly re-encoded by the browser's native rendering engine into a high-quality PNG format. This process preserves the exact color profile, resolution, and transparency (alpha channel) of the original image. Because the entire conversion happens on your device's RAM, it guarantees absolute privacy and lightning-fast speeds with zero upload or download latency.</p>"
+        content: "<p>Rather than uploading your images to a remote server, this converter decodes your <code>.webp</code> files using native browser image decoding and renders them onto an HTML5 2D canvas. The canvas then exports a PNG image (or JPG if you switch the output selector to JPEG, filling any transparent regions with solid white). Because decoding and encoding happen inside browser memory, you can convert single files or batches directly on your computer or phone.</p>"
       },
       {
         title: "Examples",
-        content: "<p>Imagine you've just downloaded a beautiful transparent logo or a high-resolution graphic from a modern website, but it is saved as a WEBP file. When you try to import this graphic into an older version of Photoshop or a desktop presentation software like Microsoft PowerPoint, you receive an 'unsupported file format' error. By quickly running the file through our WEBP to PNG converter, you get an identical, transparent PNG file that is instantly recognized by virtually every design and presentation software ever made.</p>"
+        content: "<p>If you save a transparent company logo or illustration from a website and it downloads as a <code>.webp</code> file, older presentation apps or upload portals may show an unsupported format error. Dropping it into this WEBP to PNG converter produces a transparent PNG copy that opens in Word, PowerPoint, Figma, Photoshop, and standard web uploaders.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload your file:</strong> Drag and drop your WEBP image directly into the designated upload zone on the page, or click to open your device's file picker.</li><li><strong>Local Processing:</strong> Once selected, the image is immediately read by your browser. No internet upload is required.</li><li><strong>Instant Conversion:</strong> The browser renders the image data onto a hidden canvas and exports it as a PNG file in a fraction of a second.</li><li><strong>Download:</strong> Click the prominent download button to save the new PNG file directly to your local storage.</li></ol>"
+        content: "<ol><li><strong>Upload your WEBP files:</strong> Drag and drop one or multiple <code>.webp</code> images into the upload box, or browse your files.</li><li><strong>Adjust format or quality (optional):</strong> By default on this route the output is PNG; if you switch to JPG, you can adjust the JPEG quality slider before downloading.</li><li><strong>Download results:</strong> Click <em>Download</em> on individual images or use <em>Download All</em> to save your converted batch.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Graphic Design:</strong> Converting downloaded web assets into a format compatible with Adobe Creative Suite and other design tools.</li><li><strong>Website Building:</strong> Standardizing image formats for uploading to older Content Management Systems (CMS) that reject WEBP uploads.</li><li><strong>Archiving:</strong> Saving images in a widely recognized format to ensure they can be opened on any device.</li><li><strong>Social Media:</strong> Converting images for platforms or forums that only accept JPG and PNG files.</li></ul>"
+        content: "<ul><li><strong>Graphic Design:</strong> Converting saved web graphics into transparent PNG assets for design editors.</li><li><strong>CMS &amp; Portal Uploads:</strong> Preparing images for older portals or forms that only accept PNG or JPG files.</li><li><strong>Presentations &amp; Documents:</strong> Embedding crisp transparent logos into slide decks and reports without format errors.</li><li><strong>Archiving:</strong> Saving downloaded web assets in a universally readable raster format.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is my data safe when using this background remover?</strong><br>A: Yes. Processing happens locally in your web browser. Your images are not uploaded to our servers.</p>
-          <p><strong>Q: How does this tool utilize WebGPU and WebGL hardware acceleration?</strong><br>A: Our background removal tool can utilize your device's graphics processor (GPU) using standard WebGPU and WebGL APIs for fast, responsive edge detection.</p>
-          <p><strong>Q: What happens if my browser or smartphone does not support WebGPU?</strong><br>A: The tool automatically falls back to standard WebGL or CPU WebAssembly processing so the conversion runs smoothly without errors.</p>
-          <p><strong>Q: What is the maximum file size I can upload?</strong><br>A: Since processing is local, the file size is only limited by your device's available memory. Images under 20MB are recommended for the best performance.</p>
-          <p><strong>Q: Why is the output always a PNG?</strong><br>A: PNG supports transparency (an alpha channel). If saved as a JPG, transparent background areas would automatically be filled with solid white.</p>
-          <p><strong>Q: Do I need to install any software to convert WEBP to PNG?</strong><br>A: No software installation is required. This tool runs directly in your web browser (Chrome, Firefox, Safari, Edge).</p>
-          <p><strong>Q: Is there a file size limit for uploading WEBP images?</strong><br>A: Because conversion happens locally on your device, there are no strict server-side upload limits.</p>
-          <p><strong>Q: Can I use this WEBP to PNG converter on my smartphone?</strong><br>A: Yes. The tool works on mobile browsers on both iOS and Android.</p>
-          <p><strong>Q: Why do some websites use WEBP instead of PNG?</strong><br>A: WEBP provides efficient compression, helping websites load faster while maintaining good visual quality.</p>
+          <p><strong>Q: Are my WEBP images uploaded to a server?</strong><br>A: No. Decoding happens directly in your browser via HTML5 Canvas APIs; your images are not sent to a file-conversion server. Normal website resources and analytics may still load.</p>
+          <p><strong>Q: Will my transparent PNG keep its alpha background?</strong><br>A: Yes. Exporting to PNG preserves existing alpha transparency from the source WEBP. If you switch the output selector to JPEG, transparent regions are filled with solid white because JPEG does not support transparency.</p>
+          <p><strong>Q: Can I convert multiple WEBP files at once?</strong><br>A: Yes. The converter supports dropping multiple WEBP files at once and downloading them individually or via Download All.</p>
+          <p><strong>Q: Do I need to install extra codecs or desktop software?</strong><br>A: No. It runs inside modern browsers including Chrome, Firefox, Safari, and Edge on desktop and mobile.</p>
         `
       }
     ]
@@ -144,33 +140,34 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     ]
   },
   "remove-background": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "What is this tool?",
-        content: "<p>The Remove Background tool cuts out the background from your images and gives you a clean, transparent PNG. Whether you are creating product photos for an online store, designing flyers, or cutting out people from photos, this tool removes backgrounds automatically in your web browser.</p>"
+        content: "<p>The Remove Background tool separates the foreground subject from JPG, PNG, or WEBP photos and exports a transparent PNG. Whether you are preparing product photos for an online shop, creating flyer cutouts, or isolating portraits from cluttered backgrounds, segmentation runs directly inside your browser.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>The tool uses an in-browser AI model to detect the foreground subject and create a transparent cutout directly on your device. Because the model runs on your computer or phone, your personal photos are not uploaded to cloud servers.</p>"
+        content: "<p>The tool runs an on-device ISNet segmentation model (via <code>@imgly/background-removal</code>) in a browser Web Worker, with options for <strong>Fast</strong>, <strong>Balanced</strong>, or <strong>Maximum Quality</strong>. After automatic cutout, you can use the built-in brush editor to restore or erase fine edge details manually before exporting your transparent PNG without sending the image to a conversion server.</p>"
       },
       {
         title: "Examples",
-        content: "<p>If you take a photo of a product on a table and want a clean white or transparent background for your online shop, uploading the photo quickly isolates your product so you can place it onto any background.</p>"
+        content: "<p>If you photograph a product on a table and want a clean transparent cutout for a catalog banner, running it through the background remover isolates the item so you can place it over any color background.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your Image:</strong> Drag and drop your photo into the box.</li><li><strong>Processing:</strong> The browser removes the background on your device.</li><li><strong>Download:</strong> Save your transparent PNG image.</li></ol>"
+        content: "<ol><li><strong>Choose quality &amp; upload photo:</strong> Pick Fast, Balanced, or Maximum Quality and drop a JPG, PNG, or WEBP image into the upload box.</li><li><strong>Automatic cutout &amp; manual touch-up:</strong> Let the on-device ISNet model generate the transparent alpha mask, and refine edges with the restore/erase brush if needed.</li><li><strong>Download PNG:</strong> Save your transparent PNG cutout to your device.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Online Stores:</strong> Creating clean product photos for Shopify, Amazon, or Etsy.</li><li><strong>Graphic Design:</strong> Isolating subjects for posters, YouTube thumbnails, and social media posts.</li><li><strong>Presentations:</strong> Removing distracting backgrounds from logos and headshots for slides.</li></ul>"
+        content: "<ul><li><strong>Online Stores:</strong> Creating clean product photos for Shopify, Amazon, or Etsy.</li><li><strong>Graphic Design:</strong> Isolating subjects for posters, thumbnails, and social media graphics.</li><li><strong>Presentations:</strong> Removing distracting backgrounds from logos and portraits for slides.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Are my photos uploaded to external servers?</strong><br>A: No. The background removal runs locally in your web browser.</p>
-          <p><strong>Q: Why does the download format have to be PNG?</strong><br>A: PNG supports transparent backgrounds, whereas standard JPG formats do not.</p>
-          <p><strong>Q: Does this tool cost money?</strong><br>A: No. The background remover is free with no watermarks.</p>
+          <p><strong>Q: Are my photos uploaded to external servers?</strong><br>A: No. Background segmentation runs in your browser via @imgly/background-removal and canvas refinement without uploading your photos to a remote conversion server.</p>
+          <p><strong>Q: Why does the output download as PNG?</strong><br>A: PNG preserves an alpha channel for transparent backgrounds, whereas standard JPG fills transparent regions with solid color.</p>
+          <p><strong>Q: Can I fix small missed edges around hair or objects?</strong><br>A: Yes. After the automatic cutout finishes, you can open the built-in touch-up editor to brush areas back in or erase leftover background pixels.</p>
         `
       }
     ]

@@ -1,4 +1,4 @@
-export const pdfOrganizeContent: Record<string, { sections: { title: string, content: string }[] }> = {
+export const pdfOrganizeContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   "merge-pdf": {
     sections: [
       {
@@ -191,18 +191,27 @@ export const pdfOrganizeContent: Record<string, { sections: { title: string, con
     ]
   },
   "clean-pdf-metadata": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "What is PDF Metadata?",
-        content: "<p>Whenever a PDF is created (whether by Microsoft Word, Adobe Illustrator, or a scanner), the software often embeds hidden 'metadata' inside the file's code. This can include the author's real name, the software version used, the exact date and time it was created, and sometimes even the file path on their computer (e.g., C:/Users/YourName/Desktop/Confidential.docx).</p>"
+        content: "<p>Whenever a PDF is created by Word, Illustrator, Acrobat, or a scanner, hidden metadata properties are stored inside the file header. This commonly includes the document <strong>Title</strong>, <strong>Author</strong> name, <strong>Subject</strong>, <strong>Keywords</strong>, <strong>Creator</strong> software, <strong>Producer</strong> engine, and exact <strong>CreationDate</strong> and <strong>ModificationDate</strong> timestamps.</p>"
       },
       {
-        title: "Why scrub metadata?",
-        content: "<p>If you are a lawyer, journalist, corporate employee, or just someone who values privacy, sharing a document with hidden metadata can accidentally expose confidential information. Selected document metadata is cleared, while Creator/Producer are normalized to ConverterForAll.</p>"
+        title: "What this cleaner clears and resets",
+        content: "<p>Before scrubbing, the inspector reads and displays any existing Author, Title, Creator, Producer, Subject, and Creation Date fields stored in the PDF. When you click <em>Scrub Metadata Now</em>, the browser loads the PDF with <code>pdf-lib</code>, sets Title, Author, Subject, Creator, and Producer to empty strings, clears Keywords to an empty array, and resets Creation Date and Modification Date to <code>1970-01-01T00:00:00Z</code> before saving a new scrubbed PDF file.</p>"
       },
       {
-        title: "In-Browser Privacy",
-        content: "<p>Most of our tools run directly inside your browser so your documents stay on your device. Our PDF metadata tool uses WebAssembly to parse and clean document properties directly in your browser's local memory without uploading files to remote servers.</p>"
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Select a PDF:</strong> Drag and drop your <code>.pdf</code> file into the upload box to scan its existing metadata fields.</li><li><strong>Inspect found properties:</strong> Review the detected Author, Title, software Creator, Producer engine, and Creation Date shown on the left.</li><li><strong>Scrub and download:</strong> Click <em>Scrub Metadata Now</em> to overwrite those metadata fields and reset timestamps, then download the <code>-scrubbed.pdf</code> copy.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Are my PDFs uploaded to a server to strip metadata?</strong><br>A: No. Scanning and scrubbing run inside your web browser using <code>pdf-lib</code>; your file is not uploaded to a conversion server.</p>
+          <p><strong>Q: What are timestamps set to after cleaning?</strong><br>A: Both Creation Date and Modification Date are reset to the Unix epoch (1970-01-01) and text metadata fields (Author, Title, Subject, Creator, Producer, Keywords) are cleared to blank values.</p>
+          <p><strong>Q: Does removing metadata alter page text, images, or layout?</strong><br>A: No. Updating the PDF document metadata dictionary leaves visible pages, vector text, and images untouched, though files encrypted with a password cannot be loaded here.</p>
+        `
       }
     ]
   }

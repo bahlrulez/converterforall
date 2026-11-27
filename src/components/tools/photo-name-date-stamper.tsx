@@ -162,7 +162,7 @@ export function PhotoNameDateStamper() {
         <div>
           <h4 className="font-semibold text-foreground text-sm">Need Strict 20 KB – 50 KB File Size for Your Portal?</h4>
           <p className="text-xs text-muted-foreground mt-0.5">
-            After stamping your Name &amp; Date of Photo (DOP), use our Exam Photo Resizer to guarantee the exact aspect ratio and KB ceiling.
+            After stamping your Name &amp; Date of Photo (DOP), use our Exam Photo Resizer to crop the aspect ratio and try a target KB range before checking portal limits.
           </p>
         </div>
         <Link href="/exam-photo-resizer">
