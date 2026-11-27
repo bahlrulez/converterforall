@@ -36,6 +36,20 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
   const [isBannerVisible, setIsBannerVisible] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
 
+  const updateConsentMode = (state: CookieConsentState) => {
+    if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+      (window as any).gtag("consent", "update", {
+        analytics_storage: state.analytics ? "granted" : "denied",
+        ad_storage: state.advertising ? "granted" : "denied",
+        ad_user_data: state.advertising ? "granted" : "denied",
+        ad_personalization: state.advertising ? "granted" : "denied",
+        personalization_storage: state.functional ? "granted" : "denied",
+        functionality_storage: state.functional ? "granted" : "denied",
+        security_storage: "granted", // essential
+      });
+    }
+  };
+
   // Load from local storage on mount
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -51,20 +65,6 @@ export function CookieConsentProvider({ children }: { children: React.ReactNode 
       setIsBannerVisible(true);
     }
   }, []);
-
-  const updateConsentMode = (state: CookieConsentState) => {
-    if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
-      (window as any).gtag("consent", "update", {
-        analytics_storage: state.analytics ? "granted" : "denied",
-        ad_storage: state.advertising ? "granted" : "denied",
-        ad_user_data: state.advertising ? "granted" : "denied",
-        ad_personalization: state.advertising ? "granted" : "denied",
-        personalization_storage: state.functional ? "granted" : "denied",
-        functionality_storage: state.functional ? "granted" : "denied",
-        security_storage: "granted", // essential
-      });
-    }
-  };
 
   const persistAndApply = (state: CookieConsentState) => {
     setConsent(state);

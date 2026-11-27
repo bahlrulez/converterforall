@@ -6,13 +6,13 @@ import { Clock, Calendar, Copy, Check, ArrowRight, RefreshCw, Lock, Globe } from
 import { cn } from "@/lib/utils";
 
 export function TimestampConverter() {
-  const [currentEpoch, setCurrentEpoch] = useState<number>(Math.floor(Date.now() / 1000));
-  const [currentEpochMs, setCurrentEpochMs] = useState<number>(Date.now());
+  const [currentEpoch, setCurrentEpoch] = useState<number>(() => Math.floor(Date.now() / 1000));
+  const [currentEpochMs, setCurrentEpochMs] = useState<number>(() => Date.now());
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   // Epoch to Date Form State
-  const [epochInput, setEpochInput] = useState<string>(String(Math.floor(Date.now() / 1000)));
+  const [epochInput, setEpochInput] = useState<string>(() => String(Math.floor(Date.now() / 1000)));
   const [convertedDate, setConvertedDate] = useState<{
     local?: string;
     utc?: string;

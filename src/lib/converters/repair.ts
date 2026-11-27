@@ -72,7 +72,6 @@ export async function repairPdf(
       canvas.width = viewport.width;
       canvas.height = viewport.height;
       
-      // @ts-ignore
       await page.render({ canvasContext: ctx, viewport, canvas }).promise;
       
       // We use JPEG for smaller file size on the resulting PDF since we are rasterizing

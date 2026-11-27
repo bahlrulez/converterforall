@@ -132,8 +132,8 @@ export class ASRClient {
     for (const segment of result.segments) {
       const rawChunk = segment as any; 
       if (rawChunk.timestamp && Array.isArray(rawChunk.timestamp) && rawChunk.timestamp.length === 2) {
-        let start = rawChunk.timestamp[0];
-        let end = rawChunk.timestamp[1];
+        const start = rawChunk.timestamp[0];
+        const end = rawChunk.timestamp[1];
 
         if (
           typeof start === 'number' && typeof end === 'number' &&

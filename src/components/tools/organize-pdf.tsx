@@ -64,6 +64,10 @@ interface DeletedItem {
   index: number;
 }
 
+function createLocalItemId(prefix: string): string {
+  return `${prefix}_${Math.random().toString(36).substring(2, 9)}_${Date.now()}`;
+}
+
 export function OrganizePdfTool() {
   const [sourceDocs, setSourceDocs] = useState<SourceDocument[]>([]);
   const [pages, setPages] = useState<PageItem[]>([]);
@@ -106,123 +110,6 @@ export function OrganizePdfTool() {
       pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
     }
     return pdfjsLib;
-  };
-
-  // Check pending file on mount
-  useEffect(() => {
-    async function checkPending() {
-      const pending = await getPendingFile("organize-pdf");
-      if (pending) {
-        processFiles([pending]);
-      }
-    }
-    checkPending();
-  }, []);
-
-  // Process uploaded files (PDFs and Images)
-  const processFiles = async (newFiles: File[], append = false) => {
-    if (!newFiles || newFiles.length === 0) return;
-
-    setIsLoading(true);
-    setError(null);
-    setResultUrl(null);
-
-    try {
-      const pdfjsLib = await getPdfJsLib();
-
-      const newDocs: SourceDocument[] = [];
-      const newPageItems: PageItem[] = [];
-
-      for (let fIdx = 0; fIdx < newFiles.length; fIdx++) {
-        const file = newFiles[fIdx];
-        const isPdf = file.name.toLowerCase().endsWith(".pdf") || file.type === "application/pdf";
-        const isImg = file.type.startsWith("image/") || /\.(jpe?g|png|webp|bmp)$/i.test(file.name);
-
-        if (!isPdf && !isImg) {
-          continue;
-        }
-
-        const fileId = "doc_" + Math.random().toString(36).substring(2, 9) + "_" + Date.now();
-        const rawBuffer = await file.arrayBuffer();
-        const fileBytes = new Uint8Array(rawBuffer);
-
-        if (isPdf) {
-          setLoadingText(`Reading document ${fIdx + 1} of ${newFiles.length}: ${file.name}...`);
-          
-          // Pass a cloned slice to avoid buffer detachment
-          const loadingTask = pdfjsLib.getDocument({ data: fileBytes.slice(0) });
-          const pdfDoc = await loadingTask.promise;
-          const numPages = pdfDoc.numPages;
-
-          const docEntry: SourceDocument = {
-            id: fileId,
-            file,
-            name: file.name,
-            size: file.size,
-            fileBytes,
-            numPages,
-          };
-          newDocs.push(docEntry);
-
-          // Create page skeleton entries
-          for (let pNum = 1; pNum <= numPages; pNum++) {
-            newPageItems.push({
-              id: `p_${fileId}_${pNum}_${Math.random().toString(36).substring(2, 6)}`,
-              fileId,
-              fileName: file.name,
-              sourcePageIndex: pNum - 1,
-              originalPageNumber: pNum,
-              rotation: 0,
-              thumbnailUrl: null,
-              aspectRatio: 0.707, // standard default
-            });
-          }
-        } else if (isImg) {
-          setLoadingText(`Loading image ${file.name}...`);
-          newDocs.push({
-            id: fileId,
-            file,
-            name: file.name,
-            size: file.size,
-            fileBytes,
-            numPages: 1,
-            isImage: true,
-          });
-
-          const imgUrl = URL.createObjectURL(file);
-          newPageItems.push({
-            id: `p_${fileId}_1_${Math.random().toString(36).substring(2, 6)}`,
-            fileId,
-            fileName: file.name,
-            sourcePageIndex: 0,
-            originalPageNumber: 1,
-            rotation: 0,
-            thumbnailUrl: imgUrl,
-            aspectRatio: 1,
-            isImage: true,
-            imageBlob: file,
-          });
-        }
-      }
-
-      if (newDocs.length === 0) {
-        throw new Error("No valid PDF or image files found. Please upload a PDF.");
-      }
-
-      const updatedDocs = append ? [...sourceDocs, ...newDocs] : newDocs;
-      const updatedPages = append ? [...pages, ...newPageItems] : newPageItems;
-
-      setSourceDocs(updatedDocs);
-      setPages(updatedPages);
-      setIsLoading(false);
-
-      // Render thumbnails immediately page-by-page
-      renderThumbnails(newDocs);
-    } catch (err: any) {
-      console.error("Failed to load PDF:", err);
-      setError(err?.message || "Failed to load the PDF. Please make sure the file is not password-protected or corrupted.");
-      setIsLoading(false);
-    }
   };
 
   // Render thumbnail previews for PDF pages
@@ -291,6 +178,123 @@ export function OrganizePdfTool() {
       console.error("Thumbnail rendering engine error:", e);
     }
   };
+
+  // Process uploaded files (PDFs and Images)
+  const processFiles = async (newFiles: File[], append = false) => {
+    if (!newFiles || newFiles.length === 0) return;
+
+    setIsLoading(true);
+    setError(null);
+    setResultUrl(null);
+
+    try {
+      const pdfjsLib = await getPdfJsLib();
+
+      const newDocs: SourceDocument[] = [];
+      const newPageItems: PageItem[] = [];
+
+      for (let fIdx = 0; fIdx < newFiles.length; fIdx++) {
+        const file = newFiles[fIdx];
+        const isPdf = file.name.toLowerCase().endsWith(".pdf") || file.type === "application/pdf";
+        const isImg = file.type.startsWith("image/") || /\.(jpe?g|png|webp|bmp)$/i.test(file.name);
+
+        if (!isPdf && !isImg) {
+          continue;
+        }
+
+        const fileId = createLocalItemId("doc");
+        const rawBuffer = await file.arrayBuffer();
+        const fileBytes = new Uint8Array(rawBuffer);
+
+        if (isPdf) {
+          setLoadingText(`Reading document ${fIdx + 1} of ${newFiles.length}: ${file.name}...`);
+          
+          // Pass a cloned slice to avoid buffer detachment
+          const loadingTask = pdfjsLib.getDocument({ data: fileBytes.slice(0) });
+          const pdfDoc = await loadingTask.promise;
+          const numPages = pdfDoc.numPages;
+
+          const docEntry: SourceDocument = {
+            id: fileId,
+            file,
+            name: file.name,
+            size: file.size,
+            fileBytes,
+            numPages,
+          };
+          newDocs.push(docEntry);
+
+          // Create page skeleton entries
+          for (let pNum = 1; pNum <= numPages; pNum++) {
+            newPageItems.push({
+              id: createLocalItemId(`p_${fileId}_${pNum}`),
+              fileId,
+              fileName: file.name,
+              sourcePageIndex: pNum - 1,
+              originalPageNumber: pNum,
+              rotation: 0,
+              thumbnailUrl: null,
+              aspectRatio: 0.707, // standard default
+            });
+          }
+        } else if (isImg) {
+          setLoadingText(`Loading image ${file.name}...`);
+          newDocs.push({
+            id: fileId,
+            file,
+            name: file.name,
+            size: file.size,
+            fileBytes,
+            numPages: 1,
+            isImage: true,
+          });
+
+          const imgUrl = URL.createObjectURL(file);
+          newPageItems.push({
+            id: createLocalItemId(`p_${fileId}_1`),
+            fileId,
+            fileName: file.name,
+            sourcePageIndex: 0,
+            originalPageNumber: 1,
+            rotation: 0,
+            thumbnailUrl: imgUrl,
+            aspectRatio: 1,
+            isImage: true,
+            imageBlob: file,
+          });
+        }
+      }
+
+      if (newDocs.length === 0) {
+        throw new Error("No valid PDF or image files found. Please upload a PDF.");
+      }
+
+      const updatedDocs = append ? [...sourceDocs, ...newDocs] : newDocs;
+      const updatedPages = append ? [...pages, ...newPageItems] : newPageItems;
+
+      setSourceDocs(updatedDocs);
+      setPages(updatedPages);
+      setIsLoading(false);
+
+      // Render thumbnails immediately page-by-page
+      renderThumbnails(newDocs);
+    } catch (err: any) {
+      console.error("Failed to load PDF:", err);
+      setError(err?.message || "Failed to load the PDF. Please make sure the file is not password-protected or corrupted.");
+      setIsLoading(false);
+    }
+  };
+
+  // Check pending file on mount
+  useEffect(() => {
+    async function checkPending() {
+      const pending = await getPendingFile("organize-pdf");
+      if (pending) {
+        processFiles([pending]);
+      }
+    }
+    checkPending();
+  }, []);
 
   // Dropzone setup
   const onDrop = useCallback((acceptedFiles: File[]) => {

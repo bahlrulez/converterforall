@@ -10,10 +10,11 @@ test('True Irreversible PDF Redaction', async ({ page }) => {
   page.on('pageerror', error => console.log('BROWSER ERROR:', error.message));
 
   // Open the editor
-  await page.goto('http://localhost:3000/edit-pdf');
+  const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+  await page.goto(`${baseUrl}/edit-pdf`);
 
   // Upload the test PDF
-  await page.locator('input[type="file"]').setInputFiles('./test-source.pdf');
+  await page.locator('input[type="file"]').setInputFiles(path.join(__dirname, 'fixtures', 'test-source.pdf'));
 
   // Wait for load and dismiss cookie banner if it exists
   await expect(page.getByText('Page 1 of 3')).toBeVisible({ timeout: 15000 });
@@ -45,7 +46,9 @@ test('True Irreversible PDF Redaction', async ({ page }) => {
   await page.getByRole('button', { name: /Accept & Export/i }).click();
 
   const download = await downloadPromise;
-  const downloadPath = path.join(__dirname, 'exported-redacted.pdf');
+  const outputDir = path.join(__dirname, '..', 'test-results');
+  fs.mkdirSync(outputDir, { recursive: true });
+  const downloadPath = path.join(outputDir, 'exported-redacted.pdf');
   await download.saveAs(downloadPath);
 
   // The test successfully clicked the warning and downloaded the file.

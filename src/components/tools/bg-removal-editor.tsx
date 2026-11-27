@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { 
@@ -48,6 +49,7 @@ export function BgRemovalEditor({
   const [history, setHistory] = useState<ImageData[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
   const [showOriginal, setShowOriginal] = useState(false);
+  const [originalSrc, setOriginalSrc] = useState<string>("");
   const [cursorPos, setCursorPos] = useState<{ x: number; y: number; visible: boolean }>({ x: 0, y: 0, visible: false });
 
   // Stored image elements
@@ -58,11 +60,13 @@ export function BgRemovalEditor({
   // Load and initialize canvases
   useEffect(() => {
     let isCancelled = false;
+    let origUrl = "";
+    let procUrl = "";
 
     const loadImages = async () => {
       try {
-        const origUrl = URL.createObjectURL(originalFile);
-        const procUrl = URL.createObjectURL(processedBlob);
+        origUrl = URL.createObjectURL(originalFile);
+        procUrl = URL.createObjectURL(processedBlob);
 
         const origImg = new Image();
         const procImg = new Image();
@@ -84,6 +88,7 @@ export function BgRemovalEditor({
 
         originalImgRef.current = origImg;
         processedImgRef.current = procImg;
+        setOriginalSrc(origUrl);
 
         // Create offscreen canvas for original image
         const offCanvas = document.createElement("canvas");
@@ -120,6 +125,8 @@ export function BgRemovalEditor({
 
     return () => {
       isCancelled = true;
+      if (origUrl) URL.revokeObjectURL(origUrl);
+      if (procUrl) URL.revokeObjectURL(procUrl);
     };
   }, [originalFile, processedBlob]);
 
@@ -430,9 +437,9 @@ export function BgRemovalEditor({
             )}
           />
 
-          {showOriginal && originalImgRef.current && (
+          {showOriginal && originalSrc && (
             <img
-              src={originalImgRef.current.src}
+              src={originalSrc}
               alt="Original Reference"
               className="absolute inset-0 m-auto max-w-full max-h-[70vh] object-contain pointer-events-none drop-shadow-2xl"
             />
@@ -566,13 +573,13 @@ export function BgRemovalEditor({
 
       {/* Contextual SEO Link */}
       <div className="mt-8 text-center pb-8">
-        <a 
-          href="/blog/how-to-remove-image-backgrounds-for-ecommerce" 
+        <Link
+          href="/blog/how-to-remove-image-backgrounds-for-ecommerce"
           className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full relative z-20"
         >
           <FileText className="w-4 h-4" />
           Learn how to optimize product photos for eCommerce
-        </a>
+        </Link>
       </div>
     </div>
   );

@@ -144,14 +144,6 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
   const UNVERIFIED_FONT_TOOLS = new Set([
     "chanakya-to-unicode",
     "unicode-to-chanakya",
-    "preeti-to-unicode",
-    "unicode-to-preeti",
-    "bijoy-to-unicode",
-    "unicode-to-bijoy",
-    "sutonnymj-to-unicode",
-    "unicode-to-sutonnymj",
-    "inpage-to-unicode",
-    "unicode-to-inpage",
   ]);
 
   return (

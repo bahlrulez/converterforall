@@ -20,6 +20,7 @@ export function QrScanner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const requestRef = useRef<number>(0);
+  const scanFrameRef = useRef<() => void>(() => {});
 
   // Stop camera stream
   const stopCamera = useCallback(() => {
@@ -31,29 +32,6 @@ export function QrScanner() {
       cancelAnimationFrame(requestRef.current);
     }
     setIsScanning(false);
-  }, []);
-
-  // Start camera stream
-  const startCamera = useCallback(async () => {
-    setError(null);
-    setResult(null);
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: "environment" } 
-      });
-      streamRef.current = stream;
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.setAttribute("playsinline", "true"); // required to tell iOS safari we don't want fullscreen
-        await videoRef.current.play();
-        setIsScanning(true);
-        scanFrame();
-      }
-    } catch (err) {
-      console.error("Error accessing camera:", err);
-      setError("Could not access camera. Please ensure you have granted permission or try the Image Upload tab.");
-      setIsScanning(false);
-    }
   }, []);
 
   // Scan individual frame from video
@@ -81,9 +59,36 @@ export function QrScanner() {
       }
     }
     if (isScanning) {
-      requestRef.current = requestAnimationFrame(scanFrame);
+      requestRef.current = requestAnimationFrame(() => scanFrameRef.current());
     }
   }, [isScanning, stopCamera]);
+
+  useEffect(() => {
+    scanFrameRef.current = scanFrame;
+  }, [scanFrame]);
+
+  // Start camera stream
+  const startCamera = useCallback(async () => {
+    setError(null);
+    setResult(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" }
+      });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.setAttribute("playsinline", "true"); // required to tell iOS safari we don't want fullscreen
+        await videoRef.current.play();
+        setIsScanning(true);
+        scanFrame();
+      }
+    } catch (err) {
+      console.error("Error accessing camera:", err);
+      setError("Could not access camera. Please ensure you have granted permission or try the Image Upload tab.");
+      setIsScanning(false);
+    }
+  }, []);
 
   // Handle Tab Switch
   useEffect(() => {

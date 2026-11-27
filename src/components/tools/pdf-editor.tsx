@@ -33,6 +33,10 @@ import { cn } from "@/lib/utils";
 
 type ToolMode = "select" | "text" | "draw" | "highlight" | "rectangle" | "redact" | "signature" | "stamp";
 
+function nextAnnotationId(): string {
+  return Math.random().toString(36).substring(2, 9);
+}
+
 interface TextAnnotation {
   id: string;
   type: "text";
@@ -157,6 +161,40 @@ export function PdfEditor() {
     }
   };
 
+  // Redraw Freehand & Highlight strokes on overlay canvas
+  const redrawDrawingOverlay = () => {
+    const overlay = overlayCanvasRef.current;
+    if (!overlay) return;
+    const ctx = overlay.getContext("2d");
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, overlay.width, overlay.height);
+
+    // Draw all paths for current page
+    drawPaths
+      .filter((p) => p.page === currentPage)
+      .forEach((path) => {
+        if (path.points.length < 2) return;
+        ctx.save();
+        ctx.beginPath();
+        ctx.strokeStyle = path.color;
+        ctx.lineWidth = path.width * zoom * 1.5;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.globalAlpha = path.opacity;
+
+        const first = path.points[0];
+        ctx.moveTo((first.x / 100) * overlay.width, (first.y / 100) * overlay.height);
+
+        for (let i = 1; i < path.points.length; i++) {
+          const pt = path.points[i];
+          ctx.lineTo((pt.x / 100) * overlay.width, (pt.y / 100) * overlay.height);
+        }
+        ctx.stroke();
+        ctx.restore();
+      });
+  };
+
   // Render Current PDF Page
   useEffect(() => {
     if (!pdfBytes || !canvasRef.current) return;
@@ -206,40 +244,6 @@ export function PdfEditor() {
       isMounted = false;
     };
   }, [pdfBytes, currentPage, zoom, pageRotation]);
-
-  // Redraw Freehand & Highlight strokes on overlay canvas
-  const redrawDrawingOverlay = () => {
-    const overlay = overlayCanvasRef.current;
-    if (!overlay) return;
-    const ctx = overlay.getContext("2d");
-    if (!ctx) return;
-
-    ctx.clearRect(0, 0, overlay.width, overlay.height);
-
-    // Draw all paths for current page
-    drawPaths
-      .filter((p) => p.page === currentPage)
-      .forEach((path) => {
-        if (path.points.length < 2) return;
-        ctx.save();
-        ctx.beginPath();
-        ctx.strokeStyle = path.color;
-        ctx.lineWidth = path.width * zoom * 1.5;
-        ctx.lineCap = "round";
-        ctx.lineJoin = "round";
-        ctx.globalAlpha = path.opacity;
-
-        const first = path.points[0];
-        ctx.moveTo((first.x / 100) * overlay.width, (first.y / 100) * overlay.height);
-
-        for (let i = 1; i < path.points.length; i++) {
-          const pt = path.points[i];
-          ctx.lineTo((pt.x / 100) * overlay.width, (pt.y / 100) * overlay.height);
-        }
-        ctx.stroke();
-        ctx.restore();
-      });
-  };
 
   useEffect(() => {
     redrawDrawingOverlay();
@@ -457,7 +461,7 @@ export function PdfEditor() {
       const dataUrl = stampCanvas.toDataURL("image/png");
 
       const newStamp: SignatureAnnotation = {
-        id: Math.random().toString(36).substring(2, 9),
+        id: nextAnnotationId(),
         type: "stamp",
         page: currentPage,
         x: 35,

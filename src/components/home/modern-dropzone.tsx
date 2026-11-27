@@ -122,9 +122,9 @@ export function ModernDropzone() {
     // Save pending file to persistent transfer cache for automatic instant start
     await storePendingFile(detected.file, selectedTool.slug);
 
-    // For video & audio tools requiring SharedArrayBuffer headers, use full page load
-    // For other tools (image, PDF, documents, etc.), router.push transitions instantly
-    if (detected.category === "video" || detected.category === "audio") {
+    // For video, audio, and GIF tools using FFmpeg WASM headers, use full page load
+    // For other tools (image, PDF, documents, etc.), router.push transitions cleanly
+    if (detected.category === "video" || detected.category === "audio" || selectedTool.slug === "gif-maker") {
       window.location.href = `/${selectedTool.slug}?autostart=true`;
     } else {
       router.push(`/${selectedTool.slug}?autostart=true`);

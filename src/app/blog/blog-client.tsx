@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { Search, Sparkles, BookOpen, ShieldCheck, Zap, ArrowRight, Tag, Clock, CheckCircle2 } from "lucide-react";
 import { BlogCard } from "./blog-card";
 
@@ -138,13 +139,13 @@ export function BlogClient({ initialPosts }: { initialPosts: Post[] }) {
               Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.
             </p>
             <div className="flex flex-wrap items-center gap-4">
-              <a
+              <Link
                 href="/tools"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white text-blue-700 font-bold text-sm hover:bg-blue-50 shadow-lg transition-transform active:scale-95"
               >
                 <span>Explore All Tools</span>
                 <ArrowRight className="w-4 h-4" />
-              </a>
+              </Link>
               <div className="flex items-center gap-2 text-xs font-semibold text-blue-100">
                 <ShieldCheck className="w-4 h-4 text-emerald-300" />
                 <span>Private by Design • No Signups Required</span>

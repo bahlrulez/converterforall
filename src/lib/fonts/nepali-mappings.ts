@@ -1,199 +1,233 @@
-// High-accuracy Nepali Preeti <-> Unicode bidirectional converter
-export function convertNepali(text: string, font: string, direction: 'toUnicode' | 'fromUnicode'): string {
-  if (!text) return "";
+import { unicodeToPreeti as convertUnicodeToPreeti } from "unicode-to-preeti";
 
-  if (direction === 'toUnicode') {
-    return preetiToUnicode(text);
-  } else {
-    return unicodeToPreeti(text);
-  }
-}
+// Ordered longest-first Preeti ASCII -> Unicode Devanagari substitution pairs
+// (aligned with standard Preeti keyboard encoding; 'l' and '{' are handled with cluster reordering).
+const PREETI_MULTI_TO_UNICODE: [string, string][] = [
+  ["k|m", "फ्र"],
+  ["cf‘", "ऑ"],
+  ["c‘f", "ऑ"],
+  ["cf}", "औ"],
+  ["cf]", "ओ"],
+  ["cf", "आ"],
+  ["f‘", "ॉ"],
+  ["f]", "ो"],
+  ["f}", "ौ"],
+  ["0f", "ण"],
+  ["If", "क्ष"],
+  ["if", "ष"],
+  ["O{", "ई"],
+  ["pm", "ऊ"],
+  ["P]", "ऐ"],
+  ["8Þ", "ड़"],
+  ["9Þ", "ढ़"],
+  ["6«", "ट्र"],
+  ["7«", "ठ्र"],
+  ["8«", "ड्र"],
+  ["9«", "ढ्र"],
+  ["qm", "क्र"],
+  ["Qm", "क्त"],
+  ["km", "फ"],
+  ["em", "झ"],
+];
+
+const PREETI_CHAR_TO_UNICODE: Record<string, string> = {
+  // Digits & punctuation
+  ")": "०",
+  "!": "१",
+  "@": "२",
+  "#": "३",
+  "$": "४",
+  "%": "५",
+  "^": "६",
+  "&": "७",
+  "*": "८",
+  "(": "९",
+  ".": "।",
+  "-": "❨",
+  "_": "❩",
+  "…": "‘",
+  "<": "?",
+  "ç": "ॐ",
+  "˜": "ऽ",
+
+  // Conjuncts & special glyphs
+  "1": "ज्ञ",
+  "¡": "ज्ञ्",
+  "2": "द्द",
+  "4": "द्ध",
+  "¢": "द्घ",
+  ">": "श्र",
+  "?": "रु",
+  "¿": "रू",
+  "B": "द्य",
+  "I": "क्ष्",
+  "Q": "त्त",
+  "ß": "द्म",
+  "q": "त्र",
+  "Ì": "त्र",
+  "„": "ध्र",
+  "‹": "ङ्घ",
+  "•": "ड्ड",
+  "›": "द्र",
+  "§": "ट्ट",
+  "°": "ड्ढ",
+  "¶": "ठ्ठ",
+  "Å": "हृ",
+  "Ë": "ङ्ग",
+  "Í": "ङ्क",
+  "Î": "ङ्ख",
+  "Ý": "ट्ठ",
+  "å": "द्व",
+  "|": "्र",
+  "Ø": "्य",
+
+  // Consonants & half-consonants
+  "S": "क्",
+  "s": "क",
+  "V": "ख्",
+  "v": "ख",
+  "U": "ग्",
+  "u": "ग",
+  "£": "घ्",
+  "3": "घ",
+  "ª": "ङ",
+  "R": "च्",
+  "r": "च",
+  "5": "छ",
+  "H": "ज्",
+  "h": "ज",
+  "‰": "झ्",
+  "´": "झ",
+  "~": "ञ्",
+  "`": "ञ",
+  "6": "ट",
+  "7": "ठ",
+  "8": "ड",
+  "9": "ढ",
+  "0": "ण्",
+  "T": "त्",
+  "t": "त",
+  "Y": "थ्",
+  "y": "थ",
+  "b": "द",
+  "W": "ध्",
+  "w": "ध",
+  "G": "न्",
+  "g": "न",
+  "K": "प्",
+  "k": "प",
+  "ˆ": "फ्",
+  "A": "ब्",
+  "a": "ब",
+  "E": "भ्",
+  "e": "भ",
+  "D": "म्",
+  "d": "म",
+  "o": "य",
+  "/": "र",
+  "N": "ल्",
+  "n": "ल",
+  "J": "व्",
+  "j": "व",
+  "Z": "श्",
+  "z": "श",
+  "i": "ष्",
+  ":": "स्",
+  ";": "स",
+  "X": "ह्",
+  "x": "ह",
+
+  // Independent vowels & matras
+  "c": "अ",
+  "O": "इ",
+  "p": "उ",
+  "C": "ऋ",
+  "P": "ए",
+  '"': "ू",
+  "'": "ु",
+  "+": "ं",
+  "f": "ा",
+  "[": "ृ",
+  "\\": "्",
+  "]": "े",
+  "}": "ै",
+  "F": "ँ",
+  "L": "ी",
+  "M": "ः",
+};
+
+const REPH_MARKER = "\uE001";
+const PRE_I_MARKER = "\uE002";
 
 function preetiToUnicode(input: string): string {
-  let str = input;
+  if (!input) return "";
 
-  // Multi-character replacements
-  const multiMap: [string, string][] = [
-    ["qm", "र्फ"],
-    ["km", "र्फ"],
-    ["em", "र्म"],
-    ["|", "।"],
-    ["1", "१"],
-    ["2", "२"],
-    ["3", "३"],
-    ["4", "४"],
-    ["5", "५"],
-    ["6", "६"],
-    ["7", "७"],
-    ["8", "८"],
-    ["9", "९"],
-    ["0", "०"],
-    ["˜", "्"],
-    ["q", "त्र"],
-    ["w", "ध"],
-    ["e", "भ"],
-    ["r", "च"],
-    ["t", "त"],
-    ["y", "थ"],
-    ["u", "ग"],
-    ["i", "ष"],
-    ["o", "य"],
-    ["p", "उ"],
-    ["a", "ब"],
-    ["s", "क"],
-    ["d", "म"],
-    ["f", "ा"],
-    ["g", "न"],
-    ["h", "ज"],
-    ["j", "व"],
-    ["k", "प"],
-    ["l", "ि"],
-    [";", "स"],
-    ["'", "ु"],
-    ["z", "श"],
-    ["x", "ह"],
-    ["c", "अ"],
-    ["v", "ख"],
-    ["b", "द"],
-    ["n", "ल"],
-    ["m", "फ"],
-    [",", "र"],
-    [".", "े"],
-    ["/", "र"],
-    ["Q", "त्त"],
-    ["W", "द्ध"],
-    ["E", "भ्"],
-    ["R", "च्"],
-    ["T", "त्"],
-    ["Y", "थ्"],
-    ["U", "ग्"],
-    ["I", "क्ष्"],
-    ["O", "इ"],
-    ["P", "ए"],
-    ["A", "ब्"],
-    ["S", "क्"],
-    ["D", "म्"],
-    ["F", "ाँ"],
-    ["G", "न्"],
-    ["H", "ज्"],
-    ["J", "व्"],
-    ["K", "प्"],
-    ["L", "ी"],
-    [":", "स्"],
-    ['"', "ू"],
-    ["Z", "श्"],
-    ["X", "ह्"],
-    ["C", "ऋ"],
-    ["V", "ख्"],
-    ["B", "द्"],
-    ["N", "ल्"],
-    ["M", "फ्"],
-    ["<", "ँ"],
-    [">", "ै"],
-    ["?", "रु"],
-    ["~", "्"],
-    ["`", "ञ"],
-    ["!", "ज्ञ"],
-    ["@", "द्द"],
-    ["#", "घ"],
-    ["$", "द्ध"],
-    ["%", "छ"],
-    ["^", "ट"],
-    ["&", "ठ"],
-    ["*", "ड"],
-    ["(", "ढ"],
-    [")", "ण"],
-    ["_", "ः"],
-    ["+", "ं"],
-    ["{", "ओ"],
-    ["}", "औ"],
-  ];
+  let out = "";
+  let i = 0;
 
-  for (const [key, val] of multiMap) {
-    str = str.split(key).join(val);
+  while (i < input.length) {
+    // 1. Multi-character Preeti tokens (longest match first)
+    let matchedMulti = false;
+    for (const [token, devanagari] of PREETI_MULTI_TO_UNICODE) {
+      if (input.startsWith(token, i)) {
+        out += devanagari;
+        i += token.length;
+        matchedMulti = true;
+        break;
+      }
+    }
+    if (matchedMulti) continue;
+
+    const ch = input[i];
+    if (ch === "l") {
+      out += PRE_I_MARKER;
+      i += 1;
+      continue;
+    }
+    if (ch === "{") {
+      out += REPH_MARKER;
+      i += 1;
+      continue;
+    }
+
+    // Legacy wrapper glyphs sometimes seen after 'm'
+    if (ch === "'" && input[i + 1] === "m") {
+      out += "m'";
+      i += 2;
+      continue;
+    }
+
+    out += PREETI_CHAR_TO_UNICODE[ch] ?? ch;
+    i += 1;
   }
 
-  // Post-fix 'ि' (chhoti i) position reordering: 'l' comes before consonant in Preeti, after in Unicode
-  // Regex to move trailing 'ि' after the consonant
-  str = str.replace(/ि([क-ह](्[क-ह])*)/g, "$1ि");
-  // Fix reph (र्)
-  str = str.replace(/([क-ह](्[क-ह])*)([ािीुूेैोौँं]*)\{/g, "र्$1$3");
+  // 2. Move pre-base Chhoti-I marker after the following consonant / halant conjunct
+  const cons = "[क-हक्षत्रज्ञड़ढ़]";
+  const preIRegex = new RegExp(`${PRE_I_MARKER}(${cons}(?:्${cons})*)`, "g");
+  out = out.replace(preIRegex, "$1ि");
+  out = out.replaceAll(PRE_I_MARKER, "ि");
 
-  return str;
+  // 3. Reconstruct Reph ('र्') placed either immediately after base consonant cluster or after vowel signs
+  const rephAfterClusterRegex = new RegExp(
+    `(${cons}(?:्${cons})*)([ािीुूृेैोौंँः]*)${REPH_MARKER}`,
+    "g"
+  );
+  out = out.replace(rephAfterClusterRegex, "र्$1$2");
+  out = out.replaceAll(REPH_MARKER, "र्");
+
+  return out;
 }
 
-function unicodeToPreeti(input: string): string {
-  let str = input;
-
-  // Pre-process: move 'ि' before the consonant
-  str = str.replace(/([क-ह](्[क-ह])*)ि/g, "l$1");
-
-  const reverseMap: [string, string][] = [
-    ["।", "|"],
-    ["१", "1"],
-    ["२", "2"],
-    ["३", "3"],
-    ["४", "4"],
-    ["५", "5"],
-    ["६", "6"],
-    ["७", "7"],
-    ["८", "8"],
-    ["९", "9"],
-    ["०", "0"],
-    ["त्र", "q"],
-    ["ध", "w"],
-    ["भ", "e"],
-    ["च", "r"],
-    ["त", "t"],
-    ["थ", "y"],
-    ["ग", "u"],
-    ["ष", "i"],
-    ["य", "o"],
-    ["उ", "p"],
-    ["ब", "a"],
-    ["क", "s"],
-    ["म", "d"],
-    ["ा", "f"],
-    ["न", "g"],
-    ["ज", "h"],
-    ["व", "j"],
-    ["प", "k"],
-    ["स", ";"],
-    ["ु", "'"],
-    ["श", "z"],
-    ["ह", "x"],
-    ["अ", "c"],
-    ["ख", "v"],
-    ["द", "b"],
-    ["ल", "n"],
-    ["फ", "m"],
-    ["र", "/"],
-    ["े", "."],
-    ["ै", ">"],
-    ["ी", "L"],
-    ["ू", '"'],
-    ["ं", "+"],
-    ["ँ", "<"],
-    ["ः", "_"],
-    ["ज्ञ", "!"],
-    ["घ", "#"],
-    ["छ", "%"],
-    ["ट", "^"],
-    ["ठ", "&"],
-    ["ड", "*"],
-    ["ढ", "("],
-    ["ण", ")"],
-    ["इ", "O"],
-    ["ए", "P"],
-    ["ऋ", "C"],
-    ["ओ", "c]"],
-    ["औ", "c}"],
-    ["रु", "?"],
-  ];
-
-  for (const [key, val] of reverseMap) {
-    str = str.split(key).join(val);
-  }
-
-  return str;
+/**
+ * Bidirectional Nepali Preeti <-> Unicode converter.
+ */
+export function convertNepali(
+  text: string,
+  _font: string,
+  direction: "toUnicode" | "fromUnicode"
+): string {
+  if (!text) return "";
+  return direction === "toUnicode"
+    ? preetiToUnicode(text)
+    : convertUnicodeToPreeti(text);
 }

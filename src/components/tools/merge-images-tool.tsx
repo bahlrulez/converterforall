@@ -92,8 +92,8 @@ export function MergeImagesTool() {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = async () => {
-        let width = img.naturalWidth;
-        let height = img.naturalHeight;
+        const width = img.naturalWidth;
+        const height = img.naturalHeight;
 
         // Check if individual source image exceeds limits
         const totalPixels = width * height;

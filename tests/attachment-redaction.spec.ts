@@ -5,7 +5,8 @@ test.describe('Attachment and Redaction Safety', () => {
   test.setTimeout(60000); // 60s per test
   
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/edit-pdf');
+    const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+    await page.goto(`${baseUrl}/edit-pdf`);
     // Dismiss cookie banner
     const cookieBanner = page.getByRole('button', { name: /Accept All/i });
     if (await cookieBanner.isVisible()) {
@@ -15,7 +16,7 @@ test.describe('Attachment and Redaction Safety', () => {
 
   test('TEST 1: Normal PDF, no attachment, no redaction -> normal export works', async ({ page }) => {
     const downloadPromise = page.waitForEvent('download');
-    await page.locator('input[type="file"]').setInputFiles('./test-source.pdf');
+    await page.locator('input[type="file"]').setInputFiles(path.join(__dirname, 'fixtures', 'test-source.pdf'));
     await expect(page.getByText('Page 1 of 3')).toBeVisible({ timeout: 15000 });
     
     // Add text (no redaction)
@@ -30,7 +31,7 @@ test.describe('Attachment and Redaction Safety', () => {
 
   test('TEST 2: Normal PDF, no attachment, with redaction -> secure redaction works', async ({ page }) => {
     const downloadPromise = page.waitForEvent('download');
-    await page.locator('input[type="file"]').setInputFiles('./test-source.pdf');
+    await page.locator('input[type="file"]').setInputFiles(path.join(__dirname, 'fixtures', 'test-source.pdf'));
     await expect(page.getByText('Page 1 of 3')).toBeVisible({ timeout: 15000 });
     
     await page.getByTitle('Redact Blackout').click();
@@ -47,7 +48,7 @@ test.describe('Attachment and Redaction Safety', () => {
 
   test('TEST 3: PDF with attachment, no redaction -> normal editor behavior', async ({ page }) => {
     const downloadPromise = page.waitForEvent('download');
-    await page.locator('input[type="file"]').setInputFiles('./security-test-source.pdf');
+    await page.locator('input[type="file"]').setInputFiles(path.join(__dirname, 'fixtures', 'security-test-source.pdf'));
     await expect(page.getByText('Page 1 of 3')).toBeVisible({ timeout: 15000 });
     
     await page.getByRole('button', { name: /Download PDF/i }).click({ force: true });
@@ -56,7 +57,7 @@ test.describe('Attachment and Redaction Safety', () => {
   });
 
   test('TEST 4: PDF with attachment + redaction -> export BLOCKED', async ({ page }) => {
-    await page.locator('input[type="file"]').setInputFiles('./security-test-source.pdf');
+    await page.locator('input[type="file"]').setInputFiles(path.join(__dirname, 'fixtures', 'security-test-source.pdf'));
     await expect(page.getByText('Page 1 of 3')).toBeVisible({ timeout: 15000 });
     
     await page.getByTitle('Redact Blackout').click();
@@ -82,7 +83,7 @@ test.describe('Attachment and Redaction Safety', () => {
   });
 
   test('TEST 5: PDF with multiple attachments + redaction -> export BLOCKED', async ({ page }) => {
-    await page.locator('input[type="file"]').setInputFiles('./multiple-attachments-test-source.pdf');
+    await page.locator('input[type="file"]').setInputFiles(path.join(__dirname, 'fixtures', 'multiple-attachments-test-source.pdf'));
     await expect(page.getByText('Page 1 of 1')).toBeVisible({ timeout: 15000 });
     
     await page.getByTitle('Redact Blackout').click();

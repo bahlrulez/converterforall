@@ -5,6 +5,7 @@ import { isIndexablePath, INDEXABLE_PATHS } from '../src/lib/seo-allowlist';
 import { convertPunjabi } from '../src/lib/fonts/punjabi-mappings';
 import { PunjabiFontConvertor } from '../src/lib/fonts/punjabi-engine';
 import sitemap from '../src/app/sitemap';
+import { TIER_C_NOINDEX_SLUGS } from '../src/config/sitemap-lastmod';
 import fs from 'fs';
 import path from 'path';
 
@@ -215,8 +216,6 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
     ];
 
     test('10.1 All six Punjabi routes are registered, canonical, and indexable', () => {
-      const { TIER_C_NOINDEX_SLUGS } = require('../src/config/sitemap-lastmod');
-
       for (const slug of p0Routes) {
         const toolData = getToolBySlug(slug);
         expect(toolData, `Route '${slug}' must resolve in toolsDatabase`).not.toBeNull();

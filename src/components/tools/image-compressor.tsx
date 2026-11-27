@@ -21,56 +21,6 @@ export default function ImageCompressor() {
 
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    async function checkPending() {
-      // Check for compress-jpg, compress-png or generic image
-      const pending = (await getPendingFile("compress-jpg")) || (await getPendingFile("compress-png")) || (await getPendingFile());
-      if (pending && pending.type.startsWith("image/")) {
-        setFile(pending);
-        setOriginalUrl(URL.createObjectURL(pending));
-        runCompression(pending, 80, "original", false);
-      }
-    }
-    checkPending();
-  }, []);
-
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles && acceptedFiles.length > 0) {
-      const selectedFile = acceptedFiles[0];
-      setFile(selectedFile);
-      setOriginalUrl(URL.createObjectURL(selectedFile));
-      setQuality(80); // reset quality
-      setDownscale("original");
-      setIsGrayscale(false);
-      setCompressedBlob(null);
-      setCompressedUrl(null);
-      setErrorMsg("");
-      
-      // Initial compression trigger
-      runCompression(selectedFile, 80, "original", false);
-    }
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] },
-    maxFiles: 1,
-    multiple: false,
-  });
-
-  const reset = () => {
-    setFile(null);
-    if (originalUrl) URL.revokeObjectURL(originalUrl);
-    if (compressedUrl) URL.revokeObjectURL(compressedUrl);
-    setOriginalUrl(null);
-    setCompressedBlob(null);
-    setCompressedUrl(null);
-    setQuality(80);
-    setDownscale("original");
-    setIsGrayscale(false);
-    setErrorMsg("");
-  };
-
   const applyGrayscale = async (sourceFile: File): Promise<File> => {
     const img = new Image();
     const objectUrl = URL.createObjectURL(sourceFile);
@@ -145,6 +95,56 @@ export default function ImageCompressor() {
     } finally {
       setIsCompressing(false);
     }
+  };
+
+  useEffect(() => {
+    async function checkPending() {
+      // Check for compress-jpg, compress-png or generic image
+      const pending = (await getPendingFile("compress-jpg")) || (await getPendingFile("compress-png")) || (await getPendingFile());
+      if (pending && pending.type.startsWith("image/")) {
+        setFile(pending);
+        setOriginalUrl(URL.createObjectURL(pending));
+        runCompression(pending, 80, "original", false);
+      }
+    }
+    checkPending();
+  }, []);
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    if (acceptedFiles && acceptedFiles.length > 0) {
+      const selectedFile = acceptedFiles[0];
+      setFile(selectedFile);
+      setOriginalUrl(URL.createObjectURL(selectedFile));
+      setQuality(80); // reset quality
+      setDownscale("original");
+      setIsGrayscale(false);
+      setCompressedBlob(null);
+      setCompressedUrl(null);
+      setErrorMsg("");
+      
+      // Initial compression trigger
+      runCompression(selectedFile, 80, "original", false);
+    }
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] },
+    maxFiles: 1,
+    multiple: false,
+  });
+
+  const reset = () => {
+    setFile(null);
+    if (originalUrl) URL.revokeObjectURL(originalUrl);
+    if (compressedUrl) URL.revokeObjectURL(compressedUrl);
+    setOriginalUrl(null);
+    setCompressedBlob(null);
+    setCompressedUrl(null);
+    setQuality(80);
+    setDownscale("original");
+    setIsGrayscale(false);
+    setErrorMsg("");
   };
 
   // Handle slider change with debounce

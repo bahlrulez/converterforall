@@ -58,7 +58,7 @@ export function ToolReviews({ toolSlug, toolTitle, initialStats }: ToolReviewsPr
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [honeypot, setHoneypot] = useState<string>("");
-  const [formLoadedAt, setFormLoadedAt] = useState<number>(Date.now());
+  const [formLoadedAt, setFormLoadedAt] = useState<number>(() => Date.now());
 
   // Upvoted reviews tracking
   const [upvotedIds, setUpvotedIds] = useState<Set<string>>(new Set());

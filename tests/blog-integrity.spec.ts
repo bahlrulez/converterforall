@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
 import { blogDatabase, posts } from '@/lib/blog-data';
 import { TOOL_CONTENT_CHANGED_DATES, PAGE_LASTMOD_DATES } from '@/config/sitemap-lastmod';
 import sitemap from '@/app/sitemap';
@@ -76,9 +78,6 @@ test.describe('Blog Content Privacy Claims & Release Integrity', () => {
   });
 
   test('6. video-compressor source code proves inputs, WebAssembly engine, and libx264/aac codecs', () => {
-    const fs = require('fs');
-    const path = require('path');
-
     const compSource = fs.readFileSync(path.join(process.cwd(), 'src/components/tools/video-compressor.tsx'), 'utf8');
     expect(compSource).not.toContain('Zero Quality Loss');
     expect(compSource).not.toContain('WebGPU Hardware Speed');
@@ -94,9 +93,6 @@ test.describe('Blog Content Privacy Claims & Release Integrity', () => {
   });
 
   test('7. No hardcoded links in src/app or src/components point to the 10 retired slugs', () => {
-    const fs = require('fs');
-    const path = require('path');
-
     const retiredSlugs = [
       'remove-pdf-properties',
       'pdf-privacy-scrubber',

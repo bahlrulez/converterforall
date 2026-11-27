@@ -30,6 +30,10 @@ import { getAbstractSlideGraphic } from "@/lib/presentation-graphics";
 
 export type SlideLayout = "title" | "content" | "split" | "quote" | "metrics";
 
+function createSlideId(): string {
+  return Math.random().toString(36).substring(2, 9);
+}
+
 export interface SlideData {
   id: string;
   layout: SlideLayout;
@@ -252,7 +256,7 @@ export function PresentationMaker() {
     e.stopPropagation();
     const sourceSlide = slides.find(s => s.id === id);
     if (!sourceSlide) return;
-    const newSlide = { ...sourceSlide, id: Math.random().toString(36).substring(2, 9), title: `${sourceSlide.title} (Copy)` };
+    const newSlide = { ...sourceSlide, id: createSlideId(), title: `${sourceSlide.title} (Copy)` };
     const idx = slides.findIndex(s => s.id === id);
     const newSlides = [...slides];
     newSlides.splice(idx + 1, 0, newSlide);

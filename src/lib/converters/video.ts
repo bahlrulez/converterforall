@@ -22,8 +22,8 @@ export const loadFfmpeg = async (onProgress: (p: { progress: number }) => void) 
   console.log("Calling ffmpeg.load() with blob URLs...");
   const baseURL = window.location.origin;
   try {
-    const coreURL = await toBlobURL("https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js", "text/javascript");
-    const wasmURL = await toBlobURL("https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm", "application/wasm");
+    const coreURL = await toBlobURL(`${baseURL}/ffmpeg/ffmpeg-core.js`, "text/javascript");
+    const wasmURL = await toBlobURL(`${baseURL}/ffmpeg/ffmpeg-core.wasm`, "application/wasm");
     const classWorkerURL = await toBlobURL(`${baseURL}/ffmpeg/814.ffmpeg.js`, "text/javascript");
 
     await ffmpeg.load({

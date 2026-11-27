@@ -68,7 +68,6 @@ export async function processOcrPdf(
     canvas.width = viewport.width;
     canvas.height = viewport.height;
     
-    // @ts-ignore - newer pdf.js typings might strictly require different params but canvasContext works
     await page.render({ canvasContext: ctx, viewport, canvas }).promise;
     
     // Convert to Image URL

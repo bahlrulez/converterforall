@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 import path from "path";
 import { convertBurmese } from "../src/lib/fonts/burmese-mappings";
 import { chanakyaToUnicode, unicodeToChanakya } from "../src/lib/fonts/chanakya-converter";
+import { convertNepali } from "../src/lib/fonts/nepali-mappings";
+import { convertBengali } from "../src/lib/fonts/bengali-mappings";
 
 const BASE_URL = process.env.BASE_URL || "http://localhost:3005";
 
@@ -121,5 +123,71 @@ test.describe("Held Noindex Tools & Burmese/Chanakya Engine Upgrades", () => {
       ]);
       expect(download.suggestedFilename().endsWith(`.${target}`)).toBe(true);
     }
+  });
+
+  test("7. Nepali Preeti engine converts conjuncts, pre-base vowels, reph, and digits bidirectionally", () => {
+    const samples = [
+      { preeti: "g]kfn", uni: "नेपाल" },
+      { preeti: "gd:t]", uni: "नमस्ते" },
+      { preeti: "sf7df8f}+", uni: "काठमाडौं" },
+      { preeti: "laxfg", uni: "बिहान" },
+      { preeti: "ld7f]", uni: "मिठो" },
+      { preeti: "clwsf/", uni: "अधिकार" },
+      { preeti: "sDKo'6/", uni: "कम्प्युटर" },
+      { preeti: ";/sf/", uni: "सरकार" },
+      { preeti: "lj1fg", uni: "विज्ञान" },
+      { preeti: "k|ljlw", uni: "प्रविधि" },
+      { preeti: "g]kfnL", uni: "नेपाली" },
+      { preeti: "cIf/", uni: "अक्षर" },
+      { preeti: "sd{", uni: "कर्म" },
+      { preeti: "wd{", uni: "धर्म" },
+      { preeti: "cy{", uni: "अर्थ" },
+      { preeti: ";\"o{", uni: "सूर्य" },
+      { preeti: "lzIff", uni: "शिक्षा" },
+      { preeti: "ljBfno", uni: "विद्यालय" },
+      { preeti: "efiff", uni: "भाषा" },
+      { preeti: "k':ts", uni: "पुस्तक" },
+      { preeti: ")!@#$%^&*(", uni: "०१२३४५६७८९" },
+      { preeti: "/fi6«", uni: "राष्ट्र" },
+      { preeti: "s[i0f", uni: "कृष्ण" },
+      { preeti: "If]q", uni: "क्षेत्र" },
+    ];
+
+    for (const s of samples) {
+      expect(convertNepali(s.preeti, "preeti", "toUnicode")).toBe(s.uni);
+      expect(convertNepali(s.uni, "preeti", "fromUnicode")).toBe(s.preeti);
+    }
+    expect(convertNepali("", "preeti", "toUnicode")).toBe("");
+    expect(convertNepali("", "preeti", "fromUnicode")).toBe("");
+  });
+
+  test("8. Bengali Bijoy/SutonnyMJ engine converts conjuncts, vowel signs, reph, and digits bidirectionally", () => {
+    const samples = [
+      { bijoy: "evsjv", uni: "বাংলা" },
+      { bijoy: "evsjv‡`k", uni: "বাংলাদেশ" },
+      { bijoy: "XvKv", uni: "ঢাকা" },
+      { bijoy: "KjKvZv", uni: "কলকাতা" },
+      { bijoy: "Agi", uni: "অমর" },
+      { bijoy: "m^vaxb", uni: "স্বাধীন" },
+      { bijoy: "KwgúDUvi", uni: "কম্পিউটার" },
+      { bijoy: "weÁvb", uni: "বিজ্ঞান" },
+      { bijoy: "cÖhyw³", uni: "প্রযুক্তি" },
+      { bijoy: "wk¶v", uni: "শিক্ষা" },
+      { bijoy: "we`¨vjq", uni: "বিদ্যালয়" },
+      { bijoy: "fvlv", uni: "ভাষা" },
+      { bijoy: "eB", uni: "বই" },
+      { bijoy: "Kg©", uni: "কর্ম" },
+      { bijoy: "ag©", uni: "ধর্ম" },
+      { bijoy: "m~h©", uni: "সূর্য" },
+      { bijoy: "0123456789", uni: "০১২৩৪৫৬৭৮৯" },
+      { bijoy: "b`x", uni: "নদী" },
+    ];
+
+    for (const s of samples) {
+      expect(convertBengali(s.bijoy, "bijoy", "toUnicode").normalize("NFC")).toBe(s.uni.normalize("NFC"));
+      expect(convertBengali(s.uni, "bijoy", "fromUnicode")).toBe(s.bijoy);
+    }
+    expect(convertBengali("", "bijoy", "toUnicode")).toBe("");
+    expect(convertBengali("", "bijoy", "fromUnicode")).toBe("");
   });
 });

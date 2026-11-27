@@ -637,7 +637,7 @@ export function CaptionStudio() {
       const newArray = [...prev];
       const chunk = { ...newArray[idx] };
       
-      let maxTime = videoRef.current?.duration || Infinity;
+      const maxTime = videoRef.current?.duration || Infinity;
       let val = Math.max(0, Math.min(value, maxTime));
       
       if (field === 'start') {

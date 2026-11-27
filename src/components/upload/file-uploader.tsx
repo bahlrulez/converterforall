@@ -50,6 +50,31 @@ export function FileUploader({
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const isProcessingRef = useRef(false);
 
+  const executeProcess = async (targetFile: File) => {
+    if (isProcessingRef.current) return;
+    isProcessingRef.current = true;
+    setStatus("uploading");
+    try {
+      setStatus("converting");
+      setProgress(0);
+
+      // Delegate processing to the specialized engine
+      const { blob, filename } = await onProcessFile(targetFile, (p) => setProgress(p));
+
+      setStatus("success");
+
+      const url = URL.createObjectURL(blob);
+      setDownloadUrl(url);
+      setDownloadName(filename);
+      setDownloadBlob(blob);
+    } catch (err: any) {
+      setStatus("error");
+      setErrorMsg(err.message || "An unexpected error occurred.");
+    } finally {
+      isProcessingRef.current = false;
+    }
+  };
+
   // Auto-consume transferred pending file and auto-start execution
   useEffect(() => {
     let isMounted = true;
@@ -107,31 +132,6 @@ export function FileUploader({
     accept: acceptedTypes,
     maxFiles: 1, // Phase 2 limit to 1
   });
-
-  const executeProcess = async (targetFile: File) => {
-    if (isProcessingRef.current) return;
-    isProcessingRef.current = true;
-    setStatus("uploading");
-    try {
-      setStatus("converting");
-      setProgress(0);
-
-      // Delegate processing to the specialized engine
-      const { blob, filename } = await onProcessFile(targetFile, (p) => setProgress(p));
-
-      setStatus("success");
-
-      const url = URL.createObjectURL(blob);
-      setDownloadUrl(url);
-      setDownloadName(filename);
-      setDownloadBlob(blob);
-    } catch (err: any) {
-      setStatus("error");
-      setErrorMsg(err.message || "An unexpected error occurred.");
-    } finally {
-      isProcessingRef.current = false;
-    }
-  };
 
   const handleConvert = async () => {
     if (!file) return;

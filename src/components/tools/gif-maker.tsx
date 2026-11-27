@@ -39,18 +39,6 @@ export function GifMaker() {
   const [resultDims, setResultDims] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
 
   useEffect(() => {
-    if (typeof window !== "undefined" && typeof SharedArrayBuffer === "undefined") {
-      const hasReloaded = sessionStorage.getItem("sab_reloaded");
-      if (!hasReloaded) {
-        sessionStorage.setItem("sab_reloaded", "true");
-        window.location.reload();
-      }
-    } else if (typeof window !== "undefined") {
-      sessionStorage.removeItem("sab_reloaded");
-    }
-  }, []);
-
-  useEffect(() => {
     return () => {
       frames.forEach((f) => URL.revokeObjectURL(f.previewUrl));
       if (resultUrl) URL.revokeObjectURL(resultUrl);
