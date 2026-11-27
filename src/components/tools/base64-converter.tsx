@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Copy, Check, Download, Upload, ArrowLeftRight, FileText, Image as ImageIcon, Lock, AlertCircle, Eye } from "lucide-react";
+import { Copy, Check, Upload, Lock, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Base64Converter({ defaultAction = "encode" }: { defaultAction?: "encode" | "decode" }) {
@@ -72,20 +71,6 @@ export function Base64Converter({ defaultAction = "encode" }: { defaultAction?: 
       setFileBase64(dataUrl);
     };
     reader.readAsDataURL(file);
-  };
-
-  const handleDownloadFileFromBase64 = () => {
-    if (!textInput.trim()) return;
-    try {
-      const isDataUrl = textInput.startsWith("data:");
-      const href = isDataUrl ? textInput : `data:application/octet-stream;base64,${textInput}`;
-      const link = document.createElement("a");
-      link.href = href;
-      link.download = "decoded_file.bin";
-      link.click();
-    } catch (err: any) {
-      alert(`Download error: ${err.message}`);
-    }
   };
 
   React.useEffect(() => {

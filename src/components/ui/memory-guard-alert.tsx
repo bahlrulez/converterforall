@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { AlertTriangle, AlertOctagon, Smartphone, Check, X, ShieldAlert } from "lucide-react";
+import { AlertTriangle, AlertOctagon, Smartphone, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MemoryCheckResult } from "@/lib/device-memory-guard";
 

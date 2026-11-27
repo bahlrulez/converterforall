@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import Link from "next/link";
 import { useDropzone } from "react-dropzone";
 import { 
   Film, 
@@ -10,20 +9,14 @@ import {
   Pause, 
   Volume2, 
   VolumeX, 
-  Maximize2, 
-  Sparkles, 
   Cpu, 
   Zap, 
   CheckCircle2, 
   Download, 
   RotateCcw, 
-  Sliders, 
-  Layers, 
   ShieldCheck, 
   AlertCircle, 
   Clock, 
-  FileVideo, 
-  ArrowRight,
   TrendingDown,
   Info
 } from "lucide-react";

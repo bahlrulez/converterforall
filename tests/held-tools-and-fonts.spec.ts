@@ -30,12 +30,35 @@ test.describe("Held Noindex Tools & Burmese/Chanakya Engine Upgrades", () => {
     expect(convertBurmese("", "zawgyi", "toUnicode")).toBe("");
   });
 
-  test("2. Chanakya converter handles edge-case Z/f positions without hanging", () => {
-    expect(chanakyaToUnicode("Z")).toBe("र्");
-    expect(chanakyaToUnicode("f")).toBe("f");
+  test("2. Walkman-Chanakya converter handles conjuncts, Reph, pre-base vowels, and nuktas bidirectionally", () => {
+    const externalSamples = [
+      { chanakya: "ç·¤ÌæÕ", uni: "किताब" },
+      { chanakya: "Ù×SÌð", uni: "नमस्ते" },
+      { chanakya: "ÖæÚÌ", uni: "भारत" },
+      { chanakya: "·¤×ü", uni: "कर्म" },
+      { chanakya: "Ï×ü", uni: "धर्म" },
+      { chanakya: "âêØü", uni: "सूर्य" },
+      { chanakya: "ÚæCþ", uni: "राष्ट्र" },
+      { chanakya: "ÂýçßçÏ", uni: "प्रविधि" },
+    ];
+    for (const s of externalSamples) {
+      expect(chanakyaToUnicode(s.chanakya)).toBe(s.uni);
+    }
+
+    const roundtripSamples = [
+      "नमस्ते", "भारत", "किताब", "कर्म", "धर्म", "अर्थ", "सूर्य", "धार्मिक", "आशीर्वाद",
+      "पुनर्जन्म", "क्षत्रिय", "विज्ञान", "प्रविधि", "शिक्षा", "विद्यालय", "श्रीमती",
+      "कृपया", "हृदय", "राष्ट्र", "राष्ट्रीय", "बुद्धि", "द्वारा", "भक्ति", "प्रेम",
+      "क्रोध", "उदाहरण", "अंतर्राष्ट्रीय", "कर्त्तव्य", "ऑफिस", "सड़क", "फ़ाइल",
+      "ब्रह्म", "ब्राह्मण", "२०२६", "2026", "यह एक परीक्षण वाक्य है।",
+    ];
+    for (const word of roundtripSamples) {
+      const encoded = unicodeToChanakya(word);
+      expect(chanakyaToUnicode(encoded)).toBe(word.normalize("NFC"));
+    }
+
     expect(chanakyaToUnicode("")).toBe("");
     expect(unicodeToChanakya("")).toBe("");
-    expect(unicodeToChanakya("कर्म")).toBe("deZ");
   });
 
   test("3. Interactive /image-cropper renders crop controls, crops a PNG/JPG, and downloads", async ({ page }) => {

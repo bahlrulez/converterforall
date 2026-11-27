@@ -29,18 +29,16 @@ export function detectFont(text: string): FontDetectionResult {
   let anmolLipiScore = 0;
 
   // Kruti Dev specific clusters & characters
-  // High frequency characters: 'd', 'p', 'j', 'f', 'k', 'y', 's', 'h'
-  // Special extended characters: 'ç', 'Ý', 'æ', 'Ì', 'ð', 'Õ'
+  // High frequency Remington ASCII characters: 'd', 'p', 'j', 'f', 'k', 'y', 's', 'h'
+  // Plus classic Kruti Dev 010 digraphs ('vk', 'ks', 'esa', 'ls')
   const krutiHighFreq = (text.match(/[dpjfkyhuvxce]/g) || []).length;
-  const krutiSpecial = (text.match(/[çÝæÌðÕ]/g) || []).length;
-  krutiScore += (krutiHighFreq * 1) + (krutiSpecial * 5);
+  const krutiSpecial = (text.match(/vk|ks|esa|ls|dk|Hkk/g) || []).length;
+  krutiScore += (krutiHighFreq * 1) + (krutiSpecial * 4);
 
-  // Walkman-Chanakya specific clusters & characters
-  // High frequency mapping difference from Kruti: 'Z', 'b', 'c', 'd', 'e', 'w'
-  // Chanakya has unique ascii diacritics mapping
-  const chanakyaHighFreq = (text.match(/[Zbcdefw]/g) || []).length;
-  const chanakyaUnique = (text.match(/[\{\}\[\]\~\`]/g) || []).length;
-  chanakyaScore += (chanakyaHighFreq * 1) + (chanakyaUnique * 3);
+  // Walkman-Chanakya specific clusters & Windows-1252 glyph signatures
+  const chanakyaHighFreq = (text.match(/[ç·¤ÙÚ×ÂÕÌÎÏÖÜßæèéêðñôõü§©ª]/g) || []).length;
+  const chanakyaUnique = (text.match(/·¤|¥æ|ç·|ð´|ü/g) || []).length;
+  chanakyaScore += (chanakyaHighFreq * 3) + (chanakyaUnique * 5);
 
   // Asees / Joy specific clusters (Punjabi)
   // Punjabi Asees commonly has 'dÃk', 'ih', 'iB', '¿'

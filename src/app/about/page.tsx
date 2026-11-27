@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { AuthorProfile } from "@/components/shared/author-profile";
-import { ShieldCheck, Zap, Sparkles, Cpu, Lock, Globe, Heart, CheckCircle2, ArrowRight, Layers, FileText, Users } from "lucide-react";
+import { ShieldCheck, Zap, Sparkles, Cpu, CheckCircle2, ArrowRight, Layers, Users } from "lucide-react";
 import Link from "next/link";
 import { getRobotsForPath } from "@/lib/seo-allowlist";
 

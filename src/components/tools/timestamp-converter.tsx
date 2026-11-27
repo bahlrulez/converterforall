@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Clock, Calendar, Copy, Check, ArrowRight, RefreshCw, Lock, Globe } from "lucide-react";
+import { Clock, Calendar, Copy, Check, Lock, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function TimestampConverter() {

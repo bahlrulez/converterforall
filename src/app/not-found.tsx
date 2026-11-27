@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Metadata } from "next";
-import { ArrowLeft, Search, FileText, Image, Type, Award, Cpu, Home } from "lucide-react";
+import { Search, Image, Type, Award, Cpu, Home } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Page Not Found - ConverterForAll",

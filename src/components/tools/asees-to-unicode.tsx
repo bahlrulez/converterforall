@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowRightLeft, Copy, Trash2, Check, ArrowRight, Wand2 } from "lucide-react";
+import { ArrowRightLeft, Copy, Trash2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function AseesToUnicode() {

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSettings, PositionSettings, FontPayload } from './style-types';
-import { DEFAULT_STYLE, DEFAULT_POSITION } from './caption-renderer';
+import { useState } from 'react';
+import { FontPayload } from './style-types';
 import { FONT_OPTIONS } from './presets';
 
 export function useFontLoader() {

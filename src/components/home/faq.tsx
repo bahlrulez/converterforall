@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { ChevronDown, HelpCircle, Sparkles, Shield, Type, FileText, Image, CheckCircle2, ArrowRight } from "lucide-react";
+import { ChevronDown, HelpCircle, Sparkles, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 

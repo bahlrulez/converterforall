@@ -225,7 +225,7 @@ export function ScreenRecorder() {
                 Ready to Record Your Screen
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Capture your entire screen, specific application window, or browser tab in full HD. 100% free, private, and on-device.
+                Capture your entire screen, specific application window, or browser tab in full HD. Free browser-based recording kept on your device with no uploads.
               </p>
             </div>
 

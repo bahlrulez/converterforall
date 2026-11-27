@@ -1,5 +1,5 @@
-import { toolsDatabase, Tool } from "@/lib/tools-db";
-import { ArrowLeft, ArrowRight, FileType, Layout, Image as ImageIcon, Settings, Combine, Scissors, Trash, FileOutput, Scan, Minimize, Wrench, FileText, Code2, KeyRound, Clock, Table, Database, Images, FileImage, PictureInPicture, Wand2, Eraser, Camera, Presentation } from "lucide-react";
+import { toolsDatabase } from "@/lib/tools-db";
+import { ArrowLeft, FileType, Layout, Image as ImageIcon, Combine, Scissors, Wrench, FileText, Code2, KeyRound, Eraser, Camera, Presentation } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
 import { getRobotsForPath, isIndexablePath } from "@/lib/seo-allowlist";
@@ -108,7 +108,7 @@ export default function AllToolsPage() {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                   {allowlistedTools.map(([slug, tool]) => {
                     const colorConfig = getThemeStyles(tool.theme);
-                    const [gradientFrom, gradientTo, textCol, bgCol, ringCol] = colorConfig.split(' ');
+                    const [gradientFrom, gradientTo] = colorConfig.split(' ');
                     
                     return (
                       <Link 

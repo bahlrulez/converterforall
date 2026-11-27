@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { KRUTIDEV_SNAPSHOT_DATA, UNICODE_TO_KRUTIDEV_SNAPSHOT_DATA } from '../src/lib/content/font-tools-data';
+import { KRUTIDEV_SNAPSHOT_DATA, UNICODE_TO_KRUTIDEV_SNAPSHOT_DATA, CHANAKYA_SNAPSHOT_DATA } from '../src/lib/content/font-tools-data';
 import { getToolContent, extractToolFaqs } from '../src/lib/tool-content';
 
 test.describe('Live DOM Inspection & SEO Parity Verification', () => {
@@ -44,15 +44,18 @@ test.describe('Live DOM Inspection & SEO Parity Verification', () => {
     expect(firstWordCodes).toEqual([8212, 105, 59, 107]);
   });
 
-  test('3. chanakya-to-unicode has before-and-after example removed and displays experimental notice cleanly', async ({ page }) => {
+  test('3. chanakya-to-unicode converts Walkman-Chanakya text cleanly without experimental warning while remaining noindex', async ({ page }) => {
     await page.goto('http://localhost:3005/chanakya-to-unicode');
 
-    const preCodes = await page.locator('pre code').allTextContents();
-    expect(preCodes.length).toBe(0);
+    await page.waitForSelector('textarea', { timeout: 10000 });
+    const textareas = page.locator('textarea');
+    expect(await textareas.count()).toBeGreaterThanOrEqual(2);
+    await textareas.nth(0).fill(CHANAKYA_SNAPSHOT_DATA.sampleInput);
+    await page.waitForTimeout(300);
+    expect(await textareas.nth(1).inputValue()).toBe(CHANAKYA_SNAPSHOT_DATA.expectedUnicode);
 
     const bodyText = await page.textContent('body');
-    expect(bodyText).not.toContain('Before-and-After Conversion Example');
-    expect(bodyText).toContain('This converter is being verified. Please check the output before relying on it.');
+    expect(bodyText).not.toContain('This converter is being verified. Please check the output before relying on it.');
 
     const robotsContent = await page.locator('meta[name="robots"]').getAttribute('content');
     expect(robotsContent).toContain('noindex');
@@ -96,7 +99,7 @@ test.describe('Live DOM Inspection & SEO Parity Verification', () => {
   });
 
   test('6. FAQ structured data in DOM matches visible FAQ questions and answers 1:1', async ({ page }) => {
-    const slugs = ['krutidev-to-unicode', 'unicode-to-krutidev'];
+    const slugs = ['krutidev-to-unicode', 'unicode-to-krutidev', 'chanakya-to-unicode'];
 
     for (const slug of slugs) {
       const expectedFaqs = extractToolFaqs(getToolContent(slug, slug, ''));
@@ -118,14 +121,6 @@ test.describe('Live DOM Inspection & SEO Parity Verification', () => {
         expect(bodyText).toContain(faq.acceptedAnswer.text);
       }
     }
-
-    // Chanakya experimental verification page intentionally omits authored FAQs and FAQPage schema
-    await page.goto('http://localhost:3005/chanakya-to-unicode');
-    const chanakyaLdJsons = await page.locator('script[type="application/ld+json"]').allTextContents();
-    const chanakyaFaqObj = chanakyaLdJsons.map(s => {
-      try { return JSON.parse(s); } catch { return null; }
-    }).find(j => j && j['@type'] === 'FAQPage');
-    expect(chanakyaFaqObj).toBeUndefined();
   });
 
   test('7. Raavi renders as a focused editorial guide, not a converter template', async ({ page }) => {

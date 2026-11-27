@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, FileText, CheckCircle, X, Download, RefreshCw, AlertTriangle, Wrench } from "lucide-react";
+import { FileText, CheckCircle, X, Download, RefreshCw, AlertTriangle, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { repairPdf, RepairResult } from "@/lib/converters/repair";
 import { getPendingFile } from "@/lib/file-transfer";

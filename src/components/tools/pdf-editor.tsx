@@ -7,7 +7,6 @@ import {
   PenTool, 
   Highlighter, 
   Square, 
-  Circle, 
   EyeOff, 
   Signature, 
   Stamp, 
@@ -16,19 +15,14 @@ import {
   ZoomIn, 
   ZoomOut, 
   RotateCw, 
-  Trash2, 
-  Undo, 
-  Redo, 
   ChevronLeft, 
   ChevronRight, 
   Loader2,
   FileText,
   MousePointer,
-  Check,
-  X,
-  Palette
+  X
 } from "lucide-react";
-import { PDFDocument, rgb, degrees, PDFName, PDFDict } from "pdf-lib";
+import { PDFDocument, rgb, PDFName, PDFDict } from "pdf-lib";
 import { cn } from "@/lib/utils";
 
 type ToolMode = "select" | "text" | "draw" | "highlight" | "rectangle" | "redact" | "signature" | "stamp";
@@ -735,7 +729,7 @@ export function PdfEditor() {
             Upload PDF to Edit in Browser
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md mb-6">
-            Add text, signatures, highlights, drawings, and redactions directly on your device with 100% privacy.
+            Add text, signatures, highlights, drawings, and redactions directly inside your browser without uploading your PDF.
           </p>
 
           <label className="cursor-pointer">

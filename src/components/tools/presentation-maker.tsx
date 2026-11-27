@@ -17,8 +17,6 @@ import {
   Copy, 
   ChevronUp, 
   ChevronDown,
-  Palette,
-  Briefcase,
   TrendingUp,
   GraduationCap,
   Rocket,

@@ -2,13 +2,11 @@
 
 import React, { useState, useRef } from "react";
 import { 
-  Sparkles, 
   ShieldCheck, 
   Zap, 
   Infinity as InfinityIcon, 
   Smartphone,
-  ArrowRight,
-  Layers
+  ArrowRight
 } from "lucide-react";
 import { ModernDropzone } from "./modern-dropzone";
 import Link from "next/link";

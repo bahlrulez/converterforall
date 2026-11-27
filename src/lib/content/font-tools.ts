@@ -91,20 +91,21 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
       {
         title: "Chanakya to Unicode Converter",
         content: `
-          <div class="p-4 mb-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-sm font-medium">
-            <strong>Notice:</strong> This converter is being verified. Please check the output before relying on it.
-          </div>
-          <p>Convert legacy Chanakya Hindi text toward standard Unicode Devanagari (such as Mangal font) directly inside your web browser without uploading pasted text to a conversion server.</p>
-          <p>Legacy Chanakya editions used in PageMaker, CorelDRAW, and older desktop publishing files share Remington-style ASCII glyph patterns with variations between Walkman-Chanakya releases. Because font editions differ, this held route currently applies a Remington-compatible replacement table and keeps an experimental notice in place.</p>
+          <p>Convert legacy Walkman-Chanakya (901/905) Hindi text into standard Unicode Devanagari (such as Mangal font) directly inside your web browser without uploading pasted text to a server.</p>
+          <p>Older PageMaker, CorelDRAW, and Indian newspaper print workflows stored Devanagari glyphs in legacy Walkman-Chanakya Windows-1252 slots (such as <code>ç·¤ÌæÕ</code> for किताब or <code>ÖæÚÌ</code> for भारत). This tool translates those legacy glyphs, conjuncts, pre-base <code>ि</code> matras, and Reph (<code>र्</code>) markers into universal Unicode text that works on phones, Google Docs, and websites.</p>
           <ol>
-            <li>Paste your legacy Chanakya text into the left input box.</li>
-            <li>Review the converted Unicode Devanagari output in the right panel.</li>
-            <li>Copy or export the text and verify every conjunct, Reph mark, and vowel sign against the original page before relying on it.</li>
+            <li>Paste your legacy Walkman-Chanakya text into the left input box.</li>
+            <li>Review the readable Unicode Devanagari output in the right panel.</li>
+            <li>Click Copy to paste the Unicode Hindi text into MS Word, WhatsApp, email, or web portals.</li>
           </ol>
-          <h3>Frequently Asked Questions</h3>
-          <p><strong>Q: Why does legacy Chanakya text appear as English letters on phones or modern Word documents?</strong><br>A: Legacy fonts store Hindi character shapes on English ASCII keyboard codes, so systems without the matching legacy font render Latin symbols instead of Devanagari.</p>
-          <p><strong>Q: Should I review Chanakya output before submitting official files?</strong><br>A: Yes. Legacy Chanakya variants (including Walkman-Chanakya 901/905 editions) differ in some custom ligature positions, so inspect names, numbers, and half-letters carefully.</p>
-          <p><strong>Q: Are pasted Hindi texts uploaded to a server?</strong><br>A: No. Character lookup and reordering run inside browser JavaScript without sending pasted text across the network, and you can also switch to <a href="/krutidev-to-unicode">Kruti Dev to Unicode</a> or <a href="/font-text-fixer">Font Text Fixer</a> if your document uses Remington Kruti Dev formatting instead.</p>
+        `
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why does legacy Chanakya text appear as symbols and accented Latin characters on phones or modern Word documents?</strong><br>A: Legacy Walkman-Chanakya fonts store Devanagari glyph shapes in 8-bit extended Windows-1252 code positions, so devices without the Chanakya font installed show those extended Latin characters instead of Hindi.</p>
+          <p><strong>Q: Does this converter support pre-base vowel signs, conjuncts, and Reph markers?</strong><br>A: Yes. The Walkman-Chanakya engine handles conjuncts (like क्ष, त्र, ज्ञ, श्र), pre-base short-i placement (<code>ç</code>), nukta characters, and Reph (<code>ü</code>) cluster reordering.</p>
+          <p><strong>Q: Are pasted Hindi texts uploaded to a server?</strong><br>A: No. Character lookup and reordering run inside browser JavaScript without sending pasted text across the network, and you can switch to <a href="/krutidev-to-unicode">Kruti Dev to Unicode</a> or <a href="/font-text-fixer">Font Text Fixer</a> if your document uses Remington Kruti Dev formatting instead.</p>
         `
       }
     ]
@@ -116,20 +117,21 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
       {
         title: "Unicode to Chanakya Converter",
         content: `
-          <div class="p-4 mb-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-sm font-medium">
-            <strong>Notice:</strong> This converter is being verified. Please check the output before relying on it.
-          </div>
-          <p>Convert standard Unicode Hindi text into legacy Chanakya character codes directly inside your browser without uploading pasted text to a conversion server.</p>
-          <p>Desktop print workflows in PageMaker or CorelDRAW sometimes require legacy single-byte character codes when older master templates do not support OpenType Unicode shaping. Because Chanakya font editions differ across print houses, review generated codes in your target desktop font before printing.</p>
+          <p>Convert standard Unicode Hindi text into legacy Walkman-Chanakya glyph codes directly inside your browser without uploading pasted text to a server.</p>
+          <p>Desktop print workflows in PageMaker, InDesign, and CorelDRAW often rely on Walkman-Chanakya templates for magazine, book, and press layouts. This encoder reverses Unicode conjuncts, short-i vowels, and Reph markers into matching Walkman-Chanakya character codes ready for DTP software.</p>
           <ol>
             <li>Paste readable Unicode Hindi text into the input editor above.</li>
-            <li>Review the generated legacy character codes in the output panel.</li>
-            <li>Copy the output, apply the matching Chanakya font inside your desktop application, and proofread every line against the source text.</li>
+            <li>Review the generated Walkman-Chanakya character codes in the output panel.</li>
+            <li>Copy the output and apply your Walkman-Chanakya font inside your desktop publishing file.</li>
           </ol>
-          <h3>Frequently Asked Questions</h3>
-          <p><strong>Q: Why do converted characters look like scrambled punctuation inside the browser?</strong><br>A: Legacy font encoding maps Devanagari glyphs onto Latin keys and symbol slots; the glyphs appear as Hindi only after pasting into desktop software set to your legacy Chanakya typeface.</p>
-          <p><strong>Q: Is every Walkman-Chanakya glyph guaranteed identical?</strong><br>A: Not yet. Different Walkman-Chanakya and desktop Remington releases assign certain conjuncts differently, so this experimental converter keeps verification warnings active.</p>
-          <p><strong>Q: Does conversion upload typed text remotely?</strong><br>A: No. Reordering and character substitution execute inside your browser without sending text to external servers, and if your template actually expects Kruti Dev 010 key codes, open our verified <a href="/unicode-to-krutidev">Unicode to Kruti Dev</a> tool directly.</p>
+        `
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why do converted characters look like accented Latin letters and symbols inside the browser?</strong><br>A: Walkman-Chanakya maps Hindi glyphs onto extended ANSI character slots; the characters render as Hindi once pasted into desktop software set to your Chanakya typeface.</p>
+          <p><strong>Q: Does the encoder handle complex conjuncts, Reph, and short-i reordering?</strong><br>A: Yes. It repositions Reph (<code>र्</code>) to trailing <code>ü</code> and pre-base short-i (<code>ि</code>) to leading <code>ç</code>, and maps common ligatures like <code>क्ष</code>, <code>त्र</code>, <code>ज्ञ</code>, and <code>श्र</code>.</p>
+          <p><strong>Q: Does conversion upload typed text remotely?</strong><br>A: No. Reordering and character substitution execute inside your browser without sending text to external servers, and if your template uses Kruti Dev 010 instead, open our <a href="/unicode-to-krutidev">Unicode to Kruti Dev</a> tool directly.</p>
         `
       }
     ]

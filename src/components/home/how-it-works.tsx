@@ -1,7 +1,5 @@
 "use client";
 
-import { UploadCloud, Settings, Download } from "lucide-react";
-
 const steps = [
   {
     num: "01",

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Mail, Clock, Sparkles, Send, ShieldCheck, MessageSquare, Lightbulb, CheckCircle2, HelpCircle } from "lucide-react";
+import { Mail, Clock, Send, ShieldCheck, MessageSquare, Lightbulb, HelpCircle } from "lucide-react";
 import { getRobotsForPath } from "@/lib/seo-allowlist";
 import { CONTACT_EMAIL } from "@/lib/seo/site-config";
 

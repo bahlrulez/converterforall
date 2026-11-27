@@ -22,7 +22,6 @@ import {
   Info,
   ChevronDown,
   ChevronUp,
-  Power,
   RotateCw
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

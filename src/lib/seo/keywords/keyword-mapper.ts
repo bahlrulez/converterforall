@@ -1,8 +1,6 @@
 import { ToolKeywordTarget, SearchIntent } from "./types";
 
 export function getKeywordTargetForTool(slug: string, title: string, category: string): ToolKeywordTarget {
-  const normalizedTitle = title.toLowerCase();
-  
   let primaryKeyword = title.toLowerCase().replace(/converter|free|online|\(|\)|\[|\]/g, "").trim();
   if (!primaryKeyword) primaryKeyword = slug.replace(/-/g, " ");
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, X, Download, Image as ImageIcon, ArrowRight, Settings } from "lucide-react";
+import { Upload, X, Download, ArrowRight, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ProcessedImage {

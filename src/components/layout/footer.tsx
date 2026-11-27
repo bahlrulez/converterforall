@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ManageCookiesButton } from "@/components/cookie-consent/manage-cookies-button";
-import { ShieldCheck, Sparkles, Cpu, FileText, Image as ImageIcon, Type, Award, Code2 } from "lucide-react";
+import { ShieldCheck, Sparkles, Cpu, FileText, Image as ImageIcon, Type, Award } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();

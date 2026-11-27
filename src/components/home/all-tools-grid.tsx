@@ -6,10 +6,7 @@ import {
   Search,
   Sparkles,
   ArrowRight,
-  Shield,
   Zap,
-  Ban,
-  Gift,
   FileText,
   Image as ImageIcon,
   Video,
@@ -22,11 +19,9 @@ import {
   Scissors,
   Eraser,
   Camera,
-  Layers,
   FileSpreadsheet,
   FileCode,
   Presentation,
-  CheckCircle2,
   Code2,
   ChevronRight,
 } from "lucide-react";
@@ -48,17 +43,6 @@ interface ToolItem {
   badge?: string;
   isPopular?: boolean;
 }
-
-const CATEGORY_TABS: { key: CategoryFilter; label: string }[] = [
-  { key: "all", label: "All Tools" },
-  { key: "popular", label: "Popular" },
-  { key: "exam", label: "Exam Utilities" },
-  { key: "fonts", label: "Indic Fonts" },
-  { key: "video", label: "Video" },
-  { key: "audio", label: "Audio" },
-  { key: "image", label: "Photo" },
-  { key: "utilities", label: "Subtitles" },
-];
 
 function getIconComponent(iconName: string) {
   switch(iconName) {
@@ -151,9 +135,6 @@ export function AllToolsGrid() {
 
     return result;
   }, [allToolsList, activeTab, searchQuery]);
-
-  // If not searching and not expanded, show top 16 items
-  const displayTools = isExpanded || searchQuery.trim() !== "" ? filteredTools : filteredTools.slice(0, 16);
 
   return (
     <section id="featured-tools" className="py-12 relative bg-slate-50/50 dark:bg-[#030714] transition-colors duration-300">

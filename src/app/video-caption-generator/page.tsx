@@ -6,18 +6,10 @@ import {
   ArrowLeft,
   Sparkles,
   ShieldCheck,
-  Zap,
   Smartphone,
-  Palette,
-  Download,
-  Clock,
-  Layers,
   HelpCircle,
-  FileVideo,
   Check,
   Languages,
-  Sliders,
-  Move,
   Film,
   ArrowRight,
   Edit3,
@@ -90,76 +82,6 @@ const softwareAppSchema = {
     "priceCurrency": "USD"
   }
 };
-
-const stylePresets = [
-  {
-    name: "Reels Bold",
-    tagline: "High-energy reels",
-    font: "Poppins Bold",
-    previewText: "नमस्ते दोस्तों, आज हम देखेंगे",
-    badgeClass: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-    cardBg: "bg-slate-900 text-white",
-    sampleRender: (
-      <div className="text-center font-black tracking-wide text-lg sm:text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-        <span className="text-amber-400">नमस्ते दोस्तों</span>, आज हम देखेंगे
-      </div>
-    )
-  },
-  {
-    name: "Minimal Clean",
-    tagline: "Crisp & subtle",
-    font: "Inter / Sans",
-    previewText: "रोज़मर्रा की आसान बातचीत",
-    badgeClass: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20",
-    cardBg: "bg-slate-950 text-white",
-    sampleRender: (
-      <div className="text-center font-medium text-base sm:text-lg text-slate-100 tracking-normal drop-shadow-md">
-        रोज़मर्रा की आसान बातचीत
-      </div>
-    )
-  },
-  {
-    name: "Highlighter",
-    tagline: "Active karaoke box",
-    font: "Mukta SemiBold",
-    previewText: "सीखें कुछ नया हर दिन",
-    badgeClass: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20",
-    cardBg: "bg-slate-900 text-white",
-    sampleRender: (
-      <div className="text-center font-bold text-base sm:text-lg">
-        <span className="bg-blue-600 text-white px-2 py-0.5 rounded-md shadow-sm">सीखें कुछ</span> नया हर दिन
-      </div>
-    )
-  },
-  {
-    name: "Cinematic",
-    tagline: "Wide-screen movies",
-    font: "Noto Serif",
-    previewText: "कहानी जो दिलों को छू ले",
-    badgeClass: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
-    cardBg: "bg-black text-amber-100",
-    sampleRender: (
-      <div className="text-center font-serif text-base sm:text-lg text-amber-200/90 tracking-wider">
-        कहानी जो दिलों को छू ले
-      </div>
-    )
-  },
-  {
-    name: "Box Contrast",
-    tagline: "Max readability",
-    font: "Teko Bold",
-    previewText: "स्पष्ट आवाज़, साफ़ शब्द",
-    badgeClass: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-    cardBg: "bg-slate-900 text-white",
-    sampleRender: (
-      <div className="text-center">
-        <span className="bg-black/90 text-white font-extrabold px-3 py-1 rounded text-lg uppercase tracking-wider border border-white/20">
-          स्पष्ट आवाज़, साफ़ शब्द
-        </span>
-      </div>
-    )
-  }
-];
 
 const qaList = [
   {

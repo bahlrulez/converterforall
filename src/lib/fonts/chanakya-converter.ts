@@ -1,139 +1,586 @@
-// Chanakya to Unicode & Unicode to Chanakya converter
-// Features full ligature, matra (Chhoti ee), and Reph positioning
+// Bidirectional Walkman-Chanakya (Chanakya 901/905) <-> Unicode Devanagari converter.
+// Glyph mapping table derived from MIT-licensed npm-hindi-converter Walkman-Chanakya rules.
 
-const array_one = [
-  "ñ", "Q+Z", "sas", "aa", ")Z", "ZZ", "‘", "’", "“", "”",
-  "å", "ƒ", "„", "…", "†", "‡", "ˆ", "‰", "Š", "‹", 
-  "¶+", "d+", "[+k", "[+", "x+", "T+", "t+", "M+", "<+", "Q+", ";+", "j+", "u+",
-  "Ùk", "Ù", "ä", "–", "—", "é", "™", "=kk", "f=k",  
-  "à", "á", "â", "ã", "ºz", "º", "í", "{k", "{", "=", "«",   
-  "Nî", "Vî", "Bî", "Mî", "<î", "|", "K", "}",
-  "J", "Vª", "Mª", "<ªª", "Nª", "Ø", "Ý", "nzZ", "æ", "ç", "Á", "xz", "#", ":",
-  "v‚", "vks", "vkS", "vk", "v", "b±", "Ã", "bZ", "b", "m", "Å", ",s", ",", "_",
-  "ô", "d", "Dk", "D", "[k", "[", "x", "Xk", "X", "Ä", "?k", "?", "³", 
-  "pkS", "p", "Pk", "P", "N", "t", "Tk", "T", ">", "÷", "¥",
-  "ê", "ë", "V", "B", "ì", "ï", "M+", "<+", "M", "<", ".k", ".",    
-  "r", "Rk", "R", "Fk", "F", ")", "n", "/k", "èk", "/", "Ë", "è", "u", "Uk", "U",   
-  "i", "Ik", "I", "Q", "¶", "c", "Ck", "C", "Hk", "H", "e", "Ek", "E",
-  ";", "¸", "j", "y", "Yk", "Y", "G", "o", "Ok", "O",
-  "'k", "'", "\"k", "\"", "l", "Lk", "L", "g", 
-  "È", "z", 
-  "Ì", "Í", "Î", "Ï", "Ñ", "Ò", "Ó", "Ô", "Ö", "Ø", "Ù", "Ük", "Ü",
-  "‚", "ks", "kS", "k", "h", "q", "w", "`", "s", "S",
-  "a", "¡", "%", "W", "•", "·", "∙", "·", "~j", "~", "\\", "+", " ः",
-  "^", "*", "Þ", "ß", "(", "¼", "½", "¿", "À", "¾", "A", "-", "&", "&", "Œ", "]", "~ ", "@",
-  // Specific Chanakya glyphs (often identical or close to Kruti Dev, mapped defensively)
-  "ाे", "ाै", "ंा",
-  "्ा"
+const DEV_CONS = "[कखगघङचछजझञटठडढणतथदधनपफबभमयरलळवशषसहक़ख़ग़ज़ड़ढ़फ़य़ऱऩ]";
+const DEV_MATRAS = "[ािीुूृेैोौंँःॅॉ]";
+
+const CHANAKYA_TO_UNICODE_RULES: [string, string][] = [
+  ["·¤", "क"],
+  ["È¤", "फ"],
+  ["¤", ""],
+  ["U", ""],
+  ["ï", ""],
+  ["¢ð", "ð¢"],
+  ["´ð", "ð´"],
+  ["ð¸", "¸ð"],
+  ["ú", "ॐ"],
+  ["Cþ", "ष्ट्र"],
+  ["Åþ", "ट्र"],
+  ["Çþ", "ड्र"],
+  ["Éþ", "ढ्र"],
+  ["Àþ", "छ्र"],
+  ["•¸", "क़"],
+  ["¹¸", "ख़"],
+  ["»¸", "ग़"],
+  ["Á¸", "ज़"],
+  ["Ç¸", "ड़"],
+  ["É¸", "ढ़"],
+  ["È¸", "फ़"],
+  ["\u008D¸", "फ़्"],
+  ["Ø¸", "य़"],
+  ["Ú¸", "ऱ"],
+  ["Ù¸", "ऩ"],
+  ["$•", "क़"],
+  ["$¹", "ख़"],
+  ["$»", "ग़"],
+  ["$Á", "ज़"],
+  ["$Ç", "ड़"],
+  ["$É", "ढ़"],
+  ["$È", "फ़"],
+  ["$\u008D", "फ़्"],
+  ["$Ø", "य़"],
+  ["$Ú", "ऱ"],
+  ["$Ù", "ऩ"],
+  ["$", ""],
+  ["OE", "प्"],
+  ["A", "्र"],
+  ["B", "ख्"],
+  ["C", "ष्ट"],
+  ["D", "ष्ठ"],
+  ["E", "श्व"],
+  ["F", "स्न"],
+  ["G", "त्र"],
+  ["H", "॥"],
+  ["Ð", "।"],
+  ["I", "ढ्ढ"],
+  ["J", "छ्व"],
+  ["K", "्य"],
+  ["L", "रु"],
+  ["M", "रू"],
+  ["N", "हृ"],
+  ["O", "ह्र"],
+  ["P", "क्क"],
+  ["Q", "क्त"],
+  ["R", "क्र"],
+  ["T", "भ्"],
+  ["V", "ङ्क"],
+  ["W", "ङ्ख"],
+  ["X", "ङ्ग"],
+  ["Y", "ङ्घ"],
+  ["`", "म्"],
+  ["a", "ड्ड"],
+  ["b", "ड्ढ"],
+  ["d", "स्र"],
+  ["e", "द्ग"],
+  ["f", "द्घ"],
+  ["g", "द्द"],
+  ["h", "द्ध"],
+  ["i", "द्ब"],
+  ["j", "द्भ"],
+  ["k", "द्म"],
+  ["l", "द्य"],
+  ["m", "द्व"],
+  ["n", "ठ्ठ"],
+  ["p", "श्च"],
+  ["q", "ह्न"],
+  ["r", "ह्म्"],
+  ["s", "ह्य"],
+  ["t", "ह्ल"],
+  ["u", "ह्व"],
+  ["ö", "ह्ण"],
+  ["îæ", "त्त"],
+  ["î", "त्त्"],
+  ["žæ", "त्त"],
+  ["ž", "त्त्"],
+  ["#", "प्त"],
+  ["%", "त्न"],
+  ["@", "क्"],
+  ["_", "ट्ठ"],
+  ["„", "ल्ल"],
+  ["¦", "ष्ट्व"],
+  ["¯", "ख्न"],
+  ["µ", "ब्"],
+  ["º", "ख्र"],
+  ["Ê", "ज़्"],
+  ["Ÿæ", "श्र"],
+  ["Ÿ", "श्र्"],
+  ["^", "ट्ट"],
+  ["ý", "्र"],
+  ["þ", "्र"],
+  ["¥æò", "ऑ"],
+  ["¥ô", "ओ"],
+  ["¥æð", "ओ"],
+  ["¥õ", "औ"],
+  ["¥æñ", "औ"],
+  ["¥æ", "आ"],
+  ["¥", "अ"],
+  ["§Z", "ईं"],
+  ["§ü", "ई"],
+  ["§", "इ"],
+  ["©", "उ"],
+  ["ª", "ऊ"],
+  ["«", "ऋ"],
+  ["¬", "ॠ"],
+  ["­", "ऌ"],
+  ["°ð", "ऐ"],
+  ["°", "ए"],
+  ["€", "क्"],
+  ["·", "क"],
+  ["\u0081", "ख्"],
+  ["¹", "ख"],
+  ["‚", "ग्"],
+  ["»", "ग"],
+  ["ƒæ", "घ"],
+  ["ƒ", "घ्"],
+  ["¾", "ङ"],
+  ["“", "च्च्"],
+  ["‘", "च्"],
+  ["¿", "च"],
+  ["À", "छ"],
+  ["”", "ज्ज्"],
+  ["…", "ज्"],
+  ["’", "ज्"],
+  ["Á", "ज"],
+  ["Ûæ", "झ"],
+  ["Û", "झ्"],
+  ["†æ", "ञ"],
+  ["†", "ञ्"],
+  ["Å", "ट"],
+  ["Æ", "ठ"],
+  ["Ç", "ड"],
+  ["É", "ढ"],
+  ["‡æ", "ण"],
+  ["‡", "ण्"],
+  ["ˆ", "त्"],
+  ["Ì", "त"],
+  ["‰", "थ्"],
+  ["Í", "थ"],
+  ["Î", "द"],
+  ["¼", "द"],
+  ["Š", "ध्"],
+  ["Ï", "ध"],
+  ["óæ", "न्न"],
+  ["ó", "न्न्"],
+  ["‹æ", "न"],
+  ["Ù", "न"],
+  ["‹", "न्"],
+  ["Œ", "प्"],
+  ["Â", "प"],
+  ["\u008D", "फ्"],
+  ["È", "फ"],
+  ["Ž", "ब्"],
+  ["Õ", "ब"],
+  ["\u008F", "भ्"],
+  ["Ö", "भ"],
+  ["\u0090", "म्"],
+  ["×", "म"],
+  ["Ä", "य्"],
+  ["Ø", "य"],
+  ["Ú", "र"],
+  ["Ë", "ल्"],
+  ["Ü", "ल"],
+  ["¶", "ल"],
+  ["Ý", "ळ"],
+  ["Ã", "व्"],
+  ["ß", "व"],
+  ["àæ", "श"],
+  ["³æ", "श"],
+  ["o", "श"],
+  ["³", "श्"],
+  ["à", "श्"],
+  ["c", "ष्"],
+  ["á", "ष"],
+  ["S", "स्"],
+  ["â", "स"],
+  ["ã", "ह"],
+  ["±", "ह्"],
+  ["ÿæ", "क्ष"],
+  ["ÿ", "क्ष्"],
+  ["˜æ", "त्र"],
+  ["˜", "त्र्"],
+  ["™æ", "ज्ञ"],
+  ["™", "ज्ञ्"],
+  ["üð´", "ðZ"],
+  ["æò", "ॉ"],
+  ["æñ", "ौ"],
+  ["æ", "ा"],
+  ["è", "ी"],
+  ["é", "ु"],
+  ["ê", "ू"],
+  ["ä", "ु"],
+  ["å", "ू"],
+  ["ë", "ृ"],
+  ["ì", "ॄ"],
+  ["í", "र्ç"],
+  ["Ô", "े"],
+  ["ñ", "ै"],
+  ["ô", "ो"],
+  ["õ", "ौ"],
+  ["¢", "ं"],
+  ["´", "ं"],
+  ["¡", "ँ"],
+  ["Ñ", "ः"],
+  ["ò", "ॅ"],
+  ["ù", "ऽ"],
+  ["÷", "्"],
+  ["ð", "े"],
+  ["Z", "ंü"],
+  ["0", "०"],
+  ["1", "१"],
+  ["2", "२"],
+  ["3", "३"],
+  ["4", "४"],
+  ["5", "५"],
+  ["6", "६"],
+  ["7", "७"],
+  ["8", "८"],
+  ["9", "९"],
+  ["®", "0"],
+  ["v", "1"],
+  ["w", "2"],
+  ["x", "3"],
+  ["y", "4"],
+  ["z", "5"],
+  ["{", "6"],
+  ["|", "7"],
+  ["}", "8"],
+  ["~", "9"],
+  ["्ो", "े"],
+  ["्ौ", "ै"],
+  ["्ाे", "े"],
+  ["्ाा", "ा"],
+  ["ाे", "ो"],
+  ["ाै", "ौ"],
+  ["्ा", ""],
+  ["ेे", "े"],
+  ["ंं", "ं"],
+  ["ोे", "ो"],
+  ["ओ े", "ओ"],
+  [" ः", " :"],
 ];
 
-const array_two = [
-  "॰", "QZ+", "sa", "a", "र्द्ध", "Z", "\"", "\"", "'", "'",
-  "०", "१", "२", "३", "४", "५", "६", "७", "८", "९", 
-  "फ़्", "क़", "ख़", "ख़्", "ग़", "ज़्", "ज़", "ड़", "ढ़", "फ़", "य़", "ऱ", "ऩ", 
-  "त्त", "त्त्", "क्त", "दृ", "कृ", "न्न", "न्न्", "=k", "f=",
-  "ह्न", "ह्य", "हृ", "ह्म", "ह्र", "ह्", "द्द", "क्ष", "क्ष्", "त्र", "त्र्", 
-  "छ्य", "ट्य", "ठ्य", "ड्य", "ढ्य", "द्य", "ज्ञ", "द्व",
-  "श्र", "ट्र", "ड्र", "ढ्र", "छ्र", "क्र", "फ्र", "र्द्र", "द्र", "प्र", "प्र", "ग्र", "रु", "रू",
-  "ऑ", "ओ", "औ", "आ", "अ", "ईं", "ई", "ई", "इ", "उ", "ऊ", "ऐ", "ए", "ऋ",
-  "क्क", "क", "क", "क्", "ख", "ख्", "ग", "ग", "ग्", "घ", "घ", "घ्", "ङ",
-  "चै", "च", "च", "च्", "छ", "ज", "ज", "ज्", "झ", "झ्", "ञ",
-  "ट्ट", "ट्ठ", "ट", "ठ", "ड्ड", "ड्ढ", "ड़", "ढ़", "ड", "ढ", "ण", "ण्",
-  "त", "त", "त्", "थ", "थ्", "द्ध", "द", "ध", "ध", "ध्", "ध्", "ध्", "न", "न", "न्",    
-  "प", "प", "प्", "फ", "फ्", "ब", "ब", "ब्", "भ", "भ्", "म", "म", "म्",  
-  "य", "य्", "र", "ल", "ल", "ल्", "ळ", "व", "व", "व्",   
-  "श", "श्", "ष", "ष्", "स", "स", "स्", "ह", 
-  "ीं", "्र",    
-  "द्द", "ट्ट", "ट्ठ", "ड्ड", "कृ", "भ", "्य", "ड्ढ", "झ्", "क्र", "त्त्", "श", "श्",
-  "ॉ", "ो", "ौ", "ा", "ी", "ु", "ू", "ृ", "े", "ै",
-  "ं", "ँ", "ः", "ॅ", "ऽ", "ऽ", "ऽ", "ऽ", "्र", "्", "?", "़", ":",
-  "'", "'", "\"", "\"", ";", "(", ")", "{", "}", "=", "।", ".", "-", "µ", "॰", ",", "् ", "/",
-  "ो", "ौ", "ां",
-  ""
+const UNICODE_TO_CHANAKYA_RULES: [string, string][] = [
+  // Multi-character conjuncts & special ligatures (longest-first in scanner)
+  ["ष्ट्र", "Cþ"],
+  ["ष्ट्व", "¦"],
+  ["छ्व", "J"],
+  ["ढ्ढ", "I"],
+  ["ड्ढ", "b"],
+  ["ड्ड", "a"],
+  ["ट्ठ", "_"],
+  ["ठ्ठ", "n"],
+  ["ट्ट", "^"],
+  ["ष्ट", "C"],
+  ["ष्ठ", "D"],
+  ["श्व", "E"],
+  ["स्न", "F"],
+  ["श्च", "p"],
+  ["स्र", "d"],
+  ["ल्ल", "„"],
+  ["ख्न", "¯"],
+  ["ख्र", "º"],
+  ["प्त", "#"],
+  ["त्न", "%"],
+  ["त्त", "îæ"],
+  ["त्त्", "î"],
+  ["न्न", "óæ"],
+  ["न्न्", "ó"],
+  ["क्क", "P"],
+  ["क्त", "Q"],
+  ["क्र", "R"],
+  ["क्ष", "ÿæ"],
+  ["क्ष्", "ÿ"],
+  ["त्र", "˜æ"],
+  ["त्र्", "˜"],
+  ["ज्ञ", "™æ"],
+  ["ज्ञ्", "™"],
+  ["श्र", "Ÿæ"],
+  ["श्र्", "Ÿ"],
+  ["ट्र", "Åþ"],
+  ["ड्र", "Çþ"],
+  ["ढ्र", "Éþ"],
+  ["छ्र", "Àþ"],
+  ["प्र", "Âý"],
+  ["ग्र", "»ý"],
+  ["द्र", "Îý"],
+  ["भ्र", "Öý"],
+  ["व्र", "ßý"],
+  ["ङ्क", "V"],
+  ["ङ्ख", "W"],
+  ["ङ्ग", "X"],
+  ["ङ्घ", "Y"],
+  ["द्ग", "e"],
+  ["द्घ", "f"],
+  ["द्द", "g"],
+  ["द्ध", "h"],
+  ["द्ब", "i"],
+  ["द्भ", "j"],
+  ["द्म", "k"],
+  ["द्य", "l"],
+  ["द्व", "m"],
+  ["हृ", "N"],
+  ["ह्र", "O"],
+  ["ह्ण", "ö"],
+  ["ह्न", "q"],
+  ["ह्म्", "r"],
+  ["ह्य", "s"],
+  ["ह्ल", "t"],
+  ["ह्व", "u"],
+  ["रु", "L"],
+  ["रू", "M"],
+  ["्र", "ý"],
+
+  // Nukta consonants (both NFC decomposed and precomposed forms)
+  ["क़", "·¸¤"],
+  ["क़", "·¸¤"],
+  ["ख़", "¹¸"],
+  ["ख़", "¹¸"],
+  ["ग़", "»¸"],
+  ["ग़", "»¸"],
+  ["ज़्", "Á÷¸"],
+  ["ज़्", "Á÷¸"],
+  ["ज़", "Á¸"],
+  ["ज़", "Á¸"],
+  ["ड़", "Ç¸"],
+  ["ड़", "Ç¸"],
+  ["ढ़", "É¸"],
+  ["ढ़", "É¸"],
+  ["फ़्", "È÷¸"],
+  ["फ़्", "È÷¸"],
+  ["फ़", "È¸"],
+  ["फ़", "È¸"],
+  ["य़", "Ø¸"],
+  ["य़", "Ø¸"],
+  ["ऱ", "Ú¸"],
+  ["ऱ", "Ú¸"],
+  ["ऩ", "Ù¸"],
+  ["ऩ", "Ù¸"],
+
+  // Independent vowels & Om
+  ["ऑ", "¥æò"],
+  ["ओ", "¥ô"],
+  ["औ", "¥õ"],
+  ["आ", "¥æ"],
+  ["अ", "¥"],
+  ["ईं", "§Z"],
+  ["ई", "§ü"],
+  ["इ", "§"],
+  ["उ", "©"],
+  ["ऊ", "ª"],
+  ["ऋ", "«"],
+  ["ॠ", "¬"],
+  ["ऌ", "­"],
+  ["ऐ", "°ð"],
+  ["ए", "°"],
+  ["ॐ", "ú"],
+
+  // Half consonants
+  ["क्", "€"],
+  ["ख्", "B"],
+  ["ग्", "‚"],
+  ["घ्", "ƒ"],
+  ["च्", "‘"],
+  ["ज्", "’"],
+  ["झ्", "Û"],
+  ["ञ्", "†"],
+  ["ण्", "‡"],
+  ["त्", "ˆ"],
+  ["थ्", "‰"],
+  ["ध्", "Š"],
+  ["न्", "‹"],
+  ["प्", "Œ"],
+  ["फ्", "È÷"],
+  ["ब्", "Ž"],
+  ["भ्", "T"],
+  ["म्", "`"],
+  ["य्", "Ä"],
+  ["ल्", "Ë"],
+  ["व्", "Ã"],
+  ["श्", "à"],
+  ["ष्", "c"],
+  ["स्", "S"],
+  ["ह्", "±"],
+
+  // Base consonants
+  ["क", "·¤"],
+  ["ख", "¹"],
+  ["ग", "»"],
+  ["घ", "ƒæ"],
+  ["ङ", "¾"],
+  ["च", "¿"],
+  ["छ", "À"],
+  ["ज", "Á"],
+  ["झ", "Ûæ"],
+  ["ञ", "†æ"],
+  ["ट", "Å"],
+  ["ठ", "Æ"],
+  ["ड", "Ç"],
+  ["ढ", "É"],
+  ["ण", "‡æ"],
+  ["त", "Ì"],
+  ["थ", "Í"],
+  ["द", "Î"],
+  ["ध", "Ï"],
+  ["न", "Ù"],
+  ["प", "Â"],
+  ["फ", "È"],
+  ["ब", "Õ"],
+  ["भ", "Ö"],
+  ["म", "×"],
+  ["य", "Ø"],
+  ["र", "Ú"],
+  ["ल", "Ü"],
+  ["ळ", "Ý"],
+  ["व", "ß"],
+  ["श", "àæ"],
+  ["ष", "á"],
+  ["स", "â"],
+  ["ह", "ã"],
+
+  // Vowel signs, punctuation, Devanagari & Latin numerals
+  ["ॉ", "æò"],
+  ["ौ", "õ"],
+  ["ो", "ô"],
+  ["ै", "ñ"],
+  ["े", "ð"],
+  ["ा", "æ"],
+  ["ी", "è"],
+  ["ु", "é"],
+  ["ू", "ê"],
+  ["ृ", "ë"],
+  ["ॄ", "ì"],
+  ["ं", "¢"],
+  ["ँ", "¡"],
+  ["ः", "Ñ"],
+  ["ॅ", "ò"],
+  ["ऽ", "ù"],
+  ["्", "÷"],
+  ["।", "Ð"],
+  ["॥", "H"],
+  ["०", "0"],
+  ["१", "1"],
+  ["२", "2"],
+  ["३", "3"],
+  ["४", "4"],
+  ["५", "5"],
+  ["६", "6"],
+  ["७", "7"],
+  ["८", "8"],
+  ["९", "9"],
+  ["0", "®"],
+  ["1", "v"],
+  ["2", "w"],
+  ["3", "x"],
+  ["4", "y"],
+  ["5", "z"],
+  ["6", "{"],
+  ["7", "|"],
+  ["8", "}"],
+  ["9", "~"],
 ];
 
+const UNI_TO_CHANAKYA_MAP = new Map<string, string>(UNICODE_TO_CHANAKYA_RULES);
+const MAX_UNI_KEY_LEN = UNICODE_TO_CHANAKYA_RULES.reduce((m, [k]) => Math.max(m, k.length), 1);
+
+const PRE_I_REGEX = new RegExp(`([ç¨])((?:${DEV_CONS}्)*${DEV_CONS})`, "g");
+const REPH_MOVE_REGEX = new RegExp(`र्((?:${DEV_CONS}्)*${DEV_CONS}${DEV_MATRAS}*)`, "g");
+const PRE_I_MOVE_REGEX = new RegExp(`((?:${DEV_CONS}्)*${DEV_CONS})ि`, "g");
+const MATRA_CHAR_REGEX = new RegExp(DEV_MATRAS);
+
+/** Convert legacy Walkman-Chanakya encoded text to standard NFC Unicode Devanagari. */
 export function chanakyaToUnicode(text: string): string {
   if (!text) return "";
-  
-  let modifiedString = text;
-  
-  // Replace array mappings
-  for (let input_symbol_idx = 0; input_symbol_idx < array_one.length; input_symbol_idx++) {
-    const pattern = array_one[input_symbol_idx];
-    const replacement = array_two[input_symbol_idx];
-    modifiedString = modifiedString.split(pattern).join(replacement);
-  }
-  
-  // Position "f" (Chhoti ee matra) before consonant
-  let position_of_i = modifiedString.indexOf("f");
-  while (position_of_i !== -1 && position_of_i < modifiedString.length - 1) {
-    const charecter_next_to_i = modifiedString.charAt(position_of_i + 1);
-    const charecter_to_be_replaced = "f" + charecter_next_to_i;
-    modifiedString = modifiedString.replace(charecter_to_be_replaced, charecter_next_to_i + "ि");
-    position_of_i = modifiedString.indexOf("f", position_of_i + 1);
+
+  let out = text;
+  for (const [src, dst] of CHANAKYA_TO_UNICODE_RULES) {
+    if (out.includes(src)) {
+      out = out.split(src).join(dst);
+    }
   }
 
-  // Position "Z" (Reph) safely with bounds guard
-  let position_of_Z = modifiedString.indexOf("Z");
-  while (position_of_Z !== -1) {
-    if (position_of_Z === 0) {
-      modifiedString = "र्" + modifiedString.slice(1);
-      position_of_Z = modifiedString.indexOf("Z");
+  // Reposition pre-base short-i glyphs ('ç' / '¨') after their consonant cluster
+  out = out.replace(PRE_I_REGEX, (_, marker: string, cluster: string) => {
+    return cluster + (marker === "ç" ? "ि" : "िं");
+  });
+
+  // Fix cases where half-letter halant appears immediately after "िं"
+  let posWrong = out.indexOf("िं्");
+  while (posWrong !== -1 && posWrong + 3 < out.length) {
+    const nextCh = out.charAt(posWrong + 3);
+    out = out.replace("िं्" + nextCh, "्" + nextCh + "िं");
+    posWrong = out.indexOf("िं्", posWrong + 3);
+  }
+
+  // Reposition trailing Reph glyph ('ü') to the start of its consonant cluster
+  let posReph = out.indexOf("ü");
+  while (posReph !== -1) {
+    if (posReph === 0) {
+      out = "र्" + out.slice(1);
+      posReph = out.indexOf("ü");
       continue;
     }
 
-    let probable_position_of_half_r = position_of_Z - 1;
-    let charecter_at_probable_position_of_half_r = modifiedString.charAt(probable_position_of_half_r);
-
-    // Walk backwards across matras
-    while (
-      probable_position_of_half_r > 0 &&
-      charecter_at_probable_position_of_half_r.match(/[\u0900-\u097F]/) &&
-      !charecter_at_probable_position_of_half_r.match(/[कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह]/)
-    ) {
-      probable_position_of_half_r = probable_position_of_half_r - 1;
-      charecter_at_probable_position_of_half_r = modifiedString.charAt(probable_position_of_half_r);
+    let idx = posReph - 1;
+    while (idx > 0 && MATRA_CHAR_REGEX.test(out.charAt(idx))) {
+      idx--;
+    }
+    while (idx >= 2 && out.charAt(idx - 1) === "्") {
+      idx -= 2;
     }
 
-    // Include attached halant cluster if present
-    if (probable_position_of_half_r >= 2 && modifiedString.charAt(probable_position_of_half_r - 1) === "्") {
-      probable_position_of_half_r = probable_position_of_half_r - 2;
-    }
-
-    probable_position_of_half_r = Math.max(0, probable_position_of_half_r);
-    const string_to_be_replaced = modifiedString.slice(probable_position_of_half_r, position_of_Z);
-    modifiedString =
-      modifiedString.slice(0, probable_position_of_half_r) +
-      "र्" +
-      string_to_be_replaced +
-      modifiedString.slice(position_of_Z + 1);
-    position_of_Z = modifiedString.indexOf("Z");
+    idx = Math.max(0, idx);
+    out = out.slice(0, idx) + "र्" + out.slice(idx, posReph) + out.slice(posReph + 1);
+    posReph = out.indexOf("ü");
   }
 
-  return modifiedString;
+  out = out.replace(/Ò/g, "‘").replace(/Ó/g, "’");
+  return out.normalize("NFC");
 }
 
+/** Encode standard Unicode Devanagari text into legacy Walkman-Chanakya glyphs. */
 export function unicodeToChanakya(text: string): string {
   if (!text) return "";
 
-  let modifiedString = text;
+  let work = text.normalize("NFC");
+  const REPH_MARKER = "\uE001";
+  const PRE_I_MARKER = "\uE002";
 
-  // Position Reph
-  modifiedString = modifiedString.replace(/र्([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([ािीुूृेैोौंँः]*)/g, "$1$2Z");
-  modifiedString = modifiedString.replace(/र्([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([्])([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([ािीुूृेैोौंँः]*)/g, "$1$2$3$4Z");
+  // 1. Move Reph ("र्") after the following consonant cluster + vowel signs
+  work = work.replace(REPH_MOVE_REGEX, `$1${REPH_MARKER}`);
 
-  // Position Chhoti ee
-  modifiedString = modifiedString.replace(/([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([्])([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([ि])/g, "f$1$2$3");
-  modifiedString = modifiedString.replace(/([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([ि])/g, "f$1");
+  // 2. Move short-i vowel sign ("ि") before the preceding consonant cluster
+  work = work.replace(PRE_I_MOVE_REGEX, `${PRE_I_MARKER}$1`);
 
-  // Reverse mapping (preserve Reph marker "Z" placed in step 1)
-  for (let idx = 0; idx < array_two.length; idx++) {
-    const pattern = array_two[idx];
-    const replacement = array_one[idx];
-    if (pattern !== "" && pattern !== "Z") {
-      modifiedString = modifiedString.split(pattern).join(replacement);
+  let out = "";
+  let i = 0;
+  while (i < work.length) {
+    const ch = work[i];
+    if (ch === REPH_MARKER) {
+      out += "ü";
+      i += 1;
+      continue;
+    }
+    if (ch === PRE_I_MARKER) {
+      out += "ç";
+      i += 1;
+      continue;
+    }
+
+    let matched = false;
+    for (let len = Math.min(MAX_UNI_KEY_LEN, work.length - i); len >= 1; len--) {
+      const mapped = UNI_TO_CHANAKYA_MAP.get(work.slice(i, i + len));
+      if (mapped !== undefined) {
+        out += mapped;
+        i += len;
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) {
+      out += ch;
+      i += 1;
     }
   }
 
-  return modifiedString;
+  return out;
 }

@@ -12,14 +12,13 @@ import {
   Camera, 
   Settings2, 
   Loader2, 
-  Info, 
   Check, 
   ShieldCheck,
   CheckCircle2,
   FileCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { EXAM_PRESETS, ExamPresetSpec } from "@/config/exam-presets";
+import { EXAM_PRESETS } from "@/config/exam-presets";
 
 type PresetKey = keyof typeof EXAM_PRESETS;
 type ModeKey = "photo" | "signature";

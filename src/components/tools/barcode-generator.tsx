@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Download, ScanBarcode } from "lucide-react";
 import Barcode from "react-barcode";
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Search, X, ArrowRight, FileText, Image as ImageIcon, Video, Music, Code2, Wrench, Type, Sparkles } from "lucide-react";
+import { Search, X, ArrowRight, FileText, Image as ImageIcon, Video, Music, Wrench, Type, Sparkles } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
 import { isIndexablePath } from "@/lib/seo-allowlist";
 

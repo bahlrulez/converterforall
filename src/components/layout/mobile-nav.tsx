@@ -18,7 +18,6 @@ import {
   Sun,
   Monitor,
   Sparkles,
-  Code2,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { toolsDatabase } from "@/lib/tools-db";

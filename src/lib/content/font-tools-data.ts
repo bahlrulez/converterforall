@@ -24,4 +24,7 @@ export const UNICODE_TO_KRUTIDEV_SNAPSHOT_DATA = {
   htmlEscapedKruti: "—i;k ;g i= /;ku ls i&lt;+sa vkSj viuk fooj.k le; ij HkstsaA",
 } as const;
 
-// Chanakya example constants removed pending verified sample text from site owner
+export const CHANAKYA_SNAPSHOT_DATA = {
+  sampleInput: "ç·¤ÌæÕ ¥õÚ ÖæÚÌ ·¤æ ·¤×ü",
+  expectedUnicode: "किताब और भारत का कर्म",
+} as const;

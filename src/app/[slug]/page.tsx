@@ -141,11 +141,6 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     "gurbani-akhar-to-unicode",
   ]);
 
-  const UNVERIFIED_FONT_TOOLS = new Set([
-    "chanakya-to-unicode",
-    "unicode-to-chanakya",
-  ]);
-
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-[#060b19] transition-colors duration-300 relative overflow-hidden py-10">
       {/* Top Ambient Glow */}
@@ -206,12 +201,6 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
               <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-sm flex items-center justify-center text-center gap-2 font-medium">
                 <span className="font-bold text-amber-700 dark:text-amber-400">Notice:</span>
                 <span>Experimental: results may contain errors. Check carefully.</span>
-              </div>
-            )}
-            {UNVERIFIED_FONT_TOOLS.has(toolSlug) && (
-              <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-sm flex items-center justify-center text-center gap-2 font-medium">
-                <span className="font-bold text-amber-700 dark:text-amber-400">Notice:</span>
-                <span>Please check the output before relying on it.</span>
               </div>
             )}
             <ToolRenderer

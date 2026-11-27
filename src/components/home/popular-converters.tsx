@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, FileText, Image as ImageIcon, Video, FileArchive, Eraser } from "lucide-react";
+import { ArrowRight, FileText, Image as ImageIcon, Video, FileArchive } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const POPULAR_TOOLS = [

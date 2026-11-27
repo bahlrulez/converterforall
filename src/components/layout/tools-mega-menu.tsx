@@ -13,11 +13,8 @@ import {
   Type,
   ArrowRight,
   Sparkles,
-  Eraser,
   Camera,
-  FileStack,
   Layers,
-  Code2,
 } from "lucide-react";
 import { toolsDatabase } from "@/lib/tools-db";
 import { isIndexablePath } from "@/lib/seo-allowlist";
@@ -280,7 +277,7 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
       {/* Bottom Footer Bar */}
       <div className="mt-6 pt-4 border-t-2 border-slate-100 dark:border-slate-800 flex items-center justify-between">
         <div className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
-          ⚡ 100% Free &amp; Private in-browser utilities
+          Free utilities — browser-first processing, no sign-ups required
         </div>
         <Link
           href="/tools"

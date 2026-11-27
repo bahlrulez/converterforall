@@ -2,12 +2,11 @@
 
 import { useCallback, useState, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, Camera, Paintbrush, ShieldCheck } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, Camera, Paintbrush } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BgRemovalEditor } from "@/components/tools/bg-removal-editor";
 
-import heic2any from "heic2any";
 import { getPendingFile } from "@/lib/file-transfer";
 
 import { PrivacyBadge, type PrivacyLevel } from "@/components/tools/shared/privacy-badge";

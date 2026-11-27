@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import { UploadCloud, Download, Scissors, Loader2, X, Info, Play, Pause, ShieldCheck } from "lucide-react";
+import { UploadCloud, Download, Scissors, Loader2, X, Info, Play, Pause } from "lucide-react";
 import { Mp3Encoder } from '@breezystack/lamejs';
 import { useDropzone } from "react-dropzone";
 import WaveSurfer from 'wavesurfer.js';

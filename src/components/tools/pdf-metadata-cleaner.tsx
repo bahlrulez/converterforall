@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { UploadCloud, Download, ShieldCheck, Info, Eraser, FileText, Loader2, ArrowRight } from "lucide-react";
+import { Download, ShieldCheck, Eraser, FileText, Loader2, ArrowRight } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { PDFDocument } from 'pdf-lib';
 

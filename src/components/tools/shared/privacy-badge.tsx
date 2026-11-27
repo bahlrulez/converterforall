@@ -1,4 +1,4 @@
-import { ShieldCheck, ShieldAlert } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type PrivacyLevel = "client-only" | "hybrid" | "general";

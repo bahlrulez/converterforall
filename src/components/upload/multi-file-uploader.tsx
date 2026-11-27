@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { UploadCloud, File as FileIcon, X, CheckCircle, Loader2, Download, ArrowUp, ArrowDown, Plus, ShieldCheck } from "lucide-react";
+import { UploadCloud, File as FileIcon, X, Loader2, Download, ArrowUp, ArrowDown, Plus, ShieldCheck } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

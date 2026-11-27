@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { BookOpen, Sparkles, Shield, Cpu, Zap } from "lucide-react";
+import { BookOpen, Shield, Cpu, Zap } from "lucide-react";
 import { posts } from "@/lib/blog-data";
 import { BlogClient } from "./blog-client";
 import { getRobotsForPath, isIndexablePath } from "@/lib/seo-allowlist";

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Search, Sparkles, BookOpen, ShieldCheck, Zap, ArrowRight, Tag, Clock, CheckCircle2 } from "lucide-react";
+import { Search, ShieldCheck, Zap, ArrowRight } from "lucide-react";
 import { BlogCard } from "./blog-card";
 
 interface Post {

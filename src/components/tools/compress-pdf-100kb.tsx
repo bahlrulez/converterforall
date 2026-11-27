@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, ChangeEvent } from "react";
-import { UploadCloud, FileArchive, Download, Shield, FileText, CheckCircle2, Check, ArrowRight } from "lucide-react";
+import { UploadCloud, FileArchive, Download, Shield, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PDFDocument } from "pdf-lib";
 import { PDF_DOCUMENT_PRESETS } from "@/config/exam-presets";

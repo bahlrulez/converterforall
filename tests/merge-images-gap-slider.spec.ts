@@ -56,7 +56,6 @@ test.describe('Image Gap Slider (/merge-images-to-jpg) Comprehensive Suite', () 
     await expect(seamlessBtn).toHaveClass(/border-blue-500/);
 
     // Reset button is not visible when gap is 0px
-    const resetBtn = page.getByRole('button', { name: 'Reset' }).filter({ hasText: 'Reset' });
     await expect(page.locator('button[title="Reset gap to 0px"]')).toHaveCount(0);
   });
 

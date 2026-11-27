@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { toolsDatabase } from "@/lib/tools-db";
-import { Moon, Sun, Monitor, Menu, ChevronDown, X } from "lucide-react";
+import { Moon, Sun, Menu, ChevronDown, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -52,33 +51,11 @@ function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-function LogoIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M21 8a10 10 0 1 0 0 8" />
-      <path d="M21 12V8h-4" />
-      <path d="M17 16h4v-4" />
-    </svg>
-  );
-}
-
 export function Header() {
   const pathname = usePathname();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isToolsOpen, setIsToolsOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -117,7 +94,7 @@ export function Header() {
               </Link>
 
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 opacity-0 invisible translate-y-2 group-hover/mega:opacity-100 group-hover/mega:visible group-hover/mega:translate-y-0 transition-all duration-300 origin-top">
-                <ToolsMegaMenu onClose={() => setIsToolsOpen(false)} />
+                <ToolsMegaMenu />
               </div>
             </div>
           ) : (

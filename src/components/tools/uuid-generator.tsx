@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, RefreshCw, Download, Key, ShieldCheck, Lock, CheckCircle2, AlertCircle } from "lucide-react";
+import { Copy, Check, RefreshCw, Download, Lock, CheckCircle2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function UuidGenerator() {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Clock, Tag, ShieldCheck, Sparkles, BookOpen, FileText } from "lucide-react";
+import { ArrowRight, Clock, Tag, ShieldCheck, Sparkles } from "lucide-react";
 import React, { useRef, useState } from "react";
 
 interface Post {
@@ -40,7 +40,7 @@ const CATEGORY_STYLES: Record<string, { badge: string, iconColor: string, gradie
   },
 };
 
-export function BlogCard({ post, index, isFirstItem = false }: { post: Post; index: number; isFirstItem?: boolean }) {
+export function BlogCard({ post, isFirstItem = false }: { post: Post; index?: number; isFirstItem?: boolean }) {
   const divRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);

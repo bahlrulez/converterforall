@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { FileText, Image as ImageIcon, Video, Music, Calculator, Zap, Type, Code2 } from "lucide-react";
+import { FileText, Image as ImageIcon, Video, Music, Calculator, Type, Code2 } from "lucide-react";
 
 const CATEGORIES = [
   { icon: FileText, label: "Exam Suite", color: "text-blue-500", bg: "bg-blue-500/10", borderHover: "group-hover:border-blue-500/50", glow: "from-blue-500/20", href: "/category/exam" },

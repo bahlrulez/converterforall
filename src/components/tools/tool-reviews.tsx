@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useId } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Star, 
   MessageSquarePlus, 
@@ -15,7 +15,7 @@ import {
   ShieldCheck, 
   Filter
 } from "lucide-react";
-import { ReviewStats, ReviewItem } from "@/lib/reviews-data";
+import { ReviewStats } from "@/lib/reviews-data";
 
 interface ToolReviewsProps {
   toolSlug: string;

@@ -9,12 +9,10 @@ import {
   ArrowUpDown, 
   RefreshCw, 
   Sliders, 
-  Check, 
   AlertCircle, 
   Trash2, 
   Image as ImageIcon,
   Layers,
-  Sparkles,
   Info
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

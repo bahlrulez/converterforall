@@ -5,18 +5,11 @@ import { useDropzone } from "react-dropzone";
 import { 
   Film, 
   UploadCloud, 
-  Play, 
-  Pause, 
-  Volume2, 
-  VolumeX, 
-  Maximize2, 
   Sparkles, 
-  Cpu, 
   Zap, 
   CheckCircle2, 
   Download, 
   RotateCcw, 
-  Sliders, 
   Layers, 
   ShieldCheck, 
   AlertCircle, 
@@ -25,7 +18,6 @@ import {
   ArrowRight,
   Music,
   Image as ImageIcon,
-  Scissors,
   Settings2,
   Gauge
 } from "lucide-react";

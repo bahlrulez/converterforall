@@ -4,10 +4,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Camera,
   RotateCcw,
-  Maximize2,
-  Minimize2,
-  Sparkles,
-  ShieldCheck,
   Ruler,
   AlertCircle,
   Download,
@@ -15,14 +11,10 @@ import {
   Crosshair,
   Compass,
   CheckCircle2,
-  HelpCircle,
   Square,
   ZoomIn,
   Play,
-  Pause,
-  Layers,
-  ChevronRight,
-  Info
+  Pause
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

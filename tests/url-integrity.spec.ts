@@ -147,7 +147,7 @@ test.describe('URL Integrity, Slug Aliases & Sitemap Audit', () => {
   });
 
   test('6. All relatedTools in toolsDatabase must resolve to canonical tools', () => {
-    for (const [category, tools] of Object.entries(toolsDatabase)) {
+    for (const tools of Object.values(toolsDatabase)) {
       for (const [slug, tool] of Object.entries(tools)) {
         if (tool.relatedTools) {
           for (const related of tool.relatedTools) {

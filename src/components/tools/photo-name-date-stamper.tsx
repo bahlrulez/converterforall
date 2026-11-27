@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
-import { UploadCloud, Download, Image as ImageIcon, Settings, Sliders, ExternalLink, Calendar, Check, Sparkles, Info } from "lucide-react";
+import { UploadCloud, Download, Image as ImageIcon, Settings, ExternalLink, Sparkles, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

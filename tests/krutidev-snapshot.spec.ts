@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { krutidevToUnicode, unicodeToKrutidev } from '../src/lib/fonts/krutidev-converter';
-import { fontToolsContent } from '../src/lib/content/font-tools';
 import { KRUTIDEV_SNAPSHOT_DATA, UNICODE_TO_KRUTIDEV_SNAPSHOT_DATA } from '../src/lib/content/font-tools-data';
 import { CUSTOM_TOOL_TITLES } from '../src/lib/seo/metadata';
 
