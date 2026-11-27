@@ -217,37 +217,51 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
 
   // NEPALI PREETI CONVERTER
   "preeti-to-unicode": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Preeti to Unicode Converter – Nepali Font Converter",
-        content: "<p>Convert traditional Nepali <strong>Preeti font</strong> text into universal <strong>Nepali Unicode</strong> directly in your browser. Perfect for government notices, news articles, and study materials that need to be read on mobile phones and modern websites.</p>"
+        content: "<p>Convert traditional Nepali <strong>Preeti font</strong> text into universal <strong>Nepali Unicode</strong> directly inside your web browser. Ideal for government notices, news articles, and study materials that need to display clearly across smartphones, web browsers, and modern office documents.</p>"
       },
       {
         title: "Why Convert Preeti to Unicode?",
-        content: "<ul><li><strong>Mobile Compatibility:</strong> Unicode Nepali displays properly on smartphones, tablets, and social media without special font installation.</li><li><strong>Web Publishing:</strong> Unicode text can be searched on Google and shared across WhatsApp, Facebook, and email.</li><li><strong>Local Processing:</strong> Conversion runs locally in your browser.</li></ul>"
+        content: "<ul><li><strong>Mobile Compatibility:</strong> Unicode Nepali renders natively on Android, iOS, Mac, and Windows without installing separate Preeti <code>.ttf</code> font files.</li><li><strong>Web &amp; Search Support:</strong> Unicode Devanagari text indexes properly on web portals and shares cleanly in WhatsApp, Google Docs, and email.</li><li><strong>Browser Processing:</strong> Character mapping runs directly inside your browser without uploading passages to a conversion server.</li></ul><p>When migrating legacy reports, exam notices, or municipal circulars from desktop files into WordPress, Google Docs, or portals, switching to Unicode ensures search engines and mobile readers render vowel signs and half-letters consistently across devices without requiring users to download Preeti fonts.</p>"
       },
       {
         title: "How to Convert Preeti to Unicode",
-        content: "<ol><li><strong>Paste Preeti Text:</strong> Paste your legacy Preeti text into the left box.</li><li><strong>Automatic Conversion:</strong> The tool generates clean Nepali Unicode on the right.</li><li><strong>Copy or Download:</strong> Copy your text or save it as a text file.</li></ol>"
+        content: "<ol><li><strong>Paste Preeti text:</strong> Paste your legacy Preeti text into the left input editor.</li><li><strong>Review Unicode conversion:</strong> The browser maps ASCII keys, vowel signs, and Devanagari conjuncts into Unicode on the right.</li><li><strong>Copy or save:</strong> Copy the clean Unicode text or download it as a <code>.txt</code> or <code>.docx</code> file.</li></ol>"
       },
       {
         title: "Frequently Asked Questions (FAQ)",
         content: `
-          <p><strong>Q: Does this converter support complex Nepali conjunct letters (युक्ताक्षर)?</strong><br>A: It maps common Nepali conjuncts including त्र, ज्ञ, द्ध, द्व, ष्ट, ष्ठ, and reph (र्). Please check output before relying on it for official documents.</p>
+          <p><strong>Q: Does this converter handle complex Nepali conjuncts and reph?</strong><br>A: It maps common Nepali conjunct combinations (such as त्र, ज्ञ, द्ध, द्व, ष्ट, ष्ठ, and reph र्). Always proofread official legal or government drafts carefully before publishing.</p>
+          <p><strong>Q: Can I edit the converted Nepali Unicode right inside my phone or Google Docs?</strong><br>A: Yes. Once converted, Unicode text can be copied, searched, edited, and styled in any modern mobile app or web editor.</p>
+          <p><strong>Q: Are my Nepali documents uploaded to a server?</strong><br>A: No. Character mapping runs inside browser memory without sending pasted text to an external backend.</p>
         `
       }
     ]
   },
   "unicode-to-preeti": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Unicode to Preeti Converter – Convert Nepali Unicode to Preeti Font",
-        content: "<p>Convert modern standard <strong>Nepali Unicode</strong> into traditional <strong>Preeti font</strong> format for desktop publishers, print presses, and PageMaker templates.</p>"
+        content: "<p>Convert modern standard <strong>Nepali Unicode</strong> back into traditional <strong>Preeti font</strong> ASCII codes inside your browser. Built for print houses, newspaper compositors, and desktop publishing operators working inside legacy Preeti templates.</p>"
+      },
+      {
+        title: "Why Desktop Presses Still Need Preeti",
+        content: "<p>Older PageMaker, CorelDRAW, and press templates fail or show boxes when standard Devanagari Unicode is pasted in directly. Reversing Unicode back into Preeti keystrokes keeps existing layout typography intact once the <strong>Preeti</strong> font family is selected in your desktop software.</p><p>Publishing houses, flex printers, and government typists often maintain multi-column PageMaker, InDesign, or QuarkXPress master templates locked to legacy TrueType font metrics. Converting standard Devanagari Unicode text into Preeti keystrokes lets operators drop email or web copy straight into print layouts without retyping entire columns manually.</p>"
+      },
+      {
+        title: "How to Convert Unicode Nepali to Preeti",
+        content: "<ol><li><strong>Paste Unicode text:</strong> Paste your readable Devanagari Nepali text into the input box above.</li><li><strong>Generate Preeti output:</strong> The converter reorders Devanagari vowel signs and conjuncts into legacy Preeti ASCII characters.</li><li><strong>Copy and apply the Preeti font:</strong> Paste the output into Word or PageMaker and select <em>Preeti</em> as your document font.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Why convert Unicode to Preeti?</strong><br>A: Traditional print houses and newspaper publishing templates often use Preeti font encoding.</p>
+          <p><strong>Q: Why does the converted Preeti text show as English characters here?</strong><br>A: Preeti maps Nepali glyph shapes onto English ASCII keys; switching the font menu inside MS Word or PageMaker to <strong>Preeti</strong> renders the proper Devanagari text.</p>
+          <p><strong>Q: Do numbers and punctuation convert properly to Preeti?</strong><br>A: Standard Devanagari digits and punctuation map to matching Preeti codes, though formatted tables or English URLs inside mixed passages should be pasted separately.</p>
+          <p><strong>Q: Is typed text transmitted to an external server?</strong><br>A: No. Conversion runs inside browser JavaScript without sending pasted text across the network.</p>
         `
       }
     ]
@@ -255,94 +269,143 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
 
   // BENGALI BIJOY (SUTONNYMJ) CONVERTER
   "bijoy-to-unicode": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Bijoy to Unicode Converter – SutonnyMJ to Bangla Unicode",
-        content: "<p>Convert legacy <strong>Bijoy (SutonnyMJ)</strong> Bengali font text into standard <strong>Bangla Unicode</strong> online. Helpful for students, journalists, and publishers converting older documents into readable format for web and mobile.</p>"
+        content: "<p>Convert legacy <strong>Bijoy (SutonnyMJ)</strong> Bengali ASCII text into standard <strong>Bangla Unicode</strong> directly in your browser. Useful for journalists, publishers, and students migrating older Print/Word documents onto websites and smartphones.</p>"
       },
       {
-        title: "Why Use This Converter?",
-        content: "<ul><li><strong>Conjunct Support:</strong> Translates Bengali conjunct letters, ref, j-fola, and r-fola.</li><li><strong>Local Browser Processing:</strong> Fast conversion without sending documents across the network.</li><li><strong>Easy Export:</strong> 1-click Copy and download options.</li></ul>"
+        title: "Why Convert Bijoy (SutonnyMJ) to Bangla Unicode?",
+        content: "<ul><li><strong>Conjunct &amp; Folā Mapping:</strong> Translates Bengali conjunct clusters, reph, jo-fola, and ro-fola sequences into standard Unicode order.</li><li><strong>Universal Device Display:</strong> Converted Bangla Unicode opens properly on phones, websites, and Google Docs without installing SutonnyMJ fonts.</li><li><strong>Browser Processing:</strong> Character conversion runs inside browser memory without sending documents to a conversion server.</li></ul><p>Bangla newspapers, blogs, school question archives, and web portals use Unicode encoding because mobile browsers cannot read ASCII-mapped SutonnyMJ documents without font embedding. Converting Bijoy text into Unicode restores searchability, copy-paste sharing, and responsive rendering across smartphones and desktops.</p>"
+      },
+      {
+        title: "How to Convert Bijoy to Unicode",
+        content: "<ol><li><strong>Paste SutonnyMJ / Bijoy text:</strong> Copy your legacy Bengali text into the left editor.</li><li><strong>Convert automatically:</strong> Review the reconstructed Bangla Unicode output on the right.</li><li><strong>Copy or export:</strong> Click Copy to paste into WhatsApp, CMS editors, or Word.</li></ol>"
       },
       {
         title: "Frequently Asked Questions (FAQ)",
         content: `
-          <p><strong>Q: What is the difference between SutonnyMJ and Bangla Unicode?</strong><br>A: SutonnyMJ is an older ASCII-based font. Unicode is the international standard supported by all modern operating systems and mobile devices.</p>
+          <p><strong>Q: What is the difference between SutonnyMJ and Bangla Unicode?</strong><br>A: SutonnyMJ stores Bengali glyphs on ASCII key positions and requires the font file on every computer, whereas Bangla Unicode is an international script encoding built into modern OSes and phones.</p>
+          <p><strong>Q: Can I convert long multi-paragraph Bijoy articles cleanly?</strong><br>A: Yes. Paste articles paragraph by paragraph or in batches; conjunct clusters (যুক্তাক্ষর) and split vowels reorder directly in browser memory.</p>
+          <p><strong>Q: Does this work for SutonnyMJ files from older print shops?</strong><br>A: Yes. Bijoy classic layout documents typically use SutonnyMJ encoding supported by this converter.</p>
         `
       }
     ]
   },
   "unicode-to-bijoy": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Unicode to Bijoy Converter – Convert Bangla Unicode to SutonnyMJ",
-        content: "<p>Convert modern <strong>Bangla Unicode</strong> text into legacy <strong>Bijoy (SutonnyMJ)</strong> format for use in desktop publishing and graphic design software.</p>"
+        content: "<p>Convert modern <strong>Bangla Unicode</strong> text into legacy <strong>Bijoy (SutonnyMJ)</strong> ASCII encoding directly in your browser for traditional offset print presses, CorelDRAW, and PageMaker templates.</p>"
+      },
+      {
+        title: "Why Older Print Layouts Require SutonnyMJ",
+        content: "<p>Print shops and older Adobe PageMaker or Illustrator pipelines built around Bijoy keyboards break when modern Unicode text is pasted directly. Translating Unicode back into Bijoy ASCII codes restores layout compatibility once you set the target font to <strong>SutonnyMJ</strong>.</p><p>Bangla newsrooms, invitation card studios, and book typesetters working with historical CorelDRAW, Illustrator, or PageMaker templates continue to rely on Bijoy Classic glyphs because older desktop engines mishandle complex OpenType shaping. Reversing Unicode Bengali text back into Bijoy ASCII encoding keeps line breaks and print spacing predictable.</p>"
+      },
+      {
+        title: "How to Convert Bangla Unicode to Bijoy",
+        content: "<ol><li><strong>Paste Bangla Unicode:</strong> Enter readable Unicode Bengali text in the box above.</li><li><strong>Generate Bijoy codes:</strong> The browser maps pre-vowel signs (কার) and conjuncts into legacy Bijoy order.</li><li><strong>Apply SutonnyMJ font:</strong> Copy the encoded string into your DTP software and switch the document font to <strong>SutonnyMJ</strong>.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Why does Unicode text break in older design tools?</strong><br>A: Older versions of graphics software require ASCII fonts like SutonnyMJ. Converting your Unicode Bangla to Bijoy resolves broken characters in those applications.</p>
+          <p><strong>Q: Why does Unicode Bangla break inside older design applications?</strong><br>A: Pre-OpenType layout engines struggle with dynamic Unicode Bangla glyph shaping and expect ASCII-mapped Bijoy / SutonnyMJ codes instead.</p>
+          <p><strong>Q: Will English words inside my Bengali paragraph stay readable?</strong><br>A: Any embedded English text should be styled with an English font such as Times New Roman or Arial after applying SutonnyMJ to the Bengali spans.</p>
+          <p><strong>Q: Is my text sent to a remote server?</strong><br>A: No. Character mapping runs inside browser memory without transmitting your drafts remotely.</p>
         `
       }
     ]
   },
   "sutonnymj-to-unicode": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "SutonnyMJ to Unicode Converter – Convert SutonnyMJ Bengali Font Online",
-        content: "<p>Convert text written in <strong>SutonnyMJ font</strong> to standard <strong>Bangla Unicode</strong> format in your browser.</p>"
+        content: "<p>Convert legacy Bengali text encoded with <strong>SutonnyMJ</strong> (Bijoy layout) into standard <strong>Bangla Unicode</strong> inside your browser. Restores readability on websites, WhatsApp, Android, and iPhone without font installs.</p>"
+      },
+      {
+        title: "How to Convert SutonnyMJ to Unicode",
+        content: "<ol><li><strong>Paste SutonnyMJ text:</strong> Paste your copied Bengali document text into the input panel.</li><li><strong>Review Bangla Unicode:</strong> The tool transforms legacy glyphs and vowel order into readable Unicode.</li><li><strong>Copy or export:</strong> Copy the clean Unicode text for modern documents and web publishing.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Is SutonnyMJ the same encoding as Bijoy Classic?</strong><br>A: Yes. SutonnyMJ is the primary legacy ANSI font bundled with Bijoy publishing workflows.</p>
+          <p><strong>Q: Are pasted Bangla texts uploaded externally?</strong><br>A: No. Mapping executes in browser memory without sending your text to a backend API.</p>
+        `
       }
     ]
   },
   "unicode-to-sutonnymj": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Unicode to SutonnyMJ Converter – Convert Bangla Unicode to SutonnyMJ",
-        content: "<p>Convert standard <strong>Bangla Unicode</strong> text to legacy <strong>SutonnyMJ</strong> font format for desktop publishing and printing.</p>"
+        content: "<p>Convert modern <strong>Bangla Unicode</strong> back into <strong>SutonnyMJ</strong> (Bijoy) encoding directly inside your browser so Bengali text opens cleanly in older print design software.</p>"
+      },
+      {
+        title: "How to Convert Unicode to SutonnyMJ",
+        content: "<ol><li><strong>Paste Bangla Unicode:</strong> Paste modern Bengali text typed on phone or web.</li><li><strong>Convert encoding:</strong> Generate legacy SutonnyMJ character codes in browser memory.</li><li><strong>Paste &amp; apply SutonnyMJ:</strong> Paste into PageMaker or Word and pick <strong>SutonnyMJ</strong> from the font list.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Do I need SutonnyMJ installed in my desktop app after converting?</strong><br>A: Yes. The browser converts the character codes cleanly without needing fonts installed online, while your target Word/DTP app needs SutonnyMJ applied to display glyphs visually.</p>
+          <p><strong>Q: Are pasted texts stored remotely?</strong><br>A: No. Conversion executes in browser JavaScript without sending drafts to a server.</p>
+        `
       }
     ]
   },
 
   // URDU INPAGE CONVERTER
   "inpage-to-unicode": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "InPage to Unicode Converter – Urdu Font Converter",
-        content: "<p>Convert traditional <strong>InPage Urdu text</strong> into standard <strong>Urdu Unicode</strong> text. Great for bloggers, writers, and students who need to share InPage content on websites, social media, and mobile apps.</p>"
+        content: "<p>Convert legacy <strong>InPage Urdu</strong> text into modern <strong>Urdu Unicode</strong> inside your browser. Ideal for sharing articles, poetry, and books from InPage desktop software onto websites, WhatsApp, and social media.</p><p>Classic desktop Urdu publishing workflows in InPage save characters with proprietary encoding tables rather than modern UTF-8 Unicode, which causes copied passages to scramble in mobile apps and CMS editors until converted.</p>"
       },
       {
-        title: "Features",
-        content: "<ul><li><strong>Nastaliq Character Mapping:</strong> Supports Urdu characters (ٹ, ڈ, ڑ, ں, ے, ھ, چ, پ, ژ, گ, ء, ئ, ؤ).</li><li><strong>Private &amp; In-Browser:</strong> Text is processed locally on your device.</li></ul>"
+        title: "InPage Phonetic Compatibility &amp; Nastaliq Mapping",
+        content: "<ul><li><strong>Nastaliq Character Mapping:</strong> Maps Urdu letters including ٹ, ڈ, ڑ, ں, ے, ھ, چ, پ, ژ, گ, ء, ئ, and ؤ into standard Unicode code points cleanly.</li><li><strong>Diacritics &amp; Punctuation:</strong> Handles common Urdu aerab marks along with Urdu khatma (۔) and comma (،) punctuation using InPage Phonetic alignment.</li><li><strong>Browser Processing:</strong> Character mapping executes inside your browser without uploading passages to a conversion server.</li></ul>"
+      },
+      {
+        title: "How to Convert InPage to Urdu Unicode",
+        content: "<ol><li><strong>Paste copied InPage text:</strong> Copy text from your InPage frame and paste it into the input box.</li><li><strong>Inspect Unicode output:</strong> Verify RTL Urdu Nastaliq rendering in the converted output box.</li><li><strong>Copy &amp; share:</strong> Copy the clean Unicode Urdu for websites, MS Word, or phones.</li></ol>"
       },
       {
         title: "Frequently Asked Questions (FAQ)",
         content: `
-          <p><strong>Q: Why can't I directly copy InPage text to mobile apps?</strong><br>A: InPage uses custom encoding that only displays inside InPage software. Converting to standard Unicode lets the text be read on any modern phone or computer.</p>
+          <p><strong>Q: Why can't I copy InPage text directly to WhatsApp or Facebook?</strong><br>A: Classic InPage encodes Urdu glyphs with custom single-byte codes inside InPage only; converting translates those codes to universal Urdu Unicode.</p>
+          <p><strong>Q: Will right-to-left Urdu reading order stay intact after converting?</strong><br>A: Yes. Standard Unicode Urdu automatically activates browser bidirectional (RTL) display across Android, iOS, Windows, and macOS editors.</p>
+          <p><strong>Q: Are my pasted Urdu drafts uploaded to servers?</strong><br>A: No. Mapping runs inside browser memory without sending pasted text to an external backend.</p>
         `
       }
     ]
   },
   "unicode-to-inpage": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Unicode to InPage Converter – Urdu Unicode to InPage",
-        content: "<p>Convert modern <strong>Urdu Unicode</strong> text into <strong>InPage</strong> compatible format to format in InPage desktop software for newspaper and book layout.</p>"
+        content: "<p>Convert modern <strong>Urdu Unicode</strong> text into legacy <strong>InPage Phonetic</strong> character encoding inside your browser for book publishers, newspapers, and desktop composition in InPage desktop software.</p>"
       },
       {
-        title: "Why convert Unicode Urdu to InPage format?",
-        content: "<p>Modern Urdu text written on smartphones, social media, WhatsApp, or Microsoft Word uses international Unicode encoding. However, many printing presses, book publishing houses, and Urdu newspapers still compose layouts using InPage software for its precise Nastaliq typography. Pasting raw Unicode directly into legacy InPage software creates scrambled characters or question marks. This converter maps modern Urdu characters into the specific character encoding expected by InPage.</p>"
+        title: "Why Convert Unicode Urdu to InPage Format?",
+        content: "<p>Smartphones, WhatsApp, and modern websites compose Urdu in Unicode, whereas print presses and InPage 2.40 / 3.x desktop typography templates rely on InPage's custom single-byte character map for Noori Nastaliq composition. Pasting raw Unicode straight into older InPage boxes yields question marks; this tool generates keystroke-accurate InPage Phonetic codes in browser memory.</p>"
       },
       {
-        title: "How to use converted text in InPage",
-        content: "<ol><li><strong>Paste your Unicode text:</strong> Paste or type your Urdu text into the input box above.</li><li><strong>Convert:</strong> The tool maps the Urdu characters to InPage's character encoding directly in your browser.</li><li><strong>Copy and Paste:</strong> Copy the converted text, open InPage, create or select a text box, and paste it directly.</li></ol>"
+        title: "How to Use Converted Text in InPage",
+        content: "<ol><li><strong>Paste your Urdu Unicode text:</strong> Paste or type Unicode Urdu into the input editor above.</li><li><strong>Convert to InPage Phonetic codes:</strong> The browser maps Urdu letters, hamza, aerab, and Urdu punctuation while preserving numbers and web links cleanly.</li><li><strong>Copy and paste into InPage:</strong> Copy the output and paste straight into an InPage text frame.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Why does Unicode Urdu show as question marks or English characters in InPage?</strong><br>A: Older versions of InPage do not support Unicode directly. They use a custom 1-byte character encoding table. Converting your text with this tool translates the character codes so InPage recognizes each Urdu letter properly.</p>
-          <p><strong>Q: How do I import Unicode Urdu into InPage?</strong><br>A: Paste your Unicode text here, copy the converted output, and paste it into your InPage text boxes.</p>
-          <p><strong>Q: Does this converter support Nastaliq characters and Urdu ligatures?</strong><br>A: Yes. It properly maps Urdu specific letters including ٹ, ڈ, ڑ, ں, ے, ھ, چ, پ, ژ, گ, as well as hamza and common Urdu aerab marks.</p>
-          <p><strong>Q: Is my typed text private?</strong><br>A: Yes. All text conversion runs locally in your web browser. Nothing is sent to our servers or stored in any database.</p>
+          <p><strong>Q: Why does Unicode Urdu show as question marks in older InPage?</strong><br>A: Older InPage releases use proprietary single-byte encoding tables rather than UTF-8 Unicode; converting bridges the code points cleanly.</p>
+          <p><strong>Q: Does this converter support Nastaliq characters and Urdu Phonetic layout?</strong><br>A: Yes. It aligns with the built-in InPage Phonetic keyboard layout and maps Urdu letters (ٹ, ڈ, ڑ, ں, ے, ھ, چ, پ, ژ, گ), hamza, aerab marks, and Urdu punctuation (۔, ،, ؟) while protecting URLs and numbers.</p>
+          <p><strong>Q: Is my typed Urdu text sent to a remote server?</strong><br>A: No. Character conversion executes inside browser JavaScript without sending drafts to external servers.</p>
         `
       }
     ]
@@ -350,132 +413,151 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
 
   // BURMESE ZAWGYI CONVERTER
   "zawgyi-to-unicode": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Zawgyi to Unicode Converter",
-        content: "<p>Instantly convert legacy <strong>Myanmar Zawgyi font</strong> text to the international standard <strong>Myanmar Unicode</strong> format. Since Zawgyi uses a non-standard character encoding, copying and pasting Zawgyi text onto modern smartphones or operating systems often results in unreadable characters or broken text rendering. This tool translates the underlying characters so they display perfectly on any Unicode-compliant device.</p>"
+        content: "<p>Convert legacy <strong>Myanmar Zawgyi font</strong> text into international standard <strong>Myanmar Unicode</strong> inside your browser. Modern Android, iOS, and Windows devices natively expect Myanmar Unicode, so older Zawgyi strings often appear scrambled until mapped cleanly to Unicode order.</p>"
       },
       {
         title: "Why Convert Zawgyi to Unicode?",
-        content: "<ul><li><strong>Modern Device Support:</strong> Zawgyi is largely unsupported on modern Android, iOS, and Windows devices without custom font installations. Unicode is supported natively.</li><li><strong>Fix Broken Text:</strong> If you receive a message or download an old document where the Burmese text looks scrambled, converting it to Unicode restores readability.</li><li><strong>Search & Indexing:</strong> Search engines and modern databases require Unicode. Text stored in Zawgyi cannot be accurately searched online.</li></ul>"
+        content: "<ul><li><strong>Modern Device Support:</strong> Native smartphones, browsers, and search engines expect Myanmar Unicode rather than legacy Zawgyi glyph hacks.</li><li><strong>Restore Readability:</strong> Fixes garbled Burmese posts copied from older blogs, forums, or documents.</li><li><strong>Browser Processing:</strong> Conversion rules execute inside browser memory without sending pasted text remotely.</li></ul>"
       },
       {
         title: "How to Use This Converter",
-        content: "<ol><li><strong>Paste your text:</strong> Paste the unreadable Zawgyi text into the input box.</li><li><strong>Auto-conversion:</strong> The tool instantly converts the text into standard Myanmar Unicode using your browser.</li><li><strong>Copy and Use:</strong> Copy the corrected text. You can now safely share it on WhatsApp, Facebook, or use it in Microsoft Word.</li></ol>"
+        content: "<ol><li><strong>Paste Zawgyi text:</strong> Paste the Burmese Zawgyi text into the input panel above.</li><li><strong>Auto-convert to Myanmar Unicode:</strong> Check the readable Myanmar Unicode text in the output box.</li><li><strong>Copy &amp; share:</strong> Copy cleanly for WhatsApp, Facebook, CMS editors, or Word.</li></ol>"
       },
       {
-        title: "Privacy & Processing",
-        content: "<p>Your text privacy is fully protected. All Zawgyi to Unicode conversion happens locally in your web browser. No data is sent to our servers or stored in the cloud.</p>"
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why does legacy Zawgyi text look broken on newer Android phones or Windows PCs?</strong><br>A: Zawgyi placed Burmese glyphs at non-standard code points; modern phones ship Unicode Myanmar fonts by default and misrender raw Zawgyi text.</p>
+          <p><strong>Q: Are my Myanmar texts transmitted to a server?</strong><br>A: No. Mapping executes in browser JavaScript without uploading pasted text remotely.</p>
+        `
       }
     ]
   },
   "unicode-to-zawgyi": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Unicode to Zawgyi Converter",
-        content: "<p>Instantly convert standard <strong>Myanmar Unicode</strong> text into the legacy <strong>Zawgyi font</strong> format. While Unicode is the modern global standard, many older smartphones, specialized applications, and legacy databases in Myanmar still rely on the Zawgyi encoding. This tool allows you to translate modern text backward so it renders correctly on older systems.</p>"
+        content: "<p>Convert standard <strong>Myanmar Unicode</strong> text back into legacy <strong>Zawgyi font</strong> encoding inside your browser when older Myanmar desktop software, legacy databases, or PageMaker templates require Zawgyi character ordering.</p>"
       },
       {
         title: "When Do You Need Zawgyi Conversion?",
-        content: "<ul><li><strong>Legacy Hardware:</strong> Viewing text on older mobile phones or computers that were configured before Myanmar Unicode became the default standard.</li><li><strong>Old Documents:</strong> Inserting modern text into an older Word document, PDF, or design file (like older versions of Adobe PageMaker or Photoshop) that specifically requires the Zawgyi font.</li><li><strong>Specialized Databases:</strong> Updating legacy databases or websites that have not yet migrated to Unicode.</li></ul>"
+        content: "<ul><li><strong>Legacy Hardware:</strong> Supporting older devices configured prior to Myanmar Unicode migration.</li><li><strong>Print Templates:</strong> Pasting Burmese copy into old desktop layout templates requiring Zawgyi font files.</li><li><strong>Browser Execution:</strong> Character conversion runs in browser JavaScript without server transmission.</li></ul>"
       },
       {
         title: "How to Use This Converter",
-        content: "<ol><li><strong>Paste your text:</strong> Paste the modern Myanmar Unicode text into the input box.</li><li><strong>Auto-conversion:</strong> The tool instantly converts the text into the Zawgyi encoding structure.</li><li><strong>Copy and Use:</strong> Copy the text and paste it into your legacy application. <em>Note: The text may look broken on your current screen unless you have the Zawgyi font installed, but it will work perfectly on the target legacy device.</em></li></ol>"
+        content: "<ol><li><strong>Paste Myanmar Unicode text:</strong> Enter readable Unicode Burmese text into the editor above.</li><li><strong>Generate Zawgyi encoding:</strong> Review the converted Zawgyi output cleanly on the right.</li><li><strong>Apply Zawgyi font:</strong> Paste into your target legacy app and select the Zawgyi font family so characters render properly on that system.</li></ol>"
       },
       {
-        title: "Privacy & Processing",
-        content: "<p>Your text privacy is fully protected. All Unicode to Zawgyi conversion happens locally in your web browser. No data is sent to our servers or stored in the cloud.</p>"
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Why does converted Zawgyi text look odd on my Unicode browser before pasting?</strong><br>A: Without Zawgyi installed locally, modern systems use Unicode fonts—once pasted into an app using the Zawgyi font, the glyphs align.</p>
+          <p><strong>Q: Are typed drafts sent to any server?</strong><br>A: No. Mapping executes in browser memory without sending pasted text remotely.</p>
+        `
       }
     ]
   },
 
   // WEB FONT CONVERTER
   "web-font-converter": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "Web Font Converter (TTF, OTF, WOFF, WOFF2)",
-        content: "<p>Instantly convert your desktop fonts into web-ready formats. Whether you need to compress a bulky TTF into a fast-loading WOFF2, or extract a TTF from a WOFF file, this tool handles it entirely within your browser.</p>"
+        title: "Web Font Converter (TTF/OTF/WOFF/WOFF2 to TTF, WOFF, or WOFF2)",
+        content: "<p>Convert desktop and web font binaries inside your browser using <code>fonteditor-core</code> WebAssembly (<code>/assets/woff2.wasm</code>). Drop <strong>TTF, OTF, WOFF, or WOFF2</strong> fonts and export standard <strong>TTF, WOFF, or WOFF2</strong> files without uploading commercial typefaces to a remote server.</p>"
       },
       {
-        title: "100% Client-Side Privacy",
-        content: "<p>Licensed fonts can be expensive. Uploading them to a remote conversion server risks piracy and violates many commercial font licenses. Our converter uses advanced WebAssembly to process the fonts directly on your computer's memory. <strong>Your font files never leave your device.</strong></p>"
+        title: "Font Format Scope &amp; Why Use WOFF2",
+        content: "<p><strong>Input &amp; output formats:</strong> Accepts <code>.ttf</code>, <code>.otf</code>, <code>.woff</code>, and <code>.woff2</code> inputs and exports <code>.ttf</code>, <code>.woff</code>, or <code>.woff2</code> (OTF inputs are converted internally into TrueType outlines when exported to TTF/WOFF/WOFF2). WOFF2 applies Brotli compression for roughly 30%–50% smaller web payloads compared to uncompressed desktop TTF fonts.</p>"
       },
       {
-        title: "Why use WOFF2?",
-        content: "<p>WOFF2 (Web Open Font Format 2) is the modern standard for web typography. It offers a ~30% better compression rate than the original WOFF format, significantly speeding up your website's load time and improving your Core Web Vitals.</p>"
+        title: "How to Convert Font Files in Browser",
+        content: "<ol><li><strong>Drop your font file:</strong> Upload a <code>.ttf</code>, <code>.otf</code>, <code>.woff</code>, or <code>.woff2</code> font once the WASM module finishes initializing.</li><li><strong>Pick target format:</strong> Choose <strong>WOFF2</strong>, <strong>WOFF</strong>, or <strong>TTF</strong> output (defaults to TTF when dropping WOFF2, and WOFF2 otherwise).</li><li><strong>Convert &amp; download:</strong> Click Convert Font to save your converted file directly from browser memory.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <div itemscope itemtype="https://schema.org/FAQPage">
-            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-              <h3 itemprop="name">What is the difference between TTF and WOFF2?</h3>
-              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">TTF (TrueType Font) is a standard desktop font format meant for operating systems and design software. WOFF2 is a highly compressed font format specifically designed for fast loading on websites. You should always convert TTF to WOFF2 before using it in CSS.</p>
-              </div>
-            </div>
-            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question" class="mt-4">
-              <h3 itemprop="name">Can I install WOFF2 files on my Windows or Mac computer?</h3>
-              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">No. Operating systems do not natively support WOFF2 for system-wide installation. If you have a WOFF2 file that you want to use in Microsoft Word, Photoshop, or Figma, you must convert the WOFF2 file back to TTF or OTF first.</p>
-              </div>
-            </div>
-          </div>
+          <p><strong>Q: Are commercial font files uploaded to a backend server?</strong><br>A: No. Font parsing and WOFF2 WebAssembly compression run inside browser memory without sending font binaries to a remote conversion API.</p>
+          <p><strong>Q: What is the difference between TTF and WOFF2?</strong><br>A: TTF is meant for desktop OS installation and CSS fallbacks, while WOFF2 is compressed for fast website delivery via <code>@font-face</code> rules with <code>font-display: swap;</code>.</p>
+          <p><strong>Q: Can I install WOFF2 directly on Windows or macOS?</strong><br>A: Desktop operating systems typically require TTF or OTF for system installation; switch the target output to TTF to decompress WOFF2 back for Word or Figma.</p>
         `
       }
     ]
   },
   "ttf-to-woff2": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "Convert TTF to WOFF2",
-        content: "<p>Convert your TrueType Fonts (TTF) into the highly compressed WOFF2 format for the web. This tool runs 100% locally in your browser, keeping your premium fonts secure from unauthorized uploads.</p>"
+        title: "Convert TTF to WOFF2 Web Font",
+        content: "<p>Compress desktop TrueType Fonts (<code>.ttf</code>) into compact web-ready <strong>WOFF2</strong> (<code>.woff2</code>) binaries right inside your browser using <code>fonteditor-core</code> and <code>/assets/woff2.wasm</code>, reducing stylesheet web font payloads by roughly 30%–50% with built-in Brotli compression for faster Core Web Vitals.</p>"
       },
       {
-        title: "Why convert TTF to WOFF2?",
-        content: "<p>While TTF works on the web, it is not compressed. Converting a TTF file to WOFF2 can reduce its file size by up to 50%, resulting in faster page loads and better SEO rankings.</p>"
+        title: "Why Self-Host WOFF2 Instead of Shipping Raw TTF",
+        content: "<p>Uncompressed desktop TTF files slow down Largest Contentful Paint on mobile connections and trigger invisible text flashes (FOIT). Converting TrueType fonts to WOFF2 shrinks file size while remaining supported natively across Chrome, Safari, Edge, and Firefox without needing third-party font CDNs.</p><p>Reducing webfont transfer weights also helps keep layout shifts minimal when paired with <code>font-display: swap;</code> and matching fallback font metrics across desktop and mobile viewports.</p>"
+      },
+      {
+        title: "How to Convert TTF to WOFF2",
+        content: "<ol><li><strong>Drop your TTF font:</strong> Wait for WASM readiness and upload your <code>.ttf</code> binary into the Web Font Converter above.</li><li><strong>Confirm WOFF2 target:</strong> Leave <strong>WOFF2</strong> selected (or pick WOFF/TTF if exporting fallback assets).</li><li><strong>Download &amp; embed via CSS:</strong> Save your <code>.woff2</code> file and declare it in CSS using <code>@font-face</code> and <code>font-display: swap;</code>.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <div itemscope itemtype="https://schema.org/FAQPage">
-            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-              <h3 itemprop="name">Is it better to self-host WOFF2 fonts or use Google Fonts?</h3>
-              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Self-hosting your own converted WOFF2 fonts is often faster and much more privacy-friendly than using Google Fonts, as it eliminates extra DNS lookups and prevents third-party tracking scripts from running on your site.</p>
-              </div>
-            </div>
-          </div>
+          <p><strong>Q: Does compressing TTF to WOFF2 alter font licensing or upload files to a server?</strong><br>A: Font parsing and WOFF2 compression run inside browser memory rather than sending binaries to a conversion server, though you should always verify your foundry's web-embedding license terms.</p>
+          <p><strong>Q: Can I convert TrueType fonts back from WOFF2 later?</strong><br>A: Yes. Use our WOFF2 to TTF option inside the Web Font Converter anytime you need desktop installation files.</p>
+          <p><strong>Q: How do I load WOFF2 inside website CSS?</strong><br>A: Add <code>@font-face { font-family: 'MyFont'; src: url('/fonts/font.woff2') format('woff2'); font-display: swap; }</code> in your stylesheet.</p>
         `
       }
     ]
   },
   "otf-to-woff2": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "Convert OTF to WOFF2",
-        content: "<p>Quickly compress your OpenType Fonts (OTF) into WOFF2 web fonts. Our tool runs locally on your device, ensuring complete privacy for your licensed typography.</p>"
-      }
-    ]
-  },
-  "woff2-to-ttf": {
-    sections: [
+        title: "Convert OTF to WOFF2 Web Font",
+        content: "<p>Convert OpenType desktop fonts (<code>.otf</code>) into compact web-ready <strong>WOFF2</strong> (<code>.woff2</code>) binaries inside your browser using <code>fonteditor-core</code> WebAssembly (<code>/assets/woff2.wasm</code>). Internally, OpenType glyph tables convert into TrueType-compatible outlines and pack via Brotli WOFF2 compression for faster page rendering.</p>"
+      },
       {
-        title: "Extract WOFF2 to TTF",
-        content: "<p>Need to use a web font in your desktop design software like Photoshop or Illustrator? This tool perfectly decompresses WOFF2 files back into standard TTF format, entirely within your browser.</p>"
+        title: "Browser Support &amp; CSS Webfont Usage",
+        content: "<p>All modern browsers support WOFF2 natively via CSS <code>@font-face</code> rules. Converting bulky OTF desktop purchases into compressed WOFF2 webfonts reduces mobile bandwidth consumption without sending licensed type files to external cloud converters.</p><p>Web performance audits routinely flag raw <code>.otf</code> and <code>.ttf</code> stylesheet assets as render-blocking overhead. Switching to Brotli-compressed <code>.woff2</code> files lowers network payload for custom display headings and UI typography across responsive pages.</p>"
+      },
+      {
+        title: "How to Convert OTF to WOFF2",
+        content: "<ol><li><strong>Select your OTF file:</strong> Drag and drop a desktop <code>.otf</code> font into the uploader above.</li><li><strong>Keep WOFF2 target selected:</strong> Confirm WOFF2 output (or choose WOFF or TTF if needed for fallback targets).</li><li><strong>Convert &amp; download:</strong> Export the compressed <code>.woff2</code> web font directly from browser memory.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <div itemscope itemtype="https://schema.org/FAQPage">
-            <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-              <h3 itemprop="name">Does converting WOFF2 to TTF lose quality?</h3>
-              <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">No. WOFF2 is simply a compressed container for the original TTF or OTF font data. Converting it back to TTF restores the exact original font file perfectly with zero quality loss.</p>
-              </div>
-            </div>
-          </div>
+          <p><strong>Q: Why convert OTF into WOFF2 before hosting on a website?</strong><br>A: Uncompressed desktop OTF files carry heavy payloads for mobile visitors, whereas WOFF2 shrinks file sizes cleanly with broad Chrome, Edge, Safari, and Firefox support.</p>
+          <p><strong>Q: Does OTF to WOFF2 keep standard character sets and spacing?</strong><br>A: Basic glyph mappings and outline data transfer into the exported webfont container; inspect specialized OpenType ligatures inside a live browser test page afterward.</p>
+          <p><strong>Q: Are my OpenType fonts uploaded to a cloud server?</strong><br>A: No. Parsing and WOFF2 packing execute inside browser WebAssembly memory without sending typography assets remotely.</p>
+        `
+      }
+    ]
+  },
+  "woff2-to-ttf": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Extract WOFF2 to TTF Desktop Font",
+        content: "<p>Decompress web-only <code>.woff2</code> font files back into installable desktop TrueType (<code>.ttf</code>) format inside your browser using <code>fonteditor-core</code> WebAssembly (<code>/assets/woff2.wasm</code>) so you can preview or install licensed typography in desktop software like Figma, Photoshop, Illustrator, and MS Word.</p>"
+      },
+      {
+        title: "Why Desktop Software Cannot Install Raw WOFF2",
+        content: "<p>WOFF2 is a Brotli-compressed web packaging wrapper designed for CSS <code>@font-face</code> delivery inside browsers rather than OS font folders on Windows or macOS. Unpacking WOFF2 back to <code>.ttf</code> restores a standard TrueType desktop font container locally.</p><p>Graphic designers, brand teams, and students often receive a website's <code>.woff2</code> font asset when migrating layouts into presentation slides or print artwork. Converting back to <code>.ttf</code> unlocks local operating system font previews cleanly.</p>"
+      },
+      {
+        title: "How to Convert WOFF2 to TTF",
+        content: "<ol><li><strong>Drop your WOFF2 font:</strong> Select a <code>.woff2</code> file in the Web Font Converter above (target switches to <strong>TTF</strong> automatically).</li><li><strong>Run WebAssembly unpacking:</strong> Click convert to unpack TrueType outline tables in browser memory.</li><li><strong>Download &amp; install TTF:</strong> Save the resulting <code>.ttf</code> font and double-click on Windows or macOS to install locally.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Does unpacking WOFF2 to TTF keep original glyph outlines intact?</strong><br>A: Yes. For TrueType-outline WOFF2 webfonts, decompressing restores the outline tables back into standard <code>.ttf</code> format.</p>
+          <p><strong>Q: Can the unpacked TTF file be opened inside Figma or Office apps?</strong><br>A: Yes. Once installed onto Windows or macOS, standard desktop applications list the unpacked TrueType font inside their system font menus.</p>
+          <p><strong>Q: Are my font files sent to an external server?</strong><br>A: No. Decompression runs inside your browser via <code>/assets/woff2.wasm</code> without uploading fonts to a backend server.</p>
         `
       }
     ]

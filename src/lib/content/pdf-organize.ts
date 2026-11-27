@@ -1,191 +1,229 @@
 export const pdfOrganizeContent: Record<string, { sections: { title: string, content: string }[], disableAutoEnrich?: boolean }> = {
   "merge-pdf": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "Merge PDF, Word (DOCX), PowerPoint (PPTX), and Images Online for Free",
-        content: "<p>Combine multiple documents into one clean PDF. Whether you need to attach a Word document cover letter to a PDF contract, append PowerPoint presentation slides, or insert JPG/PNG photos, our in-browser tool merges them into a single PDF. Supported operations run locally on your device without server upload wait times.</p>"
+        content: "<p>Combine multiple documents and images into one unified Portable Document Format (<code>.pdf</code>). Drop existing PDFs alongside modern Word (<code>.docx</code>), PowerPoint (<code>.pptx</code>), or image files (JPG, PNG, WEBP, GIF, BMP, SVG), drag cards to order them, rotate pages, and tune optional Portrait/Landscape A4/Letter/Legal/A3/A5 page scaling before merging in browser memory.</p>"
       },
       {
         title: "How to Merge Word Documents, Slides, PDFs, and Images",
-        content: "<ol><li><strong>Select Files:</strong> Drag and drop your PDFs, Word documents (.docx, .doc), PowerPoint slides (.pptx, .ppt), or images (JPG, PNG) into the box.</li><li><strong>Arrange Sequence:</strong> Drag and reorder file cards into your desired order. You can also turn on auto-scaling for uniform Portrait A4 pages.</li><li><strong>Click 'Merge Files':</strong> The tool combines your files into a single PDF document.</li><li><strong>Download:</strong> Save your complete PDF file directly to your computer or phone.</li></ol>"
+        content: "<ol><li><strong>Select Files:</strong> Drag and drop your <code>.pdf</code> files, <code>.docx</code> documents, <code>.pptx</code> slides, or images into the drop zone.</li><li><strong>Arrange Sequence &amp; Scaling:</strong> Drag file cards into order, rotate individual items, and choose whether to auto-scale images only or all pages with custom page size, orientation, fit mode, and margins.</li><li><strong>Merge &amp; Download:</strong> Click merge to assemble everything via <code>pdf-lib</code> and download the combined PDF.</li></ol>"
       },
       {
-        title: "In-Browser Processing for File Privacy",
-        content: "<p>PDF, image, Word (.docx), and PowerPoint (.pptx) merging operations run directly in your web browser. Files are processed locally in your device's memory without uploading documents to remote servers.</p>"
+        title: "Processing & Engine Scope",
+        content: "<p>Unencrypted PDFs, form flattening, images, modern <code>.docx</code>, and <code>.pptx</code> conversions run locally in your browser using <code>pdf-lib</code>, <code>pdfjs-dist</code> (for locked/complex PDFs), canvas image compositing, and client-side XML renderers without sending files to a conversion server. Legacy binary <code>.doc</code> or <code>.ppt</code> formats require separate cloud conversion first before merging cleanly.</p>"
       },
       {
         title: "Popular Merging Workflows",
-        content: "<ul><li><strong>Job Applications:</strong> Combine a Word cover letter, a PDF resume, and scanned recommendation letters into one single application package.</li><li><strong>Business Proposals:</strong> Bundle PowerPoint pitch slides with PDF price quotes and site photos.</li><li><strong>School &amp; University Projects:</strong> Combine essays, reference charts, and diagram images for digital submission.</li></ul>"
+        content: "<ul><li><strong>Job Applications:</strong> Combine a Word cover letter, a PDF resume, and scanned certificates into one single submission file.</li><li><strong>Business Proposals:</strong> Bundle PowerPoint pitch slides with PDF price quotes and site photos.</li><li><strong>School &amp; University Projects:</strong> Combine essays, charts, and diagram images into a single ordered PDF.</li></ul>"
       },
       {
         title: "Frequently Asked Questions (FAQs)",
         content: `
-          <p><strong>Q: Can I merge Word (.docx) and PowerPoint (.pptx) files directly with PDFs?</strong><br>A: Yes. You can upload Word and PowerPoint files alongside existing PDFs. The tool automatically converts them into PDF pages and combines them into one document.</p>
-          <p><strong>Q: How do I combine JPG and PNG images with my PDFs?</strong><br>A: Simply drop your image files into the upload box along with your documents. The tool scales and embeds them into your final PDF.</p>
-          <p><strong>Q: Are my files kept private?</strong><br>A: Yes. Files are processed locally or in temporary memory and are never permanently stored, logged, or shared.</p>
-          <p><strong>Q: Can I rearrange the order of the files before merging?</strong><br>A: Yes. Simply click and drag the file cards to arrange the exact page sequence you want.</p>
-          <p><strong>Q: Does this tool add watermarks?</strong><br>A: No. Merged PDFs are clean with no watermarks.</p>
+          <p><strong>Q: Can I merge Word (.docx) and PowerPoint (.pptx) files directly with PDFs?</strong><br>A: Yes. Modern .docx and .pptx files convert in browser memory into PDF pages and merge cleanly into one PDF alongside existing PDF documents and photos.</p>
+          <p><strong>Q: How do I combine JPG and PNG images with my PDFs?</strong><br>A: Drop images alongside your PDFs; you can keep native sizes or turn on auto-scaling to standardize page dimensions and margins.</p>
+          <p><strong>Q: Are my files kept private?</strong><br>A: Yes. Merging and client-side conversions execute inside browser memory without sending your documents to a backend conversion server.</p>
+          <p><strong>Q: Does this tool add watermarks?</strong><br>A: No. Merged PDFs export watermark-free.</p>
         `
       }
     ]
   },
   "split-pdf": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The Split PDF tool breaks down large PDF files into smaller, individual documents. If you have a large multi-page document and want to separate every page into its own file, this tool splits the document quickly in your browser.</p>"
+        title: "Split a PDF into Individual Page Files",
+        content: "<p>The Split PDF tool separates every page of a multi-page Portable Document Format (<code>.pdf</code>) document into its own standalone PDF file inside your browser and bundles all generated single-page PDFs into a clean <code>.zip</code> archive.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>The tool reads the document structure in your browser, creates a separate PDF file for each page, and packages them into a convenient ZIP archive for a one-click download on your device.</p>"
+        content: "<p>Your browser loads the source <code>.pdf</code> using <code>pdf-lib</code>, copies each page individually into a fresh single-page PDF named sequentially (such as <code>document_page_01.pdf</code>), and packages them with JSZip into a single downloadable archive without sending your files to a conversion server.</p>"
       },
       {
         title: "Examples",
-        content: "<p>If you scanned a 20-page document containing individual receipts or forms, uploading it to the Split PDF tool generates a ZIP folder containing 20 separate, numbered PDF files ready to be organized.</p>"
+        content: "<p>If you scanned a 20-page stack containing separate invoices or receipts into one PDF, running Split PDF creates a ZIP archive with 20 individual single-page PDF files ready for filing or emailing separately. To keep only specific pages in one combined PDF instead, use <a href='/extract-pages'>Extract Pages</a>.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select your PDF:</strong> Drag and drop your PDF file into the box.</li><li><strong>Splitting:</strong> The tool separates each page into an individual PDF.</li><li><strong>Download ZIP:</strong> Click download to save your ZIP archive containing all split PDF pages.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Invoicing:</strong> Separating bulk-scanned invoices into individual files.</li><li><strong>Client Communication:</strong> Sending clients only the pages relevant to them.</li><li><strong>Archiving:</strong> Categorizing multi-page reports into individual records.</li></ul>"
+        content: "<ol><li><strong>Select your PDF:</strong> Drag and drop your multi-page <code>.pdf</code> into the upload box.</li><li><strong>Split every page:</strong> Click split so the browser copies every page into its own standalone single-page PDF file.</li><li><strong>Download ZIP:</strong> Save the resulting <code>.zip</code> bundle containing your numbered single-page PDFs.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: What format will my files download in?</strong><br>A: All split pages are bundled into a single standard \`.zip\` archive so you can download them at once.</p>
-          <p><strong>Q: Will splitting affect text or image quality?</strong><br>A: No. The split pages maintain the exact visual data and text from the original document.</p>
-          <p><strong>Q: Are my documents uploaded to external servers?</strong><br>A: No. Splitting runs in your browser's local memory on your own device.</p>
+          <p><strong>Q: What format will my split files download in?</strong><br>A: Every page becomes its own individual PDF file, packaged inside one downloadable <code>.zip</code> archive.</p>
+          <p><strong>Q: Will splitting alter text clarity or fonts?</strong><br>A: No. Pages are copied structurally with <code>pdf-lib</code>, preserving vector text and embedded images.</p>
+          <p><strong>Q: Are my documents sent to external servers?</strong><br>A: No. Page separation and ZIP compression execute inside your browser without uploading the PDF.</p>
         `
       }
     ]
   },
   "remove-pages": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The Remove Pages tool deletes unwanted, blank, or extra pages from an existing PDF document. You can specify single pages or page ranges (like '1, 3, 5-8') to remove them and download a clean, updated document.</p>"
+        title: "Remove Unwanted Pages from a PDF",
+        content: "<p>The Remove Pages tool deletes unwanted, blank, or confidential pages from an existing Portable Document Format (<code>.pdf</code>) document inside your browser. Specify individual page numbers or hyphenated ranges (such as <code>1, 3, 5-8</code>) to strip those pages and download an updated PDF right away.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>The tool reads your PDF in your browser, removes the specified page indices from the document structure, and generates a fresh PDF file directly on your device without server uploads.</p>"
+        content: "<p>Using <code>pdf-lib</code> directly inside browser memory, the utility parses your <code>.pdf</code>, parses comma- and hyphen-separated page numbers into 0-based indices, deletes matching pages from back to front so page numbering never shifts out of order, and builds a clean PDF without uploading files to a remote server.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>If a 15-page document includes blank spacer pages on pages 4 and 9, entering '4, 9' into the tool instantly removes those pages and gives you a clean 13-page PDF.</p>"
+        title: "Examples &amp; Practical Uses",
+        content: "<p>If a 15-page contract or scanned report contains blank separator pages on pages 4 and 9 (or private appendix sheets on pages 12–15), entering <code>4, 9, 12-15</code> removes only those sheets while preserving selectable vector text and embedded images across the remaining document.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select the PDF:</strong> Upload the document you want to trim.</li><li><strong>Specify Pages:</strong> Type the page numbers you want to remove (e.g. 2, 4, 7-10).</li><li><strong>Download:</strong> Save your updated PDF document.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Document Cleanup:</strong> Removing blank pages or accidental duplicate scans.</li><li><strong>Redaction:</strong> Deleting pages containing private details before sharing.</li><li><strong>Custom Proposals:</strong> Removing irrelevant sections from a general proposal document.</li></ul>"
+        content: "<ol><li><strong>Specify page numbers:</strong> Enter the 1-based page numbers or ranges to delete (for example <code>2, 4, 7-10</code>).</li><li><strong>Select your PDF:</strong> Drop your <code>.pdf</code> into the upload zone to strip matching pages in browser memory.</li><li><strong>Download clean PDF:</strong> Save your updated document and verify remaining page counts before emailing or submitting.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does this affect my original file?</strong><br>A: No. Your original file remains untouched. The tool creates a new modified PDF copy for you to download.</p>
-          <p><strong>Q: Is this process secure?</strong><br>A: Yes. Page removal happens locally in your browser without uploading to external servers.</p>
+          <p><strong>Q: Does this modify my original PDF file on disk?</strong><br>A: No. Your original file remains untouched while the browser saves a newly generated copy without the removed pages.</p>
+          <p><strong>Q: Are my PDF files sent to a conversion server?</strong><br>A: No. Page removal executes inside your browser using <code>pdf-lib</code> rather than sending your document to an external server.</p>
         `
       }
     ]
   },
   "extract-pages": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "What is this converter?",
-        content: "<p>The Extract Pages tool pulls specific pages you want to keep from a larger PDF document and compiles them into a new, smaller PDF file.</p>"
+        title: "Extract Specific Pages from a PDF",
+        content: "<p>The Extract Pages tool pulls only the pages you select out of a larger Portable Document Format (<code>.pdf</code>) document and compiles them into a clean standalone PDF file directly inside your browser without altering the source document.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>When you enter page numbers (e.g. '5, 10-15'), the tool copies those specific pages and exports them as a new PDF directly on your computer or phone.</p>"
+        content: "<p>Enter individual 1-based page numbers or page ranges (like <code>5, 10-15</code>). The tool loads your source <code>.pdf</code> with <code>pdf-lib</code> in browser memory, copies only the chosen pages into a fresh PDF container, and saves the slimmer file without sending your documents to a backend conversion server.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>If you downloaded a 100-page manual or study guide but only need pages 12 to 18, entering '12-18' extracts just those 7 pages into a lightweight PDF file.</p>"
+        title: "Examples &amp; Practical Uses",
+        content: "<p>If you downloaded a 100-page reference manual, tax packet, or statement PDF and only need pages 12 through 18 for an application form or accounting upload, typing <code>12-18</code> extracts just those 7 pages into a lightweight document. To split every single page into separate PDFs inside a ZIP instead, use <a href='/split-pdf'>Split PDF</a>.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select PDF:</strong> Upload the document you want to extract pages from.</li><li><strong>Choose Pages:</strong> Type the page numbers you want to keep (e.g. 4, 8, 15-20).</li><li><strong>Download:</strong> Click download to save your new PDF.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Study Notes:</strong> Extracting specific chapters from textbooks.</li><li><strong>Tax Filing:</strong> Extracting relevant schedules and receipts from large statements.</li><li><strong>Presentations:</strong> Isolating specific charts and slides from reports.</li></ul>"
+        content: "<ol><li><strong>Choose pages to keep:</strong> Type single page numbers or hyphenated ranges (for example <code>4, 8, 15-20</code>).</li><li><strong>Select your PDF:</strong> Drag and drop your source <code>.pdf</code> document into the upload box above.</li><li><strong>Download result:</strong> Save the extracted PDF containing only those selected pages.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Are the extracted pages identical in quality?</strong><br>A: Yes. All text, fonts, and images are copied directly from the original document.</p>
-          <p><strong>Q: Are my files private?</strong><br>A: Yes. Processing happens entirely in your web browser.</p>
+          <p><strong>Q: Do extracted pages keep original text and fonts?</strong><br>A: Yes. Pages are copied structurally with <code>pdf-lib</code>, preserving selectable text, vector drawings, and images.</p>
+          <p><strong>Q: Are my files sent to a conversion API?</strong><br>A: No. Extraction runs inside browser memory without sending your PDF to a remote server.</p>
         `
       }
     ]
   },
   "organize-pdf": {
+    disableAutoEnrich: true,
     sections: [
       {
-        title: "How to rearrange and organize your PDF pages",
-        content: "<p>When you scan multi-page documents or assemble reports, pages often end up out of sequence, upside down, or containing accidental blank duplicates. The Organize PDF tool gives you an interactive visual layout of your entire document so you can drag, drop, rotate, and delete pages directly on your screen.</p>"
+        title: "Organize, Reorder, Rotate & Clean PDF Pages",
+        content: "<p>Arrange visual page thumbnails, rotate upside-down scans, delete extra sheets, duplicate pages, insert blank spacer pages, or append images and extra <code>.pdf</code> files inside our interactive organizer without leaving your browser.</p>"
       },
       {
         title: "How visual page organization works",
-        content: "<p>Once you select your PDF, thumbnail previews of every page are generated right inside your browser. You can click and drag any card to reorder pages, click the rotate button to fix orientation, or click the trash icon to remove unwanted pages. When you're happy with the layout, click save to export your restructured PDF.</p>"
+        content: "<p>Your browser renders thumbnail previews for every page of your uploaded Portable Document Format (<code>.pdf</code>) file. Drag thumbnails or click arrows to reorder sequences, rotate individual or selected pages in 90-degree increments, undo accidental deletions, and rebuild the final PDF structurally via <code>pdf-lib</code> without sending files to a conversion server.</p>"
       },
       {
         title: "Simple step-by-step guide",
-        content: "<ol><li><strong>Select your PDF:</strong> Drag and drop your file into the tool.</li><li><strong>Preview & Reorder:</strong> Drag thumbnail cards to rearrange page order, or use the move buttons.</li><li><strong>Rotate or Delete:</strong> Use individual page icons to rotate upside-down pages or remove unwanted pages.</li><li><strong>Download:</strong> Click 'Save & Download PDF' to receive your organized document.</li></ol>"
+        content: "<ol><li><strong>Load one or more PDFs (or images):</strong> Drop your <code>.pdf</code> into the organizer workspace and add extra pages if needed.</li><li><strong>Reorder, rotate, or prune pages:</strong> Drag thumbnails into sequence, rotate sideways pages by 90°, duplicate sheets, insert blanks, or delete unwanted pages.</li><li><strong>Export organized PDF:</strong> Click download to rebuild and save your updated PDF file.</li></ol>"
       },
       {
         title: "Practical everyday uses",
-        content: "<ul><li><strong>Correcting Scanned Documents:</strong> Flip pages scanned in reverse order or rotate landscape pages right-side up.</li><li><strong>Pruning Pages:</strong> Delete unnecessary disclaimer pages, cover sheets, or accidental blanks.</li><li><strong>Combining Content:</strong> Add image pages or additional PDFs into your main document and organize everything in one sequence.</li><li><strong>Presentation Handouts:</strong> Move important summary slides to the front of a slide packet.</li></ul>"
+        content: "<ul><li><strong>Fixing Scanned Packets:</strong> Flipping pages scanned sideways or out of order before emailing.</li><li><strong>Combining Additions:</strong> Inserting extra JPG scans, blank notes pages, or secondary PDFs into one sequence.</li><li><strong>Pruning Unwanted Sheets:</strong> Removing cover pages or accidental blanks while inspecting thumbnails in the lightbox preview.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can I see what each page contains before rearranging?</strong><br>A: Yes. Every page displays a clear preview card. You can also click 'Zoom Preview' to view any page in full screen.</p>
-          <p><strong>Q: Are my documents uploaded to a remote server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.</p>
-          <p><strong>Q: Does reordering reduce the visual quality or text clarity of my PDF?</strong><br>A: No. All original text layers, embedded fonts, and high-resolution images are preserved during page restructuring.</p>
+          <p><strong>Q: Can I preview each page closely before deleting or rotating it?</strong><br>A: Yes. Every page renders a visual thumbnail card and opens in a full zoom lightbox modal on click.</p>
+          <p><strong>Q: Are my documents uploaded to a remote server?</strong><br>A: No. Thumbnail rendering and structural page rebuilding run inside your browser without uploading files to a conversion API.</p>
+          <p><strong>Q: Does reordering reduce visual quality or text selectability?</strong><br>A: No. Pages from your PDF are copied structurally with <code>pdf-lib</code>, keeping original vector text and images intact.</p>
         `
       }
     ]
   },
   "scan-to-pdf": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "What is this converter?",
-        content: "<p>The Scan to PDF tool allows you to take a photo of a document using your phone camera or computer webcam and convert it directly into a standard PDF file.</p>"
+        content: "<p>The Scan to PDF tool captures a photograph using your phone camera or computer webcam (or selects an image file) and places it onto a standard Portable Document Format (<code>.pdf</code>) page inside your browser.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>When you click 'Take Photo', your browser captures the photo and embeds it onto a standard PDF page directly in your device's memory without server uploads.</p>"
+        content: "<p>When you click <em>Take Photo</em>, your browser captures a picture via your device camera and embeds the image directly onto a 1:1 point PDF page with <code>pdf-lib</code> inside browser memory without sending your photo to a conversion server.</p>"
       },
       {
         title: "Examples",
-        content: "<p>Imagine you are a freelance contractor grabbing lunch on a business trip. To get reimbursed, you need to submit your receipt to the accounting department. Instead of stuffing the crumpled receipt into your wallet to scan when you get home, you open the Scan to PDF tool on your smartphone, snap a picture of the receipt on the restaurant table, and instantly download a professional PDF file. You can then immediately attach that PDF to an email and send it to accounting before you even leave the restaurant.</p>"
+        content: "<p>If you need to attach a paper receipt, signed delivery slip, or physical ID to an expense form on the go, you can capture the photo from your phone camera and download a single-page PDF file straight from the browser.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Access the Camera:</strong> Click the 'Take Photo' button on the tool interface to open your device's camera.</li><li><strong>Capture the Document:</strong> Ensure the physical document is well-lit and in focus, then snap the picture.</li><li><strong>Instant Conversion:</strong> The tool will instantly embed your captured photograph into a standard PDF structure.</li><li><strong>Download:</strong> Click the download button to save the newly created PDF to your device's local storage.</li></ol>"
+        content: "<ol><li><strong>Access the Camera:</strong> Click <em>Take Photo</em> on the tool interface to launch your device camera or webcam.</li><li><strong>Capture the Document:</strong> Ensure even lighting and hold your camera steady over the flat document before capturing.</li><li><strong>Generate &amp; Download:</strong> The browser embeds your photo onto a PDF page so you can download the <code>.pdf</code> file right away.</li></ol>"
       },
       {
         title: "Practical uses",
-        content: "<ul><li><strong>Expense Management:</strong> Instantly digitizing physical receipts and invoices for tax reporting and reimbursement software.</li><li><strong>On-the-go Contracts:</strong> Taking photos of physically signed NDA or leasing agreements and immediately returning them as professional PDFs.</li><li><strong>Note Taking:</strong> Capturing classroom whiteboards or collaborative sticky-note sessions and saving them in a universally readable format.</li><li><strong>Identity Verification:</strong> Safely snapping a picture of a driver's license or passport to upload to secure government or banking portals as a PDF.</li></ul>"
+        content: "<ul><li><strong>Expense Receipts:</strong> Turning paper bills into attachable PDF files while traveling.</li><li><strong>Signed Paperwork:</strong> Converting physically signed handouts or agreements into single-page PDFs.</li><li><strong>Notes &amp; Whiteboards:</strong> Capturing printed sheets or handwritten notes as portable documents.</li></ul>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does this tool crop or enhance the document for me?</strong><br>A: Currently, the tool embeds the exact photograph you take. For best results, try to hold your camera parallel to the document and ensure good lighting before snapping the photo.</p>
-          <p><strong>Q: Can I use this on a desktop computer?</strong><br>A: Yes! If you are on a laptop or desktop with a webcam, clicking 'Take Photo' will activate your webcam so you can hold a document up to the lens.</p>
-          <p><strong>Q: Are my scanned documents uploaded to the internet?</strong><br>A: No. The camera capture and PDF generation happen 100% locally on your device. Your sensitive financial or legal documents are completely private.</p>
-          <p><strong>Q: Can I scan multiple pages into one PDF?</strong><br>A: Currently, this tool focuses on quick, single-page captures. For multi-page PDFs, you can scan them individually and then use our Merge PDF tool.</p>
-          <p><strong>Q: Do I need to download an app to use this?</strong><br>A: No! That is the beauty of this tool. It runs entirely within your mobile device's web browser, saving you from downloading bulky scanner apps.</p>
-          <p><strong>Q: Is the final PDF in color or black and white?</strong><br>A: The tool preserves the full color of the photograph you take. If you want a black and white document, you can apply a filter in your camera app before taking the photo.</p>
-          <p><strong>Q: What if the photo turns out blurry?</strong><br>A: You can simply discard the generated PDF and click 'Take Photo' again to try for a clearer shot.</p>
-          <p><strong>Q: Is there a cost to use the scanner?</strong><br>A: No, our Scan to PDF tool is completely free.</p>
-          <p><strong>Q: Will it capture the background behind the document?</strong><br>A: Yes, whatever is visible in the camera viewfinder will be embedded into the PDF. We recommend placing your document on a contrasting background and filling the frame.</p>
-          <p><strong>Q: Can I extract text from the scanned PDF?</strong><br>A: The resulting file is an image-based PDF. To make the text selectable and searchable, you can run the generated file through our OCR PDF tool.</p>
+          <p><strong>Q: Does this tool automatically perspective-crop or filter the photo?</strong><br>A: Currently it embeds the exact frame you capture on a clean PDF page. Place documents on a contrasting surface in good lighting for clear reads.</p>
+          <p><strong>Q: Can I scan multiple pages into one PDF?</strong><br>A: Each capture saves one PDF page; to combine multiple captures into a single document, load them afterward into <a href="/merge-pdf">Merge PDF</a>.</p>
+          <p><strong>Q: Are my captured photos uploaded to external servers?</strong><br>A: No. Camera capture and PDF assembly execute inside your browser without sending photos to a backend conversion API.</p>
+          <p><strong>Q: Can I make the resulting image PDF searchable afterward?</strong><br>A: Yes. Captured files are image-based PDFs; pass them through <a href="/ocr-pdf">OCR PDF</a> if you need a searchable text layer.</p>
+        `
+      }
+    ]
+  },
+  "rotate-pdf": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Rotate Individual or All PDF Pages",
+        content: "<p>Fix sideways or upside-down scans in Portable Document Format (<code>.pdf</code>) files inside your browser. Our page organizer renders crisp thumbnails so you can rotate specific pages clockwise or counter-clockwise by 90°, 180°, or 270° (or batch-rotate selected sheets) and save a corrected PDF.</p>"
+      },
+      {
+        title: "How Rotation Works",
+        content: "<p>Rotation adjusts page orientation properties structurally via <code>pdf-lib</code> without rasterizing pages to compressed JPEGs, keeping selectable vector text, hyperlinks, and image sharpness intact while operating directly inside browser memory.</p><p>Because rotation changes page-dictionary metadata in 90-degree increments rather than re-encoding embedded photographs or outlining fonts, file sizes stay close to the original document. You can correct mixed-orientation binder scans—such as landscape spreadsheets mixed into portrait contracts—in a single pass before exporting.</p>"
+      },
+      {
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Select your PDF:</strong> Drop your <code>.pdf</code> file into the workspace to display thumbnails for every page.</li><li><strong>Rotate sideways pages:</strong> Click rotate icons on individual page cards, or enable multi-select to turn multiple pages at once.</li><li><strong>Save rotated PDF:</strong> Export the updated document and verify page orientation in your reader.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Can I rotate only page 3 instead of rotating every page?</strong><br>A: Yes. Each thumbnail card has its own left/right rotation controls, or you can select multiple specific pages for batch rotation.</p>
+          <p><strong>Q: Does rotating a PDF degrade text quality?</strong><br>A: No. Structural page rotation updates page orientation with <code>pdf-lib</code> without flattening text into lower-resolution images.</p>
+          <p><strong>Q: Does rotating pages affect searchable OCR text?</strong><br>A: No. Existing selectable text layers rotate together with each page canvas so viewers can still highlight and search text properly.</p>
+          <p><strong>Q: Are my files sent to a server?</strong><br>A: No. Rendering thumbnails and saving the rotated PDF run inside browser memory without sending your document to a backend server.</p>
+        `
+      }
+    ]
+  },
+  "edit-pdf": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Edit, Annotate, Sign & Redact PDFs in Your Browser",
+        content: "<p>Add typed text boxes, freehand pen strokes, highlighter marks, rectangles, black redaction boxes, preset stamps (APPROVED, CONFIDENTIAL, DRAFT, PAID, FINAL), and drawn or typed signatures onto Portable Document Format (<code>.pdf</code>) pages inside your browser.</p>"
+      },
+      {
+        title: "How Annotations & Redactions Are Exported",
+        content: "<p>Pages containing only text, highlights, shapes, or signatures preserve their vector structure via <code>pdf-lib</code>. If you place redaction boxes on any page, the exporter inspects the PDF for embedded attachments (blocking redaction export if hidden attachments exist to avoid leaks), displays a confirmation notice, and flattens redacted pages into rendered PNG page images so covered text is removed from the page stream rather than merely covered visually.</p>"
+      },
+      {
+        title: "Step-by-step guide",
+        content: "<ol><li><strong>Upload your PDF:</strong> Select a <code>.pdf</code> file to open the page viewer and editing toolbar.</li><li><strong>Annotate, sign, or redact:</strong> Pick Text, Draw, Highlight, Rectangle, Redact, Signature, or Stamp tools and position elements directly on the page.</li><li><strong>Download edited PDF:</strong> Click export (confirming the flattening notice if redactions were applied) to save your <code>Edited_</code> PDF copy.</li></ol>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Does the Redact tool actually strip hidden text underneath black boxes?</strong><br>A: Yes. When redactions are present, those redacted pages are flattened into rendered PNG representations rather than keeping underlying selectable text, and exports stop if embedded PDF attachments are detected.</p>
+          <p><strong>Q: Can I draw or type my signature?</strong><br>A: Yes. Open the Signature dialog to sketch on the touch/mouse pad or type a styled signature to place on any page.</p>
+          <p><strong>Q: Are my PDFs sent to an external server while editing?</strong><br>A: No. Rendering, annotation placement, and PDF saving execute inside your browser without uploading your document to a backend server.</p>
         `
       }
     ]

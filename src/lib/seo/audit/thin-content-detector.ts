@@ -126,7 +126,7 @@ export function hasToolDomainSpecificTerms(toolSlug: string, totalText: string):
   if (
     cat === "document" ||
     toolSlug.includes("pdf") ||
-    toolSlug.includes("word") ||
+    /(?:^|-)word(?:-|$)/i.test(toolSlug) ||
     toolSlug.includes("powerpoint") ||
     toolSlug.includes("presentation")
   ) {

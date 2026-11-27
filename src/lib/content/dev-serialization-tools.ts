@@ -12,15 +12,15 @@ export const devSerializationToolsContent: Record<string, { disableAutoEnrich?: 
       },
       {
         title: "Base64URL Representation and Readability",
-        content: "The Header and Payload of a JWT are encoded using Base64URL encoding (a variant of Base64 that uses `-` instead of `+` and `_` instead of `/`, making it safe for HTTP URLs). This tool reverses that encoding to reveal the underlying JSON data. It seamlessly parses standard registered claims like `alg` (Algorithm), `typ` (Token Type), `iat` (Issued At), `exp` (Expiration Time), `sub` (Subject), and `iss` (Issuer). Because the data is merely encoded and not encrypted, anyone who intercepts the token can decode and read the information inside."
+        content: "The Header and Payload of a JWT are encoded using Base64URL encoding (a variant of Base64 that uses `-` instead of `+` and `_` instead of `/`, making it safe for HTTP URLs). This tool reverses that encoding to reveal the underlying JSON data. It cleanly parses standard registered claims like `alg` (Algorithm), `typ` (Token Type), `iat` (Issued At), `exp` (Expiration Time), `sub` (Subject), and `iss` (Issuer). Because the data is merely encoded and not encrypted, anyone who intercepts the token can decode and read the information inside."
       },
       {
         title: "Decoding Versus Verification",
-        content: "It is critical to distinguish between decoding a token and verifying a token. Modifying the decoded payload does not magically create a valid token, because the trailing Signature will no longer match the altered payload. A decoded payload should never be trusted until the token's signature is cryptographically verified on a secure backend server using the appropriate secret or public key. This tool is designed purely for debugging and inspecting token contents locally, not for validating issuer authenticity or audience expiration."
+        content: "It is critical to distinguish between decoding a token and verifying a token. Modifying the decoded payload does not create a valid token, because the trailing Signature will no longer match the altered payload. A decoded payload should never be trusted until the token's signature is cryptographically verified on a secure backend server using the appropriate secret or public key. This tool is designed purely for debugging and inspecting token contents locally, not for validating issuer authenticity or audience expiration."
       },
       {
         title: "Client-Side Privacy & Security",
-        content: "Authentication tokens often contain sensitive session identifiers, authorization roles, and account IDs. Pasting live authentication tokens into third-party servers can expose your application to security risks. We parse your token directly inside your browser using standard JavaScript decoding. The decoded token is held only in your device's local memory and is never logged or transmitted over the network."
+        content: "Authentication tokens often contain sensitive session identifiers, authorization roles, and account IDs. Pasting live authentication tokens into third-party servers can expose your application to security risks. We parse your token directly inside your browser using standard JavaScript decoding. The decoded token stays in your device's browser memory rather than being transmitted over the network."
       },
       {
         title: "Decoded Token Structure Example",
@@ -48,7 +48,7 @@ export const devSerializationToolsContent: Record<string, { disableAutoEnrich?: 
         title: "Frequently Asked Questions",
         content: `
           <p><strong>Q: Does this tool verify the JWT signature?</strong><br>A: No. This tool only decodes and parses the Base64URL-encoded header and payload. Verifying a cryptographic signature requires your application's private key or shared secret, which should only be handled on your secure server.</p>
-          <p><strong>Q: Are my tokens or payload claims transmitted across the network?</strong><br>A: No. Decoding runs completely in your browser's local memory using JavaScript. Zero network requests are made with your token.</p>
+          <p><strong>Q: Are my tokens or payload claims transmitted across the network?</strong><br>A: No. Decoding runs inside your browser's memory using JavaScript. Zero network requests are made with your token.</p>
           <p><strong>Q: Why is my token expiration marked expired?</strong><br>A: The tool reads the numeric <code>exp</code> (Expiration Time) claim from the payload and compares it against your device's current clock. If the timestamp has passed, the token is flagged as expired.</p>
           <p><strong>Q: How does Base64URL encoding differ from standard Base64?</strong><br>A: Base64URL replaces <code>+</code> with <code>-</code> and <code>/</code> with <code>_</code>, and removes trailing <code>=</code> padding characters so the string can be safely passed in URL queries and HTTP headers without encoding conflicts.</p>
         `
@@ -60,23 +60,27 @@ export const devSerializationToolsContent: Record<string, { disableAutoEnrich?: 
     sections: [
       {
         title: "What is this tool?",
-        content: "Encode text and files to Base64, or decode Base64 strings back to plain text. Operates entirely in your browser with support for UTF-8 characters and URL-safe Base64 formatting without relying on external servers."
+        content: "Encode text and files to Base64, or decode Base64 strings back to plain text directly inside your browser with support for UTF-8 characters and URL-safe Base64 formatting without sending payloads to external servers."
       },
       {
-        title: "Binary-to-Text Encoding",
-        content: "Base64 is a standard binary-to-text encoding scheme. It is designed to take raw binary data and translate it into a readable string of ASCII characters. This is essential when you need to transfer data over protocols that are designed to handle only text, such as embedding image data directly into CSS files, sending attachments via SMTP email protocols, or passing complex binary configurations inside JSON payloads. Note that Base64 encoding generally increases the representation size of the data by approximately 33%."
+        title: "Step-by-step Base64 guide",
+        content: "<ol><li><strong>Choose Encode or Decode mode:</strong> Switch tabs for plain text or file Data URLs above.</li><li><strong>Paste input or drop a file:</strong> Type UTF-8 text, paste a Base64 string, or pick an asset file.</li><li><strong>Copy or export output:</strong> Toggle URL-safe Base64 if needed and copy the converted string.</li></ol>"
       },
       {
-        title: "Handling Text and UTF-8 Character Sets",
-        content: "This tool uses native browser APIs (`btoa` and `atob`) to convert your input. However, native browser Base64 functions struggle with modern Unicode strings containing emojis or non-Latin characters. For text encoding, this tool safely handles UTF-8 characters by applying `encodeURIComponent` and `decodeURIComponent` before converting to Base64, ensuring special characters are preserved without throwing invalid character errors."
-      },
-      {
-        title: "File Encoding and URL-Safe Base64",
-        content: "For files (like images, PDFs, or documents), the converter uses the browser's native `FileReader` API to generate a standard Base64 Data URL directly on your device. Furthermore, standard Base64 includes `+` and `/` characters, which can break URLs or file systems. By enabling the URL-Safe option, the encoder modifies the alphabet, replacing `+` with `-` and `/` with `_`, and stripping the `=` padding from the end of the string, making the result entirely safe for web transmission."
+        title: "Binary-to-Text Encoding & UTF-8 Support",
+        content: "Base64 converts binary data into ASCII text for CSS embeds, email payloads, and JSON transport (~33% larger than raw bytes). Native browser <code>btoa</code> and <code>atob</code> fail on multi-byte Unicode text, so this tool wraps conversion with <code>encodeURIComponent</code> / <code>decodeURIComponent</code> for UTF-8 strings and uses browser <code>FileReader</code> for files. Optional URL-safe output substitutes <code>+</code> with <code>-</code>, <code>/</code> with <code>_</code>, and trims trailing <code>=</code> padding."
       },
       {
         title: "Encoding is Not Encryption",
-        content: "A common misconception is that Base64 protects data. Base64 is merely an encoding method; it is absolutely not an encryption method and provides zero cryptographic security. Anyone who intercepts a Base64 string can easily decode it back to its original format instantly. Encoded data should never be treated as secret or secure without a secondary layer of actual encryption."
+        content: "Base64 is a reversible serialization encoding—it provides zero confidentiality or encryption. Anyone with a decoded string can reverse Base64 back to its input directly, so avoid treating raw Base64 output as a security boundary."
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Does Base64 protect sensitive API keys or passwords?</strong><br>A: No. Base64 is reversible serialization encoding rather than encryption; anyone who reads the string can decode it directly.</p>
+          <p><strong>Q: Does the encoder handle emojis and Hindi/Punjabi UTF-8 text?</strong><br>A: Yes. It encodes multi-byte UTF-8 characters safely instead of failing with InvalidCharacterError like raw <code>btoa()</code>.</p>
+          <p><strong>Q: Are my encoded strings or files uploaded to a server?</strong><br>A: No. JavaScript encoding and decoding run in your browser memory without network transmission.</p>
+        `
       }
     ]
   },
@@ -85,23 +89,23 @@ export const devSerializationToolsContent: Record<string, { disableAutoEnrich?: 
     sections: [
       {
         title: "What is this tool?",
-        content: "Prettify, minify, and validate JSON data instantly in your browser. Features auto-repair capabilities for common syntax issues like trailing commas and single quotes, ensuring your configurations remain usable."
+        content: "Prettify, minify, and syntax-check JSON payloads inside your browser, including an optional regex-based Auto-Repair mode for single quotes and trailing commas before closing brackets. Designed for debugging API responses, config files, and nested schemas safely inside a tab."
       },
       {
-        title: "JSON Formatting and Native Parsing",
-        content: "JSON (JavaScript Object Notation) is the standard data-interchange format for modern web APIs. It relies on a strict syntax for objects (key-value pairs) and arrays, supporting strings, numbers, booleans, and null values. This tool parses your JSON structure using the browser's native `JSON.parse` engine, and safely reformats it using `JSON.stringify` with consistent indentation (your choice of 2 spaces, 4 spaces, or tabs). It performs basic syntax validation and will alert you if your JSON is fundamentally malformed."
+        title: "Step-by-step JSON formatting guide",
+        content: "<ol><li><strong>Paste JSON input:</strong> Enter formatted or minified JSON text into the editor above.</li><li><strong>Choose indentation or minify:</strong> Pretty-print with 2 spaces, 4 spaces, or tabs, or minify to compact single-line output.</li><li><strong>Run Auto-Repair if needed:</strong> Optionally fix single quotes and trailing commas before closing brackets, then copy validated output cleanly.</li></ol>"
       },
       {
-        title: "Auto-Repair Features and Limitations",
-        content: "When copying poorly formatted data or raw JavaScript object literals from codebases, strict JSON syntax errors are very common. Valid JSON requires double quotes for all keys and string values, and it strictly forbids trailing commas. The Auto-Repair function attempts a regex-based repair to fix broken JSON by converting single quotes (`'`) to double quotes (`\"`) and aggressively stripping out illegal trailing commas right before closing braces (`}` or `]`). However, this is not a complete JSON repair engine; highly corrupted structures or deeply nested invalid characters may still fail to parse."
+        title: "Syntax Validation vs Schema Validation",
+        content: "<p>Using native <code>JSON.parse</code> and <code>JSON.stringify</code> in browser memory, this utility verifies structural syntax (matching brackets, double-quoted property keys, valid primitives, and arrays) without validating semantic field types against a separate JSON Schema specification.</p><p>Catching unquoted keys, stray trailing commas, or unescaped line breaks inside large configuration dumps before pushing code avoids deployment crashes while formatting minified payloads cleanly into 2-space, 4-space, or tab indentation.</p>"
       },
       {
-        title: "Schema Validation Distinction",
-        content: "Note that this tool validates JSON <em>syntax</em>, meaning it ensures the brackets match and the formatting is strictly legal. It does not perform semantic validation or JSON Schema validation against specific external data models. If a key expects a number but receives a string, this tool will consider the JSON perfectly valid as long as the structural syntax is correct."
-      },
-      {
-        title: "Practical Debugging Workflow",
-        content: "All parsing, formatting, and minification operations are handled locally. This allows you to safely paste massive database dumps or API responses directly into the formatter to quickly identify nesting errors without transmitting proprietary database information to an external server."
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Can Auto-Repair fix every broken JSON payload?</strong><br>A: It attempts targeted regex fixes for single-quoted literals and illegal trailing commas, though heavily corrupted brackets still require manual editing.</p>
+          <p><strong>Q: Does this check JSON values against a JSON Schema?</strong><br>A: No. It validates JSON syntax strictly with <code>JSON.parse</code> rather than validating semantic field rules against a schema.</p>
+          <p><strong>Q: Is my JSON payload sent over the internet?</strong><br>A: No. Formatting and syntax checks execute in browser memory without sending API payloads to a remote server.</p>
+        `
       }
     ]
   },
@@ -110,23 +114,71 @@ export const devSerializationToolsContent: Record<string, { disableAutoEnrich?: 
     sections: [
       {
         title: "What is this tool?",
-        content: "Convert JSON arrays of objects into CSV format, or parse CSV text back into structured JSON arrays. Operates entirely locally with a live tabular data preview and custom delimiter control."
+        content: "Convert JSON arrays of objects into CSV spreadsheets, or parse CSV text back into JSON arrays, inside your browser with a live table preview and custom delimiter selection."
       },
       {
-        title: "Tabular vs Hierarchical Data Conversion",
-        content: "Converting JSON to CSV involves mapping hierarchical, nested data structures into flat, tabular rows and columns. This converter is optimized specifically for JSON arrays containing objects. When processing your JSON array, the tool performs a comprehensive scan to extract all unique keys across every object to generate the complete set of CSV headers. If an object is missing a key present in another object, the corresponding column for that row is left safely blank."
+        title: "Step-by-step JSON to CSV guide",
+        content: "<ol><li><strong>Paste JSON or CSV input:</strong> Provide an array of JSON objects or tabular CSV text with a header row.</li><li><strong>Pick a delimiter:</strong> Choose comma, semicolon, tab, or custom separator and inspect the live preview table.</li><li><strong>Copy or download output:</strong> Save your RFC-escaped CSV spreadsheet or parsed JSON array.</li></ol>"
       },
       {
-        title: "First-Level Flattening and Nested Objects",
-        content: "Because CSV is a flat format, handling deep nesting requires specific rules. This tool performs first-level flattening. If a value contains a nested object or a nested array (e.g., `{\"user\": {\"id\": 1}}`), that nested structure is aggressively stringified into a JSON string within the cell rather than being recursively flattened into separate individual columns. This ensures no data is lost during the conversion, though highly complex JSON structures may require manual preprocessing in a spreadsheet application for perfect readability."
+        title: "First-Level Flattening & Escaping Rules",
+        content: "The converter scans all objects in your JSON array to collect unique column headers, stringifies nested objects or arrays cleanly inside cells rather than recursively unpacking infinite levels, wraps fields containing delimiters/newlines in quotes, and escapes embedded quotes as <code>\"\"</code> following standard CSV rules."
       },
       {
-        title: "Quoting, Escaping, and CSV Parsing",
-        content: "When converting to CSV, values containing your chosen delimiter, line breaks, or existing quote characters are safely escaped. The converter wraps these complex values in double quotes and escapes internal quotes (using `\"\"`) following strict CSV RFC standards. When converting in the reverse direction (CSV to JSON), the parser intelligently splits lines while respecting data wrapped in quotes. It automatically casts primitive values: the strings `\"true\"` and `\"false\"` become booleans, and valid numeric strings are parsed into actual Number types."
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: What happens when a JSON object contains nested objects or arrays?</strong><br>A: The converter applies first-level flattening and stringifies nested values into JSON text inside that cell so data is not lost.</p>
+          <p><strong>Q: Are booleans and numeric strings kept when parsing CSV to JSON?</strong><br>A: When converting CSV back to JSON, <code>true</code>/<code>false</code> values convert to booleans and numeric values convert to JSON numbers.</p>
+          <p><strong>Q: Is my JSON dataset sent to a backend server?</strong><br>A: No. All parsing, table previewing, and serialization execute in browser memory without uploading customer rows.</p>
+        `
+      }
+    ]
+  },
+  "csv-to-json": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Convert CSV Spreadsheets to Structured JSON Arrays",
+        content: "Parse CSV or delimiter-separated tables back into structured JSON object arrays inside your browser using quoted-field CSV rules, live table previews, custom delimiter toggles, and automatic boolean/numeric parsing for clean developer exports."
       },
       {
-        title: "Practical Spreadsheet Workflow",
-        content: "All conversions happen locally in your browser memory. This is crucial for data privacy, allowing you to quickly translate raw API endpoints into CSV files for Excel or Google Sheets analysis without uploading customer datasets to a remote server."
+        title: "Step-by-step CSV to JSON guide",
+        content: "<ol><li><strong>Paste CSV text:</strong> Paste comma-, semicolon-, or tab-delimited rows with column names on the first line into the editor above.</li><li><strong>Verify delimiter &amp; preview table:</strong> Check the rendered HTML table grid to verify that quoted text containing commas split into the intended columns.</li><li><strong>Copy or export formatted JSON:</strong> Copy the resulting JSON array directly into your script, seed file, or API payload.</li></ol>"
+      },
+      {
+        title: "Type Casting & Escaped Quote Handling",
+        content: "<p>The parser handles double-quoted fields containing line breaks or commas, unescapes doubled quotes (<code>\"\"</code>), ignores blank trailing lines, maps header column titles to object property names, casts literal <code>true</code>/<code>false</code> strings to JSON booleans and numeric strings to numbers, and leaves general values as strings.</p><p>Exported spreadsheets from Excel, Google Sheets, or bank portals frequently wrap addresses or currency labels containing commas inside quotes—handling those escapes keeps rows aligned when importing into JavaScript apps or databases.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Does the CSV parser handle commas inside quoted text?</strong><br>A: Yes. Delimiters inside double-quoted CSV fields remain intact rather than splitting columns prematurely.</p>
+          <p><strong>Q: Are my CSV tables sent to a server?</strong><br>A: No. CSV parsing and JSON serialization execute inside browser memory without transmitting rows to an external API.</p>
+        `
+      }
+    ]
+  },
+  "unix-timestamp-converter": {
+    disableAutoEnrich: true,
+    sections: [
+      {
+        title: "Unix Epoch Timestamp Converter (Seconds & Milliseconds)",
+        content: "Convert Unix Epoch timestamps (10-digit seconds or 13-digit milliseconds) into readable UTC and local ISO 8601 date strings—or turn a calendar date and time back into an integer Unix Epoch timestamp—inside your browser for log debugging, database queries, and JWT claims."
+      },
+      {
+        title: "Step-by-step timestamp conversion guide",
+        content: "<ol><li><strong>Enter Unix Epoch or calendar date:</strong> Paste a 10-digit seconds integer or 13-digit millisecond integer, or pick a local/UTC date and time.</li><li><strong>Inspect UTC, ISO &amp; local zones:</strong> View formatted UTC timestamps, local browser timezone strings, and elapsed differences right away.</li><li><strong>Copy timestamp:</strong> Copy the converted Unix Epoch integer or formatted ISO 8601 string straight into your logs or query.</li></ol>"
+      },
+      {
+        title: "Understanding Seconds vs Milliseconds",
+        content: "<p>POSIX servers, Python time calls, and JWT claims (`exp`/`iat`) measure elapsed seconds since 1970-01-01T00:00:00Z (10 digits), whereas JavaScript <code>Date.now()</code> and JVM traces measure milliseconds (13 digits). Feeding seconds into a millisecond parser shows dates in January 1970, so unit alignment matters when inspecting payloads.</p><p>API webhook logs, database audit columns, and browser telemetry frequently mix both units across microservices, making manual unit checks helpful whenever comparing server records against UTC boundaries.</p>"
+      },
+      {
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: What is the difference between a 10-digit and 13-digit Unix timestamp?</strong><br>A: Ten-digit Unix Epoch values count seconds since 1970-01-01 UTC, whereas 13-digit values count milliseconds (1,000× larger).</p>
+          <p><strong>Q: Are my logs or timestamps sent across the network?</strong><br>A: No. Date formatting relies on your browser's JavaScript <code>Date</code> object without sending values to a server.</p>
+        `
       }
     ]
   },
@@ -135,19 +187,23 @@ export const devSerializationToolsContent: Record<string, { disableAutoEnrich?: 
     sections: [
       {
         title: "What is this tool?",
-        content: "Generate and validate RFC 4122 compliant Universally Unique Identifiers (UUIDs) locally in your browser. Features bulk generation, custom formatting options, and a built-in syntax variant inspector."
+        content: "Generate and inspect RFC 4122 Universally Unique Identifiers (UUID v4) inside your browser with bulk batch generation (multiple IDs at once), uppercase/hyphen toggles, and a built-in parser showing UUID Version and Variant bits."
       },
       {
-        title: "UUID Version 4 and Cryptographic Security",
-        content: "A UUID (Universally Unique Identifier) is a 128-bit label used for information in computer systems. This tool specifically generates UUID version 4. In modern environments, it utilizes the browser's native `crypto.randomUUID()` API. This ensures that the generated identifiers are built using a cryptographically secure pseudo-random number generator (CSPRNG), making them highly resistant to predictability. However, if your specific browser environment lacks Web Crypto API support, the generator gracefully falls back to a standard `Math.random()` implementation to ensure the tool remains functional."
+        title: "Step-by-step UUID generation guide",
+        content: "<ol><li><strong>Choose batch size &amp; formatting:</strong> Set how many UUIDs to generate and toggle uppercase letters or hyphen separators.</li><li><strong>Generate batch:</strong> Click generate to populate fresh random RFC 4122 Version 4 identifiers via Web Crypto where available.</li><li><strong>Inspect or copy:</strong> Paste any existing UUID into the validator to verify RFC Version/Variant headers, or copy IDs cleanly.</li></ol>"
       },
       {
-        title: "Uniqueness and Practical Application",
-        content: "UUIDs are primarily designed for unique identification across distributed systems without requiring a central coordination authority. While the probability of a collision (generating the exact same UUID twice) using a CSPRNG is astronomically low, it is not mathematically impossible. Furthermore, UUIDs are designed to be identifiers, not authentication secrets. They should be used for database primary keys, session tracking, and transaction IDs, but they are not a replacement for high-entropy secret cryptographic keys."
+        title: "Web Crypto CSPRNG vs Fallback",
+        content: "<p>Modern browsers produce Version 4 UUIDs via <code>crypto.randomUUID()</code> (cryptographically random 122-bit payloads formatted as 8-4-4-4-12 hex), falling back to <code>Math.random()</code> only on restricted runtimes lacking Web Crypto. Note that UUIDs identify database records and API requests rather than replacing private cryptographic secrets or API keys.</p><p>Batch generation lets backend developers populate SQL fixture tables, correlation trace headers, and unit test seed lists inside one clean copy operation.</p>"
       },
       {
-        title: "UUID Validation and Syntax Inspection",
-        content: "The built-in validation inspector analyzes any UUID string to verify it conforms to the standard 32-hexadecimal-digit format separated by hyphens (8-4-4-4-12). It extracts specific bits to determine the Version (e.g., Version 1 Time-based vs Version 4 Randomly Generated) and the Variant (e.g., standard RFC 4122 Variant 1). This helps developers debug identifier compatibility issues across different backend frameworks without sending identifiers over the network."
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Should I use generated UUID v4 values as secret API tokens or passwords?</strong><br>A: No. UUIDs are structured unique identifiers designed for database primary keys and request tracing rather than secret cryptographic credentials.</p>
+          <p><strong>Q: What makes a Version 4 UUID different from a v1 UUID?</strong><br>A: Version 4 UUIDs rely on random bits rather than encoding network MAC addresses and hardware clock timestamps.</p>
+          <p><strong>Q: Are generated UUIDs logged on your server?</strong><br>A: No. Identifier generation and syntax inspection execute inside your browser without network requests.</p>
+        `
       }
     ]
   },
@@ -155,24 +211,23 @@ export const devSerializationToolsContent: Record<string, { disableAutoEnrich?: 
     disableAutoEnrich: true,
     sections: [
       {
-        title: "What is this tool?",
-        content: "Generate random passwords up to 64 characters in length with highly customizable character sets (uppercase, lowercase, digits, and symbols). Operates entirely locally in your browser for absolute privacy."
+        title: "What is this Password Generator?",
+        content: "<p>Create random passwords up to 64 characters long directly inside your browser with checkboxes for uppercase letters, lowercase letters, numbers, and keyboard punctuation symbols. Built as a fast browser password generator utility with one-click clipboard copy and visual length/character pool feedback.</p><p>Using distinct randomly generated combinations across email logins, billing portals, and development staging environments stops credential-stuffing attacks from spilling across unrelated accounts when any external service suffers a leak.</p>"
       },
       {
-        title: "Password Length and Character Sets",
-        content: "Password strength is heavily dependent on two primary factors: the total length of the password and the size of the character pool (the inclusion of uppercase letters, lowercase letters, numbers, and symbols). The tool allows you to customize both. A longer password exponentially increases the total number of possible combinations. A 16-character password using only lowercase letters is generally harder for a computer to brute-force guess than an 8-character password utilizing every available symbol type."
+        title: "Step-by-step password generator guide",
+        content: "<ol><li><strong>Choose password length:</strong> Drag the length slider (16+ characters is recommended for everyday online logins).</li><li><strong>Select character sets:</strong> Keep Uppercase, Lowercase, Numbers, and Symbols toggled on to widen the symbol pool.</li><li><strong>Regenerate &amp; copy:</strong> Click Regenerate for fresh combinations, then click Copy to save the generated password into your password manager.</li></ol>"
       },
       {
-        title: "Randomness and Entropy Considerations",
-        content: "This generator constructs passwords by randomly selecting characters from your chosen pools. <strong>Important Note on Randomness:</strong> This specific utility utilizes a standard pseudo-random number generator (`Math.random()`) to pick characters. It does not use a cryptographically secure hardware-backed API (`crypto.getRandomValues()`). While the resulting entropy is more than sufficient for general web application accounts and day-to-day use, highly sensitive environments or cryptographic key generation should rely on dedicated hardware tokens."
+        title: "Important Randomness & Security Disclosure",
+        content: "<strong>Note on underlying generator source:</strong> This component builds strings using standard JavaScript <code>Math.random()</code> indexing rather than hardware-backed Web Crypto <code>crypto.getRandomValues()</code>. While handy for quick general logins and test fixtures, always rely on a dedicated password manager or Web Crypto CSPRNG generator for sensitive vault master keys, avoid reusing passwords across websites, and enable Two-Factor Authentication (2FA) wherever supported."
       },
       {
-        title: "Security Beyond Password Generation",
-        content: "Generating a high-entropy password is only the first step in digital security. A complex, random password generated by this tool will not protect you from password reuse attacks (if you use the same password on multiple websites), sophisticated phishing campaigns, or direct database breaches on third-party servers. Always utilize unique passwords for every service and enable Two-Factor Authentication (2FA) wherever possible."
-      },
-      {
-        title: "Client-Side Privacy Workflow",
-        content: "Security dictates that passwords should never be transmitted over an unencrypted network in plain text. This password generator operates completely client-side. Your chosen parameters, length settings, and the resulting passwords are generated in your browser's memory and are never logged, stored, or transmitted to any server."
+        title: "Frequently Asked Questions",
+        content: `
+          <p><strong>Q: Does this password generator send generated strings to a remote server?</strong><br>A: No. Character selection runs inside your open browser tab without storing or transmitting passwords remotely.</p>
+          <p><strong>Q: Does this tool use Web Crypto (crypto.getRandomValues) or Math.random?</strong><br>A: The current component uses standard JavaScript <code>Math.random()</code> indexing rather than hardware CSPRNG APIs.</p>
+        `
       }
     ]
   }

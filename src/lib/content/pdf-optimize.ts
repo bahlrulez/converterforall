@@ -65,32 +65,30 @@ export const pdfOptimizeContent: Record<string, { sections: { title: string, con
     ]
   },
   "ocr-pdf": {
+    disableAutoEnrich: true,
     sections: [
       {
         title: "What is this tool?",
-        content: "<p>The OCR PDF tool uses Optical Character Recognition to make scanned paper PDFs searchable and selectable. When you scan a paper document, the PDF is essentially a photo. The OCR tool reads the text in the image and adds a searchable text layer so you can search (Ctrl+F) and copy text.</p>"
+        content: "<p>The OCR PDF tool runs Optical Character Recognition inside your browser using Tesseract.js to convert scanned image Portable Document Format (<code>.pdf</code>) pages into a searchable PDF and optional editable Word (<code>.docx</code>) download. After running OCR, you can search with <code>Ctrl+F</code> or copy text out of scanned pages.</p>"
       },
       {
         title: "How does it work?",
-        content: "<p>The tool runs an in-browser OCR engine on your device to analyze letters in scanned pages and inject a text layer into the PDF without sending your paperwork to third-party servers.</p>"
+        content: "<p>Your browser renders each <code>.pdf</code> page onto a canvas up to roughly 2,500 px JPEG via <code>pdfjs-dist</code>, runs Tesseract.js recognition in your chosen language (English, Hindi with Mangal export, or Punjabi with Raavi export), embeds an invisible selectable text layer per page, and merges pages back into a searchable PDF without uploading your document to a conversion server.</p>"
       },
       {
-        title: "Examples",
-        content: "<p>If you scanned a 10-page printed agreement and need to find a specific clause, running it through OCR lets you search for keywords instantly in any PDF viewer.</p>"
+        title: "Page limits and recognition accuracy",
+        content: "<p>Because rendering high-resolution pages and running WebAssembly OCR happens inside browser memory, input files are limited to <strong>50 pages</strong> maximum per run. Printed typography scans cleanly, whereas skewed camera photos or messy handwriting may yield recognition errors.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload Scanned PDF:</strong> Add your scanned PDF document to the box.</li><li><strong>OCR Processing:</strong> The browser reads text on each page.</li><li><strong>Download Searchable PDF:</strong> Save your updated PDF with searchable, selectable text.</li></ol>"
-      },
-      {
-        title: "Practical uses",
-        content: "<ul><li><strong>Searchable Records:</strong> Making scanned contracts and tax forms searchable.</li><li><strong>Copying Text:</strong> Extracting text from printed pages without typing manually.</li><li><strong>Accessibility:</strong> Enabling screen readers to read scanned documents out loud.</li></ul>"
+        content: "<ol><li><strong>Select language &amp; PDF:</strong> Pick your document's printed language and upload a scanned <code>.pdf</code> (up to 50 pages).</li><li><strong>Run browser OCR:</strong> Wait while each page renders and Tesseract extracts text and builds a searchable layer.</li><li><strong>Download PDF or DOCX:</strong> Save the searchable PDF document or click to export extracted text as a Word <code>.docx</code> file.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does OCR work on handwriting?</strong><br>A: OCR is optimized for printed fonts (like typed letters and books). Handwritten notes are harder to recognize accurately.</p>
-          <p><strong>Q: Are my scanned documents uploaded to servers?</strong><br>A: No. The OCR recognition runs locally in your browser.</p>
+          <p><strong>Q: Why is there a 50-page limit on PDF files?</strong><br>A: Rendering every page as a high-resolution image and running WebAssembly OCR inside a browser tab uses substantial RAM; capping files at 50 pages helps avoid browser tab crashes.</p>
+          <p><strong>Q: Does OCR work well on handwriting?</strong><br>A: OCR is designed primarily for clear printed fonts from books, forms, and typed letters; handwritten notes usually have lower accuracy.</p>
+          <p><strong>Q: Are my scanned documents uploaded to external servers?</strong><br>A: No. PDF rendering and Tesseract recognition run inside your browser without sending your paperwork to a backend conversion API.</p>
         `
       }
     ]

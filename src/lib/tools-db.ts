@@ -25,9 +25,9 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "remove-background": {
       theme: "purple", iconName: "Eraser", badge: "AI Magic", isPopular: true,
       title: "Remove Background",
-      description: "Instantly remove the background from any image using advanced on-device AI.",
+      description: "Remove the background from any image directly inside your browser using on-device AI.",
       seoTitle: "Free AI Background Remover - Remove Backgrounds Online",
-      seoDescription: "Remove image backgrounds instantly using on-device AI. Extract subjects from photos to create transparent backgrounds securely in your browser.",
+      seoDescription: "Remove image backgrounds directly in your browser using on-device AI. Extract subjects from photos to create transparent cutouts locally.",
       inputFormat: "image",
       outputFormat: "png",
       actionName: "Remove Background",
@@ -40,9 +40,9 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "image-to-text": {
       theme: "emerald", iconName: "FileText", badge: "AI Magic", isPopular: true,
       title: "Image to Text (OCR)",
-      description: "Extract text from images (JPG, PNG, WebP) instantly using client-side AI. 100% private.",
+      description: "Extract text from images (JPG, PNG, WebP) directly inside your browser using client-side OCR.",
       seoTitle: "Image to Text Converter - Free Online OCR & Text Extractor",
-      seoDescription: "Extract text from pictures and images instantly. Free, fast, and 100% private in-browser OCR tool. Copy or download extracted text.",
+      seoDescription: "Extract readable text from pictures and scanned images using in-browser OCR. Copy or download extracted text directly in your browser.",
       inputFormat: "image",
       outputFormat: "text",
       actionName: "Extract Text",
@@ -83,7 +83,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "jpg-to-png": {
       theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert JPG to PNG",
-      description: "Convert your JPG images to PNG format instantly.",
+      description: "Convert your JPG images to lossless PNG format directly in your browser.",
       inputFormat: "jpg",
       outputFormat: "png",
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"] }
@@ -91,7 +91,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "png-to-jpg": {
       theme: "emerald", iconName: "Image", badge: "Image", isPopular: true,
       title: "Convert PNG to JPG",
-      description: "Convert your PNG images to JPG format instantly.",
+      description: "Convert your PNG images to compact JPG format directly in your browser.",
       inputFormat: "png",
       outputFormat: "jpg",
       acceptedTypes: { "image/png": [".png"] }
@@ -152,7 +152,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "compress-png": {
       theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
       title: "Compress PNG",
-      description: "Reduce PNG file size with our advanced browser-based compression engine.",
+      description: "Reduce PNG file size directly inside your browser using our client-side compression engine.",
       seoTitle: "Compress PNG - Reduce PNG File Size Online",
       seoDescription: "Compress your PNG images online. Reduce PNG file size while maintaining image quality with our free browser-based compression tool.",
       inputFormat: "png",
@@ -164,7 +164,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "passport-photo-maker": {
       theme: "amber", iconName: "Camera", badge: "Popular", isPopular: true,
       title: "Passport Photo Maker",
-      description: "Create and crop perfect passport photos online. Supports standard US and International sizes.",
+      description: "Create and crop properly framed passport photos online. Supports standard US and International sizes.",
       seoTitle: "Passport Photo Converter - Convert Photo to Passport Size",
       seoDescription: "Convert a photo to passport-size photos online. Crop and resize portraits for supported US and international passport and visa photo sizes. Free AI background removal.",
       inputFormat: "image",
@@ -207,8 +207,8 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       theme: "emerald", iconName: "Image", badge: "Image",
       title: "Convert SVG to PNG",
       seoTitle: "SVG to PNG Converter - Rasterize Vectors Online Free",
-      description: "Convert SVG vector graphics to crisp, transparent PNG images online with 100% privacy.",
-      seoDescription: "Convert SVG vector graphics to high-resolution transparent PNG images online. 100% private, fast client-side rasterization.",
+      description: "Convert SVG vector graphics to crisp, transparent PNG images directly inside your browser.",
+      seoDescription: "Convert SVG vector graphics to high-resolution transparent PNG images online using client-side rasterization in your browser.",
       relatedTools: ["image-to-svg", "image-resizer", "compress-png", "webp-to-png"],
       inputFormat: "svg",
       outputFormat: "png",
@@ -227,7 +227,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "image-to-svg": {
       theme: "emerald", iconName: "Image", badge: "Image",
       title: "Image to SVG Vector Converter",
-      description: "Convert pixel images (PNG, JPG, WEBP) to scalable vector graphics (SVG) instantly. 100% private.",
+      description: "Convert pixel images (PNG, JPG, WEBP) to scalable vector graphics (SVG) directly inside your browser.",
       inputFormat: "image",
       outputFormat: "svg",
       actionName: "Convert to Vector",
@@ -260,7 +260,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "merge-pdf": {
       theme: "orange", iconName: "FileStack", badge: "Popular", isPopular: true,
       title: "Merge PDF, Word (DOCX), JPG & PNG Online Free",
-      description: "Combine multiple PDF documents, Microsoft Word files (DOCX/DOC), and images (JPG, PNG, WebP) into one unified PDF for free. 100% private, on-device merging.",
+      description: "Combine multiple PDF documents, Microsoft Word files (DOCX/DOC), and images (JPG, PNG, WebP) into one unified PDF for free with in-browser merging.",
       subCategory: "Organize PDF",
       inputFormat: "pdf",
       outputFormat: "pdf",
@@ -346,7 +346,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       title: "Scan to PDF",
       seoTitle: "Scan to PDF - Free Mobile PDF Scanner Online",
       description: "Capture document scans and turn them into PDFs.",
-      seoDescription: "Use your device camera to scan receipts, documents, and notes into professional PDF files instantly without downloading any apps.",
+      seoDescription: "Use your device camera or uploaded document photos to assemble printable PDF files directly inside your browser without installing extra apps.",
       relatedTools: ["merge-pdf", "compress-pdf", "jpg-to-pdf", "ocr-pdf"],
       subCategory: "Organize PDF",
       inputFormat: "image",
@@ -490,7 +490,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "web-font-converter": {
       theme: "red", iconName: "FileText", badge: "Document",
       title: "Web Font Converter",
-      description: "Convert TTF, OTF, and WOFF fonts directly in your browser. 100% private, no uploads.",
+      description: "Convert TTF, OTF, WOFF, and WOFF2 fonts directly in your browser without server uploads.",
       subCategory: "Convert Fonts",
       inputFormat: "font",
       outputFormat: "font",
@@ -534,7 +534,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       title: "Convert PDF to JPG",
       description: "Convert PDF document pages to high-quality JPG images.",
       seoTitle: "PDF to JPG Converter - Convert PDF Pages to JPG Images Online",
-      seoDescription: "Convert PDF document pages to high-quality JPG images directly in your browser. 100% private, free, and fast on-device processing.",
+      seoDescription: "Convert PDF document pages to high-quality JPG images directly inside your browser without uploading files to a conversion server.",
       subCategory: "Convert from PDF",
       relatedTools: ["pdf-to-png", "pdf-to-word", "split-pdf", "compress-pdf"],
       inputFormat: "pdf",
@@ -646,7 +646,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     },
     "video-compressor": {
       theme: "amber", iconName: "Zap", badge: "Optimize", isPopular: true,
-      title: "Free Online Video Compressor - Reduce Video Size (Private & Instant)",
+      title: "Free Online Video Compressor - Reduce Video Size",
       description: "Compress MP4, MOV, MKV, WebM, and AVI videos in your browser. Outputs lightweight, universally compatible MP4 files without server uploads.",
       seoTitle: "Free Video Compressor - Reduce Video File Size Online",
       seoDescription: "Compress MP4, MOV, MKV, WebM, and AVI videos online for free. In-browser compression that outputs web-ready MP4 files with no watermark or file upload.",
@@ -730,7 +730,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "screen-recorder": {
       theme: "purple", iconName: "Video", badge: "Video",
       title: "Online Screen Recorder",
-      description: "Record your desktop, application window, or browser tab with audio for free. 100% private and in-browser.",
+      description: "Record your desktop, application window, or browser tab with audio for free inside your browser.",
       inputFormat: "none",
       outputFormat: "mp4",
       actionName: "Start Recording",
@@ -784,8 +784,8 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "QR Code Scanner Online",
       seoTitle: "QR Code Scanner Online - Scan Codes using Camera",
-      seoDescription: "Scan QR codes instantly using your mobile camera, webcam, or by uploading an image. 100% private and secure client-side scanning.",
-      description: "Scan QR codes instantly using your mobile camera, webcam, or by uploading an image. 100% private, fast, and completely secure client-side scanning.",
+      seoDescription: "Scan QR codes in your browser using your mobile camera, webcam, or by uploading an image. Browser-side decoding without remote server uploads.",
+      description: "Scan QR codes using your mobile camera, webcam, or an uploaded image directly inside your browser.",
       relatedTools: ["qr-generator", "barcode-generator"],
       inputFormat: "image",
       outputFormat: "none",
@@ -830,8 +830,8 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "QR Code Generator",
       seoTitle: "Free QR Code Generator Online - Create Custom QR Codes",
-      seoDescription: "Generate high-quality custom QR codes for URLs and text instantly. Download your static QR code as a PNG file for free.",
-      description: "Generate and download custom QR codes for URLs, text, and more instantly.",
+      seoDescription: "Generate high-quality custom QR codes for URLs and text directly in your browser. Download your static QR code as a PNG file for free.",
+      description: "Generate and download custom QR codes for URLs, text, and more in your browser.",
       relatedTools: ["qr-scanner", "barcode-generator"],
       inputFormat: "none",
       outputFormat: "none",
@@ -842,8 +842,8 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Barcode Generator",
       seoTitle: "Free Barcode Generator Online - Create CODE128 Barcodes",
-      seoDescription: "Create standard 1D CODE128 barcodes instantly. Turn any text or number into a high-resolution scannable barcode graphic for free.",
-      description: "Create standard 1D barcodes instantly and download them in high quality.",
+      seoDescription: "Create standard 1D CODE128 barcodes directly in your browser. Turn any text or number into a high-resolution scannable barcode graphic for free.",
+      description: "Create standard 1D barcodes in your browser and download them in high quality.",
       relatedTools: ["qr-generator", "qr-scanner"],
       inputFormat: "none",
       outputFormat: "none",
@@ -854,7 +854,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       theme: "blue", iconName: "FileText", badge: "Popular", isPopular: true,
       title: "Password Generator",
       seoTitle: "Random Password Generator - Secure Local Utility",
-      description: "Generate secure, random, and strong passwords instantly.",
+      description: "Generate randomized passwords with custom length and character sets directly in your browser.",
       seoDescription: "Generate strong, randomized passwords directly in your browser. Customize length up to 64 characters and select symbols, numbers, and case.",
       relatedTools: ["uuid-generator"],
       inputFormat: "none",
@@ -867,7 +867,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       title: "Fuel Cost Calculator",
       seoTitle: "Trip Fuel Cost Calculator - Calculate Gas Cost Online",
       description: "Calculate your estimated fuel cost and required fuel volume for a trip.",
-      seoDescription: "Calculate the exact fuel cost and gas volume required for your trip based on distance and fuel efficiency. Free, private, and 100% client-side.",
+      seoDescription: "Calculate the exact fuel cost and gas volume required for your trip based on distance and fuel efficiency directly in your browser.",
       relatedTools: ["mileage-calculator", "feet-to-meters", "inches-to-centimeters"],
       inputFormat: "none",
       outputFormat: "none",
@@ -879,7 +879,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       title: "Mileage Calculator",
       description: "Calculate your vehicle's exact fuel efficiency and mileage.",
       seoTitle: "Mileage Calculator - Calculate MPG & km/L Online",
-      seoDescription: "Calculate your vehicle's exact MPG, L/100km, or km/L based on distance traveled and fuel consumed. Free, private, and 100% client-side.",
+      seoDescription: "Calculate your vehicle's exact MPG, L/100km, or km/L based on distance traveled and fuel consumed directly in your browser.",
       relatedTools: ["fuel-calculator", "feet-to-meters", "inches-to-centimeters"],
       inputFormat: "none",
       outputFormat: "none",
@@ -889,105 +889,105 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "inches-to-centimeters": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Inches to Centimeters",
-      description: "Convert Inches to Centimeters instantly with our free length converter.",
+      description: "Convert Inches to Centimeters directly in your browser with our free length converter.",
       seoTitle: "Inches to Centimeters Converter (in to cm)",
-      seoDescription: "Convert inches (in) to centimeters (cm) instantly. Free, private, online length converter for precise measurements.",
+      seoDescription: "Convert inches (in) to centimeters (cm) directly in your browser. Free online length converter for accurate measurements.",
       relatedTools: ["camera-measure", "live-ruler"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "inches-to-millimeters": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Inches to Millimeters",
-      description: "Convert Inches to Millimeters instantly with our free length converter.",
+      description: "Convert Inches to Millimeters directly in your browser with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "inches-to-feet": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Inches to Feet",
-      description: "Convert Inches to Feet instantly with our free length converter.",
+      description: "Convert Inches to Feet directly in your browser with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "feet-to-meters": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Feet to Meters",
-      description: "Convert Feet to Meters instantly with our free length converter.",
+      description: "Convert Feet to Meters directly in your browser with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "feet-to-yards": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Feet to Yards",
-      description: "Convert Feet to Yards instantly with our free length converter.",
+      description: "Convert Feet to Yards directly in your browser with our free length converter.",
       seoTitle: "Feet to Yards Converter (ft to yd)",
-      seoDescription: "Convert feet (ft) to yards (yd) instantly. Free, private, online length converter for accurate metric and imperial calculations.",
+      seoDescription: "Convert feet (ft) to yards (yd) directly in your browser. Free online length converter for accurate metric and imperial calculations.",
       relatedTools: ["yards-to-meters", "feet-to-meters", "feet-to-inches"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "feet-to-inches": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Feet to Inches",
-      description: "Convert Feet to Inches instantly with our free length converter.",
+      description: "Convert Feet to Inches directly in your browser with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "miles-to-nautical-miles": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Miles to Nautical Miles",
-      description: "Convert Miles to Nautical Miles instantly with our free length converter.",
+      description: "Convert Miles to Nautical Miles directly in your browser with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "yards-to-meters": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Yards to Meters",
-      description: "Convert Yards to Meters instantly with our free length converter.",
+      description: "Convert Yards to Meters directly in your browser with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "millimeters-to-inches": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Millimeters to Inches",
-      description: "Convert Millimeters to Inches instantly with our free length converter.",
+      description: "Convert Millimeters to Inches directly in your browser with our free length converter.",
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "nanometers-to-micrometers": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Nanometers to Micrometers",
-      description: "Convert Nanometers to Micrometers instantly with our free length converter.",
+      description: "Convert Nanometers to Micrometers directly in your browser with our free length converter.",
       seoTitle: "Nanometers to Micrometers Converter (nm to µm)",
-      seoDescription: "Convert nanometers (nm) to micrometers (µm) instantly. Free, private, online length converter for scientific and engineering calculations.",
+      seoDescription: "Convert nanometers (nm) to micrometers (µm) directly in your browser. Free online length converter for scientific and engineering calculations.",
       relatedTools: ["light-years-to-parsecs"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "light-years-to-parsecs": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Light Years to Parsecs",
-      description: "Convert Light Years to Parsecs instantly with our free length converter.",
+      description: "Convert Light Years to Parsecs directly in your browser with our free length converter.",
       seoTitle: "Light Years to Parsecs Converter (ly to pc)",
-      seoDescription: "Convert light years (ly) to parsecs (pc) instantly. Free, private astronomical distance converter for astrophysics calculations.",
+      seoDescription: "Convert light years (ly) to parsecs (pc) directly in your browser. Free astronomical distance converter for astrophysics calculations.",
       relatedTools: ["nanometers-to-micrometers"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "nautical-miles-to-miles": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Nautical Miles to Miles",
-      description: "Convert Nautical Miles to Miles instantly with our free length converter.",
+      description: "Convert Nautical Miles to Miles directly in your browser with our free length converter.",
       seoTitle: "Nautical Miles to Miles Converter (nmi to mi)",
-      seoDescription: "Convert nautical miles to standard statute miles instantly. Free, private, online length converter for aviation and marine navigation.",
+      seoDescription: "Convert nautical miles to standard statute miles directly in your browser. Free online length converter for aviation and marine navigation.",
       relatedTools: ["miles-to-nautical-miles", "furlongs-to-miles", "leagues-to-miles"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "furlongs-to-miles": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Furlongs to Miles",
-      description: "Convert Furlongs to Miles instantly with our free length converter.",
+      description: "Convert Furlongs to Miles directly in your browser with our free length converter.",
       seoTitle: "Furlongs to Miles Converter",
-      seoDescription: "Convert furlongs to miles instantly. Free online distance converter for horse racing and historical measurements.",
+      seoDescription: "Convert furlongs to miles directly in your browser. Free online distance converter for horse racing and historical measurements.",
       relatedTools: ["miles-to-nautical-miles", "leagues-to-miles"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     },
     "leagues-to-miles": {
       theme: "slate", iconName: "Wrench", badge: "Tool",
       title: "Leagues to Miles",
-      description: "Convert Leagues to Miles instantly with our free length converter.",
+      description: "Convert Leagues to Miles directly in your browser with our free length converter.",
       seoTitle: "Leagues to Miles Converter",
-      seoDescription: "Convert historical leagues to standard miles instantly. Free, private, online distance converter.",
+      seoDescription: "Convert historical leagues to standard miles directly in your browser. Free online distance converter.",
       relatedTools: ["furlongs-to-miles", "nautical-miles-to-miles"],
       inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "length", acceptedTypes: {}
     }
@@ -1009,15 +1009,15 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "unicode-to-raavi": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Raavi", seoTitle: "Unicode to Raavi Font | Gurmukhi Typing & Display Guide", seoDescription: "Raavi is the standard Windows OpenType font for Gurmukhi Unicode. Learn how to display and format Punjabi Unicode text in Raavi font without conversion.", description: "Raavi is an OpenType Gurmukhi font for Unicode. Text in Unicode already displays in Raavi; no conversion needed.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "punjabi", acceptedTypes: {} },
 
     // NEPALI FONT CONVERTERS
-    "preeti-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Preeti to Unicode Converter", description: "Convert Nepali Preeti legacy font text to standard universal Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
+    "preeti-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Preeti to Unicode Converter", description: "Convert Nepali Preeti legacy font text to standard universal Unicode in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
     "unicode-to-preeti": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Preeti Converter", description: "Convert standard Nepali Unicode text to traditional Preeti font format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "nepali", acceptedTypes: {} },
 
     // BENGALI FONT CONVERTERS (BIJOY / SUTONNYMJ)
-    "bijoy-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Bijoy to Unicode Converter (SutonnyMJ)", description: "Convert legacy Bijoy SutonnyMJ Bengali text to standard Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
+    "bijoy-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "Bijoy to Unicode Converter (SutonnyMJ)", description: "Convert legacy Bijoy SutonnyMJ Bengali text to standard Unicode in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
     "unicode-to-bijoy": { theme: "cyan", iconName: "Type", badge: "Font", title: "Unicode to Bijoy Converter (SutonnyMJ)", description: "Convert Unicode Bengali text to legacy Bijoy SutonnyMJ format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "bengali", acceptedTypes: {} },
 
     // URDU FONT CONVERTERS (INPAGE & URDU UNICODE)
-    "inpage-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode instantly.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
+    "inpage-to-unicode": { theme: "cyan", iconName: "Type", badge: "Font", title: "InPage to Urdu Unicode Converter", description: "Convert Pakistani Urdu InPage (.inp/ASCII) text to standard universal Urdu Unicode in your browser.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
     "unicode-to-inpage": { theme: "cyan", iconName: "Type", badge: "Font", title: "Urdu Unicode to InPage Converter", description: "Convert standard Urdu Unicode text to InPage editor format.", inputFormat: "none", outputFormat: "none", isInteractive: true, converterType: "font", fontCategory: "urdu", acceptedTypes: {} },
 
     "font-detector": {
@@ -1080,7 +1080,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       title: "JSON to CSV Converter",
       seoTitle: "JSON to CSV Converter - Free Client-Side Data Tool",
       description: "Convert JSON arrays and files to CSV format in your browser with live tabular data preview and custom delimiter settings.",
-      seoDescription: "Instantly convert JSON arrays to CSV or parse CSV text back to JSON. Features live table previews and strict browser-side privacy.",
+      seoDescription: "Convert JSON arrays to CSV or parse CSV text back to JSON in your browser. Features live table previews and browser-side execution.",
       relatedTools: ["json-formatter", "base64-encoder-decoder"],
       subCategory: "Data Conversion",
       inputFormat: "none",
@@ -1092,7 +1092,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "csv-to-json": {
       theme: "cyan", iconName: "Code2", badge: "Data & Code", isPopular: true,
       title: "CSV to JSON Converter",
-      description: "Convert CSV spreadsheets and text into structured JSON arrays and objects instantly on your device with 100% privacy.",
+      description: "Convert CSV spreadsheets and text into structured JSON arrays and objects directly inside your browser.",
       subCategory: "Data Conversion",
       inputFormat: "none",
       outputFormat: "none",
@@ -1129,7 +1129,7 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
       theme: "cyan", iconName: "Code2", badge: "Data & Code",
       title: "UUID Generator & Validator (v4 GUID)",
       seoTitle: "UUID v4 Generator & Validator - Cryptographically Secure",
-      description: "Generate bulk RFC 4122 v4 UUIDs / GUIDs instantly in your browser with uppercase, hyphens, and braces options, plus UUID syntax validator.",
+      description: "Generate bulk RFC 4122 v4 UUIDs / GUIDs directly in your browser with uppercase, hyphens, and braces options, plus UUID syntax validator.",
       seoDescription: "Generate random, cryptographically secure v4 UUIDs directly in your browser. Includes a UUID syntax validator to inspect versions and variants.",
       relatedTools: ["password-generator"],
       subCategory: "Tokens & Security",

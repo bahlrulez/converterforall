@@ -171,7 +171,7 @@ function enrichContentIfShort(
         content: `
           <ol>
             <li><strong>Paste your source text:</strong> Paste or type your text into the input editor.</li>
-            <li><strong>Instant in-browser conversion:</strong> Characters are converted directly in your browser's local memory without uploading to any server.</li>
+            <li><strong>Browser conversion:</strong> Characters map inside your browser memory without uploading text to a server.</li>
             <li><strong>Copy your result:</strong> Click copy to paste the converted text into your target software or document.</li>
           </ol>
         `
@@ -182,7 +182,7 @@ function enrichContentIfShort(
         content: `
           <ol>
             <li><strong>Select your file:</strong> Drag your file into the upload zone or choose it from your device.</li>
-            <li><strong>Instant browser processing:</strong> Most of our tools run directly inside your browser so your documents stay on your device.</li>
+            <li><strong>Browser processing:</strong> Most of our tools run directly inside your browser using local memory.</li>
             <li><strong>Download your result:</strong> Save your finalized file straight to your device with 1 click.</li>
           </ol>
         `
@@ -203,7 +203,7 @@ function enrichContentIfShort(
         <li><strong>Full Urdu Alphabet Support:</strong> Correctly maps Urdu letters including Alif Madda (آ), Bay (ب), Pay (پ), Te (ت), Tte (ٹ), Che (چ), Daal (د), Ddaal (ڈ), Ray (ر), Rray (ڑ), Seen (س), Sheen (ش), Gaaf (گ), Noon Ghunna (ں), Gol Heh (ہ), Do-chashmi He (ھ), Choti Yeh (ی), and Badi Yeh (ے).</li>
         <li><strong>Hamza &amp; Aerab Handling:</strong> Preserves standalone Hamza (ء), Yeh with Hamza (ئ), Waw with Hamza (ؤ), Heh Goal with Hamza (ۂ), as well as Zabar, Zer, Pesh, Khari Zabar, and Tashdeed diacritics.</li>
         <li><strong>Punctuation &amp; Links:</strong> Correctly converts Urdu Khatma (۔), Urdu commas (،), and question marks (؟), while automatically isolating and protecting web URLs, email addresses, and numbers from corruption.</li>
-        <li><strong>In-Browser Processing:</strong> All text conversion runs directly in your browser's local memory. Typed text is never uploaded to remote servers.</li>
+        <li><strong>In-Browser Processing:</strong> All text conversion runs in your browser memory rather than sending pasted drafts to remote servers.</li>
       </ul>
     `;
     extraFaq = `
@@ -224,13 +224,13 @@ function enrichContentIfShort(
         <ul>
           <li><strong>Verify in Word or Docs:</strong> After converting legacy text (such as Kruti Dev or DevLys) to standard Unicode, paste it into MS Word or Google Docs to verify that all Devanagari vowel matras, halants, and conjuncts render accurately.</li>
           <li><strong>Official Exams &amp; Portals:</strong> Modern government exams (including CPCT, SSC, High Court, and State Police typing tests) mandate standard Mangal Unicode font. Use this converter to standardize your typing passages.</li>
-          <li><strong>WhatsApp &amp; Mobile:</strong> Unicode Devanagari text displays correctly on all modern Android, iPhone, Mac, and Windows devices without installing custom font files.</li>
-          <li><strong>In-Browser Processing:</strong> All text conversions run directly in your browser's local memory. Your typed text is never uploaded to remote servers.</li>
+          <li><strong>WhatsApp &amp; Mobile:</strong> Unicode Devanagari text displays correctly on modern Android, iPhone, Mac, and Windows devices without installing custom font files.</li>
+          <li><strong>In-Browser Processing:</strong> All text conversions run in browser memory rather than sending pasted drafts to remote servers.</li>
         </ul>
       `;
       extraFaq = `
         <p><strong>Q: Why does my converted text look different in older software?</strong><br>A: Software created before 2005 often lacks modern Unicode rendering engines. Modern browsers, smartphones, and word processors display Unicode Devanagari accurately.</p>
-        <p><strong>Q: Is my typed text uploaded or logged?</strong><br>A: No. All text conversions run in your browser's memory without any network transmission.</p>
+        <p><strong>Q: Is my typed text uploaded or logged?</strong><br>A: No. Text conversions run inside browser memory without sending pasted text to a server.</p>
       `;
     } else {
       tipsTitle = "Typing & font conversion recommendations";
@@ -239,61 +239,61 @@ function enrichContentIfShort(
         <ul>
           <li><strong>Verify in Word or Docs:</strong> After converting legacy text to standard Unicode, paste it into MS Word or Google Docs to verify that all vowel matras, accents, and conjuncts display accurately.</li>
           <li><strong>Official Exams &amp; Portals:</strong> Modern government portals, court typist tests, and educational boards mandate Unicode. Use this converter to standardize your typing.</li>
-          <li><strong>WhatsApp &amp; Mobile:</strong> Unicode text displays correctly on all modern smartphones without installing custom font files.</li>
-          <li><strong>In-Browser Processing:</strong> All text conversions run directly in your browser's memory without any network transmission.</li>
+          <li><strong>WhatsApp &amp; Mobile:</strong> Unicode text displays correctly on modern smartphones without installing custom font files.</li>
+          <li><strong>In-Browser Processing:</strong> Text conversions run inside browser memory rather than sending typed text to a backend server.</li>
         </ul>
       `;
       extraFaq = `
         <p><strong>Q: Why does my converted text look different in older software?</strong><br>A: Software created before 2005 often lacks modern Unicode rendering engines. Modern browsers, smartphones, and word processors display Unicode accurately.</p>
-        <p><strong>Q: Is my typed text uploaded or logged?</strong><br>A: No. All text conversions run in your browser's memory without any network transmission.</p>
+        <p><strong>Q: Is my typed text uploaded or logged?</strong><br>A: No. Text conversions execute inside browser memory without backend logging.</p>
       `;
     }
   } else if (isWebFontFile) {
     tipsTitle = "Web font optimization & @font-face tips";
     tipsContent = `
-      <p>Converting desktop font files (TTF/OTF) into modern web fonts (WOFF2) is one of the most effective ways to speed up website load times:</p>
+      <p>Converting desktop font files (TTF/OTF) into modern web fonts (WOFF2) reduces stylesheet font payload size:</p>
       <ul>
         <li><strong>Brotli compression:</strong> WOFF2 uses built-in Brotli compression algorithms to achieve 30% to 50% smaller file sizes than standard TrueType (TTF) or OpenType (OTF) fonts.</li>
-        <li><strong>Browser compatibility:</strong> All modern browsers (Chrome, Edge, Safari, Firefox) natively support WOFF2. Keep a TTF fallback only if supporting legacy browsers.</li>
-        <li><strong>CSS Implementation:</strong> Define your converted font using the standard <code>@font-face</code> CSS rule with <code>font-display: swap;</code> to prevent layout shifts.</li>
-        <li><strong>Client-side security:</strong> Your font files are converted directly in your browser using WebAssembly. Proprietary brand fonts are never uploaded to third-party servers.</li>
+        <li><strong>Browser compatibility:</strong> Modern browsers (Chrome, Edge, Safari, Firefox) natively support WOFF2.</li>
+        <li><strong>CSS Implementation:</strong> Define your converted font using <code>@font-face</code> with <code>font-display: swap;</code> to prevent layout shifts.</li>
+        <li><strong>Browser security:</strong> Font binaries process in browser memory using WebAssembly without sending font files to third-party servers.</li>
       </ul>
     `;
     extraFaq = `
       <p><strong>Q: Why is WOFF2 better for websites than TTF or OTF?</strong><br>A: WOFF2 files are significantly smaller, reducing page download times and preventing invisible text flashes (FOIT) on mobile networks.</p>
-      <p><strong>Q: Can I convert commercial fonts safely?</strong><br>A: Yes. Because processing occurs entirely in your browser's local memory, your font files are never stored or shared.</p>
+      <p><strong>Q: Can I convert commercial fonts safely?</strong><br>A: Processing executes inside your browser's memory rather than uploading font binaries remotely; also review your font foundry's web embedding license.</p>
       <p><strong>Q: How do I load the converted WOFF2 file in CSS?</strong><br>A: Use <code>@font-face { font-family: 'MyFont'; src: url('myfont.woff2') format('woff2'); font-display: swap; }</code>.</p>
     `;
   } else if (isImageToPdf) {
     tipsTitle = "Image to PDF conversion recommendations";
     tipsContent = `
-      <p>To ensure your images convert into clean, professional PDF documents:</p>
+      <p>To ensure your images convert into clean PDF documents:</p>
       <ul>
-        <li><strong>Preserve Image Resolution:</strong> Image pixels are embedded directly into the PDF canvas without lossy compression so graphics and scans remain clear.</li>
+        <li><strong>Preserve Image Resolution:</strong> Image bytes are embedded into the PDF canvas without lossy recompression so graphics and scans stay clear.</li>
         <li><strong>Transparent Backgrounds:</strong> Transparent PNG graphics are placed on a clean white background so text and dark logos stay legible when printed.</li>
-        <li><strong>1:1 Point Dimension Mapping:</strong> In PDF, page dimensions are measured in user-space points (1/72 inch). This tool maps each image pixel 1:1 to one PDF point, preserving your full uncompressed raster resolution without stretching or cropping.</li>
-        <li><strong>Private In-Browser Processing:</strong> Most of our tools run directly inside your browser so your documents stay on your device.</li>
+        <li><strong>1:1 Point Dimension Mapping:</strong> In PDF, page dimensions are measured in user-space points (1/72 inch). This tool maps each image pixel 1:1 to one PDF point.</li>
+        <li><strong>Browser Processing:</strong> Encoding runs inside your web browser without sending files to a conversion server.</li>
       </ul>
     `;
     extraFaq = `
-      <p><strong>Q: Does converting an image to PDF degrade image quality or downsample pixels?</strong><br>A: No. The image bytes are embedded directly into the PDF document at original resolution using in-browser PDF encoding without lossy recompression.</p>
-      <p><strong>Q: Are my uploaded images sent to an external server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
+      <p><strong>Q: Does converting an image to PDF degrade image quality or downsample pixels?</strong><br>A: No. Image bytes embed directly onto the PDF page at native resolution via in-browser encoding.</p>
+      <p><strong>Q: Are my uploaded images sent to an external server?</strong><br>A: No. Embedding runs inside browser memory without sending images to a remote server.</p>
     `;
   } else if (isPdfPageManagement) {
     tipsTitle = "Document best practices & privacy notes";
     tipsContent = `
-      <p>When working with official documents, contracts, resumes, or financial filings, keeping layouts intact and files private is essential:</p>
+      <p>When working with contracts, resumes, or financial filings, keep originals safe and verify page sequences:</p>
       <ul>
-        <li><strong>Keep backups:</strong> Always retain a copy of your original document before removing pages, scrubbing metadata, or compressing.</li>
-        <li><strong>Page orientation:</strong> If any pages were scanned sideways, rotate them to standard portrait before emailing or submitting.</li>
-        <li><strong>Font preservation:</strong> In-browser PDF processing preserves embedded vector fonts so headings and text stay crisp at any zoom level.</li>
-        <li><strong>Document privacy:</strong> Most of our tools run directly inside your browser so your documents stay on your device. For conversions that use cloud processing (like Word-to-PDF and PowerPoint-to-PDF via Cloudmersive), files are handled in temporary memory without permanent storage on our servers.</li>
+        <li><strong>Keep backups:</strong> Retain a copy of your original document before removing or reordering pages.</li>
+        <li><strong>Page orientation:</strong> Fix any sideways scans before emailing or submitting.</li>
+        <li><strong>Font preservation:</strong> Structural PDF tools preserve embedded vector fonts cleanly via <code>pdf-lib</code>.</li>
+        <li><strong>Processing note:</strong> Most of our tools run directly inside your browser so your documents remain in local memory; complex cloud conversions (like Cloudmersive Word-to-PDF or PowerPoint-to-PDF when enabled) process files in temporary memory.</li>
       </ul>
     `;
     extraFaq = `
-      <p><strong>Q: Will modifying or converting pages degrade document quality?</strong><br>A: No. Operations like extracting, removing, or reordering pages update the document index without re-compressing existing text layers or high-resolution images.</p>
-      <p><strong>Q: Can I process large PDF files on my phone?</strong><br>A: Yes. Because processing occurs locally in your browser's memory, documents up to 50MB–100MB process smoothly on modern smartphones and laptops.</p>
-      <p><strong>Q: Are my confidential files stored on remote servers?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
+      <p><strong>Q: Will modifying or converting pages degrade document quality?</strong><br>A: Structural operations copy existing text layers and images rather than rasterizing pages.</p>
+      <p><strong>Q: Can I process large PDF files on my phone?</strong><br>A: Small-to-medium PDFs run smoothly in modern mobile browsers, constrained mainly by available device RAM.</p>
+      <p><strong>Q: Are my confidential files stored on remote servers?</strong><br>A: No. Structural PDF utilities run directly in browser memory without sending your file to a remote server.</p>
     `;
   } else if (toolSlug === "excel-to-pdf") {
     tipsTitle = "Excel XLSX to PDF: scope and limitations";
@@ -316,9 +316,9 @@ function enrichContentIfShort(
     tipsContent = `
       <p>Conversion fidelity depends on the Office file type and the selected conversion engine. Review the generated PDF before using it as a final copy.</p>
       <ul>
-        <li><strong>Browser-first processing:</strong> Word and PowerPoint conversion start in your browser. Cloud Engine is an optional user-selected route for those tools.</li>
+        <li><strong>Browser-first processing:</strong> Word (.docx) and PowerPoint (.pptx) conversion start in your browser. Cloud Engine is an optional user-selected route for those tools and required for legacy .doc/.ppt formats.</li>
         <li><strong>Layout checks:</strong> Complex fonts, diagrams, charts, tables, and page breaks may render differently between engines. Compare the result with the source file.</li>
-        <li><strong>Document privacy:</strong> Files stay in the browser for the default local conversion path. When you opt into a cloud engine, the selected file is sent to the conversion service for processing.</li>
+        <li><strong>Document privacy:</strong> Files remain in browser memory for the default local conversion path. When you opt into a cloud engine, the selected file is sent to the conversion service for processing.</li>
       </ul>
     `;
     extraFaq = `
@@ -330,85 +330,83 @@ function enrichContentIfShort(
     tipsContent = `
       <p>To get sharp image exports from your PDF documents:</p>
       <ul>
-        <li><strong>Vector Text Rendering:</strong> Embedded vector text renders cleanly at high resolution during export.</li>
-        <li><strong>Format Selection:</strong> Choose PNG when you need lossless quality and diagram sharpness, or JPG for smaller photo file sizes.</li>
-        <li><strong>Client-Side Security:</strong> Most of our tools run directly inside your browser so your documents stay on your device.</li>
+        <li><strong>2.0× Canvas Rendering:</strong> Pages render cleanly at 2.0× scale for clear diagrams and text.</li>
+        <li><strong>Format Selection:</strong> Choose PNG for diagram sharpness or alpha transparency, or JPG for smaller photo-oriented files.</li>
+        <li><strong>Browser Processing:</strong> Page rendering executes in your browser without sending documents to a remote server.</li>
       </ul>
     `;
     extraFaq = `
-      <p><strong>Q: Will extracted images be high resolution?</strong><br>A: Yes. The tool renders each PDF page at high DPI so fine text and diagrams remain sharp.</p>
-      <p><strong>Q: Are my confidential PDFs uploaded to external servers?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
+      <p><strong>Q: Will extracted images be sharp?</strong><br>A: Yes. The tool renders each PDF page at 2.0× scale so text and diagrams remain clear.</p>
+      <p><strong>Q: Are my confidential PDFs uploaded to external servers?</strong><br>A: No. Page rendering runs inside browser memory without sending PDFs remotely.</p>
     `;
   } else if (isGeneralPdf) {
     tipsTitle = "PDF optimization & formatting recommendations";
     tipsContent = `
-      <p>To keep your PDF documents compact, readable, and compliant:</p>
+      <p>To keep your PDF documents compact and readable:</p>
       <ul>
-        <li><strong>Target File Size:</strong> Use compression options to meet portal limits while preserving readable typography.</li>
-        <li><strong>Embedded Fonts:</strong> Documents preserve vector fonts for clear reading across all PDF viewers.</li>
-        <li><strong>Document Privacy:</strong> Most of our tools run directly inside your browser so your documents stay on your device.</li>
+        <li><strong>Inspect output quality:</strong> Review text sharpness and page sizing before submitting official forms.</li>
+        <li><strong>Browser Processing:</strong> Document processing runs inside browser memory rather than sending files to remote conversion servers.</li>
       </ul>
     `;
     extraFaq = `
-      <p><strong>Q: Does compression affect document readability?</strong><br>A: Text layers remain crisp while heavy image streams are optimized to reduce overall file size.</p>
-      <p><strong>Q: Are my PDF files stored on external servers?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
+      <p><strong>Q: Does processing keep original layout readable?</strong><br>A: Check your saved PDF after processing to verify legibility and page formatting.</p>
+      <p><strong>Q: Are my PDF files stored on external servers?</strong><br>A: No. Browser PDF processing does not upload files to external servers.</p>
     `;
   } else if (toolSlug.includes("video") || toolSlug.includes("mp4") || toolSlug.includes("mov") || toolSlug.includes("mkv") || toolSlug.includes("avi") || toolSlug.includes("webm") || toolSlug.includes("flv") || toolSlug.includes("wmv")) {
-    tipsTitle = "Video compression & playback tips";
+    tipsTitle = "Video conversion & playback tips";
     tipsContent = `
-      <p>To achieve the best balance between smaller file size and clear playback:</p>
+      <p>To achieve reliable playback and balanced file size:</p>
       <ul>
-        <li><strong>Universal compatibility:</strong> MP4 format with H.264 video and AAC audio plays reliably across all iPhones, Android devices, PCs, smart TVs, and web browsers.</li>
-        <li><strong>Target resolution:</strong> For messaging apps like WhatsApp or Discord, 720p or 1080p looks sharp while saving gigabytes of storage.</li>
-        <li><strong>Local processing:</strong> Video conversion runs directly on your hardware without waiting in cloud queues.</li>
+        <li><strong>Universal compatibility:</strong> MP4 format with H.264 video and AAC audio plays broadly across phones, computers, smart TVs, and browsers.</li>
+        <li><strong>Target resolution:</strong> Scaling to 1080p, 720p, or 480p helps keep file size and browser encoding time reasonable.</li>
+        <li><strong>Browser processing:</strong> Video conversion runs in browser WebAssembly memory without remote conversion queues.</li>
       </ul>
     `;
     extraFaq = `
-      <p><strong>Q: Will my audio stay in sync after conversion or compression?</strong><br>A: Yes. The tool preserves original audio frame timestamps to ensure speech and video remain perfectly aligned.</p>
-      <p><strong>Q: Does this tool add any watermark?</strong><br>A: No. All videos exported by ConverterForAll are completely clean and watermark-free.</p>
-      <p><strong>Q: Are my personal videos uploaded to a cloud server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device.</p>
+      <p><strong>Q: Will my audio stay in sync after conversion?</strong><br>A: FFmpeg WebAssembly preserves audio timestamps alongside video streams cleanly when re-encoding supported containers.</p>
+      <p><strong>Q: Does this tool add any watermark?</strong><br>A: No. Exported video files are clean and watermark-free.</p>
+      <p><strong>Q: Are my personal videos uploaded to a cloud server?</strong><br>A: No. Video conversion executes in browser memory without sending clips to a conversion server.</p>
     `;
   } else if (toolSlug.includes("image") || toolSlug.includes("jpg") || toolSlug.includes("png") || toolSlug.includes("webp") || toolSlug.includes("svg") || toolSlug.includes("heic") || toolSlug.includes("avif") || toolSlug.includes("compress")) {
     tipsTitle = "Image quality & formatting recommendations";
     tipsContent = `
-      <p>To ensure your images look sharp across websites, mobile apps, and official forms:</p>
+      <p>To keep your images sharp across websites, apps, and portals:</p>
       <ul>
-        <li><strong>Transparency:</strong> If your design requires a transparent background, use PNG or SVG. Converting to JPG will replace transparency with solid white.</li>
-        <li><strong>Meeting upload size limits:</strong> If an application or job portal requires an image under 100KB or 200KB, use our compression tools to hit the exact target file size without visible blurriness.</li>
-        <li><strong>Private processing:</strong> Photos are decoded and rendered directly in your browser without cloud uploads.</li>
+        <li><strong>Transparency:</strong> Choose PNG or SVG when keeping an alpha background; JPEG outputs an opaque raster bitmap.</li>
+        <li><strong>Check final pixel size &amp; KB limits:</strong> Verify exported dimensions and file size against application form specifications.</li>
+        <li><strong>Browser processing:</strong> Images decode and encode inside your browser without uploading files to external servers.</li>
       </ul>
     `;
     extraFaq = `
-      <p><strong>Q: Does compressing an image blur fine details?</strong><br>A: Our compression algorithms target redundant color data while keeping edges and text clear and sharp.</p>
-      <p><strong>Q: Are my personal photos kept private?</strong><br>A: Yes. Most of our tools run directly inside your browser so your documents stay on your device.</p>
+      <p><strong>Q: Does image format conversion change visual sharpness?</strong><br>A: Lossless PNG exports keep pixel values unchanged, whereas lossy JPG re-encoding trades small amounts of detail for smaller KB sizes.</p>
+      <p><strong>Q: Are my personal photos sent to a server?</strong><br>A: No. Processing executes in browser memory without uploading photos to a conversion API.</p>
     `;
   } else if (toolSlug.includes("audio") || toolSlug.includes("voice") || toolSlug.includes("mp3") || toolSlug.includes("wav") || toolSlug.includes("ogg")) {
     tipsTitle = "Audio optimization & voice note playback tips";
     tipsContent = `
-      <p>When sharing voice notes or converting audio tracks between formats:</p>
+      <p>When sharing voice notes or converting tracks between audio formats:</p>
       <ul>
-        <li><strong>Voice note compatibility:</strong> Messaging apps like WhatsApp record audio using Opus codecs inside .ogg or .opus containers, which often fail to play on older car stereos or video editing tools. Converting to MP3 ensures universal playback.</li>
-        <li><strong>Bitrate vs Clarity:</strong> For spoken voice notes and podcasts, 128 kbps to 192 kbps offers crystal-clear vocal clarity while keeping file sizes lightweight.</li>
-        <li><strong>Device privacy:</strong> Audio decoding and re-encoding run directly in your browser's local memory without uploading to cloud servers.</li>
+        <li><strong>Voice note compatibility:</strong> Messaging apps like WhatsApp record Opus audio inside <code>.ogg</code> containers, which fail on older car stereos and editors. Converting to MP3 resolves playback compatibility.</li>
+        <li><strong>Browser processing:</strong> Decoding and re-encoding run in browser memory without sending recordings to a backend server.</li>
       </ul>
     `;
     extraFaq = `
-      <p><strong>Q: Why won't my WhatsApp voice note play in my video editor or music player?</strong><br>A: WhatsApp voice notes use the Opus codec inside an OGG container, which many native media players do not support. Converting to MP3 resolves compatibility immediately.</p>
-      <p><strong>Q: Are my voice recordings kept private?</strong><br>A: Yes. Your audio files are processed locally on your device and are never uploaded or saved on our servers.</p>
+      <p><strong>Q: Why won't my WhatsApp voice note play in my video editor or car player?</strong><br>A: WhatsApp voice notes use the Opus codec inside an OGG container, which older players may not decode; converting to MP3 fixes playback broadly.</p>
+      <p><strong>Q: Are my voice recordings uploaded to a remote server?</strong><br>A: No. Audio processing executes inside browser memory without sending recordings remotely.</p>
     `;
   } else {
     tipsTitle = `Helpful tips for using ${toolTitle}`;
     tipsContent = `
       <p>To get the best results from this utility:</p>
       <ul>
-        <li><strong>No software required:</strong> Runs directly inside any modern web browser on Windows, Mac, Linux, iOS, and Android.</li>
-        <li><strong>Completely free:</strong> No subscriptions, credit cards, or hidden limits.</li>
-        <li><strong>Private processing:</strong> Most of our tools run directly inside your browser so your documents stay on your device.</li>
+        <li><strong>No software required:</strong> Runs directly inside modern desktop and mobile web browsers.</li>
+        <li><strong>Free to use:</strong> No subscriptions, sign-ups, or account gates required.</li>
+        <li><strong>Browser processing:</strong> Operations run inside browser memory rather than sending files to a remote queue.</li>
       </ul>
     `;
     extraFaq = `
-      <p><strong>Q: Do I need an account to use this utility?</strong><br>A: No. All tools on ConverterForAll are free with no sign-up or email required.</p>
-      <p><strong>Q: Can I use this tool on a smartphone?</strong><br>A: Yes. The interface is fully responsive and works smoothly across mobile browsers.</p>
+      <p><strong>Q: Do I need an account to use this utility?</strong><br>A: No. ConverterForAll utilities are free with no sign-up or email required.</p>
+      <p><strong>Q: Can I use this tool on a smartphone?</strong><br>A: Yes. The interface adapts cleanly for modern mobile and desktop browsers.</p>
     `;
   }
 
@@ -485,42 +483,42 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       </div>`;
     }
 
-    let introText = `<p>Converting between ${fromUnit} and ${toUnit} is an everyday task in home improvement, carpentry, architectural drafting, 3D printing, travel planning, and school projects. Because different countries and industries alternate between Imperial and Metric standards, keeping track of precise decimal conversion factors in your head can easily lead to rounding errors.</p>`;
+    let introText = `<p>Converting between ${fromUnit} and ${toUnit} is an everyday task in home improvement, carpentry, architectural drafting, 3D printing, travel planning, and school projects. Keeping track of decimal conversion factors manually can introduce rounding mistakes.</p>`;
     let situationsHtml = `<ul>
-            <li><strong>DIY and Home Renovations:</strong> Measuring furniture dimensions, lumber sizes, curtains, or flooring spaces where product packaging lists measurements in ${fromUnit} while your tape measure uses ${toUnit}.</li>
-            <li><strong>Online Shopping and Sizing:</strong> Checking clothing size charts, shoe lengths, or tech accessories sold by international retailers.</li>
-            <li><strong>Architecture and Blueprints:</strong> Reviewing building plans, engineering schematics, or CAD files formatted in alternative measurement units.</li>
-            <li><strong>Science and Education:</strong> Solving physics, geometry, or geography homework problems requiring precise metric or customary conversions.</li>
+            <li><strong>DIY and Home Renovations:</strong> Measuring furniture dimensions, lumber sizes, curtains, or flooring spaces where packaging lists measurements in ${fromUnit} while your tape measure uses ${toUnit}.</li>
+            <li><strong>Online Shopping and Sizing:</strong> Checking size charts or hardware accessories sold by international retailers.</li>
+            <li><strong>Architecture and Blueprints:</strong> Reviewing building plans or engineering schematics formatted in alternative measurement units.</li>
+            <li><strong>Science and Education:</strong> Solving physics, geometry, or geography problems requiring clear metric or customary conversions.</li>
           </ul>`;
 
     if (toolSlug === "nanometers-to-micrometers" || toolSlug === "micrometers-to-nanometers") {
-      introText = `<p>Nanometers (nm) and micrometers (µm) are microscopic units of length primarily used in scientific research, semiconductor manufacturing, optics, and microbiology. Because these units represent distances far smaller than what the human eye can see, they are essential for describing wavelengths of light, cellular structures, and microchip transistors.</p>`;
+      introText = `<p>Nanometers (nm) and micrometers (µm) are microscopic units of length primarily used in scientific research, semiconductor manufacturing, optics, and microbiology. They describe wavelengths of light, cellular structures, and microchip dimensions.</p>`;
       situationsHtml = `<ul>
             <li><strong>Scientific Research:</strong> Measuring cellular structures, bacteria, and microscopic organisms in biology.</li>
             <li><strong>Semiconductor Engineering:</strong> Calculating the scale of transistors and microchip fabrication processes.</li>
-            <li><strong>Optics and Photonics:</strong> Describing the wavelengths of the visible light spectrum and other electromagnetic waves.</li>
+            <li><strong>Optics and Photonics:</strong> Describing wavelengths of the visible light spectrum and other electromagnetic waves.</li>
             <li><strong>Materials Science:</strong> Working with nanotechnology and molecular-scale structures.</li>
           </ul>`;
     } else if (toolSlug === "nautical-miles-to-miles" || toolSlug === "miles-to-nautical-miles") {
-      introText = `<p>Nautical miles and standard statute miles are distinct units of distance commonly encountered in aviation and marine navigation. While a standard mile is based on historical land measurements, a nautical mile is based on the Earth's circumference and is equal to one minute of latitude. This makes nautical miles the international standard for sea and air travel.</p>`;
+      introText = `<p>Nautical miles and standard statute miles are distinct units of distance encountered in aviation and marine navigation. While a statute mile is land-based (5,280 feet), a nautical mile equals one minute of latitude along any Earth meridian (1,852 meters).</p>`;
       situationsHtml = `<ul>
-            <li><strong>Marine Navigation:</strong> Calculating distances for shipping routes, sailing, and maritime operations using nautical charts.</li>
-            <li><strong>Aviation:</strong> Flight planning and determining distances between airports using standard aviation metrics.</li>
-            <li><strong>Geography and Mapping:</strong> Converting international maritime borders and territorial waters to familiar land measurements.</li>
+            <li><strong>Marine Navigation:</strong> Calculating shipping distances and sailing legs from maritime charts.</li>
+            <li><strong>Aviation:</strong> Flight planning and comparing leg distances between airports.</li>
+            <li><strong>Geography and Mapping:</strong> Translating maritime boundaries into familiar land distances.</li>
           </ul>`;
     } else if (toolSlug === "light-years-to-parsecs" || toolSlug === "parsecs-to-light-years") {
-      introText = `<p>Light years and parsecs are astronomical units of distance used to measure the vast expanses of the universe. While a light year is the distance light travels in one Julian year, a parsec (parallax of one arcsecond) is based on the geometry of Earth's orbit and is the standard unit favored by professional astronomers and astrophysicists.</p>`;
+      introText = `<p>Light years and parsecs are astronomical units of distance across deep space. A light year is the distance light travels in one Julian year, while a parsec (parallax of one arcsecond) comes from Earth's orbital geometry in astrophysics.</p>`;
       situationsHtml = `<ul>
-            <li><strong>Astronomy and Astrophysics:</strong> Measuring distances to stars, galaxies, and galaxy clusters.</li>
-            <li><strong>Space Exploration:</strong> Calculating theoretical travel times for interstellar missions.</li>
-            <li><strong>Science Fiction and Literature:</strong> Understanding the scale of cosmic events and distances in popular media.</li>
+            <li><strong>Astronomy and Astrophysics:</strong> Measuring distances to stars, nebulae, and galaxies.</li>
+            <li><strong>Space Exploration:</strong> Estimating deep-space travel scales.</li>
+            <li><strong>Science Reference:</strong> Translating research papers using parsecs into light years.</li>
           </ul>`;
     } else if (toolSlug === "leagues-to-miles" || toolSlug === "miles-to-leagues") {
-      introText = `<p>The league is an ancient unit of length, originally defined as the distance a person could walk in an hour. While it is rarely used in modern formal contexts, it frequently appears in historical texts, literature, and geography. Converting leagues to miles helps contextualize these classical measurements in modern terms.</p>`;
+      introText = `<p>The league is an old historical unit of length roughly reflecting an hour's walk, appearing across classic books, old maps, and tabletop gaming rather than modern engineering.</p>`;
       situationsHtml = `<ul>
-            <li><strong>Literature and History:</strong> Understanding distances in classic novels like "Twenty Thousand Leagues Under the Sea".</li>
-            <li><strong>Historical Geography:</strong> Interpreting ancient maps and historical travel logs.</li>
-            <li><strong>Tabletop RPGs and Fantasy:</strong> Calculating travel times in fantasy world-building and games.</li>
+            <li><strong>Literature and History:</strong> Contextualizing distances in classic books.</li>
+            <li><strong>Historical Geography:</strong> Reading older charts and travel logs.</li>
+            <li><strong>Tabletop RPGs:</strong> Mapping fantasy travel distances.</li>
           </ul>`;
     }
 
@@ -529,7 +527,7 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
         title: `How to convert ${fromUnit} to ${toUnit}`,
         content: `
           ${introText}
-          <p>This calculator handles the mathematical conversion directly in your browser. As you type a number into the input field above, the converted value updates instantly without requiring a page refresh or submitting data to a remote server.</p>
+          <p>This unit converter runs directly inside your web browser—type a starting value above and see the converted value update live without refreshing the page or sending inputs to a server.</p>
           ${formulaHtml}
         `
       },
@@ -544,8 +542,8 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
         content: `
           <ol>
             <li><strong>Enter your number:</strong> Type the value in ${fromUnit} you want to convert into the input box above.</li>
-            <li><strong>Instant Calculation:</strong> The calculator multiplies the value by the standard conversion factor on your device.</li>
-            <li><strong>Copy or Note:</strong> Use the one-click copy button to copy the exact answer with full decimal precision.</li>
+            <li><strong>Live Calculation:</strong> The unit converter multiplies your number by the standard conversion factor in browser JavaScript.</li>
+            <li><strong>Copy or inspect chart:</strong> Copy the decimal output or reference the quick conversion chart below.</li>
           </ol>
           ${tableHtml}
         `
@@ -553,11 +551,10 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is this ${fromUnit} to ${toUnit} calculation exact?</strong><br>A: Yes. The tool uses standard international measurement definitions (such as 1 inch = exactly 25.4 mm or 1 yard = 0.9144 m) without cutting corners on decimal precision.</p>
-          <p><strong>Q: Does this converter run on my device or on a server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. The mathematical calculation executes entirely within your browser's JavaScript engine.</p>
-          <p><strong>Q: Can I convert decimal or fractional numbers?</strong><br>A: Yes. You can type any positive or negative decimal value (e.g., 3.75 or 0.125) into the input box for an immediate calculation.</p>
-          <p><strong>Q: Why do different countries use different measurement systems?</strong><br>A: The United States, Liberia, and Myanmar primarily use customary units (inches, feet, miles), while the rest of the world relies on the metric International System of Units (millimeters, meters, kilometers) established for easier base-10 arithmetic.</p>
-          <p><strong>Q: Does this tool store or log what I type?</strong><br>A: No. No search terms, numbers, or calculations are logged, stored, or sent across the network.</p>
+          <p><strong>Q: Is this ${fromUnit} to ${toUnit} calculation exact?</strong><br>A: Yes. The calculator uses standard international unit definitions (such as 1 inch = 25.4 mm and 1 yard = 0.9144 m) with clear multi-digit precision.</p>
+          <p><strong>Q: Does this converter run in my browser or on a backend server?</strong><br>A: All unit conversion arithmetic runs directly inside your browser's JavaScript engine without sending your inputs across the network.</p>
+          <p><strong>Q: Can I convert decimal or fractional numbers?</strong><br>A: Yes. Enter any decimal value (such as 3.75 or 0.125) to compute the converted number right away.</p>
+          <p><strong>Q: Does this tool log or save numbers I enter?</strong><br>A: No. Inputs remain inside your open browser tab without server logging.</p>
         `
       }
     ];
@@ -589,24 +586,23 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: `Why convert between ${fromFont} and ${toFont}?`,
         content: `
-          <p>Before Unicode became the universal standard for digital computing, Punjabi and Gurmukhi documents were composed using legacy font encodings. Fonts like ${fromFont} mapped Gurmukhi characters onto standard ASCII keystrokes. While documents looked correct on computers with that specific font installed, copying or emailing the text to another device often results in meaningless English letters.</p>
-          <p>Converting between ${fromFont} and ${toFont} bridges the gap between older desktop publishing workflows and modern computing, ensuring your Punjabi text is readable across all devices, websites, and government portals.</p>
+          <p>Before Unicode became universal for digital publishing, Punjabi and Gurmukhi documents relied on ASCII-mapped legacy fonts like ${fromFont}, where Gurmukhi letters sat on English keyboard keys. Copying that text to phones or websites without the font installed shows raw English letters instead of readable Punjabi.</p>
+          <p>Converting between ${fromFont} and ${toFont} translates those character codes accurately for websites, mobile messaging, print DTP files, and Punjab exam preparation.</p>
         `
       },
       {
         title: "How Punjabi font conversion works",
         content: `
-          <p>Gurmukhi typography requires careful character sequencing. In legacy fonts, vowel modifiers like Sihari (ਿ) were typed before the consonant to match visual printing order. In Unicode, Sihari is stored logically after the consonant. Similarly, conjunct consonants like Pairi Rara, Pairi Haha, and Pairi Vava, as well as Bindi, Tippi, and Addak, require precise reordering.</p>
-          <p>Our converter applies dedicated Gurmukhi mapping rules directly in your browser to reconstruct proper syllable order and preserve phonetic accuracy.</p>
+          <p>Gurmukhi typography requires careful character reordering. In legacy fonts, Sihari (ਿ) appears before the consonant in keystrokes, whereas Unicode stores Sihari after the consonant. Conjunct sub-forms like Pairi Rara, Pairi Haha, and Pairi Vava plus Bindi, Tippi, and Addak are reordered cleanly in browser memory.</p>
         `
       },
       {
         title: "Step-by-step instructions for conversion",
         content: `
           <ol>
-            <li><strong>Paste your text:</strong> Copy your Punjabi text from Microsoft Word, PageMaker, or your document and paste it into the input box above.</li>
-            <li><strong>Instant conversion:</strong> The tool automatically processes the characters and generates the converted text on your device.</li>
-            <li><strong>Copy and use:</strong> Click the "Copy" button to copy the result to your clipboard, ready for your documents, messages, or publishing software.</li>
+            <li><strong>Paste your text:</strong> Copy your Punjabi text from Word, PageMaker, or web forms into the left input box.</li>
+            <li><strong>Live browser conversion:</strong> Characters map inside your browser memory using client-side Gurmukhi tables.</li>
+            <li><strong>Copy and use:</strong> Click Copy to paste converted text into documents, messages, or print templates.</li>
           </ol>
         `
       },
@@ -614,19 +610,19 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
         title: "Compatibility & tips for Punjabi typists",
         content: `
           <ul>
-            <li><strong>Text displays as English letters:</strong> If your document appears as random English characters, it was typed in a legacy font without Unicode encoding. Converting to Unicode restores the proper Gurmukhi script.</li>
-            <li><strong>Punjab Government Exams (PSSSB):</strong> State exams and typing tests in Punjab require standard Unicode Gurmukhi (typically displayed in Raavi font). Converting legacy practice text to Unicode ensures compatibility with official test portals.</li>
-            <li><strong>Desktop Publishing (PageMaker &amp; CorelDraw):</strong> When converting from Unicode to a legacy font for print layout, remember to select the target font name from your software's font menu to view the characters correctly.</li>
+            <li><strong>Text displays as English letters:</strong> Pasted text showing random English characters comes from a legacy ASCII font—convert it to Unicode to read Gurmukhi anywhere.</li>
+            <li><strong>Punjab Government Exams (PSSSB):</strong> Typing exams typically require standard Unicode Gurmukhi (displayed in Raavi font).</li>
+            <li><strong>Desktop Publishing (PageMaker &amp; CorelDraw):</strong> When converting from Unicode back to a legacy font for printing, select that font name from your editor's font list afterward.</li>
           </ul>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is my Punjabi text uploaded to a remote server?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. All font conversions are performed locally in your browser memory and are never transmitted over the internet.</p>
-          <p><strong>Q: Will formatting like bold or tables be preserved?</strong><br>A: Font conversion processes raw character encoding. We recommend converting the plain text first and then applying bold, sizing, or headings in your document editor.</p>
-          <p><strong>Q: Can I use the converted Unicode text on mobile phones?</strong><br>A: Yes. Converted Unicode text works seamlessly on Android, iOS, Windows, and Mac devices without requiring any extra font downloads.</p>
-          <p><strong>Q: Which font should I use in Microsoft Word for Gurmukhi Unicode?</strong><br>A: On Windows, Raavi or Nirmala UI is the standard font for displaying Gurmukhi Unicode. On Mac, Gurmukhi MN or Gurmukhi Sangam MN is used automatically.</p>
+          <p><strong>Q: Is my Punjabi text uploaded to a remote server?</strong><br>A: No. Gurmukhi font conversion executes inside your browser memory without uploading pasted text to external servers.</p>
+          <p><strong>Q: Will bold styling or Word tables remain intact?</strong><br>A: Font conversion translates character encoding on plain text; apply bold or table formatting after pasting back into Word or Docs.</p>
+          <p><strong>Q: Can I use converted Unicode text on mobile phones?</strong><br>A: Yes. Standard Unicode Gurmukhi renders reliably on modern Android, iOS, Windows, and macOS devices without extra font installs.</p>
+          <p><strong>Q: Which font displays Gurmukhi Unicode in Microsoft Word?</strong><br>A: Windows typically uses Raavi or Nirmala UI for Gurmukhi Unicode display.</p>
         `
       }
     ];
@@ -643,24 +639,22 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: `Why convert between ${fromFont} and ${toFont}?`,
         content: `
-          <p>Before Unicode became the global standard for digital computing, Indian and South Asian languages were typed using legacy font mapping systems. In fonts like ${fromFont}, regional characters were mapped directly onto standard English QWERTY keyboard keystrokes. For example, typing a Hindi or Punjabi word in Microsoft Word required having the specific font file installed locally on that specific computer.</p>
-          <p>When that same document is emailed, opened on a smartphone, or pasted into modern web browsers, WhatsApp, or government portals, the text often breaks into unreadable English letters or question marks. Converting from ${fromFont} to ${toFont} translates the underlying character codes into universal standards so your typing displays cleanly everywhere.</p>
+          <p>Before Unicode became standard, regional documents mapped Devanagari, Bengali, Nepali, or Urdu glyphs onto standard QWERTY keystrokes. Without the original font file installed, copied passages show scrambled English characters on phones and websites. Converting between ${fromFont} and ${toFont} restores readable encoding.</p>
         `
       },
       {
         title: "How legacy font conversion works",
         content: `
-          <p>Converting between legacy fonts and modern Unicode is much more complex than simple letter replacement. In Indic scripts like Devanagari, Gurmukhi, and Bengali, vowel modifiers (matras) often appear to the left of the consonant in visual rendering, but must be stored after the consonant in standard Unicode memory order. Similarly, conjunct consonants (half letters) require specialized ligature substitution.</p>
-          <p>Our converter applies dedicated lexical rules directly in your browser to rearrange matras, half-characters, and conjuncts directly on your device.</p>
+          <p>Visual matras such as short i (ि) and reph (र्), half letters, and conjunct ligatures sit at different positions in ASCII fonts than in logical Unicode order. Dedicated browser mapping rules reorder these clusters directly in your browser memory.</p>
         `
       },
       {
         title: "Step-by-step instructions for conversion",
         content: `
           <ol>
-            <li><strong>Paste your text:</strong> Copy your text from Microsoft Word, PageMaker, InPage, or your document and paste it into the left input box above.</li>
-            <li><strong>Automatic processing:</strong> The converter immediately parses the characters, reconstructs syllables and conjuncts, and generates the ${toFont} text.</li>
-            <li><strong>Verify and Copy:</strong> Review the live preview in the output box and click the "Copy" button to paste it into your target application or government form.</li>
+            <li><strong>Paste your text:</strong> Copy text from Word, PageMaker, or web forms into the left input editor.</li>
+            <li><strong>Browser processing:</strong> Characters translate live into ${toFont} text inside browser memory.</li>
+            <li><strong>Verify &amp; copy:</strong> Inspect vowel matras and click Copy to use in your target software.</li>
           </ol>
         `
       },
@@ -668,20 +662,17 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
         title: "Common issues and troubleshooting tips",
         content: `
           <ul>
-            <li><strong>Text appears as English letters:</strong> If your text looks like random English characters (e.g., "fgunh Hkk"kk"), it was typed in a legacy font. Converting it to Unicode restores the proper regional script.</li>
-            <li><strong>Question marks in Word:</strong> If your text displays as "???" in Word, the application is missing the underlying font. Use this converter to migrate the content to standard Unicode fonts like Mangal or Nirmala UI.</li>
-            <li><strong>Official Government Exams:</strong> Portals for CPCT, SSC, High Court, and State Police typing tests strictly mandate Unicode Mangal font. Use our tools to prepare and convert your test practice typing.</li>
+            <li><strong>Scrambled English letters:</strong> Legacy ASCII encoding converts cleanly to standard Unicode so every device reads it.</li>
+            <li><strong>Official typing tests:</strong> Modern portals specify standard Unicode (e.g., Mangal for Devanagari); verify requirements before submitting.</li>
           </ul>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Is my text uploaded to a remote server during conversion?</strong><br>A: Most of our tools run directly inside your browser so your documents stay on your device. Your typing is processed locally in temporary memory and is never transmitted or saved.</p>
-          <p><strong>Q: Will formatting like bold, italics, or tables be preserved?</strong><br>A: Font conversion focuses on character codes. We recommend converting the plain text first and then applying your desired bold, italic, or heading styles in Word or Google Docs.</p>
-          <p><strong>Q: Can I use the converted text on WhatsApp and mobile phones?</strong><br>A: Yes! Once converted to Unicode, the text will display correctly on all Android, iPhone, Mac, and Windows devices without needing any font installations.</p>
-          <p><strong>Q: Is there any word limit or daily quota?</strong><br>A: No. You can convert short paragraphs or entire books with zero limits and no account required.</p>
-          <p><strong>Q: Which font should I choose for official documentation?</strong><br>A: Modern government portals and publishing platforms recommend standard Unicode fonts like Mangal, Arial Unicode MS, or Nirmala UI.</p>
+          <p><strong>Q: Is my text uploaded to a remote server during conversion?</strong><br>A: No. Character mapping runs inside browser memory without sending pasted text to external servers.</p>
+          <p><strong>Q: Will bold, italics, or Word tables remain formatted?</strong><br>A: Conversion operates on plain character codes; reapply rich styling in your word processor afterward.</p>
+          <p><strong>Q: Can I share Unicode output on WhatsApp and smartphones?</strong><br>A: Yes. Standard Unicode renders cleanly across modern phones and browsers without installing extra font packages.</p>
         `
       }
     ];
@@ -691,51 +682,38 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
   if (toolSlug.includes("video") || toolSlug.includes("mp4") || toolSlug.includes("mov") || toolSlug.includes("avi") || toolSlug.includes("mkv") || toolSlug.includes("webm") || toolSlug.includes("flv") || toolSlug.includes("wmv")) {
     const parts = toolSlug.split("-to-");
     const fromFormat = parts.length === 2 ? parts[0].toUpperCase() : "video";
-    const toFormat = parts.length === 2 ? parts[1].toUpperCase() : "optimized format";
+    const toFormat = parts.length === 2 ? parts[1].toUpperCase() : "MP4";
     const isConversion = parts.length === 2;
 
     return [
       {
         title: isConversion ? `Why convert ${fromFormat} to ${toFormat}?` : `What does ${toolTitle} do?`,
         content: `
-          <p>${toolDescription} Digital video files come in dozens of containers and codec combinations. A video recorded on a phone (${fromFormat === 'video' ? 'like MOV or WebM' : fromFormat}) might not play on an older smart TV, while large camera recordings can be far too heavy to send over email, Discord, or WhatsApp.</p>
-          <p>This tool solves playback and file size problems by converting or compressing video data directly in your browser. ${isConversion ? `By converting to ${toFormat}, you get a clean, universally playable video` : 'You get clean, universally playable videos'} without dealing with complicated command-line parameters or watermarks.</p>
+          <p>${toolDescription} Video files package codecs like H.264 or VP9 inside containers such as .mp4, .mov, .webm, .mkv, or .avi. This browser utility converts or optimizes footage using FFmpeg WebAssembly without waiting in server queues or adding watermarks.</p>
         `
       },
       {
-        title: "Understanding containers, codecs, and compression",
+        title: "Understanding containers, codecs, and FFmpeg WebAssembly",
         content: `
-          <p>A video file is like a digital box (the container, such as ${isConversion && toFormat !== 'optimized format' ? toFormat : 'MP4 or MKV'}) holding video frames, audio tracks, and subtitles. The actual pictures inside are compressed using codecs like H.264, VP9, or AV1. When you need to share a clip on social media, using standard H.264 video with AAC audio inside an MP4 container guarantees playback across nearly every smartphone, browser, and media player.</p>
-          <p>Our processing optimizes compression bitrates and resolutions so your video loses minimal visual fidelity while significantly reducing file size.</p>
+          <p>Choosing standard H.264 (<code>libx264</code>) video with AAC audio inside an <code>.mp4</code> container provides broad playback compatibility across phones, computers, and web browsers. Encoding runs via FFmpeg WebAssembly inside browser memory.</p>
         `
       },
       {
         title: "How to use this video utility",
         content: `
           <ol>
-            <li><strong>Select your video:</strong> Drag and drop your ${fromFormat !== 'video' ? fromFormat : 'video'} file into the box above, or click to browse files on your computer or phone.</li>
-            <li><strong>Adjust settings (if desired):</strong> Choose your target resolution or compression preset for the ${toFormat} output.</li>
-            <li><strong>Process and Download:</strong> Start the processing and save your optimized video file directly to your storage.</li>
+            <li><strong>Select your video:</strong> Drag and drop your clip into the upload box above.</li>
+            <li><strong>Adjust settings (optional):</strong> Pick output format, resolution scaling, CRF quality, or trim timestamps.</li>
+            <li><strong>Process and Download:</strong> Start encoding and save your watermark-free <code>.${toFormat.toLowerCase()}</code> video file.</li>
           </ol>
-        `
-      },
-      {
-        title: `Everyday use cases for ${toolTitle}`,
-        content: `
-          <ul>
-            <li><strong>Messaging &amp; Chat Apps:</strong> Shrinking 4K ${fromFormat !== 'video' ? fromFormat : 'phone'} clips down to under 25MB or 16MB for hassle-free sharing on WhatsApp, Discord, or Gmail.</li>
-            <li><strong>Website Speed:</strong> Optimizing background website videos and product demos so web pages load quickly for visitors.</li>
-            <li><strong>Device Storage:</strong> Freeing up gigabytes of storage on phones, laptops, and USB drives by compressing bulky screen captures and drone footage.</li>
-          </ul>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Will compressing my ${fromFormat !== 'video' ? fromFormat : 'video'} make it blurry?</strong><br>A: Our compression presets use adaptive rate control to preserve high visual clarity in important areas like faces and text while trimming redundant background data.</p>
-          <p><strong>Q: Are my personal videos uploaded to a cloud server?</strong><br>A: Most of our tools run directly inside your browser so your files stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.</p>
-          <p><strong>Q: Is there any watermark added to my ${toFormat !== 'optimized format' ? toFormat : 'video'}?</strong><br>A: Never. All files produced by ConverterForAll are clean, watermark-free, and ready for school, work, or social media.</p>
-          <p><strong>Q: Can I use ${toolTitle} on a mobile browser?</strong><br>A: Yes, modern mobile browsers like Chrome on Android and Safari on iOS support these tools smoothly.</p>
+          <p><strong>Q: Will exported videos have watermarks?</strong><br>A: No. Videos exported from ConverterForAll carry zero watermarks.</p>
+          <p><strong>Q: Are my video files uploaded to a remote server?</strong><br>A: No. FFmpeg WebAssembly executes inside your browser memory without uploading video footage to a conversion server.</p>
+          <p><strong>Q: Can I run video conversions on mobile browsers?</strong><br>A: Modern desktop and mobile browsers work cleanly for short-to-medium clips, limited mainly by available tab RAM.</p>
         `
       }
     ];
@@ -745,40 +723,38 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
   if (toolSlug.includes("audio") || toolSlug.includes("mp3") || toolSlug.includes("wav") || toolSlug.includes("ogg") || toolSlug.includes("voice")) {
     const parts = toolSlug.split("-to-");
     const fromFormat = parts.length === 2 ? parts[0].toUpperCase() : "audio";
-    const toFormat = parts.length === 2 ? parts[1].toUpperCase() : "audio";
+    const toFormat = parts.length === 2 ? parts[1].toUpperCase() : "MP3";
     const isConversion = parts.length === 2;
 
     return [
       {
         title: isConversion ? `Why convert ${fromFormat} to ${toFormat}?` : `Why use ${toolTitle}?`,
         content: `
-          <p>${toolDescription} Audio recordings come from many sources—smartphones, voice memos, digital audio workstations, podcasts, and cameras. Uncompressed WAV files offer studio quality but can easily be hundreds of megabytes, making them difficult to share. Conversely, proprietary formats like WhatsApp voice notes or Apple M4A files sometimes fail to open in older car audio systems or video editors.</p>
-          <p>This utility enables you to ${isConversion ? `convert your ${fromFormat} into ${toFormat}` : 'trim, edit, or re-encode your sound files'} with zero software installation and complete privacy.</p>
+          <p>${toolDescription} Convert or trim recordings inside your browser using FFmpeg WebAssembly or Web Audio PCM processing without installing desktop software or waiting in server queues.</p>
         `
       },
       {
-        title: "Understanding audio bitrates and sample rates",
+        title: "Understanding audio codecs and bitrates",
         content: `
-          <p>Audio quality is determined by two main factors: bitrate (measured in kilobits per second) and sample rate (usually 44.1 kHz for music or 48 kHz for video audio). A standard 128 kbps or 192 kbps ${toFormat !== 'audio' ? toFormat : 'MP3'} provides clear speech and music reproduction while keeping the file lightweight. Studio workflows requiring lossless preservation rely on uncompressed 16-bit or 24-bit WAV formats.</p>
+          <p>Standard MP3 and OGG compress speech and music efficiently for phones and car stereos, whereas uncompressed WAV preserves raw PCM samples for audio editors.</p>
         `
       },
       {
         title: `Step-by-step ${toolTitle} instructions`,
         content: `
           <ol>
-            <li><strong>Load your audio:</strong> Select your ${fromFormat !== 'audio' ? fromFormat : 'sound'} or video file from your device.</li>
-            <li><strong>Configure output:</strong> ${isConversion ? `Confirm ${toFormat} as your output` : 'Adjust trim boundaries or settings'} if cutting a specific clip.</li>
-            <li><strong>Export audio:</strong> Click download to receive your high-quality ${toFormat !== 'audio' ? toFormat : 'sound'} file immediately.</li>
+            <li><strong>Load your audio:</strong> Drop an audio or video track (.mp3, .wav, .ogg, .m4a, or .mp4) from your device.</li>
+            <li><strong>Configure output:</strong> ${isConversion ? `Confirm ${toFormat} target format` : 'Adjust trim region markers and preview playback'}.</li>
+            <li><strong>Export audio:</strong> Download the converted audio file from browser memory.</li>
           </ol>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can I extract ${toFormat !== 'audio' ? toFormat : 'audio'} from a video file?</strong><br>A: Yes! Tools like MP4 to MP3 read the audio stream directly from your video and save it as a standalone audio track.</p>
-          <p><strong>Q: Are my ${fromFormat !== 'audio' ? fromFormat : 'voice'} memos and sound files kept private?</strong><br>A: Yes. Most of our tools run directly inside your browser so your documents stay on your device. Your sound files are processed locally on your hardware.</p>
-          <p><strong>Q: What bitrate is used for converted ${toFormat !== 'audio' ? toFormat : 'MP3'} files?</strong><br>A: We encode at standard 192 kbps to 320 kbps bitrates to ensure crisp, balanced sound without muffling highs or distorting bass.</p>
-          <p><strong>Q: Do I need an account to download my ${toFormat !== 'audio' ? toFormat : 'converted'} audio?</strong><br>A: No account, email, or subscription is ever required.</p>
+          <p><strong>Q: Are my voice memos and audio recordings sent to external servers?</strong><br>A: No. Audio decoding and encoding run inside your browser without uploading files to a conversion server.</p>
+          <p><strong>Q: Does re-encoding into MP3 or OGG preserve lossless quality?</strong><br>A: Exporting to MP3 or OGG uses lossy compression to shrink files cleanly for broad playback, while converting compressed MP3 into WAV keeps existing compression artifacts.</p>
+          <p><strong>Q: Is an account required?</strong><br>A: No sign-up, account, or email is required.</p>
         `
       }
     ];
@@ -795,44 +771,30 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: isConversion ? `How to convert ${fromFormat} to ${toFormat} online` : `What does ${toolTitle} do?`,
         content: `
-          <p>${toolDescription} High-resolution cameras, smartphones, and graphic software generate images in a wide range of formats—from modern space-saving WEBP and AVIF files to standard JPGs, transparent PNGs, and scalable SVGs. However, many job application portals, government upload forms, and email clients still enforce strict image format and file size limits.</p>
-          <p>This tool helps you ${isConversion ? `quickly convert your ${fromFormat} images into the ${toFormat} format` : 'adjust, crop, or compress your images'} so they meet your exact requirements without sacrificing image sharpness.</p>
+          <p>${toolDescription} Rather than uploading photos to a remote server, this utility decodes and exports images via browser HTML5 Canvas and client-side WebAssembly codecs so formats meet portal and editor requirements.</p>
         `
       },
       {
         title: "How in-browser image processing works",
         content: `
-          <p>Rather than sending your personal photos across the internet to an unknown server, our ${toFormat !== 'image' ? toFormat : 'image'} tools utilize the HTML5 Canvas API and modern WebAssembly codecs directly in your browser. When you drop an image onto the page, your browser decodes the pixel grid into memory, performs the requested ${isConversion ? 'format re-encoding' : 'resizing or compression'}, and produces the output file instantly.</p>
-          <p>This ensures you never have to wait in an upload queue, and your private photos remain strictly on your own computer or phone.</p>
+          <p>Your browser decodes source pixels inside memory, renders onto an HTML5 Canvas or Web Worker, and produces the target image download without waiting in server upload queues.</p>
         `
       },
       {
         title: `Step-by-step ${toolTitle} guide`,
         content: `
           <ol>
-            <li><strong>Select your picture:</strong> Drag your ${fromFormat !== 'image' ? fromFormat : 'image'} into the drop zone or click to open your file picker.</li>
-            <li><strong>Adjust options:</strong> ${isConversion ? `Confirm ${toFormat} output settings` : 'Set your target dimensions, quality sliders, or cropping box if needed.'}</li>
-            <li><strong>Save your image:</strong> Click the download button to save the ${toFormat !== 'image' ? toFormat : 'optimized'} image to your device.</li>
+            <li><strong>Select your picture:</strong> Drag your image into the drop zone or pick a file from your device.</li>
+            <li><strong>Process in browser:</strong> ${isConversion ? `Convert pixels to ${toFormat} format` : 'Apply your chosen settings cleanly'}.</li>
+            <li><strong>Save your image:</strong> Download the exported image to your computer or phone.</li>
           </ol>
-        `
-      },
-      {
-        title: "Everyday situations where this tool helps",
-        content: `
-          <ul>
-            <li><strong>Official Portals &amp; ID Photos:</strong> Fitting passport, visa, or exam admit card photos under strict upload size limits (e.g. 50KB or 100KB).</li>
-            <li><strong>E-Commerce &amp; Product Listings:</strong> Preparing clean product photos for Shopify, Amazon, or Etsy with consistent dimensions.</li>
-            <li><strong>Web Performance:</strong> Shrinking image file sizes so blog posts and portfolio pages load quickly for mobile visitors.</li>
-          </ul>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does compressing a ${fromFormat !== 'image' ? fromFormat : 'photo'} reduce its physical resolution?</strong><br>A: Not unless you choose to resize it. Visual compression works by trimming imperceptible color data while keeping pixel dimensions unchanged.</p>
-          <p><strong>Q: Does ${toFormat === 'PNG' ? 'PNG' : 'this format'} support transparent backgrounds?</strong><br>A: ${toFormat === 'PNG' || fromFormat === 'PNG' ? 'Yes. PNG supports an alpha channel for transparency. Converting to JPG will automatically replace transparent areas with a solid white background.' : 'JPG does not support transparency. If you need a transparent background, convert to PNG instead.'}</p>
-          <p><strong>Q: Are my ${fromFormat !== 'image' ? fromFormat : 'personal'} photos private and secure?</strong><br>A: Yes. Most of our tools run directly inside your browser so your documents stay on your device. We never store, copy, or transmit your images.</p>
-          <p><strong>Q: Can I convert multiple images at once?</strong><br>A: Yes, batch processing is supported for our core image tools so you can process photos in bulk.</p>
+          <p><strong>Q: Does ${toFormat === 'PNG' ? 'PNG' : 'JPEG'} support transparent backgrounds?</strong><br>A: ${toFormat === 'PNG' ? 'Yes. PNG supports an alpha channel for transparent regions.' : 'No. JPEG does not support alpha transparency; choose PNG when keeping transparent layers.'}</p>
+          <p><strong>Q: Are my photos sent to external conversion servers?</strong><br>A: No. Canvas rendering executes inside browser memory without uploading photos remotely.</p>
         `
       }
     ];
@@ -846,44 +808,30 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: `Why use ${toolTitle}?`,
         content: `
-          <p>${toolDescription} ${isPdfTool ? 'PDF files are the global standard for contracts, academic papers, tax filings, and business proposals because they look identical across every computer and mobile operating system.' : 'Documents often need to be converted to ensure they look identical across every computer and mobile operating system.'} However, editing, reorganizing, or converting these documents often requires expensive subscription software.</p>
-          <p>This utility gives you full control over your documents—allowing you to extract, rearrange, rotate, clean, or convert pages without costly licenses or complicated menus.</p>
+          <p>${toolDescription} Document processing runs inside your browser using client-side libraries like <code>pdf-lib</code> and <code>pdfjs-dist</code> without forcing software subscriptions.</p>
         `
       },
       {
-        title: "How document manipulation works safely in your browser",
+        title: "How browser document processing works",
         content: `
-          <p>When working with confidential documents like signed agreements, bank statements, or medical records, privacy is non-negotiable. Our ${isPdfTool ? 'PDF' : 'document'} tools leverage client-side parsing engines directly in your browser. The tool inspects the document structure, modifies page trees, updates metadata dictionaries, and saves a brand-new file directly onto your storage drive.</p>
-          <p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage.</p>
+          <p>Your browser reads the document bytes in memory, updates the requested ${isPdfTool ? '.pdf' : 'document'} structure or pages, and saves a fresh output file directly. For tools offering optional third-party Cloud Engine support (such as legacy Word .doc or PowerPoint .ppt), files go to Cloudmersive only when explicitly enabled.</p>
         `
       },
       {
         title: `Step-by-step ${toolTitle} guide`,
         content: `
           <ol>
-            <li><strong>Select your document:</strong> Drag and drop your ${isPdfTool ? 'PDF' : 'document'} into the upload box.</li>
-            <li><strong>Perform your changes:</strong> Select pages to remove, reorganize content, or configure output options.</li>
-            <li><strong>Download the result:</strong> Save your newly organized or converted file immediately.</li>
+            <li><strong>Select your document:</strong> Drag and drop your ${isPdfTool ? '.pdf' : 'document'} into the upload box.</li>
+            <li><strong>Apply document actions:</strong> Configure page selection or conversion options cleanly.</li>
+            <li><strong>Download result:</strong> Save the newly generated file and inspect pages before submitting.</li>
           </ol>
-        `
-      },
-      {
-        title: "Common practical uses",
-        content: `
-          <ul>
-            <li><strong>Fixing Scanned Documents:</strong> Rotating pages that were scanned sideways or upside down before emailing them to clients.</li>
-            <li><strong>Removing Confidential Pages:</strong> Stripping unnecessary appendices, private financial sheets, or blank pages before sharing.</li>
-            <li><strong>Scrubbing Document Properties:</strong> Removing hidden metadata, author names, creation software history, and timestamps from public files.</li>
-          </ul>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can I process password-protected ${isPdfTool ? 'PDF' : 'document'} files?</strong><br>A: If a file is protected with an owner password, enter the password when prompted to unlock it for organizing or conversion.</p>
-          <p><strong>Q: Will hyperlinks and text remain selectable?</strong><br>A: Yes. Page manipulation operations preserve existing vector text, selectable paragraphs, and internal document bookmarks.</p>
-          <p><strong>Q: Are my confidential contracts stored on any server?</strong><br>A: No. Your documents are processed in local browser memory and are never uploaded or retained.</p>
-          <p><strong>Q: Are there any file size limits?</strong><br>A: Since processing runs in your browser, limits depend on your device's available memory. Most documents up to 100MB process smoothly.</p>
+          <p><strong>Q: Does structural PDF manipulation preserve text selectability?</strong><br>A: Structural operations using <code>pdf-lib</code> preserve vector text and images, whereas OCR, redaction flattening, or JPEG compression presets render pages cleanly to bitmaps.</p>
+          <p><strong>Q: Are my confidential documents stored on remote servers?</strong><br>A: Browser PDF utilities execute locally in memory without sending your file to an external backend.</p>
         `
       }
     ];
@@ -899,33 +847,30 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
       {
         title: `What is ${toolTitle}?`,
         content: `
-          <p>${toolDescription} In modern web development, data engineering, and system administration, engineers constantly handle encoded strings, serialization payloads, authentication tokens, and standardized timestamps. Pasting sensitive ${fromType} payloads into arbitrary online formatters exposes API secrets, user IDs, and proprietary data to third-party logs.</p>
-          <p>This developer tool runs 100% locally in your web browser. No queries, tokens, or records are ever sent over the network.</p>
+          <p>${toolDescription} Parsing, encoding, and serialization execute inside your browser's JavaScript runtime without sending queries, tokens, or payloads to an external API server.</p>
         `
       },
       {
-        title: "Why client-side execution matters for security",
+        title: "Why browser execution matters for developer workflows",
         content: `
-          <p>When inspecting JSON Web Tokens (JWTs) or debugging ${fromType}-encoded credentials, security best practices dictate that secrets must never leave your workstation. Because this tool executes entirely within your browser's sandboxed JavaScript runtime, you can safely parse tokens, format data, and convert datasets even while disconnected from the internet.</p>
+          <p>When inspecting JSON Web Tokens, Base64 strings, or CSV dumps containing proprietary fields, keeping parsing inside your local browser tab avoids transmitting payloads over the network.</p>
         `
       },
       {
         title: `Step-by-step ${toolTitle} guide`,
         content: `
           <ol>
-            <li><strong>Paste your input:</strong> Paste your raw ${fromType} string, token, or timestamp into the editor.</li>
-            <li><strong>Instant parsing:</strong> The tool formats, validates, or translates your data immediately with syntax highlighting.</li>
-            <li><strong>Copy output:</strong> Click the copy button to copy the validated result straight to your clipboard.</li>
+            <li><strong>Paste your input:</strong> Paste your raw ${fromType} string, token, or data into the editor.</li>
+            <li><strong>Live parsing:</strong> The tool validates, formats, or translates your input right inside the browser.</li>
+            <li><strong>Copy output:</strong> Click Copy to paste the formatted result cleanly back into your editor.</li>
           </ol>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does ${toolTitle} transmit my tokens or data to an external API?</strong><br>A: No. Zero network requests are made with your data. Processing happens exclusively in your browser.</p>
-          <p><strong>Q: Can I use this tool offline?</strong><br>A: Yes! Once the page is loaded, the processing logic operates completely offline without internet connectivity.</p>
-          <p><strong>Q: Does it validate syntax errors?</strong><br>A: Yes. If a payload contains malformed syntax, the tool highlights the exact error line and provides clear feedback.</p>
-          <p><strong>Q: Is this tool free for commercial and enterprise developers?</strong><br>A: Yes. All utilities on ConverterForAll are free with no subscriptions or quotas.</p>
+          <p><strong>Q: Does ${toolTitle} send my tokens or payloads to an external API?</strong><br>A: No. Parsing and formatting execute inside your browser's JavaScript runtime without network API calls.</p>
+          <p><strong>Q: Is this utility free for developers?</strong><br>A: Yes. It is free with no daily limits or account required.</p>
         `
       }
     ];
@@ -936,33 +881,30 @@ export function getToolContent(toolSlug: string, toolTitle: string, toolDescript
     {
       title: `What is ${toolTitle}?`,
       content: `
-        <p>${toolDescription} We built ${toolTitle} to solve everyday digital tasks directly inside your web browser. There is no software to install, no accounts to register, and no paywalls to navigate.</p>
-        <p>Whether you need to compute values, clean up formatted text, or generate assets for a project, this utility provides reliable, instant results directly on your device.</p>
+        <p>${toolDescription} ConverterForAll builds practical everyday utilities that run directly inside your web browser with no software install, paywall, or sign-up required.</p>
       `
     },
     {
       title: `How ${toolTitle} works`,
       content: `
-        <p>Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in temporary memory without permanent server storage. This eliminates waiting in server queues and keeps your personal workflow private and efficient.</p>
+        <p>Calculations and formatting run inside your browser's JavaScript engine without sending inputs to external backend servers.</p>
       `
     },
     {
       title: `Step-by-step instructions for ${toolTitle}`,
       content: `
         <ol>
-          <li><strong>Provide your input:</strong> Enter your values, text, or file into the tool above.</li>
-          <li><strong>Immediate processing:</strong> The tool computes, formats, or converts your input automatically.</li>
-          <li><strong>Copy or Download:</strong> Use the action button to copy the answer or download the output file to your device.</li>
+          <li><strong>Provide your input:</strong> Enter your values or text into the utility above.</li>
+          <li><strong>Run calculation:</strong> The tool computes or formats the output right inside the browser.</li>
+          <li><strong>Copy or download:</strong> Save or copy the result cleanly.</li>
         </ol>
       `
     },
     {
       title: "Frequently Asked Questions",
       content: `
-        <p><strong>Q: Do I have to pay to use ${toolTitle}?</strong><br>A: No. ConverterForAll utilities are completely free to use with no daily usage caps.</p>
-        <p><strong>Q: Do I need to create an account?</strong><br>A: No. We believe basic everyday computer utilities should be open and accessible without forcing you to sign up, give away an email, or remember passwords.</p>
-        <p><strong>Q: Are my inputs or files saved?</strong><br>A: Never. Most tools run locally on your device in your browser's memory, ensuring your data remains under your control.</p>
-        <p><strong>Q: Does ${toolTitle} work on mobile phones?</strong><br>A: Yes, all tools are responsive and work smoothly across modern mobile and desktop web browsers.</p>
+        <p><strong>Q: Do I need an account or paid plan?</strong><br>A: No. Everyday utilities are free with no sign-up required.</p>
+        <p><strong>Q: Are my inputs saved on remote servers?</strong><br>A: No. Inputs execute in browser memory inside your open tab without backend storage.</p>
       `
     }
   ];
