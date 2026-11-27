@@ -177,30 +177,37 @@ export const toolsDatabase: Record<string, Record<string, Tool>> = {
     "gif-maker": {
       theme: "emerald", iconName: "Image", badge: "Image",
       title: "GIF Maker",
-      description: "Convert and create animated GIFs from images and photos online for free.",
+      seoTitle: "GIF Maker - Create Animated GIFs from Images Online",
+      description: "Combine multiple JPG, PNG, and WebP images into a looping animated GIF with custom frame timing in your browser.",
+      seoDescription: "Combine multiple JPG, PNG, or WebP frames into an animated GIF with frame ordering, timing delay, width, and loop controls in your browser.",
       inputFormat: "image",
       outputFormat: "gif",
       actionName: "Make GIF",
-      acceptedTypes: { "image/*": [".jpg", ".jpeg", ".png", ".webp", ".avif"] }
+      isInteractive: true,
+      acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     },
     "image-cropper": {
       theme: "emerald", iconName: "Image", badge: "Image",
       title: "Image Cropper",
-      description: "Crop photos and images to exact dimensions and custom aspect ratios.",
+      seoTitle: "Image Cropper - Crop Photos & Images Online Free",
+      description: "Crop photos and images with interactive aspect ratio presets, rotation, and flip controls in your browser.",
+      seoDescription: "Crop JPG, PNG, and WebP photos in your browser with preset or custom aspect ratios, rotate, flip, and quality controls.",
       inputFormat: "image",
       outputFormat: "jpg",
       actionName: "Crop Image",
+      isInteractive: true,
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     },
     "image-resizer": {
       theme: "emerald", iconName: "Image", badge: "Image",
       title: "Image Resizer",
       seoTitle: "Image Resizer - Resize Photos & Pictures Online Free",
-      description: "Resize photos and graphics to custom pixel dimensions with high quality.",
-      seoDescription: "Resize JPG, PNG, and WebP images to exact pixel dimensions. Fast, free, and private client-side image resizing without quality loss.",
+      description: "Resize JPG, PNG, and WebP images to custom pixel dimensions or percentages in your browser.",
+      seoDescription: "Resize JPG, PNG, and WebP images by exact pixels, percentage, or common presets directly inside your browser.",
       inputFormat: "image",
       outputFormat: "jpg",
       actionName: "Resize Image",
+      isInteractive: true,
       acceptedTypes: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] }
     },
     "svg-to-png": {

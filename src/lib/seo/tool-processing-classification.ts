@@ -176,6 +176,14 @@ export function getToolProcessingBadges(
   }
 
   // 9. Client-side Canvas Image Processors & Exam Utilities
+  if (toolSlug === "gif-maker") {
+    return {
+      classification: "client-wasm-video",
+      heroBadge: "In-Browser Animated GIF Maker",
+      trustBadge: "Canvas framing & FFmpeg WebAssembly GIF encoder · Runs in your browser",
+    };
+  }
+
   if (categorySlug === "image") {
     return {
       classification: "client-canvas",

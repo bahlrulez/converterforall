@@ -290,7 +290,7 @@ export const convertVideo = async (
 };
 
 export interface AdvancedVideoConvertOptions {
-  targetFormat: string; // "mp4", "webm", "mov", "mkv", "avi", "gif", "mp3", "wav"
+  targetFormat: string; // "mp4", "webm", "mov", "mkv", "avi", "wmv", "flv", "gif", "mp3", "wav"
   preset?: "ultrafast" | "veryfast" | "fast" | "medium";
   crf?: number;
   resolution?: "original" | "1080p" | "720p" | "480p" | "360p";
@@ -418,6 +418,22 @@ export const convertVideoAdvanced = async (
       } else {
         args.push('-c:a', 'aac');
       }
+    } else if (targetFormat === 'wmv') {
+      const qVal = Math.max(2, Math.min(8, Math.round((options.crf || 23) / 4)));
+      args.push('-vcodec', 'wmv2', '-q:v', qVal.toString());
+      if (options.muteAudio) {
+        args.push('-an');
+      } else {
+        args.push('-c:a', 'wmav2', '-ar', '44100', '-ac', '2', '-b:a', options.audioBitrate || '128k');
+      }
+    } else if (targetFormat === 'flv') {
+      const qVal = Math.max(2, Math.min(8, Math.round((options.crf || 23) / 4)));
+      args.push('-vcodec', 'flv1', '-q:v', qVal.toString());
+      if (options.muteAudio) {
+        args.push('-an');
+      } else {
+        args.push('-c:a', 'libmp3lame', '-ar', '44100', '-b:a', options.audioBitrate || '128k');
+      }
     }
   }
 
@@ -443,6 +459,126 @@ export const convertVideoAdvanced = async (
   if (targetFormat === 'mkv') mimeType = 'video/x-matroska';
   if (targetFormat === 'mov') mimeType = 'video/quicktime';
   if (targetFormat === 'wmv') mimeType = 'video/x-ms-wmv';
+  if (targetFormat === 'flv') mimeType = 'video/x-flv';
 
   return new Blob([data as any], { type: mimeType });
+};
+
+export interface AnimatedGifOptions {
+  delayMs: number;
+  width: number; // 0 = auto from first frame (capped safely)
+  loopCount: number; // 0 = forever, -1 = play once
+  backgroundColor: string;
+}
+
+/** Normalize uploaded raster frames via HTML5 Canvas and encode an animated GIF using FFmpeg WASM. */
+export const createAnimatedGifFromImages = async (
+  files: File[],
+  options: AnimatedGifOptions,
+  onProgress: (progress: number) => void
+): Promise<{ blob: Blob; width: number; height: number }> => {
+  if (files.length === 0) {
+    throw new Error("Select at least one image frame to generate a GIF.");
+  }
+
+  const { loadImageElement } = await import("./image-edit");
+
+  const loadedImages: { img: HTMLImageElement; url: string }[] = [];
+  try {
+    for (const f of files) {
+      const url = URL.createObjectURL(f);
+      const img = await loadImageElement(url);
+      loadedImages.push({ img, url });
+    }
+
+    const firstImg = loadedImages[0].img;
+    const baseW = firstImg.naturalWidth || firstImg.width;
+    const baseH = firstImg.naturalHeight || firstImg.height;
+    const targetW =
+      options.width > 0
+        ? Math.min(1000, Math.max(64, Math.round(options.width)))
+        : Math.min(800, Math.max(64, baseW));
+    const targetH = Math.max(64, Math.round((targetW * baseH) / Math.max(1, baseW)));
+    const evenW = targetW % 2 === 0 ? targetW : targetW + 1;
+    const evenH = targetH % 2 === 0 ? targetH : targetH + 1;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = evenW;
+    canvas.height = evenH;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      throw new Error("Canvas 2D context is not available in this browser.");
+    }
+
+    const frameBlobs: Uint8Array[] = [];
+    for (let i = 0; i < loadedImages.length; i++) {
+      const { img } = loadedImages[i];
+      ctx.fillStyle = options.backgroundColor || "#ffffff";
+      ctx.fillRect(0, 0, evenW, evenH);
+
+      const iw = img.naturalWidth || img.width;
+      const ih = img.naturalHeight || img.height;
+      const scale = Math.min(evenW / Math.max(1, iw), evenH / Math.max(1, ih));
+      const drawW = Math.round(iw * scale);
+      const drawH = Math.round(ih * scale);
+      const dx = Math.round((evenW - drawW) / 2);
+      const dy = Math.round((evenH - drawH) / 2);
+      ctx.drawImage(img, dx, dy, drawW, drawH);
+
+      const pngBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, "image/png"));
+      if (!pngBlob) throw new Error(`Failed to render frame ${i + 1}.`);
+      frameBlobs.push(new Uint8Array(await pngBlob.arrayBuffer()));
+      onProgress(Math.round(((i + 1) / loadedImages.length) * 30));
+    }
+
+    const ffmpegInstance = await loadFfmpeg((p) => {
+      const pct = 30 + Math.round(Math.max(0, Math.min(1, p.progress)) * 70);
+      onProgress(pct);
+    });
+
+    const writtenNames: string[] = [];
+    const outputName = `animated_${Date.now()}.gif`;
+
+    try {
+      for (let i = 0; i < frameBlobs.length; i++) {
+        const frameName = `gif_frame_${String(i).padStart(4, "0")}.png`;
+        await ffmpegInstance.writeFile(frameName, frameBlobs[i]);
+        writtenNames.push(frameName);
+      }
+
+      const fps = Math.max(0.5, Math.min(20, 1000 / Math.max(50, options.delayMs)));
+      const exitCode = await ffmpegInstance.exec([
+        "-framerate",
+        fps.toFixed(2),
+        "-i",
+        "gif_frame_%04d.png",
+        "-vf",
+        "split[s0][s1];[s0]palettegen=stats_mode=diff[p];[s1][p]paletteuse=dither=bayer:bayer_scale=5",
+        "-loop",
+        options.loopCount.toString(),
+        outputName,
+      ]);
+
+      if (exitCode !== 0) {
+        throw new Error(`FFmpeg GIF encoding failed (exit code ${exitCode}).`);
+      }
+
+      const data = await ffmpegInstance.readFile(outputName);
+      onProgress(100);
+      return {
+        blob: new Blob([data as any], { type: "image/gif" }),
+        width: evenW,
+        height: evenH,
+      };
+    } finally {
+      for (const name of writtenNames) {
+        await ffmpegInstance.deleteFile(name).catch(() => {});
+      }
+      await ffmpegInstance.deleteFile(outputName).catch(() => {});
+    }
+  } finally {
+    for (const item of loadedImages) {
+      URL.revokeObjectURL(item.url);
+    }
+  }
 };

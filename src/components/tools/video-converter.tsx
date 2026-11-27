@@ -57,6 +57,8 @@ const SUPPORTED_FORMATS = [
   { id: "mov", label: "MOV (Apple)", desc: "Standard format for iPhone, Mac & QuickTime", icon: Film },
   { id: "mkv", label: "MKV (Matroska)", desc: "High-definition multi-track video", icon: Film },
   { id: "avi", label: "AVI", desc: "Legacy Windows video format", icon: FileVideo },
+  { id: "wmv", label: "WMV (Windows Media)", desc: "Legacy Windows Media Video (WMV2)", icon: FileVideo },
+  { id: "flv", label: "FLV (Flash Video)", desc: "Legacy Flash Video container", icon: FileVideo },
   { id: "gif", label: "GIF (Animated)", desc: "Lightweight looping animations", icon: ImageIcon },
   { id: "mp3", label: "MP3 (Audio Only)", desc: "Extract high-quality audio track", icon: Music },
 ];
@@ -70,6 +72,8 @@ export function VideoConverter({ toolSlug = "video-to-mp4", targetFormat: initia
     if (toolSlug?.includes("to-mov")) return "mov";
     if (toolSlug?.includes("to-mkv")) return "mkv";
     if (toolSlug?.includes("to-avi")) return "avi";
+    if (toolSlug?.includes("to-wmv")) return "wmv";
+    if (toolSlug?.includes("to-flv")) return "flv";
     if (toolSlug?.includes("to-webm")) return "webm";
     return "mp4";
   }, [toolSlug, initialTargetFormat]);

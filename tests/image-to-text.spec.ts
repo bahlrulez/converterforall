@@ -16,7 +16,7 @@ test.describe('Image to Text (OCR) Security & Accuracy', () => {
   test('Page loads and UI is present', async ({ page }) => {
     await page.goto('http://localhost:3000/image-to-text');
     await expect(page.locator('text=Upload your Image')).toBeVisible();
-    await expect(page.locator('text=Processing runs 100% locally')).toBeVisible();
+    await expect(page.locator('text=Tesseract OCR runs directly inside your browser')).toBeVisible();
   });
 
   test('Privacy Check: No external OCR API calls during processing', async ({ page }) => {
@@ -94,6 +94,10 @@ test.describe('Image to Text (OCR) Security & Accuracy', () => {
   test('Copy and Download buttons work', async ({ page, context }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.goto('http://localhost:3000/image-to-text');
+    const cookieBanner = page.getByRole('button', { name: /Accept All/i });
+    if (await cookieBanner.isVisible().catch(() => false)) {
+      await cookieBanner.click();
+    }
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(testFileCleanEng);
     await page.locator('button:has-text("Extract Text")').click();
@@ -101,13 +105,13 @@ test.describe('Image to Text (OCR) Security & Accuracy', () => {
     await expect(page.locator('textarea')).toBeVisible({ timeout: 25000 });
     
     // Copy button
-    await page.locator('button:has-text("Copy")').click({ force: true });
+    await page.locator('button:has-text("Copy")').click();
     await expect(page.locator('button:has-text("Copied!")')).toBeVisible();
     
     // Download TXT
     const [download] = await Promise.all([
       page.waitForEvent('download'),
-      page.locator('button:has-text("Download .TXT")').click({ force: true })
+      page.locator('button:has-text("Download .TXT")').click()
     ]);
     expect(download.suggestedFilename()).toContain('eng_clean');
     expect(download.suggestedFilename()).toContain('.txt');

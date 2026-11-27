@@ -4,8 +4,8 @@ import type { Metadata } from "next";
  * Single source of truth for indexable pages in Phase 1 SEO turnaround.
  * Only these 34 canonical paths appear in sitemap.xml and receive index: true.
  * Every other route receives robots: { index: false, follow: false }.
- * Note: /unicode-to-raavi is excluded because it currently renders as a held
- * informational guide ("This tool is not available yet.") rather than a working tool.
+ * Note: /unicode-to-raavi is excluded because it renders as a held
+ * informational guide ("Raavi Font Guide") rather than a converter tool.
  */
 export const INDEXABLE_PATHS = [
   // Core & Hubs (8)

@@ -470,22 +470,23 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Legacy Windows WMV Container Status & Modern Alternatives",
-        content: "<p>Older Windows systems and legacy PowerPoint versions commonly used Windows Media Video (<code>.wmv</code>) files, whereas modern browser FFmpeg WebAssembly pipelines focus reliably on open and broadly supported containers such as <code>.mp4</code> (H.264/AAC), <code>.webm</code>, <code>.mov</code>, <code>.mkv</code>, and <code>.avi</code>.</p>"
+        title: "Convert Videos to Windows Media Video (.wmv)",
+        content: "<p>Convert <code>.mp4</code>, <code>.mov</code>, <code>.mkv</code>, <code>.webm</code>, or <code>.avi</code> clips into Windows Media Video (<code>.wmv</code>) files directly in your browser via FFmpeg WebAssembly using <code>wmv2</code> video and <code>wmav2</code> stereo audio encoding (or switch the format button to MP4 or AVI anytime).</p>"
       },
       {
-        title: "Recommended Output Formats for Windows & Web",
-        content: "<p>If you need a video file guaranteed to open cleanly on Windows 10/11, modern Microsoft PowerPoint, smartphones, and web browsers without extra codec packs, pick <strong>MP4 (H.264)</strong> or <strong>AVI</strong> in the format options above—or open <a href='/video-to-mp4'>Video to MP4</a> or <a href='/video-to-avi'>Video to AVI</a> directly.</p><p>Unlike legacy Windows Media codecs from older software releases, H.264 MP4 plays right out of the box inside Microsoft PowerPoint 365, Windows Photos, Email previews, and browser HTML5 players.</p>"
+        title: "Encoding Options & Compatibility Notes",
+        content: "<p>Before starting conversion, you can scale output resolution (Original, 1080p, 720p, 480p, or 360p), trim start/end timestamps in seconds, adjust quality level, or mute the audio track cleanly. While legacy Windows systems and older Office embeds expect <code>.wmv</code>, modern smartphones and web browsers play <strong>MP4 (H.264)</strong> natively without extra plugins.</p>"
       },
       {
         title: "Step-by-step conversion guide",
-        content: "<ol><li><strong>Drop your video:</strong> Select your clip (including old <code>.wmv</code> clips you need to modernize) in the Video Converter workspace above.</li><li><strong>Pick a supported target container:</strong> Choose MP4 (recommended for modern Windows Media Player and PowerPoint), AVI, MKV, or MOV.</li><li><strong>Download converted file:</strong> Save the browser-encoded clip cleanly with zero watermarks.</li></ol>"
+        content: "<ol><li><strong>Drop your video:</strong> Select your clip in the Video Converter workspace above.</li><li><strong>Keep WMV selected (or pick MP4/AVI):</strong> Tune optional quality, resolution scaling, or trim timestamps.</li><li><strong>Export &amp; download:</strong> Wait for FFmpeg WebAssembly conversion to finish and save the <code>.wmv</code> file to your device.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Why should I choose MP4 or AVI instead of legacy WMV?</strong><br>A: Proprietary Windows Media codecs are largely deprecated online and less reliable inside WebAssembly encoders, whereas MP4 (H.264/AAC) plays natively on modern Windows, Mac, Android, and iPhone—making MP4 a safer archive target for shared presentations.</p>
-          <p><strong>Q: Does conversion upload clips to a server?</strong><br>A: No. Encoding executes inside your browser memory using FFmpeg WebAssembly without server queues.</p>
+          <p><strong>Q: Which codecs does the WMV converter produce?</strong><br>A: It encodes <code>wmv2</code> video inside an ASF/WMV container paired with 44.1 kHz stereo <code>wmav2</code> audio (unless muted).</p>
+          <p><strong>Q: Will WMV play directly inside mobile browsers or Safari?</strong><br>A: Smartphones and web browsers generally do not play legacy WMV natively; choose <a href="/video-to-mp4">Video to MP4</a> when sharing for phone or browser playback.</p>
+          <p><strong>Q: Does conversion upload clips to a server?</strong><br>A: No. Encoding executes inside your browser memory using FFmpeg WebAssembly without server upload queues.</p>
         `
       }
     ]
@@ -494,23 +495,23 @@ export const videoToolsContent: Record<string, { sections: { title: string, cont
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Legacy Flash Video (.flv) Status & Modern MP4 Replacement",
-        content: "<p>Adobe Flash Video (<code>.flv</code>) is an obsolete format discontinued alongside Flash Player. Modern browsers, mobile phones, smart TVs, and social platforms do not play FLV files natively, so our WebAssembly video encoder outputs modern containers like <code>.mp4</code>, <code>.webm</code>, <code>.mov</code>, <code>.mkv</code>, and <code>.avi</code>.</p>"
+        title: "Convert Videos to Flash Video (.flv) or Modern MP4",
+        content: "<p>Re-encode <code>.mp4</code>, <code>.mov</code>, <code>.mkv</code>, <code>.webm</code>, or <code>.avi</code> footage into Flash Video (<code>.flv</code>) format directly inside your browser using FFmpeg WebAssembly (<code>flv1</code> video with 44.1 kHz <code>libmp3lame</code> MP3 audio), or select MP4/WebM above to convert archived FLV clips into modern web playback formats.</p>"
       },
       {
-        title: "Converting Older FLV Clips vs Creating Modern Web Videos",
-        content: "<p>If you are archiving old Flash deliverables or looking for a lightweight web-ready export, pick <strong>MP4 (H.264)</strong> or <strong>WebM</strong> in the converter controls above—both encode cleanly via browser FFmpeg WebAssembly and play smoothly across modern browsers without third-party plugins.</p><p>Older downloaded Flash lectures, webinars, and screen tutorials archived as <code>.flv</code> files can often still be read by FFmpeg and re-encoded into clean MP4 files that play natively on HTML5 video players, smartphones, and tablets.</p>"
+        title: "Trimming, Audio Sampling & Playback Notes",
+        content: "<p>Standard FLV containers require 44.1 kHz MP3 audio sampling, which the converter configures automatically so 48 kHz phone and screen recordings encode cleanly without sample-rate errors. Because Adobe Flash Player is discontinued, most modern mobile devices and browsers cannot play exported <code>.flv</code> files without dedicated desktop players like VLC—pick <strong>MP4 (H.264)</strong> above if you need universal playback.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Upload your source video:</strong> Drop your video clip (including old <code>.flv</code> recordings you want to convert into playable MP4) into the studio above.</li><li><strong>Choose MP4 or WebM output:</strong> Pick a universally supported modern format preset alongside optional resolution scaling or trimming.</li><li><strong>Download result:</strong> Export and save the playable <code>.mp4</code> or <code>.webm</code> file locally.</li></ol>"
+        content: "<ol><li><strong>Upload your source video:</strong> Drop your clip into the Video Converter above.</li><li><strong>Adjust format &amp; trim controls:</strong> Leave FLV selected (or switch to MP4 for modern playback) and set optional trim seconds or resolution caps.</li><li><strong>Download result:</strong> Export and save the watermark-free <code>.flv</code> or <code>.mp4</code> file locally.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can modern browsers play Flash .flv files?</strong><br>A: No. Flash Player ended support globally, so converting or exporting to <code>.mp4</code> ensures modern playback on phones and computers.</p>
-          <p><strong>Q: Does this tool support trimming old FLV recordings before saving as MP4?</strong><br>A: Yes. Set optional start and end timestamps in seconds before starting WebAssembly conversion.</p>
-          <p><strong>Q: Are clips sent to external servers?</strong><br>A: No. FFmpeg WebAssembly executes locally inside browser memory without server uploads.</p>
+          <p><strong>Q: Which codecs are written into exported FLV files?</strong><br>A: Exported FLV files use Sorenson Spark (<code>flv1</code>) video and 44.1 kHz MP3 (<code>libmp3lame</code>) audio, or no audio track if muted.</p>
+          <p><strong>Q: Can modern web browsers play Flash .flv files?</strong><br>A: No. Flash Player ended support globally, so use VLC or another desktop player to open <code>.flv</code>, or pick <a href="/video-to-mp4">Video to MP4</a> for phone and browser playback.</p>
+          <p><strong>Q: Are clips sent to external servers?</strong><br>A: No. FFmpeg WebAssembly executes inside browser memory without sending your videos to a conversion server.</p>
         `
       }
     ]

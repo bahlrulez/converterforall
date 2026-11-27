@@ -64,73 +64,76 @@ export function chanakyaToUnicode(text: string): string {
     modifiedString = modifiedString.split(pattern).join(replacement);
   }
   
-  // Position "f" (Chhoti ee matra)
+  // Position "f" (Chhoti ee matra) before consonant
   let position_of_i = modifiedString.indexOf("f");
-  while (position_of_i !== -1) {
+  while (position_of_i !== -1 && position_of_i < modifiedString.length - 1) {
     const charecter_next_to_i = modifiedString.charAt(position_of_i + 1);
     const charecter_to_be_replaced = "f" + charecter_next_to_i;
     modifiedString = modifiedString.replace(charecter_to_be_replaced, charecter_next_to_i + "ि");
-    position_of_i = modifiedString.search(/f/);
+    position_of_i = modifiedString.indexOf("f", position_of_i + 1);
   }
-  
-  // Position "्" (halant) when combined with Chhoti ee
-  modifiedString = modifiedString.replace(/([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([्])([ि])/g, "$1$3$2");
-  modifiedString = modifiedString.replace(/([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([्])([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([ि])/g, "$1$2$3$4");
-  
-  // Position "Z" (Reph)
+
+  // Position "Z" (Reph) safely with bounds guard
   let position_of_Z = modifiedString.indexOf("Z");
   while (position_of_Z !== -1) {
+    if (position_of_Z === 0) {
+      modifiedString = "र्" + modifiedString.slice(1);
+      position_of_Z = modifiedString.indexOf("Z");
+      continue;
+    }
+
     let probable_position_of_half_r = position_of_Z - 1;
     let charecter_at_probable_position_of_half_r = modifiedString.charAt(probable_position_of_half_r);
-    
-    // Matras logic
+
+    // Walk backwards across matras
     while (
-      charecter_at_probable_position_of_half_r != undefined && 
+      probable_position_of_half_r > 0 &&
       charecter_at_probable_position_of_half_r.match(/[\u0900-\u097F]/) &&
-      !charecter_at_probable_position_of_half_r.match(/[कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह]/) 
+      !charecter_at_probable_position_of_half_r.match(/[कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह]/)
     ) {
       probable_position_of_half_r = probable_position_of_half_r - 1;
       charecter_at_probable_position_of_half_r = modifiedString.charAt(probable_position_of_half_r);
     }
-    
-    // Half letters logic
-    let charecter_to_left = modifiedString.charAt(probable_position_of_half_r - 1);
-    if (charecter_to_left !== undefined && charecter_to_left === "्") {
+
+    // Include attached halant cluster if present
+    if (probable_position_of_half_r >= 2 && modifiedString.charAt(probable_position_of_half_r - 1) === "्") {
       probable_position_of_half_r = probable_position_of_half_r - 2;
     }
-    
-    let string_to_be_replaced = modifiedString.substr(probable_position_of_half_r, (position_of_Z - probable_position_of_half_r));
-    modifiedString = modifiedString.replace(string_to_be_replaced + "Z", "र्" + string_to_be_replaced);
+
+    probable_position_of_half_r = Math.max(0, probable_position_of_half_r);
+    const string_to_be_replaced = modifiedString.slice(probable_position_of_half_r, position_of_Z);
+    modifiedString =
+      modifiedString.slice(0, probable_position_of_half_r) +
+      "र्" +
+      string_to_be_replaced +
+      modifiedString.slice(position_of_Z + 1);
     position_of_Z = modifiedString.indexOf("Z");
   }
-  
+
   return modifiedString;
 }
 
 export function unicodeToChanakya(text: string): string {
   if (!text) return "";
-  
+
   let modifiedString = text;
-  
+
   // Position Reph
   modifiedString = modifiedString.replace(/र्([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([ािीुूृेैोौंँः]*)/g, "$1$2Z");
   modifiedString = modifiedString.replace(/र्([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([्])([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([ािीुूृेैोौंँः]*)/g, "$1$2$3$4Z");
-  
+
   // Position Chhoti ee
   modifiedString = modifiedString.replace(/([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([्])([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([ि])/g, "f$1$2$3");
   modifiedString = modifiedString.replace(/([कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह])([ि])/g, "f$1");
-  
-  // Reverse mapping
+
+  // Reverse mapping (preserve Reph marker "Z" placed in step 1)
   for (let idx = 0; idx < array_two.length; idx++) {
     const pattern = array_two[idx];
     const replacement = array_one[idx];
-    if (pattern !== "") {
-       modifiedString = modifiedString.split(pattern).join(replacement);
+    if (pattern !== "" && pattern !== "Z") {
+      modifiedString = modifiedString.split(pattern).join(replacement);
     }
   }
-  
-  // Final cleanup
-  modifiedString = modifiedString.replace(/f([d\[x\?pNt>VBcM<y\.ruF\èkniQcHje;jo\’k\"klg])/g, "f$1");
-  
+
   return modifiedString;
 }

@@ -152,8 +152,6 @@ export default async function ToolPage(props: { params: Promise<{ slug: string }
     "unicode-to-sutonnymj",
     "inpage-to-unicode",
     "unicode-to-inpage",
-    "zawgyi-to-unicode",
-    "unicode-to-zawgyi",
   ]);
 
   return (

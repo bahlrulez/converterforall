@@ -362,48 +362,74 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
       {
         title: "Why Combine Two Images into One JPG?",
         content: `
-          <p>Whether you need to submit the front and back of an ID card on an official portal, create a side-by-side comparison photo, assemble receipts, or prepare a two-panel image, joining two pictures into one JPG file saves opening heavy desktop software. This tool composites any two JPEG or PNG images onto an HTML5 2D canvas right inside your browser without uploading photos to a conversion server.</p>
+          <p>Whether you need to submit the front and back of an ID card on an official portal, create a side-by-side comparison photo, assemble receipts for expenses, or prepare a two-panel image, joining two pictures into one JPG file saves opening heavy desktop software. This tool combines any two JPEG or PNG images onto an HTML5 2D canvas directly inside your browser without uploading photos to a conversion server.</p>
           <h3>How to merge two images:</h3>
           <ol>
-            <li><strong>Select Image 1 and Image 2:</strong> Drag and drop your photos into Slot 1 and Slot 2, or drop two files at once to fill both slots automatically.</li>
-            <li><strong>Choose layout and spacing:</strong> Select <strong>Side by Side</strong> (horizontal) or <strong>Top and Bottom</strong> (vertical), and adjust gap spacing, outer border padding, background color, and JPEG quality (Compact 80%, High 92%, or Maximum 100%).</li>
-            <li><strong>Preview and download:</strong> Inspect the live canvas preview, then click <strong>Download Merged JPG</strong> to save <code>merged-images.jpg</code>.</li>
+            <li><strong>Select Image 1 and Image 2:</strong> Drag and drop your photos into Slot 1 and Slot 2, or browse your files. You can also drop two files at once to fill both slots automatically.</li>
+            <li><strong>Choose layout and spacing:</strong> Select <strong>Side by Side</strong> (horizontal) or <strong>Top and Bottom</strong> (vertical), then adjust the gap between photos, outer border padding, and background color.</li>
+            <li><strong>Preview and download:</strong> Inspect the live composite preview, then click <strong>Download Merged JPG</strong> to save your merged image as <code>merged-images.jpg</code>.</li>
           </ol>
         `
       },
       {
         title: "Layout Options: Side by Side vs. Top and Bottom",
         content: `
-          <p>Choosing the right layout depends on your photos' orientation:</p>
+          <p>Choosing the right layout depends on your photos' orientation and subject matter:</p>
           <ul>
-            <li><strong>Side by Side (Horizontal):</strong> Places Image 1 on the left and Image 2 on the right—helpful for landscape photos and two-sided identity cards.</li>
-            <li><strong>Top and Bottom (Vertical):</strong> Stacks Image 1 above Image 2—ideal for mobile portrait screenshots and vertical receipts.</li>
-            <li><strong>Swap Order:</strong> Click <strong>Swap Order</strong> to flip Image 1 and Image 2 positions without re-selecting files.</li>
+            <li><strong>Side by Side (Horizontal):</strong> Places Image 1 on the left and Image 2 on the right, making it helpful for before-and-after comparisons, landscape photos, and two-sided identity cards.</li>
+            <li><strong>Top and Bottom (Vertical):</strong> Stacks Image 1 above Image 2, working cleanly for mobile portrait photos, vertical documents, long paper receipts, and phone screenshots.</li>
+            <li><strong>Swap Order:</strong> Click the <strong>Swap Order</strong> button anytime to flip Image 1 and Image 2 positions without re-selecting files.</li>
           </ul>
         `
       },
       {
-        title: "Proportional Dimension Matching & Transparency Handling",
+        title: "How Different Dimensions Are Handled Without Distortion",
         content: `
-          <p>The canvas engine preserves each photo's aspect ratio by matching heights in Side by Side mode or matching widths in Top and Bottom mode rather than stretching images. Because standard JPEG lacks an alpha channel, transparent PNG regions are drawn over your chosen solid background fill (pure white <code>#FFFFFF</code> by default) so transparent logos or signatures do not turn black.</p>
+          <p>When combining photos from different cameras or phones, mismatched pixel sizes can cause awkward stretching if handled carelessly. Instead of stretching or cropping edges, this tool matches each photo's aspect ratio proportionally:</p>
+          <ul>
+            <li><strong>In Side by Side layout:</strong> Both images match height to the taller image and scale widths proportionally without vertical distortion.</li>
+            <li><strong>In Top and Bottom layout:</strong> Both images match width to the wider image and scale heights proportionally while preserving framing.</li>
+          </ul>
         `
       },
       {
-        title: "Practical Limits & Troubleshooting",
+        title: "PNG Transparency & Solid Background Compositing",
+        content: `
+          <p>Standard JPEG files do not support an alpha transparency channel. When a transparent PNG is saved directly to JPG without filling transparent areas, those regions often turn solid black.</p>
+          <p>To prevent dark borders or halos, this tool fills the HTML5 canvas with your chosen solid background color (pure white <code>#FFFFFF</code> by default) before drawing both images, so transparent logos and scanned signatures composite cleanly.</p>
+        `
+      },
+      {
+        title: "Understanding JPEG Quality Settings",
+        content: `
+          <p>JPEG compression is always lossy, even when choosing the maximum quality slider setting. You can pick from three balanced presets:</p>
+          <ul>
+            <li><strong>High (92% quality - Default):</strong> Keeps clear detail with minimal compression artifacts for documents and everyday photography.</li>
+            <li><strong>Maximum (100% quality):</strong> Uses maximum JPEG encoding quality for minimal loss, producing larger files. Note that JPEG encoding remains technically lossy at 100%.</li>
+            <li><strong>Compact (80% quality):</strong> Produces a smaller file size suited for email attachments or upload portals with tight KB limits.</li>
+          </ul>
+        `
+      },
+      {
+        title: "Common Formatting Problems and Troubleshooting",
         content: `
           <ul>
-            <li><strong>File size limits:</strong> Individual source images can be up to 25 MB (50 MB total) and combined canvas dimensions are safely capped at 8,192 px to prevent browser tab crashes.</li>
-            <li><strong>Shrink the output further:</strong> Switch JPEG quality to Compact (80%) or pass the result through <a href="/compress-jpg" class="font-semibold text-blue-600 hover:underline">Compress JPG</a> if a portal caps file sizes.</li>
+            <li><strong>The merged file is too large for an upload portal:</strong> Switch JPEG quality to Compact (80%), or pass the downloaded image through our <a href="/compress-jpg" class="font-semibold text-blue-600 hover:underline">Compress JPG</a> tool to lower file size further.</li>
+            <li><strong>Huge camera photos use excessive browser memory:</strong> Very large high-megapixel photos allocate big canvas buffers. The tool automatically applies safety downscaling if combined dimensions exceed browser limits (8,192 px max edge / 24 MP cap).</li>
+            <li><strong>Transparent PNG areas look dark:</strong> Keep the canvas background fill set to solid White (#FFFFFF) before exporting JPEG.</li>
           </ul>
         `
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can I combine a JPG and a PNG image together?</strong><br>A: Yes. You can mix JPG and PNG files in either slot; both are decoded and composited into one JPG file.</p>
-          <p><strong>Q: Does merging two photos compress them?</strong><br>A: JPEG export is lossy at every setting; the default High (92%) preset balances sharp edges and reasonable file size, while Maximum uses 100% JPEG encoding and Compact uses 80%.</p>
-          <p><strong>Q: Are my photos sent to a server?</strong><br>A: No. Image decoding, canvas compositing, and JPEG export execute in browser memory without sending your photos to a backend server.</p>
-          <p><strong>Q: Why does a transparent PNG show behind a solid color?</strong><br>A: JPEG files do not support transparent alpha channels, so the tool fills the canvas with your selected background color before exporting.</p>
+          <p><strong>Q: Can I combine a JPG and a PNG image together?</strong><br>A: Yes. You can combine one JPG and one PNG, two JPGs, or two PNGs—the canvas decodes both formats into a single merged JPG file.</p>
+          <p><strong>Q: Will merging two photos reduce their original quality?</strong><br>A: Because JPEG compression is inherently lossy, re-encoding creates a fresh JPEG copy; the default 92% quality preset keeps everyday document text and photos clear.</p>
+          <p><strong>Q: What happens if my two images have different heights or widths?</strong><br>A: In Side by Side layout, heights align to the taller image while scaling widths proportionally; in Top and Bottom layout, widths align to the wider image without cropping.</p>
+          <p><strong>Q: Why does my transparent PNG need a background color?</strong><br>A: JPEG files lack a transparency alpha channel, so filling the canvas with white or another solid color prevents transparent regions from turning black on export.</p>
+          <p><strong>Q: Is there an input file size limit?</strong><br>A: Yes. Individual source files are limited to 25 MB each (50 MB total) so browser memory can decode and composite both photos reliably.</p>
+          <p><strong>Q: Are my photos uploaded to a conversion server?</strong><br>A: No. Image decoding, canvas compositing, and JPEG export run inside your browser without uploading photos to a conversion API.</p>
+          <p><strong>Q: Can I use this image merging tool on an iPhone or Android phone?</strong><br>A: Yes. It runs inside modern mobile browsers including Safari on iOS and Chrome on Android.</p>
         `
       }
     ]
@@ -524,22 +550,23 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Single-Image GIF Export Tool",
-        content: "<p>Pass a raster image (such as a PNG, JPG, or WEBP photo) through your browser canvas pipeline to attempt saving a basic single-frame GIF target where supported by the browser's canvas encoder. If you want a true multi-frame animated looping GIF made from a video clip with FPS control and Lanczos scaling, open our dedicated <a href='/video-to-gif'>Video to GIF</a> converter instead.</p>"
+        title: "Create Animated GIFs from Multiple Images in Your Browser",
+        content: "<p>Turn a sequence of up to 30 JPG, PNG, or WebP images into a looping animated GIF directly inside your browser. Reorder frames, adjust the delay between frames (100 ms to 2000 ms), choose output width (480 px, 640 px, 800 px, or source width capped cleanly), and set loop behavior without uploading your photos to a conversion server.</p>"
       },
       {
-        title: "Important Browser Codec Limitations & Recommendations",
-        content: "<p>Modern desktop and mobile browsers natively support encoding PNG and JPEG via HTML5 <code>canvas.toBlob</code>, whereas true multi-frame animated GIF creation requires compiling video frames with palette quantization via FFmpeg WebAssembly on our <a href='/video-to-gif'>Video to GIF</a> route. This uploader provides a single-image raster pass inside browser memory rather than multi-image timeline authoring or frame sequencing.</p>"
+        title: "How Image-to-GIF Encoding Works",
+        content: "<p>Each selected image is normalized onto uniform HTML5 Canvas dimensions (filled with your chosen white or black background) so differently sized pictures line up without distortion, then encoded using FFmpeg WebAssembly palette generation (<code>palettegen</code> and <code>paletteuse</code>) for smooth 256-color GIF playback.</p><p>If you want to convert a video clip instead of still images, open <a href='/video-to-gif'>Video to GIF</a>.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Select a single raster image:</strong> Drop a JPG, PNG, or WEBP photo into the upload box above.</li><li><strong>Attempt canvas export:</strong> Click convert to run the browser's native canvas blob export.</li><li><strong>For multi-frame animated loops:</strong> Visit <a href='/video-to-gif'>Video to GIF</a> to convert short MP4, MOV, or WebM clips into looping animated GIFs cleanly.</li></ol>"
+        content: "<ol><li><strong>Select or drop your images:</strong> Choose multiple JPG, PNG, or WebP frames (up to 30 files).</li><li><strong>Arrange frames &amp; timing:</strong> Reorder frames with the Up/Down controls, pick frame delay in milliseconds, output width, loop setting, and background fill.</li><li><strong>Generate &amp; download:</strong> Click <em>Generate Animated GIF</em>, preview the animation, and save <code>animated-sequence.gif</code>.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Can this page stitch multiple photos into an animated GIF?</strong><br>A: No. Multi-frame animation requires a video source on the <a href="/video-to-gif">Video to GIF</a> tool rather than this single-file canvas uploader.</p>
-          <p><strong>Q: Are uploaded files processed inside my browser?</strong><br>A: Yes. Canvas conversion attempts run locally in browser memory without sending images to a backend conversion server.</p>
+          <p><strong>Q: What happens if my selected photos have different dimensions?</strong><br>A: Frames scale proportionally to fit inside uniform dimensions matched to your chosen width and first frame's aspect ratio, centered cleanly against white or black padding.</p>
+          <p><strong>Q: Why is there a 30-frame limit?</strong><br>A: Rendering frames onto canvas and running palette quantization via FFmpeg WebAssembly uses browser tab memory, so capping at 30 frames keeps browser generation stable.</p>
+          <p><strong>Q: Are my photos sent to a server?</strong><br>A: No. Frame normalization and FFmpeg WebAssembly encoding run inside your browser without uploading photos to a conversion API.</p>
         `
       }
     ]
@@ -548,23 +575,23 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Browser Image Export & Interactive Cropping Alternatives",
-        content: "<p>This utility reads an uploaded JPG, PNG, or WEBP image onto your browser's HTML5 2D canvas and re-exports a clean JPG copy directly in browser memory. Note that this generic route runs canvas re-encoding on the full frame rather than offering manual pixel drag handles.</p>"
+        title: "Interactive Image Cropper",
+        content: "<p>Crop JPG, PNG, and WebP images interactively directly inside your browser using HTML5 Canvas. Drag to frame your subject, zoom in cleanly, rotate in 90° increments, flip horizontally or vertically, and choose preset or custom aspect ratios without uploading photos to a conversion server.</p>"
       },
       {
-        title: "Where to Crop Photos & Signatures Interactively",
-        content: "<p>If you need visual drag-and-zoom crop handles, custom framing rectangles, passport aspect ratios (3.5:4.5 or 2×2 inch), or target KB sizing for exams, job portals, or forms, use one of our interactive cropper studios instead: <a href='/exam-photo-resizer'>Exam Photo Resizer</a>, <a href='/exam-signature-resizer'>Exam Signature Resizer</a>, <a href='/photo-name-date-stamper'>Photo Name &amp; Date Stamper</a>, or <a href='/passport-photo-maker'>Passport Photo Maker</a>.</p>"
+        title: "Supported Aspect Ratios, Rotation & Formats",
+        content: "<p>Switch between <strong>Original</strong>, <strong>1:1 Square</strong>, <strong>4:3</strong>, <strong>3:2</strong>, <strong>16:9</strong>, <strong>3:4 Portrait</strong>, <strong>9:16 Story</strong>, or custom width-to-height ratios. Export your cropped selection while keeping the original file format or converting between JPG, PNG (preserving transparent pixels), and WebP.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Drop your image:</strong> Upload a JPG, PNG, or WEBP file above if you simply want a stripped/re-encoded canvas JPG copy.</li><li><strong>Need interactive crop framing?</strong> Open <a href='/exam-photo-resizer'>Exam Photo Resizer</a> or <a href='/passport-photo-maker'>Passport Photo Maker</a> for manual crop handles and preset aspect ratios.</li><li><strong>Save output:</strong> Download the exported JPG and inspect final pixel dimensions against your requirements.</li></ol>"
+        content: "<ol><li><strong>Drop your image:</strong> Select a JPG, PNG, or WebP file from your computer or phone.</li><li><strong>Frame, rotate &amp; pick aspect ratio:</strong> Choose a ratio preset or custom ratio, zoom cleanly, and adjust rotation or horizontal/vertical flips.</li><li><strong>Crop &amp; download:</strong> Click <em>Crop &amp; Preview</em> to inspect the cropped output pixels and file size, then click <em>Download Cropped Image</em>.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does this route include drag-and-drop crop handles for custom aspect ratios?</strong><br>A: No. For interactive crop zoom and drag framing, open <a href="/exam-photo-resizer">Exam Photo Resizer</a>, <a href="/exam-signature-resizer">Exam Signature Resizer</a>, or <a href="/passport-photo-maker">Passport Photo Maker</a>.</p>
-          <p><strong>Q: Will opening an interactive cropper upload my photo to a cloud server?</strong><br>A: No. Both the generic canvas uploader and interactive crop studios run inside your browser memory without transmitting photos externally.</p>
-          <p><strong>Q: Are uploaded photos sent to external servers?</strong><br>A: No. Canvas processing runs in browser memory without sending your image to a backend conversion server.</p>
+          <p><strong>Q: Does cropping remove transparent backgrounds on PNG or WebP images?</strong><br>A: If you keep PNG or WebP output selected, existing alpha transparency stays clear. Choosing JPG output fills transparent regions with solid white because JPEG does not support transparency.</p>
+          <p><strong>Q: Can I rotate or flip a sideways photo while cropping?</strong><br>A: Yes. Use the Rotate -90° / +90°, Flip H, and Flip V buttons above the settings panel before exporting.</p>
+          <p><strong>Q: Are uploaded photos sent to external servers?</strong><br>A: No. Cropping and canvas export run inside browser memory without sending your image to a backend conversion server.</p>
         `
       }
     ]
@@ -573,23 +600,24 @@ export const imageToolsContent: Record<string, { sections: { title: string, cont
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Browser Image Export & Dimension-Control Alternatives",
-        content: "<p>This route decodes uploaded JPG, PNG, or WEBP photos and re-exports them as standard JPG files via HTML5 2D canvas inside your browser. It performs full-frame canvas export rather than providing custom pixel-width input fields on this generic uploader.</p>"
+        title: "Resize Images by Pixels, Percentage, or Presets",
+        content: "<p>Resize JPG, PNG, and WebP images directly in your browser by entering exact pixel dimensions, scaling by percentage, or selecting standard presets (Full HD 1920×1080, HD 1280×720, Square 1080×1080, or Web 800×600). Lock aspect ratio to avoid stretching, or unlock it when custom dimensions are required.</p>"
       },
       {
-        title: "Tools with Downscale Sliders, Aspect Presets & DPI Controls",
-        content: "<p>If you want to downscale image resolution, compress toward specific KB limits, or edit DPI metadata headers, use our specialized tools built for those exact controls: <a href='/compress-jpg'>Compress JPG</a> and <a href='/compress-png'>Compress PNG</a> include quality sliders and max-dimension downscale options; <a href='/exam-photo-resizer'>Exam Photo Resizer</a> crops ratios and targets KB caps; and <a href='/image-dpi-converter'>Image DPI Converter</a> updates 72/96/200/300 DPI headers on JPG and PNG files cleanly.</p>"
+        title: "How Browser Scaling & Quality Work",
+        content: "<p>When you click <em>Resize Image</em>, HTML5 Canvas scales the image onto a new pixel grid inside browser memory without sending your photo to a server. Downscaling creates smaller files for web uploads and email; upscaling enlarges pixel counts cleanly but cannot invent missing camera detail, and JPEG export applies lossy compression according to the quality slider.</p>"
       },
       {
         title: "Step-by-step guide",
-        content: "<ol><li><strong>Drop your photo:</strong> Upload a JPG, PNG, or WEBP image above for standard canvas JPG export.</li><li><strong>Need custom resolution downscaling or DPI?</strong> Use <a href='/compress-jpg'>Compress JPG</a> for width/quality sliders or <a href='/image-dpi-converter'>Image DPI Converter</a> for DPI headers.</li><li><strong>Download result:</strong> Save the exported JPG and verify file properties cleanly.</li></ol>"
+        content: "<ol><li><strong>Select an image:</strong> Drop a JPG, PNG, or WebP photo into the tool above.</li><li><strong>Set target dimensions:</strong> Enter custom pixel width/height (with aspect lock toggled as desired), pick a scale percentage, or apply a preset.</li><li><strong>Resize &amp; download:</strong> Choose your output format and compression quality, click <em>Resize Image</em>, and save the resized file.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Where can I adjust resolution or compress to a smaller KB size?</strong><br>A: Use <a href="/compress-jpg">Compress JPG</a> for resolution downscaling and quality control, <a href="/exam-photo-resizer">Exam Photo Resizer</a> for crop + KB ranges, or <a href="/image-dpi-converter">Image DPI Converter</a> for JPG/PNG DPI header edits.</p>
-          <p><strong>Q: Does running a full-frame export remove camera EXIF metadata?</strong><br>A: Yes. Drawing an image through HTML5 canvas creates a fresh pixel bitmap without carrying GPS or camera tags into the saved JPG.</p>
-          <p><strong>Q: Are images uploaded to a cloud server?</strong><br>A: No. Image re-encoding runs inside browser memory rather than sending files to a remote conversion server.</p>
+          <p><strong>Q: Will resizing distort or stretch my picture?</strong><br>A: With <em>Aspect ratio locked</em> enabled (on by default), changing width automatically updates height proportionally so the framing never stretches. Toggle it off only if you intentionally want independent width and height.</p>
+          <p><strong>Q: Does enlarging a small image add sharpness?</strong><br>A: Upscaling increases pixel dimensions for portals or templates that require minimum widths, though enlarging beyond original pixels softens fine texture.</p>
+          <p><strong>Q: Does canvas resizing strip camera EXIF metadata?</strong><br>A: Yes. Rendering pixels through HTML5 Canvas outputs a fresh image without carrying embedded EXIF GPS or camera tags.</p>
+          <p><strong>Q: Are my photos sent to a server?</strong><br>A: No. Decoding, scaling, and export happen inside your browser without uploading files to a conversion API.</p>
         `
       }
     ]

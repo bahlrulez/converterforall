@@ -68,8 +68,21 @@ export default function ImageToTextTool() {
   };
 
   const handleCopy = async () => {
-    if (extractedText) {
+    if (!extractedText) return;
+    try {
       await navigator.clipboard.writeText(extractedText);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch {
+      const el = document.createElement("textarea");
+      el.value = extractedText;
+      el.setAttribute("readonly", "");
+      el.style.position = "absolute";
+      el.style.left = "-9999px";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
     }

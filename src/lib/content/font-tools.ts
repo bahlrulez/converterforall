@@ -94,12 +94,17 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
           <div class="p-4 mb-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-sm font-medium">
             <strong>Notice:</strong> This converter is being verified. Please check the output before relying on it.
           </div>
-          <p>Convert legacy Walkman-Chanakya Hindi text into universal Unicode (Mangal font) directly in your browser. All conversions run locally on your device using client-side JavaScript.</p>
+          <p>Convert legacy Chanakya Hindi text toward standard Unicode Devanagari (such as Mangal font) directly inside your web browser without uploading pasted text to a conversion server.</p>
+          <p>Legacy Chanakya editions used in PageMaker, CorelDRAW, and older desktop publishing files share Remington-style ASCII glyph patterns with variations between Walkman-Chanakya releases. Because font editions differ, this held route currently applies a Remington-compatible replacement table and keeps an experimental notice in place.</p>
           <ol>
-            <li>Paste your Chanakya text into the input box.</li>
-            <li>The tool translates characters into standard Devanagari Unicode.</li>
-            <li>Copy the converted text to use in modern applications.</li>
+            <li>Paste your legacy Chanakya text into the left input box.</li>
+            <li>Review the converted Unicode Devanagari output in the right panel.</li>
+            <li>Copy or export the text and verify every conjunct, Reph mark, and vowel sign against the original page before relying on it.</li>
           </ol>
+          <h3>Frequently Asked Questions</h3>
+          <p><strong>Q: Why does legacy Chanakya text appear as English letters on phones or modern Word documents?</strong><br>A: Legacy fonts store Hindi character shapes on English ASCII keyboard codes, so systems without the matching legacy font render Latin symbols instead of Devanagari.</p>
+          <p><strong>Q: Should I review Chanakya output before submitting official files?</strong><br>A: Yes. Legacy Chanakya variants (including Walkman-Chanakya 901/905 editions) differ in some custom ligature positions, so inspect names, numbers, and half-letters carefully.</p>
+          <p><strong>Q: Are pasted Hindi texts uploaded to a server?</strong><br>A: No. Character lookup and reordering run inside browser JavaScript without sending pasted text across the network, and you can also switch to <a href="/krutidev-to-unicode">Kruti Dev to Unicode</a> or <a href="/font-text-fixer">Font Text Fixer</a> if your document uses Remington Kruti Dev formatting instead.</p>
         `
       }
     ]
@@ -114,12 +119,17 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
           <div class="p-4 mb-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-sm font-medium">
             <strong>Notice:</strong> This converter is being verified. Please check the output before relying on it.
           </div>
-          <p>Convert modern Unicode Hindi text into legacy Walkman-Chanakya font encoding directly in your browser. All conversions run locally on your device.</p>
+          <p>Convert standard Unicode Hindi text into legacy Chanakya character codes directly inside your browser without uploading pasted text to a conversion server.</p>
+          <p>Desktop print workflows in PageMaker or CorelDRAW sometimes require legacy single-byte character codes when older master templates do not support OpenType Unicode shaping. Because Chanakya font editions differ across print houses, review generated codes in your target desktop font before printing.</p>
           <ol>
-            <li>Paste your Unicode Hindi text into the input box.</li>
-            <li>The tool translates characters into Chanakya font encoding.</li>
-            <li>Copy the output and apply the Walkman-Chanakya font in your desktop software.</li>
+            <li>Paste readable Unicode Hindi text into the input editor above.</li>
+            <li>Review the generated legacy character codes in the output panel.</li>
+            <li>Copy the output, apply the matching Chanakya font inside your desktop application, and proofread every line against the source text.</li>
           </ol>
+          <h3>Frequently Asked Questions</h3>
+          <p><strong>Q: Why do converted characters look like scrambled punctuation inside the browser?</strong><br>A: Legacy font encoding maps Devanagari glyphs onto Latin keys and symbol slots; the glyphs appear as Hindi only after pasting into desktop software set to your legacy Chanakya typeface.</p>
+          <p><strong>Q: Is every Walkman-Chanakya glyph guaranteed identical?</strong><br>A: Not yet. Different Walkman-Chanakya and desktop Remington releases assign certain conjuncts differently, so this experimental converter keeps verification warnings active.</p>
+          <p><strong>Q: Does conversion upload typed text remotely?</strong><br>A: No. Reordering and character substitution execute inside your browser without sending text to external servers, and if your template actually expects Kruti Dev 010 key codes, open our verified <a href="/unicode-to-krutidev">Unicode to Kruti Dev</a> tool directly.</p>
         `
       }
     ]
@@ -416,21 +426,21 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Zawgyi to Unicode Converter (Rule-Based)",
-        content: "<p>Convert basic <strong>Myanmar Zawgyi font</strong> text patterns toward <strong>Myanmar Unicode</strong> inside your browser. Modern Android, iOS, and Windows devices natively expect Myanmar Unicode, so older Zawgyi strings often appear scrambled until mapped into standard Unicode order.</p>"
+        title: "Zawgyi to Unicode Converter (Rabbit Engine)",
+        content: "<p>Convert legacy <strong>Myanmar Zawgyi font</strong> text into standard <strong>Myanmar Unicode</strong> inside your browser using the open-source Rabbit rule engine. Modern Android, iOS, macOS, and Windows devices natively expect Myanmar Unicode, so older Zawgyi text often renders broken or misplaced vowels until converted.</p>"
       },
       {
-        title: "Current Mapping Scope &amp; Review Advice",
-        content: "<ul><li><strong>Vowel &amp; Medial Reordering:</strong> Applies rule-based mapping for common Zawgyi medial Ya/Ra/Wa/Ha code points, vowels, tone marks, and pre-posed ေ (E-vowel) reordering.</li><li><strong>Limitations:</strong> Complex stacked consonant clusters (pat-sint), Kinzi sequences, and stylized glyphs are not fully covered by the current rule set—always proofread converted Burmese text against the original source before publishing.</li><li><strong>Browser Processing:</strong> Conversion rules execute inside browser memory without sending pasted text remotely.</li></ul>"
+        title: "Full Syllable, Medial &amp; Pat-Sint Support",
+        content: "<ul><li><strong>Medials &amp; Stacked Consonants:</strong> Maps Zawgyi medial Ya/Ra/Wa/Ha code points, Kinzi sequences, tall-Aa forms, and stacked pat-sint consonants into logical Unicode order.</li><li><strong>Vowel &amp; Killer Reordering:</strong> Shifts pre-posed vowel sign <code>ေ</code> and tone marks into Unicode order cleanly while preserving punctuation and numerals.</li><li><strong>Browser Processing:</strong> Conversion rules run inside browser JavaScript without sending pasted text to an external server.</li></ul>"
       },
       {
-        title: "How to Use This Converter",
-        content: "<ol><li><strong>Paste Zawgyi text:</strong> Paste the Burmese Zawgyi text into the input panel above.</li><li><strong>Inspect Myanmar Unicode output:</strong> Check stacked letters, medials, and vowels in the right-hand output box against your source passage.</li><li><strong>Copy &amp; share:</strong> Copy cleanly once verified for WhatsApp, Facebook, CMS editors, or Word.</li></ol>"
+        title: "How to Convert Zawgyi to Unicode",
+        content: "<ol><li><strong>Paste Zawgyi text:</strong> Paste your Burmese Zawgyi passage into the left input box.</li><li><strong>Review Myanmar Unicode output:</strong> Verify stacked letters, medials, and vowels in the right output box.</li><li><strong>Copy or export:</strong> Copy clean Myanmar Unicode for WhatsApp, Facebook, CMS editors, or Word.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does this handle every Zawgyi ligature and pat-sint stacked consonant?</strong><br>A: No. The current browser mapper applies core Zawgyi vowel and medial substitutions plus vowel ေ reordering; inspect stacked consonants and Kinzi words manually before relying on the result.</p>
+          <p><strong>Q: Does this handle Kinzi, medials, and pat-sint stacked consonants?</strong><br>A: Yes. It uses the full Rabbit Zawgyi-to-Unicode rule sequence covering Kinzi, stacked consonants, medials, alternate glyphs, and vowel reordering. If an input passage already mixes Unicode and Zawgyi words, inspect mixed paragraphs carefully.</p>
           <p><strong>Q: Why does legacy Zawgyi text look broken on newer Android phones or Windows PCs?</strong><br>A: Zawgyi placed Burmese glyphs at non-standard code points; modern phones ship Unicode Myanmar fonts by default and misrender raw Zawgyi text.</p>
           <p><strong>Q: Are my Myanmar texts transmitted to a server?</strong><br>A: No. Mapping executes in browser JavaScript without uploading pasted text remotely.</p>
         `
@@ -441,22 +451,22 @@ export const fontToolsContent: Record<string, { sections: { title: string, conte
     disableAutoEnrich: true,
     sections: [
       {
-        title: "Unicode to Zawgyi Converter (Experimental Helper)",
-        content: "<p>Reorders pre-posed vowel <code>ေ</code> characters in standard <strong>Myanmar Unicode</strong> text toward legacy <strong>Zawgyi</strong> display order inside your browser when older Myanmar desktop software or legacy PageMaker templates expect pre-posed vowel ordering.</p>"
+        title: "Unicode to Zawgyi Converter (Rabbit Engine)",
+        content: "<p>Convert standard <strong>Myanmar Unicode</strong> text back into legacy <strong>Zawgyi-One</strong> encoding directly inside your browser using the Rabbit rule engine when older Myanmar desktop software, legacy PageMaker templates, or older print workflows expect Zawgyi glyphs.</p>"
       },
       {
-        title: "Current Mapping Scope &amp; Limitations",
-        content: "<ul><li><strong>Scope notice:</strong> The current browser implementation reorders Myanmar vowel sign <code>ေ</code> before its consonant rather than performing full Rabbit-style glyph substitution for medials (ျ/ြ), Kinzi, pat-sint stacked consonants, or alternate Zawgyi glyphs.</li><li><strong>Always verify output:</strong> Review converted Burmese passages carefully before placing them into legacy print layouts.</li><li><strong>Browser Execution:</strong> Character conversion runs in browser JavaScript without server transmission.</li></ul>"
+        title: "Medial, Stacked Consonant &amp; Vowel Mapping",
+        content: "<ul><li><strong>Legacy Glyph Selection:</strong> Translates Unicode medials, stacked pat-sint clusters, Kinzi, alternate vowel forms, and pre-posed vowel <code>ေ</code> into Zawgyi visual encoding.</li><li><strong>Verify Target Font:</strong> Always paste into an application configured with the Zawgyi-One typeface and inspect long documents before printing.</li><li><strong>Browser Execution:</strong> Character conversion runs in browser JavaScript without sending drafts to a server.</li></ul>"
       },
       {
-        title: "How to Use This Converter",
-        content: "<ol><li><strong>Paste Myanmar Unicode text:</strong> Enter readable Unicode Burmese text into the editor above.</li><li><strong>Review reordered output:</strong> Check how vowel signs render and manually verify medial/stacked clusters.</li><li><strong>Apply Zawgyi font:</strong> Paste into your target legacy app and select the Zawgyi font family so characters display on that system.</li></ol>"
+        title: "How to Convert Unicode to Zawgyi",
+        content: "<ol><li><strong>Paste Myanmar Unicode text:</strong> Enter readable Unicode Burmese text into the editor above.</li><li><strong>Review Zawgyi output:</strong> Copy the converted character codes from the output panel.</li><li><strong>Apply Zawgyi font:</strong> Paste into your target legacy app and select the Zawgyi-One font family so glyphs display properly on that system.</li></ol>"
       },
       {
         title: "Frequently Asked Questions",
         content: `
-          <p><strong>Q: Does this reverse full Myanmar Unicode medials and stacked consonants into Zawgyi code points?</strong><br>A: Not currently—this helper reorders vowel ေ before consonants only. Check complex syllables manually when moving into legacy Zawgyi templates.</p>
-          <p><strong>Q: Why does converted Zawgyi text look odd on my Unicode browser before pasting?</strong><br>A: Without Zawgyi installed locally, modern systems use Unicode fonts—once pasted into an app using the Zawgyi font, vowel ordering aligns.</p>
+          <p><strong>Q: Does this convert full Unicode medials, Kinzi, and stacked consonants back into Zawgyi?</strong><br>A: Yes. The Rabbit Unicode-to-Zawgyi rule set transforms medials, Kinzi, stacked consonants, and alternate glyphs back to Zawgyi visual positions.</p>
+          <p><strong>Q: Why does converted Zawgyi text look odd on my Unicode browser before pasting?</strong><br>A: Without Zawgyi-One installed and selected, modern browsers assume standard Myanmar Unicode ordering—once pasted into an app using the Zawgyi font, characters render cleanly.</p>
           <p><strong>Q: Are typed drafts sent to any server?</strong><br>A: No. Mapping executes in browser memory without sending pasted text remotely.</p>
         `
       }
