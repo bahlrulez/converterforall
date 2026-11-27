@@ -10,55 +10,30 @@ import { usePathname } from "next/navigation";
 import { ToolsMegaMenu } from "./tools-mega-menu";
 import { MobileNav } from "./mobile-nav";
 import { CompactToolNav } from "./compact-tool-nav";
-
-function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-    </svg>
-  );
-}
-
-function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-    </svg>
-  );
-}
+import { HeroSearch } from "@/components/home/hero-search";
 
 export function Header() {
   const pathname = usePathname();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      } else if (e.key === "Escape") {
+        setIsSearchOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
   const isDark = (resolvedTheme || theme) === "dark";
@@ -126,9 +101,17 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="rounded-full hidden md:inline-flex h-9 w-9 text-muted-foreground hover:text-foreground">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsSearchOpen(true)}
+            className="rounded-full hidden md:inline-flex h-9 w-9 text-muted-foreground hover:text-foreground"
+            title="Search tools (Ctrl+K)"
+            aria-label="Search tools"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <span className="sr-only">Search</span>
+            <span className="sr-only">Search tools</span>
           </Button>
 
           {mounted && (
@@ -149,19 +132,8 @@ export function Header() {
             </Button>
           )}
 
-          <div className="hidden lg:flex items-center gap-1 border-l border-border pl-3 ml-1">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="h-8 w-8 inline-flex items-center justify-center rounded-full text-muted-foreground hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors">
-              <FacebookIcon className="h-4 w-4" />
-              <span className="sr-only">Facebook</span>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="h-8 w-8 inline-flex items-center justify-center rounded-full text-muted-foreground hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-pink-600 transition-colors">
-              <InstagramIcon className="h-4 w-4" />
-              <span className="sr-only">Instagram</span>
-            </a>
-          </div>
-
           <Link
-            href="/#featured-tools"
+            href="/tools"
             className={cn(
               buttonVariants({ variant: "default" }),
               "hidden md:inline-flex rounded-full px-5 py-2 font-bold text-[13px] h-9 transition-all hover:scale-105 active:scale-95 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:brightness-110 text-white border-none shadow-[0_0_18px_rgba(99,102,241,0.5)]"
@@ -184,6 +156,37 @@ export function Header() {
 
       {/* Modern Mobile Navigation Drawer */}
       <MobileNav isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+
+      {/* Header Quick Search Overlay */}
+      {isSearchOpen && (
+        <div
+          className="fixed inset-0 z-[70] bg-slate-950/60 backdrop-blur-sm flex items-start justify-center pt-20 sm:pt-28 px-4"
+          onClick={() => setIsSearchOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Search tools"
+        >
+          <div
+            className="w-full max-w-2xl bg-white dark:bg-[#080f26] border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                Quick Tool Finder
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsSearchOpen(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                aria-label="Close search"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <HeroSearch autoFocus onSelect={() => setIsSearchOpen(false)} />
+          </div>
+        </div>
+      )}
     </header>
   );
 }

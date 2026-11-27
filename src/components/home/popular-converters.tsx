@@ -58,7 +58,7 @@ export function PopularConverters() {
           <h3 className="text-slate-900 dark:text-white font-bold text-lg flex items-center gap-2">
             <span className="text-xl">🔥</span> Popular Converters
           </h3>
-          <Link href="/#featured-tools" className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white flex items-center gap-1 transition-colors">
+          <Link href="/tools" className="text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white flex items-center gap-1 transition-colors">
             View all <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

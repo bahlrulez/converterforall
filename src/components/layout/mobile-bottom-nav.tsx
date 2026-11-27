@@ -20,7 +20,7 @@ export function MobileBottomNav() {
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#080e22]/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 pb-safe transition-colors duration-200">
       <div className="flex items-center justify-around h-16 px-2">
         <NavItem href="/" icon={Home} label="Home" isActive={pathname === "/"} />
-        <NavItem href="/#featured-tools" icon={LayoutGrid} label="All Tools" isActive={pathname === "/#featured-tools"} />
+        <NavItem href="/tools" icon={LayoutGrid} label="All Tools" isActive={pathname === "/tools"} />
         
         {/* Floating Action Button for Convert */}
         <div className="relative w-16 h-full flex justify-center">

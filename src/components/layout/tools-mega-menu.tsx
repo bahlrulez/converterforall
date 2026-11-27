@@ -258,7 +258,7 @@ export function ToolsMegaMenu({ onClose }: ToolsMegaMenuProps) {
 
                     {remainingCount > 0 && (
                       <Link
-                        href="/#featured-tools"
+                        href="/tools"
                         onClick={onClose}
                         className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-cyan-300 hover:underline mt-1 pl-4"
                       >

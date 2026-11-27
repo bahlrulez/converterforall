@@ -299,7 +299,7 @@ export default function AboutPage() {
 
               <div className="pt-2">
                 <Link
-                  href="/#featured-tools"
+                  href="/tools"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-blue-700 font-bold text-xs sm:text-sm hover:bg-blue-50 shadow-md transition-transform active:scale-95"
                 >
                   <span>Start Converting Free</span>

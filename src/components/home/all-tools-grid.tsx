@@ -45,7 +45,7 @@ interface ToolItem {
 }
 
 function getIconComponent(iconName: string) {
-  switch(iconName) {
+  switch (iconName) {
     case "Code2": return Code2;
     case "Eraser": return Eraser;
     case "Camera": return Camera;
@@ -67,7 +67,7 @@ function getIconComponent(iconName: string) {
 }
 
 function getThemeStyles(theme?: string) {
-  switch(theme) {
+  switch (theme) {
     case "cyan": return { iconBg: "bg-cyan-500/15 border-cyan-500/30", iconColor: "text-cyan-400" };
     case "purple": return { iconBg: "bg-purple-500/15 border-purple-500/30", iconColor: "text-purple-400" };
     case "amber": return { iconBg: "bg-amber-500/15 border-amber-500/30", iconColor: "text-amber-400" };
@@ -152,10 +152,11 @@ export function AllToolsGrid() {
           <div className="w-full max-w-3xl relative group">
             {/* Glowing background effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 rounded-full blur-md opacity-10 dark:opacity-20 group-hover:opacity-30 dark:group-hover:opacity-40 transition-opacity duration-500 pointer-events-none"></div>
-            
+
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400 group-focus-within:text-blue-500 transition-colors z-10 pointer-events-none" />
-            
+
             <input
+              id="tools-search-input"
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -183,8 +184,8 @@ export function AllToolsGrid() {
                 }}
                 className={cn(
                   "flex items-center justify-between p-3 rounded-2xl border transition-all text-left group",
-                  isActive 
-                    ? "bg-blue-50 dark:bg-[#0c1630] border-blue-500 dark:border-slate-600 shadow-sm" 
+                  isActive
+                    ? "bg-blue-50 dark:bg-[#0c1630] border-blue-500 dark:border-slate-600 shadow-sm"
                     : "bg-white dark:bg-[#080e22]/90 border-slate-200/90 dark:border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-[#0c1630] shadow-sm"
                 )}
               >

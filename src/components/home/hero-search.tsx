@@ -24,10 +24,27 @@ const CATEGORY_META: Record<string, { label: string; icon: any; color: string }>
   fonts: { label: "Indic Fonts", icon: Type, color: "text-indigo-500" },
 };
 
-export function HeroSearch() {
+export function HeroSearch({
+  autoFocus = false,
+  onSelect,
+}: {
+  autoFocus?: boolean;
+  onSelect?: () => void;
+} = {}) {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (autoFocus) {
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+        setIsFocused(true);
+      }, 30);
+      return () => clearTimeout(timer);
+    }
+  }, [autoFocus]);
 
   // Flatten allowlisted tools for instant search
   const allTools = useMemo(() => {
@@ -92,6 +109,7 @@ export function HeroSearch() {
         <div className="relative flex items-center">
           <Search className="absolute left-3.5 w-4 h-4 text-blue-600 dark:text-blue-400 pointer-events-none transition-colors" />
           <input
+            ref={inputRef}
             type="text"
             value={query}
             onFocus={() => setIsFocused(true)}
@@ -144,6 +162,7 @@ export function HeroSearch() {
                     onClick={() => {
                       setIsFocused(false);
                       setQuery("");
+                      onSelect?.();
                     }}
                     className="flex items-center justify-between p-2.5 rounded-xl hover:bg-blue-50/90 dark:hover:bg-blue-900/25 border border-transparent hover:border-blue-200 dark:hover:border-blue-500/30 transition-all group"
                   >
@@ -205,6 +224,7 @@ export function HeroSearch() {
           <Link
             key={item.slug}
             href={`/${item.slug}`}
+            onClick={() => onSelect?.()}
             className="px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0c142c] hover:bg-blue-50 dark:hover:bg-blue-900/30 border border-slate-200/90 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-all shadow-2xs hover:shadow-xs hover:border-blue-300 hover:-translate-y-0.5"
           >
             {item.label}

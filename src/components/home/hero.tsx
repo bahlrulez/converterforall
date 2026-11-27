@@ -54,7 +54,7 @@ export function Hero() {
             {/* Privacy Pill Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/10 text-white text-xs font-semibold backdrop-blur-md mb-5 shadow-sm">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="tracking-tight">Private by Design • In-Browser Processing • No Signups</span>
+              <span className="tracking-tight">Browser-First Utilities • Free • No Signups</span>
             </div>
 
             {/* Headline (SEO-Friendly, Clear & Genuine) */}
@@ -66,7 +66,7 @@ export function Hero() {
             </h1>
 
             {/* Subtitle (Honest, Standardized Privacy Framing) */}
-            <p className="max-w-xl text-sm sm:text-base lg:text-lg text-slate-300 mb-6 lg:mb-8 leading-relaxed px-2 sm:px-0 font-normal">
+            <p className="max-w-xl text-sm sm:text-base lg:text-lg text-slate-200 mb-6 lg:mb-8 leading-relaxed px-2 sm:px-0 font-normal">
               Most of our tools run directly inside your browser so your documents stay on your device. For complex conversions that need temporary cloud processing, files are handled in memory and deleted immediately after download.
             </p>
 
@@ -138,24 +138,24 @@ export function Hero() {
         </div>
 
         {/* Bottom Trust Features Bar (Horizontal on Dark Landscape) */}
-        <div className="mt-14 sm:mt-20 pt-8 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left">
-          <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-blue-400 shadow-xs">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="font-bold text-xs sm:text-sm text-white">Private by Design</h4>
-              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">Most tools run directly on your device</p>
-            </div>
-          </div>
-
+        <div className="mt-14 sm:mt-20 pt-8 border-t border-white/20 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left">
           <div className="flex items-start gap-3">
             <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-amber-400 shadow-xs">
               <Zap className="w-5 h-5 fill-amber-400/20" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-white">Fast &amp; Queue-Free</h4>
-              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">In-browser tools run at device speed</p>
+              <h4 className="font-bold text-xs sm:text-sm text-white">In-Browser Speed</h4>
+              <p className="text-[11px] sm:text-xs text-slate-200/90 mt-0.5">Process photos, PDFs, and media locally</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-blue-400 shadow-xs">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Exam Presets</h4>
+              <p className="text-[11px] sm:text-xs text-slate-200/90 mt-0.5">Exact SSC, UPSC &amp; IBPS photo sizes</p>
             </div>
           </div>
 
@@ -164,8 +164,8 @@ export function Hero() {
               <InfinityIcon className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-white">Unlimited &amp; Free</h4>
-              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">No daily caps, watermarks, or signups</p>
+              <h4 className="font-bold text-xs sm:text-sm text-white">No Limits or Fees</h4>
+              <p className="text-[11px] sm:text-xs text-slate-200/90 mt-0.5">No daily caps, watermarks, or sign-ups</p>
             </div>
           </div>
 
@@ -174,8 +174,8 @@ export function Hero() {
               <Smartphone className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-white">Safe Cloud Tasks</h4>
-              <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">RAM-only, deleted right after download</p>
+              <h4 className="font-bold text-xs sm:text-sm text-white">Indic Font Repair</h4>
+              <p className="text-[11px] sm:text-xs text-slate-200/90 mt-0.5">Convert Kruti Dev, Asees, Chanakya &amp; more</p>
             </div>
           </div>
         </div>
